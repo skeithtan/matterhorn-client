@@ -69,16 +69,38 @@ var Institutions = function (_Component) {
     function Institutions(props) {
         _classCallCheck(this, Institutions);
 
-        return _possibleConstructorReturn(this, (Institutions.__proto__ || Object.getPrototypeOf(Institutions)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (Institutions.__proto__ || Object.getPrototypeOf(Institutions)).call(this, props));
+
+        _this.state = {
+            institutionList: fakeData, //TODO: Real data
+            filteredList: null,
+            activeInstitution: null
+        };
+
+        _this.setActiveInstitution = _this.setActiveInstitution.bind(_this);
+        return _this;
     }
 
     _createClass(Institutions, [{
+        key: "setActiveInstitution",
+        value: function setActiveInstitution(institution) {
+            this.setState({
+                activeInstitution: institution
+            });
+        }
+    }, {
         key: "render",
         value: function render() {
+            var filteredList = this.state.filteredList;
+            var institutionList = this.state.institutionList;
+            var showingList = filteredList === null ? institutionList : filteredList;
+
             return _react2.default.createElement(
                 "div",
                 { className: "container-fluid d-flex flex-row p-0 h-100" },
-                _react2.default.createElement(_institution_list2.default, { institutions: fakeData })
+                _react2.default.createElement(_institution_list2.default, { institutions: showingList,
+                    activeInstitution: this.state.activeInstitution,
+                    setActiveInstitution: this.setActiveInstitution })
             );
         }
     }]);

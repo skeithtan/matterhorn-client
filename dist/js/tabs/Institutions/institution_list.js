@@ -20,23 +20,32 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var activeInstitution = null;
+var setActiveInstitution = function setActiveInstitution(institution) {};
+
 var InstitutionList = function (_Component) {
     _inherits(InstitutionList, _Component);
 
     function InstitutionList(props) {
         _classCallCheck(this, InstitutionList);
 
-        return _possibleConstructorReturn(this, (InstitutionList.__proto__ || Object.getPrototypeOf(InstitutionList)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (InstitutionList.__proto__ || Object.getPrototypeOf(InstitutionList)).call(this, props));
+
+        setActiveInstitution = props.setActiveInstitution;
+        return _this;
     }
 
     _createClass(InstitutionList, [{
         key: "render",
         value: function render() {
+            activeInstitution = this.props.activeInstitution;
+
             return _react2.default.createElement(
                 "div",
                 { className: "sidebar h-100", id: "institution-list" },
                 _react2.default.createElement(InstitutionListHead, null),
-                _react2.default.createElement(InstitutionListTable, { countries: this.props.institutions })
+                _react2.default.createElement(InstitutionListTable, { countries: this.props.institutions,
+                    setActiveInstitution: this.props.setActiveInstitution })
             );
         }
     }]);
@@ -121,7 +130,7 @@ var InstitutionSection = function (_Component4) {
         key: "render",
         value: function render() {
             var rows = this.props.institutions.map(function (institution) {
-                return _react2.default.createElement(InstitutionRow, { name: institution.name,
+                return _react2.default.createElement(InstitutionRow, { institution: institution,
                     key: institution.id });
             });
 
@@ -157,12 +166,26 @@ var InstitutionRow = function (_Component5) {
     _createClass(InstitutionRow, [{
         key: "render",
         value: function render() {
-            //TODO: OnClick
-            return _react2.default.createElement(
-                _reactstrap.ListGroupItem,
-                null,
-                this.props.name
-            );
+            var _this6 = this;
+
+            var isActive = activeInstitution !== null ? this.props.institution.id === activeInstitution.id : false;
+
+            if (isActive) {
+                return _react2.default.createElement(
+                    _reactstrap.ListGroupItem,
+                    { className: "bg-dlsu text-white" },
+                    this.props.institution.name
+                );
+            } else {
+                return _react2.default.createElement(
+                    _reactstrap.ListGroupItem,
+                    {
+                        onClick: function onClick() {
+                            return setActiveInstitution(_this6.props.institution);
+                        } },
+                    this.props.institution.name
+                );
+            }
         }
     }]);
 

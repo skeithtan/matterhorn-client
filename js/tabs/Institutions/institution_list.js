@@ -6,17 +6,24 @@ import {
     ListGroupItem,
 } from "reactstrap";
 
+let activeInstitution = null;
+let setActiveInstitution = institution => {};
 
 class InstitutionList extends Component {
+
     constructor(props) {
         super(props);
+        setActiveInstitution = props.setActiveInstitution;
     }
 
     render() {
+        activeInstitution = this.props.activeInstitution;
+
         return (
             <div className="sidebar h-100" id="institution-list">
                 <InstitutionListHead/>
-                <InstitutionListTable countries={this.props.institutions}/>
+                <InstitutionListTable countries={this.props.institutions}
+                                      setActiveInstitution={this.props.setActiveInstitution}/>
             </div>
         );
     }
@@ -54,7 +61,7 @@ class InstitutionListTable extends Component {
             <div className="page-body">
                 {sections}
             </div>
-        )
+        );
     }
 }
 
@@ -64,7 +71,7 @@ class InstitutionSection extends Component {
     }
 
     render() {
-        const rows = this.props.institutions.map(institution => <InstitutionRow name={institution.name}
+        const rows = this.props.institutions.map(institution => <InstitutionRow institution={institution}
                                                                                 key={institution.id}/>);
 
         return (
@@ -84,8 +91,14 @@ class InstitutionRow extends Component {
     }
 
     render() {
-        //TODO: OnClick
-        return <ListGroupItem>{this.props.name}</ListGroupItem>;
+        const isActive = activeInstitution !== null ? this.props.institution.id === activeInstitution.id : false;
+
+        if (isActive) {
+            return <ListGroupItem className="bg-dlsu text-white">{this.props.institution.name}</ListGroupItem>;
+        } else {
+            return <ListGroupItem
+                onClick={() => setActiveInstitution(this.props.institution)}>{this.props.institution.name}</ListGroupItem>;
+        }
     }
 }
 

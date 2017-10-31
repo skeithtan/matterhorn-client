@@ -60,12 +60,32 @@ const fakeData = [
 class Institutions extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            institutionList : fakeData, //TODO: Real data
+            filteredList : null,
+            activeInstitution : null,
+        };
+
+        this.setActiveInstitution = this.setActiveInstitution.bind(this);
+    }
+
+    setActiveInstitution(institution) {
+        this.setState({
+            activeInstitution : institution,
+        });
     }
 
     render() {
+        const filteredList = this.state.filteredList;
+        const institutionList = this.state.institutionList;
+        const showingList = filteredList === null ? institutionList : filteredList;
+
         return (
             <div className="container-fluid d-flex flex-row p-0 h-100">
-                <InstitutionList institutions={fakeData}/>
+                <InstitutionList institutions={showingList}
+                                 activeInstitution={this.state.activeInstitution}
+                                 setActiveInstitution={this.setActiveInstitution}/>
             </div>
         );
     }

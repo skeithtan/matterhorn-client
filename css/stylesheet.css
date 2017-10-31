@@ -48,6 +48,11 @@ input.form-control.search-input {
     background : var(--search-white);
 }
 
+/*List Group Items*/
+.list-group-item {
+    transition : 200ms;
+}
+
 /*Draggable region on top*/
 #window-handle-bar {
     height             : 50px;
