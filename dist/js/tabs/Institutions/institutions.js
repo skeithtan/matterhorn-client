@@ -98,7 +98,7 @@ var Institutions = function (_Component) {
             return _react2.default.createElement(
                 "div",
                 { className: "container-fluid d-flex flex-row p-0 h-100" },
-                _react2.default.createElement(_institution_list2.default, { institutions: showingList,
+                _react2.default.createElement(_institution_list2.default, { institutions: null,
                     activeInstitution: this.state.activeInstitution,
                     setActiveInstitution: this.setActiveInstitution })
             );

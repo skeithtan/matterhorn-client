@@ -82,7 +82,7 @@ var InstitutionListHead = function (_Component2) {
                     { className: "page-head-title" },
                     "Institutions"
                 ),
-                _react2.default.createElement(_reactstrap.Input, { placeholder: "Search", className: "search-input" })
+                _react2.default.createElement(_reactstrap.Input, { placeholder: "Search", className: "search-input mt-2" })
             );
         }
     }]);
@@ -102,6 +102,15 @@ var InstitutionListTable = function (_Component3) {
     _createClass(InstitutionListTable, [{
         key: "render",
         value: function render() {
+
+            if (this.props.countries === null) {
+                return InstitutionListTable.loadingState();
+            }
+
+            if (this.props.countries.length === 0) {
+                return InstitutionListTable.emptyState();
+            }
+
             var sections = this.props.countries.map(function (country, index) {
                 return _react2.default.createElement(InstitutionSection, { title: country.name, institutions: country.institutions, key: index });
             });
@@ -112,6 +121,22 @@ var InstitutionListTable = function (_Component3) {
                 sections
             );
         }
+    }], [{
+        key: "loadingState",
+        value: function loadingState() {
+            return _react2.default.createElement(
+                "div",
+                { className: "loading-container" },
+                _react2.default.createElement(
+                    "h3",
+                    null,
+                    "Loading..."
+                )
+            );
+        }
+    }, {
+        key: "emptyState",
+        value: function emptyState() {}
     }]);
 
     return InstitutionListTable;

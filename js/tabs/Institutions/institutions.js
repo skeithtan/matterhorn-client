@@ -83,7 +83,7 @@ class Institutions extends Component {
 
         return (
             <div className="container-fluid d-flex flex-row p-0 h-100">
-                <InstitutionList institutions={showingList}
+                <InstitutionList institutions={null}
                                  activeInstitution={this.state.activeInstitution}
                                  setActiveInstitution={this.setActiveInstitution}/>
             </div>

@@ -10,7 +10,6 @@ let activeInstitution = null;
 let setActiveInstitution = institution => {};
 
 class InstitutionList extends Component {
-
     constructor(props) {
         super(props);
         setActiveInstitution = props.setActiveInstitution;
@@ -41,7 +40,7 @@ class InstitutionListHead extends Component {
                     <Button outline color="success" size="sm" className="ml-auto">Add</Button>
                 </div>
                 <h4 className="page-head-title">Institutions</h4>
-                <Input placeholder="Search" className="search-input"/>
+                <Input placeholder="Search" className="search-input mt-2"/>
             </div>
         );
     }
@@ -52,7 +51,29 @@ class InstitutionListTable extends Component {
         super(props);
     }
 
+    static loadingState() {
+        return (
+            <div className="loading-container">
+                <h3>Loading...</h3>
+            </div>
+        )
+    }
+
+    static emptyState() {
+
+    }
+
     render() {
+
+        if(this.props.countries === null) {
+            return InstitutionListTable.loadingState();
+        }
+
+        if(this.props.countries.length === 0) {
+            return InstitutionListTable.emptyState();
+        }
+
+
         const sections = this.props.countries.map((country, index) => {
             return <InstitutionSection title={country.name} institutions={country.institutions} key={index}/>;
         });
