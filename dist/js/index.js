@@ -24,10 +24,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 (0, _jquery2.default)(function () {
     var isLoggedIn = localStorage.token !== undefined;
-    if (isLoggedIn) {
-        _reactDom2.default.render(_react2.default.createElement(_app2.default, null), document.getElementById("root"));
-        (0, _jquery2.default)("#sign-in").remove();
-    }
+    var spinner = (0, _jquery2.default)("#sign-in-spinner");
+    var signInBox = (0, _jquery2.default)("#sign-in-box");
+    signInBox.css("opacity", 0);
+
+    setTimeout(function () {
+        if (isLoggedIn) {
+            onSignIn();
+            return;
+        }
+
+        showSignInBox(true);
+    }, 500);
 
     var signInMessage = (0, _jquery2.default)("#sign-in-message");
     signInMessage.hide();
@@ -35,6 +43,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
     (0, _jquery2.default)("#sign-in-button").click(function () {
         var username = (0, _jquery2.default)("#username-input").val();
         var password = (0, _jquery2.default)("#password-input").val();
+
+        showSignInBox(false);
 
         _jquery2.default.post({
             url: _settings2.default.serverURL + "/sign-in/",
@@ -47,6 +57,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
                 onSignIn();
             },
             error: function error(response) {
+                console.log(response);
                 switch (response.statusCode) {
                     case 401:
                         signInMessage.text = "Invalid credentials";
@@ -61,12 +72,21 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
         });
     });
 
+    function showSignInBox(shouldShow) {
+        signInBox.css("opacity", shouldShow ? 1 : 0);
+        spinner.css("opacity", shouldShow ? 0 : 1);
+    }
+
     function onSignIn() {
         renderReact();
-        var signInView = (0, _jquery2.default)("#sign-in");
-        signInView.fadeOut(500, function () {
-            return signInView.remove();
-        });
+
+        setTimeout(function () {
+            var signInView = (0, _jquery2.default)("#sign-in");
+            signInView.css({
+                "opacity": 0,
+                "pointer-events": "none"
+            });
+        }, 700);
     }
 
     function renderReact() {

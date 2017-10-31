@@ -8,6 +8,7 @@
     <!--Bootstrap-->
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" href="css/stylesheet.css">
+    <link rel="stylesheet" href="css/white_spinner.css">
 
 </head>
 <body>
@@ -18,10 +19,17 @@
         <h1 id="erio-logo" class="text-white">External Relations and Internationalization Office</h1>
     </div>
 
-    <div id="sign-in-box" class="d-flex flex-column mt-5">
+    <div id="sign-in-spinner" class="mt-5 pt-5">
+        <span class="cssload-loader">
+            <span class="cssload-loader-inner"></span>
+        </span>
+    </div>
+
+    <div id="sign-in-box" class="flex-column mt-5">
         <p class="mb-3 text-center text-white" id="sign-in-message">Invalid Credentials</p>
         <input id="username-input" class="form-control bg-success text-white border-0 mb-3" placeholder="Username">
-        <input id="password-input" class="form-control bg-success text-white border-0 mb-3" type="password" placeholder="Password">
+        <input id="password-input" class="form-control bg-success text-white border-0 mb-3" type="password"
+               placeholder="Password">
         <button id="sign-in-button" type="button" class="btn btn-outline-light">Sign in</button>
     </div>
 </div>

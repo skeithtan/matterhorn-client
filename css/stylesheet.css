@@ -221,7 +221,9 @@ li.nav-item.active .sidebar-image {
 #sign-in {
     position           : absolute;
     z-index            : 2000;
-    -webkit-app-region : drag; }
+    -webkit-app-region : drag;
+    transition         : 500ms opacity;
+}
 
 #erio-logo {
     color        : white;
@@ -244,7 +246,16 @@ li.nav-item.active .sidebar-image {
     width : 720px;
 }
 
+#sign-in-spinner {
+    position   : absolute;
+    transition : 200ms;
+    opacity    : 1;
+}
+
 #sign-in-box {
-    width : 320px;
+    width      : 320px;
+    display    : flex;
+    transition : 200ms;
+    opacity    : 0;
 }
 

@@ -96,7 +96,7 @@ class InstitutionDetailHead extends Component {
             <div className="page-head pt-5 d-flex flex-row align-items-center">
                 <div className="mr-auto">
                     <h4 className="page-head-title justify-content-left d-inline-block mb-0 mr-2">{this.props.institution.name}</h4>
-                    <h4 className="text-muted d-inline-block font-weight-light mb-0">{this.props.institution.country.name}</h4>
+                    <h4 className="text-muted d-inline-block font-weight-normal mb-0">{this.props.institution.country.name}</h4>
                 </div>
 
                 <div>
