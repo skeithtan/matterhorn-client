@@ -10,6 +10,10 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _loading = require("../../loading");
+
+var _loading2 = _interopRequireDefault(_loading);
+
 var _reactstrap = require("reactstrap");
 
 var _graphql = require("../../graphql");
@@ -70,7 +74,7 @@ var InstitutionDetail = function (_Component) {
             }
 
             if (this.state.institution === null) {
-                return InstitutionDetail.loadingState();
+                return _react2.default.createElement(_loading2.default, null);
             }
 
             return _react2.default.createElement(
@@ -81,19 +85,6 @@ var InstitutionDetail = function (_Component) {
             );
         }
     }], [{
-        key: "loadingState",
-        value: function loadingState() {
-            return _react2.default.createElement(
-                "div",
-                { className: "loading-container" },
-                _react2.default.createElement(
-                    "h3",
-                    null,
-                    "Loading..."
-                )
-            );
-        }
-    }, {
         key: "unselectedState",
         value: function unselectedState() {
             return _react2.default.createElement(

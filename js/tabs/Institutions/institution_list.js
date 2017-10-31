@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import LoadingSpinner from "../../loading";
 import {
     Input,
     Button,
@@ -53,21 +54,13 @@ class InstitutionListTable extends Component {
         super(props);
     }
 
-    static loadingState() {
-        return (
-            <div className="loading-container">
-                <h3>Loading...</h3>
-            </div>
-        );
-    }
-
     static emptyState() {
 
     }
 
     render() {
         if (this.props.countries === null) {
-            return InstitutionListTable.loadingState();
+            return <LoadingSpinner/>;
         }
 
         if (this.props.countries.length === 0) {

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import LoadingSpinner from "../../loading";
 import {
     Button,
     ListGroup,
@@ -38,14 +39,6 @@ class InstitutionDetail extends Component {
         };
     }
 
-    static loadingState() {
-        return (
-            <div className="loading-container">
-                <h3>Loading...</h3>
-            </div>
-        );
-    }
-
     static unselectedState() {
         return (
             <div className="loading-container">
@@ -74,7 +67,7 @@ class InstitutionDetail extends Component {
         }
 
         if (this.state.institution === null) {
-            return InstitutionDetail.loadingState();
+            return <LoadingSpinner/>;
         }
 
         return (

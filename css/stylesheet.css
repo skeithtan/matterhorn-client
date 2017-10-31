@@ -45,6 +45,7 @@ small.section-footer {
 /* Loading Container */
 div.loading-container {
     display         : flex;
+    flex-direction  : column;
     align-items     : center;
     justify-content : center;
     background      : var(--body-white);

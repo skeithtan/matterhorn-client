@@ -1,249 +1,57 @@
-.cssload-loader {
-    display: block;
-    margin:0 auto;
-    width: 56px;
-    height: 56px;
-    position: relative;
-    border: 6px solid rgb(255,255,255);
-    animation: cssload-loader 2.3s infinite ease;
-    -o-animation: cssload-loader 2.3s infinite ease;
-    -ms-animation: cssload-loader 2.3s infinite ease;
-    -webkit-animation: cssload-loader 2.3s infinite ease;
-    -moz-animation: cssload-loader 2.3s infinite ease;
+.spinner {
+    margin     : 0 auto;
+    width      : 160px;
+    text-align : center;
 }
 
-.cssload-loader-inner {
-    vertical-align: top;
-    display: inline-block;
-    width: 100%;
-    background-color: rgb(255,255,255);
-    animation: cssload-loader-inner 2.3s infinite ease-in;
-    -o-animation: cssload-loader-inner 2.3s infinite ease-in;
-    -ms-animation: cssload-loader-inner 2.3s infinite ease-in;
-    -webkit-animation: cssload-loader-inner 2.3s infinite ease-in;
-    -moz-animation: cssload-loader-inner 2.3s infinite ease-in;
+.spinner.spinner-lg > div {
+    width  : 32px;
+    height : 32px;
 }
 
-
-
-
-
-@keyframes cssload-loader {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    25% {
-        transform: rotate(180deg);
-    }
-
-    50% {
-        transform: rotate(180deg);
-    }
-
-    75% {
-        transform: rotate(360deg);
-    }
-
-    100% {
-        transform: rotate(360deg);
-    }
+.spinner.spinner-sm > div {
+    width  : 16px;
+    height : 16px;
 }
 
-@-o-keyframes cssload-loader {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    25% {
-        transform: rotate(180deg);
-    }
-
-    50% {
-        transform: rotate(180deg);
-    }
-
-    75% {
-        transform: rotate(360deg);
-    }
-
-    100% {
-        transform: rotate(360deg);
-    }
+.spinner > div {
+    background-color  : #ffffff;
+    border-radius     : 100%;
+    display           : inline-block;
+    -webkit-animation : sk-bouncedelay 1.4s infinite ease-in-out both;
+    animation         : sk-bouncedelay 1.4s infinite ease-in-out both;
 }
 
-@-ms-keyframes cssload-loader {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    25% {
-        transform: rotate(180deg);
-    }
-
-    50% {
-        transform: rotate(180deg);
-    }
-
-    75% {
-        transform: rotate(360deg);
-    }
-
-    100% {
-        transform: rotate(360deg);
-    }
+.spinner.spinner-white > div {
+    background-color : #ffffff;
 }
 
-@-webkit-keyframes cssload-loader {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    25% {
-        transform: rotate(180deg);
-    }
-
-    50% {
-        transform: rotate(180deg);
-    }
-
-    75% {
-        transform: rotate(360deg);
-    }
-
-    100% {
-        transform: rotate(360deg);
-    }
+.spinner.spinner-secondary > div {
+    background-color : var(--secondary);
 }
 
-@-moz-keyframes cssload-loader {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    25% {
-        transform: rotate(180deg);
-    }
-
-    50% {
-        transform: rotate(180deg);
-    }
-
-    75% {
-        transform: rotate(360deg);
-    }
-
-    100% {
-        transform: rotate(360deg);
-    }
+.spinner .bounce1 {
+    -webkit-animation-delay : -0.32s;
+    animation-delay         : -0.32s;
 }
 
-@keyframes cssload-loader-inner {
-    0% {
-        height: 0%;
-    }
-
-    25% {
-        height: 0%;
-    }
-
-    50% {
-        height: 100%;
-    }
-
-    75% {
-        height: 100%;
-    }
-
-    100% {
-        height: 0%;
-    }
+.spinner .bounce2 {
+    -webkit-animation-delay : -0.16s;
+    animation-delay         : -0.16s;
 }
 
-@-o-keyframes cssload-loader-inner {
-    0% {
-        height: 0%;
-    }
-
-    25% {
-        height: 0%;
-    }
-
-    50% {
-        height: 100%;
-    }
-
-    75% {
-        height: 100%;
-    }
-
-    100% {
-        height: 0%;
-    }
+@-webkit-keyframes sk-bouncedelay {
+    0%, 80%, 100% { -webkit-transform : scale(0) }
+    40% { -webkit-transform : scale(1.0) }
 }
 
-@-ms-keyframes cssload-loader-inner {
-    0% {
-        height: 0%;
+@keyframes sk-bouncedelay {
+    0%, 80%, 100% {
+        -webkit-transform : scale(0);
+        transform         : scale(0);
     }
-
-    25% {
-        height: 0%;
-    }
-
-    50% {
-        height: 100%;
-    }
-
-    75% {
-        height: 100%;
-    }
-
-    100% {
-        height: 0%;
-    }
-}
-
-@-webkit-keyframes cssload-loader-inner {
-    0% {
-        height: 0%;
-    }
-
-    25% {
-        height: 0%;
-    }
-
-    50% {
-        height: 100%;
-    }
-
-    75% {
-        height: 100%;
-    }
-
-    100% {
-        height: 0%;
-    }
-}
-
-@-moz-keyframes cssload-loader-inner {
-    0% {
-        height: 0%;
-    }
-
-    25% {
-        height: 0%;
-    }
-
-    50% {
-        height: 100%;
-    }
-
-    75% {
-        height: 100%;
-    }
-
-    100% {
-        height: 0%;
+    40% {
+        -webkit-transform : scale(1.0);
+        transform         : scale(1.0);
     }
 }

@@ -10,6 +10,10 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _loading = require("../../loading");
+
+var _loading2 = _interopRequireDefault(_loading);
+
 var _reactstrap = require("reactstrap");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -103,7 +107,7 @@ var InstitutionListTable = function (_Component3) {
         key: "render",
         value: function render() {
             if (this.props.countries === null) {
-                return InstitutionListTable.loadingState();
+                return _react2.default.createElement(_loading2.default, null);
             }
 
             if (this.props.countries.length === 0) {
@@ -121,19 +125,6 @@ var InstitutionListTable = function (_Component3) {
             );
         }
     }], [{
-        key: "loadingState",
-        value: function loadingState() {
-            return _react2.default.createElement(
-                "div",
-                { className: "loading-container" },
-                _react2.default.createElement(
-                    "h3",
-                    null,
-                    "Loading..."
-                )
-            );
-        }
-    }, {
         key: "emptyState",
         value: function emptyState() {}
     }]);
