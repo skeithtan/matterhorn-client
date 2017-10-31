@@ -14,6 +14,10 @@ var _institution_list = require("./institution_list");
 
 var _institution_list2 = _interopRequireDefault(_institution_list);
 
+var _graphql = require("../../graphql");
+
+var _graphql2 = _interopRequireDefault(_graphql);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -22,46 +26,12 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var fakeData = [{
-    name: "France",
-    institutions: [{
-        id: 1,
-        name: "Universite le France"
-    }, {
-        id: 2,
-        name: "Le Paris Universite"
-    }]
-}, {
-    name: "Japan",
-    institutions: [{
-        id: 3,
-        name: "University of Tokyo"
-    }, {
-        id: 4,
-        name: "Nihongo University"
-    }, {
-        id: 5,
-        name: "Konnichiwa Nihon Language University"
-    }]
-}, {
-    name: "Singapore",
-    institutions: [{
-        id: 6,
-        name: "Singapore Management University"
-    }, {
-        id: 7,
-        name: "Lee Kwan Yoo Univesity"
-    }]
-}, {
-    name: "Korea",
-    institutions: [{
-        id: 8,
-        name: "University of Koreaboos"
-    }, {
-        id: 9,
-        name: "Dva University"
-    }]
-}];
+function fetchInstitutions(onResponse) {
+    (0, _graphql2.default)({
+        query: "\n        {\n            countries {\n                name\n                institutionSet {\n                    id\n                    name\n                }\n            }\n        }\n        ",
+        onResponse: onResponse
+    });
+}
 
 var Institutions = function (_Component) {
     _inherits(Institutions, _Component);
@@ -72,10 +42,16 @@ var Institutions = function (_Component) {
         var _this = _possibleConstructorReturn(this, (Institutions.__proto__ || Object.getPrototypeOf(Institutions)).call(this, props));
 
         _this.state = {
-            institutionList: fakeData, //TODO: Real data
+            institutionList: null, //TODO: Real data
             filteredList: null,
             activeInstitution: null
         };
+
+        fetchInstitutions(function (response) {
+            return _this.setState({
+                institutionList: response.data.countries
+            });
+        });
 
         _this.setActiveInstitution = _this.setActiveInstitution.bind(_this);
         return _this;
@@ -98,7 +74,7 @@ var Institutions = function (_Component) {
             return _react2.default.createElement(
                 "div",
                 { className: "container-fluid d-flex flex-row p-0 h-100" },
-                _react2.default.createElement(_institution_list2.default, { institutions: null,
+                _react2.default.createElement(_institution_list2.default, { institutions: this.state.institutionList,
                     activeInstitution: this.state.activeInstitution,
                     setActiveInstitution: this.setActiveInstitution })
             );

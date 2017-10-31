@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../js/settings.js"],"names":["settings","serverURL"],"mappings":";;;;;AAAA,IAAMA,WAAW;AACbC,eAAY;AADC,CAAjB;;kBAIeD,Q","file":"settings.js","sourcesContent":["const settings = {\n    serverURL : \"http://127.0.0.1:8000\",\n};\n\nexport default settings;"]}

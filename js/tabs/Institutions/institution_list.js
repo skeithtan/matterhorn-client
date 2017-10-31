@@ -6,8 +6,10 @@ import {
     ListGroupItem,
 } from "reactstrap";
 
+
 let activeInstitution = null;
-let setActiveInstitution = institution => {};
+let setActiveInstitution = institution => {
+};
 
 class InstitutionList extends Component {
     constructor(props) {
@@ -56,7 +58,7 @@ class InstitutionListTable extends Component {
             <div className="loading-container">
                 <h3>Loading...</h3>
             </div>
-        )
+        );
     }
 
     static emptyState() {
@@ -64,18 +66,17 @@ class InstitutionListTable extends Component {
     }
 
     render() {
-
-        if(this.props.countries === null) {
+        if (this.props.countries === null) {
             return InstitutionListTable.loadingState();
         }
 
-        if(this.props.countries.length === 0) {
+        if (this.props.countries.length === 0) {
             return InstitutionListTable.emptyState();
         }
 
 
         const sections = this.props.countries.map((country, index) => {
-            return <InstitutionSection title={country.name} institutions={country.institutions} key={index}/>;
+            return <InstitutionSection title={country.name} institutions={country.institutionSet} key={index}/>;
         });
 
         return (
@@ -92,8 +93,9 @@ class InstitutionSection extends Component {
     }
 
     render() {
+        console.log(this.props);
         const rows = this.props.institutions.map(institution => <InstitutionRow institution={institution}
-                                                                                key={institution.id}/>);
+                                                                                  key={institution.id}/>);
 
         return (
             <div className="section">

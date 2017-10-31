@@ -1,71 +1,38 @@
 import React, { Component } from "react";
 import InstitutionList from "./institution_list";
+import graphql from "../../graphql";
 
 
-const fakeData = [
-    {
-        name : "France",
-        institutions : [
-            {
-                id : 1,
-                name : "Universite le France",
-            },
-            {
-                id : 2,
-                name : "Le Paris Universite",
-            },
-        ],
-    },
-    {
-        name : "Japan",
-        institutions : [
-            {
-                id : 3,
-                name : "University of Tokyo",
-            }, {
-                id : 4,
-                name : "Nihongo University",
-            }, {
-                id : 5,
-                name : "Konnichiwa Nihon Language University",
-            },
-        ],
-    },
-    {
-        name : "Singapore",
-        institutions : [
-            {
-                id : 6,
-                name : "Singapore Management University",
-            }, {
-                id : 7,
-                name : "Lee Kwan Yoo Univesity",
-            },
-        ],
-    },
-    {
-        name : "Korea",
-        institutions : [
-            {
-                id : 8,
-                name : "University of Koreaboos",
-            }, {
-                id : 9,
-                name : "Dva University",
-            },
-        ],
-    },
-];
+function fetchInstitutions(onResponse) {
+    graphql({
+        query : `
+        {
+            countries {
+                name
+                institutionSet {
+                    id
+                    name
+                }
+            }
+        }
+        `,
+        onResponse : onResponse,
+    });
+}
 
 class Institutions extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            institutionList : fakeData, //TODO: Real data
+            institutionList : null, //TODO: Real data
             filteredList : null,
             activeInstitution : null,
         };
+
+        fetchInstitutions(response => this.setState({
+            institutionList: response.data.countries
+        }));
 
         this.setActiveInstitution = this.setActiveInstitution.bind(this);
     }
@@ -83,7 +50,7 @@ class Institutions extends Component {
 
         return (
             <div className="container-fluid d-flex flex-row p-0 h-100">
-                <InstitutionList institutions={null}
+                <InstitutionList institutions={this.state.institutionList}
                                  activeInstitution={this.state.activeInstitution}
                                  setActiveInstitution={this.setActiveInstitution}/>
             </div>

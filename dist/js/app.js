@@ -35,7 +35,7 @@ var App = function (_Component) {
         var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
         _this.state = {
-            currentTab: _tabs_list2.default[0]
+            currentTab: _tabs_list2.default[1]
         };
 
         _this.setActiveTab = _this.setActiveTab.bind(_this);

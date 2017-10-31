@@ -102,7 +102,6 @@ var InstitutionListTable = function (_Component3) {
     _createClass(InstitutionListTable, [{
         key: "render",
         value: function render() {
-
             if (this.props.countries === null) {
                 return InstitutionListTable.loadingState();
             }
@@ -112,7 +111,7 @@ var InstitutionListTable = function (_Component3) {
             }
 
             var sections = this.props.countries.map(function (country, index) {
-                return _react2.default.createElement(InstitutionSection, { title: country.name, institutions: country.institutions, key: index });
+                return _react2.default.createElement(InstitutionSection, { title: country.name, institutions: country.institutionSet, key: index });
             });
 
             return _react2.default.createElement(
@@ -154,6 +153,7 @@ var InstitutionSection = function (_Component4) {
     _createClass(InstitutionSection, [{
         key: "render",
         value: function render() {
+            console.log(this.props);
             var rows = this.props.institutions.map(function (institution) {
                 return _react2.default.createElement(InstitutionRow, { institution: institution,
                     key: institution.id });
