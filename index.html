@@ -1,19 +1,37 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset="UTF-8">
-    <title>Hello World!</title>
-  </head>
-  <body>
-    <h1>Hello World!</h1>
-    <!-- All of the Node.js APIs are available in this renderer process. -->
-    We are using Node.js <script>document.write(process.versions.node)</script>,
-    Chromium <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>.
+    <title>Eriosys Desktop</title>
 
-    <script>
-      // You can also require other files to run in this process
-      require('./renderer.js')
-    </script>
-  </body>
+    <!--Stylesheet-->
+    <!--Bootstrap-->
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="css/stylesheet.css">
+
+</head>
+<body>
+
+<div id="sign-in" class="bg-dlsu h-100 w-100 p-5 d-flex flex-column justify-content-center align-items-center">
+    <div id="logo-set" class="d-flex flex-row align-items-center mb-3">
+        <img src="./images/dlsu_white.png" id="dlsu-logo" class="mr-5">
+        <h1 id="erio-logo" class="text-white">External Relations and Internationalization Office</h1>
+    </div>
+
+    <div id="sign-in-box" class="d-flex flex-column mt-5">
+        <p class="mb-3 text-center text-white" id="sign-in-message">Invalid Credentials</p>
+        <input id="username-input" class="form-control bg-success text-white border-0 mb-3" placeholder="Username">
+        <input id="password-input" class="form-control bg-success text-white border-0 mb-3" type="password" placeholder="Password">
+        <button id="sign-in-button" type="button" class="btn btn-outline-light">Sign in</button>
+    </div>
+</div>
+
+<div id="window-handle-bar"></div>
+<div id="root"></div>
+<script>
+    // You can also require other files to run in this process
+    require("./renderer.js");
+    require("./dist/js/index");
+</script>
+</body>
 </html>

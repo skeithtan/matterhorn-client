@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../js/main_navigation.js"],"names":["MainNavigation"],"mappings":";;;;;;AAAA;;;;;;;;;;;;IAEMA,c;;;;;;;;;;;;kBAISA,c","file":"main_navigation.js","sourcesContent":["import React, {Component} from 'react';\n\nclass MainNavigation extends Component {\n\n}\n\nexport default MainNavigation;"]}

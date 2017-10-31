@@ -1,0 +1,214 @@
+/*Global Classes*/
+:root {
+    --gray         : rgb(212, 212, 212);
+    --header-white : rgb(246, 246, 248);
+    --search-white : rgb(232, 232, 234);
+    --body-white   : rgb(239, 238, 245);
+    --dlsu-green   : #00703c;
+}
+
+.bg-dlsu {
+    background : var(--dlsu-green) !important;
+}
+
+.bg-search-white {
+    background : var(--search-white) !important;
+}
+
+.bg-body-white {
+    background : var(--body-white) !important;
+}
+
+/*Draggable region on top*/
+#window-handle-bar {
+    height             : 50px;
+    width              : 100vw;
+    -webkit-app-region : drag;
+}
+
+/*Section titles and footers*/
+small.section-title,
+small.section-footer {
+    display     : block;
+    color       : var(--secondary);
+    margin-left : 1rem;
+}
+
+small.section-title {
+    text-transform : uppercase;
+    padding-top    : 1.5rem;
+    margin-bottom  : .25rem;
+}
+
+small.section-footer {
+    margin-bottom : 1.5rem;
+    margin-top    : .5rem;
+}
+
+/*Main Navigation*/
+#main-navigation {
+    box-shadow         : 0 1px 1px rgba(0, 0, 0, 0.08), 0 1px 1px rgba(0, 0, 0, 0.24);
+    z-index            : 1040;
+    -webkit-app-region : drag;
+    max-width          : 80px;
+    width              : 80px;
+    padding            : 0;
+}
+
+#main-navigation li.nav-item.active a.nav-item {
+    font-size   : 20px;
+    font-weight : bold;
+}
+
+#main-navigation .nav-link {
+    padding : 0;
+    width   : 100%;
+}
+
+#main-navigation ul.navbar-nav,
+#main-navigation ul.navbar-nav li.nav-item {
+    width : 100%;
+}
+
+#main-navigation li.nav-item {
+    text-align : center;
+    transition : 300ms background;
+}
+
+#main-navigation li.nav-item.active {
+    background : rgba(0, 0, 0, 0.3);
+}
+
+.sidebar-image {
+    margin     : 15px;
+    width      : 40px;
+    height     : 40px;
+    cursor     : pointer;
+    transition : 150ms opacity;
+    opacity    : 0.65;
+}
+
+li.nav-item:hover .sidebar-image {
+    opacity : 1;
+}
+
+li.nav-item.active .sidebar-image {
+    opacity : 1;
+}
+
+/*Page Head*/
+.page-head {
+    background    : var(--header-white);
+    border-bottom : 1px solid var(--gray);
+    padding       : 1rem;
+}
+
+.page-head-title {
+    font-weight : bold;
+}
+
+.page-head-controls {
+    display        : flex;
+    flex-direction : row;
+}
+
+.page-body {
+    height     : 100%;
+    overflow-y : scroll !important;
+    background : var(--body-white);
+}
+
+/*Page Body*/
+.accordion-link {
+    color : black;
+}
+
+/*Sidebar*/
+.sidebar {
+    max-width      : 300px;
+    min-width      : 300px;
+    border-right   : 1px solid var(--gray);
+    display        : flex;
+    flex-direction : column;
+}
+
+/*List group item override*/
+.list-group-item:first-child,
+.list-group-item:last-child {
+    border-radius : 0 !important;
+}
+
+.list-group-item {
+    border-right : 0;
+    border-left  : 0;
+}
+
+/*Switch user*/
+#switch-user-button {
+    width          : 100%;
+    color          : white;
+    padding-top    : 24px;
+    padding-bottom : 16px;
+    text-align     : center;
+    background     : rgba(0, 0, 0, 0.3);
+    transition     : 150ms background;
+}
+
+#switch-user-button:hover {
+    background : rgba(0, 0, 0, 0.1);
+}
+
+/*Institutions Page*/
+#memorandums-accordion .card {
+    border-radius : 0;
+}
+
+#memorandums-accordion > .card,
+#memorandums-accordion .card-header {
+    border-left  : none;
+    border-right : none;
+}
+
+#memorandums-accordion > .card {
+    border : none;
+}
+
+#memorandums-accordion > .card:first-child {
+    border-top : 1px solid rgba(0, 0, 0, .125);
+}
+
+#memorandums-accordion > .card .card-header:not(.collapsed) {
+    background : white;
+}
+
+/*Sign In*/
+#sign-in {
+    position           : absolute;
+    z-index            : 2000;
+    -webkit-app-region : drag; }
+
+#erio-logo {
+    color        : white;
+    border-left  : 1px solid white;
+    padding-left : 24px;
+    font-weight  : 200;
+}
+
+#dlsu-logo {
+    width  : 160px;
+    height : 160px;
+}
+
+#sign-in input.form-control::placeholder {
+    color   : white;
+    opacity : 0.7;
+}
+
+#logo-set {
+    width : 720px;
+}
+
+#sign-in-box {
+    width : 320px;
+}
+
