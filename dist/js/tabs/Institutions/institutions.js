@@ -14,6 +14,10 @@ var _institution_list = require("./institution_list");
 
 var _institution_list2 = _interopRequireDefault(_institution_list);
 
+var _institution_detail = require("./institution_detail");
+
+var _institution_detail2 = _interopRequireDefault(_institution_detail);
+
 var _graphql = require("../../graphql");
 
 var _graphql2 = _interopRequireDefault(_graphql);
@@ -74,9 +78,10 @@ var Institutions = function (_Component) {
             return _react2.default.createElement(
                 "div",
                 { className: "container-fluid d-flex flex-row p-0 h-100" },
-                _react2.default.createElement(_institution_list2.default, { institutions: this.state.institutionList,
+                _react2.default.createElement(_institution_list2.default, { institutions: showingList,
                     activeInstitution: this.state.activeInstitution,
-                    setActiveInstitution: this.setActiveInstitution })
+                    setActiveInstitution: this.setActiveInstitution }),
+                _react2.default.createElement(_institution_detail2.default, { institution: this.state.activeInstitution })
             );
         }
     }]);

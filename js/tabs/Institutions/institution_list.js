@@ -93,7 +93,6 @@ class InstitutionSection extends Component {
     }
 
     render() {
-        console.log(this.props);
         const rows = this.props.institutions.map(institution => <InstitutionRow institution={institution}
                                                                                   key={institution.id}/>);
 

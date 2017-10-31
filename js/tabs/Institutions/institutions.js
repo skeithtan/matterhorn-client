@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import InstitutionList from "./institution_list";
+import InstitutionDetail from "./institution_detail";
 import graphql from "../../graphql";
 
 
@@ -31,7 +32,7 @@ class Institutions extends Component {
         };
 
         fetchInstitutions(response => this.setState({
-            institutionList: response.data.countries
+            institutionList : response.data.countries,
         }));
 
         this.setActiveInstitution = this.setActiveInstitution.bind(this);
@@ -50,9 +51,10 @@ class Institutions extends Component {
 
         return (
             <div className="container-fluid d-flex flex-row p-0 h-100">
-                <InstitutionList institutions={this.state.institutionList}
+                <InstitutionList institutions={showingList}
                                  activeInstitution={this.state.activeInstitution}
                                  setActiveInstitution={this.setActiveInstitution}/>
+                <InstitutionDetail institution={this.state.activeInstitution}/>
             </div>
         );
     }

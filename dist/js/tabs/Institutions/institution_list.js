@@ -153,7 +153,6 @@ var InstitutionSection = function (_Component4) {
     _createClass(InstitutionSection, [{
         key: "render",
         value: function render() {
-            console.log(this.props);
             var rows = this.props.institutions.map(function (institution) {
                 return _react2.default.createElement(InstitutionRow, { institution: institution,
                     key: institution.id });
