@@ -24,7 +24,14 @@ $(() => {
     const signInMessage = $("#sign-in-message");
     signInMessage.hide();
 
-    $("#sign-in-button").click(() => {
+    $("#sign-in-button").click(attemptSignIn);
+    $("#password-input").on("keydown", event => {
+        if (event.which === 13) {
+            attemptSignIn();
+        }
+    });
+
+    function attemptSignIn() {
         const username = $("#username-input").val();
         const password = $("#password-input").val();
 
@@ -45,16 +52,17 @@ $(() => {
                 switch (response.statusCode) {
                     case 401:
                         signInMessage.text = "Invalid credentials";
-                        signInMessage.show();
-                        return;
+                        break;
                     default:
                         signInMessage.text = "Could not connect to the server";
-                        signInMessage.show();
-                        return;
+                        break;
                 }
+
+                signInMessage.show();
+                showSignInBox(true);
             },
         });
-    });
+    }
 
     function showSignInBox(shouldShow) {
         signInBox.css("opacity", shouldShow ? 1 : 0);

@@ -40,7 +40,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
     var signInMessage = (0, _jquery2.default)("#sign-in-message");
     signInMessage.hide();
 
-    (0, _jquery2.default)("#sign-in-button").click(function () {
+    (0, _jquery2.default)("#sign-in-button").click(attemptSignIn);
+    (0, _jquery2.default)("#password-input").on("keydown", function (event) {
+        if (event.which === 13) {
+            attemptSignIn();
+        }
+    });
+
+    function attemptSignIn() {
         var username = (0, _jquery2.default)("#username-input").val();
         var password = (0, _jquery2.default)("#password-input").val();
 
@@ -61,16 +68,17 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
                 switch (response.statusCode) {
                     case 401:
                         signInMessage.text = "Invalid credentials";
-                        signInMessage.show();
-                        return;
+                        break;
                     default:
                         signInMessage.text = "Could not connect to the server";
-                        signInMessage.show();
-                        return;
+                        break;
                 }
+
+                signInMessage.show();
+                showSignInBox(true);
             }
         });
-    });
+    }
 
     function showSignInBox(shouldShow) {
         signInBox.css("opacity", shouldShow ? 1 : 0);
