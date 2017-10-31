@@ -19,13 +19,6 @@
     background : var(--body-white) !important;
 }
 
-/*Draggable region on top*/
-#window-handle-bar {
-    height             : 50px;
-    width              : 100vw;
-    -webkit-app-region : drag;
-}
-
 /*Section titles and footers*/
 small.section-title,
 small.section-footer {
@@ -45,12 +38,38 @@ small.section-footer {
     margin-top    : .5rem;
 }
 
+.section:last-child {
+    margin-bottom : 2rem;
+}
+
+/*Search Input*/
+input.form-control.search-input {
+    border     : none;
+    background : var(--search-white);
+}
+
+/*Draggable region on top*/
+#window-handle-bar {
+    height             : 50px;
+    width              : 100vw;
+    -webkit-app-region : drag;
+    position           : fixed;
+    pointer-events     : none;
+}
+
+/*Root*/
+#root {
+    height : 100vh;
+    width  : 100vw;
+}
+
 /*Main Navigation*/
 #main-navigation {
     box-shadow         : 0 1px 1px rgba(0, 0, 0, 0.08), 0 1px 1px rgba(0, 0, 0, 0.24);
     z-index            : 1040;
     -webkit-app-region : drag;
     max-width          : 80px;
+    min-width          : 80px;
     width              : 80px;
     padding            : 0;
 }

@@ -19,7 +19,8 @@ var _jquery2 = _interopRequireDefault(_jquery);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 (0, _jquery2.default)(function () {
-    var isLoggedIn = localStorage.token !== undefined;
+    // const isLoggedIn = localStorage.token !== undefined;
+    var isLoggedIn = true;
     if (isLoggedIn) {
         _reactDom2.default.render(_react2.default.createElement(_app2.default, null), document.getElementById("root"));
         (0, _jquery2.default)("#sign-in").remove();

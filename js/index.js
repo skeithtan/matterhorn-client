@@ -5,7 +5,8 @@ import $ from "jquery";
 
 
 $(() => {
-    const isLoggedIn = localStorage.token !== undefined;
+    // const isLoggedIn = localStorage.token !== undefined;
+    const isLoggedIn = true;
     if (isLoggedIn) {
         ReactDOM.render(<App/>, document.getElementById("root"));
         $("#sign-in").remove();
