@@ -1,28 +1,16 @@
 import React, {Component} from "react";
 import graphql from "../../graphql";
 import StudentList from "./student_list";
+import StudentDetail from "./student_detail";
 
 function fetchStudents(onResponse) {
     graphql({
         query: `
         {
             students {
-                kind
-                idNumber
-                college
                 familyName
                 firstName
                 middleName
-                nickname
-                nationality
-                homeAddress
-                phoneNumber
-                birthDate
-                sex
-                emergencyContactName
-                emergencyContactNumber
-                email
-                civilStatus
             }
         }
         `,
@@ -41,15 +29,22 @@ class Students extends Component {
 
         fetchStudents(response => {
             this.setState({
-                studentList: response.data,
+                studentList: response.data.students,
             });
+        });
+    }
+
+    setActiveStudent(student) {
+        this.setState({
+            activeStudent: student,
         });
     }
 
     render() {
         return (
             <div className="container-fluid d-flex flex-row p-0 h-100">
-                <StudentList students={this.state.studentList}/>
+                <StudentList students={this.state.studentList} setActiveStudent={this.setActiveStudent}/>
+                <StudentDetail student={this.state.activeStudent}/>
             </div>
         )
     }

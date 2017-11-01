@@ -18,6 +18,10 @@ var _student_list = require("./student_list");
 
 var _student_list2 = _interopRequireDefault(_student_list);
 
+var _student_detail = require("./student_detail");
+
+var _student_detail2 = _interopRequireDefault(_student_detail);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -28,7 +32,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function fetchStudents(onResponse) {
     (0, _graphql2.default)({
-        query: "\n        {\n            students {\n                kind\n                idNumber\n                college\n                familyName\n                firstName\n                middleName\n                nickname\n                nationality\n                homeAddress\n                phoneNumber\n                birthDate\n                sex\n                emergencyContactName\n                emergencyContactNumber\n                email\n                civilStatus\n            }\n        }\n        ",
+        query: "\n        {\n            students {\n                familyName\n                firstName\n                middleName\n            }\n        }\n        ",
         onResponse: onResponse
     });
 }
@@ -48,19 +52,27 @@ var Students = function (_Component) {
 
         fetchStudents(function (response) {
             _this.setState({
-                studentList: response.data
+                studentList: response.data.students
             });
         });
         return _this;
     }
 
     _createClass(Students, [{
+        key: "setActiveStudent",
+        value: function setActiveStudent(student) {
+            this.setState({
+                activeStudent: student
+            });
+        }
+    }, {
         key: "render",
         value: function render() {
             return _react2.default.createElement(
                 "div",
                 { className: "container-fluid d-flex flex-row p-0 h-100" },
-                _react2.default.createElement(_student_list2.default, { students: this.state.studentList })
+                _react2.default.createElement(_student_list2.default, { students: this.state.studentList, setActiveStudent: this.setActiveStudent }),
+                _react2.default.createElement(_student_detail2.default, { student: this.state.activeStudent })
             );
         }
     }]);
