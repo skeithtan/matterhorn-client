@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import { Button } from "reactstrap";
 import LoadingSpinner from "../../loading";
-import {InstitutionDetailOverview, InstitutionContact} from "./institution_detail_overview";
+import {
+    InstitutionDetailOverview,
+    InstitutionContact,
+} from "./institution_detail_overview";
 import Memorandums from "./memorandums";
 import graphql from "../../graphql";
 
@@ -48,10 +51,13 @@ class InstitutionDetail extends Component {
     componentWillReceiveProps(nextProps) {
         const institution = nextProps.institution;
         if (institution !== null) {
+            this.setState({
+                institutionID : institution.institutionID,
+            });
+
             fetchInstitution(nextProps.institution.id, response => {
                 this.setState({
                     institution : response.data.institution,
-                    institutionID : response.data.institutionID,
                 });
             });
         }

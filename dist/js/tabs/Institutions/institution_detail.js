@@ -63,10 +63,13 @@ var InstitutionDetail = function (_Component) {
 
             var institution = nextProps.institution;
             if (institution !== null) {
+                this.setState({
+                    institutionID: institution.institutionID
+                });
+
                 fetchInstitution(nextProps.institution.id, function (response) {
                     _this2.setState({
-                        institution: response.data.institution,
-                        institutionID: response.data.institutionID
+                        institution: response.data.institution
                     });
                 });
             }
