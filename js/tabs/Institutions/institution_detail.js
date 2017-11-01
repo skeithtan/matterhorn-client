@@ -60,10 +60,12 @@ class InstitutionDetail extends Component {
             return;
         }
 
+        // Inform state about an active institution
         this.setState({
             institutionID : institution.institutionID,
         });
 
+        //Fetch active institution details
         fetchInstitution(nextProps.institution.id, response => {
             this.setState({
                 institution : response.data.institution,
