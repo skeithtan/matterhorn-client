@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import addValidation from "../../form_validation";
+import authorizeXHR from "../../authorization";
 import settings from "../../settings";
+import iziToast from "izitoast";
 import $ from "jquery";
 
 import {
@@ -19,6 +21,7 @@ import {
 class AddInstitutionModal extends Component {
     constructor(props) {
         super(props);
+        this.submitForm = this.submitForm.bind(this);
     }
 
     static addValidation() {
@@ -30,11 +33,46 @@ class AddInstitutionModal extends Component {
                     input : $("#add-institution-email"),
                     validator : email => {
                         //This regex mess checks if email is a real email
-                        return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
+                        return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
                     },
                 },
             ],
         });
+    }
+
+    submitForm() {
+        $.post({
+            url : `${settings.serverURL}/institutions/`,
+            data : {
+                name : $("#add-institution-name").val(),
+                country : $("#add-institution-country-list").val(),
+                email : $("#add-institution-email").val(),
+                address : $("#add-institution-address").val(),
+                website : $("#add-institution-website").val(),
+                contact_person_name : $("#add-institution-contact-person").val(),
+                contact_person_number : $("#add-institution-contact-number").val(),
+            },
+            beforeSend: authorizeXHR,
+            success : () => {
+                this.props.refresh();
+
+                iziToast.success({
+                    title : "Success",
+                    message : "Successfully added Institution",
+                    progressBar : false,
+                });
+            },
+            error : response => {
+                console.log(response);
+                iziToast.error({
+                    title : "Error",
+                    message : "Unable to add Institution",
+                    progressBar : false,
+                });
+            },
+        });
+
+        this.props.toggle();
     }
 
     render() {
@@ -44,7 +82,7 @@ class AddInstitutionModal extends Component {
 
         return (
             <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} backdrop={true} id="add-institution-modal"
-                   onOpened={() => AddInstitutionModal.addValidation()}>
+                   onOpened={AddInstitutionModal.addValidation}>
                 <ModalHeader toggle={this.props.toggle}>Add an Institution</ModalHeader>
                 <ModalBody>
                     <Form>
@@ -81,7 +119,8 @@ class AddInstitutionModal extends Component {
                     </Form>
                 </ModalBody>
                 <ModalFooter>
-                    <Button outline color="success" id="add-institution-modal-submit">Add</Button>
+                    <Button outline color="success" id="add-institution-modal-submit"
+                            onClick={this.submitForm}>Add</Button>
                 </ModalFooter>
             </Modal>
         );

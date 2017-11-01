@@ -32,14 +32,19 @@ class Institutions extends Component {
             addInstitutionIsShowing : false,
         };
 
+        this.refreshInstitutions = this.refreshInstitutions.bind(this);
+        this.setActiveInstitution = this.setActiveInstitution.bind(this);
+        this.toggleAddInstitution = this.toggleAddInstitution.bind(this);
+
+        this.refreshInstitutions();
+    }
+
+    refreshInstitutions() {
         fetchInstitutions(response => {
             this.setState({
                 institutionList : response.data.countries,
             });
         });
-
-        this.setActiveInstitution = this.setActiveInstitution.bind(this);
-        this.toggleAddInstitution = this.toggleAddInstitution.bind(this);
     }
 
     toggleAddInstitution() {
@@ -62,7 +67,7 @@ class Institutions extends Component {
                                  setActiveInstitution={this.setActiveInstitution}
                                  toggleAddInstitution={this.toggleAddInstitution}/>
                 <InstitutionDetail institution={this.state.activeInstitution}/>
-                <AddInstitutionModal isOpen={this.state.addInstitutionIsShowing} toggle={this.toggleAddInstitution}/>
+                <AddInstitutionModal isOpen={this.state.addInstitutionIsShowing} toggle={this.toggleAddInstitution} refresh={this.refreshInstitutions}/>
             </div>
         );
     }

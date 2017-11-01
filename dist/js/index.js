@@ -61,6 +61,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
             },
             success: function success(response) {
                 localStorage.token = response.token;
+                localStorage.username = response.username;
                 onSignIn();
             },
             error: function error(response) {

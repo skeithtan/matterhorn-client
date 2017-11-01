@@ -45,6 +45,7 @@ $(() => {
             },
             success : response => {
                 localStorage.token = response.token;
+                localStorage.username = response.username;
                 onSignIn();
             },
             error : response => {

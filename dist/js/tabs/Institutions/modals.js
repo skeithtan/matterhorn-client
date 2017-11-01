@@ -15,9 +15,17 @@ var _form_validation = require("../../form_validation");
 
 var _form_validation2 = _interopRequireDefault(_form_validation);
 
+var _authorization = require("../../authorization");
+
+var _authorization2 = _interopRequireDefault(_authorization);
+
 var _settings = require("../../settings");
 
 var _settings2 = _interopRequireDefault(_settings);
+
+var _izitoast = require("izitoast");
+
+var _izitoast2 = _interopRequireDefault(_izitoast);
 
 var _jquery = require("jquery");
 
@@ -39,10 +47,51 @@ var AddInstitutionModal = function (_Component) {
     function AddInstitutionModal(props) {
         _classCallCheck(this, AddInstitutionModal);
 
-        return _possibleConstructorReturn(this, (AddInstitutionModal.__proto__ || Object.getPrototypeOf(AddInstitutionModal)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (AddInstitutionModal.__proto__ || Object.getPrototypeOf(AddInstitutionModal)).call(this, props));
+
+        _this.submitForm = _this.submitForm.bind(_this);
+        return _this;
     }
 
     _createClass(AddInstitutionModal, [{
+        key: "submitForm",
+        value: function submitForm() {
+            var _this2 = this;
+
+            _jquery2.default.post({
+                url: _settings2.default.serverURL + "/institutions/",
+                data: {
+                    name: (0, _jquery2.default)("#add-institution-name").val(),
+                    country: (0, _jquery2.default)("#add-institution-country-list").val(),
+                    email: (0, _jquery2.default)("#add-institution-email").val(),
+                    address: (0, _jquery2.default)("#add-institution-address").val(),
+                    website: (0, _jquery2.default)("#add-institution-website").val(),
+                    contact_person_name: (0, _jquery2.default)("#add-institution-contact-person").val(),
+                    contact_person_number: (0, _jquery2.default)("#add-institution-contact-number").val()
+                },
+                beforeSend: _authorization2.default,
+                success: function success() {
+                    _this2.props.refresh();
+
+                    _izitoast2.default.success({
+                        title: "Success",
+                        message: "Successfully added Institution",
+                        progressBar: false
+                    });
+                },
+                error: function error(response) {
+                    console.log(response);
+                    _izitoast2.default.error({
+                        title: "Error",
+                        message: "Unable to add Institution",
+                        progressBar: false
+                    });
+                }
+            });
+
+            this.props.toggle();
+        }
+    }, {
         key: "render",
         value: function render() {
             var countries = _settings2.default.countries.map(function (name, index) {
@@ -56,9 +105,7 @@ var AddInstitutionModal = function (_Component) {
             return _react2.default.createElement(
                 _reactstrap.Modal,
                 { isOpen: this.props.isOpen, toggle: this.props.toggle, backdrop: true, id: "add-institution-modal",
-                    onOpened: function onOpened() {
-                        return AddInstitutionModal.addValidation();
-                    } },
+                    onOpened: AddInstitutionModal.addValidation },
                 _react2.default.createElement(
                     _reactstrap.ModalHeader,
                     { toggle: this.props.toggle },
@@ -151,7 +198,8 @@ var AddInstitutionModal = function (_Component) {
                     null,
                     _react2.default.createElement(
                         _reactstrap.Button,
-                        { outline: true, color: "success", id: "add-institution-modal-submit" },
+                        { outline: true, color: "success", id: "add-institution-modal-submit",
+                            onClick: this.submitForm },
                         "Add"
                     )
                 )

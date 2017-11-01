@@ -53,18 +53,26 @@ var Institutions = function (_Component) {
             addInstitutionIsShowing: false
         };
 
-        fetchInstitutions(function (response) {
-            _this.setState({
-                institutionList: response.data.countries
-            });
-        });
-
+        _this.refreshInstitutions = _this.refreshInstitutions.bind(_this);
         _this.setActiveInstitution = _this.setActiveInstitution.bind(_this);
         _this.toggleAddInstitution = _this.toggleAddInstitution.bind(_this);
+
+        _this.refreshInstitutions();
         return _this;
     }
 
     _createClass(Institutions, [{
+        key: "refreshInstitutions",
+        value: function refreshInstitutions() {
+            var _this2 = this;
+
+            fetchInstitutions(function (response) {
+                _this2.setState({
+                    institutionList: response.data.countries
+                });
+            });
+        }
+    }, {
         key: "toggleAddInstitution",
         value: function toggleAddInstitution() {
             this.setState({
@@ -89,7 +97,7 @@ var Institutions = function (_Component) {
                     setActiveInstitution: this.setActiveInstitution,
                     toggleAddInstitution: this.toggleAddInstitution }),
                 _react2.default.createElement(_institution_detail2.default, { institution: this.state.activeInstitution }),
-                _react2.default.createElement(_modals.AddInstitutionModal, { isOpen: this.state.addInstitutionIsShowing, toggle: this.toggleAddInstitution })
+                _react2.default.createElement(_modals.AddInstitutionModal, { isOpen: this.state.addInstitutionIsShowing, toggle: this.toggleAddInstitution, refresh: this.refreshInstitutions })
             );
         }
     }]);
