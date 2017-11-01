@@ -34,6 +34,7 @@ var InstitutionDetailOverview = function (_Component) {
         key: "render",
         value: function render() {
             var institution = this.props.institution;
+            var agreementType = this.props.institution.agreement === "B" ? "Bilateral" : "Multilateral";
 
             return _react2.default.createElement(
                 "div",
@@ -48,7 +49,8 @@ var InstitutionDetailOverview = function (_Component) {
                     null,
                     _react2.default.createElement(InstitutionDetailRow, { fieldName: "Email", fieldValue: institution.email }),
                     _react2.default.createElement(InstitutionDetailRow, { fieldName: "Address", fieldValue: institution.address }),
-                    _react2.default.createElement(InstitutionDetailRow, { fieldName: "Website", fieldValue: institution.website })
+                    _react2.default.createElement(InstitutionDetailRow, { fieldName: "Website", fieldValue: institution.website }),
+                    _react2.default.createElement(InstitutionDetailRow, { fieldName: "Agreement Type", fieldValue: agreementType })
                 )
             );
         }

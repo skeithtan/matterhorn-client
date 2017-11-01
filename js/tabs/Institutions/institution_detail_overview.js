@@ -12,6 +12,7 @@ class InstitutionDetailOverview extends Component {
 
     render() {
         const institution = this.props.institution;
+        const agreementType = this.props.institution.agreement === "B" ? "Bilateral" : "Multilateral";
 
         return (
             <div>
@@ -20,6 +21,7 @@ class InstitutionDetailOverview extends Component {
                     <InstitutionDetailRow fieldName="Email" fieldValue={institution.email}/>
                     <InstitutionDetailRow fieldName="Address" fieldValue={institution.address}/>
                     <InstitutionDetailRow fieldName="Website" fieldValue={institution.website}/>
+                    <InstitutionDetailRow fieldName="Agreement Type" fieldValue={agreementType}/>
                 </ListGroup>
             </div>
         );
@@ -43,7 +45,7 @@ class InstitutionContact extends Component {
                                           fieldValue={institution.contactPersonNumber}/>
                 </ListGroup>
             </div>
-        )
+        );
     }
 }
 
@@ -62,4 +64,7 @@ class InstitutionDetailRow extends Component {
     }
 }
 
-export {InstitutionDetailOverview, InstitutionContact};
+export {
+    InstitutionDetailOverview,
+    InstitutionContact,
+};

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.DeleteInstitutionModal = exports.AddInstitutionModal = undefined;
+exports.EditInstitutionModal = exports.DeleteInstitutionModal = exports.AddInstitutionModal = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -67,12 +67,12 @@ var AddInstitutionModal = function (_Component) {
                     address: (0, _jquery2.default)("#add-institution-address").val(),
                     website: (0, _jquery2.default)("#add-institution-website").val(),
                     contact_person_name: (0, _jquery2.default)("#add-institution-contact-person").val(),
-                    contact_person_number: (0, _jquery2.default)("#add-institution-contact-number").val()
+                    contact_person_number: (0, _jquery2.default)("#add-institution-contact-number").val(),
+                    agreement: (0, _jquery2.default)("#add-institution-agreement-type").val()
                 },
                 beforeSend: _authorization2.default,
                 success: function success() {
                     _this2.props.refresh();
-                    progressBar: false;
                     _izitoast2.default.success({
                         title: "Success",
                         message: "Successfully added Institution",
@@ -190,6 +190,29 @@ var AddInstitutionModal = function (_Component) {
                                 "Contact Number"
                             ),
                             _react2.default.createElement(_reactstrap.Input, { id: "add-institution-contact-number", placeholder: "Number", className: "text-input" })
+                        ),
+                        _react2.default.createElement(
+                            _reactstrap.FormGroup,
+                            null,
+                            _react2.default.createElement(
+                                _reactstrap.Label,
+                                { "for": "add-institution-agreement-type" },
+                                "Agreement Type"
+                            ),
+                            _react2.default.createElement(
+                                _reactstrap.Input,
+                                { type: "select", id: "add-institution-agreement-type" },
+                                _react2.default.createElement(
+                                    "option",
+                                    { value: "B" },
+                                    "Bilateral"
+                                ),
+                                _react2.default.createElement(
+                                    "option",
+                                    { value: "M" },
+                                    "Multilateral"
+                                )
+                            )
                         )
                     )
                 ),
@@ -300,6 +323,184 @@ var DeleteInstitutionModal = function (_Component2) {
     return DeleteInstitutionModal;
 }(_react.Component);
 
+var EditInstitutionModal = function (_Component3) {
+    _inherits(EditInstitutionModal, _Component3);
+
+    function EditInstitutionModal(props) {
+        _classCallCheck(this, EditInstitutionModal);
+
+        return _possibleConstructorReturn(this, (EditInstitutionModal.__proto__ || Object.getPrototypeOf(EditInstitutionModal)).call(this, props));
+    }
+
+    _createClass(EditInstitutionModal, [{
+        key: "render",
+        value: function render() {
+            var countries = _settings2.default.countries.map(function (name, index) {
+                return _react2.default.createElement(
+                    "option",
+                    { key: index },
+                    name
+                );
+            });
+
+            return _react2.default.createElement(
+                _reactstrap.Modal,
+                { isOpen: this.props.isOpen, toggle: this.props.toggle, backdrop: true, id: "edit-institution-modal",
+                    onOpened: EditInstitutionModal.addValidation },
+                _react2.default.createElement(
+                    _reactstrap.ModalHeader,
+                    { toggle: this.props.toggle },
+                    "Edit ",
+                    this.props.institution.name
+                ),
+                _react2.default.createElement(
+                    _reactstrap.ModalBody,
+                    null,
+                    _react2.default.createElement(
+                        _reactstrap.Form,
+                        null,
+                        _react2.default.createElement(
+                            _reactstrap.FormGroup,
+                            null,
+                            _react2.default.createElement(
+                                _reactstrap.Label,
+                                { "for": "edit-institution-name" },
+                                "Name"
+                            ),
+                            _react2.default.createElement(_reactstrap.Input, { id: "edit-institution-name", value: this.props.institution.name,
+                                placeholder: "Institution Name", className: "text-input" })
+                        ),
+                        _react2.default.createElement(
+                            _reactstrap.FormGroup,
+                            null,
+                            _react2.default.createElement(
+                                _reactstrap.Label,
+                                { "for": "edit-institution-country" },
+                                "Country"
+                            ),
+                            _react2.default.createElement(
+                                _reactstrap.Input,
+                                { type: "select", id: "edit-institution-country-list",
+                                    value: this.props.institution.country.name },
+                                countries
+                            )
+                        ),
+                        _react2.default.createElement(
+                            _reactstrap.FormGroup,
+                            null,
+                            _react2.default.createElement(
+                                _reactstrap.Label,
+                                { "for": "edit-institution-email" },
+                                "Email"
+                            ),
+                            _react2.default.createElement(_reactstrap.Input, { type: "email", id: "edit-institution-email", value: this.props.institution.email,
+                                placeholder: "Email", className: "text-input" })
+                        ),
+                        _react2.default.createElement(
+                            _reactstrap.FormGroup,
+                            null,
+                            _react2.default.createElement(
+                                _reactstrap.Label,
+                                { "for": "edit-institution-address" },
+                                "Address"
+                            ),
+                            _react2.default.createElement(_reactstrap.Input, { id: "edit-institution-address", value: this.props.institution.address,
+                                placeholder: "Address", className: "text-input" })
+                        ),
+                        _react2.default.createElement(
+                            _reactstrap.FormGroup,
+                            null,
+                            _react2.default.createElement(
+                                _reactstrap.Label,
+                                { "for": "edit-institution-website" },
+                                "Website"
+                            ),
+                            _react2.default.createElement(_reactstrap.Input, { id: "edit-institution-website", value: this.props.institution.website,
+                                placeholder: "Website", className: "text-input" })
+                        ),
+                        _react2.default.createElement(
+                            _reactstrap.FormGroup,
+                            null,
+                            _react2.default.createElement(
+                                _reactstrap.Label,
+                                { "for": "edit-institution-contact-person" },
+                                "Contact Person"
+                            ),
+                            _react2.default.createElement(_reactstrap.Input, { id: "edit-institution-contact-person", value: this.props.institution.contactPersonName,
+                                placeholder: "Name", className: "text-input" })
+                        ),
+                        _react2.default.createElement(
+                            _reactstrap.FormGroup,
+                            null,
+                            _react2.default.createElement(
+                                _reactstrap.Label,
+                                { "for": "edit-institution-contact-number" },
+                                "Contact Number"
+                            ),
+                            _react2.default.createElement(_reactstrap.Input, { id: "edit-institution-contact-number",
+                                value: this.props.institution.contactPersonNumber, placeholder: "Number",
+                                className: "text-input" })
+                        ),
+                        _react2.default.createElement(
+                            _reactstrap.FormGroup,
+                            null,
+                            _react2.default.createElement(
+                                _reactstrap.Label,
+                                { "for": "edit-institution-agreement-type" },
+                                "Agreement Type"
+                            ),
+                            _react2.default.createElement(
+                                _reactstrap.Input,
+                                { type: "select", id: "edit-institution-agreement-type",
+                                    value: this.props.institution.agreement },
+                                _react2.default.createElement(
+                                    "option",
+                                    { value: "B" },
+                                    "Bilateral"
+                                ),
+                                _react2.default.createElement(
+                                    "option",
+                                    { value: "M" },
+                                    "Multilateral"
+                                )
+                            )
+                        )
+                    )
+                ),
+                _react2.default.createElement(
+                    _reactstrap.ModalFooter,
+                    null,
+                    _react2.default.createElement(
+                        _reactstrap.Button,
+                        { outline: true, color: "success", id: "edit-institution-modal-submit",
+                            onClick: this.submitForm },
+                        "Add"
+                    )
+                )
+            );
+        }
+    }], [{
+        key: "addValidation",
+        value: function addValidation() {
+            (0, _form_validation2.default)({
+                inputs: (0, _jquery2.default)("#edit-institution-modal").find(".text-input"),
+                button: (0, _jquery2.default)("#edit-institution-modal-submit"),
+                customValidations: [{
+                    input: (0, _jquery2.default)("#edit-institution-email"),
+                    validator: function validator(email) {
+                        //This regex mess checks if email is a real email
+                        return (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
+                        );
+                    }
+                }]
+            });
+        }
+    }]);
+
+    return EditInstitutionModal;
+}(_react.Component);
+
 exports.AddInstitutionModal = AddInstitutionModal;
 exports.DeleteInstitutionModal = DeleteInstitutionModal;
+exports.EditInstitutionModal = EditInstitutionModal;
 //# sourceMappingURL=modals.js.map

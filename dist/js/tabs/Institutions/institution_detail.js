@@ -18,6 +18,8 @@ var _loading2 = _interopRequireDefault(_loading);
 
 var _institution_detail_overview = require("./institution_detail_overview");
 
+var _modals = require("./modals");
+
 var _memorandums = require("./memorandums");
 
 var _memorandums2 = _interopRequireDefault(_memorandums);
@@ -36,7 +38,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function fetchInstitution(id, onResponse) {
     (0, _graphql2.default)({
-        query: "\n        {\n            institution(id:" + id + ") {\n                id\n                name\n                email\n                address\n                website\n                contactPersonName\n                contactPersonNumber\n                country {\n                    name\n                }\n            }\n        }\n       ",
+        query: "\n        {\n            institution(id:" + id + ") {\n                id\n                name\n                email\n                address\n                website\n                contactPersonName\n                contactPersonNumber\n                country {\n                    name\n                }\n                agreement\n            }\n        }\n       ",
         onResponse: onResponse
     });
 }
@@ -51,12 +53,31 @@ var InstitutionDetail = function (_Component) {
 
         _this.state = {
             institution: null,
-            institutionID: null
+            institutionID: null,
+            deleteInstitutionIsShowing: false,
+            editInstitutionIsShowing: false
         };
+
+        _this.toggleDeleteInstitution = _this.toggleDeleteInstitution.bind(_this);
+        _this.toggleEditInstitution = _this.toggleEditInstitution.bind(_this);
         return _this;
     }
 
     _createClass(InstitutionDetail, [{
+        key: "toggleDeleteInstitution",
+        value: function toggleDeleteInstitution() {
+            this.setState({
+                deleteInstitutionIsShowing: !this.state.deleteInstitutionIsShowing
+            });
+        }
+    }, {
+        key: "toggleEditInstitution",
+        value: function toggleEditInstitution() {
+            this.setState({
+                editInstitutionIsShowing: !this.state.editInstitutionIsShowing
+            });
+        }
+    }, {
         key: "componentWillReceiveProps",
         value: function componentWillReceiveProps(nextProps) {
             var _this2 = this;
@@ -87,8 +108,6 @@ var InstitutionDetail = function (_Component) {
     }, {
         key: "render",
         value: function render() {
-            console.log(this.state);
-
             //User has not selected yet, no activeInstitution ID
             if (this.state.institutionID === null) {
                 return InstitutionDetail.unselectedState();
@@ -103,8 +122,17 @@ var InstitutionDetail = function (_Component) {
                 "div",
                 { id: "institution-detail", className: "container-fluid d-flex flex-column p-0" },
                 _react2.default.createElement(InstitutionDetailHead, { institution: this.state.institution,
-                    toggleDeleteInstitution: this.props.toggleDeleteInstitution }),
-                _react2.default.createElement(InstitutionDetailBody, { institution: this.state.institution })
+                    toggleDeleteInstitution: this.toggleDeleteInstitution,
+                    toggleEditInstitution: this.toggleEditInstitution }),
+                _react2.default.createElement(InstitutionDetailBody, { institution: this.state.institution }),
+                this.state.institution !== null && //If activeInstitution is not null
+                _react2.default.createElement(_modals.DeleteInstitutionModal, { isOpen: this.state.deleteInstitutionIsShowing,
+                    institution: this.state.institution,
+                    toggle: this.toggleDeleteInstitution,
+                    refresh: this.props.onDeleteActiveInstitution }),
+                this.state.institution !== null && _react2.default.createElement(_modals.EditInstitutionModal, { isOpen: this.state.editInstitutionIsShowing,
+                    institution: this.state.institution,
+                    toggle: this.toggleEditInstitution })
             );
         }
     }], [{
@@ -159,7 +187,8 @@ var InstitutionDetailHead = function (_Component2) {
                     { id: "institution-actions" },
                     _react2.default.createElement(
                         _reactstrap.Button,
-                        { outline: true, size: "sm", color: "success", className: "mr-2" },
+                        { outline: true, size: "sm", color: "success", className: "mr-2",
+                            onClick: this.props.toggleEditInstitution },
                         "Edit Institution"
                     ),
                     _react2.default.createElement(

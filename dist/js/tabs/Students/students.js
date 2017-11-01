@@ -33,6 +33,48 @@ function fetchStudents(onResponse) {
     });
 }
 
+function sortStudents(students) {
+    var familyNames = {};
+    students.forEach(function (student) {
+        var firstLetter = student.familyName[0];
+        if (familyNames[firstLetter] === undefined) {
+            familyNames[firstLetter] = [student];
+        } else {
+            familyNames[firstLetter].push(student);
+        }
+    });
+
+    var letters = [];
+    for (var key in familyNames) {
+        if (familyNames.hasOwnProperty(key)) {
+            letters.push(key);
+        }
+    }
+
+    letters.sort(function (a, b) {
+        //Alphabetically
+        if (a < b) {
+            return -1;
+        }
+        if (a > b) {
+            return 1;
+        }
+        return 0;
+    });
+
+    var sorted = [];
+
+    letters.forEach(function (letter) {
+        var students = familyNames[letter];
+        sorted.push({
+            letter: letter,
+            students: students
+        });
+    });
+
+    return sorted;
+}
+
 var Students = function (_Component) {
     _inherits(Students, _Component);
 

@@ -51,11 +51,11 @@ class AddInstitutionModal extends Component {
                 website : $("#add-institution-website").val(),
                 contact_person_name : $("#add-institution-contact-person").val(),
                 contact_person_number : $("#add-institution-contact-number").val(),
+                agreement : $("#add-institution-agreement-type").val(),
             },
             beforeSend : authorizeXHR,
             success : () => {
                 this.props.refresh();
-                progressBar: false
                 iziToast.success({
                     title : "Success",
                     message : "Successfully added Institution",
@@ -116,6 +116,13 @@ class AddInstitutionModal extends Component {
                             <Label for="add-institution-contact-number">Contact Number</Label>
                             <Input id="add-institution-contact-number" placeholder="Number" className="text-input"/>
                         </FormGroup>
+                        <FormGroup>
+                            <Label for="add-institution-agreement-type">Agreement Type</Label>
+                            <Input type="select" id="add-institution-agreement-type">
+                                <option value="B">Bilateral</option>
+                                <option value="M">Multilateral</option>
+                            </Input>
+                        </FormGroup>
                     </Form>
                 </ModalBody>
                 <ModalFooter>
@@ -143,7 +150,7 @@ class DeleteInstitutionModal extends Component {
                 iziToast.success({
                     title : "Success",
                     message : "Institution deleted",
-                    progressBar: false
+                    progressBar : false,
                 });
             },
             error : response => {
@@ -151,7 +158,7 @@ class DeleteInstitutionModal extends Component {
                 iziToast.error({
                     title : "Error",
                     message : "Unable to delete institution",
-                    progressBar: false
+                    progressBar : false,
                 });
             },
         });
@@ -172,7 +179,98 @@ class DeleteInstitutionModal extends Component {
     }
 }
 
+class EditInstitutionModal extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+    static addValidation() {
+        addValidation({
+            inputs : $("#edit-institution-modal").find(".text-input"),
+            button : $("#edit-institution-modal-submit"),
+            customValidations : [
+                {
+                    input : $("#edit-institution-email"),
+                    validator : email => {
+                        //This regex mess checks if email is a real email
+                        return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
+                    },
+                },
+            ],
+        });
+    }
+
+    render() {
+        const countries = settings.countries.map((name, index) =>
+            <option key={index}>{name}</option>,
+        );
+
+        return (
+            <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} backdrop={true} id="edit-institution-modal"
+                   onOpened={EditInstitutionModal.addValidation}>
+                <ModalHeader toggle={this.props.toggle}>Edit {this.props.institution.name}</ModalHeader>
+                <ModalBody>
+                    <Form>
+                        <FormGroup>
+                            <Label for="edit-institution-name">Name</Label>
+                            <Input id="edit-institution-name" value={this.props.institution.name}
+                                   placeholder="Institution Name" className="text-input"/>
+                        </FormGroup>
+                        <FormGroup>
+                            <Label for="edit-institution-country">Country</Label>
+                            <Input type="select" id="edit-institution-country-list"
+                                   value={this.props.institution.country.name}>
+                                {countries}
+                            </Input>
+                        </FormGroup>
+                        <FormGroup>
+                            <Label for="edit-institution-email">Email</Label>
+                            <Input type="email" id="edit-institution-email" value={this.props.institution.email}
+                                   placeholder="Email" className="text-input"/>
+                        </FormGroup>
+                        <FormGroup>
+                            <Label for="edit-institution-address">Address</Label>
+                            <Input id="edit-institution-address" value={this.props.institution.address}
+                                   placeholder="Address" className="text-input"/>
+                        </FormGroup>
+                        <FormGroup>
+                            <Label for="edit-institution-website">Website</Label>
+                            <Input id="edit-institution-website" value={this.props.institution.website}
+                                   placeholder="Website" className="text-input"/>
+                        </FormGroup>
+                        <FormGroup>
+                            <Label for="edit-institution-contact-person">Contact Person</Label>
+                            <Input id="edit-institution-contact-person" value={this.props.institution.contactPersonName}
+                                   placeholder="Name" className="text-input"/>
+                        </FormGroup>
+                        <FormGroup>
+                            <Label for="edit-institution-contact-number">Contact Number</Label>
+                            <Input id="edit-institution-contact-number"
+                                   value={this.props.institution.contactPersonNumber} placeholder="Number"
+                                   className="text-input"/>
+                        </FormGroup>
+                        <FormGroup>
+                            <Label for="edit-institution-agreement-type">Agreement Type</Label>
+                            <Input type="select" id="edit-institution-agreement-type"
+                                   value={this.props.institution.agreement}>
+                                <option value="B">Bilateral</option>
+                                <option value="M">Multilateral</option>
+                            </Input>
+                        </FormGroup>
+                    </Form>
+                </ModalBody>
+                <ModalFooter>
+                    <Button outline color="success" id="edit-institution-modal-submit"
+                            onClick={this.submitForm}>Add</Button>
+                </ModalFooter>
+            </Modal>
+        );
+    }
+
+}
+
 export {
     AddInstitutionModal,
     DeleteInstitutionModal,
+    EditInstitutionModal,
 };

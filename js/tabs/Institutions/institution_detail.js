@@ -5,6 +5,14 @@ import {
     InstitutionDetailOverview,
     InstitutionContact,
 } from "./institution_detail_overview";
+
+
+import {
+    DeleteInstitutionModal,
+    EditInstitutionModal,
+} from "./modals";
+
+
 import Memorandums from "./memorandums";
 import graphql from "../../graphql";
 
@@ -24,6 +32,7 @@ function fetchInstitution(id, onResponse) {
                 country {
                     name
                 }
+                agreement
             }
         }
        `,
@@ -37,7 +46,24 @@ class InstitutionDetail extends Component {
         this.state = {
             institution : null,
             institutionID : null,
+            deleteInstitutionIsShowing : false,
+            editInstitutionIsShowing : false,
         };
+
+        this.toggleDeleteInstitution = this.toggleDeleteInstitution.bind(this);
+        this.toggleEditInstitution = this.toggleEditInstitution.bind(this);
+    }
+
+    toggleDeleteInstitution() {
+        this.setState({
+            deleteInstitutionIsShowing : !this.state.deleteInstitutionIsShowing,
+        });
+    }
+
+    toggleEditInstitution() {
+        this.setState({
+            editInstitutionIsShowing : !this.state.editInstitutionIsShowing,
+        });
     }
 
     static unselectedState() {
@@ -75,8 +101,6 @@ class InstitutionDetail extends Component {
 
 
     render() {
-        console.log(this.state);
-
         //User has not selected yet, no activeInstitution ID
         if (this.state.institutionID === null) {
             return InstitutionDetail.unselectedState();
@@ -90,8 +114,20 @@ class InstitutionDetail extends Component {
         return (
             <div id="institution-detail" className="container-fluid d-flex flex-column p-0">
                 <InstitutionDetailHead institution={this.state.institution}
-                                       toggleDeleteInstitution={this.props.toggleDeleteInstitution}/>
+                                       toggleDeleteInstitution={this.toggleDeleteInstitution}
+                                       toggleEditInstitution={this.toggleEditInstitution}/>
                 <InstitutionDetailBody institution={this.state.institution}/>
+
+                {this.state.institution !== null && //If activeInstitution is not null
+                <DeleteInstitutionModal isOpen={this.state.deleteInstitutionIsShowing}
+                                        institution={this.state.institution}
+                                        toggle={this.toggleDeleteInstitution}
+                                        refresh={this.props.onDeleteActiveInstitution}/>}
+
+                {this.state.institution !== null &&
+                <EditInstitutionModal isOpen={this.state.editInstitutionIsShowing}
+                                      institution={this.state.institution}
+                                      toggle={this.toggleEditInstitution}/>}
             </div>
         );
     }
@@ -111,7 +147,8 @@ class InstitutionDetailHead extends Component {
                 </div>
 
                 <div id="institution-actions">
-                    <Button outline size="sm" color="success" className="mr-2">Edit Institution</Button>
+                    <Button outline size="sm" color="success" className="mr-2"
+                            onClick={this.props.toggleEditInstitution}>Edit Institution</Button>
                     <Button outline size="sm" color="danger"
                             onClick={this.props.toggleDeleteInstitution}>Delete</Button>
                 </div>
