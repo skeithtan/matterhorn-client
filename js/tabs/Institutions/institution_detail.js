@@ -50,21 +50,31 @@ class InstitutionDetail extends Component {
 
     componentWillReceiveProps(nextProps) {
         const institution = nextProps.institution;
-        if (institution !== null) {
+
+        if (institution === null) {
             this.setState({
-                institutionID : institution.institutionID,
+                institution : null,
+                institutionID : null,
             });
 
-            fetchInstitution(nextProps.institution.id, response => {
-                this.setState({
-                    institution : response.data.institution,
-                });
-            });
+            return;
         }
+
+        this.setState({
+            institutionID : institution.institutionID,
+        });
+
+        fetchInstitution(nextProps.institution.id, response => {
+            this.setState({
+                institution : response.data.institution,
+            });
+        });
     }
 
 
     render() {
+        console.log(this.state);
+
         //User has not selected yet, no activeInstitution ID
         if (this.state.institutionID === null) {
             return InstitutionDetail.unselectedState();
@@ -77,7 +87,8 @@ class InstitutionDetail extends Component {
 
         return (
             <div id="institution-detail" className="container-fluid d-flex flex-column p-0">
-                <InstitutionDetailHead institution={this.state.institution}/>
+                <InstitutionDetailHead institution={this.state.institution}
+                                       toggleDeleteInstitution={this.props.toggleDeleteInstitution}/>
                 <InstitutionDetailBody institution={this.state.institution}/>
             </div>
         );
@@ -99,7 +110,8 @@ class InstitutionDetailHead extends Component {
 
                 <div id="institution-actions">
                     <Button outline size="sm" color="success" className="mr-2">Edit Institution</Button>
-                    <Button outline size="sm" color="danger">Delete</Button>
+                    <Button outline size="sm" color="danger"
+                            onClick={this.props.toggleDeleteInstitution}>Delete</Button>
                 </div>
             </div>
         );
@@ -116,7 +128,6 @@ class InstitutionDetailBody extends Component {
             <div className="page-body">
                 <InstitutionDetailOverview institution={this.props.institution}/>
                 <InstitutionContact institution={this.props.institution}/>
-
                 <Memorandums/>
             </div>
         );

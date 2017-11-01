@@ -50,12 +50,15 @@ var Institutions = function (_Component) {
         _this.state = {
             institutionList: null,
             activeInstitution: null,
-            addInstitutionIsShowing: false
+            addInstitutionIsShowing: false,
+            deleteInstitutionIsShowing: false
         };
 
         _this.refreshInstitutions = _this.refreshInstitutions.bind(_this);
         _this.setActiveInstitution = _this.setActiveInstitution.bind(_this);
         _this.toggleAddInstitution = _this.toggleAddInstitution.bind(_this);
+        _this.toggleDeleteInstitution = _this.toggleDeleteInstitution.bind(_this);
+        _this.onDeleteActiveInstitution = _this.onDeleteActiveInstitution.bind(_this);
 
         _this.refreshInstitutions();
         return _this;
@@ -73,10 +76,26 @@ var Institutions = function (_Component) {
             });
         }
     }, {
+        key: "onDeleteActiveInstitution",
+        value: function onDeleteActiveInstitution() {
+            this.setState({
+                activeInstitution: null
+            });
+
+            this.refreshInstitutions();
+        }
+    }, {
         key: "toggleAddInstitution",
         value: function toggleAddInstitution() {
             this.setState({
                 addInstitutionIsShowing: !this.state.addInstitutionIsShowing
+            });
+        }
+    }, {
+        key: "toggleDeleteInstitution",
+        value: function toggleDeleteInstitution() {
+            this.setState({
+                deleteInstitutionIsShowing: !this.state.deleteInstitutionIsShowing
             });
         }
     }, {
@@ -96,8 +115,15 @@ var Institutions = function (_Component) {
                     activeInstitution: this.state.activeInstitution,
                     setActiveInstitution: this.setActiveInstitution,
                     toggleAddInstitution: this.toggleAddInstitution }),
-                _react2.default.createElement(_institution_detail2.default, { institution: this.state.activeInstitution }),
-                _react2.default.createElement(_modals.AddInstitutionModal, { isOpen: this.state.addInstitutionIsShowing, toggle: this.toggleAddInstitution, refresh: this.refreshInstitutions })
+                _react2.default.createElement(_institution_detail2.default, { institution: this.state.activeInstitution,
+                    toggleDeleteInstitution: this.toggleDeleteInstitution }),
+                _react2.default.createElement(_modals.AddInstitutionModal, { isOpen: this.state.addInstitutionIsShowing, toggle: this.toggleAddInstitution,
+                    refresh: this.refreshInstitutions }),
+                this.state.activeInstitution !== null && //If activeInstitution is not null
+                _react2.default.createElement(_modals.DeleteInstitutionModal, { isOpen: this.state.deleteInstitutionIsShowing,
+                    institution: this.state.activeInstitution,
+                    toggle: this.toggleDeleteInstitution,
+                    refresh: this.onDeleteActiveInstitution })
             );
         }
     }]);

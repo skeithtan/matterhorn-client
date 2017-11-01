@@ -52,10 +52,10 @@ class AddInstitutionModal extends Component {
                 contact_person_name : $("#add-institution-contact-person").val(),
                 contact_person_number : $("#add-institution-contact-number").val(),
             },
-            beforeSend: authorizeXHR,
+            beforeSend : authorizeXHR,
             success : () => {
                 this.props.refresh();
-
+                progressBar: false
                 iziToast.success({
                     title : "Success",
                     message : "Successfully added Institution",
@@ -127,4 +127,52 @@ class AddInstitutionModal extends Component {
     }
 }
 
-export { AddInstitutionModal };
+class DeleteInstitutionModal extends Component {
+    constructor(props) {
+        super(props);
+        this.confirmDelete = this.confirmDelete.bind(this);
+    }
+
+    confirmDelete() {
+        $.ajax({
+            url : `${settings.serverURL}/institutions/${this.props.institution.id}/`,
+            method : "DELETE",
+            beforeSend : authorizeXHR,
+            success : () => {
+                this.props.refresh();
+                iziToast.success({
+                    title : "Success",
+                    message : "Institution deleted",
+                    progressBar: false
+                });
+            },
+            error : response => {
+                console.log(response);
+                iziToast.error({
+                    title : "Error",
+                    message : "Unable to delete institution",
+                    progressBar: false
+                });
+            },
+        });
+        this.props.toggle();
+    }
+
+    render() {
+        return (
+            <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} backdrop={true} id="add-institution-modal">
+                <ModalHeader className="text-danger">Are you sure you want to
+                    delete {this.props.institution.name}?</ModalHeader>
+                <ModalBody>This cannot be undone.</ModalBody>
+                <ModalFooter>
+                    <Button color="danger" onClick={this.confirmDelete}>Confirm Delete</Button>
+                </ModalFooter>
+            </Modal>
+        );
+    }
+}
+
+export {
+    AddInstitutionModal,
+    DeleteInstitutionModal,
+};

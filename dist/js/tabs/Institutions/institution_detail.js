@@ -62,21 +62,31 @@ var InstitutionDetail = function (_Component) {
             var _this2 = this;
 
             var institution = nextProps.institution;
-            if (institution !== null) {
+
+            if (institution === null) {
                 this.setState({
-                    institutionID: institution.institutionID
+                    institution: null,
+                    institutionID: null
                 });
 
-                fetchInstitution(nextProps.institution.id, function (response) {
-                    _this2.setState({
-                        institution: response.data.institution
-                    });
-                });
+                return;
             }
+
+            this.setState({
+                institutionID: institution.institutionID
+            });
+
+            fetchInstitution(nextProps.institution.id, function (response) {
+                _this2.setState({
+                    institution: response.data.institution
+                });
+            });
         }
     }, {
         key: "render",
         value: function render() {
+            console.log(this.state);
+
             //User has not selected yet, no activeInstitution ID
             if (this.state.institutionID === null) {
                 return InstitutionDetail.unselectedState();
@@ -90,7 +100,8 @@ var InstitutionDetail = function (_Component) {
             return _react2.default.createElement(
                 "div",
                 { id: "institution-detail", className: "container-fluid d-flex flex-column p-0" },
-                _react2.default.createElement(InstitutionDetailHead, { institution: this.state.institution }),
+                _react2.default.createElement(InstitutionDetailHead, { institution: this.state.institution,
+                    toggleDeleteInstitution: this.props.toggleDeleteInstitution }),
                 _react2.default.createElement(InstitutionDetailBody, { institution: this.state.institution })
             );
         }
@@ -151,7 +162,8 @@ var InstitutionDetailHead = function (_Component2) {
                     ),
                     _react2.default.createElement(
                         _reactstrap.Button,
-                        { outline: true, size: "sm", color: "danger" },
+                        { outline: true, size: "sm", color: "danger",
+                            onClick: this.props.toggleDeleteInstitution },
                         "Delete"
                     )
                 )

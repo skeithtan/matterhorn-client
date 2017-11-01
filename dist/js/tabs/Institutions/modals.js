@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.AddInstitutionModal = undefined;
+exports.DeleteInstitutionModal = exports.AddInstitutionModal = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -72,7 +72,7 @@ var AddInstitutionModal = function (_Component) {
                 beforeSend: _authorization2.default,
                 success: function success() {
                     _this2.props.refresh();
-
+                    progressBar: false;
                     _izitoast2.default.success({
                         title: "Success",
                         message: "Successfully added Institution",
@@ -226,5 +226,80 @@ var AddInstitutionModal = function (_Component) {
     return AddInstitutionModal;
 }(_react.Component);
 
+var DeleteInstitutionModal = function (_Component2) {
+    _inherits(DeleteInstitutionModal, _Component2);
+
+    function DeleteInstitutionModal(props) {
+        _classCallCheck(this, DeleteInstitutionModal);
+
+        var _this3 = _possibleConstructorReturn(this, (DeleteInstitutionModal.__proto__ || Object.getPrototypeOf(DeleteInstitutionModal)).call(this, props));
+
+        _this3.confirmDelete = _this3.confirmDelete.bind(_this3);
+        return _this3;
+    }
+
+    _createClass(DeleteInstitutionModal, [{
+        key: "confirmDelete",
+        value: function confirmDelete() {
+            var _this4 = this;
+
+            _jquery2.default.ajax({
+                url: _settings2.default.serverURL + "/institutions/" + this.props.institution.id + "/",
+                method: "DELETE",
+                beforeSend: _authorization2.default,
+                success: function success() {
+                    _this4.props.refresh();
+                    _izitoast2.default.success({
+                        title: "Success",
+                        message: "Institution deleted",
+                        progressBar: false
+                    });
+                },
+                error: function error(response) {
+                    console.log(response);
+                    _izitoast2.default.error({
+                        title: "Error",
+                        message: "Unable to delete institution",
+                        progressBar: false
+                    });
+                }
+            });
+            this.props.toggle();
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            return _react2.default.createElement(
+                _reactstrap.Modal,
+                { isOpen: this.props.isOpen, toggle: this.props.toggle, backdrop: true, id: "add-institution-modal" },
+                _react2.default.createElement(
+                    _reactstrap.ModalHeader,
+                    { className: "text-danger" },
+                    "Are you sure you want to delete ",
+                    this.props.institution.name,
+                    "?"
+                ),
+                _react2.default.createElement(
+                    _reactstrap.ModalBody,
+                    null,
+                    "This cannot be undone."
+                ),
+                _react2.default.createElement(
+                    _reactstrap.ModalFooter,
+                    null,
+                    _react2.default.createElement(
+                        _reactstrap.Button,
+                        { color: "danger", onClick: this.confirmDelete },
+                        "Confirm Delete"
+                    )
+                )
+            );
+        }
+    }]);
+
+    return DeleteInstitutionModal;
+}(_react.Component);
+
 exports.AddInstitutionModal = AddInstitutionModal;
+exports.DeleteInstitutionModal = DeleteInstitutionModal;
 //# sourceMappingURL=modals.js.map
