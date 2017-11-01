@@ -82,7 +82,66 @@ var AddInstitutionModal = function (_Component) {
                                 { type: "select", id: "add-institution-country-list" },
                                 countries
                             )
+                        ),
+                        _react2.default.createElement(
+                            _reactstrap.FormGroup,
+                            null,
+                            _react2.default.createElement(
+                                _reactstrap.Label,
+                                { "for": "add-institution-email" },
+                                "Email"
+                            ),
+                            _react2.default.createElement(_reactstrap.Input, { type: "email", id: "add-institution-email", placeholder: "Email" })
+                        ),
+                        _react2.default.createElement(
+                            _reactstrap.FormGroup,
+                            null,
+                            _react2.default.createElement(
+                                _reactstrap.Label,
+                                { "for": "add-institution-address" },
+                                "Address"
+                            ),
+                            _react2.default.createElement(_reactstrap.Input, { id: "add-institution-address", placeholder: "Address" })
+                        ),
+                        _react2.default.createElement(
+                            _reactstrap.FormGroup,
+                            null,
+                            _react2.default.createElement(
+                                _reactstrap.Label,
+                                { "for": "add-institution-website" },
+                                "Website"
+                            ),
+                            _react2.default.createElement(_reactstrap.Input, { id: "add-institution-website", placeholder: "Website" })
+                        ),
+                        _react2.default.createElement(
+                            _reactstrap.FormGroup,
+                            null,
+                            _react2.default.createElement(
+                                _reactstrap.Label,
+                                { "for": "add-institution-contact-person" },
+                                "Contact Person"
+                            ),
+                            _react2.default.createElement(_reactstrap.Input, { id: "add-institution-contact-person", placeholder: "Name" })
+                        ),
+                        _react2.default.createElement(
+                            _reactstrap.FormGroup,
+                            null,
+                            _react2.default.createElement(
+                                _reactstrap.Label,
+                                { "for": "add-institution-contact-number" },
+                                "Contact Number"
+                            ),
+                            _react2.default.createElement(_reactstrap.Input, { id: "add-institution-contact-number", placeholder: "Number" })
                         )
+                    )
+                ),
+                _react2.default.createElement(
+                    _reactstrap.ModalFooter,
+                    null,
+                    _react2.default.createElement(
+                        _reactstrap.Button,
+                        { outline: true, color: "success" },
+                        "Add"
                     )
                 )
             );
