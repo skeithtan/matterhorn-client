@@ -213,46 +213,46 @@ class EditInstitutionModal extends Component {
                     <Form>
                         <FormGroup>
                             <Label for="edit-institution-name">Name</Label>
-                            <Input id="edit-institution-name" value={this.props.institution.name}
+                            <Input id="edit-institution-name" defaultValue={this.props.institution.name}
                                    placeholder="Institution Name" className="text-input"/>
                         </FormGroup>
                         <FormGroup>
                             <Label for="edit-institution-country">Country</Label>
                             <Input type="select" id="edit-institution-country-list"
-                                   value={this.props.institution.country.name}>
+                                   defaultValue={this.props.institution.country.name}>
                                 {countries}
                             </Input>
                         </FormGroup>
                         <FormGroup>
                             <Label for="edit-institution-email">Email</Label>
-                            <Input type="email" id="edit-institution-email" value={this.props.institution.email}
+                            <Input type="email" id="edit-institution-email" defaultValue={this.props.institution.email}
                                    placeholder="Email" className="text-input"/>
                         </FormGroup>
                         <FormGroup>
                             <Label for="edit-institution-address">Address</Label>
-                            <Input id="edit-institution-address" value={this.props.institution.address}
+                            <Input id="edit-institution-address" defaultValue={this.props.institution.address}
                                    placeholder="Address" className="text-input"/>
                         </FormGroup>
                         <FormGroup>
                             <Label for="edit-institution-website">Website</Label>
-                            <Input id="edit-institution-website" value={this.props.institution.website}
+                            <Input id="edit-institution-website" defaultValue={this.props.institution.website}
                                    placeholder="Website" className="text-input"/>
                         </FormGroup>
                         <FormGroup>
                             <Label for="edit-institution-contact-person">Contact Person</Label>
-                            <Input id="edit-institution-contact-person" value={this.props.institution.contactPersonName}
+                            <Input id="edit-institution-contact-person" defaultValue={this.props.institution.contactPersonName}
                                    placeholder="Name" className="text-input"/>
                         </FormGroup>
                         <FormGroup>
                             <Label for="edit-institution-contact-number">Contact Number</Label>
                             <Input id="edit-institution-contact-number"
-                                   value={this.props.institution.contactPersonNumber} placeholder="Number"
+                                   defaultValue={this.props.institution.contactPersonNumber} placeholder="Number"
                                    className="text-input"/>
                         </FormGroup>
                         <FormGroup>
                             <Label for="edit-institution-agreement-type">Agreement Type</Label>
                             <Input type="select" id="edit-institution-agreement-type"
-                                   value={this.props.institution.agreement}>
+                                   defaultValue={this.props.institution.agreement}>
                                 <option value="B">Bilateral</option>
                                 <option value="M">Multilateral</option>
                             </Input>
@@ -261,7 +261,7 @@ class EditInstitutionModal extends Component {
                 </ModalBody>
                 <ModalFooter>
                     <Button outline color="success" id="edit-institution-modal-submit"
-                            onClick={this.submitForm}>Add</Button>
+                            onClick={this.submitForm}>Edit</Button>
                 </ModalFooter>
             </Modal>
         );

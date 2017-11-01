@@ -367,7 +367,7 @@ var EditInstitutionModal = function (_Component3) {
                                 { "for": "edit-institution-name" },
                                 "Name"
                             ),
-                            _react2.default.createElement(_reactstrap.Input, { id: "edit-institution-name", value: this.props.institution.name,
+                            _react2.default.createElement(_reactstrap.Input, { id: "edit-institution-name", defaultValue: this.props.institution.name,
                                 placeholder: "Institution Name", className: "text-input" })
                         ),
                         _react2.default.createElement(
@@ -381,7 +381,7 @@ var EditInstitutionModal = function (_Component3) {
                             _react2.default.createElement(
                                 _reactstrap.Input,
                                 { type: "select", id: "edit-institution-country-list",
-                                    value: this.props.institution.country.name },
+                                    defaultValue: this.props.institution.country.name },
                                 countries
                             )
                         ),
@@ -393,7 +393,7 @@ var EditInstitutionModal = function (_Component3) {
                                 { "for": "edit-institution-email" },
                                 "Email"
                             ),
-                            _react2.default.createElement(_reactstrap.Input, { type: "email", id: "edit-institution-email", value: this.props.institution.email,
+                            _react2.default.createElement(_reactstrap.Input, { type: "email", id: "edit-institution-email", defaultValue: this.props.institution.email,
                                 placeholder: "Email", className: "text-input" })
                         ),
                         _react2.default.createElement(
@@ -404,7 +404,7 @@ var EditInstitutionModal = function (_Component3) {
                                 { "for": "edit-institution-address" },
                                 "Address"
                             ),
-                            _react2.default.createElement(_reactstrap.Input, { id: "edit-institution-address", value: this.props.institution.address,
+                            _react2.default.createElement(_reactstrap.Input, { id: "edit-institution-address", defaultValue: this.props.institution.address,
                                 placeholder: "Address", className: "text-input" })
                         ),
                         _react2.default.createElement(
@@ -415,7 +415,7 @@ var EditInstitutionModal = function (_Component3) {
                                 { "for": "edit-institution-website" },
                                 "Website"
                             ),
-                            _react2.default.createElement(_reactstrap.Input, { id: "edit-institution-website", value: this.props.institution.website,
+                            _react2.default.createElement(_reactstrap.Input, { id: "edit-institution-website", defaultValue: this.props.institution.website,
                                 placeholder: "Website", className: "text-input" })
                         ),
                         _react2.default.createElement(
@@ -426,7 +426,7 @@ var EditInstitutionModal = function (_Component3) {
                                 { "for": "edit-institution-contact-person" },
                                 "Contact Person"
                             ),
-                            _react2.default.createElement(_reactstrap.Input, { id: "edit-institution-contact-person", value: this.props.institution.contactPersonName,
+                            _react2.default.createElement(_reactstrap.Input, { id: "edit-institution-contact-person", defaultValue: this.props.institution.contactPersonName,
                                 placeholder: "Name", className: "text-input" })
                         ),
                         _react2.default.createElement(
@@ -438,7 +438,7 @@ var EditInstitutionModal = function (_Component3) {
                                 "Contact Number"
                             ),
                             _react2.default.createElement(_reactstrap.Input, { id: "edit-institution-contact-number",
-                                value: this.props.institution.contactPersonNumber, placeholder: "Number",
+                                defaultValue: this.props.institution.contactPersonNumber, placeholder: "Number",
                                 className: "text-input" })
                         ),
                         _react2.default.createElement(
@@ -452,7 +452,7 @@ var EditInstitutionModal = function (_Component3) {
                             _react2.default.createElement(
                                 _reactstrap.Input,
                                 { type: "select", id: "edit-institution-agreement-type",
-                                    value: this.props.institution.agreement },
+                                    defaultValue: this.props.institution.agreement },
                                 _react2.default.createElement(
                                     "option",
                                     { value: "B" },
@@ -474,7 +474,7 @@ var EditInstitutionModal = function (_Component3) {
                         _reactstrap.Button,
                         { outline: true, color: "success", id: "edit-institution-modal-submit",
                             onClick: this.submitForm },
-                        "Add"
+                        "Edit"
                     )
                 )
             );

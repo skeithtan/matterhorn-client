@@ -50,7 +50,7 @@ function addValidation(object) {
         button.attr("disabled", buttonIsDisabled);
     }
 
-    button.attr("disabled", true);
+    validateInputs();
     inputs.on("input", validateInputs);
     customValidations.forEach(function (item) {
         return item.input.on("input", validateInputs);
