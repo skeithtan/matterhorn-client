@@ -74,10 +74,12 @@ var InstitutionDetail = function (_Component) {
     }, {
         key: "render",
         value: function render() {
+            //User has not selected yet, no activeInstitution ID
             if (this.state.institutionID === null) {
                 return InstitutionDetail.unselectedState();
             }
 
+            //User has already selected, but we haven't fetched it from the database yet
             if (this.state.institution === null) {
                 return _react2.default.createElement(_loading2.default, null);
             }
