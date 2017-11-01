@@ -16,6 +16,10 @@ var _institutions = require("./Institutions/institutions");
 
 var _institutions2 = _interopRequireDefault(_institutions);
 
+var _students = require("./Students/students");
+
+var _students2 = _interopRequireDefault(_students);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var tabs = [{
@@ -32,7 +36,7 @@ var tabs = [{
     image: "./images/airplane.png"
 }, {
     name: "Students",
-    tab: undefined,
+    tab: _react2.default.createElement(_students2.default, null),
     image: "./images/student.png"
 }];
 

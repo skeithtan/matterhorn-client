@@ -1,7 +1,7 @@
 import React from "react";
 import Home from "./home";
 import Institutions from "./Institutions/institutions";
-
+import Students from "./Students/students";
 
 const tabs = [
     {
@@ -21,7 +21,7 @@ const tabs = [
     },
     {
         name : "Students",
-        tab : undefined,
+        tab : <Students/>,
         image : "./images/student.png",
     },
 ];
