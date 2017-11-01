@@ -11,11 +11,19 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactstrap = require("reactstrap");
+var _form_validation = require("../../form_validation");
+
+var _form_validation2 = _interopRequireDefault(_form_validation);
 
 var _settings = require("../../settings");
 
 var _settings2 = _interopRequireDefault(_settings);
+
+var _jquery = require("jquery");
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+var _reactstrap = require("reactstrap");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -47,7 +55,10 @@ var AddInstitutionModal = function (_Component) {
 
             return _react2.default.createElement(
                 _reactstrap.Modal,
-                { isOpen: this.props.isOpen, toggle: this.props.toggle, backdrop: true },
+                { isOpen: this.props.isOpen, toggle: this.props.toggle, backdrop: true, id: "add-institution-modal",
+                    onOpened: function onOpened() {
+                        return AddInstitutionModal.addValidation();
+                    } },
                 _react2.default.createElement(
                     _reactstrap.ModalHeader,
                     { toggle: this.props.toggle },
@@ -67,7 +78,7 @@ var AddInstitutionModal = function (_Component) {
                                 { "for": "add-institution-name" },
                                 "Name"
                             ),
-                            _react2.default.createElement(_reactstrap.Input, { id: "add-institution-name", placeholder: "Institution Name" })
+                            _react2.default.createElement(_reactstrap.Input, { id: "add-institution-name", placeholder: "Institution Name", className: "text-input" })
                         ),
                         _react2.default.createElement(
                             _reactstrap.FormGroup,
@@ -91,7 +102,7 @@ var AddInstitutionModal = function (_Component) {
                                 { "for": "add-institution-email" },
                                 "Email"
                             ),
-                            _react2.default.createElement(_reactstrap.Input, { type: "email", id: "add-institution-email", placeholder: "Email" })
+                            _react2.default.createElement(_reactstrap.Input, { type: "email", id: "add-institution-email", placeholder: "Email", className: "text-input" })
                         ),
                         _react2.default.createElement(
                             _reactstrap.FormGroup,
@@ -101,7 +112,7 @@ var AddInstitutionModal = function (_Component) {
                                 { "for": "add-institution-address" },
                                 "Address"
                             ),
-                            _react2.default.createElement(_reactstrap.Input, { id: "add-institution-address", placeholder: "Address" })
+                            _react2.default.createElement(_reactstrap.Input, { id: "add-institution-address", placeholder: "Address", className: "text-input" })
                         ),
                         _react2.default.createElement(
                             _reactstrap.FormGroup,
@@ -111,7 +122,7 @@ var AddInstitutionModal = function (_Component) {
                                 { "for": "add-institution-website" },
                                 "Website"
                             ),
-                            _react2.default.createElement(_reactstrap.Input, { id: "add-institution-website", placeholder: "Website" })
+                            _react2.default.createElement(_reactstrap.Input, { id: "add-institution-website", placeholder: "Website", className: "text-input" })
                         ),
                         _react2.default.createElement(
                             _reactstrap.FormGroup,
@@ -121,7 +132,7 @@ var AddInstitutionModal = function (_Component) {
                                 { "for": "add-institution-contact-person" },
                                 "Contact Person"
                             ),
-                            _react2.default.createElement(_reactstrap.Input, { id: "add-institution-contact-person", placeholder: "Name" })
+                            _react2.default.createElement(_reactstrap.Input, { id: "add-institution-contact-person", placeholder: "Name", className: "text-input" })
                         ),
                         _react2.default.createElement(
                             _reactstrap.FormGroup,
@@ -131,7 +142,7 @@ var AddInstitutionModal = function (_Component) {
                                 { "for": "add-institution-contact-number" },
                                 "Contact Number"
                             ),
-                            _react2.default.createElement(_reactstrap.Input, { id: "add-institution-contact-number", placeholder: "Number" })
+                            _react2.default.createElement(_reactstrap.Input, { id: "add-institution-contact-number", placeholder: "Number", className: "text-input" })
                         )
                     )
                 ),
@@ -140,11 +151,27 @@ var AddInstitutionModal = function (_Component) {
                     null,
                     _react2.default.createElement(
                         _reactstrap.Button,
-                        { outline: true, color: "success" },
+                        { outline: true, color: "success", id: "add-institution-modal-submit" },
                         "Add"
                     )
                 )
             );
+        }
+    }], [{
+        key: "addValidation",
+        value: function addValidation() {
+            (0, _form_validation2.default)({
+                inputs: (0, _jquery2.default)("#add-institution-modal").find(".text-input"),
+                button: (0, _jquery2.default)("#add-institution-modal-submit"),
+                customValidations: [{
+                    input: (0, _jquery2.default)("#add-institution-email"),
+                    validator: function validator(email) {
+                        //This regex mess checks if email is a real email
+                        return (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
+                        );
+                    }
+                }]
+            });
         }
     }]);
 
