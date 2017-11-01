@@ -18,6 +18,8 @@ var _institution_detail = require("./institution_detail");
 
 var _institution_detail2 = _interopRequireDefault(_institution_detail);
 
+var _modals = require("./modals");
+
 var _graphql = require("../../graphql");
 
 var _graphql2 = _interopRequireDefault(_graphql);
@@ -46,22 +48,30 @@ var Institutions = function (_Component) {
         var _this = _possibleConstructorReturn(this, (Institutions.__proto__ || Object.getPrototypeOf(Institutions)).call(this, props));
 
         _this.state = {
-            institutionList: null, //TODO: Real data
-            filteredList: null,
-            activeInstitution: null
+            institutionList: null,
+            activeInstitution: null,
+            addInstitutionIsShowing: false
         };
 
         fetchInstitutions(function (response) {
-            return _this.setState({
+            _this.setState({
                 institutionList: response.data.countries
             });
         });
 
         _this.setActiveInstitution = _this.setActiveInstitution.bind(_this);
+        _this.toggleAddInstitution = _this.toggleAddInstitution.bind(_this);
         return _this;
     }
 
     _createClass(Institutions, [{
+        key: "toggleAddInstitution",
+        value: function toggleAddInstitution() {
+            this.setState({
+                addInstitutionIsShowing: !this.state.addInstitutionIsShowing
+            });
+        }
+    }, {
         key: "setActiveInstitution",
         value: function setActiveInstitution(institution) {
             this.setState({
@@ -71,17 +81,15 @@ var Institutions = function (_Component) {
     }, {
         key: "render",
         value: function render() {
-            var filteredList = this.state.filteredList;
-            var institutionList = this.state.institutionList;
-            var showingList = filteredList === null ? institutionList : filteredList;
-
             return _react2.default.createElement(
                 "div",
                 { className: "container-fluid d-flex flex-row p-0 h-100" },
-                _react2.default.createElement(_institution_list2.default, { institutions: showingList,
+                _react2.default.createElement(_institution_list2.default, { institutions: this.state.institutionList,
                     activeInstitution: this.state.activeInstitution,
-                    setActiveInstitution: this.setActiveInstitution }),
-                _react2.default.createElement(_institution_detail2.default, { institution: this.state.activeInstitution })
+                    setActiveInstitution: this.setActiveInstitution,
+                    toggleAddInstitution: this.toggleAddInstitution }),
+                _react2.default.createElement(_institution_detail2.default, { institution: this.state.activeInstitution }),
+                _react2.default.createElement(_modals.AddInstitutionModal, { isOpen: this.state.addInstitutionIsShowing, toggle: this.toggleAddInstitution })
             );
         }
     }]);

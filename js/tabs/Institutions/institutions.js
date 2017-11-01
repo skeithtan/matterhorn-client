@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import InstitutionList from "./institution_list";
 import InstitutionDetail from "./institution_detail";
+import { AddInstitutionModal } from "./modals";
 import graphql from "../../graphql";
 
 
@@ -26,16 +27,25 @@ class Institutions extends Component {
         super(props);
 
         this.state = {
-            institutionList : null, //TODO: Real data
-            filteredList : null,
+            institutionList : null,
             activeInstitution : null,
+            addInstitutionIsShowing : false,
         };
 
-        fetchInstitutions(response => this.setState({
-            institutionList : response.data.countries,
-        }));
+        fetchInstitutions(response => {
+            this.setState({
+                institutionList : response.data.countries,
+            });
+        });
 
         this.setActiveInstitution = this.setActiveInstitution.bind(this);
+        this.toggleAddInstitution = this.toggleAddInstitution.bind(this);
+    }
+
+    toggleAddInstitution() {
+        this.setState({
+            addInstitutionIsShowing : !this.state.addInstitutionIsShowing,
+        });
     }
 
     setActiveInstitution(institution) {
@@ -45,16 +55,14 @@ class Institutions extends Component {
     }
 
     render() {
-        const filteredList = this.state.filteredList;
-        const institutionList = this.state.institutionList;
-        const showingList = filteredList === null ? institutionList : filteredList;
-
         return (
             <div className="container-fluid d-flex flex-row p-0 h-100">
-                <InstitutionList institutions={showingList}
+                <InstitutionList institutions={this.state.institutionList}
                                  activeInstitution={this.state.activeInstitution}
-                                 setActiveInstitution={this.setActiveInstitution}/>
+                                 setActiveInstitution={this.setActiveInstitution}
+                                 toggleAddInstitution={this.toggleAddInstitution}/>
                 <InstitutionDetail institution={this.state.activeInstitution}/>
+                <AddInstitutionModal isOpen={this.state.addInstitutionIsShowing} toggle={this.toggleAddInstitution}/>
             </div>
         );
     }

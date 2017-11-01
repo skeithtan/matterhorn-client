@@ -183,5 +183,17 @@ var MemorandumsOfAgreement = function (_Component3) {
     return MemorandumsOfAgreement;
 }(_react.Component);
 
+var MemorandumVersionRow = function (_Component4) {
+    _inherits(MemorandumVersionRow, _Component4);
+
+    function MemorandumVersionRow() {
+        _classCallCheck(this, MemorandumVersionRow);
+
+        return _possibleConstructorReturn(this, (MemorandumVersionRow.__proto__ || Object.getPrototypeOf(MemorandumVersionRow)).apply(this, arguments));
+    }
+
+    return MemorandumVersionRow;
+}(_react.Component);
+
 exports.default = Memorandums;
 //# sourceMappingURL=memorandums.js.map

@@ -26,6 +26,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var activeInstitution = null;
 var setActiveInstitution = function setActiveInstitution(institution) {};
+var toggleAddInstitution = function toggleAddInstitution() {};
 
 var InstitutionList = function (_Component) {
     _inherits(InstitutionList, _Component);
@@ -36,19 +37,76 @@ var InstitutionList = function (_Component) {
         var _this = _possibleConstructorReturn(this, (InstitutionList.__proto__ || Object.getPrototypeOf(InstitutionList)).call(this, props));
 
         setActiveInstitution = props.setActiveInstitution;
+        toggleAddInstitution = props.toggleAddInstitution;
+
+        _this.state = {
+            allInstitutions: props.institutions,
+            filteredInstitutions: null
+        };
+
+        _this.filterInstitutions = _this.filterInstitutions.bind(_this);
         return _this;
     }
 
     _createClass(InstitutionList, [{
+        key: "componentWillReceiveProps",
+        value: function componentWillReceiveProps(nextProps) {
+            this.setState({
+                allInstitutions: nextProps.institutions
+            });
+        }
+    }, {
+        key: "filterInstitutions",
+        value: function filterInstitutions(searchString) {
+            // Case insensitive search
+            var search = searchString.toLowerCase();
+
+            // No search item means they don't want to filter
+            if (search.length === 0) {
+                this.setState({
+                    filteredInstitutions: null
+                });
+
+                return;
+            }
+
+            var filtered = [];
+
+            this.state.allInstitutions.forEach(function (country) {
+                // Array of institutions from this country that conforms to search
+                var countryFiltered = country.institutionSet.filter(function (institution) {
+                    var institutionName = institution.name.toLowerCase();
+                    return institutionName.includes(search);
+                });
+
+                // If country has no matching institutions, don't include in search results
+                if (countryFiltered.length > 0) {
+
+                    // Create new country object so as not to affect actual country object
+                    filtered.push({
+                        name: country.name,
+                        institutionSet: countryFiltered
+                    });
+                }
+            });
+
+            this.setState({
+                filteredInstitutions: filtered
+            });
+        }
+    }, {
         key: "render",
         value: function render() {
             activeInstitution = this.props.activeInstitution;
+            var hasFilter = this.state.filteredInstitutions !== null;
+            var showingInstitutions = hasFilter ? this.state.filteredInstitutions : this.state.allInstitutions;
 
             return _react2.default.createElement(
                 "div",
                 { className: "sidebar h-100", id: "institution-list" },
-                _react2.default.createElement(InstitutionListHead, null),
-                _react2.default.createElement(InstitutionListTable, { countries: this.props.institutions,
+                _react2.default.createElement(InstitutionListHead, { filterInstitutions: this.filterInstitutions }),
+                _react2.default.createElement(InstitutionListTable, { countries: showingInstitutions,
+                    hasFilter: hasFilter,
                     setActiveInstitution: this.props.setActiveInstitution })
             );
         }
@@ -63,10 +121,19 @@ var InstitutionListHead = function (_Component2) {
     function InstitutionListHead(props) {
         _classCallCheck(this, InstitutionListHead);
 
-        return _possibleConstructorReturn(this, (InstitutionListHead.__proto__ || Object.getPrototypeOf(InstitutionListHead)).call(this, props));
+        var _this2 = _possibleConstructorReturn(this, (InstitutionListHead.__proto__ || Object.getPrototypeOf(InstitutionListHead)).call(this, props));
+
+        _this2.onSearchInputChange = _this2.onSearchInputChange.bind(_this2);
+        return _this2;
     }
 
     _createClass(InstitutionListHead, [{
+        key: "onSearchInputChange",
+        value: function onSearchInputChange(event) {
+            var searchInput = event.target.value;
+            this.props.filterInstitutions(searchInput);
+        }
+    }, {
         key: "render",
         value: function render() {
             return _react2.default.createElement(
@@ -77,7 +144,8 @@ var InstitutionListHead = function (_Component2) {
                     { className: "page-head-controls" },
                     _react2.default.createElement(
                         _reactstrap.Button,
-                        { outline: true, color: "success", size: "sm", className: "ml-auto" },
+                        { outline: true, color: "success", size: "sm", className: "ml-auto",
+                            onClick: toggleAddInstitution },
                         "Add"
                     )
                 ),
@@ -86,7 +154,7 @@ var InstitutionListHead = function (_Component2) {
                     { className: "page-head-title" },
                     "Institutions"
                 ),
-                _react2.default.createElement(_reactstrap.Input, { placeholder: "Search", className: "search-input mt-2" })
+                _react2.default.createElement(_reactstrap.Input, { placeholder: "Search", className: "search-input mt-2", onChange: this.onSearchInputChange })
             );
         }
     }]);
@@ -111,7 +179,7 @@ var InstitutionListTable = function (_Component3) {
             }
 
             if (this.props.countries.length === 0) {
-                return InstitutionListTable.emptyState();
+                return this.props.hasFilter ? InstitutionListTable.noResultsState() : InstitutionListTable.emptyState();
             }
 
             var sections = this.props.countries.map(function (country, index) {
@@ -126,7 +194,40 @@ var InstitutionListTable = function (_Component3) {
         }
     }], [{
         key: "emptyState",
-        value: function emptyState() {}
+        value: function emptyState() {
+            return _react2.default.createElement(
+                "div",
+                { className: "loading-container" },
+                _react2.default.createElement(
+                    "h4",
+                    null,
+                    "There's nothing here."
+                ),
+                _react2.default.createElement(
+                    "p",
+                    null,
+                    "When added, Institutions will show up here."
+                ),
+                _react2.default.createElement(
+                    _reactstrap.Button,
+                    { outline: true, color: "success", onClick: toggleAddInstitution },
+                    "Add an Institution"
+                )
+            );
+        }
+    }, {
+        key: "noResultsState",
+        value: function noResultsState() {
+            return _react2.default.createElement(
+                "div",
+                { className: "loading-container" },
+                _react2.default.createElement(
+                    "h3",
+                    null,
+                    "No results found"
+                )
+            );
+        }
     }]);
 
     return InstitutionListTable;

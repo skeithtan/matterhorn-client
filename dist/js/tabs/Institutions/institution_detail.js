@@ -18,8 +18,6 @@ var _loading2 = _interopRequireDefault(_loading);
 
 var _institution_detail_overview = require("./institution_detail_overview");
 
-var _institution_detail_overview2 = _interopRequireDefault(_institution_detail_overview);
-
 var _memorandums = require("./memorandums");
 
 var _memorandums2 = _interopRequireDefault(_memorandums);
@@ -76,7 +74,6 @@ var InstitutionDetail = function (_Component) {
     }, {
         key: "render",
         value: function render() {
-            console.log(this.state);
             if (this.state.institutionID === null) {
                 return InstitutionDetail.unselectedState();
             }
@@ -141,7 +138,7 @@ var InstitutionDetailHead = function (_Component2) {
                 ),
                 _react2.default.createElement(
                     "div",
-                    null,
+                    { id: "institution-actions" },
                     _react2.default.createElement(
                         _reactstrap.Button,
                         { outline: true, size: "sm", color: "success", className: "mr-2" },
@@ -175,7 +172,8 @@ var InstitutionDetailBody = function (_Component3) {
             return _react2.default.createElement(
                 "div",
                 { className: "page-body" },
-                _react2.default.createElement(_institution_detail_overview2.default, { institution: this.props.institution }),
+                _react2.default.createElement(_institution_detail_overview.InstitutionDetailOverview, { institution: this.props.institution }),
+                _react2.default.createElement(_institution_detail_overview.InstitutionContact, { institution: this.props.institution }),
                 _react2.default.createElement(_memorandums2.default, null)
             );
         }

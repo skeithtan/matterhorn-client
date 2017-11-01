@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Button } from "reactstrap";
 import LoadingSpinner from "../../loading";
-import InstitutionDetailOverview from "./institution_detail_overview";
+import {InstitutionDetailOverview, InstitutionContact} from "./institution_detail_overview";
 import Memorandums from "./memorandums";
 import graphql from "../../graphql";
 
@@ -59,7 +59,6 @@ class InstitutionDetail extends Component {
 
 
     render() {
-        console.log(this.state);
         if (this.state.institutionID === null) {
             return InstitutionDetail.unselectedState();
         }
@@ -90,7 +89,7 @@ class InstitutionDetailHead extends Component {
                     <h4 className="text-muted d-inline-block font-weight-normal mb-0">{this.props.institution.country.name}</h4>
                 </div>
 
-                <div>
+                <div id="institution-actions">
                     <Button outline size="sm" color="success" className="mr-2">Edit Institution</Button>
                     <Button outline size="sm" color="danger">Delete</Button>
                 </div>
@@ -108,6 +107,8 @@ class InstitutionDetailBody extends Component {
         return (
             <div className="page-body">
                 <InstitutionDetailOverview institution={this.props.institution}/>
+                <InstitutionContact institution={this.props.institution}/>
+
                 <Memorandums/>
             </div>
         );

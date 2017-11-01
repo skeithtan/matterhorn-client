@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.InstitutionContact = exports.InstitutionDetailOverview = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -47,10 +48,7 @@ var InstitutionDetailOverview = function (_Component) {
                     null,
                     _react2.default.createElement(InstitutionDetailRow, { fieldName: "Email", fieldValue: institution.email }),
                     _react2.default.createElement(InstitutionDetailRow, { fieldName: "Address", fieldValue: institution.address }),
-                    _react2.default.createElement(InstitutionDetailRow, { fieldName: "Website", fieldValue: institution.website }),
-                    _react2.default.createElement(InstitutionDetailRow, { fieldName: "Contact Person", fieldValue: institution.contactPersonName }),
-                    _react2.default.createElement(InstitutionDetailRow, { fieldName: "Contact Person Number",
-                        fieldValue: institution.contactPersonNumber })
+                    _react2.default.createElement(InstitutionDetailRow, { fieldName: "Website", fieldValue: institution.website })
                 )
             );
         }
@@ -59,8 +57,44 @@ var InstitutionDetailOverview = function (_Component) {
     return InstitutionDetailOverview;
 }(_react.Component);
 
-var InstitutionDetailRow = function (_Component2) {
-    _inherits(InstitutionDetailRow, _Component2);
+var InstitutionContact = function (_Component2) {
+    _inherits(InstitutionContact, _Component2);
+
+    function InstitutionContact(props) {
+        _classCallCheck(this, InstitutionContact);
+
+        return _possibleConstructorReturn(this, (InstitutionContact.__proto__ || Object.getPrototypeOf(InstitutionContact)).call(this, props));
+    }
+
+    _createClass(InstitutionContact, [{
+        key: "render",
+        value: function render() {
+            var institution = this.props.institution;
+
+            return _react2.default.createElement(
+                "div",
+                null,
+                _react2.default.createElement(
+                    "small",
+                    { className: "section-title" },
+                    "Contact"
+                ),
+                _react2.default.createElement(
+                    _reactstrap.ListGroup,
+                    null,
+                    _react2.default.createElement(InstitutionDetailRow, { fieldName: "Contact Person", fieldValue: institution.contactPersonName }),
+                    _react2.default.createElement(InstitutionDetailRow, { fieldName: "Contact Phone Number",
+                        fieldValue: institution.contactPersonNumber })
+                )
+            );
+        }
+    }]);
+
+    return InstitutionContact;
+}(_react.Component);
+
+var InstitutionDetailRow = function (_Component3) {
+    _inherits(InstitutionDetailRow, _Component3);
 
     function InstitutionDetailRow(props) {
         _classCallCheck(this, InstitutionDetailRow);
@@ -91,5 +125,6 @@ var InstitutionDetailRow = function (_Component2) {
     return InstitutionDetailRow;
 }(_react.Component);
 
-exports.default = InstitutionDetailOverview;
+exports.InstitutionDetailOverview = InstitutionDetailOverview;
+exports.InstitutionContact = InstitutionContact;
 //# sourceMappingURL=institution_detail_overview.js.map

@@ -104,4 +104,8 @@ class MemorandumsOfAgreement extends Component {
     }
 }
 
+class MemorandumVersionRow extends Component {
+    //TODO
+}
+
 export default Memorandums;
