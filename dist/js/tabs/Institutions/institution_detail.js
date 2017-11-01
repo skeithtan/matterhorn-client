@@ -10,11 +10,19 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactstrap = require("reactstrap");
+
 var _loading = require("../../loading");
 
 var _loading2 = _interopRequireDefault(_loading);
 
-var _reactstrap = require("reactstrap");
+var _institution_detail_overview = require("./institution_detail_overview");
+
+var _institution_detail_overview2 = _interopRequireDefault(_institution_detail_overview);
+
+var _memorandums = require("./memorandums");
+
+var _memorandums2 = _interopRequireDefault(_memorandums);
 
 var _graphql = require("../../graphql");
 
@@ -167,83 +175,13 @@ var InstitutionDetailBody = function (_Component3) {
             return _react2.default.createElement(
                 "div",
                 { className: "page-body" },
-                _react2.default.createElement(InstitutionDetailOverview, { institution: this.props.institution })
+                _react2.default.createElement(_institution_detail_overview2.default, { institution: this.props.institution }),
+                _react2.default.createElement(_memorandums2.default, null)
             );
         }
     }]);
 
     return InstitutionDetailBody;
-}(_react.Component);
-
-var InstitutionDetailOverview = function (_Component4) {
-    _inherits(InstitutionDetailOverview, _Component4);
-
-    function InstitutionDetailOverview(props) {
-        _classCallCheck(this, InstitutionDetailOverview);
-
-        return _possibleConstructorReturn(this, (InstitutionDetailOverview.__proto__ || Object.getPrototypeOf(InstitutionDetailOverview)).call(this, props));
-    }
-
-    _createClass(InstitutionDetailOverview, [{
-        key: "render",
-        value: function render() {
-            var institution = this.props.institution;
-
-            return _react2.default.createElement(
-                "div",
-                null,
-                _react2.default.createElement(
-                    "small",
-                    { className: "section-title" },
-                    "Institution details"
-                ),
-                _react2.default.createElement(
-                    _reactstrap.ListGroup,
-                    null,
-                    _react2.default.createElement(InstitutionDetailRow, { fieldName: "Email", fieldValue: institution.email }),
-                    _react2.default.createElement(InstitutionDetailRow, { fieldName: "Address", fieldValue: institution.address }),
-                    _react2.default.createElement(InstitutionDetailRow, { fieldName: "Website", fieldValue: institution.website }),
-                    _react2.default.createElement(InstitutionDetailRow, { fieldName: "Contact Person", fieldValue: institution.contactPersonName }),
-                    _react2.default.createElement(InstitutionDetailRow, { fieldName: "Contact Person Number",
-                        fieldValue: institution.contactPersonNumber })
-                )
-            );
-        }
-    }]);
-
-    return InstitutionDetailOverview;
-}(_react.Component);
-
-var InstitutionDetailRow = function (_Component5) {
-    _inherits(InstitutionDetailRow, _Component5);
-
-    function InstitutionDetailRow(props) {
-        _classCallCheck(this, InstitutionDetailRow);
-
-        return _possibleConstructorReturn(this, (InstitutionDetailRow.__proto__ || Object.getPrototypeOf(InstitutionDetailRow)).call(this, props));
-    }
-
-    _createClass(InstitutionDetailRow, [{
-        key: "render",
-        value: function render() {
-            return _react2.default.createElement(
-                _reactstrap.ListGroupItem,
-                null,
-                _react2.default.createElement(
-                    "small",
-                    { className: "font-weight-bold" },
-                    this.props.fieldName
-                ),
-                _react2.default.createElement(
-                    "p",
-                    { className: "m-0" },
-                    this.props.fieldValue
-                )
-            );
-        }
-    }]);
-
-    return InstitutionDetailRow;
 }(_react.Component);
 
 exports.default = InstitutionDetail;
