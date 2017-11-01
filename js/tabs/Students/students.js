@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import graphql from "../../graphql";
 import StudentList from "./student_list";
+import StudentDetail from "./student_detail";
 
 
 function fetchStudents(onResponse) {
@@ -8,69 +9,14 @@ function fetchStudents(onResponse) {
         query : `
         {
             students {
-                kind
-                idNumber
-                college
                 familyName
                 firstName
                 middleName
-                nickname
-                nationality
-                homeAddress
-                phoneNumber
-                birthDate
-                sex
-                emergencyContactName
-                emergencyContactNumber
-                email
-                civilStatus
             }
         }
         `,
         onResponse : onResponse,
     });
-}
-
-function sortStudents(students) {
-    let familyNames = {};
-    students.forEach(student => {
-        const firstLetter = student.familyName[0];
-        if (familyNames[firstLetter] === undefined) {
-            familyNames[firstLetter] = [student];
-        } else {
-            familyNames[firstLetter].push(student);
-        }
-    });
-
-    let letters = [];
-    for (let key in familyNames) {
-        if (familyNames.hasOwnProperty(key)) {
-            letters.push(key);
-        }
-    }
-
-    letters.sort((a, b) => {
-        //Alphabetically
-        if (a < b) {
-            return -1;
-        }
-        if (a > b) {
-            return 1;
-        }
-        return 0;
-    });
-
-    let sorted = [];
-
-    letters.forEach(letter => {
-        const students = familyNames[letter];
-        sorted.push({
-            letter : letter,
-            students : students,
-        });
-    });
-
-    return sorted;
 }
 
 class Students extends Component {
@@ -84,15 +30,24 @@ class Students extends Component {
 
         fetchStudents(response => {
             this.setState({
-                studentList : response.data,
+                // If I put .students it returns null?
+                // I'm assuming there's something wrong with my query or this.
+                studentList: response.data,
             });
+        });
+    }
+
+    setActiveStudent(student) {
+        this.setState({
+            activeStudent: student,
         });
     }
 
     render() {
         return (
             <div className="container-fluid d-flex flex-row p-0 h-100">
-                <StudentList students={this.state.studentList}/>
+                <StudentList students={this.state.studentList} setActiveStudent={this.setActiveStudent}/>
+                <StudentDetail student={this.state.activeStudent}/>
             </div>
         );
     }

@@ -18,6 +18,10 @@ var _student_list = require("./student_list");
 
 var _student_list2 = _interopRequireDefault(_student_list);
 
+var _student_detail = require("./student_detail");
+
+var _student_detail2 = _interopRequireDefault(_student_detail);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -28,51 +32,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function fetchStudents(onResponse) {
     (0, _graphql2.default)({
-        query: "\n        {\n            students {\n                kind\n                idNumber\n                college\n                familyName\n                firstName\n                middleName\n                nickname\n                nationality\n                homeAddress\n                phoneNumber\n                birthDate\n                sex\n                emergencyContactName\n                emergencyContactNumber\n                email\n                civilStatus\n            }\n        }\n        ",
+        query: "\n        {\n            students {\n                familyName\n                firstName\n                middleName\n            }\n        }\n        ",
         onResponse: onResponse
     });
-}
-
-function sortStudents(students) {
-    var familyNames = {};
-    students.forEach(function (student) {
-        var firstLetter = student.familyName[0];
-        if (familyNames[firstLetter] === undefined) {
-            familyNames[firstLetter] = [student];
-        } else {
-            familyNames[firstLetter].push(student);
-        }
-    });
-
-    var letters = [];
-    for (var key in familyNames) {
-        if (familyNames.hasOwnProperty(key)) {
-            letters.push(key);
-        }
-    }
-
-    letters.sort(function (a, b) {
-        //Alphabetically
-        if (a < b) {
-            return -1;
-        }
-        if (a > b) {
-            return 1;
-        }
-        return 0;
-    });
-
-    var sorted = [];
-
-    letters.forEach(function (letter) {
-        var students = familyNames[letter];
-        sorted.push({
-            letter: letter,
-            students: students
-        });
-    });
-
-    return sorted;
 }
 
 var Students = function (_Component) {
@@ -90,6 +52,8 @@ var Students = function (_Component) {
 
         fetchStudents(function (response) {
             _this.setState({
+                // If I put .students it returns null?
+                // I'm assuming there's something wrong with my query or this.
                 studentList: response.data
             });
         });
@@ -97,12 +61,20 @@ var Students = function (_Component) {
     }
 
     _createClass(Students, [{
+        key: "setActiveStudent",
+        value: function setActiveStudent(student) {
+            this.setState({
+                activeStudent: student
+            });
+        }
+    }, {
         key: "render",
         value: function render() {
             return _react2.default.createElement(
                 "div",
                 { className: "container-fluid d-flex flex-row p-0 h-100" },
-                _react2.default.createElement(_student_list2.default, { students: this.state.studentList })
+                _react2.default.createElement(_student_list2.default, { students: this.state.studentList, setActiveStudent: this.setActiveStudent }),
+                _react2.default.createElement(_student_detail2.default, { student: this.state.activeStudent })
             );
         }
     }]);
