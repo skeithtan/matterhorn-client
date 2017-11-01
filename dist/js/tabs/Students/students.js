@@ -52,7 +52,9 @@ var Students = function (_Component) {
 
         fetchStudents(function (response) {
             _this.setState({
-                studentList: response.data.students
+                // If I put .students it returns null?
+                // I'm assuming there's something wrong with my query or this.
+                studentList: response.data
             });
         });
         return _this;

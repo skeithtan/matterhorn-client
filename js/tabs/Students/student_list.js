@@ -8,20 +8,6 @@ import {
 
 let activeStudent = null;
 
-function sortStudents(students) {
-    let sorted = {};
-    students.forEach(student => {
-        const firstLetter = student.familyName[0];
-        if (sorted[firstLetter] === undefined) {
-            sorted[firstLetter] = [student];
-        } else {
-            sorted[firstLetter].push(student);
-        }
-    });
-
-    return sorted;
-}
-
 class StudentList extends Component {
     constructor(props) {
         super(props);
@@ -78,7 +64,7 @@ class StudentListTable extends Component {
 
     static emptyState() {
         return (
-            <div>
+            <div className="loading-container">
                 <h4>There's nothing here.</h4>
                 <p>When added, Students will show up here.</p>
                 <Button outline color="success">Add a Student</Button>
@@ -87,6 +73,12 @@ class StudentListTable extends Component {
     }
 
     render() {
+        // Pretty sure this will be changed.
+        // There's no dummy data so this will be it for now.
+        if (this.props.students === null) {
+            return StudentListTable.emptyState();
+        }
+
         return (
             <div className="page-body">
                 <StudentSection/>

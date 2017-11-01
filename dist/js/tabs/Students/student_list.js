@@ -22,20 +22,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var activeStudent = null;
 
-function sortStudents(students) {
-    var sorted = {};
-    students.forEach(function (student) {
-        var firstLetter = student.familyName[0];
-        if (sorted[firstLetter] === undefined) {
-            sorted[firstLetter] = [student];
-        } else {
-            sorted[firstLetter].push(student);
-        }
-    });
-
-    return sorted;
-}
-
 var StudentList = function (_Component) {
     _inherits(StudentList, _Component);
 
@@ -137,6 +123,12 @@ var StudentListTable = function (_Component3) {
     _createClass(StudentListTable, [{
         key: "render",
         value: function render() {
+            // Pretty sure this will be changed.
+            // There's no dummy data so this will be it for now.
+            if (this.props.students === null) {
+                return StudentListTable.emptyState();
+            }
+
             return _react2.default.createElement(
                 "div",
                 { className: "page-body" },
@@ -148,7 +140,7 @@ var StudentListTable = function (_Component3) {
         value: function emptyState() {
             return _react2.default.createElement(
                 "div",
-                null,
+                { className: "loading-container" },
                 _react2.default.createElement(
                     "h4",
                     null,

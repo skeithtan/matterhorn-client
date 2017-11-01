@@ -12,6 +12,10 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactstrap = require("reactstrap");
 
+var _graphql = require("../../graphql");
+
+var _graphql2 = _interopRequireDefault(_graphql);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -21,7 +25,10 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 function fetchStudent(id, onResponse) {
-    // Query goes here
+    (0, _graphql2.default)({
+        query: "\n        {\n            student(id:" + id + ") {\n                category\n                idNumber\n                college\n                familyName\n                firstName\n                middleName\n                nickname\n                nationality\n                homeAddress\n                phoneNumber\n                birthDate\n                gender\n                emergencyContactName\n                emergencyContactRelationship\n                emergencyContactNumber\n                email\n                civilStatus\n            }\n        }\n       ",
+        onResponse: onResponse
+    });
 }
 
 var StudentDetail = function (_Component) {
@@ -40,12 +47,44 @@ var StudentDetail = function (_Component) {
     }
 
     _createClass(StudentDetail, [{
+        key: "componentWillReceiveProps",
+        value: function componentWillReceiveProps(nextProps) {
+            var student = nextProps.student;
+
+            if (student === null) {
+                this.setState({
+                    student: null,
+                    studentID: null
+                });
+
+                return;
+            }
+
+            this.setState({
+                studentID: student.studentID
+            });
+        }
+    }, {
         key: "render",
         value: function render() {
             return _react2.default.createElement(
                 "div",
                 { id: "student-detail", className: "container-fluid d-flex flex-column p-0" },
-                _react2.default.createElement(StudentDetailHead, null)
+                _react2.default.createElement(StudentDetailHead, { student: this.state.student }),
+                _react2.default.createElement(StudentDetailBody, { student: this.state.student })
+            );
+        }
+    }], [{
+        key: "unselectedState",
+        value: function unselectedState() {
+            return _react2.default.createElement(
+                "div",
+                { className: "loading-container" },
+                _react2.default.createElement(
+                    "h3",
+                    null,
+                    "Select a student to see its details"
+                )
             );
         }
     }]);
@@ -74,12 +113,12 @@ var StudentDetailHead = function (_Component2) {
                     _react2.default.createElement(
                         "h4",
                         { className: "page-head-title justify-content-left d-inline-block mb-0 mr-2" },
-                        "Student Name"
+                        "Name"
                     ),
                     _react2.default.createElement(
                         "h4",
                         { className: "text-muted d-inline-block font-weight-normal mb-0" },
-                        "Student ID Number"
+                        "ID Number"
                     )
                 ),
                 _react2.default.createElement(
@@ -101,6 +140,25 @@ var StudentDetailHead = function (_Component2) {
     }]);
 
     return StudentDetailHead;
+}(_react.Component);
+
+var StudentDetailBody = function (_Component3) {
+    _inherits(StudentDetailBody, _Component3);
+
+    function StudentDetailBody(props) {
+        _classCallCheck(this, StudentDetailBody);
+
+        return _possibleConstructorReturn(this, (StudentDetailBody.__proto__ || Object.getPrototypeOf(StudentDetailBody)).call(this, props));
+    }
+
+    _createClass(StudentDetailBody, [{
+        key: "render",
+        value: function render() {
+            return _react2.default.createElement("div", { className: "page-body" });
+        }
+    }]);
+
+    return StudentDetailBody;
 }(_react.Component);
 
 exports.default = StudentDetail;
