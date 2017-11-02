@@ -50,10 +50,13 @@ var StudentDetail = function (_Component) {
         _this.state = {
             student: null,
             studentID: null,
-            deleteStudentIsShowing: false
+            deleteStudentIsShowing: false,
+            editStudentIsShowing: false
         };
 
         _this.toggleDeleteStudent = _this.toggleDeleteStudent.bind(_this);
+        _this.toggleEditStudent = _this.toggleEditStudent.bind(_this);
+        _this.onEditStudent = _this.onEditStudent.bind(_this);
         return _this;
     }
 
@@ -65,9 +68,33 @@ var StudentDetail = function (_Component) {
             });
         }
     }, {
+        key: "toggleEditStudent",
+        value: function toggleEditStudent() {
+            this.setState({
+                editStudentIsShowing: !this.state.editStudentIsShowing
+            });
+        }
+    }, {
+        key: "onEditStudent",
+        value: function onEditStudent() {
+            var _this2 = this;
+
+            this.setState({
+                student: null
+            });
+
+            fetchStudent(this.state.studentID, function (response) {
+                var student = response.data.student;
+                _this2.setState({
+                    student: student
+                });
+                _this2.props.refreshStudents();
+            });
+        }
+    }, {
         key: "componentWillReceiveProps",
         value: function componentWillReceiveProps(nextProps) {
-            var _this2 = this;
+            var _this3 = this;
 
             var student = nextProps.student;
 
@@ -86,7 +113,7 @@ var StudentDetail = function (_Component) {
             });
 
             fetchStudent(student.idNumber, function (response) {
-                _this2.setState({
+                _this3.setState({
                     student: response.data.student
                 });
             });
@@ -106,13 +133,18 @@ var StudentDetail = function (_Component) {
                 "div",
                 { id: "student-detail", className: "container-fluid d-flex flex-column p-0" },
                 _react2.default.createElement(StudentDetailHead, { student: this.state.student,
-                    toggleDeleteStudent: this.toggleDeleteStudent }),
+                    toggleDeleteStudent: this.toggleDeleteStudent,
+                    toggleEditStudent: this.toggleEditStudent }),
                 _react2.default.createElement(StudentDetailBody, { student: this.state.student }),
                 this.state.student !== null && //If activeStudent is not null
                 _react2.default.createElement(_modals.DeleteStudentModal, { isOpen: this.state.deleteStudentIsShowing,
                     student: this.state.student,
                     toggle: this.toggleDeleteStudent,
-                    refresh: this.props.onDeleteActiveStudent })
+                    refresh: this.props.onDeleteActiveStudent }),
+                this.state.student !== null && _react2.default.createElement(_modals.EditStudentModal, { isOpen: this.state.editStudentIsShowing,
+                    student: this.state.student,
+                    refresh: this.onEditStudent,
+                    toggle: this.toggleEditStudent })
             );
         }
     }], [{
@@ -171,7 +203,7 @@ var StudentDetailHead = function (_Component2) {
                     { className: "page-head-actions" },
                     _react2.default.createElement(
                         _reactstrap.Button,
-                        { outline: true, size: "sm", color: "success", className: "mr-2" },
+                        { outline: true, size: "sm", color: "success", className: "mr-2", onClick: this.props.toggleEditStudent },
                         "Edit Student"
                     ),
                     _react2.default.createElement(

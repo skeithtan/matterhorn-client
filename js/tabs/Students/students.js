@@ -78,6 +78,7 @@ class Students extends Component {
                 <StudentDetail student={this.state.activeStudent}
                                onDeleteActiveStudent={this.onDeleteActiveStudent}
                                refreshStudents={this.refreshStudents}/>
+
                 <AddStudentModal isOpen={this.state.addStudentIsShowing}
                                  toggle={this.toggleAddStudent}
                                  refresh={this.refreshStudents}/>

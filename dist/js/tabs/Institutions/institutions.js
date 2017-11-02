@@ -110,7 +110,8 @@ var Institutions = function (_Component) {
                 _react2.default.createElement(_institution_detail2.default, { institution: this.state.activeInstitution,
                     onDeleteActiveInstitution: this.onDeleteActiveInstitution,
                     refreshInstitutions: this.refreshInstitutions }),
-                _react2.default.createElement(_modals.AddInstitutionModal, { isOpen: this.state.addInstitutionIsShowing, toggle: this.toggleAddInstitution,
+                _react2.default.createElement(_modals.AddInstitutionModal, { isOpen: this.state.addInstitutionIsShowing,
+                    toggle: this.toggleAddInstitution,
                     refresh: this.refreshInstitutions })
             );
         }
