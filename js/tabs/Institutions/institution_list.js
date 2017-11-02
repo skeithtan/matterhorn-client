@@ -13,19 +13,11 @@ class InstitutionList extends Component {
         super(props);
 
         this.state = {
-            allInstitutions : props.institutions,
             searchKeyword : null,
-            filteredInstitutions : null,
         };
 
         this.setSearchKeyword = this.setSearchKeyword.bind(this);
         this.getFilteredInstitutions = this.getFilteredInstitutions.bind(this);
-    }
-
-    componentWillReceiveProps(nextProps) {
-        this.setState({
-            allInstitutions : nextProps.institutions,
-        });
     }
 
     setSearchKeyword(searchString) {
@@ -37,14 +29,14 @@ class InstitutionList extends Component {
     }
 
     getFilteredInstitutions() {
-        if (this.state.allInstitutions === null || this.state.searchKeyword === null) {
+        if (this.props.institutions === null || this.state.searchKeyword === null) {
             return [];
         }
 
         let filtered = [];
         const searchKeyword = this.state.searchKeyword.toLowerCase();
 
-        this.state.allInstitutions.forEach(country => {
+        this.props.institutions.forEach(country => {
             // Array of institutions from this country that conforms to search
             const countryFiltered = country.institutionSet.filter(institution => {
                 const institutionName = institution.name.toLowerCase();
@@ -66,16 +58,16 @@ class InstitutionList extends Component {
     }
 
     render() {
-        const hasFilter = this.state.searchKeyword !== null;
+        const isSearching = this.state.searchKeyword !== null;
         //Show all institutions or, if it has a filter, show the filtered?
-        const showingInstitutions = hasFilter ? this.getFilteredInstitutions() : this.state.allInstitutions;
+        const showingInstitutions = isSearching ? this.getFilteredInstitutions() : this.props.institutions;
 
         return (
             <div className="sidebar h-100" id="institution-list">
                 <InstitutionListHead setSearchKeyword={this.setSearchKeyword}
                                      toggleAddInstitution={this.props.toggleAddInstitution}/>
                 <InstitutionListTable countries={showingInstitutions}
-                                      hasFilter={hasFilter}
+                                      isSearching={isSearching}
                                       toggleAddInstitution={this.props.toggleAddInstitution}
                                       activeInstitution={this.props.activeInstitution}
                                       setActiveInstitution={this.props.setActiveInstitution}/>
@@ -103,7 +95,7 @@ class InstitutionListHead extends Component {
                             onClick={this.props.toggleAddInstitution}>Add</Button>
                 </div>
                 <h4 className="page-head-title">Institutions</h4>
-                <Input placeholder="Search" className="search-input mt-2" onChange={this.onSearchInputChange}/>
+                <Input placeholder="Search" className="search-input" onChange={this.onSearchInputChange}/>
             </div>
         );
     }
@@ -139,10 +131,10 @@ class InstitutionListTable extends Component {
             return <LoadingSpinner/>;
         }
 
-        //If we have a filter, that means there are simply no results if length == 0
-        //If we don't have a filter we really just don't have any data
+        //If we're searching, that means there are simply no results if length == 0
+        //If we're not searching, we really just don't have any data
         if (this.props.countries.length === 0) {
-            return this.props.hasFilter ? InstitutionListTable.noResultsState() : InstitutionListTable.emptyState();
+            return this.props.isSearching ? InstitutionListTable.noResultsState() : InstitutionListTable.emptyState();
         }
 
 

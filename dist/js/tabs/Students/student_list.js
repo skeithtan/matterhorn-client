@@ -30,17 +30,52 @@ var StudentList = function (_Component) {
     function StudentList(props) {
         _classCallCheck(this, StudentList);
 
-        return _possibleConstructorReturn(this, (StudentList.__proto__ || Object.getPrototypeOf(StudentList)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (StudentList.__proto__ || Object.getPrototypeOf(StudentList)).call(this, props));
+
+        _this.state = {
+            searchKeyword: null
+        };
+
+        _this.setSearchKeyword = _this.setSearchKeyword.bind(_this);
+        _this.getFilteredStudents = _this.getFilteredStudents.bind(_this);
+        return _this;
     }
 
     _createClass(StudentList, [{
+        key: "setSearchKeyword",
+        value: function setSearchKeyword(searchString) {
+            //If the string is empty, that means the user isn't searching at all
+            var searchKeyword = searchString === "" ? null : searchString;
+            this.setState({
+                searchKeyword: searchKeyword
+            });
+        }
+    }, {
+        key: "getFilteredStudents",
+        value: function getFilteredStudents() {
+            if (this.props.students === null || this.state.searchKeyword === null) {
+                return [];
+            }
+
+            var searchKeyword = this.state.searchKeyword.toLowerCase();
+
+            return this.props.students.filter(function (student) {
+                var fullName = (student.firstName + " " + student.middleName + " " + student.familyName).toLowerCase();
+                return fullName.includes(searchKeyword) || student.idNumber.includes(searchKeyword);
+            });
+        }
+    }, {
         key: "render",
         value: function render() {
+            var isSearching = this.state.searchKeyword !== null;
+            var showingStudents = isSearching ? this.getFilteredStudents() : this.props.students;
+
             return _react2.default.createElement(
                 "div",
                 { className: "sidebar h-100", id: "student-list" },
-                _react2.default.createElement(StudentListHead, null),
-                _react2.default.createElement(StudentListTable, { students: this.props.students, setActiveStudent: this.props.setActiveStudent })
+                _react2.default.createElement(StudentListHead, { setSearchKeyword: this.setSearchKeyword }),
+                _react2.default.createElement(StudentListTable, { students: showingStudents, setActiveStudent: this.props.setActiveStudent,
+                    isSearching: isSearching })
             );
         }
     }]);
@@ -54,10 +89,19 @@ var StudentListHead = function (_Component2) {
     function StudentListHead(props) {
         _classCallCheck(this, StudentListHead);
 
-        return _possibleConstructorReturn(this, (StudentListHead.__proto__ || Object.getPrototypeOf(StudentListHead)).call(this, props));
+        var _this2 = _possibleConstructorReturn(this, (StudentListHead.__proto__ || Object.getPrototypeOf(StudentListHead)).call(this, props));
+
+        _this2.onSearchInputChange = _this2.onSearchInputChange.bind(_this2);
+        return _this2;
     }
 
     _createClass(StudentListHead, [{
+        key: "onSearchInputChange",
+        value: function onSearchInputChange(event) {
+            var searchInput = event.target.value;
+            this.props.setSearchKeyword(searchInput);
+        }
+    }, {
         key: "render",
         value: function render() {
             return _react2.default.createElement(
@@ -91,7 +135,7 @@ var StudentListHead = function (_Component2) {
                     { className: "page-head-title" },
                     "Students"
                 ),
-                _react2.default.createElement(_reactstrap.Input, { placeholder: "Search", className: "search-input mt-2" })
+                _react2.default.createElement(_reactstrap.Input, { placeholder: "Search", className: "search-input", onChange: this.onSearchInputChange })
             );
         }
     }]);
@@ -108,10 +152,37 @@ var StudentListTable = function (_Component3) {
         var _this3 = _possibleConstructorReturn(this, (StudentListTable.__proto__ || Object.getPrototypeOf(StudentListTable)).call(this, props));
 
         _this3.getStudentsByFamilyNameInitials = _this3.getStudentsByFamilyNameInitials.bind(_this3);
+        _this3.emptyState = _this3.emptyState.bind(_this3);
         return _this3;
     }
 
+    // DO not make this static
+
+
     _createClass(StudentListTable, [{
+        key: "emptyState",
+        value: function emptyState() {
+            return _react2.default.createElement(
+                "div",
+                { className: "loading-container" },
+                _react2.default.createElement(
+                    "h4",
+                    null,
+                    "There's nothing here."
+                ),
+                _react2.default.createElement(
+                    "p",
+                    null,
+                    "When added, Students will show up here."
+                ),
+                _react2.default.createElement(
+                    _reactstrap.Button,
+                    { outline: true, color: "success" },
+                    "Add a Student"
+                )
+            );
+        }
+    }, {
         key: "getStudentsByFamilyNameInitials",
         value: function getStudentsByFamilyNameInitials() {
             var _this4 = this;
@@ -166,7 +237,7 @@ var StudentListTable = function (_Component3) {
             }
 
             if (this.props.students.length === 0) {
-                return StudentListTable.emptyState();
+                return this.props.isSearching ? StudentListTable.noResultsState() : this.emptyState();
             }
 
             var familyNameInitials = this.getStudentsByFamilyNameInitials();
@@ -183,25 +254,15 @@ var StudentListTable = function (_Component3) {
             );
         }
     }], [{
-        key: "emptyState",
-        value: function emptyState() {
+        key: "noResultsState",
+        value: function noResultsState() {
             return _react2.default.createElement(
                 "div",
                 { className: "loading-container" },
                 _react2.default.createElement(
-                    "h4",
+                    "h3",
                     null,
-                    "There's nothing here."
-                ),
-                _react2.default.createElement(
-                    "p",
-                    null,
-                    "When added, Students will show up here."
-                ),
-                _react2.default.createElement(
-                    _reactstrap.Button,
-                    { outline: true, color: "success" },
-                    "Add a Student"
+                    "No results found"
                 )
             );
         }
@@ -258,7 +319,6 @@ var StudentRow = function (_Component5) {
     _createClass(StudentRow, [{
         key: "render",
         value: function render() {
-            // Hardcoded, I can fix this later.
             var first = this.props.student.firstName;
             var middle = this.props.student.middleName;
             var familyName = this.props.student.familyName;

@@ -11,13 +11,45 @@ import {
 class StudentList extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            searchKeyword : null,
+        };
+
+        this.setSearchKeyword = this.setSearchKeyword.bind(this);
+        this.getFilteredStudents = this.getFilteredStudents.bind(this);
+    }
+
+    setSearchKeyword(searchString) {
+        //If the string is empty, that means the user isn't searching at all
+        const searchKeyword = searchString === "" ? null : searchString;
+        this.setState({
+            searchKeyword : searchKeyword,
+        });
+    }
+
+    getFilteredStudents() {
+        if (this.props.students === null || this.state.searchKeyword === null) {
+            return [];
+        }
+
+        const searchKeyword = this.state.searchKeyword.toLowerCase();
+
+        return this.props.students.filter(student => {
+            const fullName = `${student.firstName} ${student.middleName} ${student.familyName}`.toLowerCase();
+            return fullName.includes(searchKeyword) || student.idNumber.includes(searchKeyword);
+        });
     }
 
     render() {
+        const isSearching = this.state.searchKeyword !== null;
+        const showingStudents = isSearching ? this.getFilteredStudents() : this.props.students;
+
         return (
             <div className="sidebar h-100" id="student-list">
-                <StudentListHead/>
-                <StudentListTable students={this.props.students} setActiveStudent={this.props.setActiveStudent}/>
+                <StudentListHead setSearchKeyword={this.setSearchKeyword}/>
+                <StudentListTable students={showingStudents} setActiveStudent={this.props.setActiveStudent}
+                                  isSearching={isSearching}/>
             </div>
         );
     }
@@ -26,6 +58,12 @@ class StudentList extends Component {
 class StudentListHead extends Component {
     constructor(props) {
         super(props);
+        this.onSearchInputChange = this.onSearchInputChange.bind(this);
+    }
+
+    onSearchInputChange(event) {
+        const searchInput = event.target.value;
+        this.props.setSearchKeyword(searchInput);
     }
 
     render() {
@@ -39,7 +77,7 @@ class StudentListHead extends Component {
                     <Button outline color="success" size="sm" className="ml-4">Add</Button>
                 </div>
                 <h4 className="page-head-title">Students</h4>
-                <Input placeholder="Search" className="search-input mt-2"/>
+                <Input placeholder="Search" className="search-input" onChange={this.onSearchInputChange}/>
             </div>
         );
     }
@@ -49,14 +87,24 @@ class StudentListTable extends Component {
     constructor(props) {
         super(props);
         this.getStudentsByFamilyNameInitials = this.getStudentsByFamilyNameInitials.bind(this);
+        this.emptyState = this.emptyState.bind(this);
     }
 
-    static emptyState() {
+    // DO not make this static
+    emptyState() {
         return (
             <div className="loading-container">
                 <h4>There's nothing here.</h4>
                 <p>When added, Students will show up here.</p>
                 <Button outline color="success">Add a Student</Button>
+            </div>
+        );
+    }
+
+    static noResultsState() {
+        return (
+            <div className="loading-container">
+                <h3>No results found</h3>
             </div>
         );
     }
@@ -110,7 +158,7 @@ class StudentListTable extends Component {
         }
 
         if (this.props.students.length === 0) {
-            return StudentListTable.emptyState();
+            return this.props.isSearching ? StudentListTable.noResultsState() : this.emptyState();
         }
 
         const familyNameInitials = this.getStudentsByFamilyNameInitials();
@@ -156,7 +204,6 @@ class StudentRow extends Component {
     }
 
     render() {
-        // Hardcoded, I can fix this later.
         const first = this.props.student.firstName;
         const middle = this.props.student.middleName;
         const familyName = this.props.student.familyName;
