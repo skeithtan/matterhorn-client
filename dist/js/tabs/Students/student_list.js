@@ -48,7 +48,7 @@ var StudentList = function (_Component) {
                 "div",
                 { className: "sidebar h-100", id: "student-list" },
                 _react2.default.createElement(StudentListHead, null),
-                _react2.default.createElement(StudentListTable, { students: this.state.allStudents })
+                _react2.default.createElement(StudentListTable, { students: this.state.allStudents, setActiveStudent: this.props.setActiveStudent })
             );
         }
     }]);

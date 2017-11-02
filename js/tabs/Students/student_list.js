@@ -25,7 +25,7 @@ class StudentList extends Component {
         return (
             <div className="sidebar h-100" id="student-list">
                 <StudentListHead/>
-                <StudentListTable students={this.state.allStudents}/>
+                <StudentListTable students={this.state.allStudents} setActiveStudent={this.props.setActiveStudent}/>
             </div>
         );
     }

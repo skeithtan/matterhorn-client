@@ -46,13 +46,13 @@ var Students = function (_Component) {
         var _this = _possibleConstructorReturn(this, (Students.__proto__ || Object.getPrototypeOf(Students)).call(this, props));
 
         _this.state = {
-            studentList: null,
+            allStudents: null,
             activeStudent: null
         };
 
         fetchStudents(function (response) {
             _this.setState({
-                studentList: response.data.students
+                allStudents: response.data.students
             });
         });
         return _this;
@@ -71,7 +71,9 @@ var Students = function (_Component) {
             return _react2.default.createElement(
                 "div",
                 { className: "container-fluid d-flex flex-row p-0 h-100" },
-                _react2.default.createElement(_student_list2.default, { students: this.state.studentList, setActiveStudent: this.setActiveStudent }),
+                _react2.default.createElement(_student_list2.default, { students: this.state.allStudents,
+                    activeStudent: this.state.activeStudent,
+                    setActiveStudent: this.setActiveStudent }),
                 _react2.default.createElement(_student_detail2.default, { student: this.state.activeStudent })
             );
         }

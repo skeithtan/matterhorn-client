@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import graphql from "../../graphql";
 import StudentList from "./student_list";
 import StudentDetail from "./student_detail";
@@ -6,7 +6,7 @@ import StudentDetail from "./student_detail";
 
 function fetchStudents(onResponse) {
     graphql({
-        query : `
+        query: `
         {
             students {
                 familyName
@@ -15,7 +15,7 @@ function fetchStudents(onResponse) {
             }
         }
         `,
-        onResponse : onResponse,
+        onResponse: onResponse,
     });
 }
 
@@ -24,13 +24,13 @@ class Students extends Component {
         super(props);
 
         this.state = {
-            studentList : null,
-            activeStudent : null,
+            allStudents: null,
+            activeStudent: null,
         };
 
         fetchStudents(response => {
             this.setState({
-                studentList: response.data.students,
+                allStudents: response.data.students,
             });
         });
     }
@@ -44,7 +44,9 @@ class Students extends Component {
     render() {
         return (
             <div className="container-fluid d-flex flex-row p-0 h-100">
-                <StudentList students={this.state.studentList} setActiveStudent={this.setActiveStudent}/>
+                <StudentList students={this.state.allStudents}
+                             activeStudent={this.state.activeStudent}
+                             setActiveStudent={this.setActiveStudent}/>
                 <StudentDetail student={this.state.activeStudent}/>
             </div>
         );
