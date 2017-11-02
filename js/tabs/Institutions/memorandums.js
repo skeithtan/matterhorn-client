@@ -28,11 +28,11 @@ class Memorandums extends Component {
             const bTime = b.versionDate;
 
             if (aTime.isBefore(bTime)) {
-                return -1;
+                return 1;
             }
 
             if (aTime.isAfter(bTime)) {
-                return 1;
+                return -1;
             }
 
             return 0;
@@ -106,6 +106,7 @@ class MemorandumsOfUnderstanding extends Component {
         this.state = {
             latestMemorandum : null,
             previousMemorandums : [],
+            showingMemorandumId : null,
         };
 
         if (props.memorandums.length > 0) {
@@ -116,6 +117,8 @@ class MemorandumsOfUnderstanding extends Component {
 
         this.emptyState = this.emptyState.bind(this);
         this.getCollapseContent = this.getCollapseContent.bind(this);
+        this.memorandumIsShowing = this.memorandumIsShowing.bind(this);
+        this.makeMemorandumShowing = this.makeMemorandumShowing.bind(this);
     }
 
     emptyState() {
@@ -126,12 +129,51 @@ class MemorandumsOfUnderstanding extends Component {
         );
     }
 
+    makeMemorandumShowing(memorandum) {
+        // If there are no showing memorandums or if the memorandum showing is not the one clicked
+        if (this.state.showingMemorandumId === null || this.state.showingMemorandumId !== memorandum.id) {
+            this.setState({
+                showingMemorandumId : memorandum.id,
+            });
+        } else {
+            // If the showing memorandum is clicked, collapse it
+            this.setState({
+                showingMemorandumId : null,
+            });
+        }
+    }
+
+    memorandumIsShowing(memorandum) {
+        if (this.state.showingMemorandumId === null) {
+            return false;
+        }
+
+        return this.state.showingMemorandumId === memorandum.id;
+    }
+
     getCollapseContent() {
         if (this.state.latestMemorandum === null) {
             return this.emptyState();
         }
 
+        const previousMemorandums = this.state.previousMemorandums.map(memorandum => {
+            return <MemorandumRow memorandum={memorandum} isOpen={this.memorandumIsShowing(memorandum)}
+                                  toggle={() => this.makeMemorandumShowing(memorandum)}/>;
+        });
 
+        const hasPreviousMemorandums = previousMemorandums.length !== 0;
+
+        return (
+            <CardBody className="pt-0">
+                <small className="section-title">Latest Memorandum</small>
+                <MemorandumRow memorandum={this.state.latestMemorandum}
+                               isOpen={this.memorandumIsShowing(this.state.latestMemorandum)}
+                               toggle={() => this.makeMemorandumShowing(this.state.latestMemorandum)}/>
+
+                {hasPreviousMemorandums && <small className="section-title">Previous Memorandums</small>}
+                {previousMemorandums}
+            </CardBody>
+        );
     }
 
     render() {

@@ -45,11 +45,11 @@ var Memorandums = function (_Component) {
             var bTime = b.versionDate;
 
             if (aTime.isBefore(bTime)) {
-                return -1;
+                return 1;
             }
 
             if (aTime.isAfter(bTime)) {
-                return 1;
+                return -1;
             }
 
             return 0;
@@ -144,7 +144,8 @@ var MemorandumsOfUnderstanding = function (_Component2) {
 
         _this2.state = {
             latestMemorandum: null,
-            previousMemorandums: []
+            previousMemorandums: [],
+            showingMemorandumId: null
         };
 
         if (props.memorandums.length > 0) {
@@ -155,6 +156,8 @@ var MemorandumsOfUnderstanding = function (_Component2) {
 
         _this2.emptyState = _this2.emptyState.bind(_this2);
         _this2.getCollapseContent = _this2.getCollapseContent.bind(_this2);
+        _this2.memorandumIsShowing = _this2.memorandumIsShowing.bind(_this2);
+        _this2.makeMemorandumShowing = _this2.makeMemorandumShowing.bind(_this2);
         return _this2;
     }
 
@@ -172,11 +175,67 @@ var MemorandumsOfUnderstanding = function (_Component2) {
             );
         }
     }, {
+        key: "makeMemorandumShowing",
+        value: function makeMemorandumShowing(memorandum) {
+            // If there are no showing memorandums or if the memorandum showing is not the one clicked
+            if (this.state.showingMemorandumId === null || this.state.showingMemorandumId !== memorandum.id) {
+                this.setState({
+                    showingMemorandumId: memorandum.id
+                });
+            } else {
+                // If the showing memorandum is clicked, collapse it
+                this.setState({
+                    showingMemorandumId: null
+                });
+            }
+        }
+    }, {
+        key: "memorandumIsShowing",
+        value: function memorandumIsShowing(memorandum) {
+            if (this.state.showingMemorandumId === null) {
+                return false;
+            }
+
+            return this.state.showingMemorandumId === memorandum.id;
+        }
+    }, {
         key: "getCollapseContent",
         value: function getCollapseContent() {
+            var _this3 = this;
+
             if (this.state.latestMemorandum === null) {
                 return this.emptyState();
             }
+
+            var previousMemorandums = this.state.previousMemorandums.map(function (memorandum) {
+                return _react2.default.createElement(MemorandumRow, { memorandum: memorandum, isOpen: _this3.memorandumIsShowing(memorandum),
+                    toggle: function toggle() {
+                        return _this3.makeMemorandumShowing(memorandum);
+                    } });
+            });
+
+            var hasPreviousMemorandums = previousMemorandums.length !== 0;
+
+            return _react2.default.createElement(
+                _reactstrap.CardBody,
+                { className: "pt-0" },
+                _react2.default.createElement(
+                    "small",
+                    { className: "section-title" },
+                    "Latest Memorandum"
+                ),
+                _react2.default.createElement(MemorandumRow, { memorandum: this.state.latestMemorandum,
+                    isOpen: this.memorandumIsShowing(this.state.latestMemorandum),
+                    toggle: function toggle() {
+                        return _this3.makeMemorandumShowing(_this3.state.latestMemorandum);
+                    } }),
+                hasPreviousMemorandums && _react2.default.createElement(
+                    "small",
+                    { className: "section-title" },
+                    "Previous Memorandums"
+                ),
+                previousMemorandums
+            );
         }
     }, {
         key: "render",
@@ -222,9 +281,9 @@ var MemorandumsOfAgreement = function (_Component3) {
     function MemorandumsOfAgreement(props) {
         _classCallCheck(this, MemorandumsOfAgreement);
 
-        var _this3 = _possibleConstructorReturn(this, (MemorandumsOfAgreement.__proto__ || Object.getPrototypeOf(MemorandumsOfAgreement)).call(this, props));
+        var _this4 = _possibleConstructorReturn(this, (MemorandumsOfAgreement.__proto__ || Object.getPrototypeOf(MemorandumsOfAgreement)).call(this, props));
 
-        _this3.state = {
+        _this4.state = {
             latestMemorandum: null,
             previousMemorandums: [],
             showingMemorandumId: null
@@ -232,15 +291,15 @@ var MemorandumsOfAgreement = function (_Component3) {
 
         if (props.memorandums.length > 0) {
             // This is sorted by date so latest version is the one on top
-            _this3.state.latestMemorandum = props.memorandums[0];
-            _this3.state.previousMemorandums = props.memorandums.splice(1); //Everything else
+            _this4.state.latestMemorandum = props.memorandums[0];
+            _this4.state.previousMemorandums = props.memorandums.splice(1); //Everything else
         }
 
-        _this3.emptyState = _this3.emptyState.bind(_this3);
-        _this3.getCollapseContent = _this3.getCollapseContent.bind(_this3);
-        _this3.memorandumIsShowing = _this3.memorandumIsShowing.bind(_this3);
-        _this3.makeMemorandumShowing = _this3.makeMemorandumShowing.bind(_this3);
-        return _this3;
+        _this4.emptyState = _this4.emptyState.bind(_this4);
+        _this4.getCollapseContent = _this4.getCollapseContent.bind(_this4);
+        _this4.memorandumIsShowing = _this4.memorandumIsShowing.bind(_this4);
+        _this4.makeMemorandumShowing = _this4.makeMemorandumShowing.bind(_this4);
+        return _this4;
     }
 
     _createClass(MemorandumsOfAgreement, [{
@@ -283,16 +342,16 @@ var MemorandumsOfAgreement = function (_Component3) {
     }, {
         key: "getCollapseContent",
         value: function getCollapseContent() {
-            var _this4 = this;
+            var _this5 = this;
 
             if (this.state.latestMemorandum === null) {
                 return this.emptyState();
             }
 
             var previousMemorandums = this.state.previousMemorandums.map(function (memorandum) {
-                return _react2.default.createElement(MemorandumRow, { memorandum: memorandum, isOpen: _this4.memorandumIsShowing(memorandum),
+                return _react2.default.createElement(MemorandumRow, { memorandum: memorandum, isOpen: _this5.memorandumIsShowing(memorandum),
                     toggle: function toggle() {
-                        return _this4.makeMemorandumShowing(memorandum);
+                        return _this5.makeMemorandumShowing(memorandum);
                     } });
             });
 
@@ -309,7 +368,7 @@ var MemorandumsOfAgreement = function (_Component3) {
                 _react2.default.createElement(MemorandumRow, { memorandum: this.state.latestMemorandum,
                     isOpen: this.memorandumIsShowing(this.state.latestMemorandum),
                     toggle: function toggle() {
-                        return _this4.makeMemorandumShowing(_this4.state.latestMemorandum);
+                        return _this5.makeMemorandumShowing(_this5.state.latestMemorandum);
                     } }),
                 hasPreviousMemorandums && _react2.default.createElement(
                     "small",
