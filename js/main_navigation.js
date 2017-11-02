@@ -7,7 +7,6 @@ import {
     Navbar,
     NavItem,
     Popover,
-    PopoverHeader,
     PopoverBody,
     Button,
 } from "reactstrap";
@@ -31,7 +30,7 @@ class MainNavigation extends Component {
 
         return (
             <Navbar className="bg-dlsu d-flex flex-column justify-content-center" id="main-navigation">
-                <Nav className="d-flex flex-column w-100 mt-auto mb-auto">
+                <Nav className="d-flex flex-column w-100">
                     {navItems}
                 </Nav>
                 <SwitchUserButton/>

@@ -32,7 +32,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function fetchStudents(onResponse) {
     (0, _graphql2.default)({
-        query: "\n        {\n            students {\n                familyName\n                firstName\n                middleName\n            }\n        }\n        ",
+        query: "\n        {\n            students {\n                idNumber\n                familyName\n                firstName\n                middleName\n            }\n        }\n        ",
         onResponse: onResponse
     });
 }

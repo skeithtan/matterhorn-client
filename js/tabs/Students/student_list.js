@@ -1,4 +1,5 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
+import LoadingSpinner from "../../loading";
 import {
     Input,
     Button,
@@ -6,26 +7,17 @@ import {
     ListGroupItem,
 } from "reactstrap";
 
+
 class StudentList extends Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            allStudents: props.students,
-        };
-    }
-
-    componentWillReceiveProps(nextProps) {
-        this.setState({
-            allStudents: nextProps.students,
-        });
     }
 
     render() {
         return (
             <div className="sidebar h-100" id="student-list">
                 <StudentListHead/>
-                <StudentListTable students={this.state.allStudents} setActiveStudent={this.props.setActiveStudent}/>
+                <StudentListTable students={this.props.students} setActiveStudent={this.props.setActiveStudent}/>
             </div>
         );
     }
@@ -56,6 +48,7 @@ class StudentListHead extends Component {
 class StudentListTable extends Component {
     constructor(props) {
         super(props);
+        this.getStudentsByFamilyNameInitials = this.getStudentsByFamilyNameInitials.bind(this);
     }
 
     static emptyState() {
@@ -65,47 +58,97 @@ class StudentListTable extends Component {
                 <p>When added, Students will show up here.</p>
                 <Button outline color="success">Add a Student</Button>
             </div>
-        )
+        );
+    }
+
+    getStudentsByFamilyNameInitials() {
+        //Get first letter
+        let familyNameInitials = this.props.students.map(student => student.familyName[0]);
+
+        //Get uniques only
+        familyNameInitials = familyNameInitials.filter((value, index, self) => {
+            return self.indexOf(value) === index;
+        });
+
+        // Sort alphabetically
+        familyNameInitials = familyNameInitials.sort((a, b) => {
+            if (a < b) {
+                return -1;
+            }
+            if (a > b) {
+                return 1;
+            }
+            return 0;
+        });
+
+        let categorizedByInitial = [];
+
+        // Categorize by family name initial
+        familyNameInitials.forEach(initial => {
+            let students = [];
+            categorizedByInitial.push({
+                initial : initial,
+                students : students,
+            });
+
+            this.props.students.forEach(student => {
+                const studentInitial = student.familyName[0];
+
+                if (studentInitial === initial) {
+                    students.push(student);
+                }
+            });
+
+        });
+
+        return categorizedByInitial;
     }
 
     render() {
         if (this.props.students === null) {
+            return <LoadingSpinner/>;
+        }
+
+        if (this.props.students.length === 0) {
             return StudentListTable.emptyState();
         }
 
-        const rows = this.props.students.map((student, index) => {
-            return <StudentRow student={student} key={index}/>
+        const familyNameInitials = this.getStudentsByFamilyNameInitials();
+
+        const sections = familyNameInitials.map((familyNameInitial, index) => {
+            return <StudentSection key={index} title={familyNameInitial.initial}
+                                   students={familyNameInitial.students}/>;
         });
+
 
         return (
             <div className="page-body">
-                <div className="section">
-                    <ListGroup>
-                        {rows}
-                    </ListGroup>
-                </div>
+                {sections}
             </div>
-        )
+        );
     }
 }
 
-// This will be used when filtering comes in
-// class StudentSection extends Component {
-//     constructor(props) {
-//         super(props);
-//     }
-//
-//     render() {
-//         return (
-//             <div className="section">
-//                 <small className="section-title">A</small>
-//                 <ListGroup>
-//                     <StudentRow/>
-//                 </ListGroup>
-//             </div>
-//         )
-//     }
-// }
+class StudentSection extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        const rows = this.props.students.map(student => {
+            return <StudentRow key={student.idNumber} student={student}/>;
+        });
+
+        return (
+            <div className="section">
+                <small className="section-title">{this.props.title}</small>
+                <ListGroup>
+                    {rows}
+                </ListGroup>
+            </div>
+        );
+    }
+}
 
 class StudentRow extends Component {
     constructor(props) {
@@ -116,13 +159,14 @@ class StudentRow extends Component {
         // Hardcoded, I can fix this later.
         const first = this.props.student.firstName;
         const middle = this.props.student.middleName;
-        const last = this.props.student.familyName;
-        const name = first + " " + middle + " " + last;
+        const familyName = this.props.student.familyName;
+        const idNumber = this.props.student.idNumber;
         return (
             <ListGroupItem>
-                {name}
+                <small className="d-block">{idNumber}</small>
+                <b>{familyName}</b>, {first} {middle}
             </ListGroupItem>
-        )
+        );
     }
 }
 

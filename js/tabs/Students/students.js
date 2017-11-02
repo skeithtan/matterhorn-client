@@ -9,6 +9,7 @@ function fetchStudents(onResponse) {
         query: `
         {
             students {
+                idNumber
                 familyName
                 firstName
                 middleName

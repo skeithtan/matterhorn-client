@@ -191,6 +191,8 @@ li.nav-item.active .sidebar-image {
     text-align     : center;
     background     : rgba(0, 0, 0, 0.3);
     transition     : 150ms background;
+    position       : absolute;
+    bottom         : 0;
 }
 
 #switch-user-button:hover {
@@ -245,9 +247,9 @@ li.nav-item.active .sidebar-image {
 
 /*Sign In*/
 #sign-in {
-    position           : absolute;
-    z-index            : 2000;
-    transition         : 500ms opacity;
+    position   : absolute;
+    z-index    : 2000;
+    transition : 500ms opacity;
 }
 
 #erio-logo {

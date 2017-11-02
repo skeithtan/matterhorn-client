@@ -64,7 +64,7 @@ var MainNavigation = function (_Component) {
                 { className: "bg-dlsu d-flex flex-column justify-content-center", id: "main-navigation" },
                 _react2.default.createElement(
                     _reactstrap.Nav,
-                    { className: "d-flex flex-column w-100 mt-auto mb-auto" },
+                    { className: "d-flex flex-column w-100" },
                     navItems
                 ),
                 _react2.default.createElement(SwitchUserButton, null)

@@ -10,6 +10,10 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _loading = require("../../loading");
+
+var _loading2 = _interopRequireDefault(_loading);
+
 var _reactstrap = require("reactstrap");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -26,29 +30,17 @@ var StudentList = function (_Component) {
     function StudentList(props) {
         _classCallCheck(this, StudentList);
 
-        var _this = _possibleConstructorReturn(this, (StudentList.__proto__ || Object.getPrototypeOf(StudentList)).call(this, props));
-
-        _this.state = {
-            allStudents: props.students
-        };
-        return _this;
+        return _possibleConstructorReturn(this, (StudentList.__proto__ || Object.getPrototypeOf(StudentList)).call(this, props));
     }
 
     _createClass(StudentList, [{
-        key: "componentWillReceiveProps",
-        value: function componentWillReceiveProps(nextProps) {
-            this.setState({
-                allStudents: nextProps.students
-            });
-        }
-    }, {
         key: "render",
         value: function render() {
             return _react2.default.createElement(
                 "div",
                 { className: "sidebar h-100", id: "student-list" },
                 _react2.default.createElement(StudentListHead, null),
-                _react2.default.createElement(StudentListTable, { students: this.state.allStudents, setActiveStudent: this.props.setActiveStudent })
+                _react2.default.createElement(StudentListTable, { students: this.props.students, setActiveStudent: this.props.setActiveStudent })
             );
         }
     }]);
@@ -113,32 +105,81 @@ var StudentListTable = function (_Component3) {
     function StudentListTable(props) {
         _classCallCheck(this, StudentListTable);
 
-        return _possibleConstructorReturn(this, (StudentListTable.__proto__ || Object.getPrototypeOf(StudentListTable)).call(this, props));
+        var _this3 = _possibleConstructorReturn(this, (StudentListTable.__proto__ || Object.getPrototypeOf(StudentListTable)).call(this, props));
+
+        _this3.getStudentsByFamilyNameInitials = _this3.getStudentsByFamilyNameInitials.bind(_this3);
+        return _this3;
     }
 
     _createClass(StudentListTable, [{
+        key: "getStudentsByFamilyNameInitials",
+        value: function getStudentsByFamilyNameInitials() {
+            var _this4 = this;
+
+            //Get first letter
+            var familyNameInitials = this.props.students.map(function (student) {
+                return student.familyName[0];
+            });
+
+            //Get uniques only
+            familyNameInitials = familyNameInitials.filter(function (value, index, self) {
+                return self.indexOf(value) === index;
+            });
+
+            // Sort alphabetically
+            familyNameInitials = familyNameInitials.sort(function (a, b) {
+                if (a < b) {
+                    return -1;
+                }
+                if (a > b) {
+                    return 1;
+                }
+                return 0;
+            });
+
+            var categorizedByInitial = [];
+
+            // Categorize by family name initial
+            familyNameInitials.forEach(function (initial) {
+                var students = [];
+                categorizedByInitial.push({
+                    initial: initial,
+                    students: students
+                });
+
+                _this4.props.students.forEach(function (student) {
+                    var studentInitial = student.familyName[0];
+
+                    if (studentInitial === initial) {
+                        students.push(student);
+                    }
+                });
+            });
+
+            return categorizedByInitial;
+        }
+    }, {
         key: "render",
         value: function render() {
             if (this.props.students === null) {
+                return _react2.default.createElement(_loading2.default, null);
+            }
+
+            if (this.props.students.length === 0) {
                 return StudentListTable.emptyState();
             }
 
-            var rows = this.props.students.map(function (student, index) {
-                return _react2.default.createElement(StudentRow, { student: student, key: index });
+            var familyNameInitials = this.getStudentsByFamilyNameInitials();
+
+            var sections = familyNameInitials.map(function (familyNameInitial, index) {
+                return _react2.default.createElement(StudentSection, { key: index, title: familyNameInitial.initial,
+                    students: familyNameInitial.students });
             });
 
             return _react2.default.createElement(
                 "div",
                 { className: "page-body" },
-                _react2.default.createElement(
-                    "div",
-                    { className: "section" },
-                    _react2.default.createElement(
-                        _reactstrap.ListGroup,
-                        null,
-                        rows
-                    )
-                )
+                sections
             );
         }
     }], [{
@@ -169,26 +210,44 @@ var StudentListTable = function (_Component3) {
     return StudentListTable;
 }(_react.Component);
 
-// This will be used when filtering comes in
-// class StudentSection extends Component {
-//     constructor(props) {
-//         super(props);
-//     }
-//
-//     render() {
-//         return (
-//             <div className="section">
-//                 <small className="section-title">A</small>
-//                 <ListGroup>
-//                     <StudentRow/>
-//                 </ListGroup>
-//             </div>
-//         )
-//     }
-// }
+var StudentSection = function (_Component4) {
+    _inherits(StudentSection, _Component4);
 
-var StudentRow = function (_Component4) {
-    _inherits(StudentRow, _Component4);
+    function StudentSection(props) {
+        _classCallCheck(this, StudentSection);
+
+        return _possibleConstructorReturn(this, (StudentSection.__proto__ || Object.getPrototypeOf(StudentSection)).call(this, props));
+    }
+
+    _createClass(StudentSection, [{
+        key: "render",
+        value: function render() {
+            var rows = this.props.students.map(function (student) {
+                return _react2.default.createElement(StudentRow, { key: student.idNumber, student: student });
+            });
+
+            return _react2.default.createElement(
+                "div",
+                { className: "section" },
+                _react2.default.createElement(
+                    "small",
+                    { className: "section-title" },
+                    this.props.title
+                ),
+                _react2.default.createElement(
+                    _reactstrap.ListGroup,
+                    null,
+                    rows
+                )
+            );
+        }
+    }]);
+
+    return StudentSection;
+}(_react.Component);
+
+var StudentRow = function (_Component5) {
+    _inherits(StudentRow, _Component5);
 
     function StudentRow(props) {
         _classCallCheck(this, StudentRow);
@@ -202,12 +261,25 @@ var StudentRow = function (_Component4) {
             // Hardcoded, I can fix this later.
             var first = this.props.student.firstName;
             var middle = this.props.student.middleName;
-            var last = this.props.student.familyName;
-            var name = first + " " + middle + " " + last;
+            var familyName = this.props.student.familyName;
+            var idNumber = this.props.student.idNumber;
             return _react2.default.createElement(
                 _reactstrap.ListGroupItem,
                 null,
-                name
+                _react2.default.createElement(
+                    "small",
+                    { className: "d-block" },
+                    idNumber
+                ),
+                _react2.default.createElement(
+                    "b",
+                    null,
+                    familyName
+                ),
+                ", ",
+                first,
+                " ",
+                middle
             );
         }
     }]);
