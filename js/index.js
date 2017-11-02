@@ -54,7 +54,7 @@ $(() => {
 
         usernameInput.val("");
         passwordInput.val("");
-        
+
         signInMessage.hide();
 
         showSignInBox(false);
