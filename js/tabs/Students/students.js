@@ -2,6 +2,9 @@ import React, {Component} from "react";
 import graphql from "../../graphql";
 import StudentList from "./student_list";
 import StudentDetail from "./student_detail";
+import {
+    AddStudentModal,
+} from "./modals";
 
 
 function fetchStudents(onResponse) {
@@ -27,14 +30,26 @@ class Students extends Component {
         this.state = {
             allStudents: null,
             activeStudent: null,
+            addStudentIsShowing: false,
         };
 
         this.setActiveStudent = this.setActiveStudent.bind(this);
+        this.toggleAddStudent = this.toggleAddStudent.bind(this);
+        this.refreshStudents = this.refreshStudents.bind(this);
+        this.refreshStudents();
+    }
 
+    refreshStudents() {
         fetchStudents(response => {
             this.setState({
                 allStudents: response.data.students,
             });
+        });
+    }
+
+    toggleAddStudent() {
+        this.setState({
+            addStudentIsShowing : !this.state.addStudentIsShowing,
         });
     }
 
@@ -49,8 +64,12 @@ class Students extends Component {
             <div className="container-fluid d-flex flex-row p-0 h-100">
                 <StudentList students={this.state.allStudents}
                              activeStudent={this.state.activeStudent}
-                             setActiveStudent={this.setActiveStudent}/>
+                             setActiveStudent={this.setActiveStudent}
+                             toggleAddStudent={this.toggleAddStudent}/>
                 <StudentDetail student={this.state.activeStudent}/>
+                <AddStudentModal isOpen={this.state.addStudentIsShowing}
+                                 toggle={this.toggleAddStudent}
+                                 refresh={this.refreshStudents}/>
             </div>
         );
     }

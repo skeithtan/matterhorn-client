@@ -22,6 +22,8 @@ var _student_detail = require("./student_detail");
 
 var _student_detail2 = _interopRequireDefault(_student_detail);
 
+var _modals = require("./modals");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -47,20 +49,36 @@ var Students = function (_Component) {
 
         _this.state = {
             allStudents: null,
-            activeStudent: null
+            activeStudent: null,
+            addStudentIsShowing: false
         };
 
         _this.setActiveStudent = _this.setActiveStudent.bind(_this);
-
-        fetchStudents(function (response) {
-            _this.setState({
-                allStudents: response.data.students
-            });
-        });
+        _this.toggleAddStudent = _this.toggleAddStudent.bind(_this);
+        _this.refreshStudents = _this.refreshStudents.bind(_this);
+        _this.refreshStudents();
         return _this;
     }
 
     _createClass(Students, [{
+        key: "refreshStudents",
+        value: function refreshStudents() {
+            var _this2 = this;
+
+            fetchStudents(function (response) {
+                _this2.setState({
+                    allStudents: response.data.students
+                });
+            });
+        }
+    }, {
+        key: "toggleAddStudent",
+        value: function toggleAddStudent() {
+            this.setState({
+                addStudentIsShowing: !this.state.addStudentIsShowing
+            });
+        }
+    }, {
         key: "setActiveStudent",
         value: function setActiveStudent(student) {
             this.setState({
@@ -75,8 +93,12 @@ var Students = function (_Component) {
                 { className: "container-fluid d-flex flex-row p-0 h-100" },
                 _react2.default.createElement(_student_list2.default, { students: this.state.allStudents,
                     activeStudent: this.state.activeStudent,
-                    setActiveStudent: this.setActiveStudent }),
-                _react2.default.createElement(_student_detail2.default, { student: this.state.activeStudent })
+                    setActiveStudent: this.setActiveStudent,
+                    toggleAddStudent: this.toggleAddStudent }),
+                _react2.default.createElement(_student_detail2.default, { student: this.state.activeStudent }),
+                _react2.default.createElement(_modals.AddStudentModal, { isOpen: this.state.addStudentIsShowing,
+                    toggle: this.toggleAddStudent,
+                    refresh: this.refreshStudents })
             );
         }
     }]);

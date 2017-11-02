@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import LoadingSpinner from "../../loading";
 import {
     Input,
@@ -13,7 +13,7 @@ class StudentList extends Component {
         super(props);
 
         this.state = {
-            searchKeyword : null,
+            searchKeyword: null,
         };
 
         this.setSearchKeyword = this.setSearchKeyword.bind(this);
@@ -24,7 +24,7 @@ class StudentList extends Component {
         //If the string is empty, that means the user isn't searching at all
         const searchKeyword = searchString === "" ? null : searchString;
         this.setState({
-            searchKeyword : searchKeyword,
+            searchKeyword: searchKeyword,
         });
     }
 
@@ -47,7 +47,8 @@ class StudentList extends Component {
 
         return (
             <div className="sidebar h-100" id="student-list">
-                <StudentListHead setSearchKeyword={this.setSearchKeyword}/>
+                <StudentListHead setSearchKeyword={this.setSearchKeyword}
+                                 toggleAddStudent={this.props.toggleAddStudent}/>
                 <StudentListTable students={showingStudents}
                                   activeStudent={this.props.activeStudent}
                                   setActiveStudent={this.props.setActiveStudent}
@@ -76,7 +77,8 @@ class StudentListHead extends Component {
                         <Button outline color="success" size="sm" className="active">Active</Button>
                         <Button outline color="success" size="sm" className="">Historical</Button>
                     </div>
-                    <Button outline color="success" size="sm" className="ml-4">Add</Button>
+                    <Button outline color="success" size="sm" className="ml-4"
+                            onClick={this.props.toggleAddStudent}>Add</Button>
                 </div>
                 <h4 className="page-head-title">Students</h4>
                 <Input placeholder="Search" className="search-input" onChange={this.onSearchInputChange}/>
@@ -137,8 +139,8 @@ class StudentListTable extends Component {
         familyNameInitials.forEach(initial => {
             let students = [];
             categorizedByInitial.push({
-                initial : initial,
-                students : students,
+                initial: initial,
+                students: students,
             });
 
             this.props.students.forEach(student => {

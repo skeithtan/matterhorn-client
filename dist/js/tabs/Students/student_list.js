@@ -73,7 +73,8 @@ var StudentList = function (_Component) {
             return _react2.default.createElement(
                 "div",
                 { className: "sidebar h-100", id: "student-list" },
-                _react2.default.createElement(StudentListHead, { setSearchKeyword: this.setSearchKeyword }),
+                _react2.default.createElement(StudentListHead, { setSearchKeyword: this.setSearchKeyword,
+                    toggleAddStudent: this.props.toggleAddStudent }),
                 _react2.default.createElement(StudentListTable, { students: showingStudents,
                     activeStudent: this.props.activeStudent,
                     setActiveStudent: this.props.setActiveStudent,
@@ -128,7 +129,8 @@ var StudentListHead = function (_Component2) {
                     ),
                     _react2.default.createElement(
                         _reactstrap.Button,
-                        { outline: true, color: "success", size: "sm", className: "ml-4" },
+                        { outline: true, color: "success", size: "sm", className: "ml-4",
+                            onClick: this.props.toggleAddStudent },
                         "Add"
                     )
                 ),
