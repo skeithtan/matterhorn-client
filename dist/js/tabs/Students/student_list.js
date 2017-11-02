@@ -40,7 +40,9 @@ var StudentList = function (_Component) {
                 "div",
                 { className: "sidebar h-100", id: "student-list" },
                 _react2.default.createElement(StudentListHead, null),
-                _react2.default.createElement(StudentListTable, { students: this.props.students, setActiveStudent: this.props.setActiveStudent })
+                _react2.default.createElement(StudentListTable, { students: this.props.students,
+                    activeStudent: this.props.activeStudent,
+                    setActiveStudent: this.props.setActiveStudent })
             );
         }
     }]);
@@ -172,7 +174,8 @@ var StudentListTable = function (_Component3) {
             var familyNameInitials = this.getStudentsByFamilyNameInitials();
 
             var sections = familyNameInitials.map(function (familyNameInitial, index) {
-                return _react2.default.createElement(StudentSection, { key: index, title: familyNameInitial.initial,
+                return _react2.default.createElement(StudentSection, { key: index,
+                    title: familyNameInitial.initial,
                     students: familyNameInitial.students });
             });
 

@@ -17,7 +17,9 @@ class StudentList extends Component {
         return (
             <div className="sidebar h-100" id="student-list">
                 <StudentListHead/>
-                <StudentListTable students={this.props.students} setActiveStudent={this.props.setActiveStudent}/>
+                <StudentListTable students={this.props.students}
+                                  activeStudent={this.props.activeStudent}
+                                  setActiveStudent={this.props.setActiveStudent}/>
             </div>
         );
     }
@@ -116,7 +118,8 @@ class StudentListTable extends Component {
         const familyNameInitials = this.getStudentsByFamilyNameInitials();
 
         const sections = familyNameInitials.map((familyNameInitial, index) => {
-            return <StudentSection key={index} title={familyNameInitial.initial}
+            return <StudentSection key={index}
+                                   title={familyNameInitial.initial}
                                    students={familyNameInitial.students}/>;
         });
 
