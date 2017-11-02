@@ -150,6 +150,12 @@ li.nav-item.active .sidebar-image {
     flex-direction : row;
 }
 
+.page-head-actions {
+    min-width       : 200px;
+    display         : flex;
+    justify-content : center;
+}
+
 .page-body {
     height     : 100%;
     overflow-y : scroll !important;
@@ -199,12 +205,6 @@ li.nav-item.active .sidebar-image {
 }
 
 /*Institutions Page*/
-#institution-actions {
-    min-width       : 200px;
-    display         : flex;
-    justify-content : center;
-}
-
 #memorandums-accordion .card {
     border-radius : 0;
 }

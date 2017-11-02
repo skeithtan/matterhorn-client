@@ -148,7 +148,7 @@ var StudentDetailHead = function (_Component2) {
                 ),
                 _react2.default.createElement(
                     "div",
-                    { id: "student-actions" },
+                    { className: "page-head-actions" },
                     _react2.default.createElement(
                         _reactstrap.Button,
                         { outline: true, size: "sm", color: "success", className: "mr-2" },
