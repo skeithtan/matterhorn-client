@@ -28,7 +28,7 @@ function fetchStudent(id, onResponse) {
                 homeAddress
                 phoneNumber
                 birthDate
-                gender
+                sex
                 emergencyContactName
                 emergencyContactRelationship
                 emergencyContactNumber

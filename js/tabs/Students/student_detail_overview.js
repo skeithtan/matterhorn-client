@@ -1,8 +1,10 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
+import settings from "../../settings";
 import {
     ListGroup,
     ListGroupItem,
 } from "reactstrap";
+
 
 class StudentDetailOverview extends Component {
     constructor(props) {
@@ -34,11 +36,11 @@ class StudentDetailOverview extends Component {
 
     render() {
         const student = this.props.student;
-        const sex = student.gender === "F" ? "Female" : "Male";
+        const sex = student.sex === "F" ? "Female" : "Male";
         let civilStatus = this.convertCivilStatus(student.civilStatus);
 
         return (
-            <div>
+            <div className="section">
                 <small className="section-title">Student details</small>
                 <ListGroup>
                     <StudentDetailRow fieldName="Nickname" fieldValue={student.nickname}/>
@@ -49,7 +51,7 @@ class StudentDetailOverview extends Component {
                     <StudentDetailRow fieldName="Civil Status" fieldValue={civilStatus}/>
                 </ListGroup>
             </div>
-        )
+        );
     }
 }
 
@@ -62,7 +64,7 @@ class StudentContact extends Component {
         const student = this.props.student;
 
         return (
-            <div>
+            <div className="section">
                 <small className="section-title">Contact details</small>
                 <ListGroup>
                     <StudentDetailRow fieldName="Phone Number" fieldValue={student.phoneNumber}/>
@@ -78,7 +80,7 @@ class StudentContact extends Component {
                     <StudentDetailRow fieldName="Emergency Contact Number" fieldValue={student.emergencyContactNumber}/>
                 </ListGroup>
             </div>
-        )
+        );
     }
 }
 
@@ -86,56 +88,22 @@ class StudentUniversity extends Component {
     constructor(props) {
         super(props);
 
-        this.convertCollege = this.convertCollege.bind(this);
-    }
-
-    convertCollege(college) {
-        switch (college) {
-            case "CCS":
-                college = "College of Computer Studies";
-                break;
-
-            case "RVRCOB":
-                college = "Ramon V. Del Rosario College of Business";
-                break;
-
-            case "CLA":
-                college = "College of Liberal Arts";
-                break;
-
-            case "SOE":
-                college = "School of Economics";
-                break;
-
-            case "GCOE":
-                college = "Gokongwei College of Engineering";
-                break;
-
-            case "COL":
-                college = "College of Law";
-                break;
-
-            case "BAGCED":
-                college = "Brother Andrew Gonzales College of Education";
-                break;
-        }
-        return college;
     }
 
     render() {
         const student = this.props.student;
-        const college = this.convertCollege(student.college);
+        const college = settings.colleges[student.college];
         const type = student.category === "OUT" ? "Outbound" : "Inbound";
 
         return (
-            <div>
+            <div className="section">
                 <small className="section-title">University Details</small>
                 <ListGroup>
                     <StudentDetailRow fieldName="College" fieldValue={college}/>
                     <StudentDetailRow fieldName="Student Type" fieldValue={type}/>
                 </ListGroup>
             </div>
-        )
+        );
     }
 }
 

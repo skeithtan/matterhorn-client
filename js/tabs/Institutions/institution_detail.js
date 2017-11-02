@@ -33,6 +33,15 @@ function fetchInstitution(id, onResponse) {
                     name
                 }
                 agreement
+                memorandumSet {
+                    id
+                    category
+                    memorandumFile
+                    versionDate
+                    dateEffective
+                    dateExpiration
+                    collegeInitiator
+                }
             }
         }
        `,
@@ -186,7 +195,7 @@ class InstitutionDetailBody extends Component {
             <div className="page-body">
                 <InstitutionDetailOverview institution={this.props.institution}/>
                 <InstitutionContact institution={this.props.institution}/>
-                <Memorandums/>
+                <Memorandums memorandums={this.props.institution.memorandumSet}/>
             </div>
         );
     }

@@ -38,7 +38,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function fetchInstitution(id, onResponse) {
     (0, _graphql2.default)({
-        query: "\n        {\n            institution(id:" + id + ") {\n                id\n                name\n                email\n                address\n                website\n                contactPersonName\n                contactPersonNumber\n                country {\n                    name\n                }\n                agreement\n            }\n        }\n       ",
+        query: "\n        {\n            institution(id:" + id + ") {\n                id\n                name\n                email\n                address\n                website\n                contactPersonName\n                contactPersonNumber\n                country {\n                    name\n                }\n                agreement\n                memorandumSet {\n                    id\n                    category\n                    memorandumFile\n                    versionDate\n                    dateEffective\n                    dateExpiration\n                    collegeInitiator\n                }\n            }\n        }\n       ",
         onResponse: onResponse
     });
 }
@@ -244,7 +244,7 @@ var InstitutionDetailBody = function (_Component3) {
                 { className: "page-body" },
                 _react2.default.createElement(_institution_detail_overview.InstitutionDetailOverview, { institution: this.props.institution }),
                 _react2.default.createElement(_institution_detail_overview.InstitutionContact, { institution: this.props.institution }),
-                _react2.default.createElement(_memorandums2.default, null)
+                _react2.default.createElement(_memorandums2.default, { memorandums: this.props.institution.memorandumSet })
             );
         }
     }]);

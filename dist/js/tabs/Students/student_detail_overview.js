@@ -11,6 +11,10 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _settings = require("../../settings");
+
+var _settings2 = _interopRequireDefault(_settings);
+
 var _reactstrap = require("reactstrap");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -59,12 +63,12 @@ var StudentDetailOverview = function (_Component) {
         key: "render",
         value: function render() {
             var student = this.props.student;
-            var sex = student.gender === "F" ? "Female" : "Male";
+            var sex = student.sex === "F" ? "Female" : "Male";
             var civilStatus = this.convertCivilStatus(student.civilStatus);
 
             return _react2.default.createElement(
                 "div",
-                null,
+                { className: "section" },
                 _react2.default.createElement(
                     "small",
                     { className: "section-title" },
@@ -103,7 +107,7 @@ var StudentContact = function (_Component2) {
 
             return _react2.default.createElement(
                 "div",
-                null,
+                { className: "section" },
                 _react2.default.createElement(
                     "small",
                     { className: "section-title" },
@@ -146,56 +150,19 @@ var StudentUniversity = function (_Component3) {
     function StudentUniversity(props) {
         _classCallCheck(this, StudentUniversity);
 
-        var _this3 = _possibleConstructorReturn(this, (StudentUniversity.__proto__ || Object.getPrototypeOf(StudentUniversity)).call(this, props));
-
-        _this3.convertCollege = _this3.convertCollege.bind(_this3);
-        return _this3;
+        return _possibleConstructorReturn(this, (StudentUniversity.__proto__ || Object.getPrototypeOf(StudentUniversity)).call(this, props));
     }
 
     _createClass(StudentUniversity, [{
-        key: "convertCollege",
-        value: function convertCollege(college) {
-            switch (college) {
-                case "CCS":
-                    college = "College of Computer Studies";
-                    break;
-
-                case "RVRCOB":
-                    college = "Ramon V. Del Rosario College of Business";
-                    break;
-
-                case "CLA":
-                    college = "College of Liberal Arts";
-                    break;
-
-                case "SOE":
-                    college = "School of Economics";
-                    break;
-
-                case "GCOE":
-                    college = "Gokongwei College of Engineering";
-                    break;
-
-                case "COL":
-                    college = "College of Law";
-                    break;
-
-                case "BAGCED":
-                    college = "Brother Andrew Gonzales College of Education";
-                    break;
-            }
-            return college;
-        }
-    }, {
         key: "render",
         value: function render() {
             var student = this.props.student;
-            var college = this.convertCollege(student.college);
+            var college = _settings2.default.colleges[student.college];
             var type = student.category === "OUT" ? "Outbound" : "Inbound";
 
             return _react2.default.createElement(
                 "div",
-                null,
+                { className: "section" },
                 _react2.default.createElement(
                     "small",
                     { className: "section-title" },
