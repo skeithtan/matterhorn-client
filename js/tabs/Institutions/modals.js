@@ -16,6 +16,8 @@ import {
     Label,
     Input,
     Button,
+    InputGroup,
+    InputGroupAddon,
 } from "reactstrap";
 
 
@@ -113,7 +115,10 @@ class AddInstitutionModal extends Component {
                         </FormGroup>
                         <FormGroup>
                             <Label for="add-institution-website">Website</Label>
-                            <Input id="add-institution-website" placeholder="Website" className="text-input"/>
+                            <InputGroup>
+                                <InputGroupAddon>http://</InputGroupAddon>
+                                <Input id="add-institution-website" placeholder="Website" className="text-input"/>
+                            </InputGroup>
                         </FormGroup>
                         <FormGroup>
                             <Label for="add-institution-contact-person">Contact Person</Label>
@@ -293,8 +298,11 @@ class EditInstitutionModal extends Component {
                         </FormGroup>
                         <FormGroup>
                             <Label for="edit-institution-website">Website</Label>
-                            <Input id="edit-institution-website" defaultValue={this.props.institution.website}
-                                   placeholder="Website" className="text-input"/>
+                            <InputGroup>
+                                <InputGroupAddon>http://</InputGroupAddon>
+                                <Input id="edit-institution-website" defaultValue={this.props.institution.website}
+                                       placeholder="Website" className="text-input"/>
+                            </InputGroup>
                         </FormGroup>
                         <FormGroup>
                             <Label for="edit-institution-contact-person">Contact Person</Label>

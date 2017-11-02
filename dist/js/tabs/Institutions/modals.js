@@ -179,7 +179,16 @@ var AddInstitutionModal = function (_Component) {
                                 { "for": "add-institution-website" },
                                 "Website"
                             ),
-                            _react2.default.createElement(_reactstrap.Input, { id: "add-institution-website", placeholder: "Website", className: "text-input" })
+                            _react2.default.createElement(
+                                _reactstrap.InputGroup,
+                                null,
+                                _react2.default.createElement(
+                                    _reactstrap.InputGroupAddon,
+                                    null,
+                                    "http://"
+                                ),
+                                _react2.default.createElement(_reactstrap.Input, { id: "add-institution-website", placeholder: "Website", className: "text-input" })
+                            )
                         ),
                         _react2.default.createElement(
                             _reactstrap.FormGroup,
@@ -480,8 +489,17 @@ var EditInstitutionModal = function (_Component3) {
                                 { "for": "edit-institution-website" },
                                 "Website"
                             ),
-                            _react2.default.createElement(_reactstrap.Input, { id: "edit-institution-website", defaultValue: this.props.institution.website,
-                                placeholder: "Website", className: "text-input" })
+                            _react2.default.createElement(
+                                _reactstrap.InputGroup,
+                                null,
+                                _react2.default.createElement(
+                                    _reactstrap.InputGroupAddon,
+                                    null,
+                                    "http://"
+                                ),
+                                _react2.default.createElement(_reactstrap.Input, { id: "edit-institution-website", defaultValue: this.props.institution.website,
+                                    placeholder: "Website", className: "text-input" })
+                            )
                         ),
                         _react2.default.createElement(
                             _reactstrap.FormGroup,

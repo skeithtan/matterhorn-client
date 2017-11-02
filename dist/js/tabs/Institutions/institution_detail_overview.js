@@ -35,6 +35,14 @@ var InstitutionDetailOverview = function (_Component) {
         value: function render() {
             var institution = this.props.institution;
             var agreementType = this.props.institution.agreement === "B" ? "Bilateral" : "Multilateral";
+            var website = "http://" + institution.website;
+
+            function openWebsite() {
+                var _require = require("electron"),
+                    shell = _require.shell;
+
+                shell.openExternal(website);
+            }
 
             return _react2.default.createElement(
                 "div",
@@ -49,7 +57,20 @@ var InstitutionDetailOverview = function (_Component) {
                     null,
                     _react2.default.createElement(InstitutionDetailRow, { fieldName: "Email", fieldValue: institution.email }),
                     _react2.default.createElement(InstitutionDetailRow, { fieldName: "Address", fieldValue: institution.address }),
-                    _react2.default.createElement(InstitutionDetailRow, { fieldName: "Website", fieldValue: institution.website }),
+                    _react2.default.createElement(
+                        _reactstrap.ListGroupItem,
+                        null,
+                        _react2.default.createElement(
+                            "small",
+                            { className: "font-weight-bold" },
+                            "Website"
+                        ),
+                        _react2.default.createElement(
+                            "p",
+                            { className: "m-0 text-primary", onClick: openWebsite },
+                            website
+                        )
+                    ),
                     _react2.default.createElement(InstitutionDetailRow, { fieldName: "Agreement Type", fieldValue: agreementType })
                 )
             );
@@ -109,7 +130,7 @@ var InstitutionDetailRow = function (_Component3) {
         value: function render() {
             return _react2.default.createElement(
                 _reactstrap.ListGroupItem,
-                null,
+                { onClick: this.props.onClick },
                 _react2.default.createElement(
                     "small",
                     { className: "font-weight-bold" },
