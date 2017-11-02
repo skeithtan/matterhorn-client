@@ -34,10 +34,12 @@ var InstitutionList = function (_Component) {
 
         _this.state = {
             allInstitutions: props.institutions,
+            searchKeyword: null,
             filteredInstitutions: null
         };
 
-        _this.filterInstitutions = _this.filterInstitutions.bind(_this);
+        _this.setSearchKeyword = _this.setSearchKeyword.bind(_this);
+        _this.getFilteredInstitutions = _this.getFilteredInstitutions.bind(_this);
         return _this;
     }
 
@@ -49,27 +51,28 @@ var InstitutionList = function (_Component) {
             });
         }
     }, {
-        key: "filterInstitutions",
-        value: function filterInstitutions(searchString) {
-            // Case insensitive search
-            var search = searchString.toLowerCase();
-
-            // No search item means they don't want to filter
-            if (search.length === 0) {
-                this.setState({
-                    filteredInstitutions: null
-                });
-
-                return;
+        key: "setSearchKeyword",
+        value: function setSearchKeyword(searchString) {
+            var searchKeyword = searchString === "" ? null : searchString;
+            this.setState({
+                searchKeyword: searchKeyword
+            });
+        }
+    }, {
+        key: "getFilteredInstitutions",
+        value: function getFilteredInstitutions() {
+            if (this.state.allInstitutions === null || this.state.searchKeyword === null) {
+                return [];
             }
 
             var filtered = [];
+            var searchKeyword = this.state.searchKeyword.toLowerCase();
 
             this.state.allInstitutions.forEach(function (country) {
                 // Array of institutions from this country that conforms to search
                 var countryFiltered = country.institutionSet.filter(function (institution) {
                     var institutionName = institution.name.toLowerCase();
-                    return institutionName.includes(search);
+                    return institutionName.includes(searchKeyword);
                 });
 
                 // If country has no matching institutions, don't include in search results
@@ -83,20 +86,18 @@ var InstitutionList = function (_Component) {
                 }
             });
 
-            this.setState({
-                filteredInstitutions: filtered
-            });
+            return filtered;
         }
     }, {
         key: "render",
         value: function render() {
-            var hasFilter = this.state.filteredInstitutions !== null;
-            var showingInstitutions = hasFilter ? this.state.filteredInstitutions : this.state.allInstitutions;
+            var hasFilter = this.state.searchKeyword !== null;
+            var showingInstitutions = hasFilter ? this.getFilteredInstitutions() : this.state.allInstitutions;
 
             return _react2.default.createElement(
                 "div",
                 { className: "sidebar h-100", id: "institution-list" },
-                _react2.default.createElement(InstitutionListHead, { filterInstitutions: this.filterInstitutions,
+                _react2.default.createElement(InstitutionListHead, { setSearchKeyword: this.setSearchKeyword,
                     toggleAddInstitution: this.props.toggleAddInstitution }),
                 _react2.default.createElement(InstitutionListTable, { countries: showingInstitutions,
                     hasFilter: hasFilter,
@@ -126,7 +127,7 @@ var InstitutionListHead = function (_Component2) {
         key: "onSearchInputChange",
         value: function onSearchInputChange(event) {
             var searchInput = event.target.value;
-            this.props.filterInstitutions(searchInput);
+            this.props.setSearchKeyword(searchInput);
         }
     }, {
         key: "render",

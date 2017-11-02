@@ -14,10 +14,12 @@ class InstitutionList extends Component {
 
         this.state = {
             allInstitutions : props.institutions,
+            searchKeyword : null,
             filteredInstitutions : null,
         };
 
-        this.filterInstitutions = this.filterInstitutions.bind(this);
+        this.setSearchKeyword = this.setSearchKeyword.bind(this);
+        this.getFilteredInstitutions = this.getFilteredInstitutions.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -26,26 +28,26 @@ class InstitutionList extends Component {
         });
     }
 
-    filterInstitutions(searchString) {
-        // Case insensitive search
-        const search = searchString.toLowerCase();
+    setSearchKeyword(searchString) {
+        const searchKeyword = searchString === "" ? null : searchString;
+        this.setState({
+            searchKeyword : searchKeyword,
+        });
+    }
 
-        // No search item means they don't want to filter
-        if (search.length === 0) {
-            this.setState({
-                filteredInstitutions : null,
-            });
-
-            return;
+    getFilteredInstitutions() {
+        if (this.state.allInstitutions === null || this.state.searchKeyword === null) {
+            return [];
         }
 
         let filtered = [];
+        const searchKeyword = this.state.searchKeyword.toLowerCase();
 
         this.state.allInstitutions.forEach(country => {
             // Array of institutions from this country that conforms to search
             const countryFiltered = country.institutionSet.filter(institution => {
                 const institutionName = institution.name.toLowerCase();
-                return institutionName.includes(search);
+                return institutionName.includes(searchKeyword);
             });
 
             // If country has no matching institutions, don't include in search results
@@ -59,18 +61,16 @@ class InstitutionList extends Component {
             }
         });
 
-        this.setState({
-            filteredInstitutions : filtered,
-        });
+        return filtered;
     }
 
     render() {
-        const hasFilter = this.state.filteredInstitutions !== null;
-        const showingInstitutions = hasFilter ? this.state.filteredInstitutions : this.state.allInstitutions;
+        const hasFilter = this.state.searchKeyword !== null;
+        const showingInstitutions = hasFilter ? this.getFilteredInstitutions() : this.state.allInstitutions;
 
         return (
             <div className="sidebar h-100" id="institution-list">
-                <InstitutionListHead filterInstitutions={this.filterInstitutions}
+                <InstitutionListHead setSearchKeyword={this.setSearchKeyword}
                                      toggleAddInstitution={this.props.toggleAddInstitution}/>
                 <InstitutionListTable countries={showingInstitutions}
                                       hasFilter={hasFilter}
@@ -90,7 +90,7 @@ class InstitutionListHead extends Component {
 
     onSearchInputChange(event) {
         const searchInput = event.target.value;
-        this.props.filterInstitutions(searchInput);
+        this.props.setSearchKeyword(searchInput);
     }
 
     render() {
