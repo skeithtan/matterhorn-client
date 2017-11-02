@@ -58,7 +58,7 @@ class AddInstitutionModal extends Component {
                 this.props.refresh();
                 iziToast.success({
                     title : "Success",
-                    message : "Successfully added Institution",
+                    message : "Successfully added institution",
                     progressBar : false,
                 });
             },
@@ -66,7 +66,7 @@ class AddInstitutionModal extends Component {
                 console.log(response);
                 iziToast.error({
                     title : "Error",
-                    message : "Unable to add Institution",
+                    message : "Unable to add institution",
                     progressBar : false,
                 });
             },
@@ -102,7 +102,8 @@ class AddInstitutionModal extends Component {
                         </FormGroup>
                         <FormGroup>
                             <Label for="add-institution-address">Address</Label>
-                            <Input id="add-institution-address" placeholder="Address" className="text-input"/>
+                            <Input type="textarea" id="add-institution-address" placeholder="Address"
+                                   className="text-input"/>
                         </FormGroup>
                         <FormGroup>
                             <Label for="add-institution-website">Website</Label>
@@ -182,6 +183,44 @@ class DeleteInstitutionModal extends Component {
 class EditInstitutionModal extends Component {
     constructor(props) {
         super(props);
+
+        this.submitForm = this.submitForm.bind(this);
+    }
+
+    submitForm() {
+        $.ajax({
+            method : "PUT",
+            url : `${settings.serverURL}/institutions/${this.props.institution.id}/`,
+            data : {
+                name : $("#edit-institution-name").val(),
+                country : $("#edit-institution-country-list").val(),
+                email : $("#edit-institution-email").val(),
+                address : $("#edit-institution-address").val(),
+                website : $("#edit-institution-website").val(),
+                contact_person_name : $("#edit-institution-contact-person").val(),
+                contact_person_number : $("#edit-institution-contact-number").val(),
+                agreement : $("#edit-institution-agreement-type").val(),
+            },
+            beforeSend : authorizeXHR,
+            success : () => {
+                this.props.refresh();
+                iziToast.success({
+                    title : "Success",
+                    message : "Successfully modified institution",
+                    progressBar : false,
+                });
+            },
+            error : response => {
+                console.log(response);
+                iziToast.error({
+                    title : "Error",
+                    message : "Unable to edit institution",
+                    progressBar : false,
+                });
+            },
+        });
+
+        this.props.toggle();
     }
 
     static addValidation() {
@@ -230,7 +269,8 @@ class EditInstitutionModal extends Component {
                         </FormGroup>
                         <FormGroup>
                             <Label for="edit-institution-address">Address</Label>
-                            <Input id="edit-institution-address" defaultValue={this.props.institution.address}
+                            <Input type="textarea" id="edit-institution-address"
+                                   defaultValue={this.props.institution.address}
                                    placeholder="Address" className="text-input"/>
                         </FormGroup>
                         <FormGroup>
@@ -240,7 +280,8 @@ class EditInstitutionModal extends Component {
                         </FormGroup>
                         <FormGroup>
                             <Label for="edit-institution-contact-person">Contact Person</Label>
-                            <Input id="edit-institution-contact-person" defaultValue={this.props.institution.contactPersonName}
+                            <Input id="edit-institution-contact-person"
+                                   defaultValue={this.props.institution.contactPersonName}
                                    placeholder="Name" className="text-input"/>
                         </FormGroup>
                         <FormGroup>

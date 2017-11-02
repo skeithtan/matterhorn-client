@@ -52,6 +52,7 @@ class InstitutionDetail extends Component {
 
         this.toggleDeleteInstitution = this.toggleDeleteInstitution.bind(this);
         this.toggleEditInstitution = this.toggleEditInstitution.bind(this);
+        this.onEditInstitution = this.onEditInstitution.bind(this);
     }
 
     toggleDeleteInstitution() {
@@ -74,6 +75,20 @@ class InstitutionDetail extends Component {
         );
     }
 
+    onEditInstitution() {
+        //Refresh and fetch new data from server
+        this.setState({
+            institution : null,
+        });
+
+        fetchInstitution(this.state.institutionID, response => {
+            console.log("Response is", response);
+            this.setState({
+                institution : response.data.institution,
+            });
+        });
+    }
+
     componentWillReceiveProps(nextProps) {
         const institution = nextProps.institution;
 
@@ -86,13 +101,14 @@ class InstitutionDetail extends Component {
             return;
         }
 
-        // Inform state about an active institution
+        // Inform state about an active institution, but remove old institution
         this.setState({
-            institutionID : institution.institutionID,
+            institutionID : institution.id,
+            institution : null,
         });
 
         //Fetch active institution details
-        fetchInstitution(nextProps.institution.id, response => {
+        fetchInstitution(institution.id, response => {
             this.setState({
                 institution : response.data.institution,
             });
@@ -127,6 +143,7 @@ class InstitutionDetail extends Component {
                 {this.state.institution !== null &&
                 <EditInstitutionModal isOpen={this.state.editInstitutionIsShowing}
                                       institution={this.state.institution}
+                                      refresh={this.onEditInstitution}
                                       toggle={this.toggleEditInstitution}/>}
             </div>
         );

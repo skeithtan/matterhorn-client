@@ -75,7 +75,7 @@ var AddInstitutionModal = function (_Component) {
                     _this2.props.refresh();
                     _izitoast2.default.success({
                         title: "Success",
-                        message: "Successfully added Institution",
+                        message: "Successfully added institution",
                         progressBar: false
                     });
                 },
@@ -83,7 +83,7 @@ var AddInstitutionModal = function (_Component) {
                     console.log(response);
                     _izitoast2.default.error({
                         title: "Error",
-                        message: "Unable to add Institution",
+                        message: "Unable to add institution",
                         progressBar: false
                     });
                 }
@@ -159,7 +159,8 @@ var AddInstitutionModal = function (_Component) {
                                 { "for": "add-institution-address" },
                                 "Address"
                             ),
-                            _react2.default.createElement(_reactstrap.Input, { id: "add-institution-address", placeholder: "Address", className: "text-input" })
+                            _react2.default.createElement(_reactstrap.Input, { type: "textarea", id: "add-institution-address", placeholder: "Address",
+                                className: "text-input" })
                         ),
                         _react2.default.createElement(
                             _reactstrap.FormGroup,
@@ -329,10 +330,52 @@ var EditInstitutionModal = function (_Component3) {
     function EditInstitutionModal(props) {
         _classCallCheck(this, EditInstitutionModal);
 
-        return _possibleConstructorReturn(this, (EditInstitutionModal.__proto__ || Object.getPrototypeOf(EditInstitutionModal)).call(this, props));
+        var _this5 = _possibleConstructorReturn(this, (EditInstitutionModal.__proto__ || Object.getPrototypeOf(EditInstitutionModal)).call(this, props));
+
+        _this5.submitForm = _this5.submitForm.bind(_this5);
+        return _this5;
     }
 
     _createClass(EditInstitutionModal, [{
+        key: "submitForm",
+        value: function submitForm() {
+            var _this6 = this;
+
+            _jquery2.default.ajax({
+                method: "PUT",
+                url: _settings2.default.serverURL + "/institutions/" + this.props.institution.id + "/",
+                data: {
+                    name: (0, _jquery2.default)("#edit-institution-name").val(),
+                    country: (0, _jquery2.default)("#edit-institution-country-list").val(),
+                    email: (0, _jquery2.default)("#edit-institution-email").val(),
+                    address: (0, _jquery2.default)("#edit-institution-address").val(),
+                    website: (0, _jquery2.default)("#edit-institution-website").val(),
+                    contact_person_name: (0, _jquery2.default)("#edit-institution-contact-person").val(),
+                    contact_person_number: (0, _jquery2.default)("#edit-institution-contact-number").val(),
+                    agreement: (0, _jquery2.default)("#edit-institution-agreement-type").val()
+                },
+                beforeSend: _authorization2.default,
+                success: function success() {
+                    _this6.props.refresh();
+                    _izitoast2.default.success({
+                        title: "Success",
+                        message: "Successfully modified institution",
+                        progressBar: false
+                    });
+                },
+                error: function error(response) {
+                    console.log(response);
+                    _izitoast2.default.error({
+                        title: "Error",
+                        message: "Unable to edit institution",
+                        progressBar: false
+                    });
+                }
+            });
+
+            this.props.toggle();
+        }
+    }, {
         key: "render",
         value: function render() {
             var countries = _settings2.default.countries.map(function (name, index) {
@@ -404,7 +447,8 @@ var EditInstitutionModal = function (_Component3) {
                                 { "for": "edit-institution-address" },
                                 "Address"
                             ),
-                            _react2.default.createElement(_reactstrap.Input, { id: "edit-institution-address", defaultValue: this.props.institution.address,
+                            _react2.default.createElement(_reactstrap.Input, { type: "textarea", id: "edit-institution-address",
+                                defaultValue: this.props.institution.address,
                                 placeholder: "Address", className: "text-input" })
                         ),
                         _react2.default.createElement(
@@ -426,7 +470,8 @@ var EditInstitutionModal = function (_Component3) {
                                 { "for": "edit-institution-contact-person" },
                                 "Contact Person"
                             ),
-                            _react2.default.createElement(_reactstrap.Input, { id: "edit-institution-contact-person", defaultValue: this.props.institution.contactPersonName,
+                            _react2.default.createElement(_reactstrap.Input, { id: "edit-institution-contact-person",
+                                defaultValue: this.props.institution.contactPersonName,
                                 placeholder: "Name", className: "text-input" })
                         ),
                         _react2.default.createElement(

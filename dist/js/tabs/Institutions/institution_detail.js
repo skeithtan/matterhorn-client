@@ -60,6 +60,7 @@ var InstitutionDetail = function (_Component) {
 
         _this.toggleDeleteInstitution = _this.toggleDeleteInstitution.bind(_this);
         _this.toggleEditInstitution = _this.toggleEditInstitution.bind(_this);
+        _this.onEditInstitution = _this.onEditInstitution.bind(_this);
         return _this;
     }
 
@@ -78,9 +79,26 @@ var InstitutionDetail = function (_Component) {
             });
         }
     }, {
+        key: "onEditInstitution",
+        value: function onEditInstitution() {
+            var _this2 = this;
+
+            //Refresh and fetch new data from server
+            this.setState({
+                institution: null
+            });
+
+            fetchInstitution(this.state.institutionID, function (response) {
+                console.log("Response is", response);
+                _this2.setState({
+                    institution: response.data.institution
+                });
+            });
+        }
+    }, {
         key: "componentWillReceiveProps",
         value: function componentWillReceiveProps(nextProps) {
-            var _this2 = this;
+            var _this3 = this;
 
             var institution = nextProps.institution;
 
@@ -93,14 +111,15 @@ var InstitutionDetail = function (_Component) {
                 return;
             }
 
-            // Inform state about an active institution
+            // Inform state about an active institution, but remove old institution
             this.setState({
-                institutionID: institution.institutionID
+                institutionID: institution.id,
+                institution: null
             });
 
             //Fetch active institution details
-            fetchInstitution(nextProps.institution.id, function (response) {
-                _this2.setState({
+            fetchInstitution(institution.id, function (response) {
+                _this3.setState({
                     institution: response.data.institution
                 });
             });
@@ -132,6 +151,7 @@ var InstitutionDetail = function (_Component) {
                     refresh: this.props.onDeleteActiveInstitution }),
                 this.state.institution !== null && _react2.default.createElement(_modals.EditInstitutionModal, { isOpen: this.state.editInstitutionIsShowing,
                     institution: this.state.institution,
+                    refresh: this.onEditInstitution,
                     toggle: this.toggleEditInstitution })
             );
         }
