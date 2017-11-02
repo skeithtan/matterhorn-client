@@ -33,9 +33,7 @@ var InstitutionList = function (_Component) {
         var _this = _possibleConstructorReturn(this, (InstitutionList.__proto__ || Object.getPrototypeOf(InstitutionList)).call(this, props));
 
         _this.state = {
-            allInstitutions: props.institutions,
-            searchKeyword: null,
-            filteredInstitutions: null
+            searchKeyword: null
         };
 
         _this.setSearchKeyword = _this.setSearchKeyword.bind(_this);
@@ -44,13 +42,6 @@ var InstitutionList = function (_Component) {
     }
 
     _createClass(InstitutionList, [{
-        key: "componentWillReceiveProps",
-        value: function componentWillReceiveProps(nextProps) {
-            this.setState({
-                allInstitutions: nextProps.institutions
-            });
-        }
-    }, {
         key: "setSearchKeyword",
         value: function setSearchKeyword(searchString) {
             //If the string is empty, that means the user isn't searching at all
@@ -62,14 +53,14 @@ var InstitutionList = function (_Component) {
     }, {
         key: "getFilteredInstitutions",
         value: function getFilteredInstitutions() {
-            if (this.state.allInstitutions === null || this.state.searchKeyword === null) {
+            if (this.props.institutions === null || this.state.searchKeyword === null) {
                 return [];
             }
 
             var filtered = [];
             var searchKeyword = this.state.searchKeyword.toLowerCase();
 
-            this.state.allInstitutions.forEach(function (country) {
+            this.props.institutions.forEach(function (country) {
                 // Array of institutions from this country that conforms to search
                 var countryFiltered = country.institutionSet.filter(function (institution) {
                     var institutionName = institution.name.toLowerCase();
@@ -92,9 +83,9 @@ var InstitutionList = function (_Component) {
     }, {
         key: "render",
         value: function render() {
-            var hasFilter = this.state.searchKeyword !== null;
+            var isSearching = this.state.searchKeyword !== null;
             //Show all institutions or, if it has a filter, show the filtered?
-            var showingInstitutions = hasFilter ? this.getFilteredInstitutions() : this.state.allInstitutions;
+            var showingInstitutions = isSearching ? this.getFilteredInstitutions() : this.props.institutions;
 
             return _react2.default.createElement(
                 "div",
@@ -102,7 +93,7 @@ var InstitutionList = function (_Component) {
                 _react2.default.createElement(InstitutionListHead, { setSearchKeyword: this.setSearchKeyword,
                     toggleAddInstitution: this.props.toggleAddInstitution }),
                 _react2.default.createElement(InstitutionListTable, { countries: showingInstitutions,
-                    hasFilter: hasFilter,
+                    isSearching: isSearching,
                     toggleAddInstitution: this.props.toggleAddInstitution,
                     activeInstitution: this.props.activeInstitution,
                     setActiveInstitution: this.props.setActiveInstitution })
@@ -152,7 +143,7 @@ var InstitutionListHead = function (_Component2) {
                     { className: "page-head-title" },
                     "Institutions"
                 ),
-                _react2.default.createElement(_reactstrap.Input, { placeholder: "Search", className: "search-input mt-2", onChange: this.onSearchInputChange })
+                _react2.default.createElement(_reactstrap.Input, { placeholder: "Search", className: "search-input", onChange: this.onSearchInputChange })
             );
         }
     }]);
@@ -204,10 +195,10 @@ var InstitutionListTable = function (_Component3) {
                 return _react2.default.createElement(_loading2.default, null);
             }
 
-            //If we have a filter, that means there are simply no results if length == 0
-            //If we don't have a filter we really just don't have any data
+            //If we're searching, that means there are simply no results if length == 0
+            //If we're not searching, we really just don't have any data
             if (this.props.countries.length === 0) {
-                return this.props.hasFilter ? InstitutionListTable.noResultsState() : InstitutionListTable.emptyState();
+                return this.props.isSearching ? InstitutionListTable.noResultsState() : InstitutionListTable.emptyState();
             }
 
             var sections = this.props.countries.map(function (country, index) {

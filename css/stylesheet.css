@@ -142,8 +142,7 @@ li.nav-item.active .sidebar-image {
 }
 
 .page-head-title {
-    font-weight   : bold;
-    margin-bottom : 0;
+    font-weight : bold;
 }
 
 .page-head-controls {
@@ -270,7 +269,14 @@ li.nav-item.active .sidebar-image {
 }
 
 #logo-set {
-    width : 720px;
+    width              : 720px;
+    animation-name     : topdown;
+    animation-duration : 1s;
+}
+
+@keyframes topdown {
+    0% { margin-top : 400px }
+    100% { margin-top : 0 }
 }
 
 #sign-in-spinner {

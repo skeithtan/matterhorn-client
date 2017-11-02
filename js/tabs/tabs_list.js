@@ -16,11 +16,6 @@ const tabs = [
         image : "./images/uni.png",
     },
     {
-        name : "Programs",
-        tab : undefined,
-        image : "./images/airplane.png",
-    },
-    {
         name : "Students",
         tab : <Students/>,
         image : "./images/student.png",

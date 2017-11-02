@@ -31,10 +31,6 @@ var tabs = [{
     tab: _react2.default.createElement(_institutions2.default, null),
     image: "./images/uni.png"
 }, {
-    name: "Programs",
-    tab: undefined,
-    image: "./images/airplane.png"
-}, {
     name: "Students",
     tab: _react2.default.createElement(_students2.default, null),
     image: "./images/student.png"

@@ -13,6 +13,12 @@ class InstitutionDetailOverview extends Component {
     render() {
         const institution = this.props.institution;
         const agreementType = this.props.institution.agreement === "B" ? "Bilateral" : "Multilateral";
+        const website = `http://${institution.website}`;
+
+        function openWebsite() {
+            const { shell } = require("electron");
+            shell.openExternal(website);
+        }
 
         return (
             <div>
@@ -20,7 +26,12 @@ class InstitutionDetailOverview extends Component {
                 <ListGroup>
                     <InstitutionDetailRow fieldName="Email" fieldValue={institution.email}/>
                     <InstitutionDetailRow fieldName="Address" fieldValue={institution.address}/>
-                    <InstitutionDetailRow fieldName="Website" fieldValue={institution.website}/>
+
+                    <ListGroupItem>
+                        <small className="font-weight-bold">Website</small>
+                        <p className="m-0 text-primary" onClick={openWebsite}>{website}</p>
+                    </ListGroupItem>
+
                     <InstitutionDetailRow fieldName="Agreement Type" fieldValue={agreementType}/>
                 </ListGroup>
             </div>
@@ -56,7 +67,7 @@ class InstitutionDetailRow extends Component {
 
     render() {
         return (
-            <ListGroupItem>
+            <ListGroupItem onClick={this.props.onClick}>
                 <small className="font-weight-bold">{this.props.fieldName}</small>
                 <p className="m-0">{this.props.fieldValue}</p>
             </ListGroupItem>
