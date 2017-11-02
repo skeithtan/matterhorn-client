@@ -281,7 +281,8 @@ li.nav-item.active .sidebar-image {
 
 #sign-in-spinner {
     position   : absolute;
-    transition : 200ms;
+    transition : 200ms opacity;
+    width      : 320px;
     opacity    : 1;
 }
 

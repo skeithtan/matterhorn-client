@@ -21,13 +21,13 @@
 <body>
 
 <div id="sign-in" class="bg-dlsu h-100 w-100 p-5 d-flex flex-column justify-content-center align-items-center">
-    <div class="d-flex flex-column justify-content-center align-items-center">
-        <div id="logo-set" class="d-flex flex-row align-items-center mb-3">
-            <img src="./images/dlsu_white.png" id="dlsu-logo" class="mr-5">
-            <h1 id="erio-logo" class="text-white">External Relations and Internationalization Office</h1>
-        </div>
+    <div id="logo-set" class="d-flex flex-row align-items-center mb-3">
+        <img src="./images/dlsu_white.png" id="dlsu-logo" class="mr-5">
+        <h1 id="erio-logo" class="text-white">External Relations and Internationalization Office</h1>
+    </div>
 
-        <div id="sign-in-spinner" class="mt-5 pt-5">
+    <div class="d-flex align-items-center justify-content-between mt-5">
+        <div id="sign-in-spinner">
             <div class="spinner spinner-white spinner-lg">
                 <div class="bounce1"></div>
                 <div class="bounce2"></div>
@@ -35,9 +35,10 @@
             </div>
         </div>
 
-        <div id="sign-in-box" class="flex-column mt-5">
+        <div id="sign-in-box" class="flex-column">
             <p class="mb-3 text-center text-white" id="sign-in-message">Invalid Credentials</p>
-            <input id="username-input" class="form-control bg-success text-white border-0 mb-3" placeholder="Username">
+            <input id="username-input" class="form-control bg-success text-white border-0 mb-3"
+                   placeholder="Username">
             <input id="password-input" class="form-control bg-success text-white border-0 mb-3" type="password"
                    placeholder="Password">
             <button id="sign-in-button" type="button" class="btn btn-outline-light">Sign in</button>
@@ -45,16 +46,16 @@
     </div>
 </div>
 
-<div id="window-handle-bar"></div>
-<div id="root"></div>
-<script>
-    // You can also require other files to run in this process
-    require("./renderer.js");
-    require("./dist/js/index");
+    <div id="window-handle-bar"></div>
+    <div id="root"></div>
+    <script>
+        // You can also require other files to run in this process
+        require("./renderer.js");
+        require("./dist/js/index");
 
-    let $ = require("jquery");
-    let Popper = require("popper.js");
-    require("bootstrap");
-</script>
+        let $ = require("jquery");
+        let Popper = require("popper.js");
+        require("bootstrap");
+    </script>
 </body>
 </html>
