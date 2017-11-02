@@ -20,8 +20,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var activeStudent = null;
-
 var StudentList = function (_Component) {
     _inherits(StudentList, _Component);
 
@@ -46,13 +44,11 @@ var StudentList = function (_Component) {
     }, {
         key: "render",
         value: function render() {
-            activeStudent = this.props.activeStudent;
-
             return _react2.default.createElement(
                 "div",
                 { className: "sidebar h-100", id: "student-list" },
                 _react2.default.createElement(StudentListHead, null),
-                _react2.default.createElement(StudentListTable, { students: this.state.allStudents, setActiveStudent: this.props.setActiveInstitution })
+                _react2.default.createElement(StudentListTable, { students: this.state.allStudents })
             );
         }
     }]);
@@ -123,16 +119,26 @@ var StudentListTable = function (_Component3) {
     _createClass(StudentListTable, [{
         key: "render",
         value: function render() {
-            // Pretty sure this will be changed.
-            // There's no dummy data so this will be it for now.
             if (this.props.students === null) {
                 return StudentListTable.emptyState();
             }
 
+            var rows = this.props.students.map(function (student, index) {
+                return _react2.default.createElement(StudentRow, { student: student, key: index });
+            });
+
             return _react2.default.createElement(
                 "div",
                 { className: "page-body" },
-                _react2.default.createElement(StudentSection, null)
+                _react2.default.createElement(
+                    "div",
+                    { className: "section" },
+                    _react2.default.createElement(
+                        _reactstrap.ListGroup,
+                        null,
+                        rows
+                    )
+                )
             );
         }
     }], [{
@@ -163,40 +169,26 @@ var StudentListTable = function (_Component3) {
     return StudentListTable;
 }(_react.Component);
 
-var StudentSection = function (_Component4) {
-    _inherits(StudentSection, _Component4);
+// This will be used when filtering comes in
+// class StudentSection extends Component {
+//     constructor(props) {
+//         super(props);
+//     }
+//
+//     render() {
+//         return (
+//             <div className="section">
+//                 <small className="section-title">A</small>
+//                 <ListGroup>
+//                     <StudentRow/>
+//                 </ListGroup>
+//             </div>
+//         )
+//     }
+// }
 
-    function StudentSection(props) {
-        _classCallCheck(this, StudentSection);
-
-        return _possibleConstructorReturn(this, (StudentSection.__proto__ || Object.getPrototypeOf(StudentSection)).call(this, props));
-    }
-
-    _createClass(StudentSection, [{
-        key: "render",
-        value: function render() {
-            return _react2.default.createElement(
-                "div",
-                { className: "section" },
-                _react2.default.createElement(
-                    "small",
-                    { className: "section-title" },
-                    "A"
-                ),
-                _react2.default.createElement(
-                    _reactstrap.ListGroup,
-                    null,
-                    _react2.default.createElement(StudentRow, null)
-                )
-            );
-        }
-    }]);
-
-    return StudentSection;
-}(_react.Component);
-
-var StudentRow = function (_Component5) {
-    _inherits(StudentRow, _Component5);
+var StudentRow = function (_Component4) {
+    _inherits(StudentRow, _Component4);
 
     function StudentRow(props) {
         _classCallCheck(this, StudentRow);
@@ -207,7 +199,16 @@ var StudentRow = function (_Component5) {
     _createClass(StudentRow, [{
         key: "render",
         value: function render() {
-            return _react2.default.createElement(_reactstrap.ListGroupItem, null);
+            // Hardcoded, I can fix this later.
+            var first = this.props.student.firstName;
+            var middle = this.props.student.middleName;
+            var last = this.props.student.familyName;
+            var name = first + " " + middle + " " + last;
+            return _react2.default.createElement(
+                _reactstrap.ListGroupItem,
+                null,
+                name
+            );
         }
     }]);
 

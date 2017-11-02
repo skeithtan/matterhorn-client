@@ -6,8 +6,6 @@ import {
     ListGroupItem,
 } from "reactstrap";
 
-let activeStudent = null;
-
 class StudentList extends Component {
     constructor(props) {
         super(props);
@@ -24,12 +22,10 @@ class StudentList extends Component {
     }
 
     render() {
-        activeStudent = this.props.activeStudent;
-
         return (
             <div className="sidebar h-100" id="student-list">
                 <StudentListHead/>
-                <StudentListTable students={this.state.allStudents} setActiveStudent={this.props.setActiveInstitution}/>
+                <StudentListTable students={this.state.allStudents}/>
             </div>
         );
     }
@@ -73,36 +69,43 @@ class StudentListTable extends Component {
     }
 
     render() {
-        // Pretty sure this will be changed.
-        // There's no dummy data so this will be it for now.
         if (this.props.students === null) {
             return StudentListTable.emptyState();
         }
 
+        const rows = this.props.students.map((student, index) => {
+            return <StudentRow student={student} key={index}/>
+        });
+
         return (
             <div className="page-body">
-                <StudentSection/>
+                <div className="section">
+                    <ListGroup>
+                        {rows}
+                    </ListGroup>
+                </div>
             </div>
         )
     }
 }
 
-class StudentSection extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        return (
-            <div className="section">
-                <small className="section-title">A</small>
-                <ListGroup>
-                    <StudentRow/>
-                </ListGroup>
-            </div>
-        )
-    }
-}
+// This will be used when filtering comes in
+// class StudentSection extends Component {
+//     constructor(props) {
+//         super(props);
+//     }
+//
+//     render() {
+//         return (
+//             <div className="section">
+//                 <small className="section-title">A</small>
+//                 <ListGroup>
+//                     <StudentRow/>
+//                 </ListGroup>
+//             </div>
+//         )
+//     }
+// }
 
 class StudentRow extends Component {
     constructor(props) {
@@ -110,9 +113,14 @@ class StudentRow extends Component {
     }
 
     render() {
+        // Hardcoded, I can fix this later.
+        const first = this.props.student.firstName;
+        const middle = this.props.student.middleName;
+        const last = this.props.student.familyName;
+        const name = first + " " + middle + " " + last;
         return (
             <ListGroupItem>
-
+                {name}
             </ListGroupItem>
         )
     }
