@@ -165,7 +165,7 @@ class InstitutionDetailHead extends Component {
                     <h4 className="text-muted d-inline-block font-weight-normal mb-0">{this.props.institution.country.name}</h4>
                 </div>
 
-                <div id="institution-actions">
+                <div className="page-head-actions">
                     <Button outline size="sm" color="success" className="mr-2"
                             onClick={this.props.toggleEditInstitution}>Edit Institution</Button>
                     <Button outline size="sm" color="danger"

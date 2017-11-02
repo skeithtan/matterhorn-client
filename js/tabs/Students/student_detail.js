@@ -116,7 +116,7 @@ class StudentDetailHead extends Component {
                     <h4 className="text-muted d-inline-block font-weight-normal mb-0">{this.props.student.idNumber}</h4>
                 </div>
 
-                <div id="student-actions">
+                <div className="page-head-actions">
                     <Button outline size="sm" color="success" className="mr-2">Edit Student</Button>
                     <Button outline size="sm" color="danger">Delete</Button>
                 </div>
