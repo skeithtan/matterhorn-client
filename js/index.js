@@ -5,17 +5,25 @@ import $ from "jquery";
 import settings from "./settings";
 import iziToast from "izitoast";
 
+//Default iziToast settings
+iziToast.settings({
+    progressBar : false,
+});
+
+const showingCSS = {
+    "opacity": 1,
+    "pointer-events": "all"
+};
+
+const hidingCSS = {
+    "opacity": 0,
+    "pointer-events": "none"
+};
 
 $(() => {
     const isLoggedIn = localStorage.token !== undefined;
-    const spinner = $("#sign-in-spinner");
     const signInBox = $("#sign-in-box");
     signInBox.css("opacity", 0);
-
-    //Default iziToast settings
-    iziToast.settings({
-       progressBar: false
-    });
 
     setTimeout(() => {
         if (isLoggedIn) {
@@ -40,6 +48,8 @@ $(() => {
     function attemptSignIn() {
         const username = $("#username-input").val();
         const password = $("#password-input").val();
+
+        signInMessage.hide();
 
         showSignInBox(false);
 
@@ -71,20 +81,12 @@ $(() => {
         });
     }
 
-    function showSignInBox(shouldShow) {
-        signInBox.css("opacity", shouldShow ? 1 : 0);
-        spinner.css("opacity", shouldShow ? 0 : 1);
-    }
-
     function onSignIn() {
         renderReact();
 
         setTimeout(() => {
             const signInView = $("#sign-in");
-            signInView.css({
-                "opacity" : 0,
-                "pointer-events" : "none",
-            });
+            signInView.css(hidingCSS);
         }, 700);
     }
 
@@ -92,5 +94,22 @@ $(() => {
         ReactDOM.render(<App/>, document.getElementById("root"));
     }
 
-
 });
+
+function showSignInBox(signInBoxShouldShow) {
+    const spinner = $("#sign-in-spinner");
+    const signInBox = $("#sign-in-box");
+
+    signInBox.css(signInBoxShouldShow ? showingCSS : hidingCSS);
+    spinner.css(signInBoxShouldShow ? hidingCSS : showingCSS);
+}
+
+function signOut() {
+    localStorage.clear();
+
+    const signInView = $('#sign-in');
+    signInView.css(showingCSS);
+    showSignInBox(true);
+}
+
+export default signOut;

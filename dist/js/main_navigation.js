@@ -18,6 +18,10 @@ var _tabs_list = require("./tabs/tabs_list");
 
 var _tabs_list2 = _interopRequireDefault(_tabs_list);
 
+var _index = require("./index");
+
+var _index2 = _interopRequireDefault(_index);
+
 var _reactstrap = require("reactstrap");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -40,7 +44,7 @@ var MainNavigation = function (_Component) {
     _createClass(MainNavigation, [{
         key: "componentDidMount",
         value: function componentDidMount() {
-            (0, _jquery2.default)('[data-toggle="tooltip"]').tooltip();
+            (0, _jquery2.default)("[data-toggle=\"tooltip\"]").tooltip();
         }
     }, {
         key: "render",
@@ -60,9 +64,10 @@ var MainNavigation = function (_Component) {
                 { className: "bg-dlsu d-flex flex-column justify-content-center", id: "main-navigation" },
                 _react2.default.createElement(
                     _reactstrap.Nav,
-                    { className: "d-flex flex-column w-100" },
+                    { className: "d-flex flex-column w-100 mt-auto mb-auto" },
                     navItems
-                )
+                ),
+                _react2.default.createElement(SwitchUserButton, null)
             );
         }
     }]);
@@ -105,6 +110,65 @@ var TabItem = function (_Component2) {
     }]);
 
     return TabItem;
+}(_react.Component);
+
+var SwitchUserButton = function (_Component3) {
+    _inherits(SwitchUserButton, _Component3);
+
+    function SwitchUserButton(props) {
+        _classCallCheck(this, SwitchUserButton);
+
+        var _this4 = _possibleConstructorReturn(this, (SwitchUserButton.__proto__ || Object.getPrototypeOf(SwitchUserButton)).call(this, props));
+
+        _this4.state = {
+            popoverIsOpen: false
+        };
+
+        _this4.togglePopover = _this4.togglePopover.bind(_this4);
+        return _this4;
+    }
+
+    _createClass(SwitchUserButton, [{
+        key: "togglePopover",
+        value: function togglePopover() {
+            this.setState({
+                popoverIsOpen: !this.state.popoverIsOpen
+            });
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            return _react2.default.createElement(
+                "div",
+                { className: "w-100" },
+                _react2.default.createElement(
+                    "div",
+                    { id: "switch-user-button", onClick: this.togglePopover },
+                    _react2.default.createElement(
+                        "h6",
+                        null,
+                        localStorage.username
+                    )
+                ),
+                _react2.default.createElement(
+                    _reactstrap.Popover,
+                    { placement: "right", isOpen: this.state.popoverIsOpen, target: "switch-user-button",
+                        toggle: this.togglePopover },
+                    _react2.default.createElement(
+                        _reactstrap.PopoverBody,
+                        null,
+                        _react2.default.createElement(
+                            _reactstrap.Button,
+                            { className: "bg-dlsu", onClick: _index2.default },
+                            "Sign out"
+                        )
+                    )
+                )
+            );
+        }
+    }]);
+
+    return SwitchUserButton;
 }(_react.Component);
 
 exports.default = MainNavigation;

@@ -1,5 +1,9 @@
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
 var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
@@ -26,16 +30,25 @@ var _izitoast2 = _interopRequireDefault(_izitoast);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+//Default iziToast settings
+_izitoast2.default.settings({
+    progressBar: false
+});
+
+var showingCSS = {
+    "opacity": 1,
+    "pointer-events": "all"
+};
+
+var hidingCSS = {
+    "opacity": 0,
+    "pointer-events": "none"
+};
+
 (0, _jquery2.default)(function () {
     var isLoggedIn = localStorage.token !== undefined;
-    var spinner = (0, _jquery2.default)("#sign-in-spinner");
     var signInBox = (0, _jquery2.default)("#sign-in-box");
     signInBox.css("opacity", 0);
-
-    //Default iziToast settings
-    _izitoast2.default.settings({
-        progressBar: false
-    });
 
     setTimeout(function () {
         if (isLoggedIn) {
@@ -59,6 +72,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
     function attemptSignIn() {
         var username = (0, _jquery2.default)("#username-input").val();
         var password = (0, _jquery2.default)("#password-input").val();
+
+        signInMessage.hide();
 
         showSignInBox(false);
 
@@ -90,20 +105,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
         });
     }
 
-    function showSignInBox(shouldShow) {
-        signInBox.css("opacity", shouldShow ? 1 : 0);
-        spinner.css("opacity", shouldShow ? 0 : 1);
-    }
-
     function onSignIn() {
         renderReact();
 
         setTimeout(function () {
             var signInView = (0, _jquery2.default)("#sign-in");
-            signInView.css({
-                "opacity": 0,
-                "pointer-events": "none"
-            });
+            signInView.css(hidingCSS);
         }, 700);
     }
 
@@ -111,4 +118,22 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
         _reactDom2.default.render(_react2.default.createElement(_app2.default, null), document.getElementById("root"));
     }
 });
+
+function showSignInBox(signInBoxShouldShow) {
+    var spinner = (0, _jquery2.default)("#sign-in-spinner");
+    var signInBox = (0, _jquery2.default)("#sign-in-box");
+
+    signInBox.css(signInBoxShouldShow ? showingCSS : hidingCSS);
+    spinner.css(signInBoxShouldShow ? hidingCSS : showingCSS);
+}
+
+function signOut() {
+    localStorage.clear();
+
+    var signInView = (0, _jquery2.default)('#sign-in');
+    signInView.css(showingCSS);
+    showSignInBox(true);
+}
+
+exports.default = signOut;
 //# sourceMappingURL=index.js.map
