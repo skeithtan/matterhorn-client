@@ -82,10 +82,12 @@ class InstitutionDetail extends Component {
         });
 
         fetchInstitution(this.state.institutionID, response => {
-            console.log("Response is", response);
+            const institution = response.data.institution;
             this.setState({
-                institution : response.data.institution,
+                institution : institution,
             });
+
+            this.props.refreshInstitutions();
         });
     }
 

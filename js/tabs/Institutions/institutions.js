@@ -79,7 +79,8 @@ class Institutions extends Component {
                                  setActiveInstitution={this.setActiveInstitution}
                                  toggleAddInstitution={this.toggleAddInstitution}/>
                 <InstitutionDetail institution={this.state.activeInstitution}
-                                   onDeleteActiveInstitution={this.onDeleteActiveInstitution}/>
+                                   onDeleteActiveInstitution={this.onDeleteActiveInstitution}
+                                   refreshInstitutions={this.refreshInstitutions}/>
 
                 <AddInstitutionModal isOpen={this.state.addInstitutionIsShowing} toggle={this.toggleAddInstitution}
                                      refresh={this.refreshInstitutions}/>

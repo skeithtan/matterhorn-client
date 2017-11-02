@@ -89,10 +89,12 @@ var InstitutionDetail = function (_Component) {
             });
 
             fetchInstitution(this.state.institutionID, function (response) {
-                console.log("Response is", response);
+                var institution = response.data.institution;
                 _this2.setState({
-                    institution: response.data.institution
+                    institution: institution
                 });
+
+                _this2.props.refreshInstitutions();
             });
         }
     }, {
