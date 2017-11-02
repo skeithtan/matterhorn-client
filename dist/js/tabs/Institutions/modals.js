@@ -19,6 +19,10 @@ var _authorization = require("../../authorization");
 
 var _authorization2 = _interopRequireDefault(_authorization);
 
+var _dismissable_toast_maker = require("../../dismissable_toast_maker");
+
+var _dismissable_toast_maker2 = _interopRequireDefault(_dismissable_toast_maker);
+
 var _settings = require("../../settings");
 
 var _settings2 = _interopRequireDefault(_settings);
@@ -58,6 +62,11 @@ var AddInstitutionModal = function (_Component) {
         value: function submitForm() {
             var _this2 = this;
 
+            var dismissToast = (0, _dismissable_toast_maker2.default)({
+                title: "Adding",
+                message: "Adding new institution..."
+            });
+
             _jquery2.default.post({
                 url: _settings2.default.serverURL + "/institutions/",
                 data: {
@@ -72,19 +81,19 @@ var AddInstitutionModal = function (_Component) {
                 },
                 beforeSend: _authorization2.default,
                 success: function success() {
+                    dismissToast();
                     _this2.props.refresh();
                     _izitoast2.default.success({
                         title: "Success",
-                        message: "Successfully added institution",
-                        progressBar: false
+                        message: "Successfully added institution"
                     });
                 },
                 error: function error(response) {
+                    dismissToast();
                     console.log(response);
                     _izitoast2.default.error({
                         title: "Error",
-                        message: "Unable to add institution",
-                        progressBar: false
+                        message: "Unable to add institution"
                     });
                 }
             });
@@ -267,11 +276,17 @@ var DeleteInstitutionModal = function (_Component2) {
         value: function confirmDelete() {
             var _this4 = this;
 
+            var dismissToast = (0, _dismissable_toast_maker2.default)({
+                title: "Deleting",
+                message: "Deleting institution..."
+            });
+
             _jquery2.default.ajax({
                 url: _settings2.default.serverURL + "/institutions/" + this.props.institution.id + "/",
                 method: "DELETE",
                 beforeSend: _authorization2.default,
                 success: function success() {
+                    dismissToast();
                     _this4.props.refresh();
                     _izitoast2.default.success({
                         title: "Success",
@@ -280,6 +295,7 @@ var DeleteInstitutionModal = function (_Component2) {
                     });
                 },
                 error: function error(response) {
+                    dismissToast();
                     console.log(response);
                     _izitoast2.default.error({
                         title: "Error",
@@ -341,6 +357,11 @@ var EditInstitutionModal = function (_Component3) {
         value: function submitForm() {
             var _this6 = this;
 
+            var dismissToast = (0, _dismissable_toast_maker2.default)({
+                title: "Editing",
+                message: "Editing institution..."
+            });
+
             _jquery2.default.ajax({
                 method: "PUT",
                 url: _settings2.default.serverURL + "/institutions/" + this.props.institution.id + "/",
@@ -356,19 +377,19 @@ var EditInstitutionModal = function (_Component3) {
                 },
                 beforeSend: _authorization2.default,
                 success: function success() {
+                    dismissToast();
                     _this6.props.refresh();
                     _izitoast2.default.success({
                         title: "Success",
-                        message: "Successfully modified institution",
-                        progressBar: false
+                        message: "Successfully modified institution"
                     });
                 },
                 error: function error(response) {
+                    dismissToast();
                     console.log(response);
                     _izitoast2.default.error({
                         title: "Error",
-                        message: "Unable to edit institution",
-                        progressBar: false
+                        message: "Unable to edit institution"
                     });
                 }
             });

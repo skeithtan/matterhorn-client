@@ -20,6 +20,10 @@ var _settings = require("./settings");
 
 var _settings2 = _interopRequireDefault(_settings);
 
+var _izitoast = require("izitoast");
+
+var _izitoast2 = _interopRequireDefault(_izitoast);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 (0, _jquery2.default)(function () {
@@ -27,6 +31,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
     var spinner = (0, _jquery2.default)("#sign-in-spinner");
     var signInBox = (0, _jquery2.default)("#sign-in-box");
     signInBox.css("opacity", 0);
+
+    //Default iziToast settings
+    _izitoast2.default.settings({
+        progressBar: false
+    });
 
     setTimeout(function () {
         if (isLoggedIn) {

@@ -29,6 +29,7 @@ class InstitutionList extends Component {
     }
 
     setSearchKeyword(searchString) {
+        //If the string is empty, that means the user isn't searching at all
         const searchKeyword = searchString === "" ? null : searchString;
         this.setState({
             searchKeyword : searchKeyword,
@@ -66,6 +67,7 @@ class InstitutionList extends Component {
 
     render() {
         const hasFilter = this.state.searchKeyword !== null;
+        //Show all institutions or, if it has a filter, show the filtered?
         const showingInstitutions = hasFilter ? this.getFilteredInstitutions() : this.state.allInstitutions;
 
         return (

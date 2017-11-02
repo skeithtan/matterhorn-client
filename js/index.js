@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import App from "./app";
 import $ from "jquery";
 import settings from "./settings";
+import iziToast from "izitoast";
 
 
 $(() => {
@@ -10,6 +11,11 @@ $(() => {
     const spinner = $("#sign-in-spinner");
     const signInBox = $("#sign-in-box");
     signInBox.css("opacity", 0);
+
+    //Default iziToast settings
+    iziToast.settings({
+       progressBar: false
+    });
 
     setTimeout(() => {
         if (isLoggedIn) {

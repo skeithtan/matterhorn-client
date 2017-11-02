@@ -53,6 +53,7 @@ var InstitutionList = function (_Component) {
     }, {
         key: "setSearchKeyword",
         value: function setSearchKeyword(searchString) {
+            //If the string is empty, that means the user isn't searching at all
             var searchKeyword = searchString === "" ? null : searchString;
             this.setState({
                 searchKeyword: searchKeyword
@@ -92,6 +93,7 @@ var InstitutionList = function (_Component) {
         key: "render",
         value: function render() {
             var hasFilter = this.state.searchKeyword !== null;
+            //Show all institutions or, if it has a filter, show the filtered?
             var showingInstitutions = hasFilter ? this.getFilteredInstitutions() : this.state.allInstitutions;
 
             return _react2.default.createElement(

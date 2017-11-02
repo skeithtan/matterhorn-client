@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import addValidation from "../../form_validation";
 import authorizeXHR from "../../authorization";
+import makeInfoToast from "../../dismissable_toast_maker";
 import settings from "../../settings";
 import iziToast from "izitoast";
 import $ from "jquery";
@@ -41,6 +42,11 @@ class AddInstitutionModal extends Component {
     }
 
     submitForm() {
+        const dismissToast = makeInfoToast({
+            title : "Adding",
+            message : "Adding new institution...",
+        });
+
         $.post({
             url : `${settings.serverURL}/institutions/`,
             data : {
@@ -55,19 +61,19 @@ class AddInstitutionModal extends Component {
             },
             beforeSend : authorizeXHR,
             success : () => {
+                dismissToast();
                 this.props.refresh();
                 iziToast.success({
                     title : "Success",
                     message : "Successfully added institution",
-                    progressBar : false,
                 });
             },
             error : response => {
+                dismissToast();
                 console.log(response);
                 iziToast.error({
                     title : "Error",
                     message : "Unable to add institution",
-                    progressBar : false,
                 });
             },
         });
@@ -142,11 +148,17 @@ class DeleteInstitutionModal extends Component {
     }
 
     confirmDelete() {
+        const dismissToast = makeInfoToast({
+            title : "Deleting",
+            message : "Deleting institution...",
+        });
+
         $.ajax({
             url : `${settings.serverURL}/institutions/${this.props.institution.id}/`,
             method : "DELETE",
             beforeSend : authorizeXHR,
             success : () => {
+                dismissToast();
                 this.props.refresh();
                 iziToast.success({
                     title : "Success",
@@ -155,6 +167,7 @@ class DeleteInstitutionModal extends Component {
                 });
             },
             error : response => {
+                dismissToast();
                 console.log(response);
                 iziToast.error({
                     title : "Error",
@@ -188,6 +201,11 @@ class EditInstitutionModal extends Component {
     }
 
     submitForm() {
+        const dismissToast = makeInfoToast({
+            title : "Editing",
+            message : "Editing institution...",
+        });
+
         $.ajax({
             method : "PUT",
             url : `${settings.serverURL}/institutions/${this.props.institution.id}/`,
@@ -203,19 +221,19 @@ class EditInstitutionModal extends Component {
             },
             beforeSend : authorizeXHR,
             success : () => {
+                dismissToast();
                 this.props.refresh();
                 iziToast.success({
                     title : "Success",
                     message : "Successfully modified institution",
-                    progressBar : false,
                 });
             },
             error : response => {
+                dismissToast();
                 console.log(response);
                 iziToast.error({
                     title : "Error",
                     message : "Unable to edit institution",
-                    progressBar : false,
                 });
             },
         });
