@@ -72,16 +72,16 @@ class AddStudentModal extends Component {
                 dismissToast();
                 this.props.refresh();
                 iziToast.success({
-                    title : "Success",
-                    message : "Successfully added student",
+                    title: "Success",
+                    message: "Successfully added student",
                 });
             },
-            error : response => {
+            error: response => {
                 dismissToast();
                 console.log(response);
                 iziToast.error({
-                    title : "Error",
-                    message : "Unable to add student",
+                    title: "Error",
+                    message: "Unable to add student",
                 });
             },
         });
@@ -199,6 +199,66 @@ class AddStudentModal extends Component {
     }
 }
 
+class DeleteStudentModal extends Component {
+    constructor(props) {
+        super(props);
+
+        this.confirmDelete = this.confirmDelete.bind(this);
+    }
+
+    confirmDelete() {
+        const dismissToast = makeInfoToast({
+            title : "Deleting",
+            message : "Deleting student...",
+        });
+
+        $.ajax({
+            url: `${settings.serverURL}/students/${this.props.student.idNumber}/`,
+            method: "DELETE",
+            beforeSend: authorizeXHR,
+            success: () => {
+                dismissToast();
+                this.props.refresh();
+                iziToast.success({
+                    title : "Success",
+                    message : "Student deleted",
+                    progressBar : false,
+                });
+            },
+            error : response => {
+                dismissToast();
+                console.log(response);
+                iziToast.error({
+                    title : "Error",
+                    message : "Unable to delete student",
+                    progressBar : false,
+                });
+            },
+        });
+        this.props.toggle();
+    }
+
+    render() {
+        // Hardcoded, I know. Bare with me. You can fix it if you want.
+        const first = this.props.student.firstName;
+        const middle = this.props.student.middleName;
+        const last = this.props.student.familyName;
+        const name = first + " " + middle + " " + last; // concatenate name here
+
+        return (
+            <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} backdrop={true} id="delete-student-modal">
+                <ModalHeader className="text-danger">Are you sure you want to
+                    delete {name}?</ModalHeader>
+                <ModalBody>This cannot be undone.</ModalBody>
+                <ModalFooter>
+                    <Button color="danger" onClick={this.confirmDelete}>Confirm Delete</Button>
+                </ModalFooter>
+            </Modal>
+        )
+    }
+}
+
 export {
     AddStudentModal,
+    DeleteStudentModal
 };

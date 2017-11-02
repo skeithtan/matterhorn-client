@@ -14,6 +14,8 @@ var _reactstrap = require("reactstrap");
 
 var _student_detail_overview = require("./student_detail_overview");
 
+var _modals = require("./modals");
+
 var _loading = require("../../loading");
 
 var _loading2 = _interopRequireDefault(_loading);
@@ -47,12 +49,22 @@ var StudentDetail = function (_Component) {
 
         _this.state = {
             student: null,
-            studentID: null
+            studentID: null,
+            deleteStudentIsShowing: false
         };
+
+        _this.toggleDeleteStudent = _this.toggleDeleteStudent.bind(_this);
         return _this;
     }
 
     _createClass(StudentDetail, [{
+        key: "toggleDeleteStudent",
+        value: function toggleDeleteStudent() {
+            this.setState({
+                deleteStudentIsShowing: !this.state.deleteStudentIsShowing
+            });
+        }
+    }, {
         key: "componentWillReceiveProps",
         value: function componentWillReceiveProps(nextProps) {
             var _this2 = this;
@@ -93,8 +105,14 @@ var StudentDetail = function (_Component) {
             return _react2.default.createElement(
                 "div",
                 { id: "student-detail", className: "container-fluid d-flex flex-column p-0" },
-                _react2.default.createElement(StudentDetailHead, { student: this.state.student }),
-                _react2.default.createElement(StudentDetailBody, { student: this.state.student })
+                _react2.default.createElement(StudentDetailHead, { student: this.state.student,
+                    toggleDeleteStudent: this.toggleDeleteStudent }),
+                _react2.default.createElement(StudentDetailBody, { student: this.state.student }),
+                this.state.student !== null && //If activeStudent is not null
+                _react2.default.createElement(_modals.DeleteStudentModal, { isOpen: this.state.deleteStudentIsShowing,
+                    student: this.state.student,
+                    toggle: this.toggleDeleteStudent,
+                    refresh: this.props.onDeleteActiveStudent })
             );
         }
     }], [{
@@ -158,7 +176,7 @@ var StudentDetailHead = function (_Component2) {
                     ),
                     _react2.default.createElement(
                         _reactstrap.Button,
-                        { outline: true, size: "sm", color: "danger" },
+                        { outline: true, size: "sm", color: "danger", onClick: this.props.toggleDeleteStudent },
                         "Delete"
                     )
                 )

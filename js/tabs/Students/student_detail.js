@@ -8,6 +8,9 @@ import {
     StudentUniversity,
 
 } from "./student_detail_overview";
+import {
+    DeleteStudentModal,
+} from "./modals";
 import LoadingSpinner from "../../loading";
 import graphql from "../../graphql";
 
@@ -48,7 +51,16 @@ class StudentDetail extends Component {
         this.state = {
             student : null,
             studentID : null,
+            deleteStudentIsShowing: false,
         };
+
+        this.toggleDeleteStudent = this.toggleDeleteStudent.bind(this);
+    }
+
+    toggleDeleteStudent() {
+        this.setState({
+            deleteStudentIsShowing: !this.state.deleteStudentIsShowing,
+        });
     }
 
     static unselectedState() {
@@ -94,8 +106,15 @@ class StudentDetail extends Component {
 
         return (
             <div id="student-detail" className="container-fluid d-flex flex-column p-0">
-                <StudentDetailHead student={this.state.student}/>
+                <StudentDetailHead student={this.state.student}
+                                   toggleDeleteStudent={this.toggleDeleteStudent}/>
                 <StudentDetailBody student={this.state.student}/>
+
+                {this.state.student !== null && //If activeStudent is not null
+                <DeleteStudentModal isOpen={this.state.deleteStudentIsShowing}
+                                    student={this.state.student}
+                                    toggle={this.toggleDeleteStudent}
+                                    refresh={this.props.onDeleteActiveStudent}/>}
             </div>
         );
     }
@@ -118,7 +137,7 @@ class StudentDetailHead extends Component {
 
                 <div className="page-head-actions">
                     <Button outline size="sm" color="success" className="mr-2">Edit Student</Button>
-                    <Button outline size="sm" color="danger">Delete</Button>
+                    <Button outline size="sm" color="danger" onClick={this.props.toggleDeleteStudent}>Delete</Button>
                 </div>
             </div>
         );

@@ -186,7 +186,7 @@ class DeleteInstitutionModal extends Component {
 
     render() {
         return (
-            <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} backdrop={true} id="add-institution-modal">
+            <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} backdrop={true} id="delete-institution-modal">
                 <ModalHeader className="text-danger">Are you sure you want to
                     delete {this.props.institution.name}?</ModalHeader>
                 <ModalBody>This cannot be undone.</ModalBody>

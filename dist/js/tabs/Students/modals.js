@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.AddStudentModal = undefined;
+exports.DeleteStudentModal = exports.AddStudentModal = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -422,5 +422,93 @@ var AddStudentModal = function (_Component) {
     return AddStudentModal;
 }(_react.Component);
 
+var DeleteStudentModal = function (_Component2) {
+    _inherits(DeleteStudentModal, _Component2);
+
+    function DeleteStudentModal(props) {
+        _classCallCheck(this, DeleteStudentModal);
+
+        var _this3 = _possibleConstructorReturn(this, (DeleteStudentModal.__proto__ || Object.getPrototypeOf(DeleteStudentModal)).call(this, props));
+
+        _this3.confirmDelete = _this3.confirmDelete.bind(_this3);
+        return _this3;
+    }
+
+    _createClass(DeleteStudentModal, [{
+        key: "confirmDelete",
+        value: function confirmDelete() {
+            var _this4 = this;
+
+            var dismissToast = (0, _dismissable_toast_maker2.default)({
+                title: "Deleting",
+                message: "Deleting student..."
+            });
+
+            _jquery2.default.ajax({
+                url: _settings2.default.serverURL + "/students/" + this.props.student.idNumber + "/",
+                method: "DELETE",
+                beforeSend: _authorization2.default,
+                success: function success() {
+                    dismissToast();
+                    _this4.props.refresh();
+                    _izitoast2.default.success({
+                        title: "Success",
+                        message: "Student deleted",
+                        progressBar: false
+                    });
+                },
+                error: function error(response) {
+                    dismissToast();
+                    console.log(response);
+                    _izitoast2.default.error({
+                        title: "Error",
+                        message: "Unable to delete student",
+                        progressBar: false
+                    });
+                }
+            });
+            this.props.toggle();
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            // Hardcoded, I know. Bare with me. You can fix it if you want.
+            var first = this.props.student.firstName;
+            var middle = this.props.student.middleName;
+            var last = this.props.student.familyName;
+            var name = first + " " + middle + " " + last; // concatenate name here
+
+            return _react2.default.createElement(
+                _reactstrap.Modal,
+                { isOpen: this.props.isOpen, toggle: this.props.toggle, backdrop: true, id: "delete-student-modal" },
+                _react2.default.createElement(
+                    _reactstrap.ModalHeader,
+                    { className: "text-danger" },
+                    "Are you sure you want to delete ",
+                    name,
+                    "?"
+                ),
+                _react2.default.createElement(
+                    _reactstrap.ModalBody,
+                    null,
+                    "This cannot be undone."
+                ),
+                _react2.default.createElement(
+                    _reactstrap.ModalFooter,
+                    null,
+                    _react2.default.createElement(
+                        _reactstrap.Button,
+                        { color: "danger", onClick: this.confirmDelete },
+                        "Confirm Delete"
+                    )
+                )
+            );
+        }
+    }]);
+
+    return DeleteStudentModal;
+}(_react.Component);
+
 exports.AddStudentModal = AddStudentModal;
+exports.DeleteStudentModal = DeleteStudentModal;
 //# sourceMappingURL=modals.js.map

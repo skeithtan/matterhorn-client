@@ -56,6 +56,7 @@ var Students = function (_Component) {
         _this.setActiveStudent = _this.setActiveStudent.bind(_this);
         _this.toggleAddStudent = _this.toggleAddStudent.bind(_this);
         _this.refreshStudents = _this.refreshStudents.bind(_this);
+        _this.onDeleteActiveStudent = _this.onDeleteActiveStudent.bind(_this);
         _this.refreshStudents();
         return _this;
     }
@@ -70,6 +71,15 @@ var Students = function (_Component) {
                     allStudents: response.data.students
                 });
             });
+        }
+    }, {
+        key: "onDeleteActiveStudent",
+        value: function onDeleteActiveStudent() {
+            this.setState({
+                activeStudent: null
+            });
+
+            this.refreshStudents();
         }
     }, {
         key: "toggleAddStudent",
@@ -95,7 +105,9 @@ var Students = function (_Component) {
                     activeStudent: this.state.activeStudent,
                     setActiveStudent: this.setActiveStudent,
                     toggleAddStudent: this.toggleAddStudent }),
-                _react2.default.createElement(_student_detail2.default, { student: this.state.activeStudent }),
+                _react2.default.createElement(_student_detail2.default, { student: this.state.activeStudent,
+                    onDeleteActiveStudent: this.onDeleteActiveStudent,
+                    refreshStudents: this.refreshStudents }),
                 _react2.default.createElement(_modals.AddStudentModal, { isOpen: this.state.addStudentIsShowing,
                     toggle: this.toggleAddStudent,
                     refresh: this.refreshStudents })

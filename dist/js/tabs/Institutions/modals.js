@@ -320,7 +320,7 @@ var DeleteInstitutionModal = function (_Component2) {
         value: function render() {
             return _react2.default.createElement(
                 _reactstrap.Modal,
-                { isOpen: this.props.isOpen, toggle: this.props.toggle, backdrop: true, id: "add-institution-modal" },
+                { isOpen: this.props.isOpen, toggle: this.props.toggle, backdrop: true, id: "delete-institution-modal" },
                 _react2.default.createElement(
                     _reactstrap.ModalHeader,
                     { className: "text-danger" },

@@ -36,6 +36,7 @@ class Students extends Component {
         this.setActiveStudent = this.setActiveStudent.bind(this);
         this.toggleAddStudent = this.toggleAddStudent.bind(this);
         this.refreshStudents = this.refreshStudents.bind(this);
+        this.onDeleteActiveStudent = this.onDeleteActiveStudent.bind(this);
         this.refreshStudents();
     }
 
@@ -45,6 +46,14 @@ class Students extends Component {
                 allStudents: response.data.students,
             });
         });
+    }
+
+    onDeleteActiveStudent() {
+        this.setState({
+            activeStudent: null,
+        });
+
+        this.refreshStudents();
     }
 
     toggleAddStudent() {
@@ -66,7 +75,9 @@ class Students extends Component {
                              activeStudent={this.state.activeStudent}
                              setActiveStudent={this.setActiveStudent}
                              toggleAddStudent={this.toggleAddStudent}/>
-                <StudentDetail student={this.state.activeStudent}/>
+                <StudentDetail student={this.state.activeStudent}
+                               onDeleteActiveStudent={this.onDeleteActiveStudent}
+                               refreshStudents={this.refreshStudents}/>
                 <AddStudentModal isOpen={this.state.addStudentIsShowing}
                                  toggle={this.toggleAddStudent}
                                  refresh={this.refreshStudents}/>
