@@ -73,10 +73,11 @@ var StudentList = function (_Component) {
             return _react2.default.createElement(
                 "div",
                 { className: "sidebar h-100", id: "student-list" },
-                _react2.default.createElement(StudentListHead, null),
-                _react2.default.createElement(StudentListTable, { students: this.props.students,
+                _react2.default.createElement(StudentListHead, { setSearchKeyword: this.setSearchKeyword }),
+                _react2.default.createElement(StudentListTable, { students: showingStudents,
                     activeStudent: this.props.activeStudent,
-                    setActiveStudent: this.props.setActiveStudent })
+                    setActiveStudent: this.props.setActiveStudent,
+                    isSearching: isSearching })
             );
         }
     }]);

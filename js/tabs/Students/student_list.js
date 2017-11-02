@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import LoadingSpinner from "../../loading";
 import {
     Input,
@@ -13,7 +13,7 @@ class StudentList extends Component {
         super(props);
 
         this.state = {
-            searchKeyword: null,
+            searchKeyword : null,
         };
 
         this.setSearchKeyword = this.setSearchKeyword.bind(this);
@@ -24,7 +24,7 @@ class StudentList extends Component {
         //If the string is empty, that means the user isn't searching at all
         const searchKeyword = searchString === "" ? null : searchString;
         this.setState({
-            searchKeyword: searchKeyword,
+            searchKeyword : searchKeyword,
         });
     }
 
@@ -47,10 +47,11 @@ class StudentList extends Component {
 
         return (
             <div className="sidebar h-100" id="student-list">
-                <StudentListHead/>
-                <StudentListTable students={this.props.students}
+                <StudentListHead setSearchKeyword={this.setSearchKeyword}/>
+                <StudentListTable students={showingStudents}
                                   activeStudent={this.props.activeStudent}
-                                  setActiveStudent={this.props.setActiveStudent}/>
+                                  setActiveStudent={this.props.setActiveStudent}
+                                  isSearching={isSearching}/>
             </div>
         );
     }
@@ -136,8 +137,8 @@ class StudentListTable extends Component {
         familyNameInitials.forEach(initial => {
             let students = [];
             categorizedByInitial.push({
-                initial: initial,
-                students: students,
+                initial : initial,
+                students : students,
             });
 
             this.props.students.forEach(student => {
@@ -232,7 +233,7 @@ class StudentRow extends Component {
             return <ListGroupItem onClick={this.props.setActiveStudent}>
                 <small className="d-block">{idNumber}</small>
                 <b>{familyName}</b>, {first} {middle}
-            </ListGroupItem>
+            </ListGroupItem>;
         }
     }
 }
