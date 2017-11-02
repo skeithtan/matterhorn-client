@@ -8,16 +8,9 @@ import {
 } from "reactstrap";
 
 
-let activeInstitution = null;
-let setActiveInstitution = institution => {
-};
-let toggleAddInstitution = () => {};
-
 class InstitutionList extends Component {
     constructor(props) {
         super(props);
-        setActiveInstitution = props.setActiveInstitution;
-        toggleAddInstitution = props.toggleAddInstitution;
 
         this.state = {
             allInstitutions : props.institutions,
@@ -72,15 +65,17 @@ class InstitutionList extends Component {
     }
 
     render() {
-        activeInstitution = this.props.activeInstitution;
         const hasFilter = this.state.filteredInstitutions !== null;
         const showingInstitutions = hasFilter ? this.state.filteredInstitutions : this.state.allInstitutions;
 
         return (
             <div className="sidebar h-100" id="institution-list">
-                <InstitutionListHead filterInstitutions={this.filterInstitutions}/>
+                <InstitutionListHead filterInstitutions={this.filterInstitutions}
+                                     toggleAddInstitution={this.props.toggleAddInstitution}/>
                 <InstitutionListTable countries={showingInstitutions}
                                       hasFilter={hasFilter}
+                                      toggleAddInstitution={this.props.toggleAddInstitution}
+                                      activeInstitution={this.props.activeInstitution}
                                       setActiveInstitution={this.props.setActiveInstitution}/>
             </div>
         );
@@ -103,7 +98,7 @@ class InstitutionListHead extends Component {
             <div className="page-head">
                 <div className="page-head-controls">
                     <Button outline color="success" size="sm" className="ml-auto"
-                            onClick={toggleAddInstitution}>Add</Button>
+                            onClick={this.props.toggleAddInstitution}>Add</Button>
                 </div>
                 <h4 className="page-head-title">Institutions</h4>
                 <Input placeholder="Search" className="search-input mt-2" onChange={this.onSearchInputChange}/>
@@ -115,16 +110,17 @@ class InstitutionListHead extends Component {
 class InstitutionListTable extends Component {
     constructor(props) {
         super(props);
+        this.emptyState = this.emptyState.bind(this);
     }
 
-    static emptyState() {
+    emptyState() {
         return (
             <div className="loading-container">
                 <h4>There's nothing here.</h4>
                 <p>When added, Institutions will show up here.</p>
-                <Button outline color="success" onClick={toggleAddInstitution}>Add an Institution</Button>
+                <Button outline color="success" onClick={this.props.toggleAddInstitution}>Add an Institution</Button>
             </div>
-        )
+        );
     }
 
 
@@ -141,13 +137,17 @@ class InstitutionListTable extends Component {
             return <LoadingSpinner/>;
         }
 
+        //If we have a filter, that means there are simply no results if length == 0
+        //If we don't have a filter we really just don't have any data
         if (this.props.countries.length === 0) {
             return this.props.hasFilter ? InstitutionListTable.noResultsState() : InstitutionListTable.emptyState();
         }
 
 
         const sections = this.props.countries.map((country, index) => {
-            return <InstitutionSection title={country.name} institutions={country.institutionSet} key={index}/>;
+            return <InstitutionSection title={country.name} institutions={country.institutionSet} key={index}
+                                       activeInstitution={this.props.activeInstitution}
+                                       setActiveInstitution={this.props.setActiveInstitution}/>;
         });
 
         return (
@@ -164,8 +164,18 @@ class InstitutionSection extends Component {
     }
 
     render() {
-        const rows = this.props.institutions.map(institution => <InstitutionRow institution={institution}
-                                                                                key={institution.id}/>);
+        const rows = this.props.institutions.map(institution => {
+            let isActive = false;
+
+            if (this.props.activeInstitution !== null) {
+                isActive = this.props.activeInstitution.id === institution.id;
+            }
+
+            return <InstitutionRow institution={institution}
+                                   setActiveInstitution={() => this.props.setActiveInstitution(institution)}
+                                   isActive={isActive}
+                                   key={institution.id}/>;
+        });
 
         return (
             <div className="section">
@@ -184,13 +194,11 @@ class InstitutionRow extends Component {
     }
 
     render() {
-        const isActive = activeInstitution !== null ? this.props.institution.id === activeInstitution.id : false;
-
-        if (isActive) {
+        if (this.props.isActive) {
             return <ListGroupItem className="bg-dlsu text-white">{this.props.institution.name}</ListGroupItem>;
         } else {
             return <ListGroupItem
-                onClick={() => setActiveInstitution(this.props.institution)}>{this.props.institution.name}</ListGroupItem>;
+                onClick={this.props.setActiveInstitution}>{this.props.institution.name}</ListGroupItem>;
         }
     }
 }
