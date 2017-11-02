@@ -27,15 +27,40 @@ var StudentDetailOverview = function (_Component) {
     function StudentDetailOverview(props) {
         _classCallCheck(this, StudentDetailOverview);
 
-        return _possibleConstructorReturn(this, (StudentDetailOverview.__proto__ || Object.getPrototypeOf(StudentDetailOverview)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (StudentDetailOverview.__proto__ || Object.getPrototypeOf(StudentDetailOverview)).call(this, props));
+
+        _this.convertCivilStatus = _this.convertCivilStatus.bind(_this);
+        return _this;
     }
 
     _createClass(StudentDetailOverview, [{
+        key: "convertCivilStatus",
+        value: function convertCivilStatus(civilStatus) {
+            switch (civilStatus) {
+                case "S":
+                    civilStatus = "Single";
+                    break;
+
+                case "M":
+                    civilStatus = "Married";
+                    break;
+
+                case "D":
+                    civilStatus = "Divorced";
+                    break;
+
+                case "W":
+                    civilStatus = "Widowed";
+                    break;
+            }
+            return civilStatus;
+        }
+    }, {
         key: "render",
         value: function render() {
             var student = this.props.student;
-            var sex = this.props.student.gender === "F" ? "Female" : "Male";
-            // TODO: switch for civil status
+            var sex = student.gender === "F" ? "Female" : "Male";
+            var civilStatus = this.convertCivilStatus(student.civilStatus);
 
             return _react2.default.createElement(
                 "div",
@@ -53,7 +78,7 @@ var StudentDetailOverview = function (_Component) {
                     _react2.default.createElement(StudentDetailRow, { fieldName: "Address", fieldValue: student.homeAddress }),
                     _react2.default.createElement(StudentDetailRow, { fieldName: "Birth Date", fieldValue: student.birthDate }),
                     _react2.default.createElement(StudentDetailRow, { fieldName: "Nationality", fieldValue: student.nationality }),
-                    _react2.default.createElement(StudentDetailRow, { fieldName: "Civil Status", fieldValue: student.civilStatus })
+                    _react2.default.createElement(StudentDetailRow, { fieldName: "Civil Status", fieldValue: civilStatus })
                 )
             );
         }
@@ -121,15 +146,52 @@ var StudentUniversity = function (_Component3) {
     function StudentUniversity(props) {
         _classCallCheck(this, StudentUniversity);
 
-        return _possibleConstructorReturn(this, (StudentUniversity.__proto__ || Object.getPrototypeOf(StudentUniversity)).call(this, props));
+        var _this3 = _possibleConstructorReturn(this, (StudentUniversity.__proto__ || Object.getPrototypeOf(StudentUniversity)).call(this, props));
+
+        _this3.convertCollege = _this3.convertCollege.bind(_this3);
+        return _this3;
     }
 
     _createClass(StudentUniversity, [{
+        key: "convertCollege",
+        value: function convertCollege(college) {
+            switch (college) {
+                case "CCS":
+                    college = "College of Computer Studies";
+                    break;
+
+                case "RVRCOB":
+                    college = "Ramon V. Del Rosario College of Business";
+                    break;
+
+                case "CLA":
+                    college = "College of Liberal Arts";
+                    break;
+
+                case "SOE":
+                    college = "School of Economics";
+                    break;
+
+                case "GCOE":
+                    college = "Gokongwei College of Engineering";
+                    break;
+
+                case "COL":
+                    college = "College of Law";
+                    break;
+
+                case "BAGCED":
+                    college = "Brother Andrew Gonzales College of Education";
+                    break;
+            }
+            return college;
+        }
+    }, {
         key: "render",
         value: function render() {
             var student = this.props.student;
-            // TODO: switch for colleges
-            var type = this.props.student.category === "OUT" ? "Outbound" : "Inbound";
+            var college = this.convertCollege(student.college);
+            var type = student.category === "OUT" ? "Outbound" : "Inbound";
 
             return _react2.default.createElement(
                 "div",
@@ -142,7 +204,7 @@ var StudentUniversity = function (_Component3) {
                 _react2.default.createElement(
                     _reactstrap.ListGroup,
                     null,
-                    _react2.default.createElement(StudentDetailRow, { fieldName: "College", fieldValue: student.college }),
+                    _react2.default.createElement(StudentDetailRow, { fieldName: "College", fieldValue: college }),
                     _react2.default.createElement(StudentDetailRow, { fieldName: "Student Type", fieldValue: type })
                 )
             );
