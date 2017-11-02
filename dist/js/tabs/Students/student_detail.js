@@ -49,6 +49,8 @@ var StudentDetail = function (_Component) {
     _createClass(StudentDetail, [{
         key: "componentWillReceiveProps",
         value: function componentWillReceiveProps(nextProps) {
+            var _this2 = this;
+
             var student = nextProps.student;
 
             if (student === null) {
@@ -61,12 +63,23 @@ var StudentDetail = function (_Component) {
             }
 
             this.setState({
-                studentID: student.studentID
+                studentID: student.idNumber,
+                student: null
+            });
+
+            fetchStudent(student.idNumber, function (response) {
+                _this2.setState({
+                    student: response.data.student
+                });
             });
         }
     }, {
         key: "render",
         value: function render() {
+            if (this.state.studentID === null) {
+                return StudentDetail.unselectedState();
+            }
+
             return _react2.default.createElement(
                 "div",
                 { id: "student-detail", className: "container-fluid d-flex flex-column p-0" },
@@ -113,12 +126,16 @@ var StudentDetailHead = function (_Component2) {
                     _react2.default.createElement(
                         "h4",
                         { className: "page-head-title justify-content-left d-inline-block mb-0 mr-2" },
-                        "Name"
+                        this.props.student.firstName,
+                        " ",
+                        this.props.student.middleName,
+                        " ",
+                        this.props.student.familyName
                     ),
                     _react2.default.createElement(
                         "h4",
                         { className: "text-muted d-inline-block font-weight-normal mb-0" },
-                        "ID Number"
+                        this.props.student.idNumber
                     )
                 ),
                 _react2.default.createElement(

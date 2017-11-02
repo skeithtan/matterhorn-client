@@ -50,6 +50,8 @@ var Students = function (_Component) {
             activeStudent: null
         };
 
+        _this.setActiveStudent = _this.setActiveStudent.bind(_this);
+
         fetchStudents(function (response) {
             _this.setState({
                 allStudents: response.data.students

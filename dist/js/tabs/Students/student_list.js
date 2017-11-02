@@ -233,6 +233,8 @@ var StudentListTable = function (_Component3) {
     }, {
         key: "render",
         value: function render() {
+            var _this5 = this;
+
             if (this.props.students === null) {
                 return _react2.default.createElement(_loading2.default, null);
             }
@@ -246,7 +248,9 @@ var StudentListTable = function (_Component3) {
             var sections = familyNameInitials.map(function (familyNameInitial, index) {
                 return _react2.default.createElement(StudentSection, { key: index,
                     title: familyNameInitial.initial,
-                    students: familyNameInitial.students });
+                    activeStudent: _this5.props.activeStudent,
+                    students: familyNameInitial.students,
+                    setActiveStudent: _this5.props.setActiveStudent });
             });
 
             return _react2.default.createElement(
@@ -285,8 +289,21 @@ var StudentSection = function (_Component4) {
     _createClass(StudentSection, [{
         key: "render",
         value: function render() {
+            var _this7 = this;
+
             var rows = this.props.students.map(function (student) {
-                return _react2.default.createElement(StudentRow, { key: student.idNumber, student: student });
+                var isActive = false;
+
+                if (_this7.props.activeStudent !== null) {
+                    isActive = _this7.props.activeStudent.id === student.id;
+                }
+
+                return _react2.default.createElement(StudentRow, { key: student.idNumber,
+                    student: student,
+                    setActiveStudent: function setActiveStudent() {
+                        return _this7.props.setActiveStudent(student);
+                    },
+                    isActive: isActive });
             });
 
             return _react2.default.createElement(
@@ -325,24 +342,46 @@ var StudentRow = function (_Component5) {
             var middle = this.props.student.middleName;
             var familyName = this.props.student.familyName;
             var idNumber = this.props.student.idNumber;
-            return _react2.default.createElement(
-                _reactstrap.ListGroupItem,
-                null,
-                _react2.default.createElement(
-                    "small",
-                    { className: "d-block" },
-                    idNumber
-                ),
-                _react2.default.createElement(
-                    "b",
-                    null,
-                    familyName
-                ),
-                ", ",
-                first,
-                " ",
-                middle
-            );
+
+            if (this.props.isActive) {
+                return _react2.default.createElement(
+                    _reactstrap.ListGroupItem,
+                    { className: "bg-dlsu text-white" },
+                    _react2.default.createElement(
+                        "small",
+                        { className: "d-block" },
+                        idNumber
+                    ),
+                    _react2.default.createElement(
+                        "b",
+                        null,
+                        familyName
+                    ),
+                    ", ",
+                    first,
+                    " ",
+                    middle
+                );
+            } else {
+                return _react2.default.createElement(
+                    _reactstrap.ListGroupItem,
+                    { onClick: this.props.setActiveStudent },
+                    _react2.default.createElement(
+                        "small",
+                        { className: "d-block" },
+                        idNumber
+                    ),
+                    _react2.default.createElement(
+                        "b",
+                        null,
+                        familyName
+                    ),
+                    ", ",
+                    first,
+                    " ",
+                    middle
+                );
+            }
         }
     }]);
 

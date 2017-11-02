@@ -29,6 +29,8 @@ class Students extends Component {
             activeStudent: null,
         };
 
+        this.setActiveStudent = this.setActiveStudent.bind(this);
+
         fetchStudents(response => {
             this.setState({
                 allStudents: response.data.students,

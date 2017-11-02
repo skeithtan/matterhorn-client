@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import LoadingSpinner from "../../loading";
 import {
     Input,
@@ -13,7 +13,7 @@ class StudentList extends Component {
         super(props);
 
         this.state = {
-            searchKeyword : null,
+            searchKeyword: null,
         };
 
         this.setSearchKeyword = this.setSearchKeyword.bind(this);
@@ -24,7 +24,7 @@ class StudentList extends Component {
         //If the string is empty, that means the user isn't searching at all
         const searchKeyword = searchString === "" ? null : searchString;
         this.setState({
-            searchKeyword : searchKeyword,
+            searchKeyword: searchKeyword,
         });
     }
 
@@ -136,8 +136,8 @@ class StudentListTable extends Component {
         familyNameInitials.forEach(initial => {
             let students = [];
             categorizedByInitial.push({
-                initial : initial,
-                students : students,
+                initial: initial,
+                students: students,
             });
 
             this.props.students.forEach(student => {
@@ -167,7 +167,9 @@ class StudentListTable extends Component {
         const sections = familyNameInitials.map((familyNameInitial, index) => {
             return <StudentSection key={index}
                                    title={familyNameInitial.initial}
-                                   students={familyNameInitial.students}/>;
+                                   activeStudent={this.props.activeStudent}
+                                   students={familyNameInitial.students}
+                                   setActiveStudent={this.props.setActiveStudent}/>;
         });
 
 
@@ -185,8 +187,18 @@ class StudentSection extends Component {
     }
 
     render() {
+
         const rows = this.props.students.map(student => {
-            return <StudentRow key={student.idNumber} student={student}/>;
+            let isActive = false;
+
+            if (this.props.activeStudent !== null) {
+                isActive = this.props.activeStudent.id === student.id;
+            }
+
+            return <StudentRow key={student.idNumber}
+                               student={student}
+                               setActiveStudent={() => this.props.setActiveStudent(student)}
+                               isActive={isActive}/>;
         });
 
         return (
@@ -210,12 +222,18 @@ class StudentRow extends Component {
         const middle = this.props.student.middleName;
         const familyName = this.props.student.familyName;
         const idNumber = this.props.student.idNumber;
-        return (
-            <ListGroupItem>
+
+        if (this.props.isActive) {
+            return <ListGroupItem className="bg-dlsu text-white">
+                <small className="d-block">{idNumber}</small>
+                <b>{familyName}</b>, {first} {middle}
+            </ListGroupItem>;
+        } else {
+            return <ListGroupItem onClick={this.props.setActiveStudent}>
                 <small className="d-block">{idNumber}</small>
                 <b>{familyName}</b>, {first} {middle}
             </ListGroupItem>
-        );
+        }
     }
 }
 

@@ -64,11 +64,22 @@ class StudentDetail extends Component {
         }
 
         this.setState({
-           studentID: student.studentID,
+            studentID: student.idNumber,
+            student: null,
+        });
+
+        fetchStudent(student.idNumber, response => {
+            this.setState({
+                student: response.data.student,
+            });
         });
     }
 
     render() {
+        if (this.state.studentID === null) {
+            return StudentDetail.unselectedState();
+        }
+
         return(
             <div id="student-detail" className="container-fluid d-flex flex-column p-0">
                 <StudentDetailHead student={this.state.student}/>
@@ -87,8 +98,10 @@ class StudentDetailHead extends Component {
         return (
             <div className="page-head pt-5 d-flex flex-row align-items-center">
                 <div className="mr-auto">
-                    <h4 className="page-head-title justify-content-left d-inline-block mb-0 mr-2">Name</h4>
-                    <h4 className="text-muted d-inline-block font-weight-normal mb-0">ID Number</h4>
+                    <h4 className="page-head-title justify-content-left d-inline-block mb-0 mr-2">
+                        {this.props.student.firstName} {this.props.student.middleName} {this.props.student.familyName}
+                    </h4>
+                    <h4 className="text-muted d-inline-block font-weight-normal mb-0">{this.props.student.idNumber}</h4>
                 </div>
 
                 <div id="student-actions">
