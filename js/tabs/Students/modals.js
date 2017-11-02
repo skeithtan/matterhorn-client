@@ -1,8 +1,9 @@
 import React, {Component} from "react";
-// I'm assuming I need these imports
 import addValidation from "../../form_validation";
 import authorizeXHR from "../../authorization";
 import makeInfoToast from "../../dismissable_toast_maker";
+import settings from "../../settings";
+import iziToast from "izitoast";
 import $ from "jquery";
 
 import {
@@ -20,11 +21,78 @@ import {
 class AddStudentModal extends Component {
     constructor(props) {
         super(props);
+        this.submitForm = this.submitForm.bind(this);
+    }
+
+    static addValidation() {
+        addValidation({
+            inputs: $("#add-student-modal").find(".text-input"),
+            button: $("#add-student-modal-submit"),
+            customValidations: [
+                {
+                    input: $("#add-student-email"),
+                    validator: email => {
+                        //This regex mess checks if email is a real email
+                        return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
+                    },
+                },
+            ],
+        });
+    }
+
+    submitForm() {
+        const dismissToast = makeInfoToast({
+            title: "Adding",
+            message: "Adding new student...",
+        });
+
+        $.post({
+            url: `${settings.serverURL}/students/`,
+            data: {
+                category: $("#add-student-category").val(),
+                id_number: $("#add-student-id-number").val(),
+                college: $("#add-student-college").val(),
+                family_name: $("#add-student-last-name").val(),
+                first_name: $("#add-student-first-name").val(),
+                middle_name: $("#add-student-middle-name").val(),
+                nickname: $("#add-student-nickname").val(),
+                nationality: $("#add-student-nationality").val(),
+                home_address: $("#add-student-address").val(),
+                phone_number: $("#add-student-contact-number").val(),
+                birth_date: $("#add-student-birth-date").val(),
+                sex: $("#add-student-sex").val(),
+                emergency_contact_name: $("#add-student-emergency-contact-name").val(),
+                emergency_contact_relationship: $("#add-student-emergency-contact-relationship").val(),
+                emergency_contact_number: $("#add-student-emergency-contact-number").val(),
+                email: $("#add-student-email").val(),
+                civil_status: $("#add-student-civil-status").val(),
+            },
+            beforeSend: authorizeXHR,
+            success: () => {
+                dismissToast();
+                this.props.refresh();
+                iziToast.success({
+                    title : "Success",
+                    message : "Successfully added student",
+                });
+            },
+            error : response => {
+                dismissToast();
+                console.log(response);
+                iziToast.error({
+                    title : "Error",
+                    message : "Unable to add student",
+                });
+            },
+        });
+
+        this.props.toggle();
     }
 
     render() {
         return (
-            <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} backdrop={true} id="add-student-modal">
+            <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} backdrop={true} id="add-student-modal"
+                   onOpened={AddStudentModal.addValidation}>
                 <ModalHeader toggle={this.props.toggle}>Add a Student</ModalHeader>
                 <ModalBody>
                     <Form>
@@ -50,7 +118,7 @@ class AddStudentModal extends Component {
                         </FormGroup>
                         <FormGroup>
                             <Label for="add-student-birth-date">Birth Date</Label>
-                            <Input type="date" id="add-student-birth-date"/>
+                            <Input type="date" id="add-student-birth-date" className="text-input"/>
                         </FormGroup>
                         <FormGroup>
                             <Label for="add-student-sex">Sex</Label>
@@ -121,12 +189,10 @@ class AddStudentModal extends Component {
                                 <option value="OUT">Outbound</option>
                             </Input>
                         </FormGroup>
-
-
                     </Form>
                 </ModalBody>
                 <ModalFooter>
-                    <Button outline color="success" id="add-student-modal-submit">Add</Button>
+                    <Button outline color="success" id="add-student-modal-submit" onClick={this.submitForm}>Add</Button>
                 </ModalFooter>
             </Modal>
         );

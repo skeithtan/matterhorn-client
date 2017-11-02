@@ -23,6 +23,14 @@ var _dismissable_toast_maker = require("../../dismissable_toast_maker");
 
 var _dismissable_toast_maker2 = _interopRequireDefault(_dismissable_toast_maker);
 
+var _settings = require("../../settings");
+
+var _settings2 = _interopRequireDefault(_settings);
+
+var _izitoast = require("izitoast");
+
+var _izitoast2 = _interopRequireDefault(_izitoast);
+
 var _jquery = require("jquery");
 
 var _jquery2 = _interopRequireDefault(_jquery);
@@ -36,8 +44,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-// I'm assuming I need these imports
-
 
 var AddStudentModal = function (_Component) {
     _inherits(AddStudentModal, _Component);
@@ -45,15 +51,71 @@ var AddStudentModal = function (_Component) {
     function AddStudentModal(props) {
         _classCallCheck(this, AddStudentModal);
 
-        return _possibleConstructorReturn(this, (AddStudentModal.__proto__ || Object.getPrototypeOf(AddStudentModal)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (AddStudentModal.__proto__ || Object.getPrototypeOf(AddStudentModal)).call(this, props));
+
+        _this.submitForm = _this.submitForm.bind(_this);
+        return _this;
     }
 
     _createClass(AddStudentModal, [{
+        key: "submitForm",
+        value: function submitForm() {
+            var _this2 = this;
+
+            var dismissToast = (0, _dismissable_toast_maker2.default)({
+                title: "Adding",
+                message: "Adding new student..."
+            });
+
+            _jquery2.default.post({
+                url: _settings2.default.serverURL + "/students/",
+                data: {
+                    category: (0, _jquery2.default)("#add-student-category").val(),
+                    id_number: (0, _jquery2.default)("#add-student-id-number").val(),
+                    college: (0, _jquery2.default)("#add-student-college").val(),
+                    family_name: (0, _jquery2.default)("#add-student-last-name").val(),
+                    first_name: (0, _jquery2.default)("#add-student-first-name").val(),
+                    middle_name: (0, _jquery2.default)("#add-student-middle-name").val(),
+                    nickname: (0, _jquery2.default)("#add-student-nickname").val(),
+                    nationality: (0, _jquery2.default)("#add-student-nationality").val(),
+                    home_address: (0, _jquery2.default)("#add-student-address").val(),
+                    phone_number: (0, _jquery2.default)("#add-student-contact-number").val(),
+                    birth_date: (0, _jquery2.default)("#add-student-birth-date").val(),
+                    sex: (0, _jquery2.default)("#add-student-sex").val(),
+                    emergency_contact_name: (0, _jquery2.default)("#add-student-emergency-contact-name").val(),
+                    emergency_contact_relationship: (0, _jquery2.default)("#add-student-emergency-contact-relationship").val(),
+                    emergency_contact_number: (0, _jquery2.default)("#add-student-emergency-contact-number").val(),
+                    email: (0, _jquery2.default)("#add-student-email").val(),
+                    civil_status: (0, _jquery2.default)("#add-student-civil-status").val()
+                },
+                beforeSend: _authorization2.default,
+                success: function success() {
+                    dismissToast();
+                    _this2.props.refresh();
+                    _izitoast2.default.success({
+                        title: "Success",
+                        message: "Successfully added student"
+                    });
+                },
+                error: function error(response) {
+                    dismissToast();
+                    console.log(response);
+                    _izitoast2.default.error({
+                        title: "Error",
+                        message: "Unable to add student"
+                    });
+                }
+            });
+
+            this.props.toggle();
+        }
+    }, {
         key: "render",
         value: function render() {
             return _react2.default.createElement(
                 _reactstrap.Modal,
-                { isOpen: this.props.isOpen, toggle: this.props.toggle, backdrop: true, id: "add-student-modal" },
+                { isOpen: this.props.isOpen, toggle: this.props.toggle, backdrop: true, id: "add-student-modal",
+                    onOpened: AddStudentModal.addValidation },
                 _react2.default.createElement(
                     _reactstrap.ModalHeader,
                     { toggle: this.props.toggle },
@@ -123,7 +185,7 @@ var AddStudentModal = function (_Component) {
                                 { "for": "add-student-birth-date" },
                                 "Birth Date"
                             ),
-                            _react2.default.createElement(_reactstrap.Input, { type: "date", id: "add-student-birth-date" })
+                            _react2.default.createElement(_reactstrap.Input, { type: "date", id: "add-student-birth-date", className: "text-input" })
                         ),
                         _react2.default.createElement(
                             _reactstrap.FormGroup,
@@ -333,11 +395,27 @@ var AddStudentModal = function (_Component) {
                     null,
                     _react2.default.createElement(
                         _reactstrap.Button,
-                        { outline: true, color: "success", id: "add-student-modal-submit" },
+                        { outline: true, color: "success", id: "add-student-modal-submit", onClick: this.submitForm },
                         "Add"
                     )
                 )
             );
+        }
+    }], [{
+        key: "addValidation",
+        value: function addValidation() {
+            (0, _form_validation2.default)({
+                inputs: (0, _jquery2.default)("#add-student-modal").find(".text-input"),
+                button: (0, _jquery2.default)("#add-student-modal-submit"),
+                customValidations: [{
+                    input: (0, _jquery2.default)("#add-student-email"),
+                    validator: function validator(email) {
+                        //This regex mess checks if email is a real email
+                        return (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
+                        );
+                    }
+                }]
+            });
         }
     }]);
 
