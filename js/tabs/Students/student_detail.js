@@ -2,6 +2,12 @@ import React, { Component } from "react";
 import {
     Button,
 } from "reactstrap";
+import {
+    StudentDetailOverview,
+    StudentContact,
+    StudentUniversity,
+
+} from "./student_detail_overview";
 import LoadingSpinner from "../../loading";
 import graphql from "../../graphql";
 
@@ -127,7 +133,9 @@ class StudentDetailBody extends Component {
     render() {
         return (
             <div className="page-body">
-
+                <StudentDetailOverview student={this.props.student}/>
+                <StudentContact student={this.props.student}/>
+                <StudentUniversity student={this.props.student}/>
             </div>
         );
     }

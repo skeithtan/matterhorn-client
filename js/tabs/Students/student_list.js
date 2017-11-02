@@ -193,7 +193,7 @@ class StudentSection extends Component {
             let isActive = false;
 
             if (this.props.activeStudent !== null) {
-                isActive = this.props.activeStudent.id === student.id;
+                isActive = this.props.activeStudent.idNumber === student.idNumber;
             }
 
             return <StudentRow key={student.idNumber}

@@ -296,7 +296,7 @@ var StudentSection = function (_Component4) {
                 var isActive = false;
 
                 if (_this7.props.activeStudent !== null) {
-                    isActive = _this7.props.activeStudent.id === student.id;
+                    isActive = _this7.props.activeStudent.idNumber === student.idNumber;
                 }
 
                 return _react2.default.createElement(StudentRow, { key: student.idNumber,

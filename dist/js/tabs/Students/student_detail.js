@@ -12,6 +12,8 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactstrap = require("reactstrap");
 
+var _student_detail_overview = require("./student_detail_overview");
+
 var _loading = require("../../loading");
 
 var _loading2 = _interopRequireDefault(_loading);
@@ -179,7 +181,13 @@ var StudentDetailBody = function (_Component3) {
     _createClass(StudentDetailBody, [{
         key: "render",
         value: function render() {
-            return _react2.default.createElement("div", { className: "page-body" });
+            return _react2.default.createElement(
+                "div",
+                { className: "page-body" },
+                _react2.default.createElement(_student_detail_overview.StudentDetailOverview, { student: this.props.student }),
+                _react2.default.createElement(_student_detail_overview.StudentContact, { student: this.props.student }),
+                _react2.default.createElement(_student_detail_overview.StudentUniversity, { student: this.props.student })
+            );
         }
     }]);
 
