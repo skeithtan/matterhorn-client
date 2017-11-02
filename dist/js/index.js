@@ -70,8 +70,14 @@ var hidingCSS = {
     });
 
     function attemptSignIn() {
-        var username = (0, _jquery2.default)("#username-input").val();
-        var password = (0, _jquery2.default)("#password-input").val();
+        var usernameInput = (0, _jquery2.default)("#username-input");
+        var passwordInput = (0, _jquery2.default)("#password-input");
+
+        var username = usernameInput.val();
+        var password = passwordInput.val();
+
+        usernameInput.val("");
+        passwordInput.val("");
 
         signInMessage.hide();
 
@@ -104,19 +110,6 @@ var hidingCSS = {
             }
         });
     }
-
-    function onSignIn() {
-        renderReact();
-
-        setTimeout(function () {
-            var signInView = (0, _jquery2.default)("#sign-in");
-            signInView.css(hidingCSS);
-        }, 700);
-    }
-
-    function renderReact() {
-        _reactDom2.default.render(_react2.default.createElement(_app2.default, null), document.getElementById("root"));
-    }
 });
 
 function showSignInBox(signInBoxShouldShow) {
@@ -127,12 +120,34 @@ function showSignInBox(signInBoxShouldShow) {
     spinner.css(signInBoxShouldShow ? hidingCSS : showingCSS);
 }
 
+function renderReact() {
+    _reactDom2.default.render(_react2.default.createElement(_app2.default, null), document.getElementById("root"));
+}
+
+function onSignIn() {
+    renderReact();
+    var signInView = (0, _jquery2.default)("#sign-in");
+
+    setTimeout(function () {
+        toggleSignInContents();
+        signInView.css(hidingCSS);
+    }, 700);
+}
+
 function signOut() {
     localStorage.clear();
 
-    var signInView = (0, _jquery2.default)('#sign-in');
+    var signInView = (0, _jquery2.default)("#sign-in");
+    toggleSignInContents();
     signInView.css(showingCSS);
+
     showSignInBox(true);
+}
+
+function toggleSignInContents() {
+    var signInContents = (0, _jquery2.default)("#sign-in-contents");
+    signInContents.toggleClass("signed-out");
+    signInContents.toggleClass("signed-in");
 }
 
 exports.default = signOut;

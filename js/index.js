@@ -11,13 +11,13 @@ iziToast.settings({
 });
 
 const showingCSS = {
-    "opacity": 1,
-    "pointer-events": "all"
+    "opacity" : 1,
+    "pointer-events" : "all",
 };
 
 const hidingCSS = {
-    "opacity": 0,
-    "pointer-events": "none"
+    "opacity" : 0,
+    "pointer-events" : "none",
 };
 
 $(() => {
@@ -46,9 +46,15 @@ $(() => {
     });
 
     function attemptSignIn() {
-        const username = $("#username-input").val();
-        const password = $("#password-input").val();
+        const usernameInput = $("#username-input");
+        const passwordInput = $("#password-input");
 
+        const username = usernameInput.val();
+        const password = passwordInput.val();
+
+        usernameInput.val("");
+        passwordInput.val("");
+        
         signInMessage.hide();
 
         showSignInBox(false);
@@ -81,19 +87,6 @@ $(() => {
         });
     }
 
-    function onSignIn() {
-        renderReact();
-
-        setTimeout(() => {
-            const signInView = $("#sign-in");
-            signInView.css(hidingCSS);
-        }, 700);
-    }
-
-    function renderReact() {
-        ReactDOM.render(<App/>, document.getElementById("root"));
-    }
-
 });
 
 function showSignInBox(signInBoxShouldShow) {
@@ -104,12 +97,34 @@ function showSignInBox(signInBoxShouldShow) {
     spinner.css(signInBoxShouldShow ? hidingCSS : showingCSS);
 }
 
+function renderReact() {
+    ReactDOM.render(<App/>, document.getElementById("root"));
+}
+
+function onSignIn() {
+    renderReact();
+    const signInView = $("#sign-in");
+
+    setTimeout(() => {
+        toggleSignInContents();
+        signInView.css(hidingCSS);
+    }, 700);
+}
+
 function signOut() {
     localStorage.clear();
 
-    const signInView = $('#sign-in');
+    const signInView = $("#sign-in");
+    toggleSignInContents();
     signInView.css(showingCSS);
+
     showSignInBox(true);
+}
+
+function toggleSignInContents() {
+    const signInContents = $("#sign-in-contents");
+    signInContents.toggleClass("signed-out");
+    signInContents.toggleClass("signed-in");
 }
 
 export default signOut;

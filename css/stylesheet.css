@@ -269,14 +269,44 @@ li.nav-item.active .sidebar-image {
 }
 
 #logo-set {
-    width              : 720px;
-    animation-name     : topdown;
-    animation-duration : 1s;
+    width : 720px;
 }
 
-@keyframes topdown {
-    0% { margin-top : 400px }
-    100% { margin-top : 0 }
+.signed-out {
+    animation-name     : slidein;
+    animation-duration : 1s;
+    opacity            : 1;
+    margin-top         : 0;
+}
+
+@keyframes slidein {
+    0% {
+        margin-top : 400px;
+        opacity    : 0.2
+    }
+    100% {
+        margin-top : 0;
+        opacity    : 1;
+    }
+}
+
+.signed-in {
+    animation-name     : slidedown;
+    animation-duration : 0.8s;
+    opacity            : 0;
+    margin-top         : 400px;
+}
+
+@keyframes slidedown {
+    0% {
+        margin-top : 0;
+        opacity    : 1;
+    }
+
+    100% {
+        margin-top : 400px;
+        opacity    : 0
+    }
 }
 
 #sign-in-spinner {
