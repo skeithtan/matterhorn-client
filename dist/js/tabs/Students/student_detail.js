@@ -12,6 +12,10 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactstrap = require("reactstrap");
 
+var _loading = require("../../loading");
+
+var _loading2 = _interopRequireDefault(_loading);
+
 var _graphql = require("../../graphql");
 
 var _graphql2 = _interopRequireDefault(_graphql);
@@ -78,6 +82,10 @@ var StudentDetail = function (_Component) {
         value: function render() {
             if (this.state.studentID === null) {
                 return StudentDetail.unselectedState();
+            }
+
+            if (this.state.student === null) {
+                return _react2.default.createElement(_loading2.default, null);
             }
 
             return _react2.default.createElement(

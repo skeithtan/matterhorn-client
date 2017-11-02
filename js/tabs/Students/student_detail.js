@@ -1,8 +1,10 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import {
     Button,
 } from "reactstrap";
+import LoadingSpinner from "../../loading";
 import graphql from "../../graphql";
+
 
 function fetchStudent(id, onResponse) {
     graphql({
@@ -38,9 +40,9 @@ class StudentDetail extends Component {
         super(props);
 
         this.state = {
-            student: null,
-            studentID: null,
-        }
+            student : null,
+            studentID : null,
+        };
     }
 
     static unselectedState() {
@@ -56,21 +58,21 @@ class StudentDetail extends Component {
 
         if (student === null) {
             this.setState({
-                student: null,
-                studentID: null
+                student : null,
+                studentID : null,
             });
 
             return;
         }
 
         this.setState({
-            studentID: student.idNumber,
-            student: null,
+            studentID : student.idNumber,
+            student : null,
         });
 
         fetchStudent(student.idNumber, response => {
             this.setState({
-                student: response.data.student,
+                student : response.data.student,
             });
         });
     }
@@ -80,12 +82,16 @@ class StudentDetail extends Component {
             return StudentDetail.unselectedState();
         }
 
-        return(
+        if (this.state.student === null) {
+            return <LoadingSpinner/>;
+        }
+
+        return (
             <div id="student-detail" className="container-fluid d-flex flex-column p-0">
                 <StudentDetailHead student={this.state.student}/>
                 <StudentDetailBody student={this.state.student}/>
             </div>
-        )
+        );
     }
 }
 
@@ -119,11 +125,11 @@ class StudentDetailBody extends Component {
     }
 
     render() {
-        return(
+        return (
             <div className="page-body">
 
             </div>
-        )
+        );
     }
 }
 
