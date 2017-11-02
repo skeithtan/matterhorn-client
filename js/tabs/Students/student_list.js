@@ -81,7 +81,7 @@ class StudentListHead extends Component {
                             onClick={this.props.toggleAddStudent}>Add</Button>
                 </div>
                 <h4 className="page-head-title">Students</h4>
-                <Input placeholder="Search" className="search-input" onChange={this.onSearchInputChange}/>
+                <Input type="search" placeholder="Search" className="search-input" onChange={this.onSearchInputChange}/>
             </div>
         );
     }

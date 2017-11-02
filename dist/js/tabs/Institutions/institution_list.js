@@ -143,7 +143,7 @@ var InstitutionListHead = function (_Component2) {
                     { className: "page-head-title" },
                     "Institutions"
                 ),
-                _react2.default.createElement(_reactstrap.Input, { placeholder: "Search", className: "search-input", onChange: this.onSearchInputChange })
+                _react2.default.createElement(_reactstrap.Input, { type: "search", placeholder: "Search", className: "search-input", onChange: this.onSearchInputChange })
             );
         }
     }]);

@@ -95,7 +95,7 @@ class InstitutionListHead extends Component {
                             onClick={this.props.toggleAddInstitution}>Add</Button>
                 </div>
                 <h4 className="page-head-title">Institutions</h4>
-                <Input placeholder="Search" className="search-input" onChange={this.onSearchInputChange}/>
+                <Input type="search" placeholder="Search" className="search-input" onChange={this.onSearchInputChange}/>
             </div>
         );
     }
