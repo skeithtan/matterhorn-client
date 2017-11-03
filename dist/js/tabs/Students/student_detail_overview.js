@@ -15,6 +15,10 @@ var _settings = require("../../settings");
 
 var _settings2 = _interopRequireDefault(_settings);
 
+var _moment = require("moment");
+
+var _moment2 = _interopRequireDefault(_moment);
+
 var _reactstrap = require("reactstrap");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -31,40 +35,16 @@ var StudentDetailOverview = function (_Component) {
     function StudentDetailOverview(props) {
         _classCallCheck(this, StudentDetailOverview);
 
-        var _this = _possibleConstructorReturn(this, (StudentDetailOverview.__proto__ || Object.getPrototypeOf(StudentDetailOverview)).call(this, props));
-
-        _this.convertCivilStatus = _this.convertCivilStatus.bind(_this);
-        return _this;
+        return _possibleConstructorReturn(this, (StudentDetailOverview.__proto__ || Object.getPrototypeOf(StudentDetailOverview)).call(this, props));
     }
 
     _createClass(StudentDetailOverview, [{
-        key: "convertCivilStatus",
-        value: function convertCivilStatus(civilStatus) {
-            switch (civilStatus) {
-                case "S":
-                    civilStatus = "Single";
-                    break;
-
-                case "M":
-                    civilStatus = "Married";
-                    break;
-
-                case "D":
-                    civilStatus = "Divorced";
-                    break;
-
-                case "W":
-                    civilStatus = "Widowed";
-                    break;
-            }
-            return civilStatus;
-        }
-    }, {
         key: "render",
         value: function render() {
             var student = this.props.student;
             var sex = student.sex === "F" ? "Female" : "Male";
-            var civilStatus = this.convertCivilStatus(student.civilStatus);
+            var civilStatus = _settings2.default.civilStatuses[student.civilStatus];
+            var birthDate = (0, _moment2.default)(student.birthDate).format("LL");
 
             return _react2.default.createElement(
                 "div",
@@ -80,7 +60,7 @@ var StudentDetailOverview = function (_Component) {
                     _react2.default.createElement(StudentDetailRow, { fieldName: "Nickname", fieldValue: student.nickname }),
                     _react2.default.createElement(StudentDetailRow, { fieldName: "Sex", fieldValue: sex }),
                     _react2.default.createElement(StudentDetailRow, { fieldName: "Address", fieldValue: student.homeAddress }),
-                    _react2.default.createElement(StudentDetailRow, { fieldName: "Birth Date", fieldValue: student.birthDate }),
+                    _react2.default.createElement(StudentDetailRow, { fieldName: "Birth Date", fieldValue: birthDate }),
                     _react2.default.createElement(StudentDetailRow, { fieldName: "Nationality", fieldValue: student.nationality }),
                     _react2.default.createElement(StudentDetailRow, { fieldName: "Civil Status", fieldValue: civilStatus })
                 )

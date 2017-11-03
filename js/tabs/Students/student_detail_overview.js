@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import settings from "../../settings";
+import moment from "moment";
 import {
     ListGroup,
     ListGroupItem,
@@ -9,35 +10,13 @@ import {
 class StudentDetailOverview extends Component {
     constructor(props) {
         super(props);
-
-        this.convertCivilStatus = this.convertCivilStatus.bind(this);
-    }
-
-    convertCivilStatus(civilStatus) {
-        switch (civilStatus) {
-            case "S":
-                civilStatus = "Single";
-                break;
-
-            case "M":
-                civilStatus = "Married";
-                break;
-
-            case "D":
-                civilStatus = "Divorced";
-                break;
-
-            case "W":
-                civilStatus = "Widowed";
-                break;
-        }
-        return civilStatus;
     }
 
     render() {
         const student = this.props.student;
         const sex = student.sex === "F" ? "Female" : "Male";
-        let civilStatus = this.convertCivilStatus(student.civilStatus);
+        const civilStatus = settings.civilStatuses[student.civilStatus];
+        const birthDate = moment(student.birthDate).format("LL");
 
         return (
             <div className="section">
@@ -46,7 +25,7 @@ class StudentDetailOverview extends Component {
                     <StudentDetailRow fieldName="Nickname" fieldValue={student.nickname}/>
                     <StudentDetailRow fieldName="Sex" fieldValue={sex}/>
                     <StudentDetailRow fieldName="Address" fieldValue={student.homeAddress}/>
-                    <StudentDetailRow fieldName="Birth Date" fieldValue={student.birthDate}/>
+                    <StudentDetailRow fieldName="Birth Date" fieldValue={birthDate}/>
                     <StudentDetailRow fieldName="Nationality" fieldValue={student.nationality}/>
                     <StudentDetailRow fieldName="Civil Status" fieldValue={civilStatus}/>
                 </ListGroup>

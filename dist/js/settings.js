@@ -15,10 +15,18 @@ var colleges = {
     "BAGCED": "Brother Andrew Gonzales College of Education"
 };
 
+var civilStatuses = {
+    "S": "Single",
+    "M": "Married",
+    "D": "Divorced",
+    "W": "Widowed"
+};
+
 var settings = {
     serverURL: "http://127.0.0.1:8000",
     countries: countries,
-    colleges: colleges
+    colleges: colleges,
+    civilStatuses: civilStatuses
 };
 
 exports.default = settings;
