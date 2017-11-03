@@ -34,13 +34,6 @@ var tabs = [{
     },
     image: "./images/memorandumgrey.png",
     activeImage: "./images/memorandumgreen.png"
-}, {
-    name: "Programs",
-    tab: function tab(institution) {
-        return _react2.default.createElement(_programs2.default, { institution: institution });
-    },
-    image: "./images/programsgrey.png",
-    activeImage: "./images/programsgreen.png"
 }];
 
 exports.default = tabs;

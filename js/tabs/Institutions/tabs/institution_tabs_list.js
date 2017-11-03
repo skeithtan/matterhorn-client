@@ -21,14 +21,6 @@ const tabs = [
         image: "./images/memorandumgrey.png",
         activeImage: "./images/memorandumgreen.png",
     },
-    {
-        name: "Programs",
-        tab: institution => {
-            return <InstitutionPrograms institution={institution}/>;
-        },
-        image: "./images/programsgrey.png",
-        activeImage: "./images/programsgreen.png",
-    },
 ];
 
 export default tabs;
