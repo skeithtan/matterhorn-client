@@ -8,16 +8,20 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _institution_overview = require("./institution_overview");
+var _overview = require("./overview");
 
-var _institution_overview2 = _interopRequireDefault(_institution_overview);
+var _overview2 = _interopRequireDefault(_overview);
+
+var _programs = require("./programs");
+
+var _programs2 = _interopRequireDefault(_programs);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var tabs = [{
     name: "Overview",
     tab: function tab(institution, onDeleteActiveInstitution, refreshInstitutions) {
-        return _react2.default.createElement(_institution_overview2.default, { institution: institution,
+        return _react2.default.createElement(_overview2.default, { institution: institution,
             onDeleteActiveInstitution: onDeleteActiveInstitution,
             refreshInstitutions: refreshInstitutions });
     },
@@ -33,7 +37,7 @@ var tabs = [{
 }, {
     name: "Programs",
     tab: function tab(institution) {
-        return null;
+        return _react2.default.createElement(_programs2.default, { institution: institution });
     },
     image: "./images/programsgrey.png",
     activeImage: "./images/programsgreen.png"

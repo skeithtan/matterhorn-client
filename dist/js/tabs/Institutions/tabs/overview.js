@@ -349,4 +349,4 @@ var InstitutionDetailRow = function (_Component6) {
 }(_react.Component);
 
 exports.default = InstitutionOverview;
-//# sourceMappingURL=institution_overview.js.map
+//# sourceMappingURL=overview.js.map

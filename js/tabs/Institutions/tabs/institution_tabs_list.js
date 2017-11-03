@@ -1,5 +1,6 @@
 import React from "react";
-import InstitutionOverview from "./institution_overview";
+import InstitutionOverview from "./overview";
+import InstitutionPrograms from "./programs";
 
 const tabs = [
     {
@@ -23,7 +24,7 @@ const tabs = [
     {
         name: "Programs",
         tab: institution => {
-            return null;
+            return <InstitutionPrograms institution={institution}/>;
         },
         image: "./images/programsgrey.png",
         activeImage: "./images/programsgreen.png",
