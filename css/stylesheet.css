@@ -19,6 +19,10 @@
     background : var(--body-white) !important;
 }
 
+.text-dlsu {
+    color : var(--dlsu-green) !important;
+}
+
 /*Section titles and footers*/
 small.section-title,
 small.section-footer {
@@ -337,5 +341,26 @@ li.nav-item.active .sidebar-image {
     display    : flex;
     transition : 200ms;
     opacity    : 0;
+}
+
+/*Institution Navigation*/
+#institution-navigation {
+    border-top : 1px solid var(--gray);
+    background : var(--header-white);
+    flex       : 0;
+}
+
+.nav-image {
+    width  : 30px;
+    height : 30px;
+}
+
+#institution-navigation ul li {
+    max-width : 240px;
+}
+
+#tab-content {
+    flex       : 1;
+    min-height : 0;
 }
 

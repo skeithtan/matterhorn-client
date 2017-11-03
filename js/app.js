@@ -7,7 +7,7 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentTab : tabs[1],
+            activeTab : tabs[1],
         };
 
         this.setActiveTab = this.setActiveTab.bind(this);
@@ -15,7 +15,7 @@ class App extends Component {
 
     setActiveTab(newTab) {
         this.setState({
-            currentTab : newTab,
+            activeTab : newTab,
         });
     }
 
@@ -23,8 +23,8 @@ class App extends Component {
     render() {
         return (
             <div className="h-100 d-flex">
-                <MainNavigation activeTab={this.state.currentTab} setActiveTab={this.setActiveTab}/>
-                {this.state.currentTab.tab}
+                <MainNavigation activeTab={this.state.activeTab} setActiveTab={this.setActiveTab}/>
+                {this.state.activeTab.tab}
             </div>
         );
     }

@@ -35,7 +35,7 @@ var App = function (_Component) {
         var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
         _this.state = {
-            currentTab: _tabs_list2.default[1]
+            activeTab: _tabs_list2.default[1]
         };
 
         _this.setActiveTab = _this.setActiveTab.bind(_this);
@@ -46,7 +46,7 @@ var App = function (_Component) {
         key: "setActiveTab",
         value: function setActiveTab(newTab) {
             this.setState({
-                currentTab: newTab
+                activeTab: newTab
             });
         }
     }, {
@@ -55,8 +55,8 @@ var App = function (_Component) {
             return _react2.default.createElement(
                 "div",
                 { className: "h-100 d-flex" },
-                _react2.default.createElement(_main_navigation2.default, { activeTab: this.state.currentTab, setActiveTab: this.setActiveTab }),
-                this.state.currentTab.tab
+                _react2.default.createElement(_main_navigation2.default, { activeTab: this.state.activeTab, setActiveTab: this.setActiveTab }),
+                this.state.activeTab.tab
             );
         }
     }]);
