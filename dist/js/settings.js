@@ -15,25 +15,6 @@ var colleges = {
     "BAGCED": "Brother Andrew Gonzales College of Education"
 };
 
-var linkages = {
-    "S": "Scholarship",
-    "OI": "OJT / Internship",
-    "FE": "Faculty Exchange",
-    "SE": "Student Exchange",
-    "RE": "Researcher / Expert Exchange",
-    "SP": "Support for Projects Exchange",
-    "RP": "Research and Publication",
-    "AP": "Academic Program",
-    "PF": "Project Funding",
-    "EMPI": "Exchange of Materials, Publications and Information",
-    "CE": "Cultural Exchange",
-    "SAMC": "Seminars and Academic Meetings / Conferences",
-    "TAP": "Technical or Administrative Programs",
-    "O": "Established Office",
-    "ASE": "Administrative and Staff Exchange",
-    "EM": "Executive Meetings"
-};
-
 var settings = {
     serverURL: "http://127.0.0.1:8000",
     countries: countries,

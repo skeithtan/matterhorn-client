@@ -20,6 +20,10 @@ var _students = require("./Students/students");
 
 var _students2 = _interopRequireDefault(_students);
 
+var _linkages = require("./Linkages/linkages");
+
+var _linkages2 = _interopRequireDefault(_linkages);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var tabs = [{
@@ -34,6 +38,10 @@ var tabs = [{
     name: "Students",
     tab: _react2.default.createElement(_students2.default, null),
     image: "./images/student.png"
+}, {
+    name: "Linkages",
+    tab: _react2.default.createElement(_linkages2.default, null),
+    image: "./images/linkwhite.png"
 }];
 
 exports.default = tabs;
