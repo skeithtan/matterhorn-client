@@ -32,7 +32,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function fetchInstitution(id, onResponse) {
     (0, _graphql2.default)({
-        query: "\n        {\n            institution(id:" + id + ") {\n                id\n                name\n                email\n                address\n                website\n                contactPersonName\n                contactPersonNumber\n                country {\n                    name\n                }\n                agreement\n            }\n        }\n       ",
+        query: "\n        {\n            institution(id:" + id + ") {\n                id\n                name\n                address\n                website\n                contactPersonEmail\n                contactPersonName\n                contactPersonNumber\n                country {\n                    name\n                }\n                agreement\n            }\n        }\n       ",
         onResponse: onResponse
     });
 }
@@ -58,6 +58,7 @@ var InstitutionOverview = function (_Component) {
 
         //Fetch active institution details
         fetchInstitution(props.institution.id, function (response) {
+            console.log(response);
             _this.setState({
                 institution: response.data.institution
             });
@@ -255,7 +256,6 @@ var InstitutionDetailOverview = function (_Component4) {
                 _react2.default.createElement(
                     _reactstrap.ListGroup,
                     null,
-                    _react2.default.createElement(InstitutionDetailRow, { fieldName: "Email", fieldValue: institution.email }),
                     _react2.default.createElement(InstitutionDetailRow, { fieldName: "Address", fieldValue: institution.address }),
                     _react2.default.createElement(
                         _reactstrap.ListGroupItem,
@@ -306,6 +306,7 @@ var InstitutionContact = function (_Component5) {
                     _reactstrap.ListGroup,
                     null,
                     _react2.default.createElement(InstitutionDetailRow, { fieldName: "Contact Person", fieldValue: institution.contactPersonName }),
+                    _react2.default.createElement(InstitutionDetailRow, { fieldName: "Contact Person Email", fieldValue: institution.contactPersonEmail }),
                     _react2.default.createElement(InstitutionDetailRow, { fieldName: "Contact Phone Number",
                         fieldValue: institution.contactPersonNumber })
                 )
