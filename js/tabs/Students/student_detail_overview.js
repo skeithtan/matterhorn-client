@@ -69,14 +69,8 @@ class StudentContact extends Component {
                 <ListGroup>
                     <StudentDetailRow fieldName="Phone Number" fieldValue={student.phoneNumber}/>
                     <StudentDetailRow fieldName="E-mail" fieldValue={student.email}/>
-
-                    <ListGroupItem>
-                        <small className="font-weight-bold">Emergency Contact</small>
-                        <p className="m-0">
-                            {student.emergencyContactName} ({student.emergencyContactRelationship})
-                        </p>
-                    </ListGroupItem>
-
+                    <StudentDetailRow fieldName="Emergency Contact"
+                                      fieldValue={`${student.emergencyContactName} (${student.emergencyContactRelationship})`}/>
                     <StudentDetailRow fieldName="Emergency Contact Number" fieldValue={student.emergencyContactNumber}/>
                 </ListGroup>
             </div>

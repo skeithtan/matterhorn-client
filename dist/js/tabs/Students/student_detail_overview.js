@@ -118,23 +118,8 @@ var StudentContact = function (_Component2) {
                     null,
                     _react2.default.createElement(StudentDetailRow, { fieldName: "Phone Number", fieldValue: student.phoneNumber }),
                     _react2.default.createElement(StudentDetailRow, { fieldName: "E-mail", fieldValue: student.email }),
-                    _react2.default.createElement(
-                        _reactstrap.ListGroupItem,
-                        null,
-                        _react2.default.createElement(
-                            "small",
-                            { className: "font-weight-bold" },
-                            "Emergency Contact"
-                        ),
-                        _react2.default.createElement(
-                            "p",
-                            { className: "m-0" },
-                            student.emergencyContactName,
-                            " (",
-                            student.emergencyContactRelationship,
-                            ")"
-                        )
-                    ),
+                    _react2.default.createElement(StudentDetailRow, { fieldName: "Emergency Contact",
+                        fieldValue: student.emergencyContactName + " (" + student.emergencyContactRelationship + ")" }),
                     _react2.default.createElement(StudentDetailRow, { fieldName: "Emergency Contact Number", fieldValue: student.emergencyContactNumber })
                 )
             );
