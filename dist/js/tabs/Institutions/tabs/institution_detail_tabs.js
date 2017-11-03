@@ -48,7 +48,7 @@ var InstitutionDetailTabBar = function (_Component) {
                 { id: "institution-navigation" },
                 _react2.default.createElement(
                     "ul",
-                    { className: "p-2 justify-content-center mb-0 d-flex flex-row" },
+                    { className: "p-3 justify-content-center mb-0 d-flex flex-row" },
                     tabs
                 )
             );
@@ -76,12 +76,12 @@ var InstitutionDetailTab = function (_Component2) {
         value: function activeTab() {
             return _react2.default.createElement(
                 "li",
-                { className: "col-lg-3 d-flex flex-row justify-content-center align-items-center",
+                { className: "col-lg-2 d-flex flex-row justify-content-center align-items-center",
                     onClick: this.props.onClick },
                 _react2.default.createElement("img", { className: "nav-image", src: this.props.tab.activeImage }),
                 _react2.default.createElement(
                     "small",
-                    { className: "nav-link pl-3 font-weight-bold mb-0 text-dlsu" },
+                    { className: "ml-2 font-weight-bold mb-0 text-dlsu" },
                     this.props.tab.name
                 )
             );
@@ -91,12 +91,12 @@ var InstitutionDetailTab = function (_Component2) {
         value: function inactiveTab() {
             return _react2.default.createElement(
                 "li",
-                { className: " col-lg-3 d-flex flex-row justify-content-center align-items-center",
+                { className: "col-lg-2 d-flex flex-row justify-content-center align-items-center",
                     onClick: this.props.onClick },
                 _react2.default.createElement("img", { className: "nav-image", src: this.props.tab.image }),
                 _react2.default.createElement(
                     "small",
-                    { className: "nav-link pl-3 font-weight-bold mb-0 text-secondary" },
+                    { className: "ml-2 font-weight-bold mb-0 text-secondary" },
                     this.props.tab.name
                 )
             );

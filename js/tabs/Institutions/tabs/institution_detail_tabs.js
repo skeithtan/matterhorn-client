@@ -17,7 +17,7 @@ class InstitutionDetailTabBar extends Component {
 
         return (
             <div id="institution-navigation">
-                <ul className="p-2 justify-content-center mb-0 d-flex flex-row">
+                <ul className="p-3 justify-content-center mb-0 d-flex flex-row">
                     {tabs}
                 </ul>
             </div>
@@ -36,20 +36,20 @@ class InstitutionDetailTab extends Component {
 
     activeTab() {
         return (
-            <li className="col-lg-3 d-flex flex-row justify-content-center align-items-center"
+            <li className="col-lg-2 d-flex flex-row justify-content-center align-items-center"
                 onClick={this.props.onClick}>
                 <img className="nav-image" src={this.props.tab.activeImage}/>
-                <small className="nav-link pl-3 font-weight-bold mb-0 text-dlsu">{this.props.tab.name}</small>
+                <small className="ml-2 font-weight-bold mb-0 text-dlsu">{this.props.tab.name}</small>
             </li>
         );
     }
 
     inactiveTab() {
         return (
-            <li className=" col-lg-3 d-flex flex-row justify-content-center align-items-center"
+            <li className="col-lg-2 d-flex flex-row justify-content-center align-items-center"
                 onClick={this.props.onClick}>
                 <img className="nav-image" src={this.props.tab.image}/>
-                <small className="nav-link pl-3 font-weight-bold mb-0 text-secondary">{this.props.tab.name}</small>
+                <small className="ml-2 font-weight-bold mb-0 text-secondary">{this.props.tab.name}</small>
             </li>
         );
     }
