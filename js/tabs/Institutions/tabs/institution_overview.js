@@ -18,9 +18,9 @@ function fetchInstitution(id, onResponse) {
             institution(id:${id}) {
                 id
                 name
-                email
                 address
                 website
+                contactPersonEmail
                 contactPersonName
                 contactPersonNumber
                 country {
@@ -50,6 +50,7 @@ class InstitutionOverview extends Component {
 
         //Fetch active institution details
         fetchInstitution(props.institution.id, response => {
+            console.log(response);
             this.setState({
                 institution: response.data.institution,
             });
@@ -185,7 +186,6 @@ class InstitutionDetailOverview extends Component {
             <div className="section">
                 <small className="section-title">Institution details</small>
                 <ListGroup>
-                    <InstitutionDetailRow fieldName="Email" fieldValue={institution.email}/>
                     <InstitutionDetailRow fieldName="Address" fieldValue={institution.address}/>
 
                     <ListGroupItem>
@@ -213,6 +213,7 @@ class InstitutionContact extends Component {
                 <small className="section-title">Contact details</small>
                 <ListGroup>
                     <InstitutionDetailRow fieldName="Contact Person" fieldValue={institution.contactPersonName}/>
+                    <InstitutionDetailRow fieldName="Contact Person Email" fieldValue={institution.contactPersonEmail}/>
                     <InstitutionDetailRow fieldName="Contact Phone Number"
                                           fieldValue={institution.contactPersonNumber}/>
                 </ListGroup>
