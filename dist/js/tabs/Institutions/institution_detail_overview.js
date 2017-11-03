@@ -100,7 +100,7 @@ var InstitutionContact = function (_Component2) {
                 _react2.default.createElement(
                     "small",
                     { className: "section-title" },
-                    "Contact"
+                    "Contact details"
                 ),
                 _react2.default.createElement(
                     _reactstrap.ListGroup,

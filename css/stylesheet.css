@@ -64,12 +64,23 @@ input.form-control.search-input {
 
 /*Search cancel button*/
 input[type="search"]::-webkit-search-cancel-button {
-    -webkit-appearance: searchfield-cancel-button;
+    -webkit-appearance : searchfield-cancel-button;
 }
 
 /*List Group Items*/
 .list-group-item {
     transition : 200ms;
+}
+
+/*Form Modal Body*/
+.modal-body.form {
+    background : var(--light);
+    padding    : 1.5rem;
+}
+
+.modal-body.form br {
+    display     : block;
+    line-height : 48px;
 }
 
 /*Draggable region on top*/
@@ -305,12 +316,12 @@ li.nav-item.active .sidebar-image {
 @keyframes slide-to-top {
     0% {
         margin-bottom : 0;
-        opacity    : 1;
+        opacity       : 1;
     }
 
     100% {
         margin-bottom : 400px;
-        opacity    : 0.8
+        opacity       : 0.8
     }
 }
 

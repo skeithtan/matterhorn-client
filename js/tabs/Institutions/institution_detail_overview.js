@@ -49,7 +49,7 @@ class InstitutionContact extends Component {
 
         return (
             <div>
-                <small className="section-title">Contact</small>
+                <small className="section-title">Contact details</small>
                 <ListGroup>
                     <InstitutionDetailRow fieldName="Contact Person" fieldValue={institution.contactPersonName}/>
                     <InstitutionDetailRow fieldName="Contact Phone Number"

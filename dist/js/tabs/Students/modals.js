@@ -123,10 +123,15 @@ var AddStudentModal = function (_Component) {
                 ),
                 _react2.default.createElement(
                     _reactstrap.ModalBody,
-                    null,
+                    { className: "form" },
                     _react2.default.createElement(
                         _reactstrap.Form,
                         null,
+                        _react2.default.createElement(
+                            "h5",
+                            { className: "mb-3" },
+                            "Student Details"
+                        ),
                         _react2.default.createElement(
                             _reactstrap.FormGroup,
                             null,
@@ -185,7 +190,7 @@ var AddStudentModal = function (_Component) {
                                 { "for": "add-student-birth-date" },
                                 "Birth Date"
                             ),
-                            _react2.default.createElement(_reactstrap.Input, { type: "date", id: "add-student-birth-date", className: "text-input" })
+                            _react2.default.createElement(_reactstrap.Input, { type: "date", id: "add-student-birth-date", className: "text-input", placeholder: "Birth Date" })
                         ),
                         _react2.default.createElement(
                             _reactstrap.FormGroup,
@@ -264,6 +269,12 @@ var AddStudentModal = function (_Component) {
                                 )
                             )
                         ),
+                        _react2.default.createElement("br", null),
+                        _react2.default.createElement(
+                            "h5",
+                            { className: "mb-3" },
+                            "Contact Details"
+                        ),
                         _react2.default.createElement(
                             _reactstrap.FormGroup,
                             null,
@@ -316,6 +327,12 @@ var AddStudentModal = function (_Component) {
                             ),
                             _react2.default.createElement(_reactstrap.Input, { id: "add-student-emergency-contact-number",
                                 placeholder: "Emergency Contact Number", className: "text-input" })
+                        ),
+                        _react2.default.createElement("br", null),
+                        _react2.default.createElement(
+                            "h5",
+                            { className: "mb-3" },
+                            "University Details"
                         ),
                         _react2.default.createElement(
                             _reactstrap.FormGroup,
@@ -595,10 +612,15 @@ var EditStudentModal = function (_Component3) {
                 ),
                 _react2.default.createElement(
                     _reactstrap.ModalBody,
-                    null,
+                    { className: "form" },
                     _react2.default.createElement(
                         _reactstrap.Form,
                         null,
+                        _react2.default.createElement(
+                            "h5",
+                            { className: "mb-3" },
+                            "Student Details"
+                        ),
                         _react2.default.createElement(
                             _reactstrap.FormGroup,
                             null,
@@ -744,6 +766,12 @@ var EditStudentModal = function (_Component3) {
                                 )
                             )
                         ),
+                        _react2.default.createElement("br", null),
+                        _react2.default.createElement(
+                            "h5",
+                            { className: "mb-3" },
+                            "Contact Details"
+                        ),
                         _react2.default.createElement(
                             _reactstrap.FormGroup,
                             null,
@@ -800,6 +828,12 @@ var EditStudentModal = function (_Component3) {
                             _react2.default.createElement(_reactstrap.Input, { id: "edit-student-emergency-contact-number",
                                 placeholder: "Emergency Contact Number", className: "text-input",
                                 defaultValue: this.props.student.emergencyContactNumber })
+                        ),
+                        _react2.default.createElement("br", null),
+                        _react2.default.createElement(
+                            "h5",
+                            { className: "mb-3" },
+                            "University Details"
                         ),
                         _react2.default.createElement(
                             _reactstrap.FormGroup,

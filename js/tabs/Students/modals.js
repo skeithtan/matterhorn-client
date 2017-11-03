@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import addValidation from "../../form_validation";
 import authorizeXHR from "../../authorization";
 import makeInfoToast from "../../dismissable_toast_maker";
@@ -18,6 +18,7 @@ import {
     Button,
 } from "reactstrap";
 
+
 class AddStudentModal extends Component {
     constructor(props) {
         super(props);
@@ -26,12 +27,12 @@ class AddStudentModal extends Component {
 
     static addValidation() {
         addValidation({
-            inputs: $("#add-student-modal").find(".text-input"),
-            button: $("#add-student-modal-submit"),
-            customValidations: [
+            inputs : $("#add-student-modal").find(".text-input"),
+            button : $("#add-student-modal-submit"),
+            customValidations : [
                 {
-                    input: $("#add-student-email"),
-                    validator: email => {
+                    input : $("#add-student-email"),
+                    validator : email => {
                         //This regex mess checks if email is a real email
                         return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
                     },
@@ -42,46 +43,46 @@ class AddStudentModal extends Component {
 
     submitForm() {
         const dismissToast = makeInfoToast({
-            title: "Adding",
-            message: "Adding new student...",
+            title : "Adding",
+            message : "Adding new student...",
         });
 
         $.post({
-            url: `${settings.serverURL}/students/`,
-            data: {
-                category: $("#add-student-category").val(),
-                id_number: $("#add-student-id-number").val(),
-                college: $("#add-student-college").val(),
-                family_name: $("#add-student-last-name").val(),
-                first_name: $("#add-student-first-name").val(),
-                middle_name: $("#add-student-middle-name").val(),
-                nickname: $("#add-student-nickname").val(),
-                nationality: $("#add-student-nationality").val(),
-                home_address: $("#add-student-address").val(),
-                phone_number: $("#add-student-contact-number").val(),
-                birth_date: $("#add-student-birth-date").val(),
-                sex: $("#add-student-sex").val(),
-                emergency_contact_name: $("#add-student-emergency-contact-name").val(),
-                emergency_contact_relationship: $("#add-student-emergency-contact-relationship").val(),
-                emergency_contact_number: $("#add-student-emergency-contact-number").val(),
-                email: $("#add-student-email").val(),
-                civil_status: $("#add-student-civil-status").val(),
+            url : `${settings.serverURL}/students/`,
+            data : {
+                category : $("#add-student-category").val(),
+                id_number : $("#add-student-id-number").val(),
+                college : $("#add-student-college").val(),
+                family_name : $("#add-student-last-name").val(),
+                first_name : $("#add-student-first-name").val(),
+                middle_name : $("#add-student-middle-name").val(),
+                nickname : $("#add-student-nickname").val(),
+                nationality : $("#add-student-nationality").val(),
+                home_address : $("#add-student-address").val(),
+                phone_number : $("#add-student-contact-number").val(),
+                birth_date : $("#add-student-birth-date").val(),
+                sex : $("#add-student-sex").val(),
+                emergency_contact_name : $("#add-student-emergency-contact-name").val(),
+                emergency_contact_relationship : $("#add-student-emergency-contact-relationship").val(),
+                emergency_contact_number : $("#add-student-emergency-contact-number").val(),
+                email : $("#add-student-email").val(),
+                civil_status : $("#add-student-civil-status").val(),
             },
-            beforeSend: authorizeXHR,
-            success: () => {
+            beforeSend : authorizeXHR,
+            success : () => {
                 dismissToast();
                 this.props.refresh();
                 iziToast.success({
-                    title: "Success",
-                    message: "Successfully added student",
+                    title : "Success",
+                    message : "Successfully added student",
                 });
             },
-            error: response => {
+            error : response => {
                 dismissToast();
                 console.log(response);
                 iziToast.error({
-                    title: "Error",
-                    message: "Unable to add student",
+                    title : "Error",
+                    message : "Unable to add student",
                 });
             },
         });
@@ -94,8 +95,9 @@ class AddStudentModal extends Component {
             <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} backdrop={true} id="add-student-modal"
                    onOpened={AddStudentModal.addValidation}>
                 <ModalHeader toggle={this.props.toggle}>Add a Student</ModalHeader>
-                <ModalBody>
+                <ModalBody className="form">
                     <Form>
+                        <h5 className="mb-3">Student Details</h5>
                         <FormGroup>
                             <Label for="add-student-id-number">ID Number</Label>
                             <Input id="add-student-id-number" placeholder="ID Number" className="text-input"/>
@@ -118,7 +120,7 @@ class AddStudentModal extends Component {
                         </FormGroup>
                         <FormGroup>
                             <Label for="add-student-birth-date">Birth Date</Label>
-                            <Input type="date" id="add-student-birth-date" className="text-input"/>
+                            <Input type="date" id="add-student-birth-date" className="text-input" placeholder="Birth Date"/>
                         </FormGroup>
                         <FormGroup>
                             <Label for="add-student-sex">Sex</Label>
@@ -145,6 +147,9 @@ class AddStudentModal extends Component {
                                 <option value="W">Widowed</option>
                             </Input>
                         </FormGroup>
+
+                        <br/>
+                        <h5 className="mb-3">Contact Details</h5>
                         <FormGroup>
                             <Label for="add-student-contact-number">Contact Number</Label>
                             <Input id="add-student-contact-number" placeholder="Contact Number" className="text-input"/>
@@ -170,6 +175,9 @@ class AddStudentModal extends Component {
                             <Input id="add-student-emergency-contact-number"
                                    placeholder="Emergency Contact Number" className="text-input"/>
                         </FormGroup>
+
+                        <br/>
+                        <h5 className="mb-3">University Details</h5>
                         <FormGroup>
                             <Label for="add-student-college">College</Label>
                             <Input type="select" id="add-student-college">
@@ -208,30 +216,30 @@ class DeleteStudentModal extends Component {
 
     confirmDelete() {
         const dismissToast = makeInfoToast({
-            title: "Deleting",
-            message: "Deleting student...",
+            title : "Deleting",
+            message : "Deleting student...",
         });
 
         $.ajax({
-            url: `${settings.serverURL}/students/${this.props.student.idNumber}/`,
-            method: "DELETE",
-            beforeSend: authorizeXHR,
-            success: () => {
+            url : `${settings.serverURL}/students/${this.props.student.idNumber}/`,
+            method : "DELETE",
+            beforeSend : authorizeXHR,
+            success : () => {
                 dismissToast();
                 this.props.refresh();
                 iziToast.success({
-                    title: "Success",
-                    message: "Student deleted",
-                    progressBar: false,
+                    title : "Success",
+                    message : "Student deleted",
+                    progressBar : false,
                 });
             },
-            error: response => {
+            error : response => {
                 dismissToast();
                 console.log(response);
                 iziToast.error({
-                    title: "Error",
-                    message: "Unable to delete student",
-                    progressBar: false,
+                    title : "Error",
+                    message : "Unable to delete student",
+                    progressBar : false,
                 });
             },
         });
@@ -254,7 +262,7 @@ class DeleteStudentModal extends Component {
                     <Button color="danger" onClick={this.confirmDelete}>Confirm Delete</Button>
                 </ModalFooter>
             </Modal>
-        )
+        );
     }
 }
 
@@ -272,42 +280,42 @@ class EditStudentModal extends Component {
         });
 
         $.ajax({
-            method: "PUT",
-            url: `${settings.serverURL}/students/${this.props.student.idNumber}/`,
-            data: {
-                category: $("#edit-student-category").val(),
-                id_number: $("#edit-student-id-number").val(),
-                college: $("#edit-student-college").val(),
-                family_name: $("#edit-student-last-name").val(),
-                first_name: $("#edit-student-first-name").val(),
-                middle_name: $("#edit-student-middle-name").val(),
-                nickname: $("#edit-student-nickname").val(),
-                nationality: $("#edit-student-nationality").val(),
-                home_address: $("#edit-student-address").val(),
-                phone_number: $("#edit-student-contact-number").val(),
-                birth_date: $("#edit-student-birth-date").val(),
-                sex: $("#edit-student-sex").val(),
-                emergency_contact_name: $("#edit-student-emergency-contact-name").val(),
-                emergency_contact_relationship: $("#edit-student-emergency-contact-relationship").val(),
-                emergency_contact_number: $("#edit-student-emergency-contact-number").val(),
-                email: $("#edit-student-email").val(),
-                civil_status: $("#edit-student-civil-status").val(),
+            method : "PUT",
+            url : `${settings.serverURL}/students/${this.props.student.idNumber}/`,
+            data : {
+                category : $("#edit-student-category").val(),
+                id_number : $("#edit-student-id-number").val(),
+                college : $("#edit-student-college").val(),
+                family_name : $("#edit-student-last-name").val(),
+                first_name : $("#edit-student-first-name").val(),
+                middle_name : $("#edit-student-middle-name").val(),
+                nickname : $("#edit-student-nickname").val(),
+                nationality : $("#edit-student-nationality").val(),
+                home_address : $("#edit-student-address").val(),
+                phone_number : $("#edit-student-contact-number").val(),
+                birth_date : $("#edit-student-birth-date").val(),
+                sex : $("#edit-student-sex").val(),
+                emergency_contact_name : $("#edit-student-emergency-contact-name").val(),
+                emergency_contact_relationship : $("#edit-student-emergency-contact-relationship").val(),
+                emergency_contact_number : $("#edit-student-emergency-contact-number").val(),
+                email : $("#edit-student-email").val(),
+                civil_status : $("#edit-student-civil-status").val(),
             },
-            beforeSend: authorizeXHR,
-            success: () => {
+            beforeSend : authorizeXHR,
+            success : () => {
                 dismissToast();
                 this.props.refresh();
                 iziToast.success({
-                    title: "Success",
-                    message: "Successfully modified student",
+                    title : "Success",
+                    message : "Successfully modified student",
                 });
             },
-            error: response => {
+            error : response => {
                 dismissToast();
                 console.log(response);
                 iziToast.error({
-                    title: "Error",
-                    message: "Unable to edit student",
+                    title : "Error",
+                    message : "Unable to edit student",
                 });
             },
         });
@@ -342,8 +350,9 @@ class EditStudentModal extends Component {
             <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} backdrop={true} id="edit-student-modal"
                    onOpened={EditStudentModal.addValidation}>
                 <ModalHeader toggle={this.props.toggle}>Edit {name}</ModalHeader>
-                <ModalBody>
+                <ModalBody className="form">
                     <Form>
+                        <h5 className="mb-3">Student Details</h5>
                         <FormGroup>
                             <Label for="edit-student-id-number">ID Number</Label>
                             <Input id="edit-student-id-number" placeholder="ID Number" className="text-input"
@@ -401,6 +410,9 @@ class EditStudentModal extends Component {
                                 <option value="W">Widowed</option>
                             </Input>
                         </FormGroup>
+
+                        <br/>
+                        <h5 className="mb-3">Contact Details</h5>
                         <FormGroup>
                             <Label for="edit-student-contact-number">Contact Number</Label>
                             <Input id="edit-student-contact-number" placeholder="Contact Number" className="text-input"
@@ -430,6 +442,9 @@ class EditStudentModal extends Component {
                                    placeholder="Emergency Contact Number" className="text-input"
                                    defaultValue={this.props.student.emergencyContactNumber}/>
                         </FormGroup>
+
+                        <br/>
+                        <h5 className="mb-3">University Details</h5>
                         <FormGroup>
                             <Label for="edit-student-college">College</Label>
                             <Input type="select" id="edit-student-college" defaultValue={this.props.student.college}>

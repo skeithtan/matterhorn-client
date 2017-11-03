@@ -92,8 +92,10 @@ class AddInstitutionModal extends Component {
             <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} backdrop={true} id="add-institution-modal"
                    onOpened={AddInstitutionModal.addValidation}>
                 <ModalHeader toggle={this.props.toggle}>Add an Institution</ModalHeader>
-                <ModalBody>
+                <ModalBody className="form">
                     <Form>
+
+                        <h5 className="mb-3">Institution Details</h5>
                         <FormGroup>
                             <Label for="add-institution-name">Name</Label>
                             <Input id="add-institution-name" placeholder="Institution Name" className="text-input"/>
@@ -106,7 +108,8 @@ class AddInstitutionModal extends Component {
                         </FormGroup>
                         <FormGroup>
                             <Label for="add-institution-email">Email</Label>
-                            <Input type="email" id="add-institution-email" placeholder="Email" className="text-input"/>
+                            <Input type="email" id="add-institution-email" placeholder="Email"
+                                   className="text-input"/>
                         </FormGroup>
                         <FormGroup>
                             <Label for="add-institution-address">Address</Label>
@@ -121,6 +124,17 @@ class AddInstitutionModal extends Component {
                             </InputGroup>
                         </FormGroup>
                         <FormGroup>
+                            <Label for="add-institution-agreement-type">Agreement Type</Label>
+                            <Input type="select" id="add-institution-agreement-type">
+                                <option value="B">Bilateral</option>
+                                <option value="M">Multilateral</option>
+                            </Input>
+                        </FormGroup>
+
+                        <br/>
+
+                        <h5 className="mb-3">Contact</h5>
+                        <FormGroup>
                             <Label for="add-institution-contact-person">Contact Person</Label>
                             <Input id="add-institution-contact-person" placeholder="Name" className="text-input"/>
                         </FormGroup>
@@ -128,13 +142,7 @@ class AddInstitutionModal extends Component {
                             <Label for="add-institution-contact-number">Contact Number</Label>
                             <Input id="add-institution-contact-number" placeholder="Number" className="text-input"/>
                         </FormGroup>
-                        <FormGroup>
-                            <Label for="add-institution-agreement-type">Agreement Type</Label>
-                            <Input type="select" id="add-institution-agreement-type">
-                                <option value="B">Bilateral</option>
-                                <option value="M">Multilateral</option>
-                            </Input>
-                        </FormGroup>
+
                     </Form>
                 </ModalBody>
                 <ModalFooter>
@@ -271,8 +279,10 @@ class EditInstitutionModal extends Component {
             <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} backdrop={true} id="edit-institution-modal"
                    onOpened={EditInstitutionModal.addValidation}>
                 <ModalHeader toggle={this.props.toggle}>Edit {this.props.institution.name}</ModalHeader>
-                <ModalBody>
+                <ModalBody className="form">
                     <Form>
+
+                        <h5 className="mb-3">Institution Details</h5>
                         <FormGroup>
                             <Label for="edit-institution-name">Name</Label>
                             <Input id="edit-institution-name" defaultValue={this.props.institution.name}
@@ -305,6 +315,18 @@ class EditInstitutionModal extends Component {
                             </InputGroup>
                         </FormGroup>
                         <FormGroup>
+                            <Label for="edit-institution-agreement-type">Agreement Type</Label>
+                            <Input type="select" id="edit-institution-agreement-type"
+                                   defaultValue={this.props.institution.agreement}>
+                                <option value="B">Bilateral</option>
+                                <option value="M">Multilateral</option>
+                            </Input>
+                        </FormGroup>
+
+                        <br/>
+
+                        <h5 className="mb-3">Contact</h5>
+                        <FormGroup>
                             <Label for="edit-institution-contact-person">Contact Person</Label>
                             <Input id="edit-institution-contact-person"
                                    defaultValue={this.props.institution.contactPersonName}
@@ -315,14 +337,6 @@ class EditInstitutionModal extends Component {
                             <Input id="edit-institution-contact-number"
                                    defaultValue={this.props.institution.contactPersonNumber} placeholder="Number"
                                    className="text-input"/>
-                        </FormGroup>
-                        <FormGroup>
-                            <Label for="edit-institution-agreement-type">Agreement Type</Label>
-                            <Input type="select" id="edit-institution-agreement-type"
-                                   defaultValue={this.props.institution.agreement}>
-                                <option value="B">Bilateral</option>
-                                <option value="M">Multilateral</option>
-                            </Input>
                         </FormGroup>
                     </Form>
                 </ModalBody>

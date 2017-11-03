@@ -122,10 +122,15 @@ var AddInstitutionModal = function (_Component) {
                 ),
                 _react2.default.createElement(
                     _reactstrap.ModalBody,
-                    null,
+                    { className: "form" },
                     _react2.default.createElement(
                         _reactstrap.Form,
                         null,
+                        _react2.default.createElement(
+                            "h5",
+                            { className: "mb-3" },
+                            "Institution Details"
+                        ),
                         _react2.default.createElement(
                             _reactstrap.FormGroup,
                             null,
@@ -158,7 +163,8 @@ var AddInstitutionModal = function (_Component) {
                                 { "for": "add-institution-email" },
                                 "Email"
                             ),
-                            _react2.default.createElement(_reactstrap.Input, { type: "email", id: "add-institution-email", placeholder: "Email", className: "text-input" })
+                            _react2.default.createElement(_reactstrap.Input, { type: "email", id: "add-institution-email", placeholder: "Email",
+                                className: "text-input" })
                         ),
                         _react2.default.createElement(
                             _reactstrap.FormGroup,
@@ -195,26 +201,6 @@ var AddInstitutionModal = function (_Component) {
                             null,
                             _react2.default.createElement(
                                 _reactstrap.Label,
-                                { "for": "add-institution-contact-person" },
-                                "Contact Person"
-                            ),
-                            _react2.default.createElement(_reactstrap.Input, { id: "add-institution-contact-person", placeholder: "Name", className: "text-input" })
-                        ),
-                        _react2.default.createElement(
-                            _reactstrap.FormGroup,
-                            null,
-                            _react2.default.createElement(
-                                _reactstrap.Label,
-                                { "for": "add-institution-contact-number" },
-                                "Contact Number"
-                            ),
-                            _react2.default.createElement(_reactstrap.Input, { id: "add-institution-contact-number", placeholder: "Number", className: "text-input" })
-                        ),
-                        _react2.default.createElement(
-                            _reactstrap.FormGroup,
-                            null,
-                            _react2.default.createElement(
-                                _reactstrap.Label,
                                 { "for": "add-institution-agreement-type" },
                                 "Agreement Type"
                             ),
@@ -232,6 +218,32 @@ var AddInstitutionModal = function (_Component) {
                                     "Multilateral"
                                 )
                             )
+                        ),
+                        _react2.default.createElement("br", null),
+                        _react2.default.createElement(
+                            "h5",
+                            { className: "mb-3" },
+                            "Contact"
+                        ),
+                        _react2.default.createElement(
+                            _reactstrap.FormGroup,
+                            null,
+                            _react2.default.createElement(
+                                _reactstrap.Label,
+                                { "for": "add-institution-contact-person" },
+                                "Contact Person"
+                            ),
+                            _react2.default.createElement(_reactstrap.Input, { id: "add-institution-contact-person", placeholder: "Name", className: "text-input" })
+                        ),
+                        _react2.default.createElement(
+                            _reactstrap.FormGroup,
+                            null,
+                            _react2.default.createElement(
+                                _reactstrap.Label,
+                                { "for": "add-institution-contact-number" },
+                                "Contact Number"
+                            ),
+                            _react2.default.createElement(_reactstrap.Input, { id: "add-institution-contact-number", placeholder: "Number", className: "text-input" })
                         )
                     )
                 ),
@@ -428,10 +440,15 @@ var EditInstitutionModal = function (_Component3) {
                 ),
                 _react2.default.createElement(
                     _reactstrap.ModalBody,
-                    null,
+                    { className: "form" },
                     _react2.default.createElement(
                         _reactstrap.Form,
                         null,
+                        _react2.default.createElement(
+                            "h5",
+                            { className: "mb-3" },
+                            "Institution Details"
+                        ),
                         _react2.default.createElement(
                             _reactstrap.FormGroup,
                             null,
@@ -506,30 +523,6 @@ var EditInstitutionModal = function (_Component3) {
                             null,
                             _react2.default.createElement(
                                 _reactstrap.Label,
-                                { "for": "edit-institution-contact-person" },
-                                "Contact Person"
-                            ),
-                            _react2.default.createElement(_reactstrap.Input, { id: "edit-institution-contact-person",
-                                defaultValue: this.props.institution.contactPersonName,
-                                placeholder: "Name", className: "text-input" })
-                        ),
-                        _react2.default.createElement(
-                            _reactstrap.FormGroup,
-                            null,
-                            _react2.default.createElement(
-                                _reactstrap.Label,
-                                { "for": "edit-institution-contact-number" },
-                                "Contact Number"
-                            ),
-                            _react2.default.createElement(_reactstrap.Input, { id: "edit-institution-contact-number",
-                                defaultValue: this.props.institution.contactPersonNumber, placeholder: "Number",
-                                className: "text-input" })
-                        ),
-                        _react2.default.createElement(
-                            _reactstrap.FormGroup,
-                            null,
-                            _react2.default.createElement(
-                                _reactstrap.Label,
                                 { "for": "edit-institution-agreement-type" },
                                 "Agreement Type"
                             ),
@@ -548,6 +541,36 @@ var EditInstitutionModal = function (_Component3) {
                                     "Multilateral"
                                 )
                             )
+                        ),
+                        _react2.default.createElement("br", null),
+                        _react2.default.createElement(
+                            "h5",
+                            { className: "mb-3" },
+                            "Contact"
+                        ),
+                        _react2.default.createElement(
+                            _reactstrap.FormGroup,
+                            null,
+                            _react2.default.createElement(
+                                _reactstrap.Label,
+                                { "for": "edit-institution-contact-person" },
+                                "Contact Person"
+                            ),
+                            _react2.default.createElement(_reactstrap.Input, { id: "edit-institution-contact-person",
+                                defaultValue: this.props.institution.contactPersonName,
+                                placeholder: "Name", className: "text-input" })
+                        ),
+                        _react2.default.createElement(
+                            _reactstrap.FormGroup,
+                            null,
+                            _react2.default.createElement(
+                                _reactstrap.Label,
+                                { "for": "edit-institution-contact-number" },
+                                "Contact Number"
+                            ),
+                            _react2.default.createElement(_reactstrap.Input, { id: "edit-institution-contact-number",
+                                defaultValue: this.props.institution.contactPersonNumber, placeholder: "Number",
+                                className: "text-input" })
                         )
                     )
                 ),
