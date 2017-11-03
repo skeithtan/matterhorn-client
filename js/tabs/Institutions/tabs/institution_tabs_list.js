@@ -1,6 +1,5 @@
 import React from "react";
 import InstitutionOverview from "./overview";
-import InstitutionPrograms from "./programs";
 
 const tabs = [
     {
