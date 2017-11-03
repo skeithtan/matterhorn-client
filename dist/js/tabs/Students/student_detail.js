@@ -190,12 +190,12 @@ var StudentDetailHead = function (_Component2) {
                         " ",
                         this.props.student.middleName,
                         " ",
-                        this.props.student.familyName
-                    ),
-                    _react2.default.createElement(
-                        "h4",
-                        { className: "text-muted d-inline-block font-weight-normal mb-0" },
-                        this.props.student.idNumber
+                        this.props.student.familyName,
+                        _react2.default.createElement(
+                            "small",
+                            { className: "text-muted ml-2" },
+                            this.props.student.idNumber
+                        )
                     )
                 ),
                 _react2.default.createElement(

@@ -163,8 +163,8 @@ class StudentDetailHead extends Component {
                 <div className="mr-auto">
                     <h4 className="page-head-title justify-content-left d-inline-block mb-0 mr-2">
                         {this.props.student.firstName} {this.props.student.middleName} {this.props.student.familyName}
+                        <small className="text-muted ml-2">{this.props.student.idNumber}</small>
                     </h4>
-                    <h4 className="text-muted d-inline-block font-weight-normal mb-0">{this.props.student.idNumber}</h4>
                 </div>
 
                 <div className="page-head-actions">
