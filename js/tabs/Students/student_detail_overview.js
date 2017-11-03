@@ -116,7 +116,7 @@ class StudentDetailRow extends Component {
         return (
             <ListGroupItem>
                 <small className="font-weight-bold">{this.props.fieldName}</small>
-                <p className="m-0">{this.props.fieldValue}</p>
+                <p className="lead m-0">{this.props.fieldValue}</p>
             </ListGroupItem>
         );
     }

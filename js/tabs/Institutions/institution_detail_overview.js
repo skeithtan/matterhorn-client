@@ -29,7 +29,7 @@ class InstitutionDetailOverview extends Component {
 
                     <ListGroupItem>
                         <small className="font-weight-bold">Website</small>
-                        <p className="m-0 text-primary" onClick={openWebsite}>{website}</p>
+                        <p className="lead m-0 text-primary" onClick={openWebsite}>{website}</p>
                     </ListGroupItem>
 
                     <InstitutionDetailRow fieldName="Agreement Type" fieldValue={agreementType}/>
@@ -69,7 +69,7 @@ class InstitutionDetailRow extends Component {
         return (
             <ListGroupItem onClick={this.props.onClick}>
                 <small className="font-weight-bold">{this.props.fieldName}</small>
-                <p className="m-0">{this.props.fieldValue}</p>
+                <p className="lead m-0">{this.props.fieldValue}</p>
             </ListGroupItem>
         );
     }

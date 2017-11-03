@@ -508,7 +508,7 @@ var MemorandumDetailRow = function (_Component5) {
                 ),
                 _react2.default.createElement(
                     "p",
-                    { className: "mb-0" },
+                    { className: "lead mb-0" },
                     this.props.fieldValue
                 )
             );

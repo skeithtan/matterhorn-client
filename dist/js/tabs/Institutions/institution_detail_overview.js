@@ -67,7 +67,7 @@ var InstitutionDetailOverview = function (_Component) {
                         ),
                         _react2.default.createElement(
                             "p",
-                            { className: "m-0 text-primary", onClick: openWebsite },
+                            { className: "lead m-0 text-primary", onClick: openWebsite },
                             website
                         )
                     ),
@@ -138,7 +138,7 @@ var InstitutionDetailRow = function (_Component3) {
                 ),
                 _react2.default.createElement(
                     "p",
-                    { className: "m-0" },
+                    { className: "lead m-0" },
                     this.props.fieldValue
                 )
             );

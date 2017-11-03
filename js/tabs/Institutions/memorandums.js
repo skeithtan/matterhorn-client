@@ -353,7 +353,7 @@ class MemorandumDetailRow extends Component {
         return (
             <ListGroupItem>
                 <small className="font-weight-bold">{this.props.fieldName}</small>
-                <p className="mb-0">{this.props.fieldValue}</p>
+                <p className="lead mb-0">{this.props.fieldValue}</p>
             </ListGroupItem>
         );
     }

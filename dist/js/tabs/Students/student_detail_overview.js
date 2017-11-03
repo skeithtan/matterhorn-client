@@ -203,7 +203,7 @@ var StudentDetailRow = function (_Component4) {
                 ),
                 _react2.default.createElement(
                     "p",
-                    { className: "m-0" },
+                    { className: "lead m-0" },
                     this.props.fieldValue
                 )
             );

@@ -196,12 +196,12 @@ var InstitutionDetailHead = function (_Component2) {
                     _react2.default.createElement(
                         "h4",
                         { className: "page-head-title justify-content-left d-inline-block mb-0 mr-2" },
-                        this.props.institution.name
-                    ),
-                    _react2.default.createElement(
-                        "h4",
-                        { className: "text-muted d-inline-block font-weight-normal mb-0" },
-                        this.props.institution.country.name
+                        this.props.institution.name,
+                        _react2.default.createElement(
+                            "small",
+                            { className: "text-muted ml-2" },
+                            this.props.institution.country.name
+                        )
                     )
                 ),
                 _react2.default.createElement(
