@@ -88,5 +88,4 @@ var InstitutionDetail = function (_Component) {
 }(_react.Component);
 
 exports.default = InstitutionDetail;
-//TODO: Use InstitutionDetail
 //# sourceMappingURL=institution_detail.js.map

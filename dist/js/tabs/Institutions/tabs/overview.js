@@ -10,17 +10,17 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactstrap = require("reactstrap");
-
 var _loading = require("../../../loading");
 
 var _loading2 = _interopRequireDefault(_loading);
 
-var _modals = require("../modals");
-
 var _graphql = require("../../../graphql");
 
 var _graphql2 = _interopRequireDefault(_graphql);
+
+var _reactstrap = require("reactstrap");
+
+var _modals = require("../modals");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -47,18 +47,13 @@ var InstitutionOverview = function (_Component) {
 
         _this.state = {
             institution: null,
-            institutionID: props.institution.id,
-            deleteInstitutionIsShowing: false,
-            editInstitutionIsShowing: false
+            institutionID: props.institution.id
         };
 
-        _this.toggleDeleteInstitution = _this.toggleDeleteInstitution.bind(_this);
-        _this.toggleEditInstitution = _this.toggleEditInstitution.bind(_this);
         _this.onEditInstitution = _this.onEditInstitution.bind(_this);
 
         //Fetch active institution details
         fetchInstitution(props.institution.id, function (response) {
-            console.log(response);
             _this.setState({
                 institution: response.data.institution
             });
@@ -80,20 +75,6 @@ var InstitutionOverview = function (_Component) {
                 _this2.setState({
                     institution: response.data.institution
                 });
-            });
-        }
-    }, {
-        key: "toggleDeleteInstitution",
-        value: function toggleDeleteInstitution() {
-            this.setState({
-                deleteInstitutionIsShowing: !this.state.deleteInstitutionIsShowing
-            });
-        }
-    }, {
-        key: "toggleEditInstitution",
-        value: function toggleEditInstitution() {
-            this.setState({
-                editInstitutionIsShowing: !this.state.editInstitutionIsShowing
             });
         }
     }, {
@@ -127,18 +108,9 @@ var InstitutionOverview = function (_Component) {
                 "div",
                 { className: "d-flex flex-column p-0 h-100" },
                 _react2.default.createElement(InstitutionOverviewHead, { institution: this.state.institution,
-                    toggleDeleteInstitution: this.toggleDeleteInstitution,
-                    toggleEditInstitution: this.toggleEditInstitution }),
-                _react2.default.createElement(InstitutionOverviewBody, { institution: this.state.institution }),
-                this.state.institution !== null && //If activeInstitution is not null
-                _react2.default.createElement(_modals.DeleteInstitutionModal, { isOpen: this.state.deleteInstitutionIsShowing,
-                    institution: this.state.institution,
-                    toggle: this.toggleDeleteInstitution,
-                    refresh: this.props.onDeleteActiveInstitution }),
-                this.state.institution !== null && _react2.default.createElement(_modals.EditInstitutionModal, { isOpen: this.state.editInstitutionIsShowing,
-                    institution: this.state.institution,
-                    refresh: this.onEditInstitution,
-                    toggle: this.toggleEditInstitution })
+                    onDeleteInstitution: this.props.onDeleteActiveInstitution,
+                    onEditInstitution: this.onEditInstitution }),
+                _react2.default.createElement(InstitutionOverviewBody, { institution: this.state.institution })
             );
         }
     }]);
@@ -152,10 +124,33 @@ var InstitutionOverviewHead = function (_Component2) {
     function InstitutionOverviewHead(props) {
         _classCallCheck(this, InstitutionOverviewHead);
 
-        return _possibleConstructorReturn(this, (InstitutionOverviewHead.__proto__ || Object.getPrototypeOf(InstitutionOverviewHead)).call(this, props));
+        var _this4 = _possibleConstructorReturn(this, (InstitutionOverviewHead.__proto__ || Object.getPrototypeOf(InstitutionOverviewHead)).call(this, props));
+
+        _this4.state = {
+            deleteInstitutionIsShowing: false,
+            editInstitutionIsShowing: false
+        };
+
+        _this4.toggleEditInstitution = _this4.toggleEditInstitution.bind(_this4);
+        _this4.toggleDeleteInstitution = _this4.toggleDeleteInstitution.bind(_this4);
+        return _this4;
     }
 
     _createClass(InstitutionOverviewHead, [{
+        key: "toggleEditInstitution",
+        value: function toggleEditInstitution() {
+            this.setState({
+                editInstitutionIsShowing: !this.state.editInstitutionIsShowing
+            });
+        }
+    }, {
+        key: "toggleDeleteInstitution",
+        value: function toggleDeleteInstitution() {
+            this.setState({
+                deleteInstitutionIsShowing: !this.state.deleteInstitutionIsShowing
+            });
+        }
+    }, {
         key: "render",
         value: function render() {
             return _react2.default.createElement(
@@ -165,14 +160,14 @@ var InstitutionOverviewHead = function (_Component2) {
                     "div",
                     { className: "mr-auto" },
                     _react2.default.createElement(
+                        "h5",
+                        { className: "mb-0 text-secondary" },
+                        "Overview"
+                    ),
+                    _react2.default.createElement(
                         "h4",
-                        { className: "page-head-title justify-content-left d-inline-block mb-0 mr-2" },
-                        this.props.institution.name,
-                        _react2.default.createElement(
-                            "small",
-                            { className: "text-muted ml-2" },
-                            this.props.institution.country.name
-                        )
+                        { className: "page-head-title justify-content-left d-inline-block mr-2" },
+                        this.props.institution.name
                     )
                 ),
                 _react2.default.createElement(
@@ -181,16 +176,24 @@ var InstitutionOverviewHead = function (_Component2) {
                     _react2.default.createElement(
                         _reactstrap.Button,
                         { outline: true, size: "sm", color: "success", className: "mr-2",
-                            onClick: this.props.toggleEditInstitution },
+                            onClick: this.toggleEditInstitution },
                         "Edit Institution"
                     ),
                     _react2.default.createElement(
                         _reactstrap.Button,
                         { outline: true, size: "sm", color: "danger",
-                            onClick: this.props.toggleDeleteInstitution },
+                            onClick: this.toggleDeleteInstitution },
                         "Delete"
                     )
-                )
+                ),
+                _react2.default.createElement(_modals.DeleteInstitutionModal, { isOpen: this.state.deleteInstitutionIsShowing,
+                    institution: this.props.institution,
+                    toggle: this.toggleDeleteInstitution,
+                    refresh: this.props.onDeleteInstitution }),
+                _react2.default.createElement(_modals.EditInstitutionModal, { isOpen: this.state.editInstitutionIsShowing,
+                    institution: this.props.institution,
+                    refresh: this.props.onEditInstitution,
+                    toggle: this.toggleEditInstitution })
             );
         }
     }]);
@@ -257,6 +260,7 @@ var InstitutionDetailOverview = function (_Component4) {
                     _reactstrap.ListGroup,
                     null,
                     _react2.default.createElement(InstitutionDetailRow, { fieldName: "Address", fieldValue: institution.address }),
+                    _react2.default.createElement(InstitutionDetailRow, { fieldName: "Country", fieldValue: institution.country.name }),
                     _react2.default.createElement(
                         _reactstrap.ListGroupItem,
                         null,

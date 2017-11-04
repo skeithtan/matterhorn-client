@@ -1,13 +1,14 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import tabs from "./tabs/institution_tabs_list";
 import InstitutionDetailTabBar from "./tabs/institution_detail_tabs";
+
 
 class InstitutionDetail extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            activeTab: tabs[0]
+            activeTab : tabs[0],
         };
 
         this.setActiveTab = this.setActiveTab.bind(this);
@@ -23,8 +24,8 @@ class InstitutionDetail extends Component {
 
     setActiveTab(tab) {
         this.setState({
-            activeTab: tab
-        })
+            activeTab : tab,
+        });
     }
 
     render() {
@@ -40,9 +41,8 @@ class InstitutionDetail extends Component {
                 <InstitutionDetailTabBar setActiveTab={this.setActiveTab} activeTab={this.state.activeTab} tabs={tabs}/>
             </div>
 
-        )
+        );
     }
 }
 
 export default InstitutionDetail;
-//TODO: Use InstitutionDetail

@@ -107,11 +107,6 @@ class AddInstitutionModal extends Component {
                             </Input>
                         </FormGroup>
                         <FormGroup>
-                            <Label for="add-institution-email">Email</Label>
-                            <Input type="email" id="add-institution-email" placeholder="Email"
-                                   className="text-input"/>
-                        </FormGroup>
-                        <FormGroup>
                             <Label for="add-institution-address">Address</Label>
                             <Input type="textarea" id="add-institution-address" placeholder="Address"
                                    className="text-input"/>
@@ -137,6 +132,11 @@ class AddInstitutionModal extends Component {
                         <FormGroup>
                             <Label for="add-institution-contact-person">Contact Person</Label>
                             <Input id="add-institution-contact-person" placeholder="Name" className="text-input"/>
+                        </FormGroup>
+                        <FormGroup>
+                            <Label for="add-institution-email">Contact Email</Label>
+                            <Input type="email" id="add-institution-email" placeholder="Email"
+                                   className="text-input"/>
                         </FormGroup>
                         <FormGroup>
                             <Label for="add-institution-contact-number">Contact Number</Label>
@@ -296,11 +296,6 @@ class EditInstitutionModal extends Component {
                             </Input>
                         </FormGroup>
                         <FormGroup>
-                            <Label for="edit-institution-email">Email</Label>
-                            <Input type="email" id="edit-institution-email" defaultValue={this.props.institution.email}
-                                   placeholder="Email" className="text-input"/>
-                        </FormGroup>
-                        <FormGroup>
                             <Label for="edit-institution-address">Address</Label>
                             <Input type="textarea" id="edit-institution-address"
                                    defaultValue={this.props.institution.address}
@@ -331,6 +326,11 @@ class EditInstitutionModal extends Component {
                             <Input id="edit-institution-contact-person"
                                    defaultValue={this.props.institution.contactPersonName}
                                    placeholder="Name" className="text-input"/>
+                        </FormGroup>
+                        <FormGroup>
+                            <Label for="edit-institution-email">Contact Email</Label>
+                            <Input type="email" id="edit-institution-email" defaultValue={this.props.institution.contactPersonEmail}
+                                   placeholder="Email" className="text-input"/>
                         </FormGroup>
                         <FormGroup>
                             <Label for="edit-institution-contact-number">Contact Number</Label>

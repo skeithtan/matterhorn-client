@@ -160,17 +160,6 @@ var AddInstitutionModal = function (_Component) {
                             null,
                             _react2.default.createElement(
                                 _reactstrap.Label,
-                                { "for": "add-institution-email" },
-                                "Email"
-                            ),
-                            _react2.default.createElement(_reactstrap.Input, { type: "email", id: "add-institution-email", placeholder: "Email",
-                                className: "text-input" })
-                        ),
-                        _react2.default.createElement(
-                            _reactstrap.FormGroup,
-                            null,
-                            _react2.default.createElement(
-                                _reactstrap.Label,
                                 { "for": "add-institution-address" },
                                 "Address"
                             ),
@@ -234,6 +223,17 @@ var AddInstitutionModal = function (_Component) {
                                 "Contact Person"
                             ),
                             _react2.default.createElement(_reactstrap.Input, { id: "add-institution-contact-person", placeholder: "Name", className: "text-input" })
+                        ),
+                        _react2.default.createElement(
+                            _reactstrap.FormGroup,
+                            null,
+                            _react2.default.createElement(
+                                _reactstrap.Label,
+                                { "for": "add-institution-email" },
+                                "Contact Email"
+                            ),
+                            _react2.default.createElement(_reactstrap.Input, { type: "email", id: "add-institution-email", placeholder: "Email",
+                                className: "text-input" })
                         ),
                         _react2.default.createElement(
                             _reactstrap.FormGroup,
@@ -480,17 +480,6 @@ var EditInstitutionModal = function (_Component3) {
                             null,
                             _react2.default.createElement(
                                 _reactstrap.Label,
-                                { "for": "edit-institution-email" },
-                                "Email"
-                            ),
-                            _react2.default.createElement(_reactstrap.Input, { type: "email", id: "edit-institution-email", defaultValue: this.props.institution.email,
-                                placeholder: "Email", className: "text-input" })
-                        ),
-                        _react2.default.createElement(
-                            _reactstrap.FormGroup,
-                            null,
-                            _react2.default.createElement(
-                                _reactstrap.Label,
                                 { "for": "edit-institution-address" },
                                 "Address"
                             ),
@@ -559,6 +548,17 @@ var EditInstitutionModal = function (_Component3) {
                             _react2.default.createElement(_reactstrap.Input, { id: "edit-institution-contact-person",
                                 defaultValue: this.props.institution.contactPersonName,
                                 placeholder: "Name", className: "text-input" })
+                        ),
+                        _react2.default.createElement(
+                            _reactstrap.FormGroup,
+                            null,
+                            _react2.default.createElement(
+                                _reactstrap.Label,
+                                { "for": "edit-institution-email" },
+                                "Contact Email"
+                            ),
+                            _react2.default.createElement(_reactstrap.Input, { type: "email", id: "edit-institution-email", defaultValue: this.props.institution.contactPersonEmail,
+                                placeholder: "Email", className: "text-input" })
                         ),
                         _react2.default.createElement(
                             _reactstrap.FormGroup,

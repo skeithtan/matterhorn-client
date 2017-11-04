@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import moment from "moment";
+import graphql from "../../../graphql";
+
 import {
     Button,
     Card,
@@ -8,10 +11,83 @@ import {
     ListGroup,
     ListGroupItem,
 } from "reactstrap";
-import moment from "moment";
+
+
+function fetchInstitution(id, onResponse) {
+    graphql({
+        query : `
+        {
+            institutions {
+                id
+                name
+                memorandumSet {
+                    id
+                    category
+                    memorandumFile
+                    dateEffective
+                    dateExpiration
+                    collegeInitiator
+                    memorandumlinkageSet {
+                        linkage
+                    }
+                }
+            }
+        }
+       `,
+        onResponse : onResponse,
+    });
+}
 
 
 class Memorandums extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            institution : null,
+            institutionID : props.institution.id,
+        };
+
+        //Fetch active institution details
+        fetchInstitution(props.institution.id, response => {
+            this.setState({
+                institution : response.data.institution,
+            });
+        });
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            institutionID : nextProps.institution.id,
+            institution : null,
+        });
+
+        fetchInstitution(nextProps.institution.id, response => {
+            this.setState({
+                institution : response.data.institution,
+            });
+        });
+    }
+
+    render() {
+        //TODO: Add memorandums
+        return (
+
+        );
+    }
+}
+
+class MemorandumHead extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+
+    }
+}
+
+class MemorandumBody extends Component {
     constructor(props) {
         super(props);
 
@@ -24,8 +100,8 @@ class Memorandums extends Component {
 
         //Sort by most recent
         props.memorandums.sort((a, b) => {
-            const aTime = a.versionDate;
-            const bTime = b.versionDate;
+            const aTime = a.dateEffective;
+            const bTime = b.dateEffective;
 
             if (aTime.isBefore(bTime)) {
                 return 1;
@@ -60,42 +136,12 @@ class Memorandums extends Component {
             agreements : agreements,
             understandings : understandings,
         };
-
-        this.onAgreementClick = this.onAgreementClick.bind(this);
-        this.onUnderstandingClick = this.onUnderstandingClick.bind(this);
     }
+}
 
-    onUnderstandingClick() {
-        const newShowing = this.state.showing === "MOU" ? null : "MOU";
-
-        this.setState({
-            showing : newShowing,
-        });
-    }
-
-    onAgreementClick() {
-        const newShowing = this.state.showing === "MOA" ? null : "MOA";
-
-        this.setState({
-            showing : newShowing,
-        });
-    }
-
-    render() {
-        return (
-            <div className="mb-4">
-                <small className="section-title">Memorandums</small>
-                <div id="memorandums-accordion">
-                    <MemorandumsOfUnderstanding showing={this.state.showing === "MOU"}
-                                                memorandums={this.state.understandings}
-                                                toggle={this.onUnderstandingClick}/>
-                    <MemorandumsOfAgreement showing={this.state.showing === "MOA"}
-                                            memorandums={this.state.agreements}
-                                            toggle={this.onAgreementClick}/>
-                </div>
-                <small className="section-footer">Select a memorandum type to reveal details.</small>
-            </div>
-        );
+class MemorandumListSection extends Component {
+    constructor(props) {
+        super(props);
     }
 }
 
