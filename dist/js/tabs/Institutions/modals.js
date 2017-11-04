@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.AddMemorandumModal = exports.EditInstitutionModal = exports.DeleteInstitutionModal = exports.AddInstitutionModal = undefined;
+exports.DeleteMemorandumModal = exports.AddMemorandumModal = exports.EditInstitutionModal = exports.DeleteInstitutionModal = exports.AddInstitutionModal = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -810,8 +810,89 @@ var AddMemorandumModal = function (_Component4) {
     return AddMemorandumModal;
 }(_react.Component);
 
+var DeleteMemorandumModal = function (_Component5) {
+    _inherits(DeleteMemorandumModal, _Component5);
+
+    function DeleteMemorandumModal(props) {
+        _classCallCheck(this, DeleteMemorandumModal);
+
+        var _this9 = _possibleConstructorReturn(this, (DeleteMemorandumModal.__proto__ || Object.getPrototypeOf(DeleteMemorandumModal)).call(this, props));
+
+        _this9.confirmDelete = _this9.confirmDelete.bind(_this9);
+        return _this9;
+    }
+
+    _createClass(DeleteMemorandumModal, [{
+        key: "confirmDelete",
+        value: function confirmDelete() {
+            var _this10 = this;
+
+            var dismissToast = (0, _dismissable_toast_maker2.default)({
+                title: "Deleting",
+                message: "Deleting memorandum..."
+            });
+
+            _jquery2.default.ajax({
+                url: _settings2.default.serverURL + "/institutions/" + this.props.institution.id + "/memorandums/" + this.props.memorandum.id,
+                method: "DELETE",
+                beforeSend: _authorization2.default,
+                success: function success() {
+                    dismissToast();
+                    _this10.props.refresh();
+                    _izitoast2.default.success({
+                        title: "Success",
+                        message: "Memorandum deleted",
+                        progressBar: false
+                    });
+                },
+                error: function error(response) {
+                    dismissToast();
+                    console.log(response);
+                    _izitoast2.default.error({
+                        title: "Error",
+                        message: "Unable to delete memorandum",
+                        progressBar: false
+                    });
+                }
+            });
+            this.props.toggle();
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            return _react2.default.createElement(
+                _reactstrap.Modal,
+                { isOpen: this.props.isOpen, toggle: this.props.toggle, backdrop: true, id: "delete-memorandum-modal" },
+                _react2.default.createElement(
+                    _reactstrap.ModalHeader,
+                    { toggle: this.props.toggle },
+                    "Delete Memorandum"
+                ),
+                _react2.default.createElement(
+                    _reactstrap.ModalBody,
+                    null,
+                    "This cannot be undone."
+                ),
+                _react2.default.createElement(
+                    _reactstrap.ModalFooter,
+                    null,
+                    _react2.default.createElement(
+                        _reactstrap.Button,
+                        { color: "danger", id: "delete-memorandum-modal-submit",
+                            onClick: this.confirmDelete },
+                        "Delete"
+                    )
+                )
+            );
+        }
+    }]);
+
+    return DeleteMemorandumModal;
+}(_react.Component);
+
 exports.AddInstitutionModal = AddInstitutionModal;
 exports.DeleteInstitutionModal = DeleteInstitutionModal;
 exports.EditInstitutionModal = EditInstitutionModal;
 exports.AddMemorandumModal = AddMemorandumModal;
+exports.DeleteMemorandumModal = DeleteMemorandumModal;
 //# sourceMappingURL=modals.js.map

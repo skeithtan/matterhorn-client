@@ -360,8 +360,8 @@ class AddMemorandumModal extends Component {
 
     submitForm() {
         const dismissToast = makeInfoToast({
-            title : "Adding",
-            message : "Adding new memorandum...",
+            title: "Adding",
+            message: "Adding new memorandum...",
         });
 
         console.log(this.props.institution.id);
@@ -376,21 +376,21 @@ class AddMemorandumModal extends Component {
                 date_expiration: $("#add-memorandum-expiration-date").val(),
                 college_initiator: $("#add-memorandum-college-initiator").val(),
             },
-            beforeSend : authorizeXHR,
-            success : () => {
+            beforeSend: authorizeXHR,
+            success: () => {
                 dismissToast();
                 this.props.refresh();
                 iziToast.success({
-                    title : "Success",
-                    message : "Successfully added memorandum",
+                    title: "Success",
+                    message: "Successfully added memorandum",
                 });
             },
-            error : response => {
+            error: response => {
                 dismissToast();
                 console.log(response);
                 iziToast.error({
-                    title : "Error",
-                    message : "Unable to add memorandum",
+                    title: "Error",
+                    message: "Unable to add memorandum",
                 });
             },
         });
@@ -454,9 +454,63 @@ class AddMemorandumModal extends Component {
     }
 }
 
+class DeleteMemorandumModal extends Component {
+    constructor(props) {
+        super(props);
+
+        this.confirmDelete = this.confirmDelete.bind(this);
+    }
+
+    confirmDelete() {
+        const dismissToast = makeInfoToast({
+            title: "Deleting",
+            message: "Deleting memorandum...",
+        });
+
+        $.ajax({
+            url: `${settings.serverURL}/institutions/${this.props.institution.id}/memorandums/${this.props.memorandum.id}`,
+            method: "DELETE",
+            beforeSend: authorizeXHR,
+            success: () => {
+                dismissToast();
+                this.props.refresh();
+                iziToast.success({
+                    title: "Success",
+                    message: "Memorandum deleted",
+                    progressBar: false,
+                });
+            },
+            error: response => {
+                dismissToast();
+                console.log(response);
+                iziToast.error({
+                    title: "Error",
+                    message: "Unable to delete memorandum",
+                    progressBar: false,
+                });
+            },
+        });
+        this.props.toggle();
+    }
+
+    render() {
+        return (
+            <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} backdrop={true} id="delete-memorandum-modal">
+                <ModalHeader toggle={this.props.toggle}>Delete Memorandum</ModalHeader>
+                <ModalBody>This cannot be undone.</ModalBody>
+                <ModalFooter>
+                    <Button color="danger" id="delete-memorandum-modal-submit"
+                            onClick={this.confirmDelete}>Delete</Button>
+                </ModalFooter>
+            </Modal>
+        );
+    }
+}
+
 export {
     AddInstitutionModal,
     DeleteInstitutionModal,
     EditInstitutionModal,
     AddMemorandumModal,
+    DeleteMemorandumModal,
 };

@@ -23,6 +23,7 @@ import {
 
 import {
     AddMemorandumModal,
+    DeleteMemorandumModal,
 } from "../modals";
 
 function fetchInstitution(id, onResponse) {
@@ -103,7 +104,9 @@ class Memorandums extends Component {
         return (
             <div id="institution-memorandums" className="d-flex flex-column p-0 h-100">
                 <MemorandumHead institution={this.state.institution} refreshMemorandums={this.refreshMemorandums}/>
-                <MemorandumBody memorandums={this.state.institution.memorandumSet}/>
+                <MemorandumBody institution={this.state.institution}
+                                memorandums={this.state.institution.memorandumSet}
+                                refreshMemorandums={this.refreshMemorandums}/>
             </div>
         );
     }
@@ -135,7 +138,8 @@ class MemorandumHead extends Component {
                 </div>
 
                 <div className="page-head-actions">
-                    <Button outline size="sm" color="success" onClick={this.toggleAddMemorandum}>Add a Memorandum</Button>
+                    <Button outline size="sm" color="success" onClick={this.toggleAddMemorandum}>Add a
+                        Memorandum</Button>
                 </div>
 
                 <AddMemorandumModal isOpen={this.state.addMemorandumIsShowing}
@@ -196,16 +200,21 @@ class MemorandumBody extends Component {
             agreements: agreements,
             understandings: understandings,
         };
+
     }
 
     render() {
         return (
             <div className="page-body">
-                <MemorandumListSection memorandums={this.state.agreements}>
+                <MemorandumListSection institution={this.props.institution}
+                                       memorandums={this.state.agreements}
+                                       refreshMemorandums={this.props.refreshMemorandums}>
                     Memorandums of Agreement
                 </MemorandumListSection>
 
-                <MemorandumListSection memorandums={this.state.understandings}>
+                <MemorandumListSection institution={this.props.institution}
+                                       memorandums={this.state.understandings}
+                                       refreshMemorandums={this.props.refreshMemorandums}>
                     Memorandums of Understanding
                 </MemorandumListSection>
             </div>
@@ -268,18 +277,24 @@ class MemorandumListSection extends Component {
             }
 
             const onMemorandumRowClick = () => this.setActiveMemorandum(memorandum);
-            return <MemorandumRow isShowing={isShowing} memorandum={memorandum} onClick={onMemorandumRowClick}
+            return <MemorandumRow isShowing={isShowing}
+                                  institution={this.props.institution}
+                                  refreshMemorandums={this.props.refreshMemorandums}
+                                  memorandum={memorandum}
+                                  onClick={onMemorandumRowClick}
                                   key={memorandum.id}/>;
         });
 
         return (
-            <Section>
-                <SectionTitle>{this.props.children}</SectionTitle>
-                <SectionTable className="memorandums-accordion">
-                    {rows}
-                </SectionTable>
-                <SectionFooter>Select a memorandum to see its details</SectionFooter>
-            </Section>
+            <div>
+                <Section>
+                    <SectionTitle>{this.props.children}</SectionTitle>
+                    <SectionTable className="memorandums-accordion">
+                        {rows}
+                    </SectionTable>
+                    <SectionFooter>Select a memorandum to see its details</SectionFooter>
+                </Section>
+            </div>
         );
     }
 
@@ -289,6 +304,18 @@ class MemorandumListSection extends Component {
 class MemorandumRow extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            deleteMemorandumIsShowing: false,
+        };
+
+        this.toggleDeleteMemorandum = this.toggleDeleteMemorandum.bind(this);
+    }
+
+    toggleDeleteMemorandum() {
+        this.setState({
+            deleteMemorandumIsShowing: !this.state.deleteMemorandumIsShowing,
+        });
     }
 
     render() {
@@ -319,40 +346,52 @@ class MemorandumRow extends Component {
         }
 
         return (
-            <Card>
-                <SectionRow selectable active={this.props.isShowing} onClick={this.props.onClick}>
-                    <SectionRowContent large>Effective {dateEffective}</SectionRowContent>
-                </SectionRow>
+            <div>
+                <Card>
+                    <SectionRow selectable active={this.props.isShowing} onClick={this.props.onClick}>
+                        <SectionRowContent large>Effective {dateEffective}</SectionRowContent>
+                    </SectionRow>
 
-                <Collapse isOpen={this.props.isShowing}>
-                    <CardBody className="p-0">
-                        <SectionTable>
-                            <SectionRow className="bg-light">
-                                <SectionRowTitle>Date Expiration</SectionRowTitle>
-                                <SectionRowContent large>{dateExpiration}</SectionRowContent>
-                            </SectionRow>
+                    <Collapse isOpen={this.props.isShowing}>
+                        <CardBody className="p-0">
+                            <SectionTable>
+                                <SectionRow className="bg-light">
+                                    <SectionRowTitle>Date Expiration</SectionRowTitle>
+                                    <SectionRowContent large>{dateExpiration}</SectionRowContent>
+                                </SectionRow>
 
-                            <SectionRow className="bg-light">
-                                <SectionRowTitle>College Initiator</SectionRowTitle>
-                                <SectionRowContent large>{collegeInitiator}</SectionRowContent>
-                            </SectionRow>
+                                <SectionRow className="bg-light">
+                                    <SectionRowTitle>College Initiator</SectionRowTitle>
+                                    <SectionRowContent large>{collegeInitiator}</SectionRowContent>
+                                </SectionRow>
 
-                            <SectionRow className="bg-light">
-                                <SectionRowTitle>Linkages</SectionRowTitle>
-                                <SectionRowContent large>{linkagesText}</SectionRowContent>
-                            </SectionRow>
+                                <SectionRow className="bg-light">
+                                    <SectionRowTitle>Linkages</SectionRowTitle>
+                                    <SectionRowContent large>{linkagesText}</SectionRowContent>
+                                </SectionRow>
 
-                            <SectionRow className="bg-light d-flex flex-row">
-                                <div className="mr-auto">
-                                    <Button outline size="sm" color="success" className="mr-2">View Memorandum</Button>
-                                    <Button outline size="sm" color="success">Edit Details</Button>
-                                </div>
-                                <Button outline size="sm" color="danger">Delete Memorandum</Button>
-                            </SectionRow>
-                        </SectionTable>
-                    </CardBody>
-                </Collapse>
-            </Card>
+                                <SectionRow className="bg-light d-flex flex-row">
+                                    <div className="mr-auto">
+                                        <Button outline size="sm" color="success" className="mr-2">View
+                                            Memorandum</Button>
+                                        <Button outline size="sm" color="success">Edit Details</Button>
+                                    </div>
+                                    <Button outline size="sm" color="danger" onClick={this.toggleDeleteMemorandum}>Delete
+                                        Memorandum</Button>
+                                </SectionRow>
+                            </SectionTable>
+                        </CardBody>
+                    </Collapse>
+                </Card>
+
+                <DeleteMemorandumModal isOpen={this.state.deleteMemorandumIsShowing}
+                                       institution={this.props.institution}
+                                       memorandum={this.props.memorandum}
+                                       toggle={this.toggleDeleteMemorandum}
+                                       refresh={this.props.refreshMemorandums}/>
+                
+                {/* EDIT MEMORANDUM GOES HERE */}
+            </div>
         );
     }
 }

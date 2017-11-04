@@ -113,7 +113,9 @@ var Memorandums = function (_Component) {
                 "div",
                 { id: "institution-memorandums", className: "d-flex flex-column p-0 h-100" },
                 _react2.default.createElement(MemorandumHead, { institution: this.state.institution, refreshMemorandums: this.refreshMemorandums }),
-                _react2.default.createElement(MemorandumBody, { memorandums: this.state.institution.memorandumSet })
+                _react2.default.createElement(MemorandumBody, { institution: this.state.institution,
+                    memorandums: this.state.institution.memorandumSet,
+                    refreshMemorandums: this.refreshMemorandums })
             );
         }
     }]);
@@ -237,6 +239,7 @@ var MemorandumBody = function (_Component3) {
             agreements: agreements,
             understandings: understandings
         };
+
         return _this5;
     }
 
@@ -248,12 +251,16 @@ var MemorandumBody = function (_Component3) {
                 { className: "page-body" },
                 _react2.default.createElement(
                     MemorandumListSection,
-                    { memorandums: this.state.agreements },
+                    { institution: this.props.institution,
+                        memorandums: this.state.agreements,
+                        refreshMemorandums: this.props.refreshMemorandums },
                     "Memorandums of Agreement"
                 ),
                 _react2.default.createElement(
                     MemorandumListSection,
-                    { memorandums: this.state.understandings },
+                    { institution: this.props.institution,
+                        memorandums: this.state.understandings,
+                        refreshMemorandums: this.props.refreshMemorandums },
                     "Memorandums of Understanding"
                 )
             );
@@ -340,27 +347,35 @@ var MemorandumListSection = function (_Component4) {
                 var onMemorandumRowClick = function onMemorandumRowClick() {
                     return _this7.setActiveMemorandum(memorandum);
                 };
-                return _react2.default.createElement(MemorandumRow, { isShowing: isShowing, memorandum: memorandum, onClick: onMemorandumRowClick,
+                return _react2.default.createElement(MemorandumRow, { isShowing: isShowing,
+                    institution: _this7.props.institution,
+                    refreshMemorandums: _this7.props.refreshMemorandums,
+                    memorandum: memorandum,
+                    onClick: onMemorandumRowClick,
                     key: memorandum.id });
             });
 
             return _react2.default.createElement(
-                _section.Section,
+                "div",
                 null,
                 _react2.default.createElement(
-                    _section.SectionTitle,
+                    _section.Section,
                     null,
-                    this.props.children
-                ),
-                _react2.default.createElement(
-                    _section.SectionTable,
-                    { className: "memorandums-accordion" },
-                    rows
-                ),
-                _react2.default.createElement(
-                    _section.SectionFooter,
-                    null,
-                    "Select a memorandum to see its details"
+                    _react2.default.createElement(
+                        _section.SectionTitle,
+                        null,
+                        this.props.children
+                    ),
+                    _react2.default.createElement(
+                        _section.SectionTable,
+                        { className: "memorandums-accordion" },
+                        rows
+                    ),
+                    _react2.default.createElement(
+                        _section.SectionFooter,
+                        null,
+                        "Select a memorandum to see its details"
+                    )
                 )
             );
         }
@@ -375,10 +390,24 @@ var MemorandumRow = function (_Component5) {
     function MemorandumRow(props) {
         _classCallCheck(this, MemorandumRow);
 
-        return _possibleConstructorReturn(this, (MemorandumRow.__proto__ || Object.getPrototypeOf(MemorandumRow)).call(this, props));
+        var _this8 = _possibleConstructorReturn(this, (MemorandumRow.__proto__ || Object.getPrototypeOf(MemorandumRow)).call(this, props));
+
+        _this8.state = {
+            deleteMemorandumIsShowing: false
+        };
+
+        _this8.toggleDeleteMemorandum = _this8.toggleDeleteMemorandum.bind(_this8);
+        return _this8;
     }
 
     _createClass(MemorandumRow, [{
+        key: "toggleDeleteMemorandum",
+        value: function toggleDeleteMemorandum() {
+            this.setState({
+                deleteMemorandumIsShowing: !this.state.deleteMemorandumIsShowing
+            });
+        }
+    }, {
         key: "render",
         value: function render() {
             var memorandum = this.props.memorandum;
@@ -407,95 +436,104 @@ var MemorandumRow = function (_Component5) {
             }
 
             return _react2.default.createElement(
-                _reactstrap.Card,
+                "div",
                 null,
                 _react2.default.createElement(
-                    _section.SectionRow,
-                    { selectable: true, active: this.props.isShowing, onClick: this.props.onClick },
+                    _reactstrap.Card,
+                    null,
                     _react2.default.createElement(
-                        _section.SectionRowContent,
-                        { large: true },
-                        "Effective ",
-                        dateEffective
-                    )
-                ),
-                _react2.default.createElement(
-                    _reactstrap.Collapse,
-                    { isOpen: this.props.isShowing },
-                    _react2.default.createElement(
-                        _reactstrap.CardBody,
-                        { className: "p-0" },
+                        _section.SectionRow,
+                        { selectable: true, active: this.props.isShowing, onClick: this.props.onClick },
                         _react2.default.createElement(
-                            _section.SectionTable,
-                            null,
+                            _section.SectionRowContent,
+                            { large: true },
+                            "Effective ",
+                            dateEffective
+                        )
+                    ),
+                    _react2.default.createElement(
+                        _reactstrap.Collapse,
+                        { isOpen: this.props.isShowing },
+                        _react2.default.createElement(
+                            _reactstrap.CardBody,
+                            { className: "p-0" },
                             _react2.default.createElement(
-                                _section.SectionRow,
-                                { className: "bg-light" },
+                                _section.SectionTable,
+                                null,
                                 _react2.default.createElement(
-                                    _section.SectionRowTitle,
-                                    null,
-                                    "Date Expiration"
-                                ),
-                                _react2.default.createElement(
-                                    _section.SectionRowContent,
-                                    { large: true },
-                                    dateExpiration
-                                )
-                            ),
-                            _react2.default.createElement(
-                                _section.SectionRow,
-                                { className: "bg-light" },
-                                _react2.default.createElement(
-                                    _section.SectionRowTitle,
-                                    null,
-                                    "College Initiator"
-                                ),
-                                _react2.default.createElement(
-                                    _section.SectionRowContent,
-                                    { large: true },
-                                    collegeInitiator
-                                )
-                            ),
-                            _react2.default.createElement(
-                                _section.SectionRow,
-                                { className: "bg-light" },
-                                _react2.default.createElement(
-                                    _section.SectionRowTitle,
-                                    null,
-                                    "Linkages"
-                                ),
-                                _react2.default.createElement(
-                                    _section.SectionRowContent,
-                                    { large: true },
-                                    linkagesText
-                                )
-                            ),
-                            _react2.default.createElement(
-                                _section.SectionRow,
-                                { className: "bg-light d-flex flex-row" },
-                                _react2.default.createElement(
-                                    "div",
-                                    { className: "mr-auto" },
+                                    _section.SectionRow,
+                                    { className: "bg-light" },
                                     _react2.default.createElement(
-                                        _reactstrap.Button,
-                                        { outline: true, size: "sm", color: "success", className: "mr-2" },
-                                        "View Memorandum"
+                                        _section.SectionRowTitle,
+                                        null,
+                                        "Date Expiration"
                                     ),
                                     _react2.default.createElement(
-                                        _reactstrap.Button,
-                                        { outline: true, size: "sm", color: "success" },
-                                        "Edit Details"
+                                        _section.SectionRowContent,
+                                        { large: true },
+                                        dateExpiration
                                     )
                                 ),
                                 _react2.default.createElement(
-                                    _reactstrap.Button,
-                                    { outline: true, size: "sm", color: "danger" },
-                                    "Delete Memorandum"
+                                    _section.SectionRow,
+                                    { className: "bg-light" },
+                                    _react2.default.createElement(
+                                        _section.SectionRowTitle,
+                                        null,
+                                        "College Initiator"
+                                    ),
+                                    _react2.default.createElement(
+                                        _section.SectionRowContent,
+                                        { large: true },
+                                        collegeInitiator
+                                    )
+                                ),
+                                _react2.default.createElement(
+                                    _section.SectionRow,
+                                    { className: "bg-light" },
+                                    _react2.default.createElement(
+                                        _section.SectionRowTitle,
+                                        null,
+                                        "Linkages"
+                                    ),
+                                    _react2.default.createElement(
+                                        _section.SectionRowContent,
+                                        { large: true },
+                                        linkagesText
+                                    )
+                                ),
+                                _react2.default.createElement(
+                                    _section.SectionRow,
+                                    { className: "bg-light d-flex flex-row" },
+                                    _react2.default.createElement(
+                                        "div",
+                                        { className: "mr-auto" },
+                                        _react2.default.createElement(
+                                            _reactstrap.Button,
+                                            { outline: true, size: "sm", color: "success", className: "mr-2" },
+                                            "View Memorandum"
+                                        ),
+                                        _react2.default.createElement(
+                                            _reactstrap.Button,
+                                            { outline: true, size: "sm", color: "success" },
+                                            "Edit Details"
+                                        )
+                                    ),
+                                    _react2.default.createElement(
+                                        _reactstrap.Button,
+                                        { outline: true, size: "sm", color: "danger", onClick: this.toggleDeleteMemorandum },
+                                        "Delete Memorandum"
+                                    )
                                 )
                             )
                         )
                     )
-                )
+                ),
+                _react2.default.createElement(_modals.DeleteMemorandumModal, { isOpen: this.state.deleteMemorandumIsShowing,
+                    institution: this.props.institution,
+                    memorandum: this.props.memorandum,
+                    toggle: this.toggleDeleteMemorandum,
+                    refresh: this.props.refreshMemorandums })
             );
         }
     }]);
