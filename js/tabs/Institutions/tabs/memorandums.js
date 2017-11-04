@@ -8,7 +8,6 @@ import {
     Button,
     Card,
     CardBody,
-    CardHeader,
     Collapse,
 } from "reactstrap";
 
@@ -18,7 +17,7 @@ import {
     SectionTable,
     SectionRow,
     SectionRowTitle,
-    SectionRowContentLarge,
+    SectionRowContent,
     SectionFooter,
 } from "../../../components/section";
 
@@ -195,6 +194,15 @@ class MemorandumListSection extends Component {
     }
 
     setActiveMemorandum(memorandum) {
+        console.log(memorandum);
+        if (this.state.activeMemorandum === null) {
+            this.setState({
+                activeMemorandum : memorandum,
+            });
+
+            return;
+        }
+
         this.setState({
             // Collapse if clicked memorandum is already the active memorandum
             activeMemorandum : this.state.activeMemorandum.id === memorandum.id ? null : memorandum,
@@ -252,7 +260,6 @@ class MemorandumRow extends Component {
     }
 
     render() {
-        let cardHeaderClass = this.props.isShowing ? "" : "collapsed";
         const memorandum = this.props.memorandum;
 
         function formatDate(date) {
@@ -262,45 +269,49 @@ class MemorandumRow extends Component {
         const dateEffective = formatDate(memorandum.dateEffective);
         const dateExpiration = memorandum.dateExpiration === null ? "No expiration" : formatDate(memorandum.dateExpiration);
         const collegeInitiator = memorandum.collegeInitiator === null ? "No college initiator" : memorandum.collegeInitiator;
+        const linkages = memorandum.memorandumlinkageSet;
 
-        const linkages = memorandum.memorandumlinkageSet.reduce((linkageCode, linkagesString, index, array) => {
-            const linkage = settings.linkages[linkageCode];
+        let linkagesText = "No linkages";
 
-            linkagesString += `${linkage} `;
+        if (linkages.length > 0) {
+            linkagesText = "";
 
-            if (index + 1 !== array.length) {
-                linkagesString += ",";
-            }
+            linkages.forEach((linkageCode, index) => {
+                linkagesText += settings.linkages[linkageCode.linkage];
 
-            return linkagesString;
-        }, "No linkages");
+                if(index + 1 !== linkages.length) {
+                    linkagesText += ", ";
+                }
+            });
+
+        }
 
         return (
             <Card>
-                <CardHeader className={cardHeaderClass} onClick={this.props.toggle}>
-                    Effective {dateEffective}
-                </CardHeader>
+                <SectionRow selectable active={this.props.isShowing} onClick={this.props.onClick}>
+                    <SectionRowContent large>Effective {dateEffective}</SectionRowContent>
+                </SectionRow>
 
-                <Collapse isOpen={this.props.isOpen}>
+                <Collapse isOpen={this.props.isShowing}>
                     <CardBody className="p-0">
                         <SectionTable>
-                            <SectionRow>
+                            <SectionRow className="bg-light">
                                 <SectionRowTitle>Date Expiration</SectionRowTitle>
-                                <SectionRowContentLarge>{dateExpiration}</SectionRowContentLarge>
+                                <SectionRowContent large>{dateExpiration}</SectionRowContent>
                             </SectionRow>
 
-                            <SectionRow>
+                            <SectionRow className="bg-light">
                                 <SectionRowTitle>College Initiator</SectionRowTitle>
-                                <SectionRowContentLarge>{collegeInitiator}</SectionRowContentLarge>
+                                <SectionRowContent large>{collegeInitiator}</SectionRowContent>
                             </SectionRow>
 
-                            <SectionRow>
+                            <SectionRow className="bg-light">
                                 <SectionRowTitle>Linkages</SectionRowTitle>
-                                <SectionRowContentLarge>{linkages}</SectionRowContentLarge>
+                                <SectionRowContent large>{linkagesText}</SectionRowContent>
                             </SectionRow>
 
-                            <SectionRow>
-                                <Button outline color="primary">Open Memorandum Copy</Button>
+                            <SectionRow className="bg-light">
+                                <Button outline color="success">Open Memorandum Copy</Button>
                             </SectionRow>
                         </SectionTable>
                     </CardBody>

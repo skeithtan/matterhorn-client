@@ -1,14 +1,24 @@
 /*Global Classes*/
 :root {
-    --gray         : rgb(212, 212, 212);
-    --header-white : rgb(246, 246, 248);
-    --search-white : rgb(232, 232, 234);
-    --body-white   : rgb(239, 238, 245);
-    --dlsu-green   : #00703c;
+    --gray               : rgb(212, 212, 212);
+    --header-white       : rgb(246, 246, 248);
+    --search-white       : rgb(232, 232, 234);
+    --body-white         : rgb(239, 238, 245);
+    --dlsu-green         : #00703c;
+    --dlsu-green-light   : #328c62;
+    --dlsu-green-lighter : #4c9a76;
 }
 
 .bg-dlsu {
     background : var(--dlsu-green) !important;
+}
+
+.bg-dlsu-light {
+    background : var(--dlsu-green-light) !important;
+}
+
+.bg-dlsu-lighter {
+    background : var(--dlsu-green-lighter) !important;
 }
 
 .bg-search-white {
@@ -47,7 +57,11 @@ small.section-footer {
 }
 
 .section-row.active {
-    background : var(--dlsu-green);
+    background : var(--dlsu-green-light);
+}
+
+.section-row.active:hover {
+    background : var(--dlsu-green-lighter)
 }
 
 /* Loading Container */
@@ -255,20 +269,9 @@ li.nav-item.active .sidebar-image {
 }
 
 .memorandums-accordion .card > .card-header:not(.collapsed) {
-    background : white;
-}
-
-.memorandums-accordion .card-header.collapsed button.add-memorandum-btn {
-    opacity        : 0;
-    pointer-events : none;
-}
-
-.memorandums-accordion .card-header:not(.collapsed) button.add-memorandum-btn {
-    opacity : 1;
-}
-
-.memorandums-accordion .card-header:not(.collapsed) {
+    background    : var(--dlsu-green);
     border-bottom : 0;
+    color         : white;
 }
 
 /*Sign In*/

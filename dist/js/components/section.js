@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.SectionRowSelectable = exports.SectionRowContent = exports.SectionRowContentLarge = exports.SectionFooter = exports.SectionRowTitle = exports.SectionRow = exports.SectionTable = exports.SectionTitle = exports.Section = undefined;
+exports.SectionRowContent = exports.SectionFooter = exports.SectionRowTitle = exports.SectionRow = exports.SectionTable = exports.SectionTitle = exports.Section = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -127,7 +127,8 @@ var SectionRow = function (_Component5) {
         value: function render() {
             return _react2.default.createElement(
                 _reactstrap.ListGroupItem,
-                { onClick: this.props.onClick, className: "section-row " + (this.props.className || "") },
+                { onClick: this.props.onClick, className: "section-row " + (this.props.className || ""),
+                    active: this.props.active, action: this.props.selectable },
                 this.props.children
             );
         }
@@ -159,32 +160,8 @@ var SectionRowTitle = function (_Component6) {
     return SectionRowTitle;
 }(_react.Component);
 
-var SectionRowContentLarge = function (_Component7) {
-    _inherits(SectionRowContentLarge, _Component7);
-
-    function SectionRowContentLarge(props) {
-        _classCallCheck(this, SectionRowContentLarge);
-
-        return _possibleConstructorReturn(this, (SectionRowContentLarge.__proto__ || Object.getPrototypeOf(SectionRowContentLarge)).call(this, props));
-    }
-
-    _createClass(SectionRowContentLarge, [{
-        key: "render",
-        value: function render() {
-            return _react2.default.createElement(
-                "p",
-                { className: "lead m-0 " + (this.props.className || ""),
-                    onClick: this.props.onClick },
-                this.props.children
-            );
-        }
-    }]);
-
-    return SectionRowContentLarge;
-}(_react.Component);
-
-var SectionRowContent = function (_Component8) {
-    _inherits(SectionRowContent, _Component8);
+var SectionRowContent = function (_Component7) {
+    _inherits(SectionRowContent, _Component7);
 
     function SectionRowContent(props) {
         _classCallCheck(this, SectionRowContent);
@@ -197,7 +174,7 @@ var SectionRowContent = function (_Component8) {
         value: function render() {
             return _react2.default.createElement(
                 "p",
-                { className: "m-0 " + (this.props.className || ""),
+                { className: "m-0 " + (this.props.className || "") + " " + (this.props.large ? "lead" : ""),
                     onClick: this.props.onClick },
                 this.props.children
             );
@@ -207,45 +184,11 @@ var SectionRowContent = function (_Component8) {
     return SectionRowContent;
 }(_react.Component);
 
-var SectionRowSelectable = function (_Component9) {
-    _inherits(SectionRowSelectable, _Component9);
-
-    function SectionRowSelectable(props) {
-        _classCallCheck(this, SectionRowSelectable);
-
-        return _possibleConstructorReturn(this, (SectionRowSelectable.__proto__ || Object.getPrototypeOf(SectionRowSelectable)).call(this, props));
-    }
-
-    _createClass(SectionRowSelectable, [{
-        key: "render",
-        value: function render() {
-            if (this.props.isActive) {
-                return _react2.default.createElement(
-                    _reactstrap.ListGroupItem,
-                    { className: "section-row active" },
-                    this.props.children
-                );
-            } else {
-                return _react2.default.createElement(
-                    _reactstrap.ListGroupItem,
-                    { className: "section-row",
-                        onClick: this.props.onClick },
-                    this.props.children
-                );
-            }
-        }
-    }]);
-
-    return SectionRowSelectable;
-}(_react.Component);
-
 exports.Section = Section;
 exports.SectionTitle = SectionTitle;
 exports.SectionTable = SectionTable;
 exports.SectionRow = SectionRow;
 exports.SectionRowTitle = SectionRowTitle;
 exports.SectionFooter = SectionFooter;
-exports.SectionRowContentLarge = SectionRowContentLarge;
 exports.SectionRowContent = SectionRowContent;
-exports.SectionRowSelectable = SectionRowSelectable;
 //# sourceMappingURL=section.js.map

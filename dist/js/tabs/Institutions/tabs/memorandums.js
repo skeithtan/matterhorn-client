@@ -248,6 +248,15 @@ var MemorandumListSection = function (_Component4) {
     _createClass(MemorandumListSection, [{
         key: "setActiveMemorandum",
         value: function setActiveMemorandum(memorandum) {
+            console.log(memorandum);
+            if (this.state.activeMemorandum === null) {
+                this.setState({
+                    activeMemorandum: memorandum
+                });
+
+                return;
+            }
+
             this.setState({
                 // Collapse if clicked memorandum is already the active memorandum
                 activeMemorandum: this.state.activeMemorandum.id === memorandum.id ? null : memorandum
@@ -337,7 +346,6 @@ var MemorandumRow = function (_Component5) {
     _createClass(MemorandumRow, [{
         key: "render",
         value: function render() {
-            var cardHeaderClass = this.props.isShowing ? "" : "collapsed";
             var memorandum = this.props.memorandum;
 
             function formatDate(date) {
@@ -347,31 +355,38 @@ var MemorandumRow = function (_Component5) {
             var dateEffective = formatDate(memorandum.dateEffective);
             var dateExpiration = memorandum.dateExpiration === null ? "No expiration" : formatDate(memorandum.dateExpiration);
             var collegeInitiator = memorandum.collegeInitiator === null ? "No college initiator" : memorandum.collegeInitiator;
+            var linkages = memorandum.memorandumlinkageSet;
 
-            var linkages = memorandum.memorandumlinkageSet.reduce(function (linkageCode, linkagesString, index, array) {
-                var linkage = _settings2.default.linkages[linkageCode];
+            var linkagesText = "No linkages";
 
-                linkagesString += linkage + " ";
+            if (linkages.length > 0) {
+                linkagesText = "";
 
-                if (index + 1 !== array.length) {
-                    linkagesString += ",";
-                }
+                linkages.forEach(function (linkageCode, index) {
+                    linkagesText += _settings2.default.linkages[linkageCode.linkage];
 
-                return linkagesString;
-            }, "No linkages");
+                    if (index + 1 !== linkages.length) {
+                        linkagesText += ", ";
+                    }
+                });
+            }
 
             return _react2.default.createElement(
                 _reactstrap.Card,
                 null,
                 _react2.default.createElement(
-                    _reactstrap.CardHeader,
-                    { className: cardHeaderClass, onClick: this.props.toggle },
-                    "Effective ",
-                    dateEffective
+                    _section.SectionRow,
+                    { selectable: true, active: this.props.isShowing, onClick: this.props.onClick },
+                    _react2.default.createElement(
+                        _section.SectionRowContent,
+                        { large: true },
+                        "Effective ",
+                        dateEffective
+                    )
                 ),
                 _react2.default.createElement(
                     _reactstrap.Collapse,
-                    { isOpen: this.props.isOpen },
+                    { isOpen: this.props.isShowing },
                     _react2.default.createElement(
                         _reactstrap.CardBody,
                         { className: "p-0" },
@@ -380,52 +395,52 @@ var MemorandumRow = function (_Component5) {
                             null,
                             _react2.default.createElement(
                                 _section.SectionRow,
-                                null,
+                                { className: "bg-light" },
                                 _react2.default.createElement(
                                     _section.SectionRowTitle,
                                     null,
                                     "Date Expiration"
                                 ),
                                 _react2.default.createElement(
-                                    _section.SectionRowContentLarge,
-                                    null,
+                                    _section.SectionRowContent,
+                                    { large: true },
                                     dateExpiration
                                 )
                             ),
                             _react2.default.createElement(
                                 _section.SectionRow,
-                                null,
+                                { className: "bg-light" },
                                 _react2.default.createElement(
                                     _section.SectionRowTitle,
                                     null,
                                     "College Initiator"
                                 ),
                                 _react2.default.createElement(
-                                    _section.SectionRowContentLarge,
-                                    null,
+                                    _section.SectionRowContent,
+                                    { large: true },
                                     collegeInitiator
                                 )
                             ),
                             _react2.default.createElement(
                                 _section.SectionRow,
-                                null,
+                                { className: "bg-light" },
                                 _react2.default.createElement(
                                     _section.SectionRowTitle,
                                     null,
                                     "Linkages"
                                 ),
                                 _react2.default.createElement(
-                                    _section.SectionRowContentLarge,
-                                    null,
-                                    linkages
+                                    _section.SectionRowContent,
+                                    { large: true },
+                                    linkagesText
                                 )
                             ),
                             _react2.default.createElement(
                                 _section.SectionRow,
-                                null,
+                                { className: "bg-light" },
                                 _react2.default.createElement(
                                     _reactstrap.Button,
-                                    { outline: true, color: "primary" },
+                                    { outline: true, color: "success" },
                                     "Open Memorandum Copy"
                                 )
                             )

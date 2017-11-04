@@ -1,12 +1,7 @@
 import React, { Component } from "react";
 import LoadingSpinner from "../../../loading";
 import graphql from "../../../graphql";
-
-import {
-    Button,
-    ListGroup,
-    ListGroupItem,
-} from "reactstrap";
+import { Button } from "reactstrap";
 
 import {
     DeleteInstitutionModal,
@@ -19,7 +14,7 @@ import {
     SectionTable,
     SectionRow,
     SectionRowTitle,
-    SectionRowContentLarge,
+    SectionRowContent,
 } from "../../../components/section";
 
 
@@ -200,22 +195,23 @@ class InstitutionDetails extends Component {
                 <SectionTable>
                     <SectionRow>
                         <SectionRowTitle>Address</SectionRowTitle>
-                        <SectionRowContentLarge>{institution.address}</SectionRowContentLarge>
+                        <SectionRowContent large>{institution.address}</SectionRowContent>
                     </SectionRow>
 
                     <SectionRow>
                         <SectionRowTitle>Country</SectionRowTitle>
-                        <SectionRowContentLarge>{institution.country.name}</SectionRowContentLarge>
+                        <SectionRowContent large>{institution.country.name}</SectionRowContent>
                     </SectionRow>
 
                     <SectionRow>
                         <SectionRowTitle>Website</SectionRowTitle>
-                        <SectionRowContentLarge className="text-primary" onClick={openWebsite}>{website}</SectionRowContentLarge>
+                        <SectionRowContent large className="text-primary"
+                                           onClick={openWebsite}>{website}</SectionRowContent>
                     </SectionRow>
 
                     <SectionRow>
                         <SectionRowTitle>Agreement Type</SectionRowTitle>
-                        <SectionRowContentLarge>{agreementType}</SectionRowContentLarge>
+                        <SectionRowContent large>{agreementType}</SectionRowContent>
                     </SectionRow>
                 </SectionTable>
             </Section>
@@ -237,15 +233,15 @@ class ContactDetails extends Component {
                 <SectionTable>
                     <SectionRow>
                         <SectionRowTitle>Contact Person</SectionRowTitle>
-                        <SectionRowContentLarge>{institution.contactPersonName}</SectionRowContentLarge>
+                        <SectionRowContent large>{institution.contactPersonName}</SectionRowContent>
                     </SectionRow>
                     <SectionRow>
                         <SectionRowTitle>Contact Person Email</SectionRowTitle>
-                        <SectionRowContentLarge>{institution.contactPersonEmail}</SectionRowContentLarge>
+                        <SectionRowContent large>{institution.contactPersonEmail}</SectionRowContent>
                     </SectionRow>
                     <SectionRow>
                         <SectionRowTitle>Contact Person Number</SectionRowTitle>
-                        <SectionRowContentLarge>{institution.contactPersonNumber}</SectionRowContentLarge>
+                        <SectionRowContent large>{institution.contactPersonNumber}</SectionRowContent>
                     </SectionRow>
                 </SectionTable>
             </Section>

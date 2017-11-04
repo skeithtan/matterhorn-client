@@ -270,8 +270,8 @@ var InstitutionDetails = function (_Component4) {
                             "Address"
                         ),
                         _react2.default.createElement(
-                            _section.SectionRowContentLarge,
-                            null,
+                            _section.SectionRowContent,
+                            { large: true },
                             institution.address
                         )
                     ),
@@ -284,8 +284,8 @@ var InstitutionDetails = function (_Component4) {
                             "Country"
                         ),
                         _react2.default.createElement(
-                            _section.SectionRowContentLarge,
-                            null,
+                            _section.SectionRowContent,
+                            { large: true },
                             institution.country.name
                         )
                     ),
@@ -298,8 +298,9 @@ var InstitutionDetails = function (_Component4) {
                             "Website"
                         ),
                         _react2.default.createElement(
-                            _section.SectionRowContentLarge,
-                            { className: "text-primary", onClick: openWebsite },
+                            _section.SectionRowContent,
+                            { large: true, className: "text-primary",
+                                onClick: openWebsite },
                             website
                         )
                     ),
@@ -312,8 +313,8 @@ var InstitutionDetails = function (_Component4) {
                             "Agreement Type"
                         ),
                         _react2.default.createElement(
-                            _section.SectionRowContentLarge,
-                            null,
+                            _section.SectionRowContent,
+                            { large: true },
                             agreementType
                         )
                     )
@@ -359,8 +360,8 @@ var ContactDetails = function (_Component5) {
                             "Contact Person"
                         ),
                         _react2.default.createElement(
-                            _section.SectionRowContentLarge,
-                            null,
+                            _section.SectionRowContent,
+                            { large: true },
                             institution.contactPersonName
                         )
                     ),
@@ -373,8 +374,8 @@ var ContactDetails = function (_Component5) {
                             "Contact Person Email"
                         ),
                         _react2.default.createElement(
-                            _section.SectionRowContentLarge,
-                            null,
+                            _section.SectionRowContent,
+                            { large: true },
                             institution.contactPersonEmail
                         )
                     ),
@@ -387,8 +388,8 @@ var ContactDetails = function (_Component5) {
                             "Contact Person Number"
                         ),
                         _react2.default.createElement(
-                            _section.SectionRowContentLarge,
-                            null,
+                            _section.SectionRowContent,
+                            { large: true },
                             institution.contactPersonNumber
                         )
                     )

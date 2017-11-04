@@ -259,8 +259,8 @@ var InstitutionSection = function (_Component4) {
                 };
 
                 return _react2.default.createElement(
-                    _section.SectionRowSelectable,
-                    { onClick: setActiveInstitution, isActive: isActive, key: institution.id },
+                    _section.SectionRow,
+                    { selectable: true, onClick: setActiveInstitution, active: isActive, key: institution.id },
                     _react2.default.createElement(
                         _section.SectionRowContent,
                         null,

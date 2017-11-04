@@ -8,7 +8,7 @@ import {
     SectionTable,
     SectionRow,
     SectionRowTitle,
-    SectionRowContentLarge,
+    SectionRowContent,
 } from "../../components/section";
 
 
@@ -32,32 +32,32 @@ class StudentDetailOverview extends Component {
 
                     <SectionRow>
                         <SectionRowTitle>Nickname</SectionRowTitle>
-                        <SectionRowContentLarge>{student.nickname}</SectionRowContentLarge>
+                        <SectionRowContent large>{student.nickname}</SectionRowContent>
                     </SectionRow>
 
                     <SectionRow>
                         <SectionRowTitle>Sex</SectionRowTitle>
-                        <SectionRowContentLarge>{sex}</SectionRowContentLarge>
+                        <SectionRowContent large>{sex}</SectionRowContent>
                     </SectionRow>
 
                     <SectionRow>
                         <SectionRowTitle>Home Address</SectionRowTitle>
-                        <SectionRowContentLarge>{student.homeAddress}</SectionRowContentLarge>
+                        <SectionRowContent large>{student.homeAddress}</SectionRowContent>
                     </SectionRow>
 
                     <SectionRow>
                         <SectionRowTitle>Date of Birth</SectionRowTitle>
-                        <SectionRowContentLarge>{birthDate}</SectionRowContentLarge>
+                        <SectionRowContent large>{birthDate}</SectionRowContent>
                     </SectionRow>
 
                     <SectionRow>
                         <SectionRowTitle>Nationality</SectionRowTitle>
-                        <SectionRowContentLarge>{student.nationality}</SectionRowContentLarge>
+                        <SectionRowContent large>{student.nationality}</SectionRowContent>
                     </SectionRow>
 
                     <SectionRow>
                         <SectionRowTitle>Civil Status</SectionRowTitle>
-                        <SectionRowContentLarge>{civilStatus}</SectionRowContentLarge>
+                        <SectionRowContent large>{civilStatus}</SectionRowContent>
                     </SectionRow>
 
                 </SectionTable>
@@ -81,22 +81,22 @@ class StudentContact extends Component {
 
                     <SectionRow>
                         <SectionRowTitle>Phone Number</SectionRowTitle>
-                        <SectionRowContentLarge>{student.phoneNumber}</SectionRowContentLarge>
+                        <SectionRowContent large>{student.phoneNumber}</SectionRowContent>
                     </SectionRow>
 
                     <SectionRow>
                         <SectionRowTitle>Email</SectionRowTitle>
-                        <SectionRowContentLarge>{student.email}</SectionRowContentLarge>
+                        <SectionRowContent large>{student.email}</SectionRowContent>
                     </SectionRow>
 
                     <SectionRow>
                         <SectionRowTitle>Emergency Contact</SectionRowTitle>
-                        <SectionRowContentLarge>{`${student.emergencyContactName} (${student.emergencyContactRelationship})`}</SectionRowContentLarge>
+                        <SectionRowContent large>{`${student.emergencyContactName} (${student.emergencyContactRelationship})`}</SectionRowContent>
                     </SectionRow>
 
                     <SectionRow>
                         <SectionRowTitle>Emergency Contact Number</SectionRowTitle>
-                        <SectionRowContentLarge>{student.emergencyContactNumber}</SectionRowContentLarge>
+                        <SectionRowContent large>{student.emergencyContactNumber}</SectionRowContent>
                     </SectionRow>
 
                 </SectionTable>
@@ -123,12 +123,12 @@ class StudentUniversity extends Component {
 
                     <SectionRow>
                         <SectionRowTitle>College</SectionRowTitle>
-                        <SectionRowContentLarge>{college}</SectionRowContentLarge>
+                        <SectionRowContent large>{college}</SectionRowContent>
                     </SectionRow>
 
                     <SectionRow>
                         <SectionRowTitle>Student Type</SectionRowTitle>
-                        <SectionRowContentLarge>{type}</SectionRowContentLarge>
+                        <SectionRowContent large>{type}</SectionRowContent>
                     </SectionRow>
 
                 </SectionTable>

@@ -56,7 +56,8 @@ class SectionRow extends Component {
 
     render() {
         return (
-            <ListGroupItem onClick={this.props.onClick} className={`section-row ${this.props.className || ""}`}>
+            <ListGroupItem onClick={this.props.onClick} className={`section-row ${this.props.className || ""}`}
+                           active={this.props.active} action={this.props.selectable}>
                 {this.props.children}
             </ListGroupItem>
         );
@@ -73,42 +74,17 @@ class SectionRowTitle extends Component {
     }
 }
 
-class SectionRowContentLarge extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        return <p className={`lead m-0 ${this.props.className || ""}`}
-                  onClick={this.props.onClick}>{this.props.children}</p>;
-    }
-}
-
 class SectionRowContent extends Component {
     constructor(props) {
         super(props);
     }
 
     render() {
-        return <p className={`m-0 ${this.props.className || ""}`}
+        return <p className={`m-0 ${this.props.className || ""} ${this.props.large ? "lead" : ""}`}
                   onClick={this.props.onClick}>{this.props.children}</p>;
     }
 }
 
-class SectionRowSelectable extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        if (this.props.isActive) {
-            return <ListGroupItem className="section-row active">{this.props.children}</ListGroupItem>;
-        } else {
-            return <ListGroupItem className="section-row"
-                                  onClick={this.props.onClick}>{this.props.children}</ListGroupItem>;
-        }
-    }
-}
 
 export {
     Section,
@@ -117,7 +93,5 @@ export {
     SectionRow,
     SectionRowTitle,
     SectionFooter,
-    SectionRowContentLarge,
     SectionRowContent,
-    SectionRowSelectable,
 };

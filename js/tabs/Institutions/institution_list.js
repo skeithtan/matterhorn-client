@@ -11,8 +11,8 @@ import {
     Section,
     SectionTitle,
     SectionTable,
+    SectionRow,
     SectionRowContent,
-    SectionRowSelectable,
 } from "../../components/section";
 
 
@@ -176,9 +176,9 @@ class InstitutionSection extends Component {
             const setActiveInstitution = () => this.props.setActiveInstitution(institution);
 
             return (
-                <SectionRowSelectable onClick={setActiveInstitution} isActive={isActive} key={institution.id}>
+                <SectionRow selectable onClick={setActiveInstitution} active={isActive} key={institution.id}>
                     <SectionRowContent>{institution.name}</SectionRowContent>
-                </SectionRowSelectable>
+                </SectionRow>
             );
         });
 

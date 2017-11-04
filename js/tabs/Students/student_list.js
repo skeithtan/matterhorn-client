@@ -10,7 +10,7 @@ import {
     Section,
     SectionTitle,
     SectionTable,
-    SectionRowSelectable,
+    SectionRow
 } from "../../components/section";
 
 
@@ -207,10 +207,10 @@ class StudentSection extends Component {
             const setActiveStudent = () => this.props.setActiveStudent(student);
 
             return (
-                <SectionRowSelectable onClick={setActiveStudent} isActive={isActive} key={student.idNumber}>
+                <SectionRow selectable onClick={setActiveStudent} active={isActive} key={student.idNumber}>
                     <small className="d-block">{student.idNumber}</small>
                     <b>{student.familyName}</b>, {student.firstName} {student.middleName}
-                </SectionRowSelectable>
+                </SectionRow>
             );
         });
 

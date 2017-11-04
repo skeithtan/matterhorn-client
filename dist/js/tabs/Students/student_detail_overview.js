@@ -66,8 +66,8 @@ var StudentDetailOverview = function (_Component) {
                             "Nickname"
                         ),
                         _react2.default.createElement(
-                            _section.SectionRowContentLarge,
-                            null,
+                            _section.SectionRowContent,
+                            { large: true },
                             student.nickname
                         )
                     ),
@@ -80,8 +80,8 @@ var StudentDetailOverview = function (_Component) {
                             "Sex"
                         ),
                         _react2.default.createElement(
-                            _section.SectionRowContentLarge,
-                            null,
+                            _section.SectionRowContent,
+                            { large: true },
                             sex
                         )
                     ),
@@ -94,8 +94,8 @@ var StudentDetailOverview = function (_Component) {
                             "Home Address"
                         ),
                         _react2.default.createElement(
-                            _section.SectionRowContentLarge,
-                            null,
+                            _section.SectionRowContent,
+                            { large: true },
                             student.homeAddress
                         )
                     ),
@@ -108,8 +108,8 @@ var StudentDetailOverview = function (_Component) {
                             "Date of Birth"
                         ),
                         _react2.default.createElement(
-                            _section.SectionRowContentLarge,
-                            null,
+                            _section.SectionRowContent,
+                            { large: true },
                             birthDate
                         )
                     ),
@@ -122,8 +122,8 @@ var StudentDetailOverview = function (_Component) {
                             "Nationality"
                         ),
                         _react2.default.createElement(
-                            _section.SectionRowContentLarge,
-                            null,
+                            _section.SectionRowContent,
+                            { large: true },
                             student.nationality
                         )
                     ),
@@ -136,8 +136,8 @@ var StudentDetailOverview = function (_Component) {
                             "Civil Status"
                         ),
                         _react2.default.createElement(
-                            _section.SectionRowContentLarge,
-                            null,
+                            _section.SectionRowContent,
+                            { large: true },
                             civilStatus
                         )
                     )
@@ -183,8 +183,8 @@ var StudentContact = function (_Component2) {
                             "Phone Number"
                         ),
                         _react2.default.createElement(
-                            _section.SectionRowContentLarge,
-                            null,
+                            _section.SectionRowContent,
+                            { large: true },
                             student.phoneNumber
                         )
                     ),
@@ -197,8 +197,8 @@ var StudentContact = function (_Component2) {
                             "Email"
                         ),
                         _react2.default.createElement(
-                            _section.SectionRowContentLarge,
-                            null,
+                            _section.SectionRowContent,
+                            { large: true },
                             student.email
                         )
                     ),
@@ -211,8 +211,8 @@ var StudentContact = function (_Component2) {
                             "Emergency Contact"
                         ),
                         _react2.default.createElement(
-                            _section.SectionRowContentLarge,
-                            null,
+                            _section.SectionRowContent,
+                            { large: true },
                             student.emergencyContactName + " (" + student.emergencyContactRelationship + ")"
                         )
                     ),
@@ -225,8 +225,8 @@ var StudentContact = function (_Component2) {
                             "Emergency Contact Number"
                         ),
                         _react2.default.createElement(
-                            _section.SectionRowContentLarge,
-                            null,
+                            _section.SectionRowContent,
+                            { large: true },
                             student.emergencyContactNumber
                         )
                     )
@@ -274,8 +274,8 @@ var StudentUniversity = function (_Component3) {
                             "College"
                         ),
                         _react2.default.createElement(
-                            _section.SectionRowContentLarge,
-                            null,
+                            _section.SectionRowContent,
+                            { large: true },
                             college
                         )
                     ),
@@ -288,8 +288,8 @@ var StudentUniversity = function (_Component3) {
                             "Student Type"
                         ),
                         _react2.default.createElement(
-                            _section.SectionRowContentLarge,
-                            null,
+                            _section.SectionRowContent,
+                            { large: true },
                             type
                         )
                     )
