@@ -56,8 +56,13 @@ var InstitutionOverview = function (_Component) {
 
         //Fetch active institution details
         fetchInstitution(props.institution.id, function (response) {
+            var institution = response.data.institution;
+
+            //Make country = country.name for simplicity
+            institution.country = institution.country.name;
+
             _this.setState({
-                institution: response.data.institution
+                institution: institution
             });
         });
         return _this;
@@ -74,8 +79,13 @@ var InstitutionOverview = function (_Component) {
             });
 
             fetchInstitution(nextProps.institution.id, function (response) {
+                var institution = response.data.institution;
+
+                //Make country = country.name for simplicity
+                institution.country = institution.country.name;
+
                 _this2.setState({
-                    institution: response.data.institution
+                    institution: institution
                 });
             });
         }
@@ -91,6 +101,10 @@ var InstitutionOverview = function (_Component) {
 
             fetchInstitution(this.state.institutionID, function (response) {
                 var institution = response.data.institution;
+
+                //Make country = country.name for simplicity
+                institution.country = institution.country.name;
+
                 _this3.setState({
                     institution: institution
                 });
@@ -192,7 +206,8 @@ var OverviewHead = function (_Component2) {
                     institution: this.props.institution,
                     toggle: this.toggleDeleteInstitution,
                     refresh: this.props.onDeleteInstitution }),
-                _react2.default.createElement(_modals.EditInstitutionModal, { isOpen: this.state.editInstitutionIsShowing,
+                _react2.default.createElement(_modals.InstitutionFormModal, { edit: true,
+                    isOpen: this.state.editInstitutionIsShowing,
                     institution: this.props.institution,
                     refresh: this.props.onEditInstitution,
                     toggle: this.toggleEditInstitution })
@@ -286,7 +301,7 @@ var InstitutionDetails = function (_Component4) {
                         _react2.default.createElement(
                             _section.SectionRowContent,
                             { large: true },
-                            institution.country.name
+                            institution.country
                         )
                     ),
                     _react2.default.createElement(

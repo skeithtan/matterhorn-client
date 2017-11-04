@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import addValidation from "../../form_validation";
 import authorizeXHR from "../../authorization";
 import makeInfoToast from "../../dismissable_toast_maker";
+import validateForm from "../../form_validator";
 import settings from "../../settings";
 import iziToast from "izitoast";
 import $ from "jquery";
@@ -18,49 +18,90 @@ import {
     Button,
     InputGroup,
     InputGroupAddon,
+    ButtonGroup,
+    FormFeedback,
 } from "reactstrap";
 
 
-class AddInstitutionModal extends Component {
+class InstitutionFormModal extends Component {
     constructor(props) {
         super(props);
-        this.submitForm = this.submitForm.bind(this);
+
+        this.state = {
+            form : {
+                name : "",
+                country : "Afghanistan",
+                address : "",
+                website : "",
+                contact_person_email : "",
+                contact_person_name : "",
+                contact_person_number : "",
+                agreement : "B",
+            },
+        };
+
+        this.getFormErrors = this.getFormErrors.bind(this);
+        this.getChangeHandler = this.getChangeHandler.bind(this);
+
+        this.submitAddInstitutionForm = this.submitAddInstitutionForm.bind(this);
+        this.submitEditInstitutionForm = this.submitEditInstitutionForm.bind(this);
+
+        if (this.props.edit) {
+            this.state.form = props.institution;
+            this.state.form.contact_person_number = props.institution.contactPersonNumber;
+            this.state.form.contact_person_email = props.institution.contactPersonEmail;
+            this.state.form.contact_person_name = props.institution.contactPersonName;
+        }
     }
 
-    static addValidation() {
-        addValidation({
-            inputs : $("#add-institution-modal").find(".text-input"),
-            button : $("#add-institution-modal-submit"),
-            customValidations : [
-                {
-                    input : $("#add-institution-email"),
-                    validator : email => {
-                        //This regex mess checks if email is a real email
-                        return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
-                    },
-                },
-            ],
-        });
+    getFormErrors() {
+        return validateForm([
+            {
+                name : "Name",
+                characterLimit : 64,
+                value : this.state.form.name,
+            },
+            {
+                name : "Address",
+                characterLimit : 256,
+                value : this.state.form.address,
+            },
+            {
+                name : "Website",
+                characterLimit : 256,
+                value : this.state.form.website,
+            },
+            {
+                name : "Contact person name",
+                characterLimit : 256,
+                value : this.state.form.contact_person_name,
+            },
+            {
+                name : "Contact person number",
+                characterLimit : 64,
+                value : this.state.form.contact_person_number,
+            },
+            {
+                name : "Contact person email",
+                characterLimit : 256,
+                value : this.state.form.contact_person_email,
+                customValidators : [{
+                    // isValid checks if the form value is a valid email through this messy regex.
+                    isValid : fieldValue => /^([\w\!\#$\%\&\'\*\+\-\/\=\?\^\`{\|\}\~]+\.)*[\w\!\#$\%\&\'\*\+\-\/\=\?\^\`{\|\}\~]+@((((([a-z0-9]{1}[a-z0-9\-]{0,62}[a-z0-9]{1})|[a-z])\.)+[a-z]{2,6})|(\d{1,3}\.){3}\d{1,3}(\:\d{1,5})?)$/i.test(fieldValue),
+                    errorMessage : fieldName => `${fieldName} must be a valid email.`,
+                }],
+            },
+        ]);
     }
 
-    submitForm() {
+    submitAddInstitutionForm() {
         const dismissToast = makeInfoToast({
             title : "Adding",
             message : "Adding new institution...",
         });
-
         $.post({
             url : `${settings.serverURL}/institutions/`,
-            data : {
-                name : $("#add-institution-name").val(),
-                country : $("#add-institution-country-list").val(),
-                email : $("#add-institution-email").val(),
-                address : $("#add-institution-address").val(),
-                website : $("#add-institution-website").val(),
-                contact_person_name : $("#add-institution-contact-person").val(),
-                contact_person_number : $("#add-institution-contact-number").val(),
-                agreement : $("#add-institution-agreement-type").val(),
-            },
+            data : this.state.form,
             beforeSend : authorizeXHR,
             success : () => {
                 dismissToast();
@@ -83,44 +124,114 @@ class AddInstitutionModal extends Component {
         this.props.toggle();
     }
 
+    submitEditInstitutionForm() {
+        const dismissToast = makeInfoToast({
+            title : "Editing",
+            message : "Editing institution...",
+        });
+
+        $.ajax({
+            method : "PUT",
+            url : `${settings.serverURL}/institutions/${this.state.form.id}/`,
+            data : this.state.form,
+            beforeSend : authorizeXHR,
+            success : () => {
+                dismissToast();
+                this.props.refresh();
+                iziToast.success({
+                    title : "Success",
+                    message : "Successfully modified institution",
+                });
+            },
+            error : response => {
+                dismissToast();
+                console.log(response);
+                iziToast.error({
+                    title : "Error",
+                    message : "Unable to edit institution",
+                });
+            },
+        });
+
+        this.props.toggle();
+    }
+
+    getChangeHandler(fieldName) {
+        const form = this.state.form;
+
+        return event => {
+            const value = event.target.value;
+
+            form[fieldName] = value;
+            this.setState({
+                form : form,
+            });
+        };
+    }
+
     render() {
+        const formErrors = this.getFormErrors();
+        const formHasErrors = formErrors.formHasErrors;
+        const fieldErrors = formErrors.fieldErrors;
+
         const countries = settings.countries.map((name, index) =>
             <option key={index}>{name}</option>,
         );
 
         return (
-            <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} backdrop={true} id="add-institution-modal"
-                   onOpened={AddInstitutionModal.addValidation}>
-                <ModalHeader toggle={this.props.toggle}>Add an Institution</ModalHeader>
+            <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} backdrop={true}
+                   onOpened={InstitutionFormModal.addValidation}>
+                <ModalHeader toggle={this.props.toggle}>
+                    {this.props.edit ? `Edit ${this.state.form.name}` : "Add an Institution"}
+                </ModalHeader>
                 <ModalBody className="form">
                     <Form>
 
                         <h5 className="mb-3">Institution Details</h5>
                         <FormGroup>
-                            <Label for="add-institution-name">Name</Label>
-                            <Input id="add-institution-name" placeholder="Institution Name" className="text-input"/>
+                            <Label>Name</Label>
+                            <Input placeholder="Institution Name" className="text-input"
+                                   onChange={this.getChangeHandler("name")}
+                                   valid={fieldErrors["Name"].length === 0}
+                                   defaultValue={this.state.form.name}/>
+                            <FormFeedback>{fieldErrors["Name"][0]}</FormFeedback>
                         </FormGroup>
+
                         <FormGroup>
-                            <Label for="add-institution-country">Country</Label>
-                            <Input type="select" id="add-institution-country-list">
+                            <Label>Country</Label>
+                            <Input type="select" onChange={this.getChangeHandler("country")}
+                                   defaultValue={this.state.form.country}>
                                 {countries}
                             </Input>
                         </FormGroup>
+
                         <FormGroup>
-                            <Label for="add-institution-address">Address</Label>
-                            <Input type="textarea" id="add-institution-address" placeholder="Address"
-                                   className="text-input"/>
+                            <Label>Address</Label>
+                            <Input type="textarea" placeholder="Address"
+                                   className="text-input" onChange={this.getChangeHandler("address")}
+                                   valid={fieldErrors["Address"].length === 0}
+                                   defaultValue={this.state.form.address}/>
+                            <FormFeedback>{fieldErrors["Address"][0]}</FormFeedback>
                         </FormGroup>
+
                         <FormGroup>
-                            <Label for="add-institution-website">Website</Label>
+                            <Label>Website</Label>
                             <InputGroup>
                                 <InputGroupAddon>http://</InputGroupAddon>
-                                <Input id="add-institution-website" placeholder="Website" className="text-input"/>
+                                <Input placeholder="Website" className="text-input"
+                                       onChange={this.getChangeHandler("website")}
+                                       valid={fieldErrors["Website"].length === 0}
+                                       defaultValue={this.state.form.website}/>
                             </InputGroup>
+                            <Input type="hidden" value={this.state.form.website}
+                                   valid={fieldErrors["Website"].length === 0}/>
+                            <FormFeedback><p>{fieldErrors["Website"][0]}</p></FormFeedback>
                         </FormGroup>
+
                         <FormGroup>
-                            <Label for="add-institution-agreement-type">Agreement Type</Label>
-                            <Input type="select" id="add-institution-agreement-type">
+                            <Label>Agreement Type</Label>
+                            <Input type="select" onChange={this.getChangeHandler("agreement")}
+                                   defaultValue={this.state.form.agreement}>
                                 <option value="B">Bilateral</option>
                                 <option value="M">Multilateral</option>
                             </Input>
@@ -129,25 +240,42 @@ class AddInstitutionModal extends Component {
                         <br/>
 
                         <h5 className="mb-3">Contact</h5>
+
                         <FormGroup>
-                            <Label for="add-institution-contact-person">Contact Person</Label>
-                            <Input id="add-institution-contact-person" placeholder="Name" className="text-input"/>
+                            <Label>Contact Person</Label>
+                            <Input placeholder="Name" className="text-input"
+                                   onChange={this.getChangeHandler("contact_person_name")}
+                                   valid={fieldErrors["Contact person name"].length === 0}
+                                   defaultValue={this.state.form.contact_person_name}/>
+                            <FormFeedback>{fieldErrors["Contact person name"][0]}</FormFeedback>
                         </FormGroup>
+
                         <FormGroup>
-                            <Label for="add-institution-email">Contact Email</Label>
-                            <Input type="email" id="add-institution-email" placeholder="Email"
-                                   className="text-input"/>
+                            <Label>Contact Email</Label>
+                            <Input type="email" placeholder="Email" className="text-input"
+                                   onChange={this.getChangeHandler("contact_person_email")}
+                                   valid={fieldErrors["Contact person email"].length === 0}
+                                   defaultValue={this.state.form.contact_person_email}/>
+                            <FormFeedback>{fieldErrors["Contact person email"][0]}</FormFeedback>
                         </FormGroup>
+
                         <FormGroup>
-                            <Label for="add-institution-contact-number">Contact Number</Label>
-                            <Input id="add-institution-contact-number" placeholder="Number" className="text-input"/>
+                            <Label>Contact Number</Label>
+                            <Input placeholder="Number" className="text-input"
+                                   onChange={this.getChangeHandler("contact_person_number")}
+                                   valid={fieldErrors["Contact person number"].length === 0}
+                                   defaultValue={this.state.form.contact_person_number}/>
+                            <FormFeedback>{fieldErrors["Contact person number"][0]}</FormFeedback>
                         </FormGroup>
 
                     </Form>
                 </ModalBody>
                 <ModalFooter>
-                    <Button outline color="success" id="add-institution-modal-submit"
-                            onClick={this.submitForm}>Add</Button>
+                    <Button outline color="success"
+                            onClick={this.props.edit ? this.submitEditInstitutionForm : this.submitAddInstitutionForm}
+                            disabled={formHasErrors}>
+                        {this.props.edit ? "Edit" : "Add"}
+                    </Button>
                 </ModalFooter>
             </Modal>
         );
@@ -206,152 +334,69 @@ class DeleteInstitutionModal extends Component {
     }
 }
 
-class EditInstitutionModal extends Component {
+class AddMemorandumModal extends Component {
     constructor(props) {
         super(props);
 
-        this.submitForm = this.submitForm.bind(this);
-    }
-
-    submitForm() {
-        const dismissToast = makeInfoToast({
-            title : "Editing",
-            message : "Editing institution...",
-        });
-
-        $.ajax({
-            method : "PUT",
-            url : `${settings.serverURL}/institutions/${this.props.institution.id}/`,
-            data : {
-                name : $("#edit-institution-name").val(),
-                country : $("#edit-institution-country-list").val(),
-                email : $("#edit-institution-email").val(),
-                address : $("#edit-institution-address").val(),
-                website : $("#edit-institution-website").val(),
-                contact_person_name : $("#edit-institution-contact-person").val(),
-                contact_person_number : $("#edit-institution-contact-number").val(),
-                agreement : $("#edit-institution-agreement-type").val(),
-            },
-            beforeSend : authorizeXHR,
-            success : () => {
-                dismissToast();
-                this.props.refresh();
-                iziToast.success({
-                    title : "Success",
-                    message : "Successfully modified institution",
-                });
-            },
-            error : response => {
-                dismissToast();
-                console.log(response);
-                iziToast.error({
-                    title : "Error",
-                    message : "Unable to edit institution",
-                });
-            },
-        });
-
-        this.props.toggle();
+        this.state = {
+            memorandumType : "Agreement",
+        };
     }
 
     static addValidation() {
-        addValidation({
-            inputs : $("#edit-institution-modal").find(".text-input"),
-            button : $("#edit-institution-modal-submit"),
-            customValidations : [
-                {
-                    input : $("#edit-institution-email"),
-                    validator : email => {
-                        //This regex mess checks if email is a real email
-                        return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
-                    },
-                },
-            ],
+        //TODO
+    }
+
+    submitForm() {
+        //TODO
+    }
+
+    setMemorandumType(type) {
+        this.setState({
+            memorandumType : type,
         });
     }
 
     render() {
-        const countries = settings.countries.map((name, index) =>
-            <option key={index}>{name}</option>,
-        );
-
         return (
-            <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} backdrop={true} id="edit-institution-modal"
-                   onOpened={EditInstitutionModal.addValidation}>
-                <ModalHeader toggle={this.props.toggle}>Edit {this.props.institution.name}</ModalHeader>
+            <Modal id="add-memorandum-modal" isOpen={this.props.isOpen} toggle={this.props.toggle} backdrop={true}
+                   onOpened={AddMemorandumModal.addValidation}>
+                <ModalHeader toggle={this.props.toggle}>Add a Memorandum</ModalHeader>
                 <ModalBody className="form">
                     <Form>
+                        <FormGroup>
+                            <Label for="add-institution-name">Type of Memorandum</Label>
+                            <ButtonGroup>
+                                <Button outline
+                                        color="success"
+                                        active={this.state.memorandumType === "Agreement"}
+                                        onClick={() => this.setMemorandumType("Agreement")}>
+                                    Agreement
+                                </Button>
 
-                        <h5 className="mb-3">Institution Details</h5>
-                        <FormGroup>
-                            <Label for="edit-institution-name">Name</Label>
-                            <Input id="edit-institution-name" defaultValue={this.props.institution.name}
-                                   placeholder="Institution Name" className="text-input"/>
+                                <Button outline
+                                        color="success"
+                                        active={this.state.memorandumType === "Understanding"}
+                                        onClick={() => this.setMemorandumType("Understanding")}>
+                                    Understanding
+                                </Button>
+                            </ButtonGroup>
                         </FormGroup>
                         <FormGroup>
-                            <Label for="edit-institution-country">Country</Label>
-                            <Input type="select" id="edit-institution-country-list"
-                                   defaultValue={this.props.institution.country.name}>
-                                {countries}
-                            </Input>
-                        </FormGroup>
-                        <FormGroup>
-                            <Label for="edit-institution-address">Address</Label>
-                            <Input type="textarea" id="edit-institution-address"
-                                   defaultValue={this.props.institution.address}
-                                   placeholder="Address" className="text-input"/>
-                        </FormGroup>
-                        <FormGroup>
-                            <Label for="edit-institution-website">Website</Label>
-                            <InputGroup>
-                                <InputGroupAddon>http://</InputGroupAddon>
-                                <Input id="edit-institution-website" defaultValue={this.props.institution.website}
-                                       placeholder="Website" className="text-input"/>
-                            </InputGroup>
-                        </FormGroup>
-                        <FormGroup>
-                            <Label for="edit-institution-agreement-type">Agreement Type</Label>
-                            <Input type="select" id="edit-institution-agreement-type"
-                                   defaultValue={this.props.institution.agreement}>
-                                <option value="B">Bilateral</option>
-                                <option value="M">Multilateral</option>
-                            </Input>
-                        </FormGroup>
-
-                        <br/>
-
-                        <h5 className="mb-3">Contact</h5>
-                        <FormGroup>
-                            <Label for="edit-institution-contact-person">Contact Person</Label>
-                            <Input id="edit-institution-contact-person"
-                                   defaultValue={this.props.institution.contactPersonName}
-                                   placeholder="Name" className="text-input"/>
-                        </FormGroup>
-                        <FormGroup>
-                            <Label for="edit-institution-email">Contact Email</Label>
-                            <Input type="email" id="edit-institution-email" defaultValue={this.props.institution.contactPersonEmail}
-                                   placeholder="Email" className="text-input"/>
-                        </FormGroup>
-                        <FormGroup>
-                            <Label for="edit-institution-contact-number">Contact Number</Label>
-                            <Input id="edit-institution-contact-number"
-                                   defaultValue={this.props.institution.contactPersonNumber} placeholder="Number"
-                                   className="text-input"/>
+                            <Label for="add-institution-name">Name</Label>
+                            <Input id="add-institution-name" placeholder="Institution Name" className="text-input"/>
                         </FormGroup>
                     </Form>
                 </ModalBody>
                 <ModalFooter>
-                    <Button outline color="success" id="edit-institution-modal-submit"
-                            onClick={this.submitForm}>Edit</Button>
+
                 </ModalFooter>
             </Modal>
         );
     }
-
 }
 
 export {
-    AddInstitutionModal,
+    InstitutionFormModal,
     DeleteInstitutionModal,
-    EditInstitutionModal,
 };

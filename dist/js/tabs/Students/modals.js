@@ -11,10 +11,6 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _form_validation = require("../../form_validation");
-
-var _form_validation2 = _interopRequireDefault(_form_validation);
-
 var _authorization = require("../../authorization");
 
 var _authorization2 = _interopRequireDefault(_authorization);
@@ -53,12 +49,12 @@ var AddStudentModal = function (_Component) {
 
         var _this = _possibleConstructorReturn(this, (AddStudentModal.__proto__ || Object.getPrototypeOf(AddStudentModal)).call(this, props));
 
-        _this.submitForm = _this.submitForm.bind(_this);
+        _this.submitForm = _this.submitAddInstitutionForm.bind(_this);
         return _this;
     }
 
     _createClass(AddStudentModal, [{
-        key: "submitForm",
+        key: "submitAddInstitutionForm",
         value: function submitForm() {
             var _this2 = this;
 
@@ -412,7 +408,7 @@ var AddStudentModal = function (_Component) {
                     null,
                     _react2.default.createElement(
                         _reactstrap.Button,
-                        { outline: true, color: "success", id: "add-student-modal-submit", onClick: this.submitForm },
+                        { outline: true, color: "success", id: "add-student-modal-submit", onClick: this.submitAddInstitutionForm },
                         "Add"
                     )
                 )
@@ -420,8 +416,18 @@ var AddStudentModal = function (_Component) {
         }
     }], [{
         key: "addValidation",
-        value: function addValidation() {
-            (0, _form_validation2.default)({
+        value: function (_addValidation) {
+            function addValidation() {
+                return _addValidation.apply(this, arguments);
+            }
+
+            addValidation.toString = function () {
+                return _addValidation.toString();
+            };
+
+            return addValidation;
+        }(function () {
+            addValidation({
                 inputs: (0, _jquery2.default)("#add-student-modal").find(".text-input"),
                 button: (0, _jquery2.default)("#add-student-modal-submit"),
                 customValidations: [{
@@ -433,7 +439,7 @@ var AddStudentModal = function (_Component) {
                     }
                 }]
             });
-        }
+        })
     }]);
 
     return AddStudentModal;
@@ -534,12 +540,12 @@ var EditStudentModal = function (_Component3) {
 
         var _this5 = _possibleConstructorReturn(this, (EditStudentModal.__proto__ || Object.getPrototypeOf(EditStudentModal)).call(this, props));
 
-        _this5.submitForm = _this5.submitForm.bind(_this5);
+        _this5.submitForm = _this5.submitAddInstitutionForm.bind(_this5);
         return _this5;
     }
 
     _createClass(EditStudentModal, [{
-        key: "submitForm",
+        key: "submitAddInstitutionForm",
         value: function submitForm() {
             var _this6 = this;
 
@@ -914,7 +920,7 @@ var EditStudentModal = function (_Component3) {
                     _react2.default.createElement(
                         _reactstrap.Button,
                         { outline: true, color: "success", id: "edit-student-modal-submit",
-                            onClick: this.submitForm },
+                            onClick: this.submitAddInstitutionForm },
                         "Add"
                     )
                 )
@@ -922,8 +928,18 @@ var EditStudentModal = function (_Component3) {
         }
     }], [{
         key: "addValidation",
-        value: function addValidation() {
-            (0, _form_validation2.default)({
+        value: function (_addValidation2) {
+            function addValidation() {
+                return _addValidation2.apply(this, arguments);
+            }
+
+            addValidation.toString = function () {
+                return _addValidation2.toString();
+            };
+
+            return addValidation;
+        }(function () {
+            addValidation({
                 inputs: (0, _jquery2.default)("#edit-student-modal").find(".text-input"),
                 button: (0, _jquery2.default)("#edit-student-modal-submit"),
                 customValidations: [{
@@ -935,7 +951,7 @@ var EditStudentModal = function (_Component3) {
                     }
                 }]
             });
-        }
+        })
     }]);
 
     return EditStudentModal;

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import addValidation from "../../form_validation";
 import authorizeXHR from "../../authorization";
 import makeInfoToast from "../../dismissable_toast_maker";
 import settings from "../../settings";

@@ -5,7 +5,7 @@ import { Button } from "reactstrap";
 
 import {
     DeleteInstitutionModal,
-    EditInstitutionModal,
+    InstitutionFormModal,
 } from "../modals";
 
 import {
@@ -53,8 +53,13 @@ class InstitutionOverview extends Component {
 
         //Fetch active institution details
         fetchInstitution(props.institution.id, response => {
+            const institution = response.data.institution;
+
+            //Make country = country.name for simplicity
+            institution.country = institution.country.name;
+
             this.setState({
-                institution : response.data.institution,
+                institution : institution,
             });
         });
     }
@@ -66,8 +71,13 @@ class InstitutionOverview extends Component {
         });
 
         fetchInstitution(nextProps.institution.id, response => {
+            const institution = response.data.institution;
+
+            //Make country = country.name for simplicity
+            institution.country = institution.country.name;
+
             this.setState({
-                institution : response.data.institution,
+                institution : institution,
             });
         });
     }
@@ -80,6 +90,10 @@ class InstitutionOverview extends Component {
 
         fetchInstitution(this.state.institutionID, response => {
             const institution = response.data.institution;
+
+            //Make country = country.name for simplicity
+            institution.country = institution.country.name;
+
             this.setState({
                 institution : institution,
             });
@@ -150,7 +164,8 @@ class OverviewHead extends Component {
                                         toggle={this.toggleDeleteInstitution}
                                         refresh={this.props.onDeleteInstitution}/>
 
-                <EditInstitutionModal isOpen={this.state.editInstitutionIsShowing}
+                <InstitutionFormModal edit
+                                      isOpen={this.state.editInstitutionIsShowing}
                                       institution={this.props.institution}
                                       refresh={this.props.onEditInstitution}
                                       toggle={this.toggleEditInstitution}/>
@@ -200,7 +215,7 @@ class InstitutionDetails extends Component {
 
                     <SectionRow>
                         <SectionRowTitle>Country</SectionRowTitle>
-                        <SectionRowContent large>{institution.country.name}</SectionRowContent>
+                        <SectionRowContent large>{institution.country}</SectionRowContent>
                     </SectionRow>
 
                     <SectionRow>

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import InstitutionList from "./institution_list";
 import InstitutionDetail from "./institution_detail";
 import {
-    AddInstitutionModal,
+    InstitutionFormModal,
 } from "./modals";
 import graphql from "../../graphql";
 
@@ -82,9 +82,9 @@ class Institutions extends Component {
                                    onDeleteActiveInstitution={this.onDeleteActiveInstitution}
                                    refreshInstitutions={this.refreshInstitutions}/>
 
-                <AddInstitutionModal isOpen={this.state.addInstitutionIsShowing}
-                                     toggle={this.toggleAddInstitution}
-                                     refresh={this.refreshInstitutions}/>
+                <InstitutionFormModal isOpen={this.state.addInstitutionIsShowing}
+                                      toggle={this.toggleAddInstitution}
+                                      refresh={this.refreshInstitutions}/>
             </div>
         );
     }
