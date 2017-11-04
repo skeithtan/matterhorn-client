@@ -212,7 +212,7 @@ class MemorandumListSection extends Component {
     emptyState() {
         return (
             <div className="p-5 text-center bg-light">
-                <h5 className="text-secondary">There are no {this.props.children}s for this institution</h5>
+                <h5 className="text-secondary">There are no {this.props.children} for this institution</h5>
             </div>
         );
     }

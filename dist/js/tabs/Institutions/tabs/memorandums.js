@@ -273,7 +273,7 @@ var MemorandumListSection = function (_Component4) {
                     { className: "text-secondary" },
                     "There are no ",
                     this.props.children,
-                    "s for this institution"
+                    " for this institution"
                 )
             );
         }
