@@ -34,7 +34,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function fetchStudent(id, onResponse) {
     (0, _graphql2.default)({
-        query: "\n        {\n            student(id:" + id + ") {\n                category\n                idNumber\n                college\n                familyName\n                firstName\n                middleName\n                nickname\n                nationality\n                homeAddress\n                phoneNumber\n                birthDate\n                sex\n                emergencyContactName\n                emergencyContactRelationship\n                emergencyContactNumber\n                email\n                civilStatus\n            }\n        }\n       ",
+        query: "\n        {\n            student(id:" + id + ") {\n                id\n                category\n                idNumber\n                college\n                familyName\n                firstName\n                middleName\n                nickname\n                nationality\n                homeAddress\n                phoneNumber\n                birthDate\n                sex\n                emergencyContactName\n                emergencyContactRelationship\n                emergencyContactNumber\n                email\n                civilStatus\n            }\n        }\n       ",
         onResponse: onResponse
     });
 }
@@ -49,32 +49,14 @@ var StudentDetail = function (_Component) {
 
         _this.state = {
             student: null,
-            studentID: null,
-            deleteStudentIsShowing: false,
-            editStudentIsShowing: false
+            studentID: null
         };
 
-        _this.toggleDeleteStudent = _this.toggleDeleteStudent.bind(_this);
-        _this.toggleEditStudent = _this.toggleEditStudent.bind(_this);
         _this.onEditStudent = _this.onEditStudent.bind(_this);
         return _this;
     }
 
     _createClass(StudentDetail, [{
-        key: "toggleDeleteStudent",
-        value: function toggleDeleteStudent() {
-            this.setState({
-                deleteStudentIsShowing: !this.state.deleteStudentIsShowing
-            });
-        }
-    }, {
-        key: "toggleEditStudent",
-        value: function toggleEditStudent() {
-            this.setState({
-                editStudentIsShowing: !this.state.editStudentIsShowing
-            });
-        }
-    }, {
         key: "onEditStudent",
         value: function onEditStudent() {
             var _this2 = this;
@@ -108,11 +90,11 @@ var StudentDetail = function (_Component) {
             }
 
             this.setState({
-                studentID: student.idNumber,
+                studentID: student.id,
                 student: null
             });
 
-            fetchStudent(student.idNumber, function (response) {
+            fetchStudent(student.id, function (response) {
                 _this3.setState({
                     student: response.data.student
                 });
@@ -133,18 +115,9 @@ var StudentDetail = function (_Component) {
                 "div",
                 { id: "student-detail", className: "container-fluid d-flex flex-column p-0" },
                 _react2.default.createElement(StudentDetailHead, { student: this.state.student,
-                    toggleDeleteStudent: this.toggleDeleteStudent,
-                    toggleEditStudent: this.toggleEditStudent }),
-                _react2.default.createElement(StudentDetailBody, { student: this.state.student }),
-                this.state.student !== null && //If activeStudent is not null
-                _react2.default.createElement(_modals.DeleteStudentModal, { isOpen: this.state.deleteStudentIsShowing,
-                    student: this.state.student,
-                    toggle: this.toggleDeleteStudent,
-                    refresh: this.props.onDeleteActiveStudent }),
-                this.state.student !== null && _react2.default.createElement(_modals.EditStudentModal, { isOpen: this.state.editStudentIsShowing,
-                    student: this.state.student,
-                    refresh: this.onEditStudent,
-                    toggle: this.toggleEditStudent })
+                    onEditStudent: this.onEditStudent,
+                    onDeleteStudent: this.props.onDeleteActiveStudent }),
+                _react2.default.createElement(StudentDetailBody, { student: this.state.student })
             );
         }
     }], [{
@@ -171,10 +144,33 @@ var StudentDetailHead = function (_Component2) {
     function StudentDetailHead(props) {
         _classCallCheck(this, StudentDetailHead);
 
-        return _possibleConstructorReturn(this, (StudentDetailHead.__proto__ || Object.getPrototypeOf(StudentDetailHead)).call(this, props));
+        var _this4 = _possibleConstructorReturn(this, (StudentDetailHead.__proto__ || Object.getPrototypeOf(StudentDetailHead)).call(this, props));
+
+        _this4.state = {
+            deleteStudentIsShowing: false,
+            editStudentIsShowing: false
+        };
+
+        _this4.toggleDeleteStudent = _this4.toggleDeleteStudent.bind(_this4);
+        _this4.toggleEditStudent = _this4.toggleEditStudent.bind(_this4);
+        return _this4;
     }
 
     _createClass(StudentDetailHead, [{
+        key: "toggleDeleteStudent",
+        value: function toggleDeleteStudent() {
+            this.setState({
+                deleteStudentIsShowing: !this.state.deleteStudentIsShowing
+            });
+        }
+    }, {
+        key: "toggleEditStudent",
+        value: function toggleEditStudent() {
+            this.setState({
+                editStudentIsShowing: !this.state.editStudentIsShowing
+            });
+        }
+    }, {
         key: "render",
         value: function render() {
             return _react2.default.createElement(
@@ -203,15 +199,25 @@ var StudentDetailHead = function (_Component2) {
                     { className: "page-head-actions" },
                     _react2.default.createElement(
                         _reactstrap.Button,
-                        { outline: true, size: "sm", color: "success", className: "mr-2", onClick: this.props.toggleEditStudent },
+                        { outline: true, size: "sm",
+                            color: "success",
+                            className: "mr-2", onClick: this.toggleEditStudent },
                         "Edit Student"
                     ),
                     _react2.default.createElement(
                         _reactstrap.Button,
-                        { outline: true, size: "sm", color: "danger", onClick: this.props.toggleDeleteStudent },
+                        { outline: true, size: "sm", color: "danger", onClick: this.toggleDeleteStudent },
                         "Delete"
                     )
-                )
+                ),
+                _react2.default.createElement(_modals.DeleteStudentModal, { isOpen: this.state.deleteStudentIsShowing,
+                    student: this.props.student,
+                    toggle: this.toggleDeleteStudent,
+                    refresh: this.props.onDeleteStudent }),
+                _react2.default.createElement(_modals.EditStudentModal, { isOpen: this.state.editStudentIsShowing,
+                    student: this.props.student,
+                    refresh: this.props.onEditStudent,
+                    toggle: this.toggleEditStudent })
             );
         }
     }]);

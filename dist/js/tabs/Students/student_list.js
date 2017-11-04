@@ -80,6 +80,7 @@ var StudentList = function (_Component) {
                 _react2.default.createElement(StudentListTable, { students: showingStudents,
                     activeStudent: this.props.activeStudent,
                     setActiveStudent: this.props.setActiveStudent,
+                    toggleAddStudent: this.props.toggleAddStudent,
                     isSearching: isSearching })
             );
         }
@@ -183,7 +184,7 @@ var StudentListTable = function (_Component3) {
                 ),
                 _react2.default.createElement(
                     _reactstrap.Button,
-                    { outline: true, color: "success" },
+                    { outline: true, color: "success", onClick: this.props.toggleAddStudent },
                     "Add a Student"
                 )
             );
@@ -300,7 +301,7 @@ var StudentSection = function (_Component4) {
                 var isActive = false;
 
                 if (_this7.props.activeStudent !== null) {
-                    isActive = _this7.props.activeStudent.idNumber === student.idNumber;
+                    isActive = _this7.props.activeStudent.id === student.id;
                 }
 
                 var setActiveStudent = function setActiveStudent() {
@@ -309,7 +310,7 @@ var StudentSection = function (_Component4) {
 
                 return _react2.default.createElement(
                     _section.SectionRow,
-                    { selectable: true, onClick: setActiveStudent, active: isActive, key: student.idNumber },
+                    { selectable: true, onClick: setActiveStudent, active: isActive, key: student.id },
                     _react2.default.createElement(
                         "small",
                         { className: "d-block" },

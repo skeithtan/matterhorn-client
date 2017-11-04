@@ -22,6 +22,7 @@ function fetchStudent(id, onResponse) {
         query : `
         {
             student(id:${id}) {
+                id
                 category
                 idNumber
                 college
@@ -53,25 +54,9 @@ class StudentDetail extends Component {
         this.state = {
             student : null,
             studentID : null,
-            deleteStudentIsShowing: false,
-            editStudentIsShowing: false,
         };
 
-        this.toggleDeleteStudent = this.toggleDeleteStudent.bind(this);
-        this.toggleEditStudent = this.toggleEditStudent.bind(this);
         this.onEditStudent = this.onEditStudent.bind(this);
-    }
-
-    toggleDeleteStudent() {
-        this.setState({
-            deleteStudentIsShowing: !this.state.deleteStudentIsShowing,
-        });
-    }
-
-    toggleEditStudent() {
-        this.setState({
-            editStudentIsShowing: !this.state.editStudentIsShowing,
-        });
     }
 
     static unselectedState() {
@@ -84,13 +69,13 @@ class StudentDetail extends Component {
 
     onEditStudent() {
         this.setState({
-            student: null,
+            student : null,
         });
 
         fetchStudent(this.state.studentID, response => {
             const student = response.data.student;
             this.setState({
-                student: student,
+                student : student,
             });
             this.props.refreshStudents();
         });
@@ -109,11 +94,11 @@ class StudentDetail extends Component {
         }
 
         this.setState({
-            studentID : student.idNumber,
+            studentID : student.id,
             student : null,
         });
 
-        fetchStudent(student.idNumber, response => {
+        fetchStudent(student.id, response => {
             this.setState({
                 student : response.data.student,
             });
@@ -132,21 +117,9 @@ class StudentDetail extends Component {
         return (
             <div id="student-detail" className="container-fluid d-flex flex-column p-0">
                 <StudentDetailHead student={this.state.student}
-                                   toggleDeleteStudent={this.toggleDeleteStudent}
-                                   toggleEditStudent={this.toggleEditStudent}/>
+                                   onEditStudent={this.onEditStudent}
+                                   onDeleteStudent={this.props.onDeleteActiveStudent}/>
                 <StudentDetailBody student={this.state.student}/>
-
-                {this.state.student !== null && //If activeStudent is not null
-                <DeleteStudentModal isOpen={this.state.deleteStudentIsShowing}
-                                    student={this.state.student}
-                                    toggle={this.toggleDeleteStudent}
-                                    refresh={this.props.onDeleteActiveStudent}/>}
-
-                {this.state.student !== null &&
-                <EditStudentModal isOpen={this.state.editStudentIsShowing}
-                                  student={this.state.student}
-                                  refresh={this.onEditStudent}
-                                  toggle={this.toggleEditStudent}/>}
             </div>
         );
     }
@@ -155,6 +128,26 @@ class StudentDetail extends Component {
 class StudentDetailHead extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            deleteStudentIsShowing : false,
+            editStudentIsShowing : false,
+        };
+
+        this.toggleDeleteStudent = this.toggleDeleteStudent.bind(this);
+        this.toggleEditStudent = this.toggleEditStudent.bind(this);
+    }
+
+    toggleDeleteStudent() {
+        this.setState({
+            deleteStudentIsShowing : !this.state.deleteStudentIsShowing,
+        });
+    }
+
+    toggleEditStudent() {
+        this.setState({
+            editStudentIsShowing : !this.state.editStudentIsShowing,
+        });
     }
 
     render() {
@@ -168,9 +161,24 @@ class StudentDetailHead extends Component {
                 </div>
 
                 <div className="page-head-actions">
-                    <Button outline size="sm" color="success" className="mr-2" onClick={this.props.toggleEditStudent}>Edit Student</Button>
-                    <Button outline size="sm" color="danger" onClick={this.props.toggleDeleteStudent}>Delete</Button>
+                    <Button outline size="sm"
+                            color="success"
+                            className="mr-2" onClick={this.toggleEditStudent}>
+                        Edit Student
+                    </Button>
+
+                    <Button outline size="sm" color="danger" onClick={this.toggleDeleteStudent}>Delete</Button>
                 </div>
+
+                <DeleteStudentModal isOpen={this.state.deleteStudentIsShowing}
+                                    student={this.props.student}
+                                    toggle={this.toggleDeleteStudent}
+                                    refresh={this.props.onDeleteStudent}/>
+
+                <EditStudentModal isOpen={this.state.editStudentIsShowing}
+                                  student={this.props.student}
+                                  refresh={this.props.onEditStudent}
+                                  toggle={this.toggleEditStudent}/>
             </div>
         );
     }

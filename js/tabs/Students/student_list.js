@@ -10,7 +10,7 @@ import {
     Section,
     SectionTitle,
     SectionTable,
-    SectionRow
+    SectionRow,
 } from "../../components/section";
 
 
@@ -58,6 +58,7 @@ class StudentList extends Component {
                 <StudentListTable students={showingStudents}
                                   activeStudent={this.props.activeStudent}
                                   setActiveStudent={this.props.setActiveStudent}
+                                  toggleAddStudent={this.props.toggleAddStudent}
                                   isSearching={isSearching}/>
             </div>
         );
@@ -106,7 +107,7 @@ class StudentListTable extends Component {
             <div className="loading-container">
                 <h4>There's nothing here.</h4>
                 <p>When added, Students will show up here.</p>
-                <Button outline color="success">Add a Student</Button>
+                <Button outline color="success" onClick={this.props.toggleAddStudent}>Add a Student</Button>
             </div>
         );
     }
@@ -201,13 +202,13 @@ class StudentSection extends Component {
             let isActive = false;
 
             if (this.props.activeStudent !== null) {
-                isActive = this.props.activeStudent.idNumber === student.idNumber;
+                isActive = this.props.activeStudent.id === student.id;
             }
 
             const setActiveStudent = () => this.props.setActiveStudent(student);
 
             return (
-                <SectionRow selectable onClick={setActiveStudent} active={isActive} key={student.idNumber}>
+                <SectionRow selectable onClick={setActiveStudent} active={isActive} key={student.id}>
                     <small className="d-block">{student.idNumber}</small>
                     <b>{student.familyName}</b>, {student.firstName} {student.middleName}
                 </SectionRow>
@@ -224,4 +225,5 @@ class StudentSection extends Component {
         );
     }
 }
+
 export default StudentList;
