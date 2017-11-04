@@ -57,7 +57,8 @@ small.section-footer {
 }
 
 .section-row.active {
-    background : var(--dlsu-green-light);
+    background   : var(--dlsu-green-light);
+    border-color : var(--dlsu-green-lighter);
 }
 
 .section-row.active:hover {
