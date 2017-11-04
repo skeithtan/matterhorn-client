@@ -24,6 +24,7 @@ import {
 import {
     AddMemorandumModal,
     DeleteMemorandumModal,
+    EditMemorandumModal,
 } from "../modals";
 
 function fetchInstitution(id, onResponse) {
@@ -232,6 +233,7 @@ class MemorandumListSection extends Component {
 
         this.emptyState = this.emptyState.bind(this);
         this.setActiveMemorandum = this.setActiveMemorandum.bind(this);
+        this.toggleDeleteMemorandum = this.toggleDeleteMemorandum.bind(this);
     }
 
     setActiveMemorandum(memorandum) {
@@ -239,6 +241,7 @@ class MemorandumListSection extends Component {
         if (this.state.activeMemorandum === null) {
             this.setState({
                 activeMemorandum: memorandum,
+                deleteMemorandumIsShowing: false,
             });
 
             return;
@@ -247,6 +250,12 @@ class MemorandumListSection extends Component {
         this.setState({
             // Collapse if clicked memorandum is already the active memorandum
             activeMemorandum: this.state.activeMemorandum.id === memorandum.id ? null : memorandum,
+        });
+    }
+
+    toggleDeleteMemorandum() {
+        this.setState({
+            deleteMemorandumIsShowing: !this.state.deleteMemorandumIsShowing,
         });
     }
 
@@ -278,10 +287,9 @@ class MemorandumListSection extends Component {
 
             const onMemorandumRowClick = () => this.setActiveMemorandum(memorandum);
             return <MemorandumRow isShowing={isShowing}
-                                  institution={this.props.institution}
-                                  refreshMemorandums={this.props.refreshMemorandums}
                                   memorandum={memorandum}
                                   onClick={onMemorandumRowClick}
+                                  toggleDeleteMemorandum={this.toggleDeleteMemorandum}
                                   key={memorandum.id}/>;
         });
 
@@ -294,6 +302,12 @@ class MemorandumListSection extends Component {
                     </SectionTable>
                     <SectionFooter>Select a memorandum to see its details</SectionFooter>
                 </Section>
+
+                <DeleteMemorandumModal isOpen={this.state.deleteMemorandumIsShowing}
+                                       institution={this.props.institution}
+                                       memorandum={this.state.activeMemorandum}
+                                       toggle={this.toggleDeleteMemorandum}
+                                       refresh={this.props.refreshMemorandums}/>
             </div>
         );
     }
@@ -308,14 +322,6 @@ class MemorandumRow extends Component {
         this.state = {
             deleteMemorandumIsShowing: false,
         };
-
-        this.toggleDeleteMemorandum = this.toggleDeleteMemorandum.bind(this);
-    }
-
-    toggleDeleteMemorandum() {
-        this.setState({
-            deleteMemorandumIsShowing: !this.state.deleteMemorandumIsShowing,
-        });
     }
 
     render() {
@@ -376,21 +382,13 @@ class MemorandumRow extends Component {
                                             Memorandum</Button>
                                         <Button outline size="sm" color="success">Edit Details</Button>
                                     </div>
-                                    <Button outline size="sm" color="danger" onClick={this.toggleDeleteMemorandum}>Delete
-                                        Memorandum</Button>
+                                    <Button outline size="sm" color="danger"
+                                            onClick={this.props.toggleDeleteMemorandum}>Delete Memorandum</Button>
                                 </SectionRow>
                             </SectionTable>
                         </CardBody>
                     </Collapse>
                 </Card>
-
-                <DeleteMemorandumModal isOpen={this.state.deleteMemorandumIsShowing}
-                                       institution={this.props.institution}
-                                       memorandum={this.props.memorandum}
-                                       toggle={this.toggleDeleteMemorandum}
-                                       refresh={this.props.refreshMemorandums}/>
-                
-                {/* EDIT MEMORANDUM GOES HERE */}
             </div>
         );
     }

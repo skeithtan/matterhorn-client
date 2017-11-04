@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.DeleteMemorandumModal = exports.AddMemorandumModal = exports.EditInstitutionModal = exports.DeleteInstitutionModal = exports.AddInstitutionModal = undefined;
+exports.EditMemorandumModal = exports.DeleteMemorandumModal = exports.AddMemorandumModal = exports.EditInstitutionModal = exports.DeleteInstitutionModal = exports.AddInstitutionModal = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -890,9 +890,27 @@ var DeleteMemorandumModal = function (_Component5) {
     return DeleteMemorandumModal;
 }(_react.Component);
 
+var EditMemorandumModal = function (_Component6) {
+    _inherits(EditMemorandumModal, _Component6);
+
+    function EditMemorandumModal(props) {
+        _classCallCheck(this, EditMemorandumModal);
+
+        return _possibleConstructorReturn(this, (EditMemorandumModal.__proto__ || Object.getPrototypeOf(EditMemorandumModal)).call(this, props));
+    }
+
+    _createClass(EditMemorandumModal, [{
+        key: "render",
+        value: function render() {}
+    }]);
+
+    return EditMemorandumModal;
+}(_react.Component);
+
 exports.AddInstitutionModal = AddInstitutionModal;
 exports.DeleteInstitutionModal = DeleteInstitutionModal;
 exports.EditInstitutionModal = EditInstitutionModal;
 exports.AddMemorandumModal = AddMemorandumModal;
 exports.DeleteMemorandumModal = DeleteMemorandumModal;
+exports.EditMemorandumModal = EditMemorandumModal;
 //# sourceMappingURL=modals.js.map

@@ -284,6 +284,7 @@ var MemorandumListSection = function (_Component4) {
 
         _this6.emptyState = _this6.emptyState.bind(_this6);
         _this6.setActiveMemorandum = _this6.setActiveMemorandum.bind(_this6);
+        _this6.toggleDeleteMemorandum = _this6.toggleDeleteMemorandum.bind(_this6);
         return _this6;
     }
 
@@ -293,7 +294,8 @@ var MemorandumListSection = function (_Component4) {
             console.log(memorandum);
             if (this.state.activeMemorandum === null) {
                 this.setState({
-                    activeMemorandum: memorandum
+                    activeMemorandum: memorandum,
+                    deleteMemorandumIsShowing: false
                 });
 
                 return;
@@ -302,6 +304,13 @@ var MemorandumListSection = function (_Component4) {
             this.setState({
                 // Collapse if clicked memorandum is already the active memorandum
                 activeMemorandum: this.state.activeMemorandum.id === memorandum.id ? null : memorandum
+            });
+        }
+    }, {
+        key: "toggleDeleteMemorandum",
+        value: function toggleDeleteMemorandum() {
+            this.setState({
+                deleteMemorandumIsShowing: !this.state.deleteMemorandumIsShowing
             });
         }
     }, {
@@ -348,10 +357,9 @@ var MemorandumListSection = function (_Component4) {
                     return _this7.setActiveMemorandum(memorandum);
                 };
                 return _react2.default.createElement(MemorandumRow, { isShowing: isShowing,
-                    institution: _this7.props.institution,
-                    refreshMemorandums: _this7.props.refreshMemorandums,
                     memorandum: memorandum,
                     onClick: onMemorandumRowClick,
+                    toggleDeleteMemorandum: _this7.toggleDeleteMemorandum,
                     key: memorandum.id });
             });
 
@@ -376,7 +384,12 @@ var MemorandumListSection = function (_Component4) {
                         null,
                         "Select a memorandum to see its details"
                     )
-                )
+                ),
+                _react2.default.createElement(_modals.DeleteMemorandumModal, { isOpen: this.state.deleteMemorandumIsShowing,
+                    institution: this.props.institution,
+                    memorandum: this.state.activeMemorandum,
+                    toggle: this.toggleDeleteMemorandum,
+                    refresh: this.props.refreshMemorandums })
             );
         }
     }]);
@@ -395,19 +408,10 @@ var MemorandumRow = function (_Component5) {
         _this8.state = {
             deleteMemorandumIsShowing: false
         };
-
-        _this8.toggleDeleteMemorandum = _this8.toggleDeleteMemorandum.bind(_this8);
         return _this8;
     }
 
     _createClass(MemorandumRow, [{
-        key: "toggleDeleteMemorandum",
-        value: function toggleDeleteMemorandum() {
-            this.setState({
-                deleteMemorandumIsShowing: !this.state.deleteMemorandumIsShowing
-            });
-        }
-    }, {
         key: "render",
         value: function render() {
             var memorandum = this.props.memorandum;
@@ -521,19 +525,15 @@ var MemorandumRow = function (_Component5) {
                                     ),
                                     _react2.default.createElement(
                                         _reactstrap.Button,
-                                        { outline: true, size: "sm", color: "danger", onClick: this.toggleDeleteMemorandum },
+                                        { outline: true, size: "sm", color: "danger",
+                                            onClick: this.props.toggleDeleteMemorandum },
                                         "Delete Memorandum"
                                     )
                                 )
                             )
                         )
                     )
-                ),
-                _react2.default.createElement(_modals.DeleteMemorandumModal, { isOpen: this.state.deleteMemorandumIsShowing,
-                    institution: this.props.institution,
-                    memorandum: this.props.memorandum,
-                    toggle: this.toggleDeleteMemorandum,
-                    refresh: this.props.refreshMemorandums })
+                )
             );
         }
     }]);

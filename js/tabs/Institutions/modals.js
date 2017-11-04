@@ -507,10 +507,21 @@ class DeleteMemorandumModal extends Component {
     }
 }
 
+class EditMemorandumModal extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+
+    }
+}
+
 export {
     AddInstitutionModal,
     DeleteInstitutionModal,
     EditInstitutionModal,
     AddMemorandumModal,
     DeleteMemorandumModal,
+    EditMemorandumModal,
 };
