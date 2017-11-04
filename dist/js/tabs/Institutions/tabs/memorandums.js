@@ -437,11 +437,25 @@ var MemorandumRow = function (_Component5) {
                             ),
                             _react2.default.createElement(
                                 _section.SectionRow,
-                                { className: "bg-light" },
+                                { className: "bg-light d-flex flex-row" },
+                                _react2.default.createElement(
+                                    "div",
+                                    { className: "mr-auto" },
+                                    _react2.default.createElement(
+                                        _reactstrap.Button,
+                                        { outline: true, size: "sm", color: "success", className: "mr-2" },
+                                        "View Memorandum"
+                                    ),
+                                    _react2.default.createElement(
+                                        _reactstrap.Button,
+                                        { outline: true, size: "sm", color: "success" },
+                                        "Edit Details"
+                                    )
+                                ),
                                 _react2.default.createElement(
                                     _reactstrap.Button,
-                                    { outline: true, color: "success" },
-                                    "Open Memorandum Copy"
+                                    { outline: true, size: "sm", color: "danger" },
+                                    "Delete Memorandum"
                                 )
                             )
                         )

@@ -279,7 +279,7 @@ class MemorandumRow extends Component {
             linkages.forEach((linkageCode, index) => {
                 linkagesText += settings.linkages[linkageCode.linkage];
 
-                if(index + 1 !== linkages.length) {
+                if (index + 1 !== linkages.length) {
                     linkagesText += ", ";
                 }
             });
@@ -310,8 +310,12 @@ class MemorandumRow extends Component {
                                 <SectionRowContent large>{linkagesText}</SectionRowContent>
                             </SectionRow>
 
-                            <SectionRow className="bg-light">
-                                <Button outline color="success">Open Memorandum Copy</Button>
+                            <SectionRow className="bg-light d-flex flex-row">
+                                <div className="mr-auto">
+                                    <Button outline size="sm" color="success" className="mr-2">View Memorandum</Button>
+                                    <Button outline size="sm" color="success">Edit Details</Button>
+                                </div>
+                                <Button outline size="sm" color="danger">Delete Memorandum</Button>
                             </SectionRow>
                         </SectionTable>
                     </CardBody>
