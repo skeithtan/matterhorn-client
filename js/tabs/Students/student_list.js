@@ -1,11 +1,17 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import LoadingSpinner from "../../loading";
+
 import {
     Input,
     Button,
-    ListGroup,
-    ListGroupItem,
 } from "reactstrap";
+
+import {
+    Section,
+    SectionTitle,
+    SectionTable,
+    SectionRowSelectable,
+} from "../../components/section";
 
 
 class StudentList extends Component {
@@ -13,7 +19,7 @@ class StudentList extends Component {
         super(props);
 
         this.state = {
-            searchKeyword: null,
+            searchKeyword : null,
         };
 
         this.setSearchKeyword = this.setSearchKeyword.bind(this);
@@ -24,7 +30,7 @@ class StudentList extends Component {
         //If the string is empty, that means the user isn't searching at all
         const searchKeyword = searchString === "" ? null : searchString;
         this.setState({
-            searchKeyword: searchKeyword,
+            searchKeyword : searchKeyword,
         });
     }
 
@@ -139,8 +145,8 @@ class StudentListTable extends Component {
         familyNameInitials.forEach(initial => {
             let students = [];
             categorizedByInitial.push({
-                initial: initial,
-                students: students,
+                initial : initial,
+                students : students,
             });
 
             this.props.students.forEach(student => {
@@ -198,46 +204,24 @@ class StudentSection extends Component {
                 isActive = this.props.activeStudent.idNumber === student.idNumber;
             }
 
-            return <StudentRow key={student.idNumber}
-                               student={student}
-                               setActiveStudent={() => this.props.setActiveStudent(student)}
-                               isActive={isActive}/>;
+            const setActiveStudent = () => this.props.setActiveStudent(student);
+
+            return (
+                <SectionRowSelectable onClick={setActiveStudent} isActive={isActive} key={student.idNumber}>
+                    <small className="d-block">{student.idNumber}</small>
+                    <b>{student.familyName}</b>, {student.firstName} {student.middleName}
+                </SectionRowSelectable>
+            );
         });
 
         return (
-            <div className="section">
-                <small className="section-title">{this.props.title}</small>
-                <ListGroup>
+            <Section>
+                <SectionTitle>{this.props.title}</SectionTitle>
+                <SectionTable>
                     {rows}
-                </ListGroup>
-            </div>
+                </SectionTable>
+            </Section>
         );
     }
 }
-
-class StudentRow extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        const first = this.props.student.firstName;
-        const middle = this.props.student.middleName;
-        const familyName = this.props.student.familyName;
-        const idNumber = this.props.student.idNumber;
-
-        if (this.props.isActive) {
-            return <ListGroupItem className="bg-dlsu text-white">
-                <small className="d-block">{idNumber}</small>
-                <b>{familyName}</b>, {first} {middle}
-            </ListGroupItem>;
-        } else {
-            return <ListGroupItem onClick={this.props.setActiveStudent}>
-                <small className="d-block">{idNumber}</small>
-                <b>{familyName}</b>, {first} {middle}
-            </ListGroupItem>;
-        }
-    }
-}
-
 export default StudentList;

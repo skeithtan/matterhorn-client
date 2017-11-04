@@ -46,6 +46,10 @@ small.section-footer {
     margin-bottom : 2rem;
 }
 
+.section-row.active {
+    background : var(--dlsu-green);
+}
+
 /* Loading Container */
 div.loading-container {
     display         : flex;
@@ -189,11 +193,11 @@ li.nav-item.active .sidebar-image {
 
 /*Sidebar*/
 .sidebar {
-    border-right   : 1px solid var(--gray);
+    border-right : 1px solid var(--gray);
 }
 
 .sidebar-right {
-    border-left   : 1px solid var(--gray);
+    border-left : 1px solid var(--gray);
 }
 
 .sidebar, .sidebar-right {

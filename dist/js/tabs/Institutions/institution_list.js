@@ -16,6 +16,8 @@ var _loading2 = _interopRequireDefault(_loading);
 
 var _reactstrap = require("reactstrap");
 
+var _section = require("../../components/section");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -252,24 +254,31 @@ var InstitutionSection = function (_Component4) {
                     isActive = _this6.props.activeInstitution.id === institution.id;
                 }
 
-                return _react2.default.createElement(InstitutionRow, { institution: institution,
-                    setActiveInstitution: function setActiveInstitution() {
-                        return _this6.props.setActiveInstitution(institution);
-                    },
-                    isActive: isActive,
-                    key: institution.id });
+                var setActiveInstitution = function setActiveInstitution() {
+                    return _this6.props.setActiveInstitution(institution);
+                };
+
+                return _react2.default.createElement(
+                    _section.SectionRowSelectable,
+                    { onClick: setActiveInstitution, isActive: isActive, key: institution.id },
+                    _react2.default.createElement(
+                        _section.SectionRowContent,
+                        null,
+                        institution.name
+                    )
+                );
             });
 
             return _react2.default.createElement(
-                "div",
-                { className: "section" },
+                _section.Section,
+                null,
                 _react2.default.createElement(
-                    "small",
-                    { className: "section-title" },
+                    _section.SectionTitle,
+                    null,
                     this.props.title
                 ),
                 _react2.default.createElement(
-                    _reactstrap.ListGroup,
+                    _section.SectionTable,
                     null,
                     rows
                 )

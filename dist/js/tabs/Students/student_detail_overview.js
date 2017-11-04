@@ -19,7 +19,7 @@ var _moment = require("moment");
 
 var _moment2 = _interopRequireDefault(_moment);
 
-var _reactstrap = require("reactstrap");
+var _section = require("../../components/section");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -47,22 +47,100 @@ var StudentDetailOverview = function (_Component) {
             var birthDate = (0, _moment2.default)(student.birthDate).format("LL");
 
             return _react2.default.createElement(
-                "div",
-                { className: "section" },
+                _section.Section,
+                null,
                 _react2.default.createElement(
-                    "small",
-                    { className: "section-title" },
-                    "Student details"
+                    _section.SectionTitle,
+                    null,
+                    "Student Details"
                 ),
                 _react2.default.createElement(
-                    _reactstrap.ListGroup,
+                    _section.SectionTable,
                     null,
-                    _react2.default.createElement(StudentDetailRow, { fieldName: "Nickname", fieldValue: student.nickname }),
-                    _react2.default.createElement(StudentDetailRow, { fieldName: "Sex", fieldValue: sex }),
-                    _react2.default.createElement(StudentDetailRow, { fieldName: "Address", fieldValue: student.homeAddress }),
-                    _react2.default.createElement(StudentDetailRow, { fieldName: "Birth Date", fieldValue: birthDate }),
-                    _react2.default.createElement(StudentDetailRow, { fieldName: "Nationality", fieldValue: student.nationality }),
-                    _react2.default.createElement(StudentDetailRow, { fieldName: "Civil Status", fieldValue: civilStatus })
+                    _react2.default.createElement(
+                        _section.SectionRow,
+                        null,
+                        _react2.default.createElement(
+                            _section.SectionRowTitle,
+                            null,
+                            "Nickname"
+                        ),
+                        _react2.default.createElement(
+                            _section.SectionRowContentLarge,
+                            null,
+                            student.nickname
+                        )
+                    ),
+                    _react2.default.createElement(
+                        _section.SectionRow,
+                        null,
+                        _react2.default.createElement(
+                            _section.SectionRowTitle,
+                            null,
+                            "Sex"
+                        ),
+                        _react2.default.createElement(
+                            _section.SectionRowContentLarge,
+                            null,
+                            sex
+                        )
+                    ),
+                    _react2.default.createElement(
+                        _section.SectionRow,
+                        null,
+                        _react2.default.createElement(
+                            _section.SectionRowTitle,
+                            null,
+                            "Home Address"
+                        ),
+                        _react2.default.createElement(
+                            _section.SectionRowContentLarge,
+                            null,
+                            student.homeAddress
+                        )
+                    ),
+                    _react2.default.createElement(
+                        _section.SectionRow,
+                        null,
+                        _react2.default.createElement(
+                            _section.SectionRowTitle,
+                            null,
+                            "Date of Birth"
+                        ),
+                        _react2.default.createElement(
+                            _section.SectionRowContentLarge,
+                            null,
+                            birthDate
+                        )
+                    ),
+                    _react2.default.createElement(
+                        _section.SectionRow,
+                        null,
+                        _react2.default.createElement(
+                            _section.SectionRowTitle,
+                            null,
+                            "Nationality"
+                        ),
+                        _react2.default.createElement(
+                            _section.SectionRowContentLarge,
+                            null,
+                            student.nationality
+                        )
+                    ),
+                    _react2.default.createElement(
+                        _section.SectionRow,
+                        null,
+                        _react2.default.createElement(
+                            _section.SectionRowTitle,
+                            null,
+                            "Civil Status"
+                        ),
+                        _react2.default.createElement(
+                            _section.SectionRowContentLarge,
+                            null,
+                            civilStatus
+                        )
+                    )
                 )
             );
         }
@@ -86,21 +164,72 @@ var StudentContact = function (_Component2) {
             var student = this.props.student;
 
             return _react2.default.createElement(
-                "div",
-                { className: "section" },
+                _section.Section,
+                null,
                 _react2.default.createElement(
-                    "small",
-                    { className: "section-title" },
-                    "Contact details"
+                    _section.SectionTitle,
+                    null,
+                    "Contact Details"
                 ),
                 _react2.default.createElement(
-                    _reactstrap.ListGroup,
+                    _section.SectionTable,
                     null,
-                    _react2.default.createElement(StudentDetailRow, { fieldName: "Phone Number", fieldValue: student.phoneNumber }),
-                    _react2.default.createElement(StudentDetailRow, { fieldName: "E-mail", fieldValue: student.email }),
-                    _react2.default.createElement(StudentDetailRow, { fieldName: "Emergency Contact",
-                        fieldValue: student.emergencyContactName + " (" + student.emergencyContactRelationship + ")" }),
-                    _react2.default.createElement(StudentDetailRow, { fieldName: "Emergency Contact Number", fieldValue: student.emergencyContactNumber })
+                    _react2.default.createElement(
+                        _section.SectionRow,
+                        null,
+                        _react2.default.createElement(
+                            _section.SectionRowTitle,
+                            null,
+                            "Phone Number"
+                        ),
+                        _react2.default.createElement(
+                            _section.SectionRowContentLarge,
+                            null,
+                            student.phoneNumber
+                        )
+                    ),
+                    _react2.default.createElement(
+                        _section.SectionRow,
+                        null,
+                        _react2.default.createElement(
+                            _section.SectionRowTitle,
+                            null,
+                            "Email"
+                        ),
+                        _react2.default.createElement(
+                            _section.SectionRowContentLarge,
+                            null,
+                            student.email
+                        )
+                    ),
+                    _react2.default.createElement(
+                        _section.SectionRow,
+                        null,
+                        _react2.default.createElement(
+                            _section.SectionRowTitle,
+                            null,
+                            "Emergency Contact"
+                        ),
+                        _react2.default.createElement(
+                            _section.SectionRowContentLarge,
+                            null,
+                            student.emergencyContactName + " (" + student.emergencyContactRelationship + ")"
+                        )
+                    ),
+                    _react2.default.createElement(
+                        _section.SectionRow,
+                        null,
+                        _react2.default.createElement(
+                            _section.SectionRowTitle,
+                            null,
+                            "Emergency Contact Number"
+                        ),
+                        _react2.default.createElement(
+                            _section.SectionRowContentLarge,
+                            null,
+                            student.emergencyContactNumber
+                        )
+                    )
                 )
             );
         }
@@ -126,56 +255,50 @@ var StudentUniversity = function (_Component3) {
             var type = student.category === "OUT" ? "Outbound" : "Inbound";
 
             return _react2.default.createElement(
-                "div",
-                { className: "section" },
+                _section.Section,
+                null,
                 _react2.default.createElement(
-                    "small",
-                    { className: "section-title" },
+                    _section.SectionTitle,
+                    null,
                     "University Details"
                 ),
                 _react2.default.createElement(
-                    _reactstrap.ListGroup,
+                    _section.SectionTable,
                     null,
-                    _react2.default.createElement(StudentDetailRow, { fieldName: "College", fieldValue: college }),
-                    _react2.default.createElement(StudentDetailRow, { fieldName: "Student Type", fieldValue: type })
+                    _react2.default.createElement(
+                        _section.SectionRow,
+                        null,
+                        _react2.default.createElement(
+                            _section.SectionRowTitle,
+                            null,
+                            "College"
+                        ),
+                        _react2.default.createElement(
+                            _section.SectionRowContentLarge,
+                            null,
+                            college
+                        )
+                    ),
+                    _react2.default.createElement(
+                        _section.SectionRow,
+                        null,
+                        _react2.default.createElement(
+                            _section.SectionRowTitle,
+                            null,
+                            "Student Type"
+                        ),
+                        _react2.default.createElement(
+                            _section.SectionRowContentLarge,
+                            null,
+                            type
+                        )
+                    )
                 )
             );
         }
     }]);
 
     return StudentUniversity;
-}(_react.Component);
-
-var StudentDetailRow = function (_Component4) {
-    _inherits(StudentDetailRow, _Component4);
-
-    function StudentDetailRow(props) {
-        _classCallCheck(this, StudentDetailRow);
-
-        return _possibleConstructorReturn(this, (StudentDetailRow.__proto__ || Object.getPrototypeOf(StudentDetailRow)).call(this, props));
-    }
-
-    _createClass(StudentDetailRow, [{
-        key: "render",
-        value: function render() {
-            return _react2.default.createElement(
-                _reactstrap.ListGroupItem,
-                null,
-                _react2.default.createElement(
-                    "small",
-                    { className: "font-weight-bold" },
-                    this.props.fieldName
-                ),
-                _react2.default.createElement(
-                    "p",
-                    { className: "lead m-0" },
-                    this.props.fieldValue
-                )
-            );
-        }
-    }]);
-
-    return StudentDetailRow;
 }(_react.Component);
 
 exports.StudentDetailOverview = StudentDetailOverview;

@@ -22,6 +22,8 @@ var _reactstrap = require("reactstrap");
 
 var _modals = require("../modals");
 
+var _section = require("../../../components/section");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -107,10 +109,10 @@ var InstitutionOverview = function (_Component) {
             return _react2.default.createElement(
                 "div",
                 { className: "d-flex flex-column p-0 h-100" },
-                _react2.default.createElement(InstitutionOverviewHead, { institution: this.state.institution,
+                _react2.default.createElement(OverviewHead, { institution: this.state.institution,
                     onDeleteInstitution: this.props.onDeleteActiveInstitution,
                     onEditInstitution: this.onEditInstitution }),
-                _react2.default.createElement(InstitutionOverviewBody, { institution: this.state.institution })
+                _react2.default.createElement(OverviewBody, { institution: this.state.institution })
             );
         }
     }]);
@@ -118,13 +120,13 @@ var InstitutionOverview = function (_Component) {
     return InstitutionOverview;
 }(_react.Component);
 
-var InstitutionOverviewHead = function (_Component2) {
-    _inherits(InstitutionOverviewHead, _Component2);
+var OverviewHead = function (_Component2) {
+    _inherits(OverviewHead, _Component2);
 
-    function InstitutionOverviewHead(props) {
-        _classCallCheck(this, InstitutionOverviewHead);
+    function OverviewHead(props) {
+        _classCallCheck(this, OverviewHead);
 
-        var _this4 = _possibleConstructorReturn(this, (InstitutionOverviewHead.__proto__ || Object.getPrototypeOf(InstitutionOverviewHead)).call(this, props));
+        var _this4 = _possibleConstructorReturn(this, (OverviewHead.__proto__ || Object.getPrototypeOf(OverviewHead)).call(this, props));
 
         _this4.state = {
             deleteInstitutionIsShowing: false,
@@ -136,7 +138,7 @@ var InstitutionOverviewHead = function (_Component2) {
         return _this4;
     }
 
-    _createClass(InstitutionOverviewHead, [{
+    _createClass(OverviewHead, [{
         key: "toggleEditInstitution",
         value: function toggleEditInstitution() {
             this.setState({
@@ -198,43 +200,43 @@ var InstitutionOverviewHead = function (_Component2) {
         }
     }]);
 
-    return InstitutionOverviewHead;
+    return OverviewHead;
 }(_react.Component);
 
-var InstitutionOverviewBody = function (_Component3) {
-    _inherits(InstitutionOverviewBody, _Component3);
+var OverviewBody = function (_Component3) {
+    _inherits(OverviewBody, _Component3);
 
-    function InstitutionOverviewBody(props) {
-        _classCallCheck(this, InstitutionOverviewBody);
+    function OverviewBody(props) {
+        _classCallCheck(this, OverviewBody);
 
-        return _possibleConstructorReturn(this, (InstitutionOverviewBody.__proto__ || Object.getPrototypeOf(InstitutionOverviewBody)).call(this, props));
+        return _possibleConstructorReturn(this, (OverviewBody.__proto__ || Object.getPrototypeOf(OverviewBody)).call(this, props));
     }
 
-    _createClass(InstitutionOverviewBody, [{
+    _createClass(OverviewBody, [{
         key: "render",
         value: function render() {
             return _react2.default.createElement(
                 "div",
                 { className: "page-body" },
-                _react2.default.createElement(InstitutionDetailOverview, { institution: this.props.institution }),
-                _react2.default.createElement(InstitutionContact, { institution: this.props.institution })
+                _react2.default.createElement(InstitutionDetails, { institution: this.props.institution }),
+                _react2.default.createElement(ContactDetails, { institution: this.props.institution })
             );
         }
     }]);
 
-    return InstitutionOverviewBody;
+    return OverviewBody;
 }(_react.Component);
 
-var InstitutionDetailOverview = function (_Component4) {
-    _inherits(InstitutionDetailOverview, _Component4);
+var InstitutionDetails = function (_Component4) {
+    _inherits(InstitutionDetails, _Component4);
 
-    function InstitutionDetailOverview(props) {
-        _classCallCheck(this, InstitutionDetailOverview);
+    function InstitutionDetails(props) {
+        _classCallCheck(this, InstitutionDetails);
 
-        return _possibleConstructorReturn(this, (InstitutionDetailOverview.__proto__ || Object.getPrototypeOf(InstitutionDetailOverview)).call(this, props));
+        return _possibleConstructorReturn(this, (InstitutionDetails.__proto__ || Object.getPrototypeOf(InstitutionDetails)).call(this, props));
     }
 
-    _createClass(InstitutionDetailOverview, [{
+    _createClass(InstitutionDetails, [{
         key: "render",
         value: function render() {
             var institution = this.props.institution;
@@ -249,108 +251,153 @@ var InstitutionDetailOverview = function (_Component4) {
             }
 
             return _react2.default.createElement(
-                "div",
-                { className: "section" },
+                _section.Section,
+                null,
                 _react2.default.createElement(
-                    "small",
-                    { className: "section-title" },
+                    _section.SectionTitle,
+                    null,
                     "Institution details"
                 ),
                 _react2.default.createElement(
-                    _reactstrap.ListGroup,
+                    _section.SectionTable,
                     null,
-                    _react2.default.createElement(InstitutionDetailRow, { fieldName: "Address", fieldValue: institution.address }),
-                    _react2.default.createElement(InstitutionDetailRow, { fieldName: "Country", fieldValue: institution.country.name }),
                     _react2.default.createElement(
-                        _reactstrap.ListGroupItem,
+                        _section.SectionRow,
                         null,
                         _react2.default.createElement(
-                            "small",
-                            { className: "font-weight-bold" },
+                            _section.SectionRowTitle,
+                            null,
+                            "Address"
+                        ),
+                        _react2.default.createElement(
+                            _section.SectionRowContentLarge,
+                            null,
+                            institution.address
+                        )
+                    ),
+                    _react2.default.createElement(
+                        _section.SectionRow,
+                        null,
+                        _react2.default.createElement(
+                            _section.SectionRowTitle,
+                            null,
+                            "Country"
+                        ),
+                        _react2.default.createElement(
+                            _section.SectionRowContentLarge,
+                            null,
+                            institution.country.name
+                        )
+                    ),
+                    _react2.default.createElement(
+                        _section.SectionRow,
+                        null,
+                        _react2.default.createElement(
+                            _section.SectionRowTitle,
+                            null,
                             "Website"
                         ),
                         _react2.default.createElement(
-                            "p",
-                            { className: "lead m-0 text-primary", onClick: openWebsite },
+                            _section.SectionRowContentLarge,
+                            { className: "text-primary", onClick: openWebsite },
                             website
                         )
                     ),
-                    _react2.default.createElement(InstitutionDetailRow, { fieldName: "Agreement Type", fieldValue: agreementType })
+                    _react2.default.createElement(
+                        _section.SectionRow,
+                        null,
+                        _react2.default.createElement(
+                            _section.SectionRowTitle,
+                            null,
+                            "Agreement Type"
+                        ),
+                        _react2.default.createElement(
+                            _section.SectionRowContentLarge,
+                            null,
+                            agreementType
+                        )
+                    )
                 )
             );
         }
     }]);
 
-    return InstitutionDetailOverview;
+    return InstitutionDetails;
 }(_react.Component);
 
-var InstitutionContact = function (_Component5) {
-    _inherits(InstitutionContact, _Component5);
+var ContactDetails = function (_Component5) {
+    _inherits(ContactDetails, _Component5);
 
-    function InstitutionContact(props) {
-        _classCallCheck(this, InstitutionContact);
+    function ContactDetails(props) {
+        _classCallCheck(this, ContactDetails);
 
-        return _possibleConstructorReturn(this, (InstitutionContact.__proto__ || Object.getPrototypeOf(InstitutionContact)).call(this, props));
+        return _possibleConstructorReturn(this, (ContactDetails.__proto__ || Object.getPrototypeOf(ContactDetails)).call(this, props));
     }
 
-    _createClass(InstitutionContact, [{
+    _createClass(ContactDetails, [{
         key: "render",
         value: function render() {
             var institution = this.props.institution;
 
             return _react2.default.createElement(
-                "div",
-                { className: "section" },
+                _section.Section,
+                null,
                 _react2.default.createElement(
-                    "small",
-                    { className: "section-title" },
-                    "Contact details"
-                ),
-                _react2.default.createElement(
-                    _reactstrap.ListGroup,
+                    _section.SectionTitle,
                     null,
-                    _react2.default.createElement(InstitutionDetailRow, { fieldName: "Contact Person", fieldValue: institution.contactPersonName }),
-                    _react2.default.createElement(InstitutionDetailRow, { fieldName: "Contact Person Email", fieldValue: institution.contactPersonEmail }),
-                    _react2.default.createElement(InstitutionDetailRow, { fieldName: "Contact Phone Number",
-                        fieldValue: institution.contactPersonNumber })
-                )
-            );
-        }
-    }]);
-
-    return InstitutionContact;
-}(_react.Component);
-
-var InstitutionDetailRow = function (_Component6) {
-    _inherits(InstitutionDetailRow, _Component6);
-
-    function InstitutionDetailRow(props) {
-        _classCallCheck(this, InstitutionDetailRow);
-
-        return _possibleConstructorReturn(this, (InstitutionDetailRow.__proto__ || Object.getPrototypeOf(InstitutionDetailRow)).call(this, props));
-    }
-
-    _createClass(InstitutionDetailRow, [{
-        key: "render",
-        value: function render() {
-            return _react2.default.createElement(
-                _reactstrap.ListGroupItem,
-                { onClick: this.props.onClick },
-                _react2.default.createElement(
-                    "small",
-                    { className: "font-weight-bold" },
-                    this.props.fieldName
+                    "Contact Details"
                 ),
                 _react2.default.createElement(
-                    "p",
-                    { className: "lead m-0" },
-                    this.props.fieldValue
+                    _section.SectionTable,
+                    null,
+                    _react2.default.createElement(
+                        _section.SectionRow,
+                        null,
+                        _react2.default.createElement(
+                            _section.SectionRowTitle,
+                            null,
+                            "Contact Person"
+                        ),
+                        _react2.default.createElement(
+                            _section.SectionRowContentLarge,
+                            null,
+                            institution.contactPersonName
+                        )
+                    ),
+                    _react2.default.createElement(
+                        _section.SectionRow,
+                        null,
+                        _react2.default.createElement(
+                            _section.SectionRowTitle,
+                            null,
+                            "Contact Person Email"
+                        ),
+                        _react2.default.createElement(
+                            _section.SectionRowContentLarge,
+                            null,
+                            institution.contactPersonEmail
+                        )
+                    ),
+                    _react2.default.createElement(
+                        _section.SectionRow,
+                        null,
+                        _react2.default.createElement(
+                            _section.SectionRowTitle,
+                            null,
+                            "Contact Person Number"
+                        ),
+                        _react2.default.createElement(
+                            _section.SectionRowContentLarge,
+                            null,
+                            institution.contactPersonNumber
+                        )
+                    )
                 )
             );
         }
     }]);
 
-    return InstitutionDetailRow;
+    return ContactDetails;
 }(_react.Component);
 
 exports.default = InstitutionOverview;

@@ -13,6 +13,15 @@ import {
     EditInstitutionModal,
 } from "../modals";
 
+import {
+    Section,
+    SectionTitle,
+    SectionTable,
+    SectionRow,
+    SectionRowTitle,
+    SectionRowContentLarge,
+} from "../../../components/section";
+
 
 function fetchInstitution(id, onResponse) {
     graphql({
@@ -92,16 +101,16 @@ class InstitutionOverview extends Component {
 
         return (
             <div className="d-flex flex-column p-0 h-100">
-                <InstitutionOverviewHead institution={this.state.institution}
-                                         onDeleteInstitution={this.props.onDeleteActiveInstitution}
-                                         onEditInstitution={this.onEditInstitution}/>
-                <InstitutionOverviewBody institution={this.state.institution}/>
+                <OverviewHead institution={this.state.institution}
+                              onDeleteInstitution={this.props.onDeleteActiveInstitution}
+                              onEditInstitution={this.onEditInstitution}/>
+                <OverviewBody institution={this.state.institution}/>
             </div>
         );
     }
 }
 
-class InstitutionOverviewHead extends Component {
+class OverviewHead extends Component {
     constructor(props) {
         super(props);
 
@@ -158,7 +167,7 @@ class InstitutionOverviewHead extends Component {
     }
 }
 
-class InstitutionOverviewBody extends Component {
+class OverviewBody extends Component {
     constructor(props) {
         super(props);
     }
@@ -166,14 +175,14 @@ class InstitutionOverviewBody extends Component {
     render() {
         return (
             <div className="page-body">
-                <InstitutionDetailOverview institution={this.props.institution}/>
-                <InstitutionContact institution={this.props.institution}/>
+                <InstitutionDetails institution={this.props.institution}/>
+                <ContactDetails institution={this.props.institution}/>
             </div>
         );
     }
 }
 
-class InstitutionDetailOverview extends Component {
+class InstitutionDetails extends Component {
     constructor(props) {
         super(props);
     }
@@ -189,25 +198,35 @@ class InstitutionDetailOverview extends Component {
         }
 
         return (
-            <div className="section">
-                <small className="section-title">Institution details</small>
-                <ListGroup>
-                    <InstitutionDetailRow fieldName="Address" fieldValue={institution.address}/>
-                    <InstitutionDetailRow fieldName="Country" fieldValue={institution.country.name}/>
+            <Section>
+                <SectionTitle>Institution details</SectionTitle>
+                <SectionTable>
+                    <SectionRow>
+                        <SectionRowTitle>Address</SectionRowTitle>
+                        <SectionRowContentLarge>{institution.address}</SectionRowContentLarge>
+                    </SectionRow>
 
-                    <ListGroupItem>
-                        <small className="font-weight-bold">Website</small>
-                        <p className="lead m-0 text-primary" onClick={openWebsite}>{website}</p>
-                    </ListGroupItem>
+                    <SectionRow>
+                        <SectionRowTitle>Country</SectionRowTitle>
+                        <SectionRowContentLarge>{institution.country.name}</SectionRowContentLarge>
+                    </SectionRow>
 
-                    <InstitutionDetailRow fieldName="Agreement Type" fieldValue={agreementType}/>
-                </ListGroup>
-            </div>
+                    <SectionRow>
+                        <SectionRowTitle>Website</SectionRowTitle>
+                        <SectionRowContentLarge className="text-primary" onClick={openWebsite}>{website}</SectionRowContentLarge>
+                    </SectionRow>
+
+                    <SectionRow>
+                        <SectionRowTitle>Agreement Type</SectionRowTitle>
+                        <SectionRowContentLarge>{agreementType}</SectionRowContentLarge>
+                    </SectionRow>
+                </SectionTable>
+            </Section>
         );
     }
 }
 
-class InstitutionContact extends Component {
+class ContactDetails extends Component {
     constructor(props) {
         super(props);
     }
@@ -216,30 +235,23 @@ class InstitutionContact extends Component {
         const institution = this.props.institution;
 
         return (
-            <div className="section">
-                <small className="section-title">Contact details</small>
-                <ListGroup>
-                    <InstitutionDetailRow fieldName="Contact Person" fieldValue={institution.contactPersonName}/>
-                    <InstitutionDetailRow fieldName="Contact Person Email" fieldValue={institution.contactPersonEmail}/>
-                    <InstitutionDetailRow fieldName="Contact Phone Number"
-                                          fieldValue={institution.contactPersonNumber}/>
-                </ListGroup>
-            </div>
-        );
-    }
-}
-
-class InstitutionDetailRow extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        return (
-            <ListGroupItem onClick={this.props.onClick}>
-                <small className="font-weight-bold">{this.props.fieldName}</small>
-                <p className="lead m-0">{this.props.fieldValue}</p>
-            </ListGroupItem>
+            <Section>
+                <SectionTitle>Contact Details</SectionTitle>
+                <SectionTable>
+                    <SectionRow>
+                        <SectionRowTitle>Contact Person</SectionRowTitle>
+                        <SectionRowContentLarge>{institution.contactPersonName}</SectionRowContentLarge>
+                    </SectionRow>
+                    <SectionRow>
+                        <SectionRowTitle>Contact Person Email</SectionRowTitle>
+                        <SectionRowContentLarge>{institution.contactPersonEmail}</SectionRowContentLarge>
+                    </SectionRow>
+                    <SectionRow>
+                        <SectionRowTitle>Contact Person Number</SectionRowTitle>
+                        <SectionRowContentLarge>{institution.contactPersonNumber}</SectionRowContentLarge>
+                    </SectionRow>
+                </SectionTable>
+            </Section>
         );
     }
 }

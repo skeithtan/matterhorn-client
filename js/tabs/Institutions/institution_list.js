@@ -1,11 +1,19 @@
 import React, { Component } from "react";
 import LoadingSpinner from "../../loading";
+
 import {
     Input,
     Button,
-    ListGroup,
     ListGroupItem,
 } from "reactstrap";
+
+import {
+    Section,
+    SectionTitle,
+    SectionTable,
+    SectionRowContent,
+    SectionRowSelectable,
+} from "../../components/section";
 
 
 class InstitutionList extends Component {
@@ -165,19 +173,22 @@ class InstitutionSection extends Component {
                 isActive = this.props.activeInstitution.id === institution.id;
             }
 
-            return <InstitutionRow institution={institution}
-                                   setActiveInstitution={() => this.props.setActiveInstitution(institution)}
-                                   isActive={isActive}
-                                   key={institution.id}/>;
+            const setActiveInstitution = () => this.props.setActiveInstitution(institution);
+
+            return (
+                <SectionRowSelectable onClick={setActiveInstitution} isActive={isActive} key={institution.id}>
+                    <SectionRowContent>{institution.name}</SectionRowContent>
+                </SectionRowSelectable>
+            );
         });
 
         return (
-            <div className="section">
-                <small className="section-title">{this.props.title}</small>
-                <ListGroup>
+            <Section>
+                <SectionTitle>{this.props.title}</SectionTitle>
+                <SectionTable>
                     {rows}
-                </ListGroup>
-            </div>
+                </SectionTable>
+            </Section>
         );
     }
 }

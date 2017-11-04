@@ -1,10 +1,16 @@
 import React, { Component } from "react";
 import settings from "../../settings";
 import moment from "moment";
+
 import {
-    ListGroup,
-    ListGroupItem,
-} from "reactstrap";
+    Section,
+    SectionTitle,
+    SectionTable,
+    SectionRow,
+    SectionRowTitle,
+    SectionRowContentLarge,
+} from "../../components/section";
+
 
 
 class StudentDetailOverview extends Component {
@@ -19,17 +25,43 @@ class StudentDetailOverview extends Component {
         const birthDate = moment(student.birthDate).format("LL");
 
         return (
-            <div className="section">
-                <small className="section-title">Student details</small>
-                <ListGroup>
-                    <StudentDetailRow fieldName="Nickname" fieldValue={student.nickname}/>
-                    <StudentDetailRow fieldName="Sex" fieldValue={sex}/>
-                    <StudentDetailRow fieldName="Address" fieldValue={student.homeAddress}/>
-                    <StudentDetailRow fieldName="Birth Date" fieldValue={birthDate}/>
-                    <StudentDetailRow fieldName="Nationality" fieldValue={student.nationality}/>
-                    <StudentDetailRow fieldName="Civil Status" fieldValue={civilStatus}/>
-                </ListGroup>
-            </div>
+
+            <Section>
+                <SectionTitle>Student Details</SectionTitle>
+                <SectionTable>
+
+                    <SectionRow>
+                        <SectionRowTitle>Nickname</SectionRowTitle>
+                        <SectionRowContentLarge>{student.nickname}</SectionRowContentLarge>
+                    </SectionRow>
+
+                    <SectionRow>
+                        <SectionRowTitle>Sex</SectionRowTitle>
+                        <SectionRowContentLarge>{sex}</SectionRowContentLarge>
+                    </SectionRow>
+
+                    <SectionRow>
+                        <SectionRowTitle>Home Address</SectionRowTitle>
+                        <SectionRowContentLarge>{student.homeAddress}</SectionRowContentLarge>
+                    </SectionRow>
+
+                    <SectionRow>
+                        <SectionRowTitle>Date of Birth</SectionRowTitle>
+                        <SectionRowContentLarge>{birthDate}</SectionRowContentLarge>
+                    </SectionRow>
+
+                    <SectionRow>
+                        <SectionRowTitle>Nationality</SectionRowTitle>
+                        <SectionRowContentLarge>{student.nationality}</SectionRowContentLarge>
+                    </SectionRow>
+
+                    <SectionRow>
+                        <SectionRowTitle>Civil Status</SectionRowTitle>
+                        <SectionRowContentLarge>{civilStatus}</SectionRowContentLarge>
+                    </SectionRow>
+
+                </SectionTable>
+            </Section>
         );
     }
 }
@@ -43,16 +75,32 @@ class StudentContact extends Component {
         const student = this.props.student;
 
         return (
-            <div className="section">
-                <small className="section-title">Contact details</small>
-                <ListGroup>
-                    <StudentDetailRow fieldName="Phone Number" fieldValue={student.phoneNumber}/>
-                    <StudentDetailRow fieldName="E-mail" fieldValue={student.email}/>
-                    <StudentDetailRow fieldName="Emergency Contact"
-                                      fieldValue={`${student.emergencyContactName} (${student.emergencyContactRelationship})`}/>
-                    <StudentDetailRow fieldName="Emergency Contact Number" fieldValue={student.emergencyContactNumber}/>
-                </ListGroup>
-            </div>
+            <Section>
+                <SectionTitle>Contact Details</SectionTitle>
+                <SectionTable>
+
+                    <SectionRow>
+                        <SectionRowTitle>Phone Number</SectionRowTitle>
+                        <SectionRowContentLarge>{student.phoneNumber}</SectionRowContentLarge>
+                    </SectionRow>
+
+                    <SectionRow>
+                        <SectionRowTitle>Email</SectionRowTitle>
+                        <SectionRowContentLarge>{student.email}</SectionRowContentLarge>
+                    </SectionRow>
+
+                    <SectionRow>
+                        <SectionRowTitle>Emergency Contact</SectionRowTitle>
+                        <SectionRowContentLarge>{`${student.emergencyContactName} (${student.emergencyContactRelationship})`}</SectionRowContentLarge>
+                    </SectionRow>
+
+                    <SectionRow>
+                        <SectionRowTitle>Emergency Contact Number</SectionRowTitle>
+                        <SectionRowContentLarge>{student.emergencyContactNumber}</SectionRowContentLarge>
+                    </SectionRow>
+
+                </SectionTable>
+            </Section>
         );
     }
 }
@@ -69,28 +117,22 @@ class StudentUniversity extends Component {
         const type = student.category === "OUT" ? "Outbound" : "Inbound";
 
         return (
-            <div className="section">
-                <small className="section-title">University Details</small>
-                <ListGroup>
-                    <StudentDetailRow fieldName="College" fieldValue={college}/>
-                    <StudentDetailRow fieldName="Student Type" fieldValue={type}/>
-                </ListGroup>
-            </div>
-        );
-    }
-}
+            <Section>
+                <SectionTitle>University Details</SectionTitle>
+                <SectionTable>
 
-class StudentDetailRow extends Component {
-    constructor(props) {
-        super(props);
-    }
+                    <SectionRow>
+                        <SectionRowTitle>College</SectionRowTitle>
+                        <SectionRowContentLarge>{college}</SectionRowContentLarge>
+                    </SectionRow>
 
-    render() {
-        return (
-            <ListGroupItem>
-                <small className="font-weight-bold">{this.props.fieldName}</small>
-                <p className="lead m-0">{this.props.fieldValue}</p>
-            </ListGroupItem>
+                    <SectionRow>
+                        <SectionRowTitle>Student Type</SectionRowTitle>
+                        <SectionRowContentLarge>{type}</SectionRowContentLarge>
+                    </SectionRow>
+
+                </SectionTable>
+            </Section>
         );
     }
 }

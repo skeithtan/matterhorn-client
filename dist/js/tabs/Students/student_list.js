@@ -16,6 +16,8 @@ var _loading2 = _interopRequireDefault(_loading);
 
 var _reactstrap = require("reactstrap");
 
+var _section = require("../../components/section");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -301,24 +303,40 @@ var StudentSection = function (_Component4) {
                     isActive = _this7.props.activeStudent.idNumber === student.idNumber;
                 }
 
-                return _react2.default.createElement(StudentRow, { key: student.idNumber,
-                    student: student,
-                    setActiveStudent: function setActiveStudent() {
-                        return _this7.props.setActiveStudent(student);
-                    },
-                    isActive: isActive });
+                var setActiveStudent = function setActiveStudent() {
+                    return _this7.props.setActiveStudent(student);
+                };
+
+                return _react2.default.createElement(
+                    _section.SectionRowSelectable,
+                    { onClick: setActiveStudent, isActive: isActive, key: student.idNumber },
+                    _react2.default.createElement(
+                        "small",
+                        { className: "d-block" },
+                        student.idNumber
+                    ),
+                    _react2.default.createElement(
+                        "b",
+                        null,
+                        student.familyName
+                    ),
+                    ", ",
+                    student.firstName,
+                    " ",
+                    student.middleName
+                );
             });
 
             return _react2.default.createElement(
-                "div",
-                { className: "section" },
+                _section.Section,
+                null,
                 _react2.default.createElement(
-                    "small",
-                    { className: "section-title" },
+                    _section.SectionTitle,
+                    null,
                     this.props.title
                 ),
                 _react2.default.createElement(
-                    _reactstrap.ListGroup,
+                    _section.SectionTable,
                     null,
                     rows
                 )
@@ -327,68 +345,6 @@ var StudentSection = function (_Component4) {
     }]);
 
     return StudentSection;
-}(_react.Component);
-
-var StudentRow = function (_Component5) {
-    _inherits(StudentRow, _Component5);
-
-    function StudentRow(props) {
-        _classCallCheck(this, StudentRow);
-
-        return _possibleConstructorReturn(this, (StudentRow.__proto__ || Object.getPrototypeOf(StudentRow)).call(this, props));
-    }
-
-    _createClass(StudentRow, [{
-        key: "render",
-        value: function render() {
-            var first = this.props.student.firstName;
-            var middle = this.props.student.middleName;
-            var familyName = this.props.student.familyName;
-            var idNumber = this.props.student.idNumber;
-
-            if (this.props.isActive) {
-                return _react2.default.createElement(
-                    _reactstrap.ListGroupItem,
-                    { className: "bg-dlsu text-white" },
-                    _react2.default.createElement(
-                        "small",
-                        { className: "d-block" },
-                        idNumber
-                    ),
-                    _react2.default.createElement(
-                        "b",
-                        null,
-                        familyName
-                    ),
-                    ", ",
-                    first,
-                    " ",
-                    middle
-                );
-            } else {
-                return _react2.default.createElement(
-                    _reactstrap.ListGroupItem,
-                    { onClick: this.props.setActiveStudent },
-                    _react2.default.createElement(
-                        "small",
-                        { className: "d-block" },
-                        idNumber
-                    ),
-                    _react2.default.createElement(
-                        "b",
-                        null,
-                        familyName
-                    ),
-                    ", ",
-                    first,
-                    " ",
-                    middle
-                );
-            }
-        }
-    }]);
-
-    return StudentRow;
 }(_react.Component);
 
 exports.default = StudentList;
