@@ -108,7 +108,7 @@ var Students = function (_Component) {
                 _react2.default.createElement(_student_detail2.default, { student: this.state.activeStudent,
                     onDeleteActiveStudent: this.onDeleteActiveStudent,
                     refreshStudents: this.refreshStudents }),
-                _react2.default.createElement(_modals.AddStudentModal, { isOpen: this.state.addStudentIsShowing,
+                _react2.default.createElement(_modals.StudentFormModal, { isOpen: this.state.addStudentIsShowing,
                     toggle: this.toggleAddStudent,
                     refresh: this.refreshStudents })
             );

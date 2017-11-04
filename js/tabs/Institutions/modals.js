@@ -48,7 +48,8 @@ class InstitutionFormModal extends Component {
         this.submitEditInstitutionForm = this.submitEditInstitutionForm.bind(this);
 
         if (this.props.edit) {
-            this.state.form = props.institution;
+            // Copy the object, do not equate, otherwise the object changes along with the form.
+            Object.assign(this.state.form, props.institution);
         }
     }
 
@@ -94,8 +95,8 @@ class InstitutionFormModal extends Component {
 
     submitAddInstitutionForm() {
         const dismissToast = makeInfoToast({
-            title: "Adding",
-            message: "Adding new institution...",
+            title : "Adding",
+            message : "Adding new institution...",
         });
         $.post({
             url : `${settings.serverURL}/institutions/`,
@@ -105,16 +106,16 @@ class InstitutionFormModal extends Component {
                 dismissToast();
                 this.props.refresh();
                 iziToast.success({
-                    title: "Success",
-                    message: "Successfully added institution",
+                    title : "Success",
+                    message : "Successfully added institution",
                 });
             },
-            error: response => {
+            error : response => {
                 dismissToast();
                 console.log(response);
                 iziToast.error({
-                    title: "Error",
-                    message: "Unable to add institution",
+                    title : "Error",
+                    message : "Unable to add institution",
                 });
             },
         });
@@ -176,9 +177,16 @@ class InstitutionFormModal extends Component {
             <option key={index}>{name}</option>,
         );
 
+        function isValid(fieldName) {
+            return fieldErrors[fieldName].length === 0;
+        }
+
+        function fieldError(fieldName) {
+            return fieldErrors[fieldName][0];
+        }
+
         return (
-            <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} backdrop={true}
-                   onOpened={InstitutionFormModal.addValidation}>
+            <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} backdrop={true}>
                 <ModalHeader toggle={this.props.toggle}>
                     {this.props.edit ? `Edit ${this.state.form.name}` : "Add an Institution"}
                 </ModalHeader>
@@ -190,14 +198,15 @@ class InstitutionFormModal extends Component {
                             <Label>Name</Label>
                             <Input placeholder="Institution Name"
                                    onChange={this.getChangeHandler("name")}
-                                   valid={fieldErrors["Name"].length === 0}
+                                   valid={isValid("Name")}
                                    defaultValue={this.state.form.name}/>
-                            <FormFeedback>{fieldErrors["Name"][0]}</FormFeedback>
+                            <FormFeedback>{fieldError("Name")}</FormFeedback>
                         </FormGroup>
 
                         <FormGroup>
                             <Label>Country</Label>
-                            <Input type="select" onChange={this.getChangeHandler("country")}
+                            <Input type="select"
+                                   onChange={this.getChangeHandler("country")}
                                    defaultValue={this.state.form.country}>
                                 {countries}
                             </Input>
@@ -207,9 +216,9 @@ class InstitutionFormModal extends Component {
                             <Label>Address</Label>
                             <Input type="textarea" placeholder="Address"
                                    onChange={this.getChangeHandler("address")}
-                                   valid={fieldErrors["Address"].length === 0}
+                                   valid={isValid("Address")}
                                    defaultValue={this.state.form.address}/>
-                            <FormFeedback>{fieldErrors["Address"][0]}</FormFeedback>
+                            <FormFeedback>{fieldError("Address")}</FormFeedback>
                         </FormGroup>
 
                         <FormGroup>
@@ -218,12 +227,12 @@ class InstitutionFormModal extends Component {
                                 <InputGroupAddon>http://</InputGroupAddon>
                                 <Input placeholder="Website"
                                        onChange={this.getChangeHandler("website")}
-                                       valid={fieldErrors["Website"].length === 0}
+                                       valid={isValid("Website")}
                                        defaultValue={this.state.form.website}/>
                             </InputGroup>
                             <Input type="hidden" value={this.state.form.website}
-                                   valid={fieldErrors["Website"].length === 0}/>
-                            <FormFeedback><p>{fieldErrors["Website"][0]}</p></FormFeedback>
+                                   valid={isValid("Website")}/>
+                            <FormFeedback><p>{fieldError("Website")}</p></FormFeedback>
                         </FormGroup>
 
                         <FormGroup>
@@ -243,27 +252,27 @@ class InstitutionFormModal extends Component {
                             <Label>Contact Person</Label>
                             <Input placeholder="Name"
                                    onChange={this.getChangeHandler("contact_person_name")}
-                                   valid={fieldErrors["Contact person name"].length === 0}
+                                   valid={isValid("Contact person name")}
                                    defaultValue={this.state.form.contact_person_name}/>
-                            <FormFeedback>{fieldErrors["Contact person name"][0]}</FormFeedback>
+                            <FormFeedback>{fieldError("Contact person name")}</FormFeedback>
                         </FormGroup>
 
                         <FormGroup>
                             <Label>Contact Email</Label>
                             <Input type="email" placeholder="Email"
                                    onChange={this.getChangeHandler("contact_person_email")}
-                                   valid={fieldErrors["Contact person email"].length === 0}
+                                   valid={isValid("Contact person email")}
                                    defaultValue={this.state.form.contact_person_email}/>
-                            <FormFeedback>{fieldErrors["Contact person email"][0]}</FormFeedback>
+                            <FormFeedback>{fieldError("Contact person email")}</FormFeedback>
                         </FormGroup>
 
                         <FormGroup>
                             <Label>Contact Number</Label>
                             <Input placeholder="Number"
                                    onChange={this.getChangeHandler("contact_person_number")}
-                                   valid={fieldErrors["Contact person number"].length === 0}
+                                   valid={isValid("Contact person number")}
                                    defaultValue={this.state.form.contact_person_number}/>
-                            <FormFeedback>{fieldErrors["Contact person number"][0]}</FormFeedback>
+                            <FormFeedback>{fieldError("Contact person number")}</FormFeedback>
                         </FormGroup>
 
                     </Form>
@@ -288,30 +297,30 @@ class DeleteInstitutionModal extends Component {
 
     confirmDelete() {
         const dismissToast = makeInfoToast({
-            title: "Deleting",
-            message: "Deleting institution...",
+            title : "Deleting",
+            message : "Deleting institution...",
         });
 
         $.ajax({
-            url: `${settings.serverURL}/institutions/${this.props.institution.id}/`,
-            method: "DELETE",
-            beforeSend: authorizeXHR,
-            success: () => {
+            url : `${settings.serverURL}/institutions/${this.props.institution.id}/`,
+            method : "DELETE",
+            beforeSend : authorizeXHR,
+            success : () => {
                 dismissToast();
                 this.props.refresh();
                 iziToast.success({
-                    title: "Success",
-                    message: "Institution deleted",
-                    progressBar: false,
+                    title : "Success",
+                    message : "Institution deleted",
+                    progressBar : false,
                 });
             },
-            error: response => {
+            error : response => {
                 dismissToast();
                 console.log(response);
                 iziToast.error({
-                    title: "Error",
-                    message: "Unable to delete institution",
-                    progressBar: false,
+                    title : "Error",
+                    message : "Unable to delete institution",
+                    progressBar : false,
                 });
             },
         });
@@ -341,37 +350,37 @@ class AddMemorandumModal extends Component {
 
     submitForm() {
         const dismissToast = makeInfoToast({
-            title: "Adding",
-            message: "Adding new memorandum...",
+            title : "Adding",
+            message : "Adding new memorandum...",
         });
 
         console.log(this.props.institution.id);
 
         $.post({
-            url: `${settings.serverURL}/institutions/${this.props.institution.id}/memorandums/`,
-            data: {
-                institution: this.props.institution.id,
-                category: $("#add-memorandum-category").val(),
-                memorandum_file: $("#add-memorandum-file").val(),
-                date_effective: $("#add-memorandum-date-effective").val(),
-                date_expiration: $("#add-memorandum-expiration-date").val(),
-                college_initiator: $("#add-memorandum-college-initiator").val(),
+            url : `${settings.serverURL}/institutions/${this.props.institution.id}/memorandums/`,
+            data : {
+                institution : this.props.institution.id,
+                category : $("#add-memorandum-category").val(),
+                memorandum_file : $("#add-memorandum-file").val(),
+                date_effective : $("#add-memorandum-date-effective").val(),
+                date_expiration : $("#add-memorandum-expiration-date").val(),
+                college_initiator : $("#add-memorandum-college-initiator").val(),
             },
-            beforeSend: authorizeXHR,
-            success: () => {
+            beforeSend : authorizeXHR,
+            success : () => {
                 dismissToast();
                 this.props.refresh();
                 iziToast.success({
-                    title: "Success",
-                    message: "Successfully added memorandum",
+                    title : "Success",
+                    message : "Successfully added memorandum",
                 });
             },
-            error: response => {
+            error : response => {
                 dismissToast();
                 console.log(response);
                 iziToast.error({
-                    title: "Error",
-                    message: "Unable to add memorandum",
+                    title : "Error",
+                    message : "Unable to add memorandum",
                 });
             },
         });
@@ -381,8 +390,8 @@ class AddMemorandumModal extends Component {
 
     static addValidation() {
         addValidation({
-            inputs: $("#add-memorandum-modal").find(".text-input"),
-            button: $("#add-memorandum-modal-submit"),
+            inputs : $("#add-memorandum-modal").find(".text-input"),
+            button : $("#add-memorandum-modal-submit"),
         });
     }
 
@@ -444,30 +453,30 @@ class DeleteMemorandumModal extends Component {
 
     confirmDelete() {
         const dismissToast = makeInfoToast({
-            title: "Deleting",
-            message: "Deleting memorandum...",
+            title : "Deleting",
+            message : "Deleting memorandum...",
         });
 
         $.ajax({
-            url: `${settings.serverURL}/institutions/${this.props.institution.id}/memorandums/${this.props.memorandum.id}`,
-            method: "DELETE",
-            beforeSend: authorizeXHR,
-            success: () => {
+            url : `${settings.serverURL}/institutions/${this.props.institution.id}/memorandums/${this.props.memorandum.id}`,
+            method : "DELETE",
+            beforeSend : authorizeXHR,
+            success : () => {
                 dismissToast();
                 this.props.refresh();
                 iziToast.success({
-                    title: "Success",
-                    message: "Memorandum deleted",
-                    progressBar: false,
+                    title : "Success",
+                    message : "Memorandum deleted",
+                    progressBar : false,
                 });
             },
-            error: response => {
+            error : response => {
                 dismissToast();
                 console.log(response);
                 iziToast.error({
-                    title: "Error",
-                    message: "Unable to delete memorandum",
-                    progressBar: false,
+                    title : "Error",
+                    message : "Unable to delete memorandum",
+                    progressBar : false,
                 });
             },
         });
@@ -497,36 +506,36 @@ class EditMemorandumModal extends Component {
 
     submitForm() {
         const dismissToast = makeInfoToast({
-            title: "Editing",
-            message: "Editing memorandum...",
+            title : "Editing",
+            message : "Editing memorandum...",
         });
 
         $.ajax({
-            method: "PUT",
-            url: `${settings.serverURL}/institutions/${this.props.institution.id}/memorandums/${this.props.memorandum.id}/`,
-            data: {
-                institution: this.props.institution.id,
-                category: $("#edit-memorandum-category").val(),
-                memorandum_file: $("#edit-memorandum-file").val(),
-                date_effective: $("#edit-memorandum-date-effective").val(),
-                date_expiration: $("#edit-memorandum-expiration-date").val(),
-                college_initiator: $("#edit-memorandum-college-initiator").val(),
+            method : "PUT",
+            url : `${settings.serverURL}/institutions/${this.props.institution.id}/memorandums/${this.props.memorandum.id}/`,
+            data : {
+                institution : this.props.institution.id,
+                category : $("#edit-memorandum-category").val(),
+                memorandum_file : $("#edit-memorandum-file").val(),
+                date_effective : $("#edit-memorandum-date-effective").val(),
+                date_expiration : $("#edit-memorandum-expiration-date").val(),
+                college_initiator : $("#edit-memorandum-college-initiator").val(),
             },
-            beforeSend: authorizeXHR,
-            success: () => {
+            beforeSend : authorizeXHR,
+            success : () => {
                 dismissToast();
                 this.props.refresh();
                 iziToast.success({
-                    title: "Success",
-                    message: "Successfully modified memorandum",
+                    title : "Success",
+                    message : "Successfully modified memorandum",
                 });
             },
-            error: response => {
+            error : response => {
                 dismissToast();
                 console.log(response);
                 iziToast.error({
-                    title: "Error",
-                    message: "Unable to edit memorandum",
+                    title : "Error",
+                    message : "Unable to edit memorandum",
                 });
             },
         });
@@ -536,8 +545,8 @@ class EditMemorandumModal extends Component {
 
     static addValidation() {
         addValidation({
-            inputs: $("#edit-memorandum-modal").find(".text-input"),
-            button: $("#edit-memorandum-modal-submit"),
+            inputs : $("#edit-memorandum-modal").find(".text-input"),
+            button : $("#edit-memorandum-modal-submit"),
         });
     }
 

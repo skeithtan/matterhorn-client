@@ -19,6 +19,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 //         name : "Name",
 //         characterLimit : 64,
 //         value : 'Actual field value',
+//         optional : false,
 //         customValidators: [{
 //             isValid: (fieldValue) => !isNaN(parseInt(name)),
 //             errorMessage: name => `${name} must be a valid integer`
@@ -35,9 +36,15 @@ function validateForm(formFields) {
 
     formFields.forEach(function (field) {
         var charFieldValidator = new CharLimitFieldValidator(field.characterLimit);
-        var fieldIsNotEmptyValidator = new FieldIsNotEmptyValidator();
 
-        var validators = [fieldIsNotEmptyValidator, charFieldValidator];
+        var validators = [charFieldValidator];
+
+        if (field.optional === undefined || !field.optional) {
+            var fieldIsNotEmptyValidator = new FieldIsNotEmptyValidator();
+            // Insert at beginning of array
+            validators.unshift(fieldIsNotEmptyValidator);
+        }
+
         if (field.customValidators !== undefined) {
             validators = validators.concat(field.customValidators);
         }

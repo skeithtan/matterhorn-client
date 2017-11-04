@@ -11,6 +11,7 @@ import {
 import {
     DeleteStudentModal,
     EditStudentModal,
+    StudentFormModal,
 
 } from "./modals";
 import LoadingSpinner from "../../loading";
@@ -155,7 +156,7 @@ class StudentDetailHead extends Component {
             <div className="page-head pt-5 d-flex flex-row align-items-center">
                 <div className="mr-auto">
                     <h4 className="page-head-title justify-content-left d-inline-block mb-0 mr-2">
-                        {this.props.student.firstName} {this.props.student.middle_name} {this.props.student.family_name}
+                        {this.props.student.first_name} {this.props.student.middle_name} {this.props.student.family_name}
                         <small className="text-muted ml-2">{this.props.student.id_number}</small>
                     </h4>
                 </div>
@@ -175,7 +176,8 @@ class StudentDetailHead extends Component {
                                     toggle={this.toggleDeleteStudent}
                                     refresh={this.props.onDeleteStudent}/>
 
-                <EditStudentModal isOpen={this.state.editStudentIsShowing}
+                <StudentFormModal edit
+                                  isOpen={this.state.editStudentIsShowing}
                                   student={this.props.student}
                                   refresh={this.props.onEditStudent}
                                   toggle={this.toggleEditStudent}/>

@@ -77,7 +77,8 @@ var InstitutionFormModal = function (_Component) {
         _this.submitEditInstitutionForm = _this.submitEditInstitutionForm.bind(_this);
 
         if (_this.props.edit) {
-            _this.state.form = props.institution;
+            // Copy the object, do not equate, otherwise the object changes along with the form.
+            Object.assign(_this.state.form, props.institution);
         }
         return _this;
     }
@@ -220,10 +221,17 @@ var InstitutionFormModal = function (_Component) {
                 );
             });
 
+            function isValid(fieldName) {
+                return fieldErrors[fieldName].length === 0;
+            }
+
+            function fieldError(fieldName) {
+                return fieldErrors[fieldName][0];
+            }
+
             return _react2.default.createElement(
                 _reactstrap.Modal,
-                { isOpen: this.props.isOpen, toggle: this.props.toggle, backdrop: true,
-                    onOpened: InstitutionFormModal.addValidation },
+                { isOpen: this.props.isOpen, toggle: this.props.toggle, backdrop: true },
                 _react2.default.createElement(
                     _reactstrap.ModalHeader,
                     { toggle: this.props.toggle },
@@ -250,12 +258,12 @@ var InstitutionFormModal = function (_Component) {
                             ),
                             _react2.default.createElement(_reactstrap.Input, { placeholder: "Institution Name",
                                 onChange: this.getChangeHandler("name"),
-                                valid: fieldErrors["Name"].length === 0,
+                                valid: isValid("Name"),
                                 defaultValue: this.state.form.name }),
                             _react2.default.createElement(
                                 _reactstrap.FormFeedback,
                                 null,
-                                fieldErrors["Name"][0]
+                                fieldError("Name")
                             )
                         ),
                         _react2.default.createElement(
@@ -268,7 +276,8 @@ var InstitutionFormModal = function (_Component) {
                             ),
                             _react2.default.createElement(
                                 _reactstrap.Input,
-                                { type: "select", onChange: this.getChangeHandler("country"),
+                                { type: "select",
+                                    onChange: this.getChangeHandler("country"),
                                     defaultValue: this.state.form.country },
                                 countries
                             )
@@ -283,12 +292,12 @@ var InstitutionFormModal = function (_Component) {
                             ),
                             _react2.default.createElement(_reactstrap.Input, { type: "textarea", placeholder: "Address",
                                 onChange: this.getChangeHandler("address"),
-                                valid: fieldErrors["Address"].length === 0,
+                                valid: isValid("Address"),
                                 defaultValue: this.state.form.address }),
                             _react2.default.createElement(
                                 _reactstrap.FormFeedback,
                                 null,
-                                fieldErrors["Address"][0]
+                                fieldError("Address")
                             )
                         ),
                         _react2.default.createElement(
@@ -309,18 +318,18 @@ var InstitutionFormModal = function (_Component) {
                                 ),
                                 _react2.default.createElement(_reactstrap.Input, { placeholder: "Website",
                                     onChange: this.getChangeHandler("website"),
-                                    valid: fieldErrors["Website"].length === 0,
+                                    valid: isValid("Website"),
                                     defaultValue: this.state.form.website })
                             ),
                             _react2.default.createElement(_reactstrap.Input, { type: "hidden", value: this.state.form.website,
-                                valid: fieldErrors["Website"].length === 0 }),
+                                valid: isValid("Website") }),
                             _react2.default.createElement(
                                 _reactstrap.FormFeedback,
                                 null,
                                 _react2.default.createElement(
                                     "p",
                                     null,
-                                    fieldErrors["Website"][0]
+                                    fieldError("Website")
                                 )
                             )
                         ),
@@ -364,12 +373,12 @@ var InstitutionFormModal = function (_Component) {
                             ),
                             _react2.default.createElement(_reactstrap.Input, { placeholder: "Name",
                                 onChange: this.getChangeHandler("contact_person_name"),
-                                valid: fieldErrors["Contact person name"].length === 0,
+                                valid: isValid("Contact person name"),
                                 defaultValue: this.state.form.contact_person_name }),
                             _react2.default.createElement(
                                 _reactstrap.FormFeedback,
                                 null,
-                                fieldErrors["Contact person name"][0]
+                                fieldError("Contact person name")
                             )
                         ),
                         _react2.default.createElement(
@@ -382,12 +391,12 @@ var InstitutionFormModal = function (_Component) {
                             ),
                             _react2.default.createElement(_reactstrap.Input, { type: "email", placeholder: "Email",
                                 onChange: this.getChangeHandler("contact_person_email"),
-                                valid: fieldErrors["Contact person email"].length === 0,
+                                valid: isValid("Contact person email"),
                                 defaultValue: this.state.form.contact_person_email }),
                             _react2.default.createElement(
                                 _reactstrap.FormFeedback,
                                 null,
-                                fieldErrors["Contact person email"][0]
+                                fieldError("Contact person email")
                             )
                         ),
                         _react2.default.createElement(
@@ -400,12 +409,12 @@ var InstitutionFormModal = function (_Component) {
                             ),
                             _react2.default.createElement(_reactstrap.Input, { placeholder: "Number",
                                 onChange: this.getChangeHandler("contact_person_number"),
-                                valid: fieldErrors["Contact person number"].length === 0,
+                                valid: isValid("Contact person number"),
                                 defaultValue: this.state.form.contact_person_number }),
                             _react2.default.createElement(
                                 _reactstrap.FormFeedback,
                                 null,
-                                fieldErrors["Contact person number"][0]
+                                fieldError("Contact person number")
                             )
                         )
                     )

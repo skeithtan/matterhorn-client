@@ -182,7 +182,7 @@ var StudentDetailHead = function (_Component2) {
                     _react2.default.createElement(
                         "h4",
                         { className: "page-head-title justify-content-left d-inline-block mb-0 mr-2" },
-                        this.props.student.firstName,
+                        this.props.student.first_name,
                         " ",
                         this.props.student.middle_name,
                         " ",
@@ -214,7 +214,8 @@ var StudentDetailHead = function (_Component2) {
                     student: this.props.student,
                     toggle: this.toggleDeleteStudent,
                     refresh: this.props.onDeleteStudent }),
-                _react2.default.createElement(_modals.EditStudentModal, { isOpen: this.state.editStudentIsShowing,
+                _react2.default.createElement(_modals.StudentFormModal, { edit: true,
+                    isOpen: this.state.editStudentIsShowing,
                     student: this.props.student,
                     refresh: this.props.onEditStudent,
                     toggle: this.toggleEditStudent })

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.EditStudentModal = exports.DeleteStudentModal = exports.AddStudentModal = undefined;
+exports.DeleteStudentModal = exports.StudentFormModal = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -18,6 +18,10 @@ var _authorization2 = _interopRequireDefault(_authorization);
 var _dismissable_toast_maker = require("../../dismissable_toast_maker");
 
 var _dismissable_toast_maker2 = _interopRequireDefault(_dismissable_toast_maker);
+
+var _form_validator = require("../../form_validator");
+
+var _form_validator2 = _interopRequireDefault(_form_validator);
 
 var _settings = require("../../settings");
 
@@ -47,27 +51,138 @@ var StudentFormModal = function (_Component) {
     function StudentFormModal(props) {
         _classCallCheck(this, StudentFormModal);
 
-        return _possibleConstructorReturn(this, (StudentFormModal.__proto__ || Object.getPrototypeOf(StudentFormModal)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (StudentFormModal.__proto__ || Object.getPrototypeOf(StudentFormModal)).call(this, props));
+
+        _this.state = {
+            form: {
+                id_number: "",
+                first_name: "",
+                middle_name: "",
+                family_name: "",
+                nickname: "",
+                birth_date: "",
+                sex: "F",
+                home_address: "",
+                nationality: "",
+                civil_status: "S",
+                phone_number: "",
+                email: "",
+                emergency_contact_name: "",
+                emergency_contact_relationship: "",
+                emergency_contact_number: "",
+                college: "CCS",
+                student_type: "IN"
+            }
+        };
+
+        _this.getFormErrors = _this.getFormErrors.bind(_this);
+        _this.getChangeHandler = _this.getChangeHandler.bind(_this);
+        _this.submitAddStudentForm = _this.submitAddStudentForm.bind(_this);
+        _this.submitEditStudentForm = _this.submitEditStudentForm.bind(_this);
+
+        if (_this.props.edit) {
+            // Copy the object, do not equate, otherwise the object changes along with the form.
+            Object.assign(_this.state.form, props.student);
+        }
+        return _this;
     }
 
-    return StudentFormModal;
-}(_react.Component);
+    _createClass(StudentFormModal, [{
+        key: "getFormErrors",
+        value: function getFormErrors() {
+            return (0, _form_validator2.default)([{
+                name: "ID Number",
+                characterLimit: 8,
+                value: this.state.form.id_number,
+                customValidators: [{
+                    isValid: function isValid(fieldValue) {
+                        return fieldValue.length === 8;
+                    },
+                    errorMessage: function errorMessage(fieldName) {
+                        return fieldName + " must be exactly 8 characters.";
+                    }
+                }]
+            }, {
+                name: "First name",
+                characterLimit: 64,
+                value: this.state.form.first_name
+            }, {
+                name: "Middle name",
+                characterLimit: 64,
+                optional: true,
+                value: this.state.form.middle_name
+            }, {
+                name: "Family name",
+                characterLimit: 64,
+                value: this.state.form.family_name
+            }, {
+                name: "Nickname",
+                characterLimit: 64,
+                value: this.state.form.nickname
+            }, {
+                name: "Birth date",
+                characterLimit: null,
+                value: this.state.form.birth_date
+            }, {
+                name: "Home address",
+                characterLimit: 256,
+                value: this.state.form.home_address
+            }, {
+                name: "Nationality",
+                characterLimit: 64,
+                optional: true,
+                value: this.state.form.nationality
+            }, {
+                name: "Phone number",
+                characterLimit: 64,
+                value: this.state.form.phone_number
+            }, {
+                name: "Email",
+                characterLimit: 256,
+                value: this.state.form.email,
+                customValidators: [{
+                    // isValid checks if the form value is a valid email through this messy regex.
+                    isValid: function isValid(fieldValue) {
+                        return (/^([\w\!\#$\%\&\'\*\+\-\/\=\?\^\`{\|\}\~]+\.)*[\w\!\#$\%\&\'\*\+\-\/\=\?\^\`{\|\}\~]+@((((([a-z0-9]{1}[a-z0-9\-]{0,62}[a-z0-9]{1})|[a-z])\.)+[a-z]{2,6})|(\d{1,3}\.){3}\d{1,3}(\:\d{1,5})?)$/i.test(fieldValue)
+                        );
+                    },
+                    errorMessage: function errorMessage(fieldName) {
+                        return fieldName + " must be a valid email.";
+                    }
+                }]
+            }, {
+                name: "Emergency contact name",
+                characterLimit: 64,
+                value: this.state.form.emergency_contact_name
+            }, {
+                name: "Emergency contact relationship",
+                characterLimit: 32,
+                value: this.state.form.emergency_contact_relationship
+            }, {
+                name: "Emergency contact number",
+                characterLimit: 64,
+                value: this.state.form.emergency_contact_number
+            }]);
+        }
+    }, {
+        key: "getChangeHandler",
+        value: function getChangeHandler(fieldName) {
+            var _this2 = this;
 
-var AddStudentModal = function (_Component2) {
-    _inherits(AddStudentModal, _Component2);
+            var form = this.state.form;
 
-    function AddStudentModal(props) {
-        _classCallCheck(this, AddStudentModal);
+            return function (event) {
+                var value = event.target.value;
 
-        var _this2 = _possibleConstructorReturn(this, (AddStudentModal.__proto__ || Object.getPrototypeOf(AddStudentModal)).call(this, props));
-
-        _this2.submitForm = _this2.submitForm.bind(_this2);
-        return _this2;
-    }
-
-    _createClass(AddStudentModal, [{
-        key: "submitForm",
-        value: function submitForm() {
+                form[fieldName] = value;
+                _this2.setState({
+                    form: form
+                });
+            };
+        }
+    }, {
+        key: "submitAddStudentForm",
+        value: function submitAddStudentForm() {
             var _this3 = this;
 
             var dismissToast = (0, _dismissable_toast_maker2.default)({
@@ -77,25 +192,7 @@ var AddStudentModal = function (_Component2) {
 
             _jquery2.default.post({
                 url: _settings2.default.serverURL + "/students/",
-                data: {
-                    category: (0, _jquery2.default)("#add-student-category").val(),
-                    id_number: (0, _jquery2.default)("#add-student-id-number").val(),
-                    college: (0, _jquery2.default)("#add-student-college").val(),
-                    family_name: (0, _jquery2.default)("#add-student-last-name").val(),
-                    first_name: (0, _jquery2.default)("#add-student-first-name").val(),
-                    middle_name: (0, _jquery2.default)("#add-student-middle-name").val(),
-                    nickname: (0, _jquery2.default)("#add-student-nickname").val(),
-                    nationality: (0, _jquery2.default)("#add-student-nationality").val(),
-                    home_address: (0, _jquery2.default)("#add-student-address").val(),
-                    phone_number: (0, _jquery2.default)("#add-student-contact-number").val(),
-                    birth_date: (0, _jquery2.default)("#add-student-birth-date").val(),
-                    sex: (0, _jquery2.default)("#add-student-sex").val(),
-                    emergency_contact_name: (0, _jquery2.default)("#add-student-emergency-contact-name").val(),
-                    emergency_contact_relationship: (0, _jquery2.default)("#add-student-emergency-contact-relationship").val(),
-                    emergency_contact_number: (0, _jquery2.default)("#add-student-emergency-contact-number").val(),
-                    email: (0, _jquery2.default)("#add-student-email").val(),
-                    civil_status: (0, _jquery2.default)("#add-student-civil-status").val()
-                },
+                data: this.state.form,
                 beforeSend: _authorization2.default,
                 success: function success() {
                     dismissToast();
@@ -118,16 +215,62 @@ var AddStudentModal = function (_Component2) {
             this.props.toggle();
         }
     }, {
+        key: "submitEditStudentForm",
+        value: function submitEditStudentForm() {
+            var _this4 = this;
+
+            var dismissToast = (0, _dismissable_toast_maker2.default)({
+                title: "Editing",
+                message: "Editing student..."
+            });
+
+            _jquery2.default.ajax({
+                method: "PUT",
+                url: _settings2.default.serverURL + "/students/" + this.state.form.id + "/",
+                data: this.state.form,
+                beforeSend: _authorization2.default,
+                success: function success() {
+                    dismissToast();
+                    _this4.props.refresh();
+                    _izitoast2.default.success({
+                        title: "Success",
+                        message: "Successfully modified student"
+                    });
+                },
+                error: function error(response) {
+                    dismissToast();
+                    console.log(response);
+                    _izitoast2.default.error({
+                        title: "Error",
+                        message: "Unable to edit student"
+                    });
+                }
+            });
+
+            this.props.toggle();
+        }
+    }, {
         key: "render",
         value: function render() {
+            var formErrors = this.getFormErrors();
+            var formHasErrors = formErrors.formHasErrors;
+            var fieldErrors = formErrors.fieldErrors;
+
+            function isValid(fieldName) {
+                return fieldErrors[fieldName].length === 0;
+            }
+
+            function fieldError(fieldName) {
+                return fieldErrors[fieldName][0];
+            }
+
             return _react2.default.createElement(
                 _reactstrap.Modal,
-                { isOpen: this.props.isOpen, toggle: this.props.toggle, backdrop: true, id: "add-student-modal",
-                    onOpened: AddStudentModal.addValidation },
+                { isOpen: this.props.isOpen, toggle: this.props.toggle, backdrop: true },
                 _react2.default.createElement(
                     _reactstrap.ModalHeader,
                     { toggle: this.props.toggle },
-                    "Add a Student"
+                    this.props.edit ? "Edit " + this.state.form.first_name + " " + this.state.form.family_name : "Add a Student"
                 ),
                 _react2.default.createElement(
                     _reactstrap.ModalBody,
@@ -145,72 +288,122 @@ var AddStudentModal = function (_Component2) {
                             null,
                             _react2.default.createElement(
                                 _reactstrap.Label,
-                                { "for": "add-student-id-number" },
+                                null,
                                 "ID Number"
                             ),
-                            _react2.default.createElement(_reactstrap.Input, { id: "add-student-id-number", placeholder: "ID Number", className: "text-input" })
+                            _react2.default.createElement(_reactstrap.Input, { placeholder: "ID Number",
+                                onChange: this.getChangeHandler("id_number"),
+                                valid: isValid("ID Number"),
+                                defaultValue: this.state.form.id_number }),
+                            _react2.default.createElement(
+                                _reactstrap.FormFeedback,
+                                null,
+                                fieldError("ID Number")
+                            )
                         ),
                         _react2.default.createElement(
                             _reactstrap.FormGroup,
                             null,
                             _react2.default.createElement(
                                 _reactstrap.Label,
-                                { "for": "add-student-first-name" },
+                                null,
                                 "First Name"
                             ),
-                            _react2.default.createElement(_reactstrap.Input, { id: "add-student-first-name", placeholder: "First Name", className: "text-input" })
+                            _react2.default.createElement(_reactstrap.Input, { placeholder: "First Name",
+                                onChange: this.getChangeHandler("first_name"),
+                                valid: isValid("First name"),
+                                defaultValue: this.state.form.first_name }),
+                            _react2.default.createElement(
+                                _reactstrap.FormFeedback,
+                                null,
+                                fieldError("First name")
+                            )
                         ),
                         _react2.default.createElement(
                             _reactstrap.FormGroup,
                             null,
                             _react2.default.createElement(
                                 _reactstrap.Label,
-                                { "for": "add-student-middle-name" },
+                                null,
                                 "Middle Name"
                             ),
-                            _react2.default.createElement(_reactstrap.Input, { id: "add-student-middle-name", placeholder: "Middle Name", className: "text-input" })
+                            _react2.default.createElement(_reactstrap.Input, { placeholder: "Middle Name",
+                                onChange: this.getChangeHandler("middle_name"),
+                                valid: isValid("Middle name"),
+                                defaultValue: this.state.form.middle_name }),
+                            _react2.default.createElement(
+                                _reactstrap.FormFeedback,
+                                null,
+                                fieldError("Middle name")
+                            )
                         ),
                         _react2.default.createElement(
                             _reactstrap.FormGroup,
                             null,
                             _react2.default.createElement(
                                 _reactstrap.Label,
-                                { "for": "add-student-last-name" },
-                                "Last Name"
+                                null,
+                                "Family Name"
                             ),
-                            _react2.default.createElement(_reactstrap.Input, { id: "add-student-last-name", placeholder: "Last Name", className: "text-input" })
+                            _react2.default.createElement(_reactstrap.Input, { placeholder: "Last Name",
+                                onChange: this.getChangeHandler("family_name"),
+                                valid: isValid("Family name"),
+                                defaultValue: this.state.form.family_name }),
+                            _react2.default.createElement(
+                                _reactstrap.FormFeedback,
+                                null,
+                                fieldError("Family name")
+                            )
                         ),
                         _react2.default.createElement(
                             _reactstrap.FormGroup,
                             null,
                             _react2.default.createElement(
                                 _reactstrap.Label,
-                                { "for": "add-student-nickname" },
+                                null,
                                 "Nickname"
                             ),
-                            _react2.default.createElement(_reactstrap.Input, { id: "add-student-nickname", placeholder: "Nickname", className: "text-input" })
+                            _react2.default.createElement(_reactstrap.Input, { placeholder: "Nickname",
+                                onChange: this.getChangeHandler("nickname"),
+                                valid: isValid("Nickname"),
+                                defaultValue: this.state.form.nickname }),
+                            _react2.default.createElement(
+                                _reactstrap.FormFeedback,
+                                null,
+                                fieldError("Nickname")
+                            )
                         ),
                         _react2.default.createElement(
                             _reactstrap.FormGroup,
                             null,
                             _react2.default.createElement(
                                 _reactstrap.Label,
-                                { "for": "add-student-birth-date" },
+                                null,
                                 "Birth Date"
                             ),
-                            _react2.default.createElement(_reactstrap.Input, { type: "date", id: "add-student-birth-date", className: "text-input", placeholder: "Birth Date" })
+                            _react2.default.createElement(_reactstrap.Input, { type: "date",
+                                placeholder: "Birth Date",
+                                onChange: this.getChangeHandler("birth_date"),
+                                valid: isValid("Birth date"),
+                                defaultValue: this.state.form.birth_date }),
+                            _react2.default.createElement(
+                                _reactstrap.FormFeedback,
+                                null,
+                                fieldError("Birth date")
+                            )
                         ),
                         _react2.default.createElement(
                             _reactstrap.FormGroup,
                             null,
                             _react2.default.createElement(
                                 _reactstrap.Label,
-                                { "for": "add-student-sex" },
+                                null,
                                 "Sex"
                             ),
                             _react2.default.createElement(
                                 _reactstrap.Input,
-                                { type: "select", id: "add-student-sex" },
+                                { type: "select", onChange: this.getChangeHandler("sex"),
+                                    defaultValue: this.state.form.sex },
                                 _react2.default.createElement(
                                     "option",
                                     { value: "F" },
@@ -228,33 +421,51 @@ var AddStudentModal = function (_Component2) {
                             null,
                             _react2.default.createElement(
                                 _reactstrap.Label,
-                                { "for": "add-student-address" },
+                                null,
                                 "Home Address"
                             ),
-                            _react2.default.createElement(_reactstrap.Input, { type: "textarea", id: "add-student-address", placeholder: "Home Address",
-                                className: "text-input" })
+                            _react2.default.createElement(_reactstrap.Input, { type: "textarea",
+                                placeholder: "Home Address",
+                                onChange: this.getChangeHandler("home_address"),
+                                valid: isValid("Home address"),
+                                defaultValue: this.state.form.home_address }),
+                            _react2.default.createElement(
+                                _reactstrap.FormFeedback,
+                                null,
+                                fieldError("Home address")
+                            )
                         ),
                         _react2.default.createElement(
                             _reactstrap.FormGroup,
                             null,
                             _react2.default.createElement(
                                 _reactstrap.Label,
-                                { "for": "add-student-nationality" },
+                                null,
                                 "Nationality"
                             ),
-                            _react2.default.createElement(_reactstrap.Input, { id: "add-student-nationality", placeholder: "Nationality", className: "text-input" })
+                            _react2.default.createElement(_reactstrap.Input, { placeholder: "Nationality",
+                                onChange: this.getChangeHandler("nationality"),
+                                valid: isValid("Nationality"),
+                                defaultValue: this.state.form.nationality }),
+                            _react2.default.createElement(
+                                _reactstrap.FormFeedback,
+                                null,
+                                fieldError("Nationality")
+                            )
                         ),
                         _react2.default.createElement(
                             _reactstrap.FormGroup,
                             null,
                             _react2.default.createElement(
                                 _reactstrap.Label,
-                                { "for": "add-student-civil-status" },
+                                null,
                                 "Civil Status"
                             ),
                             _react2.default.createElement(
                                 _reactstrap.Input,
-                                { type: "select", id: "add-student-civil-status" },
+                                { type: "select",
+                                    onChange: this.getChangeHandler("civil_status"),
+                                    defaultValue: this.state.form.civil_status },
                                 _react2.default.createElement(
                                     "option",
                                     { value: "S" },
@@ -288,53 +499,90 @@ var AddStudentModal = function (_Component2) {
                             null,
                             _react2.default.createElement(
                                 _reactstrap.Label,
-                                { "for": "add-student-contact-number" },
-                                "Contact Number"
+                                null,
+                                "Phone Number"
                             ),
-                            _react2.default.createElement(_reactstrap.Input, { id: "add-student-contact-number", placeholder: "Contact Number", className: "text-input" })
+                            _react2.default.createElement(_reactstrap.Input, { placeholder: "Phone Number",
+                                onChange: this.getChangeHandler("phone_number"),
+                                valid: isValid("Phone number"),
+                                defaultValue: this.state.form.phone_number }),
+                            _react2.default.createElement(
+                                _reactstrap.FormFeedback,
+                                null,
+                                fieldError("Phone number")
+                            )
                         ),
                         _react2.default.createElement(
                             _reactstrap.FormGroup,
                             null,
                             _react2.default.createElement(
                                 _reactstrap.Label,
-                                { "for": "add-student-email" },
-                                "E-mail"
+                                null,
+                                "Email"
                             ),
-                            _react2.default.createElement(_reactstrap.Input, { id: "add-student-email", placeholder: "E-mail", className: "text-input" })
+                            _react2.default.createElement(_reactstrap.Input, { placeholder: "Email",
+                                onChange: this.getChangeHandler("email"),
+                                valid: isValid("Email"),
+                                defaultValue: this.state.form.email }),
+                            _react2.default.createElement(
+                                _reactstrap.FormFeedback,
+                                null,
+                                fieldError("Email")
+                            )
                         ),
                         _react2.default.createElement(
                             _reactstrap.FormGroup,
                             null,
                             _react2.default.createElement(
                                 _reactstrap.Label,
-                                { "for": "add-student-emergency-contact-name" },
+                                null,
                                 "Emergency Contact Name"
                             ),
-                            _react2.default.createElement(_reactstrap.Input, { id: "add-student-emergency-contact-name", placeholder: "Emergency Contact Name",
-                                className: "text-input" })
+                            _react2.default.createElement(_reactstrap.Input, { placeholder: "Emergency Contact Name",
+                                onChange: this.getChangeHandler("emergency_contact_name"),
+                                valid: isValid("Emergency contact name"),
+                                defaultValue: this.state.form.emergency_contact_name }),
+                            _react2.default.createElement(
+                                _reactstrap.FormFeedback,
+                                null,
+                                fieldError("Emergency contact name")
+                            )
                         ),
                         _react2.default.createElement(
                             _reactstrap.FormGroup,
                             null,
                             _react2.default.createElement(
                                 _reactstrap.Label,
-                                { "for": "add-student-emergency-contact-relationship" },
+                                null,
                                 "Emergency Contact Relationship"
                             ),
-                            _react2.default.createElement(_reactstrap.Input, { id: "add-student-emergency-contact-relationship",
-                                placeholder: "Emergency Contact Relationship", className: "text-input" })
+                            _react2.default.createElement(_reactstrap.Input, { placeholder: "Emergency Contact Relationship",
+                                onChange: this.getChangeHandler("emergency_contact_name"),
+                                valid: isValid("Emergency contact relationship"),
+                                defaultValue: this.state.form.emergency_contact_name }),
+                            _react2.default.createElement(
+                                _reactstrap.FormFeedback,
+                                null,
+                                fieldError("Emergency contact relationship")
+                            )
                         ),
                         _react2.default.createElement(
                             _reactstrap.FormGroup,
                             null,
                             _react2.default.createElement(
                                 _reactstrap.Label,
-                                { "for": "add-student-emergency-contact-number" },
+                                null,
                                 "Emergency Contact Number"
                             ),
-                            _react2.default.createElement(_reactstrap.Input, { id: "add-student-emergency-contact-number",
-                                placeholder: "Emergency Contact Number", className: "text-input" })
+                            _react2.default.createElement(_reactstrap.Input, { placeholder: "Emergency Contact Number",
+                                onChange: this.getChangeHandler("emergency_contact_number"),
+                                valid: isValid("Emergency contact number"),
+                                defaultValue: this.state.form.emergency_contact_number }),
+                            _react2.default.createElement(
+                                _reactstrap.FormFeedback,
+                                null,
+                                fieldError("Emergency contact number")
+                            )
                         ),
                         _react2.default.createElement("br", null),
                         _react2.default.createElement(
@@ -347,12 +595,13 @@ var AddStudentModal = function (_Component2) {
                             null,
                             _react2.default.createElement(
                                 _reactstrap.Label,
-                                { "for": "add-student-college" },
+                                null,
                                 "College"
                             ),
                             _react2.default.createElement(
                                 _reactstrap.Input,
-                                { type: "select", id: "add-student-college" },
+                                { type: "select", onChange: this.getChangeHandler("college"),
+                                    defaultValue: this.state.form.college },
                                 _react2.default.createElement(
                                     "option",
                                     { value: "CCS" },
@@ -395,12 +644,13 @@ var AddStudentModal = function (_Component2) {
                             null,
                             _react2.default.createElement(
                                 _reactstrap.Label,
-                                { "for": "add-student-category" },
+                                null,
                                 "Student Type"
                             ),
                             _react2.default.createElement(
                                 _reactstrap.Input,
-                                { type: "select", id: "add-student-category" },
+                                { type: "select", onChange: this.getChangeHandler("student_type"),
+                                    defaultValue: this.state.form.student_type },
                                 _react2.default.createElement(
                                     "option",
                                     { value: "IN" },
@@ -420,59 +670,35 @@ var AddStudentModal = function (_Component2) {
                     null,
                     _react2.default.createElement(
                         _reactstrap.Button,
-                        { outline: true, color: "success", id: "add-student-modal-submit", onClick: this.submitForm },
-                        "Add"
+                        { outline: true, color: "success",
+                            onClick: this.props.edit ? this.submitEditStudentForm : this.submitAddStudentForm,
+                            disabled: formHasErrors },
+                        this.props.edit ? "Edit" : "Add"
                     )
                 )
             );
         }
-    }], [{
-        key: "addValidation",
-        value: function (_addValidation) {
-            function addValidation() {
-                return _addValidation.apply(this, arguments);
-            }
-
-            addValidation.toString = function () {
-                return _addValidation.toString();
-            };
-
-            return addValidation;
-        }(function () {
-            addValidation({
-                inputs: (0, _jquery2.default)("#add-student-modal").find(".text-input"),
-                button: (0, _jquery2.default)("#add-student-modal-submit"),
-                customValidations: [{
-                    input: (0, _jquery2.default)("#add-student-email"),
-                    validator: function validator(email) {
-                        //This regex mess checks if email is a real email
-                        return (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
-                        );
-                    }
-                }]
-            });
-        })
     }]);
 
-    return AddStudentModal;
+    return StudentFormModal;
 }(_react.Component);
 
-var DeleteStudentModal = function (_Component3) {
-    _inherits(DeleteStudentModal, _Component3);
+var DeleteStudentModal = function (_Component2) {
+    _inherits(DeleteStudentModal, _Component2);
 
     function DeleteStudentModal(props) {
         _classCallCheck(this, DeleteStudentModal);
 
-        var _this4 = _possibleConstructorReturn(this, (DeleteStudentModal.__proto__ || Object.getPrototypeOf(DeleteStudentModal)).call(this, props));
+        var _this5 = _possibleConstructorReturn(this, (DeleteStudentModal.__proto__ || Object.getPrototypeOf(DeleteStudentModal)).call(this, props));
 
-        _this4.confirmDelete = _this4.confirmDelete.bind(_this4);
-        return _this4;
+        _this5.confirmDelete = _this5.confirmDelete.bind(_this5);
+        return _this5;
     }
 
     _createClass(DeleteStudentModal, [{
         key: "confirmDelete",
         value: function confirmDelete() {
-            var _this5 = this;
+            var _this6 = this;
 
             var dismissToast = (0, _dismissable_toast_maker2.default)({
                 title: "Deleting",
@@ -485,7 +711,7 @@ var DeleteStudentModal = function (_Component3) {
                 beforeSend: _authorization2.default,
                 success: function success() {
                     dismissToast();
-                    _this5.props.refresh();
+                    _this6.props.refresh();
                     _izitoast2.default.success({
                         title: "Success",
                         message: "Student deleted",
@@ -544,432 +770,6 @@ var DeleteStudentModal = function (_Component3) {
     return DeleteStudentModal;
 }(_react.Component);
 
-var EditStudentModal = function (_Component4) {
-    _inherits(EditStudentModal, _Component4);
-
-    function EditStudentModal(props) {
-        _classCallCheck(this, EditStudentModal);
-
-        var _this6 = _possibleConstructorReturn(this, (EditStudentModal.__proto__ || Object.getPrototypeOf(EditStudentModal)).call(this, props));
-
-        _this6.submitForm = _this6.submitForm.bind(_this6);
-        return _this6;
-    }
-
-    _createClass(EditStudentModal, [{
-        key: "submitForm",
-        value: function submitForm() {
-            var _this7 = this;
-
-            var dismissToast = (0, _dismissable_toast_maker2.default)({
-                title: "Editing",
-                message: "Editing student..."
-            });
-
-            _jquery2.default.ajax({
-                method: "PUT",
-                url: _settings2.default.serverURL + "/students/" + this.props.student.idNumber + "/",
-                data: {
-                    category: (0, _jquery2.default)("#edit-student-category").val(),
-                    id_number: (0, _jquery2.default)("#edit-student-id-number").val(),
-                    college: (0, _jquery2.default)("#edit-student-college").val(),
-                    family_name: (0, _jquery2.default)("#edit-student-last-name").val(),
-                    first_name: (0, _jquery2.default)("#edit-student-first-name").val(),
-                    middle_name: (0, _jquery2.default)("#edit-student-middle-name").val(),
-                    nickname: (0, _jquery2.default)("#edit-student-nickname").val(),
-                    nationality: (0, _jquery2.default)("#edit-student-nationality").val(),
-                    home_address: (0, _jquery2.default)("#edit-student-address").val(),
-                    phone_number: (0, _jquery2.default)("#edit-student-contact-number").val(),
-                    birth_date: (0, _jquery2.default)("#edit-student-birth-date").val(),
-                    sex: (0, _jquery2.default)("#edit-student-sex").val(),
-                    emergency_contact_name: (0, _jquery2.default)("#edit-student-emergency-contact-name").val(),
-                    emergency_contact_relationship: (0, _jquery2.default)("#edit-student-emergency-contact-relationship").val(),
-                    emergency_contact_number: (0, _jquery2.default)("#edit-student-emergency-contact-number").val(),
-                    email: (0, _jquery2.default)("#edit-student-email").val(),
-                    civil_status: (0, _jquery2.default)("#edit-student-civil-status").val()
-                },
-                beforeSend: _authorization2.default,
-                success: function success() {
-                    dismissToast();
-                    _this7.props.refresh();
-                    _izitoast2.default.success({
-                        title: "Success",
-                        message: "Successfully modified student"
-                    });
-                },
-                error: function error(response) {
-                    dismissToast();
-                    console.log(response);
-                    _izitoast2.default.error({
-                        title: "Error",
-                        message: "Unable to edit student"
-                    });
-                }
-            });
-
-            this.props.toggle();
-        }
-    }, {
-        key: "render",
-        value: function render() {
-            // Hardcoded, I know. Bare with me. You can fix it if you want.
-            var first = this.props.student.firstName;
-            var middle = this.props.student.middleName;
-            var last = this.props.student.familyName;
-            var name = first + " " + middle + " " + last;
-
-            return _react2.default.createElement(
-                _reactstrap.Modal,
-                { isOpen: this.props.isOpen, toggle: this.props.toggle, backdrop: true, id: "edit-student-modal",
-                    onOpened: EditStudentModal.addValidation },
-                _react2.default.createElement(
-                    _reactstrap.ModalHeader,
-                    { toggle: this.props.toggle },
-                    "Edit ",
-                    name
-                ),
-                _react2.default.createElement(
-                    _reactstrap.ModalBody,
-                    { className: "form" },
-                    _react2.default.createElement(
-                        _reactstrap.Form,
-                        null,
-                        _react2.default.createElement(
-                            "h5",
-                            { className: "mb-3" },
-                            "Student Details"
-                        ),
-                        _react2.default.createElement(
-                            _reactstrap.FormGroup,
-                            null,
-                            _react2.default.createElement(
-                                _reactstrap.Label,
-                                { "for": "edit-student-id-number" },
-                                "ID Number"
-                            ),
-                            _react2.default.createElement(_reactstrap.Input, { id: "edit-student-id-number", placeholder: "ID Number", className: "text-input",
-                                defaultValue: this.props.student.idNumber })
-                        ),
-                        _react2.default.createElement(
-                            _reactstrap.FormGroup,
-                            null,
-                            _react2.default.createElement(
-                                _reactstrap.Label,
-                                { "for": "edit-student-first-name" },
-                                "First Name"
-                            ),
-                            _react2.default.createElement(_reactstrap.Input, { id: "edit-student-first-name", placeholder: "First Name", className: "text-input",
-                                defaultValue: this.props.student.firstName })
-                        ),
-                        _react2.default.createElement(
-                            _reactstrap.FormGroup,
-                            null,
-                            _react2.default.createElement(
-                                _reactstrap.Label,
-                                { "for": "edit-student-middle-name" },
-                                "Middle Name"
-                            ),
-                            _react2.default.createElement(_reactstrap.Input, { id: "edit-student-middle-name", placeholder: "Middle Name", className: "text-input",
-                                defaultValue: this.props.student.middleName })
-                        ),
-                        _react2.default.createElement(
-                            _reactstrap.FormGroup,
-                            null,
-                            _react2.default.createElement(
-                                _reactstrap.Label,
-                                { "for": "edit-student-last-name" },
-                                "Last Name"
-                            ),
-                            _react2.default.createElement(_reactstrap.Input, { id: "edit-student-last-name", placeholder: "Last Name", className: "text-input",
-                                defaultValue: this.props.student.familyName })
-                        ),
-                        _react2.default.createElement(
-                            _reactstrap.FormGroup,
-                            null,
-                            _react2.default.createElement(
-                                _reactstrap.Label,
-                                { "for": "edit-student-nickname" },
-                                "Nickname"
-                            ),
-                            _react2.default.createElement(_reactstrap.Input, { id: "edit-student-nickname", placeholder: "Nickname", className: "text-input",
-                                defaultValue: this.props.student.nickname })
-                        ),
-                        _react2.default.createElement(
-                            _reactstrap.FormGroup,
-                            null,
-                            _react2.default.createElement(
-                                _reactstrap.Label,
-                                { "for": "edit-student-birth-date" },
-                                "Birth Date"
-                            ),
-                            _react2.default.createElement(_reactstrap.Input, { type: "date", id: "edit-student-birth-date", className: "text-input",
-                                defaultValue: this.props.student.birthDate })
-                        ),
-                        _react2.default.createElement(
-                            _reactstrap.FormGroup,
-                            null,
-                            _react2.default.createElement(
-                                _reactstrap.Label,
-                                { "for": "edit-student-sex" },
-                                "Sex"
-                            ),
-                            _react2.default.createElement(
-                                _reactstrap.Input,
-                                { type: "select", id: "edit-student-sex", defaultValue: this.props.student.sex },
-                                _react2.default.createElement(
-                                    "option",
-                                    { value: "F" },
-                                    "Female"
-                                ),
-                                _react2.default.createElement(
-                                    "option",
-                                    { value: "M" },
-                                    "Male"
-                                )
-                            )
-                        ),
-                        _react2.default.createElement(
-                            _reactstrap.FormGroup,
-                            null,
-                            _react2.default.createElement(
-                                _reactstrap.Label,
-                                { "for": "edit-student-address" },
-                                "Home Address"
-                            ),
-                            _react2.default.createElement(_reactstrap.Input, { type: "textarea", id: "edit-student-address", placeholder: "Home Address",
-                                className: "text-input", defaultValue: this.props.student.homeAddress })
-                        ),
-                        _react2.default.createElement(
-                            _reactstrap.FormGroup,
-                            null,
-                            _react2.default.createElement(
-                                _reactstrap.Label,
-                                { "for": "edit-student-nationality" },
-                                "Nationality"
-                            ),
-                            _react2.default.createElement(_reactstrap.Input, { id: "edit-student-nationality", placeholder: "Nationality", className: "text-input",
-                                defaultValue: this.props.student.nationality })
-                        ),
-                        _react2.default.createElement(
-                            _reactstrap.FormGroup,
-                            null,
-                            _react2.default.createElement(
-                                _reactstrap.Label,
-                                { "for": "edit-student-civil-status" },
-                                "Civil Status"
-                            ),
-                            _react2.default.createElement(
-                                _reactstrap.Input,
-                                { type: "select", id: "edit-student-civil-status",
-                                    defaultValue: this.props.student.civilStatus },
-                                _react2.default.createElement(
-                                    "option",
-                                    { value: "S" },
-                                    "Single"
-                                ),
-                                _react2.default.createElement(
-                                    "option",
-                                    { value: "M" },
-                                    "Married"
-                                ),
-                                _react2.default.createElement(
-                                    "option",
-                                    { value: "D" },
-                                    "Divorced"
-                                ),
-                                _react2.default.createElement(
-                                    "option",
-                                    { value: "W" },
-                                    "Widowed"
-                                )
-                            )
-                        ),
-                        _react2.default.createElement("br", null),
-                        _react2.default.createElement(
-                            "h5",
-                            { className: "mb-3" },
-                            "Contact Details"
-                        ),
-                        _react2.default.createElement(
-                            _reactstrap.FormGroup,
-                            null,
-                            _react2.default.createElement(
-                                _reactstrap.Label,
-                                { "for": "edit-student-contact-number" },
-                                "Contact Number"
-                            ),
-                            _react2.default.createElement(_reactstrap.Input, { id: "edit-student-contact-number", placeholder: "Contact Number", className: "text-input",
-                                defaultValue: this.props.student.phoneNumber })
-                        ),
-                        _react2.default.createElement(
-                            _reactstrap.FormGroup,
-                            null,
-                            _react2.default.createElement(
-                                _reactstrap.Label,
-                                { "for": "edit-student-email" },
-                                "E-mail"
-                            ),
-                            _react2.default.createElement(_reactstrap.Input, { id: "edit-student-email", placeholder: "E-mail", className: "text-input",
-                                defaultValue: this.props.student.email })
-                        ),
-                        _react2.default.createElement(
-                            _reactstrap.FormGroup,
-                            null,
-                            _react2.default.createElement(
-                                _reactstrap.Label,
-                                { "for": "edit-student-emergency-contact-name" },
-                                "Emergency Contact Name"
-                            ),
-                            _react2.default.createElement(_reactstrap.Input, { id: "edit-student-emergency-contact-name", placeholder: "Emergency Contact Name",
-                                className: "text-input", defaultValue: this.props.student.emergencyContactName })
-                        ),
-                        _react2.default.createElement(
-                            _reactstrap.FormGroup,
-                            null,
-                            _react2.default.createElement(
-                                _reactstrap.Label,
-                                { "for": "edit-student-emergency-contact-relationship" },
-                                "Emergency Contact Relationship"
-                            ),
-                            _react2.default.createElement(_reactstrap.Input, { id: "edit-student-emergency-contact-relationship",
-                                placeholder: "Emergency Contact Relationship", className: "text-input",
-                                defaultValue: this.props.student.emergencyContactRelationship })
-                        ),
-                        _react2.default.createElement(
-                            _reactstrap.FormGroup,
-                            null,
-                            _react2.default.createElement(
-                                _reactstrap.Label,
-                                { "for": "edit-student-emergency-contact-number" },
-                                "Emergency Contact Number"
-                            ),
-                            _react2.default.createElement(_reactstrap.Input, { id: "edit-student-emergency-contact-number",
-                                placeholder: "Emergency Contact Number", className: "text-input",
-                                defaultValue: this.props.student.emergencyContactNumber })
-                        ),
-                        _react2.default.createElement("br", null),
-                        _react2.default.createElement(
-                            "h5",
-                            { className: "mb-3" },
-                            "University Details"
-                        ),
-                        _react2.default.createElement(
-                            _reactstrap.FormGroup,
-                            null,
-                            _react2.default.createElement(
-                                _reactstrap.Label,
-                                { "for": "edit-student-college" },
-                                "College"
-                            ),
-                            _react2.default.createElement(
-                                _reactstrap.Input,
-                                { type: "select", id: "edit-student-college", defaultValue: this.props.student.college },
-                                _react2.default.createElement(
-                                    "option",
-                                    { value: "CCS" },
-                                    "College of Computer Studies"
-                                ),
-                                _react2.default.createElement(
-                                    "option",
-                                    { value: "RVRCOB" },
-                                    "Ramon V. del Rosario College of Business"
-                                ),
-                                _react2.default.createElement(
-                                    "option",
-                                    { value: "CLA" },
-                                    "College of Liberal Arts"
-                                ),
-                                _react2.default.createElement(
-                                    "option",
-                                    { value: "SOE" },
-                                    "School of Economics"
-                                ),
-                                _react2.default.createElement(
-                                    "option",
-                                    { value: "GCOE" },
-                                    "Gokongwei College of Engineering"
-                                ),
-                                _react2.default.createElement(
-                                    "option",
-                                    { value: "COL" },
-                                    "College of Law"
-                                ),
-                                _react2.default.createElement(
-                                    "option",
-                                    { value: "BAGCED" },
-                                    "Brother Andrew Gonzales College of Education"
-                                )
-                            )
-                        ),
-                        _react2.default.createElement(
-                            _reactstrap.FormGroup,
-                            null,
-                            _react2.default.createElement(
-                                _reactstrap.Label,
-                                { "for": "edit-student-category" },
-                                "Student Type"
-                            ),
-                            _react2.default.createElement(
-                                _reactstrap.Input,
-                                { type: "select", id: "edit-student-category", defaultValue: this.props.student.category },
-                                _react2.default.createElement(
-                                    "option",
-                                    { value: "IN" },
-                                    "Inbound"
-                                ),
-                                _react2.default.createElement(
-                                    "option",
-                                    { value: "OUT" },
-                                    "Outbound"
-                                )
-                            )
-                        )
-                    )
-                ),
-                _react2.default.createElement(
-                    _reactstrap.ModalFooter,
-                    null,
-                    _react2.default.createElement(
-                        _reactstrap.Button,
-                        { outline: true, color: "success", id: "edit-student-modal-submit",
-                            onClick: this.submitForm },
-                        "Add"
-                    )
-                )
-            );
-        }
-    }], [{
-        key: "addValidation",
-        value: function (_addValidation2) {
-            function addValidation() {
-                return _addValidation2.apply(this, arguments);
-            }
-
-            addValidation.toString = function () {
-                return _addValidation2.toString();
-            };
-
-            return addValidation;
-        }(function () {
-            addValidation({
-                inputs: (0, _jquery2.default)("#edit-student-modal").find(".text-input"),
-                button: (0, _jquery2.default)("#edit-student-modal-submit"),
-                customValidations: [{
-                    input: (0, _jquery2.default)("#edit-student-email"),
-                    validator: function validator(email) {
-                        //This regex mess checks if email is a real email
-                        return (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
-                        );
-                    }
-                }]
-            });
-        })
-    }]);
-
-    return EditStudentModal;
-}(_react.Component);
-
-exports.AddStudentModal = AddStudentModal;
+exports.StudentFormModal = StudentFormModal;
 exports.DeleteStudentModal = DeleteStudentModal;
-exports.EditStudentModal = EditStudentModal;
 //# sourceMappingURL=modals.js.map

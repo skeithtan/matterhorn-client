@@ -1,15 +1,16 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import graphql from "../../graphql";
 import StudentList from "./student_list";
 import StudentDetail from "./student_detail";
 import {
     AddStudentModal,
+    StudentFormModal,
 } from "./modals";
 
 
 function fetchStudents(onResponse) {
     graphql({
-        query: `
+        query : `
         {
             students {
                 id
@@ -20,7 +21,7 @@ function fetchStudents(onResponse) {
             }
         }
         `,
-        onResponse: onResponse,
+        onResponse : onResponse,
     });
 }
 
@@ -29,9 +30,9 @@ class Students extends Component {
         super(props);
 
         this.state = {
-            allStudents: null,
-            activeStudent: null,
-            addStudentIsShowing: false,
+            allStudents : null,
+            activeStudent : null,
+            addStudentIsShowing : false,
         };
 
         this.setActiveStudent = this.setActiveStudent.bind(this);
@@ -44,14 +45,14 @@ class Students extends Component {
     refreshStudents() {
         fetchStudents(response => {
             this.setState({
-                allStudents: response.data.students,
+                allStudents : response.data.students,
             });
         });
     }
 
     onDeleteActiveStudent() {
         this.setState({
-            activeStudent: null,
+            activeStudent : null,
         });
 
         this.refreshStudents();
@@ -65,7 +66,7 @@ class Students extends Component {
 
     setActiveStudent(student) {
         this.setState({
-            activeStudent: student,
+            activeStudent : student,
         });
     }
 
@@ -80,9 +81,9 @@ class Students extends Component {
                                onDeleteActiveStudent={this.onDeleteActiveStudent}
                                refreshStudents={this.refreshStudents}/>
 
-                <AddStudentModal isOpen={this.state.addStudentIsShowing}
-                                 toggle={this.toggleAddStudent}
-                                 refresh={this.refreshStudents}/>
+                <StudentFormModal isOpen={this.state.addStudentIsShowing}
+                                  toggle={this.toggleAddStudent}
+                                  refresh={this.refreshStudents}/>
             </div>
         );
     }
