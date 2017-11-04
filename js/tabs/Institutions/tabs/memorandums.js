@@ -229,19 +229,20 @@ class MemorandumListSection extends Component {
 
         this.state = {
             activeMemorandum: null,
+            deleteMemorandumIsShowing: false,
+            editMemorandumIsShowing: false,
         };
 
         this.emptyState = this.emptyState.bind(this);
         this.setActiveMemorandum = this.setActiveMemorandum.bind(this);
         this.toggleDeleteMemorandum = this.toggleDeleteMemorandum.bind(this);
+        this.toggleEditMemorandum = this.toggleEditMemorandum.bind(this);
     }
 
     setActiveMemorandum(memorandum) {
-        console.log(memorandum);
         if (this.state.activeMemorandum === null) {
             this.setState({
                 activeMemorandum: memorandum,
-                deleteMemorandumIsShowing: false,
             });
 
             return;
@@ -259,6 +260,12 @@ class MemorandumListSection extends Component {
         });
     }
 
+    toggleEditMemorandum() {
+        this.setState({
+            editMemorandumIsShowing: !this.state.editMemorandumIsShowing,
+        });
+    }
+
     emptyState() {
         return (
             <div className="p-5 text-center bg-light">
@@ -268,7 +275,6 @@ class MemorandumListSection extends Component {
     }
 
     render() {
-
         if (this.props.memorandums.length === 0) {
             return (
                 <Section>
@@ -290,6 +296,7 @@ class MemorandumListSection extends Component {
                                   memorandum={memorandum}
                                   onClick={onMemorandumRowClick}
                                   toggleDeleteMemorandum={this.toggleDeleteMemorandum}
+                                  toggleEditMemorandum={this.toggleEditMemorandum}
                                   key={memorandum.id}/>;
         });
 
@@ -308,6 +315,13 @@ class MemorandumListSection extends Component {
                                        memorandum={this.state.activeMemorandum}
                                        toggle={this.toggleDeleteMemorandum}
                                        refresh={this.props.refreshMemorandums}/>
+
+                {this.state.activeMemorandum !== null &&
+                <EditMemorandumModal isOpen={this.state.editMemorandumIsShowing}
+                                     institution={this.props.institution}
+                                     memorandum={this.state.activeMemorandum}
+                                     toggle={this.toggleEditMemorandum}
+                                     refresh={this.props.refreshMemorandums}/>}
             </div>
         );
     }
@@ -380,7 +394,8 @@ class MemorandumRow extends Component {
                                     <div className="mr-auto">
                                         <Button outline size="sm" color="success" className="mr-2">View
                                             Memorandum</Button>
-                                        <Button outline size="sm" color="success">Edit Details</Button>
+                                        <Button outline size="sm" color="success"
+                                                onClick={this.props.toggleEditMemorandum}>Edit Details</Button>
                                     </div>
                                     <Button outline size="sm" color="danger"
                                             onClick={this.props.toggleDeleteMemorandum}>Delete Memorandum</Button>

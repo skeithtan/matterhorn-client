@@ -279,23 +279,24 @@ var MemorandumListSection = function (_Component4) {
         var _this6 = _possibleConstructorReturn(this, (MemorandumListSection.__proto__ || Object.getPrototypeOf(MemorandumListSection)).call(this, props));
 
         _this6.state = {
-            activeMemorandum: null
+            activeMemorandum: null,
+            deleteMemorandumIsShowing: false,
+            editMemorandumIsShowing: false
         };
 
         _this6.emptyState = _this6.emptyState.bind(_this6);
         _this6.setActiveMemorandum = _this6.setActiveMemorandum.bind(_this6);
         _this6.toggleDeleteMemorandum = _this6.toggleDeleteMemorandum.bind(_this6);
+        _this6.toggleEditMemorandum = _this6.toggleEditMemorandum.bind(_this6);
         return _this6;
     }
 
     _createClass(MemorandumListSection, [{
         key: "setActiveMemorandum",
         value: function setActiveMemorandum(memorandum) {
-            console.log(memorandum);
             if (this.state.activeMemorandum === null) {
                 this.setState({
-                    activeMemorandum: memorandum,
-                    deleteMemorandumIsShowing: false
+                    activeMemorandum: memorandum
                 });
 
                 return;
@@ -311,6 +312,13 @@ var MemorandumListSection = function (_Component4) {
         value: function toggleDeleteMemorandum() {
             this.setState({
                 deleteMemorandumIsShowing: !this.state.deleteMemorandumIsShowing
+            });
+        }
+    }, {
+        key: "toggleEditMemorandum",
+        value: function toggleEditMemorandum() {
+            this.setState({
+                editMemorandumIsShowing: !this.state.editMemorandumIsShowing
             });
         }
     }, {
@@ -360,6 +368,7 @@ var MemorandumListSection = function (_Component4) {
                     memorandum: memorandum,
                     onClick: onMemorandumRowClick,
                     toggleDeleteMemorandum: _this7.toggleDeleteMemorandum,
+                    toggleEditMemorandum: _this7.toggleEditMemorandum,
                     key: memorandum.id });
             });
 
@@ -389,6 +398,11 @@ var MemorandumListSection = function (_Component4) {
                     institution: this.props.institution,
                     memorandum: this.state.activeMemorandum,
                     toggle: this.toggleDeleteMemorandum,
+                    refresh: this.props.refreshMemorandums }),
+                this.state.activeMemorandum !== null && _react2.default.createElement(_modals.EditMemorandumModal, { isOpen: this.state.editMemorandumIsShowing,
+                    institution: this.props.institution,
+                    memorandum: this.state.activeMemorandum,
+                    toggle: this.toggleEditMemorandum,
                     refresh: this.props.refreshMemorandums })
             );
         }
@@ -519,7 +533,8 @@ var MemorandumRow = function (_Component5) {
                                         ),
                                         _react2.default.createElement(
                                             _reactstrap.Button,
-                                            { outline: true, size: "sm", color: "success" },
+                                            { outline: true, size: "sm", color: "success",
+                                                onClick: this.props.toggleEditMemorandum },
                                             "Edit Details"
                                         )
                                     ),
