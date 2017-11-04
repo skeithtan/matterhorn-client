@@ -101,20 +101,23 @@ var InstitutionFormModal = function (_Component) {
             }, {
                 name: "Contact person name",
                 characterLimit: 256,
-                value: this.state.form.contact_person_name
+                value: this.state.form.contact_person_name,
+                optional: true
             }, {
                 name: "Contact person number",
                 characterLimit: 64,
-                value: this.state.form.contact_person_number
+                value: this.state.form.contact_person_number,
+                optional: true
             }, {
                 name: "Contact person email",
                 characterLimit: 256,
                 value: this.state.form.contact_person_email,
+                optional: true,
                 customValidators: [{
                     // isValid checks if the form value is a valid email through this messy regex.
+                    // It also lets blank values pass because it's an optional field
                     isValid: function isValid(fieldValue) {
-                        return (/^([\w\!\#$\%\&\'\*\+\-\/\=\?\^\`{\|\}\~]+\.)*[\w\!\#$\%\&\'\*\+\-\/\=\?\^\`{\|\}\~]+@((((([a-z0-9]{1}[a-z0-9\-]{0,62}[a-z0-9]{1})|[a-z])\.)+[a-z]{2,6})|(\d{1,3}\.){3}\d{1,3}(\:\d{1,5})?)$/i.test(fieldValue)
-                        );
+                        return fieldValue.length === 0 || /^([\w\!\#$\%\&\'\*\+\-\/\=\?\^\`{\|\}\~]+\.)*[\w\!\#$\%\&\'\*\+\-\/\=\?\^\`{\|\}\~]+@((((([a-z0-9]{1}[a-z0-9\-]{0,62}[a-z0-9]{1})|[a-z])\.)+[a-z]{2,6})|(\d{1,3}\.){3}\d{1,3}(\:\d{1,5})?)$/i.test(fieldValue);
                     },
                     errorMessage: function errorMessage(fieldName) {
                         return fieldName + " must be a valid email.";

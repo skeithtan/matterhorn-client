@@ -355,6 +355,12 @@ var ContactDetails = function (_Component5) {
         value: function render() {
             var institution = this.props.institution;
 
+            var noContactDetails = institution.contact_person_number.length === 0 && institution.contact_person_name.length === 0 && institution.contact_person_email.length === 0;
+
+            if (noContactDetails) {
+                return null;
+            }
+
             return _react2.default.createElement(
                 _section.Section,
                 null,
@@ -366,7 +372,7 @@ var ContactDetails = function (_Component5) {
                 _react2.default.createElement(
                     _section.SectionTable,
                     null,
-                    _react2.default.createElement(
+                    institution.contact_person_name.length > 0 && _react2.default.createElement(
                         _section.SectionRow,
                         null,
                         _react2.default.createElement(
@@ -380,7 +386,7 @@ var ContactDetails = function (_Component5) {
                             institution.contact_person_name
                         )
                     ),
-                    _react2.default.createElement(
+                    institution.contact_person_email.length > 0 && _react2.default.createElement(
                         _section.SectionRow,
                         null,
                         _react2.default.createElement(
@@ -394,7 +400,7 @@ var ContactDetails = function (_Component5) {
                             institution.contact_person_email
                         )
                     ),
-                    _react2.default.createElement(
+                    institution.contact_person_number.length > 0 && _react2.default.createElement(
                         _section.SectionRow,
                         null,
                         _react2.default.createElement(
