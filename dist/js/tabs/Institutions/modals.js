@@ -251,7 +251,7 @@ var InstitutionFormModal = function (_Component) {
                                 null,
                                 "Name"
                             ),
-                            _react2.default.createElement(_reactstrap.Input, { placeholder: "Institution Name", className: "text-input",
+                            _react2.default.createElement(_reactstrap.Input, { placeholder: "Institution Name",
                                 onChange: this.getChangeHandler("name"),
                                 valid: fieldErrors["Name"].length === 0,
                                 defaultValue: this.state.form.name }),
@@ -285,7 +285,7 @@ var InstitutionFormModal = function (_Component) {
                                 "Address"
                             ),
                             _react2.default.createElement(_reactstrap.Input, { type: "textarea", placeholder: "Address",
-                                className: "text-input", onChange: this.getChangeHandler("address"),
+                                onChange: this.getChangeHandler("address"),
                                 valid: fieldErrors["Address"].length === 0,
                                 defaultValue: this.state.form.address }),
                             _react2.default.createElement(
@@ -310,7 +310,7 @@ var InstitutionFormModal = function (_Component) {
                                     null,
                                     "http://"
                                 ),
-                                _react2.default.createElement(_reactstrap.Input, { placeholder: "Website", className: "text-input",
+                                _react2.default.createElement(_reactstrap.Input, { placeholder: "Website",
                                     onChange: this.getChangeHandler("website"),
                                     valid: fieldErrors["Website"].length === 0,
                                     defaultValue: this.state.form.website })
@@ -365,7 +365,7 @@ var InstitutionFormModal = function (_Component) {
                                 null,
                                 "Contact Person"
                             ),
-                            _react2.default.createElement(_reactstrap.Input, { placeholder: "Name", className: "text-input",
+                            _react2.default.createElement(_reactstrap.Input, { placeholder: "Name",
                                 onChange: this.getChangeHandler("contact_person_name"),
                                 valid: fieldErrors["Contact person name"].length === 0,
                                 defaultValue: this.state.form.contact_person_name }),
@@ -383,7 +383,7 @@ var InstitutionFormModal = function (_Component) {
                                 null,
                                 "Contact Email"
                             ),
-                            _react2.default.createElement(_reactstrap.Input, { type: "email", placeholder: "Email", className: "text-input",
+                            _react2.default.createElement(_reactstrap.Input, { type: "email", placeholder: "Email",
                                 onChange: this.getChangeHandler("contact_person_email"),
                                 valid: fieldErrors["Contact person email"].length === 0,
                                 defaultValue: this.state.form.contact_person_email }),
@@ -401,7 +401,7 @@ var InstitutionFormModal = function (_Component) {
                                 null,
                                 "Contact Number"
                             ),
-                            _react2.default.createElement(_reactstrap.Input, { placeholder: "Number", className: "text-input",
+                            _react2.default.createElement(_reactstrap.Input, { placeholder: "Number",
                                 onChange: this.getChangeHandler("contact_person_number"),
                                 valid: fieldErrors["Contact person number"].length === 0,
                                 defaultValue: this.state.form.contact_person_number }),

@@ -191,7 +191,7 @@ class InstitutionFormModal extends Component {
                         <h5 className="mb-3">Institution Details</h5>
                         <FormGroup>
                             <Label>Name</Label>
-                            <Input placeholder="Institution Name" className="text-input"
+                            <Input placeholder="Institution Name"
                                    onChange={this.getChangeHandler("name")}
                                    valid={fieldErrors["Name"].length === 0}
                                    defaultValue={this.state.form.name}/>
@@ -209,7 +209,7 @@ class InstitutionFormModal extends Component {
                         <FormGroup>
                             <Label>Address</Label>
                             <Input type="textarea" placeholder="Address"
-                                   className="text-input" onChange={this.getChangeHandler("address")}
+                                   onChange={this.getChangeHandler("address")}
                                    valid={fieldErrors["Address"].length === 0}
                                    defaultValue={this.state.form.address}/>
                             <FormFeedback>{fieldErrors["Address"][0]}</FormFeedback>
@@ -219,7 +219,7 @@ class InstitutionFormModal extends Component {
                             <Label>Website</Label>
                             <InputGroup>
                                 <InputGroupAddon>http://</InputGroupAddon>
-                                <Input placeholder="Website" className="text-input"
+                                <Input placeholder="Website"
                                        onChange={this.getChangeHandler("website")}
                                        valid={fieldErrors["Website"].length === 0}
                                        defaultValue={this.state.form.website}/>
@@ -244,7 +244,7 @@ class InstitutionFormModal extends Component {
 
                         <FormGroup>
                             <Label>Contact Person</Label>
-                            <Input placeholder="Name" className="text-input"
+                            <Input placeholder="Name"
                                    onChange={this.getChangeHandler("contact_person_name")}
                                    valid={fieldErrors["Contact person name"].length === 0}
                                    defaultValue={this.state.form.contact_person_name}/>
@@ -253,7 +253,7 @@ class InstitutionFormModal extends Component {
 
                         <FormGroup>
                             <Label>Contact Email</Label>
-                            <Input type="email" placeholder="Email" className="text-input"
+                            <Input type="email" placeholder="Email"
                                    onChange={this.getChangeHandler("contact_person_email")}
                                    valid={fieldErrors["Contact person email"].length === 0}
                                    defaultValue={this.state.form.contact_person_email}/>
@@ -262,7 +262,7 @@ class InstitutionFormModal extends Component {
 
                         <FormGroup>
                             <Label>Contact Number</Label>
-                            <Input placeholder="Number" className="text-input"
+                            <Input placeholder="Number"
                                    onChange={this.getChangeHandler("contact_person_number")}
                                    valid={fieldErrors["Contact person number"].length === 0}
                                    defaultValue={this.state.form.contact_person_number}/>
