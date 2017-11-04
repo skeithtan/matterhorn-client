@@ -155,7 +155,7 @@ var InstitutionOverviewHead = function (_Component2) {
         value: function render() {
             return _react2.default.createElement(
                 "div",
-                { className: "page-head pt-5 d-flex flex-row align-items-center" },
+                { className: "page-head pt-5 d-flex flex-row align-items-end" },
                 _react2.default.createElement(
                     "div",
                     { className: "mr-auto" },
@@ -166,7 +166,7 @@ var InstitutionOverviewHead = function (_Component2) {
                     ),
                     _react2.default.createElement(
                         "h4",
-                        { className: "page-head-title justify-content-left d-inline-block mr-2" },
+                        { className: "page-head-title mb-0" },
                         this.props.institution.name
                     )
                 ),

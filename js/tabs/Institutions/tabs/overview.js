@@ -128,10 +128,10 @@ class InstitutionOverviewHead extends Component {
 
     render() {
         return (
-            <div className="page-head pt-5 d-flex flex-row align-items-center">
+            <div className="page-head pt-5 d-flex flex-row align-items-end">
                 <div className="mr-auto">
                     <h5 className="mb-0 text-secondary">Overview</h5>
-                    <h4 className="page-head-title justify-content-left d-inline-block mr-2">
+                    <h4 className="page-head-title mb-0">
                         {this.props.institution.name}
                     </h4>
                 </div>
