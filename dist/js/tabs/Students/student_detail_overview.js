@@ -43,8 +43,8 @@ var StudentDetailOverview = function (_Component) {
         value: function render() {
             var student = this.props.student;
             var sex = student.sex === "F" ? "Female" : "Male";
-            var civilStatus = _settings2.default.civilStatuses[student.civilStatus];
-            var birthDate = (0, _moment2.default)(student.birthDate).format("LL");
+            var civilStatus = _settings2.default.civilStatuses[student.civil_status];
+            var birthDate = (0, _moment2.default)(student.birth_date).format("LL");
 
             return _react2.default.createElement(
                 _section.Section,
@@ -96,7 +96,7 @@ var StudentDetailOverview = function (_Component) {
                         _react2.default.createElement(
                             _section.SectionRowContent,
                             { large: true },
-                            student.homeAddress
+                            student.home_address
                         )
                     ),
                     _react2.default.createElement(
@@ -185,7 +185,7 @@ var StudentContact = function (_Component2) {
                         _react2.default.createElement(
                             _section.SectionRowContent,
                             { large: true },
-                            student.phoneNumber
+                            student.phone_number
                         )
                     ),
                     _react2.default.createElement(
@@ -213,7 +213,7 @@ var StudentContact = function (_Component2) {
                         _react2.default.createElement(
                             _section.SectionRowContent,
                             { large: true },
-                            student.emergencyContactName + " (" + student.emergencyContactRelationship + ")"
+                            student.emergency_contact_name + " (" + student.emergency_contact_relationship + ")"
                         )
                     ),
                     _react2.default.createElement(
@@ -227,7 +227,7 @@ var StudentContact = function (_Component2) {
                         _react2.default.createElement(
                             _section.SectionRowContent,
                             { large: true },
-                            student.emergencyContactNumber
+                            student.emergency_contact_number
                         )
                     )
                 )

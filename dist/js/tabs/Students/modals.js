@@ -41,22 +41,34 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var AddStudentModal = function (_Component) {
-    _inherits(AddStudentModal, _Component);
+var StudentFormModal = function (_Component) {
+    _inherits(StudentFormModal, _Component);
+
+    function StudentFormModal(props) {
+        _classCallCheck(this, StudentFormModal);
+
+        return _possibleConstructorReturn(this, (StudentFormModal.__proto__ || Object.getPrototypeOf(StudentFormModal)).call(this, props));
+    }
+
+    return StudentFormModal;
+}(_react.Component);
+
+var AddStudentModal = function (_Component2) {
+    _inherits(AddStudentModal, _Component2);
 
     function AddStudentModal(props) {
         _classCallCheck(this, AddStudentModal);
 
-        var _this = _possibleConstructorReturn(this, (AddStudentModal.__proto__ || Object.getPrototypeOf(AddStudentModal)).call(this, props));
+        var _this2 = _possibleConstructorReturn(this, (AddStudentModal.__proto__ || Object.getPrototypeOf(AddStudentModal)).call(this, props));
 
-        _this.submitForm = _this.submitAddInstitutionForm.bind(_this);
-        return _this;
+        _this2.submitForm = _this2.submitForm.bind(_this2);
+        return _this2;
     }
 
     _createClass(AddStudentModal, [{
-        key: "submitAddInstitutionForm",
+        key: "submitForm",
         value: function submitForm() {
-            var _this2 = this;
+            var _this3 = this;
 
             var dismissToast = (0, _dismissable_toast_maker2.default)({
                 title: "Adding",
@@ -87,7 +99,7 @@ var AddStudentModal = function (_Component) {
                 beforeSend: _authorization2.default,
                 success: function success() {
                     dismissToast();
-                    _this2.props.refresh();
+                    _this3.props.refresh();
                     _izitoast2.default.success({
                         title: "Success",
                         message: "Successfully added student"
@@ -408,7 +420,7 @@ var AddStudentModal = function (_Component) {
                     null,
                     _react2.default.createElement(
                         _reactstrap.Button,
-                        { outline: true, color: "success", id: "add-student-modal-submit", onClick: this.submitAddInstitutionForm },
+                        { outline: true, color: "success", id: "add-student-modal-submit", onClick: this.submitForm },
                         "Add"
                     )
                 )
@@ -445,22 +457,22 @@ var AddStudentModal = function (_Component) {
     return AddStudentModal;
 }(_react.Component);
 
-var DeleteStudentModal = function (_Component2) {
-    _inherits(DeleteStudentModal, _Component2);
+var DeleteStudentModal = function (_Component3) {
+    _inherits(DeleteStudentModal, _Component3);
 
     function DeleteStudentModal(props) {
         _classCallCheck(this, DeleteStudentModal);
 
-        var _this3 = _possibleConstructorReturn(this, (DeleteStudentModal.__proto__ || Object.getPrototypeOf(DeleteStudentModal)).call(this, props));
+        var _this4 = _possibleConstructorReturn(this, (DeleteStudentModal.__proto__ || Object.getPrototypeOf(DeleteStudentModal)).call(this, props));
 
-        _this3.confirmDelete = _this3.confirmDelete.bind(_this3);
-        return _this3;
+        _this4.confirmDelete = _this4.confirmDelete.bind(_this4);
+        return _this4;
     }
 
     _createClass(DeleteStudentModal, [{
         key: "confirmDelete",
         value: function confirmDelete() {
-            var _this4 = this;
+            var _this5 = this;
 
             var dismissToast = (0, _dismissable_toast_maker2.default)({
                 title: "Deleting",
@@ -473,7 +485,7 @@ var DeleteStudentModal = function (_Component2) {
                 beforeSend: _authorization2.default,
                 success: function success() {
                     dismissToast();
-                    _this4.props.refresh();
+                    _this5.props.refresh();
                     _izitoast2.default.success({
                         title: "Success",
                         message: "Student deleted",
@@ -532,22 +544,22 @@ var DeleteStudentModal = function (_Component2) {
     return DeleteStudentModal;
 }(_react.Component);
 
-var EditStudentModal = function (_Component3) {
-    _inherits(EditStudentModal, _Component3);
+var EditStudentModal = function (_Component4) {
+    _inherits(EditStudentModal, _Component4);
 
     function EditStudentModal(props) {
         _classCallCheck(this, EditStudentModal);
 
-        var _this5 = _possibleConstructorReturn(this, (EditStudentModal.__proto__ || Object.getPrototypeOf(EditStudentModal)).call(this, props));
+        var _this6 = _possibleConstructorReturn(this, (EditStudentModal.__proto__ || Object.getPrototypeOf(EditStudentModal)).call(this, props));
 
-        _this5.submitForm = _this5.submitAddInstitutionForm.bind(_this5);
-        return _this5;
+        _this6.submitForm = _this6.submitForm.bind(_this6);
+        return _this6;
     }
 
     _createClass(EditStudentModal, [{
-        key: "submitAddInstitutionForm",
+        key: "submitForm",
         value: function submitForm() {
-            var _this6 = this;
+            var _this7 = this;
 
             var dismissToast = (0, _dismissable_toast_maker2.default)({
                 title: "Editing",
@@ -579,7 +591,7 @@ var EditStudentModal = function (_Component3) {
                 beforeSend: _authorization2.default,
                 success: function success() {
                     dismissToast();
-                    _this6.props.refresh();
+                    _this7.props.refresh();
                     _izitoast2.default.success({
                         title: "Success",
                         message: "Successfully modified student"
@@ -920,7 +932,7 @@ var EditStudentModal = function (_Component3) {
                     _react2.default.createElement(
                         _reactstrap.Button,
                         { outline: true, color: "success", id: "edit-student-modal-submit",
-                            onClick: this.submitAddInstitutionForm },
+                            onClick: this.submitForm },
                         "Add"
                     )
                 )

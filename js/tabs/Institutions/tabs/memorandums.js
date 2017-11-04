@@ -34,14 +34,14 @@ function fetchInstitution(id, onResponse) {
             institution(id: ${id}) {
                 id
                 name
-                memorandumSet {
+                memorandum_set {
                     id
                     category
-                    memorandumFile
-                    dateEffective
-                    dateExpiration
-                    collegeInitiator
-                    memorandumlinkageSet {
+                    memorandum_file
+                    date_effective
+                    date_expiration
+                    college_initiator
+                    memorandumlinkage_set {
                         linkage
                     }
                 }
@@ -106,7 +106,7 @@ class Memorandums extends Component {
             <div id="institution-memorandums" className="d-flex flex-column p-0 h-100">
                 <MemorandumHead institution={this.state.institution} refreshMemorandums={this.refreshMemorandums}/>
                 <MemorandumBody institution={this.state.institution}
-                                memorandums={this.state.institution.memorandumSet}
+                                memorandums={this.state.institution.memorandum_set}
                                 refreshMemorandums={this.refreshMemorandums}/>
             </div>
         );
@@ -158,15 +158,14 @@ class MemorandumBody extends Component {
 
         //Parse dates
         props.memorandums.forEach(memorandum => {
-            memorandum.versionDate = moment(memorandum.versionDate);
-            memorandum.dateEffective = moment(memorandum.dateEffective);
-            memorandum.dateExpiration = moment(memorandum.dateExpiration);
+            memorandum.date_effective = moment(memorandum.date_effective);
+            memorandum.date_expiration = moment(memorandum.date_expiration);
         });
 
         //Sort by most recent
         props.memorandums.sort((a, b) => {
-            const aTime = a.dateEffective;
-            const bTime = b.dateEffective;
+            const aTime = a.date_effective;
+            const bTime = b.date_effective;
 
             if (aTime.isBefore(bTime)) {
                 return 1;
@@ -345,10 +344,10 @@ class MemorandumRow extends Component {
             return date.format("LL");
         }
 
-        const dateEffective = formatDate(memorandum.dateEffective);
-        const dateExpiration = memorandum.dateExpiration === null ? "No expiration" : formatDate(memorandum.dateExpiration);
-        const collegeInitiator = memorandum.collegeInitiator === null ? "No college initiator" : memorandum.collegeInitiator;
-        const linkages = memorandum.memorandumlinkageSet;
+        const dateEffective = formatDate(memorandum.date_effective);
+        const dateExpiration = memorandum.date_expiration === null ? "No expiration" : formatDate(memorandum.date_expiration);
+        const collegeInitiator = memorandum.college_initiator === null ? "No college initiator" : memorandum.college_initiator;
+        const linkages = memorandum.memorandumlinkage_set;
 
         let linkagesText = "No linkages";
 

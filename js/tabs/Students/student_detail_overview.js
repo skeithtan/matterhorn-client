@@ -21,8 +21,8 @@ class StudentDetailOverview extends Component {
     render() {
         const student = this.props.student;
         const sex = student.sex === "F" ? "Female" : "Male";
-        const civilStatus = settings.civilStatuses[student.civilStatus];
-        const birthDate = moment(student.birthDate).format("LL");
+        const civilStatus = settings.civilStatuses[student.civil_status];
+        const birthDate = moment(student.birth_date).format("LL");
 
         return (
 
@@ -42,7 +42,7 @@ class StudentDetailOverview extends Component {
 
                     <SectionRow>
                         <SectionRowTitle>Home Address</SectionRowTitle>
-                        <SectionRowContent large>{student.homeAddress}</SectionRowContent>
+                        <SectionRowContent large>{student.home_address}</SectionRowContent>
                     </SectionRow>
 
                     <SectionRow>
@@ -81,7 +81,7 @@ class StudentContact extends Component {
 
                     <SectionRow>
                         <SectionRowTitle>Phone Number</SectionRowTitle>
-                        <SectionRowContent large>{student.phoneNumber}</SectionRowContent>
+                        <SectionRowContent large>{student.phone_number}</SectionRowContent>
                     </SectionRow>
 
                     <SectionRow>
@@ -91,12 +91,12 @@ class StudentContact extends Component {
 
                     <SectionRow>
                         <SectionRowTitle>Emergency Contact</SectionRowTitle>
-                        <SectionRowContent large>{`${student.emergencyContactName} (${student.emergencyContactRelationship})`}</SectionRowContent>
+                        <SectionRowContent large>{`${student.emergency_contact_name} (${student.emergency_contact_relationship})`}</SectionRowContent>
                     </SectionRow>
 
                     <SectionRow>
                         <SectionRowTitle>Emergency Contact Number</SectionRowTitle>
-                        <SectionRowContent large>{student.emergencyContactNumber}</SectionRowContent>
+                        <SectionRowContent large>{student.emergency_contact_number}</SectionRowContent>
                     </SectionRow>
 
                 </SectionTable>

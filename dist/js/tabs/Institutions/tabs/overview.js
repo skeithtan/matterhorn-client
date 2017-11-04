@@ -34,7 +34,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function fetchInstitution(id, onResponse) {
     (0, _graphql2.default)({
-        query: "\n        {\n            institution(id:" + id + ") {\n                id\n                name\n                address\n                website\n                contactPersonEmail\n                contactPersonName\n                contactPersonNumber\n                country {\n                    name\n                }\n                agreement\n            }\n        }\n       ",
+        query: "\n        {\n            institution(id:" + id + ") {\n                id\n                name\n                address\n                website\n                contact_person_email\n                contact_person_name\n                contact_person_number\n                country {\n                    name\n                }\n                agreement\n            }\n        }\n       ",
         onResponse: onResponse
     });
 }
@@ -377,7 +377,7 @@ var ContactDetails = function (_Component5) {
                         _react2.default.createElement(
                             _section.SectionRowContent,
                             { large: true },
-                            institution.contactPersonName
+                            institution.contact_person_name
                         )
                     ),
                     _react2.default.createElement(
@@ -391,7 +391,7 @@ var ContactDetails = function (_Component5) {
                         _react2.default.createElement(
                             _section.SectionRowContent,
                             { large: true },
-                            institution.contactPersonEmail
+                            institution.contact_person_email
                         )
                     ),
                     _react2.default.createElement(
@@ -405,7 +405,7 @@ var ContactDetails = function (_Component5) {
                         _react2.default.createElement(
                             _section.SectionRowContent,
                             { large: true },
-                            institution.contactPersonNumber
+                            institution.contact_person_number
                         )
                     )
                 )

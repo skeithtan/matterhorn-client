@@ -27,9 +27,9 @@ function fetchInstitution(id, onResponse) {
                 name
                 address
                 website
-                contactPersonEmail
-                contactPersonName
-                contactPersonNumber
+                contact_person_email
+                contact_person_name
+                contact_person_number
                 country {
                     name
                 }
@@ -248,15 +248,15 @@ class ContactDetails extends Component {
                 <SectionTable>
                     <SectionRow>
                         <SectionRowTitle>Contact Person</SectionRowTitle>
-                        <SectionRowContent large>{institution.contactPersonName}</SectionRowContent>
+                        <SectionRowContent large>{institution.contact_person_name}</SectionRowContent>
                     </SectionRow>
                     <SectionRow>
                         <SectionRowTitle>Contact Person Email</SectionRowTitle>
-                        <SectionRowContent large>{institution.contactPersonEmail}</SectionRowContent>
+                        <SectionRowContent large>{institution.contact_person_email}</SectionRowContent>
                     </SectionRow>
                     <SectionRow>
                         <SectionRowTitle>Contact Person Number</SectionRowTitle>
-                        <SectionRowContent large>{institution.contactPersonNumber}</SectionRowContent>
+                        <SectionRowContent large>{institution.contact_person_number}</SectionRowContent>
                     </SectionRow>
                 </SectionTable>
             </Section>

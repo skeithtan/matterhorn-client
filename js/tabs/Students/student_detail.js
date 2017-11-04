@@ -24,22 +24,22 @@ function fetchStudent(id, onResponse) {
             student(id:${id}) {
                 id
                 category
-                idNumber
+                id_number
                 college
-                familyName
-                firstName
-                middleName
+                family_name
+                first_name
+                middle_name
                 nickname
                 nationality
-                homeAddress
-                phoneNumber
-                birthDate
+                home_address
+                phone_number
+                birth_date
                 sex
-                emergencyContactName
-                emergencyContactRelationship
-                emergencyContactNumber
+                emergency_contact_name
+                emergency_contact_relationship
+                emergency_contact_number
                 email
-                civilStatus
+                civil_status
             }
         }
        `,
@@ -155,8 +155,8 @@ class StudentDetailHead extends Component {
             <div className="page-head pt-5 d-flex flex-row align-items-center">
                 <div className="mr-auto">
                     <h4 className="page-head-title justify-content-left d-inline-block mb-0 mr-2">
-                        {this.props.student.firstName} {this.props.student.middleName} {this.props.student.familyName}
-                        <small className="text-muted ml-2">{this.props.student.idNumber}</small>
+                        {this.props.student.firstName} {this.props.student.middle_name} {this.props.student.family_name}
+                        <small className="text-muted ml-2">{this.props.student.id_number}</small>
                     </h4>
                 </div>
 

@@ -34,7 +34,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function fetchStudent(id, onResponse) {
     (0, _graphql2.default)({
-        query: "\n        {\n            student(id:" + id + ") {\n                id\n                category\n                idNumber\n                college\n                familyName\n                firstName\n                middleName\n                nickname\n                nationality\n                homeAddress\n                phoneNumber\n                birthDate\n                sex\n                emergencyContactName\n                emergencyContactRelationship\n                emergencyContactNumber\n                email\n                civilStatus\n            }\n        }\n       ",
+        query: "\n        {\n            student(id:" + id + ") {\n                id\n                category\n                id_number\n                college\n                family_name\n                first_name\n                middle_name\n                nickname\n                nationality\n                home_address\n                phone_number\n                birth_date\n                sex\n                emergency_contact_name\n                emergency_contact_relationship\n                emergency_contact_number\n                email\n                civil_status\n            }\n        }\n       ",
         onResponse: onResponse
     });
 }
@@ -184,13 +184,13 @@ var StudentDetailHead = function (_Component2) {
                         { className: "page-head-title justify-content-left d-inline-block mb-0 mr-2" },
                         this.props.student.firstName,
                         " ",
-                        this.props.student.middleName,
+                        this.props.student.middle_name,
                         " ",
-                        this.props.student.familyName,
+                        this.props.student.family_name,
                         _react2.default.createElement(
                             "small",
                             { className: "text-muted ml-2" },
-                            this.props.student.idNumber
+                            this.props.student.id_number
                         )
                     )
                 ),

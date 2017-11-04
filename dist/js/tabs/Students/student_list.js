@@ -117,22 +117,8 @@ var StudentListHead = function (_Component2) {
                     "div",
                     { className: "page-head-controls" },
                     _react2.default.createElement(
-                        "div",
-                        { className: "btn-group ml-auto" },
-                        _react2.default.createElement(
-                            _reactstrap.Button,
-                            { outline: true, color: "success", size: "sm", className: "active" },
-                            "Active"
-                        ),
-                        _react2.default.createElement(
-                            _reactstrap.Button,
-                            { outline: true, color: "success", size: "sm", className: "" },
-                            "Historical"
-                        )
-                    ),
-                    _react2.default.createElement(
                         _reactstrap.Button,
-                        { outline: true, color: "success", size: "sm", className: "ml-4",
+                        { outline: true, color: "success", size: "sm", className: "ml-auto",
                             onClick: this.props.toggleAddStudent },
                         "Add"
                     )
@@ -196,7 +182,7 @@ var StudentListTable = function (_Component3) {
 
             //Get first letter
             var familyNameInitials = this.props.students.map(function (student) {
-                return student.familyName[0];
+                return student.family_name[0];
             });
 
             //Get uniques only
@@ -226,7 +212,7 @@ var StudentListTable = function (_Component3) {
                 });
 
                 _this4.props.students.forEach(function (student) {
-                    var studentInitial = student.familyName[0];
+                    var studentInitial = student.family_name[0];
 
                     if (studentInitial === initial) {
                         students.push(student);
@@ -314,17 +300,17 @@ var StudentSection = function (_Component4) {
                     _react2.default.createElement(
                         "small",
                         { className: "d-block" },
-                        student.idNumber
+                        student.id_number
                     ),
                     _react2.default.createElement(
                         "b",
                         null,
-                        student.familyName
+                        student.family_name
                     ),
                     ", ",
-                    student.firstName,
+                    student.first_name,
                     " ",
-                    student.middleName
+                    student.middle_name
                 );
             });
 

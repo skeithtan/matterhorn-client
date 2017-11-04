@@ -13,10 +13,10 @@ function fetchStudents(onResponse) {
         {
             students {
                 id
-                idNumber
-                familyName
-                firstName
-                middleName
+                id_number
+                family_name
+                first_name
+                middle_name
             }
         }
         `,

@@ -78,9 +78,6 @@ var InstitutionFormModal = function (_Component) {
 
         if (_this.props.edit) {
             _this.state.form = props.institution;
-            _this.state.form.contact_person_number = props.institution.contactPersonNumber;
-            _this.state.form.contact_person_email = props.institution.contactPersonEmail;
-            _this.state.form.contact_person_name = props.institution.contactPersonName;
         }
         return _this;
     }

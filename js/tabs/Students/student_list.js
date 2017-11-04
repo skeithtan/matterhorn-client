@@ -80,11 +80,7 @@ class StudentListHead extends Component {
         return (
             <div className="page-head">
                 <div className="page-head-controls">
-                    <div className="btn-group ml-auto">
-                        <Button outline color="success" size="sm" className="active">Active</Button>
-                        <Button outline color="success" size="sm" className="">Historical</Button>
-                    </div>
-                    <Button outline color="success" size="sm" className="ml-4"
+                    <Button outline color="success" size="sm" className="ml-auto"
                             onClick={this.props.toggleAddStudent}>Add</Button>
                 </div>
                 <h4 className="page-head-title">Students</h4>
@@ -122,7 +118,7 @@ class StudentListTable extends Component {
 
     getStudentsByFamilyNameInitials() {
         //Get first letter
-        let familyNameInitials = this.props.students.map(student => student.familyName[0]);
+        let familyNameInitials = this.props.students.map(student => student.family_name[0]);
 
         //Get uniques only
         familyNameInitials = familyNameInitials.filter((value, index, self) => {
@@ -151,7 +147,7 @@ class StudentListTable extends Component {
             });
 
             this.props.students.forEach(student => {
-                const studentInitial = student.familyName[0];
+                const studentInitial = student.family_name[0];
 
                 if (studentInitial === initial) {
                     students.push(student);
@@ -209,8 +205,8 @@ class StudentSection extends Component {
 
             return (
                 <SectionRow selectable onClick={setActiveStudent} active={isActive} key={student.id}>
-                    <small className="d-block">{student.idNumber}</small>
-                    <b>{student.familyName}</b>, {student.firstName} {student.middleName}
+                    <small className="d-block">{student.id_number}</small>
+                    <b>{student.family_name}</b>, {student.first_name} {student.middle_name}
                 </SectionRow>
             );
         });

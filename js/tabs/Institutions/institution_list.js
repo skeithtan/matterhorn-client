@@ -46,7 +46,7 @@ class InstitutionList extends Component {
 
         this.props.institutions.forEach(country => {
             // Array of institutions from this country that conforms to search
-            const countryFiltered = country.institutionSet.filter(institution => {
+            const countryFiltered = country.institution_set.filter(institution => {
                 const institutionName = institution.name.toLowerCase();
                 return institutionName.includes(searchKeyword);
             });
@@ -57,7 +57,7 @@ class InstitutionList extends Component {
                 // Create new country object so as not to affect actual country object
                 filtered.push({
                     name : country.name,
-                    institutionSet : countryFiltered,
+                    institution_set : countryFiltered,
                 });
             }
         });
@@ -147,7 +147,7 @@ class InstitutionListTable extends Component {
 
 
         const sections = this.props.countries.map((country, index) => {
-            return <InstitutionSection title={country.name} institutions={country.institutionSet} key={index}
+            return <InstitutionSection title={country.name} institutions={country.institution_set} key={index}
                                        activeInstitution={this.props.activeInstitution}
                                        setActiveInstitution={this.props.setActiveInstitution}/>;
         });

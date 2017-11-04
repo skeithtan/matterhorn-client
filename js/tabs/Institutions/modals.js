@@ -49,9 +49,6 @@ class InstitutionFormModal extends Component {
 
         if (this.props.edit) {
             this.state.form = props.institution;
-            this.state.form.contact_person_number = props.institution.contactPersonNumber;
-            this.state.form.contact_person_email = props.institution.contactPersonEmail;
-            this.state.form.contact_person_name = props.institution.contactPersonName;
         }
     }
 

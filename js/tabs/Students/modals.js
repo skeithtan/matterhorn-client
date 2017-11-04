@@ -17,6 +17,11 @@ import {
     Button,
 } from "reactstrap";
 
+class StudentFormModal extends Component {
+    constructor(props) {
+        super(props);
+    }
+}
 
 class AddStudentModal extends Component {
     constructor(props) {

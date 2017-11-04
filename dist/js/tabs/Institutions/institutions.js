@@ -34,7 +34,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function fetchInstitutions(onResponse) {
     (0, _graphql2.default)({
-        query: "\n        {\n            countries {\n                name\n                institutionSet {\n                    id\n                    name\n                }\n            }\n        }\n        ",
+        query: "\n        {\n            countries {\n                name\n                institution_set {\n                    id\n                    name\n                }\n            }\n        }\n        ",
         onResponse: onResponse
     });
 }

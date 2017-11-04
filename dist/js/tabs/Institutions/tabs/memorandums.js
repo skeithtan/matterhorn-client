@@ -42,7 +42,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function fetchInstitution(id, onResponse) {
     (0, _graphql2.default)({
-        query: "\n        {\n            institution(id: " + id + ") {\n                id\n                name\n                memorandumSet {\n                    id\n                    category\n                    memorandumFile\n                    dateEffective\n                    dateExpiration\n                    collegeInitiator\n                    memorandumlinkageSet {\n                        linkage\n                    }\n                }\n            }\n        }\n       ",
+        query: "\n        {\n            institution(id: " + id + ") {\n                id\n                name\n                memorandum_set {\n                    id\n                    category\n                    memorandum_file\n                    date_effective\n                    date_expiration\n                    college_initiator\n                    memorandumlinkage_set {\n                        linkage\n                    }\n                }\n            }\n        }\n       ",
         onResponse: onResponse
     });
 }
@@ -114,7 +114,7 @@ var Memorandums = function (_Component) {
                 { id: "institution-memorandums", className: "d-flex flex-column p-0 h-100" },
                 _react2.default.createElement(MemorandumHead, { institution: this.state.institution, refreshMemorandums: this.refreshMemorandums }),
                 _react2.default.createElement(MemorandumBody, { institution: this.state.institution,
-                    memorandums: this.state.institution.memorandumSet,
+                    memorandums: this.state.institution.memorandum_set,
                     refreshMemorandums: this.refreshMemorandums })
             );
         }
@@ -196,15 +196,14 @@ var MemorandumBody = function (_Component3) {
         var _this5 = _possibleConstructorReturn(this, (MemorandumBody.__proto__ || Object.getPrototypeOf(MemorandumBody)).call(this, props));
 
         props.memorandums.forEach(function (memorandum) {
-            memorandum.versionDate = (0, _moment2.default)(memorandum.versionDate);
-            memorandum.dateEffective = (0, _moment2.default)(memorandum.dateEffective);
-            memorandum.dateExpiration = (0, _moment2.default)(memorandum.dateExpiration);
+            memorandum.date_effective = (0, _moment2.default)(memorandum.date_effective);
+            memorandum.date_expiration = (0, _moment2.default)(memorandum.date_expiration);
         });
 
         //Sort by most recent
         props.memorandums.sort(function (a, b) {
-            var aTime = a.dateEffective;
-            var bTime = b.dateEffective;
+            var aTime = a.date_effective;
+            var bTime = b.date_effective;
 
             if (aTime.isBefore(bTime)) {
                 return 1;
@@ -434,10 +433,10 @@ var MemorandumRow = function (_Component5) {
                 return date.format("LL");
             }
 
-            var dateEffective = formatDate(memorandum.dateEffective);
-            var dateExpiration = memorandum.dateExpiration === null ? "No expiration" : formatDate(memorandum.dateExpiration);
-            var collegeInitiator = memorandum.collegeInitiator === null ? "No college initiator" : memorandum.collegeInitiator;
-            var linkages = memorandum.memorandumlinkageSet;
+            var dateEffective = formatDate(memorandum.date_effective);
+            var dateExpiration = memorandum.date_expiration === null ? "No expiration" : formatDate(memorandum.date_expiration);
+            var collegeInitiator = memorandum.college_initiator === null ? "No college initiator" : memorandum.college_initiator;
+            var linkages = memorandum.memorandumlinkage_set;
 
             var linkagesText = "No linkages";
 
