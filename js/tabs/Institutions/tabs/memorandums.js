@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import moment from "moment";
 import graphql from "../../../graphql";
 import LoadingSpinner from "../../../loading";
@@ -21,10 +21,13 @@ import {
     SectionFooter,
 } from "../../../components/section";
 
+import {
+    AddMemorandumModal,
+} from "../modals";
 
 function fetchInstitution(id, onResponse) {
     graphql({
-        query : `
+        query: `
         {
             institution(id: ${id}) {
                 id
@@ -43,7 +46,7 @@ function fetchInstitution(id, onResponse) {
             }
         }
        `,
-        onResponse : onResponse,
+        onResponse: onResponse,
     });
 }
 
@@ -53,29 +56,41 @@ class Memorandums extends Component {
         super(props);
 
         this.state = {
-            institution : null,
-            institutionID : props.institution.id,
+            institution: null,
+            institutionID: props.institution.id,
         };
+
+        this.refreshMemorandums = this.refreshMemorandums.bind(this);
 
         //Fetch active institution details
         fetchInstitution(props.institution.id, response => {
-            console.log(response);
-
             this.setState({
-                institution : response.data.institution,
+                institution: response.data.institution,
+            });
+        });
+    }
+
+    refreshMemorandums() {
+        this.setState({
+            institution: null,
+        });
+
+        fetchInstitution(this.props.institution.id, response => {
+            this.setState({
+                institution: response.data.institution,
             });
         });
     }
 
     componentWillReceiveProps(nextProps) {
         this.setState({
-            institutionID : nextProps.institution.id,
-            institution : null,
+            institutionID: nextProps.institution.id,
+            institution: null,
         });
 
         fetchInstitution(nextProps.institution.id, response => {
             this.setState({
-                institution : response.data.institution,
+                institution: response.data.institution,
             });
         });
     }
@@ -87,7 +102,7 @@ class Memorandums extends Component {
 
         return (
             <div id="institution-memorandums" className="d-flex flex-column p-0 h-100">
-                <MemorandumHead institution={this.state.institution}/>
+                <MemorandumHead institution={this.state.institution} refreshMemorandums={this.refreshMemorandums}/>
                 <MemorandumBody memorandums={this.state.institution.memorandumSet}/>
             </div>
         );
@@ -97,6 +112,18 @@ class Memorandums extends Component {
 class MemorandumHead extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            addMemorandumIsShowing: false,
+        };
+
+        this.toggleAddMemorandum = this.toggleAddMemorandum.bind(this);
+    }
+
+    toggleAddMemorandum() {
+        this.setState({
+            addMemorandumIsShowing: !this.state.addMemorandumIsShowing,
+        });
     }
 
     render() {
@@ -108,8 +135,13 @@ class MemorandumHead extends Component {
                 </div>
 
                 <div className="page-head-actions">
-                    <Button outline size="sm" color="success">Add a Memorandum</Button>
+                    <Button outline size="sm" color="success" onClick={this.toggleAddMemorandum}>Add a Memorandum</Button>
                 </div>
+
+                <AddMemorandumModal isOpen={this.state.addMemorandumIsShowing}
+                                    institution={this.props.institution}
+                                    toggle={this.toggleAddMemorandum}
+                                    refresh={this.props.refreshMemorandums}/>
             </div>
         );
     }
@@ -160,9 +192,9 @@ class MemorandumBody extends Component {
         });
 
         this.state = {
-            showing : null,
-            agreements : agreements,
-            understandings : understandings,
+            showing: null,
+            agreements: agreements,
+            understandings: understandings,
         };
     }
 
@@ -186,7 +218,7 @@ class MemorandumListSection extends Component {
         super(props);
 
         this.state = {
-            activeMemorandum : null,
+            activeMemorandum: null,
         };
 
         this.emptyState = this.emptyState.bind(this);
@@ -197,7 +229,7 @@ class MemorandumListSection extends Component {
         console.log(memorandum);
         if (this.state.activeMemorandum === null) {
             this.setState({
-                activeMemorandum : memorandum,
+                activeMemorandum: memorandum,
             });
 
             return;
@@ -205,7 +237,7 @@ class MemorandumListSection extends Component {
 
         this.setState({
             // Collapse if clicked memorandum is already the active memorandum
-            activeMemorandum : this.state.activeMemorandum.id === memorandum.id ? null : memorandum,
+            activeMemorandum: this.state.activeMemorandum.id === memorandum.id ? null : memorandum,
         });
     }
 

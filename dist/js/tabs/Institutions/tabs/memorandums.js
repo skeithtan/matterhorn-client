@@ -30,6 +30,8 @@ var _reactstrap = require("reactstrap");
 
 var _section = require("../../../components/section");
 
+var _modals = require("../modals");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -58,10 +60,10 @@ var Memorandums = function (_Component) {
             institutionID: props.institution.id
         };
 
+        _this.refreshMemorandums = _this.refreshMemorandums.bind(_this);
+
         //Fetch active institution details
         fetchInstitution(props.institution.id, function (response) {
-            console.log(response);
-
             _this.setState({
                 institution: response.data.institution
             });
@@ -70,9 +72,24 @@ var Memorandums = function (_Component) {
     }
 
     _createClass(Memorandums, [{
+        key: "refreshMemorandums",
+        value: function refreshMemorandums() {
+            var _this2 = this;
+
+            this.setState({
+                institution: null
+            });
+
+            fetchInstitution(this.props.institution.id, function (response) {
+                _this2.setState({
+                    institution: response.data.institution
+                });
+            });
+        }
+    }, {
         key: "componentWillReceiveProps",
         value: function componentWillReceiveProps(nextProps) {
-            var _this2 = this;
+            var _this3 = this;
 
             this.setState({
                 institutionID: nextProps.institution.id,
@@ -80,7 +97,7 @@ var Memorandums = function (_Component) {
             });
 
             fetchInstitution(nextProps.institution.id, function (response) {
-                _this2.setState({
+                _this3.setState({
                     institution: response.data.institution
                 });
             });
@@ -95,7 +112,7 @@ var Memorandums = function (_Component) {
             return _react2.default.createElement(
                 "div",
                 { id: "institution-memorandums", className: "d-flex flex-column p-0 h-100" },
-                _react2.default.createElement(MemorandumHead, { institution: this.state.institution }),
+                _react2.default.createElement(MemorandumHead, { institution: this.state.institution, refreshMemorandums: this.refreshMemorandums }),
                 _react2.default.createElement(MemorandumBody, { memorandums: this.state.institution.memorandumSet })
             );
         }
@@ -110,10 +127,24 @@ var MemorandumHead = function (_Component2) {
     function MemorandumHead(props) {
         _classCallCheck(this, MemorandumHead);
 
-        return _possibleConstructorReturn(this, (MemorandumHead.__proto__ || Object.getPrototypeOf(MemorandumHead)).call(this, props));
+        var _this4 = _possibleConstructorReturn(this, (MemorandumHead.__proto__ || Object.getPrototypeOf(MemorandumHead)).call(this, props));
+
+        _this4.state = {
+            addMemorandumIsShowing: false
+        };
+
+        _this4.toggleAddMemorandum = _this4.toggleAddMemorandum.bind(_this4);
+        return _this4;
     }
 
     _createClass(MemorandumHead, [{
+        key: "toggleAddMemorandum",
+        value: function toggleAddMemorandum() {
+            this.setState({
+                addMemorandumIsShowing: !this.state.addMemorandumIsShowing
+            });
+        }
+    }, {
         key: "render",
         value: function render() {
             return _react2.default.createElement(
@@ -138,10 +169,14 @@ var MemorandumHead = function (_Component2) {
                     { className: "page-head-actions" },
                     _react2.default.createElement(
                         _reactstrap.Button,
-                        { outline: true, size: "sm", color: "success" },
+                        { outline: true, size: "sm", color: "success", onClick: this.toggleAddMemorandum },
                         "Add a Memorandum"
                     )
-                )
+                ),
+                _react2.default.createElement(_modals.AddMemorandumModal, { isOpen: this.state.addMemorandumIsShowing,
+                    institution: this.props.institution,
+                    toggle: this.toggleAddMemorandum,
+                    refresh: this.props.refreshMemorandums })
             );
         }
     }]);
@@ -156,7 +191,7 @@ var MemorandumBody = function (_Component3) {
         _classCallCheck(this, MemorandumBody);
 
         //Parse dates
-        var _this4 = _possibleConstructorReturn(this, (MemorandumBody.__proto__ || Object.getPrototypeOf(MemorandumBody)).call(this, props));
+        var _this5 = _possibleConstructorReturn(this, (MemorandumBody.__proto__ || Object.getPrototypeOf(MemorandumBody)).call(this, props));
 
         props.memorandums.forEach(function (memorandum) {
             memorandum.versionDate = (0, _moment2.default)(memorandum.versionDate);
@@ -197,12 +232,12 @@ var MemorandumBody = function (_Component3) {
             }
         });
 
-        _this4.state = {
+        _this5.state = {
             showing: null,
             agreements: agreements,
             understandings: understandings
         };
-        return _this4;
+        return _this5;
     }
 
     _createClass(MemorandumBody, [{
@@ -234,15 +269,15 @@ var MemorandumListSection = function (_Component4) {
     function MemorandumListSection(props) {
         _classCallCheck(this, MemorandumListSection);
 
-        var _this5 = _possibleConstructorReturn(this, (MemorandumListSection.__proto__ || Object.getPrototypeOf(MemorandumListSection)).call(this, props));
+        var _this6 = _possibleConstructorReturn(this, (MemorandumListSection.__proto__ || Object.getPrototypeOf(MemorandumListSection)).call(this, props));
 
-        _this5.state = {
+        _this6.state = {
             activeMemorandum: null
         };
 
-        _this5.emptyState = _this5.emptyState.bind(_this5);
-        _this5.setActiveMemorandum = _this5.setActiveMemorandum.bind(_this5);
-        return _this5;
+        _this6.emptyState = _this6.emptyState.bind(_this6);
+        _this6.setActiveMemorandum = _this6.setActiveMemorandum.bind(_this6);
+        return _this6;
     }
 
     _createClass(MemorandumListSection, [{
@@ -280,7 +315,7 @@ var MemorandumListSection = function (_Component4) {
     }, {
         key: "render",
         value: function render() {
-            var _this6 = this;
+            var _this7 = this;
 
             if (this.props.memorandums.length === 0) {
                 return _react2.default.createElement(
@@ -298,12 +333,12 @@ var MemorandumListSection = function (_Component4) {
             var rows = this.props.memorandums.map(function (memorandum) {
                 var isShowing = false;
 
-                if (_this6.state.activeMemorandum !== null) {
-                    isShowing = _this6.state.activeMemorandum.id === memorandum.id;
+                if (_this7.state.activeMemorandum !== null) {
+                    isShowing = _this7.state.activeMemorandum.id === memorandum.id;
                 }
 
                 var onMemorandumRowClick = function onMemorandumRowClick() {
-                    return _this6.setActiveMemorandum(memorandum);
+                    return _this7.setActiveMemorandum(memorandum);
                 };
                 return _react2.default.createElement(MemorandumRow, { isShowing: isShowing, memorandum: memorandum, onClick: onMemorandumRowClick,
                     key: memorandum.id });

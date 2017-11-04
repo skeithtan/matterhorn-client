@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.EditInstitutionModal = exports.DeleteInstitutionModal = exports.AddInstitutionModal = undefined;
+exports.AddMemorandumModal = exports.EditInstitutionModal = exports.DeleteInstitutionModal = exports.AddInstitutionModal = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -557,7 +557,8 @@ var EditInstitutionModal = function (_Component3) {
                                 { "for": "edit-institution-email" },
                                 "Contact Email"
                             ),
-                            _react2.default.createElement(_reactstrap.Input, { type: "email", id: "edit-institution-email", defaultValue: this.props.institution.contactPersonEmail,
+                            _react2.default.createElement(_reactstrap.Input, { type: "email", id: "edit-institution-email",
+                                defaultValue: this.props.institution.contactPersonEmail,
                                 placeholder: "Email", className: "text-input" })
                         ),
                         _react2.default.createElement(
@@ -607,7 +608,210 @@ var EditInstitutionModal = function (_Component3) {
     return EditInstitutionModal;
 }(_react.Component);
 
+var AddMemorandumModal = function (_Component4) {
+    _inherits(AddMemorandumModal, _Component4);
+
+    function AddMemorandumModal(props) {
+        _classCallCheck(this, AddMemorandumModal);
+
+        var _this7 = _possibleConstructorReturn(this, (AddMemorandumModal.__proto__ || Object.getPrototypeOf(AddMemorandumModal)).call(this, props));
+
+        _this7.submitForm = _this7.submitForm.bind(_this7);
+        return _this7;
+    }
+
+    _createClass(AddMemorandumModal, [{
+        key: "submitForm",
+        value: function submitForm() {
+            var _this8 = this;
+
+            var dismissToast = (0, _dismissable_toast_maker2.default)({
+                title: "Adding",
+                message: "Adding new memorandum..."
+            });
+
+            console.log(this.props.institution.id);
+
+            _jquery2.default.post({
+                url: _settings2.default.serverURL + "/institutions/" + this.props.institution.id + "/memorandums/",
+                data: {
+                    institution: this.props.institution.id,
+                    category: (0, _jquery2.default)("#add-memorandum-category").val(),
+                    memorandum_file: (0, _jquery2.default)("#add-memorandum-file").val(),
+                    date_effective: (0, _jquery2.default)("#add-memorandum-date-effective").val(),
+                    date_expiration: (0, _jquery2.default)("#add-memorandum-expiration-date").val(),
+                    college_initiator: (0, _jquery2.default)("#add-memorandum-college-initiator").val()
+                },
+                beforeSend: _authorization2.default,
+                success: function success() {
+                    dismissToast();
+                    _this8.props.refresh();
+                    _izitoast2.default.success({
+                        title: "Success",
+                        message: "Successfully added memorandum"
+                    });
+                },
+                error: function error(response) {
+                    dismissToast();
+                    console.log(response);
+                    _izitoast2.default.error({
+                        title: "Error",
+                        message: "Unable to add memorandum"
+                    });
+                }
+            });
+
+            this.props.toggle();
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            return _react2.default.createElement(
+                _reactstrap.Modal,
+                { isOpen: this.props.isOpen, toggle: this.props.toggle, backdrop: true, id: "add-memorandum-modal",
+                    onOpened: AddMemorandumModal.addValidation },
+                _react2.default.createElement(
+                    _reactstrap.ModalHeader,
+                    { toggle: this.props.toggle },
+                    "Add a Memorandum to ",
+                    this.props.institution.name
+                ),
+                _react2.default.createElement(
+                    _reactstrap.ModalBody,
+                    { className: "form" },
+                    _react2.default.createElement(
+                        _reactstrap.Form,
+                        null,
+                        _react2.default.createElement(
+                            _reactstrap.FormGroup,
+                            null,
+                            _react2.default.createElement(
+                                _reactstrap.Label,
+                                { "for": "add-memorandum-category" },
+                                "Category"
+                            ),
+                            _react2.default.createElement(
+                                _reactstrap.Input,
+                                { id: "add-memorandum-category", type: "select" },
+                                _react2.default.createElement(
+                                    "option",
+                                    { value: "MOA" },
+                                    "Memorandum of Agreement"
+                                ),
+                                _react2.default.createElement(
+                                    "option",
+                                    { value: "MOU" },
+                                    "Memorandum of Understanding"
+                                )
+                            )
+                        ),
+                        _react2.default.createElement(
+                            _reactstrap.FormGroup,
+                            null,
+                            _react2.default.createElement(
+                                _reactstrap.Label,
+                                { "for": "add-memorandum-file" },
+                                "File Link"
+                            ),
+                            _react2.default.createElement(_reactstrap.Input, { id: "add-memorandum-file", placeholder: "File Link", className: "text-input" })
+                        ),
+                        _react2.default.createElement(
+                            _reactstrap.FormGroup,
+                            null,
+                            _react2.default.createElement(
+                                _reactstrap.Label,
+                                { "for": "add-memorandum-date-effective" },
+                                "Date Effective"
+                            ),
+                            _react2.default.createElement(_reactstrap.Input, { type: "date", id: "add-memorandum-date-effective", className: "text-input" })
+                        ),
+                        _react2.default.createElement(
+                            _reactstrap.FormGroup,
+                            null,
+                            _react2.default.createElement(
+                                _reactstrap.Label,
+                                { "for": "add-memorandum-expiration-date" },
+                                "Expiration Date"
+                            ),
+                            _react2.default.createElement(_reactstrap.Input, { type: "date", id: "add-memorandum-expiration-date", className: "text-input" })
+                        ),
+                        _react2.default.createElement(
+                            _reactstrap.FormGroup,
+                            null,
+                            _react2.default.createElement(
+                                _reactstrap.Label,
+                                { "for": "add-memorandum-college-initiator" },
+                                "College Initiator"
+                            ),
+                            _react2.default.createElement(
+                                _reactstrap.Input,
+                                { type: "select", id: "add-memorandum-college-initiator" },
+                                _react2.default.createElement(
+                                    "option",
+                                    { value: "CCS" },
+                                    "College of Computer Studies"
+                                ),
+                                _react2.default.createElement(
+                                    "option",
+                                    { value: "RVRCOB" },
+                                    "Ramon V. del Rosario College of Business"
+                                ),
+                                _react2.default.createElement(
+                                    "option",
+                                    { value: "CLA" },
+                                    "College of Liberal Arts"
+                                ),
+                                _react2.default.createElement(
+                                    "option",
+                                    { value: "SOE" },
+                                    "School of Economics"
+                                ),
+                                _react2.default.createElement(
+                                    "option",
+                                    { value: "GCOE" },
+                                    "Gokongwei College of Engineering"
+                                ),
+                                _react2.default.createElement(
+                                    "option",
+                                    { value: "COL" },
+                                    "College of Law"
+                                ),
+                                _react2.default.createElement(
+                                    "option",
+                                    { value: "BAGCED" },
+                                    "Brother Andrew Gonzales College of Education"
+                                )
+                            )
+                        )
+                    )
+                ),
+                _react2.default.createElement(
+                    _reactstrap.ModalFooter,
+                    null,
+                    _react2.default.createElement(
+                        _reactstrap.Button,
+                        { outline: true, color: "success", id: "add-memorandum-modal-submit",
+                            onClick: this.submitForm },
+                        "Add Memorandum"
+                    )
+                )
+            );
+        }
+    }], [{
+        key: "addValidation",
+        value: function addValidation() {
+            (0, _form_validation2.default)({
+                inputs: (0, _jquery2.default)("#add-memorandum-modal").find(".text-input"),
+                button: (0, _jquery2.default)("#add-memorandum-modal-submit")
+            });
+        }
+    }]);
+
+    return AddMemorandumModal;
+}(_react.Component);
+
 exports.AddInstitutionModal = AddInstitutionModal;
 exports.DeleteInstitutionModal = DeleteInstitutionModal;
 exports.EditInstitutionModal = EditInstitutionModal;
+exports.AddMemorandumModal = AddMemorandumModal;
 //# sourceMappingURL=modals.js.map
