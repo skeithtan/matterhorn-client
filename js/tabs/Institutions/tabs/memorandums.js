@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import moment from "moment";
 import graphql from "../../../graphql";
 import LoadingSpinner from "../../../loading";
@@ -21,10 +21,15 @@ import {
     SectionFooter,
 } from "../../../components/section";
 
+import {
+    AddMemorandumModal,
+    DeleteMemorandumModal,
+    EditMemorandumModal,
+} from "../modals";
 
 function fetchInstitution(id, onResponse) {
     graphql({
-        query : `
+        query: `
         {
             institution(id: ${id}) {
                 id
@@ -43,7 +48,7 @@ function fetchInstitution(id, onResponse) {
             }
         }
        `,
-        onResponse : onResponse,
+        onResponse: onResponse,
     });
 }
 
@@ -53,29 +58,41 @@ class Memorandums extends Component {
         super(props);
 
         this.state = {
-            institution : null,
-            institutionID : props.institution.id,
+            institution: null,
+            institutionID: props.institution.id,
         };
+
+        this.refreshMemorandums = this.refreshMemorandums.bind(this);
 
         //Fetch active institution details
         fetchInstitution(props.institution.id, response => {
-            console.log(response);
-
             this.setState({
-                institution : response.data.institution,
+                institution: response.data.institution,
+            });
+        });
+    }
+
+    refreshMemorandums() {
+        this.setState({
+            institution: null,
+        });
+
+        fetchInstitution(this.props.institution.id, response => {
+            this.setState({
+                institution: response.data.institution,
             });
         });
     }
 
     componentWillReceiveProps(nextProps) {
         this.setState({
-            institutionID : nextProps.institution.id,
-            institution : null,
+            institutionID: nextProps.institution.id,
+            institution: null,
         });
 
         fetchInstitution(nextProps.institution.id, response => {
             this.setState({
-                institution : response.data.institution,
+                institution: response.data.institution,
             });
         });
     }
@@ -87,8 +104,10 @@ class Memorandums extends Component {
 
         return (
             <div id="institution-memorandums" className="d-flex flex-column p-0 h-100">
-                <MemorandumHead institution={this.state.institution}/>
-                <MemorandumBody memorandums={this.state.institution.memorandumSet}/>
+                <MemorandumHead institution={this.state.institution} refreshMemorandums={this.refreshMemorandums}/>
+                <MemorandumBody institution={this.state.institution}
+                                memorandums={this.state.institution.memorandumSet}
+                                refreshMemorandums={this.refreshMemorandums}/>
             </div>
         );
     }
@@ -97,6 +116,18 @@ class Memorandums extends Component {
 class MemorandumHead extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            addMemorandumIsShowing: false,
+        };
+
+        this.toggleAddMemorandum = this.toggleAddMemorandum.bind(this);
+    }
+
+    toggleAddMemorandum() {
+        this.setState({
+            addMemorandumIsShowing: !this.state.addMemorandumIsShowing,
+        });
     }
 
     render() {
@@ -108,8 +139,14 @@ class MemorandumHead extends Component {
                 </div>
 
                 <div className="page-head-actions">
-                    <Button outline size="sm" color="success">Add a Memorandum</Button>
+                    <Button outline size="sm" color="success" onClick={this.toggleAddMemorandum}>Add a
+                        Memorandum</Button>
                 </div>
+
+                <AddMemorandumModal isOpen={this.state.addMemorandumIsShowing}
+                                    institution={this.props.institution}
+                                    toggle={this.toggleAddMemorandum}
+                                    refresh={this.props.refreshMemorandums}/>
             </div>
         );
     }
@@ -160,20 +197,25 @@ class MemorandumBody extends Component {
         });
 
         this.state = {
-            showing : null,
-            agreements : agreements,
-            understandings : understandings,
+            showing: null,
+            agreements: agreements,
+            understandings: understandings,
         };
+
     }
 
     render() {
         return (
             <div className="page-body">
-                <MemorandumListSection memorandums={this.state.agreements}>
+                <MemorandumListSection institution={this.props.institution}
+                                       memorandums={this.state.agreements}
+                                       refreshMemorandums={this.props.refreshMemorandums}>
                     Memorandums of Agreement
                 </MemorandumListSection>
 
-                <MemorandumListSection memorandums={this.state.understandings}>
+                <MemorandumListSection institution={this.props.institution}
+                                       memorandums={this.state.understandings}
+                                       refreshMemorandums={this.props.refreshMemorandums}>
                     Memorandums of Understanding
                 </MemorandumListSection>
             </div>
@@ -186,18 +228,21 @@ class MemorandumListSection extends Component {
         super(props);
 
         this.state = {
-            activeMemorandum : null,
+            activeMemorandum: null,
+            deleteMemorandumIsShowing: false,
+            editMemorandumIsShowing: false,
         };
 
         this.emptyState = this.emptyState.bind(this);
         this.setActiveMemorandum = this.setActiveMemorandum.bind(this);
+        this.toggleDeleteMemorandum = this.toggleDeleteMemorandum.bind(this);
+        this.toggleEditMemorandum = this.toggleEditMemorandum.bind(this);
     }
 
     setActiveMemorandum(memorandum) {
-        console.log(memorandum);
         if (this.state.activeMemorandum === null) {
             this.setState({
-                activeMemorandum : memorandum,
+                activeMemorandum: memorandum,
             });
 
             return;
@@ -205,20 +250,31 @@ class MemorandumListSection extends Component {
 
         this.setState({
             // Collapse if clicked memorandum is already the active memorandum
-            activeMemorandum : this.state.activeMemorandum.id === memorandum.id ? null : memorandum,
+            activeMemorandum: this.state.activeMemorandum.id === memorandum.id ? null : memorandum,
+        });
+    }
+
+    toggleDeleteMemorandum() {
+        this.setState({
+            deleteMemorandumIsShowing: !this.state.deleteMemorandumIsShowing,
+        });
+    }
+
+    toggleEditMemorandum() {
+        this.setState({
+            editMemorandumIsShowing: !this.state.editMemorandumIsShowing,
         });
     }
 
     emptyState() {
         return (
             <div className="p-5 text-center bg-light">
-                <h5 className="text-secondary">There are no {this.props.children}s for this institution</h5>
+                <h5 className="text-secondary">There are no {this.props.children} for this institution</h5>
             </div>
         );
     }
 
     render() {
-
         if (this.props.memorandums.length === 0) {
             return (
                 <Section>
@@ -236,18 +292,37 @@ class MemorandumListSection extends Component {
             }
 
             const onMemorandumRowClick = () => this.setActiveMemorandum(memorandum);
-            return <MemorandumRow isShowing={isShowing} memorandum={memorandum} onClick={onMemorandumRowClick}
+            return <MemorandumRow isShowing={isShowing}
+                                  memorandum={memorandum}
+                                  onClick={onMemorandumRowClick}
+                                  toggleDeleteMemorandum={this.toggleDeleteMemorandum}
+                                  toggleEditMemorandum={this.toggleEditMemorandum}
                                   key={memorandum.id}/>;
         });
 
         return (
-            <Section>
-                <SectionTitle>{this.props.children}</SectionTitle>
-                <SectionTable className="memorandums-accordion">
-                    {rows}
-                </SectionTable>
-                <SectionFooter>Select a memorandum to see its details</SectionFooter>
-            </Section>
+            <div>
+                <Section>
+                    <SectionTitle>{this.props.children}</SectionTitle>
+                    <SectionTable className="memorandums-accordion">
+                        {rows}
+                    </SectionTable>
+                    <SectionFooter>Select a memorandum to see its details</SectionFooter>
+                </Section>
+
+                <DeleteMemorandumModal isOpen={this.state.deleteMemorandumIsShowing}
+                                       institution={this.props.institution}
+                                       memorandum={this.state.activeMemorandum}
+                                       toggle={this.toggleDeleteMemorandum}
+                                       refresh={this.props.refreshMemorandums}/>
+
+                {this.state.activeMemorandum !== null &&
+                <EditMemorandumModal isOpen={this.state.editMemorandumIsShowing}
+                                     institution={this.props.institution}
+                                     memorandum={this.state.activeMemorandum}
+                                     toggle={this.toggleEditMemorandum}
+                                     refresh={this.props.refreshMemorandums}/>}
+            </div>
         );
     }
 
@@ -257,6 +332,10 @@ class MemorandumListSection extends Component {
 class MemorandumRow extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            deleteMemorandumIsShowing: false,
+        };
     }
 
     render() {
@@ -287,40 +366,45 @@ class MemorandumRow extends Component {
         }
 
         return (
-            <Card>
-                <SectionRow selectable active={this.props.isShowing} onClick={this.props.onClick}>
-                    <SectionRowContent large>Effective {dateEffective}</SectionRowContent>
-                </SectionRow>
+            <div>
+                <Card>
+                    <SectionRow selectable active={this.props.isShowing} onClick={this.props.onClick}>
+                        <SectionRowContent large>Effective {dateEffective}</SectionRowContent>
+                    </SectionRow>
 
-                <Collapse isOpen={this.props.isShowing}>
-                    <CardBody className="p-0">
-                        <SectionTable>
-                            <SectionRow className="bg-light">
-                                <SectionRowTitle>Date Expiration</SectionRowTitle>
-                                <SectionRowContent large>{dateExpiration}</SectionRowContent>
-                            </SectionRow>
+                    <Collapse isOpen={this.props.isShowing}>
+                        <CardBody className="p-0">
+                            <SectionTable>
+                                <SectionRow className="bg-light">
+                                    <SectionRowTitle>Date Expiration</SectionRowTitle>
+                                    <SectionRowContent large>{dateExpiration}</SectionRowContent>
+                                </SectionRow>
 
-                            <SectionRow className="bg-light">
-                                <SectionRowTitle>College Initiator</SectionRowTitle>
-                                <SectionRowContent large>{collegeInitiator}</SectionRowContent>
-                            </SectionRow>
+                                <SectionRow className="bg-light">
+                                    <SectionRowTitle>College Initiator</SectionRowTitle>
+                                    <SectionRowContent large>{collegeInitiator}</SectionRowContent>
+                                </SectionRow>
 
-                            <SectionRow className="bg-light">
-                                <SectionRowTitle>Linkages</SectionRowTitle>
-                                <SectionRowContent large>{linkagesText}</SectionRowContent>
-                            </SectionRow>
+                                <SectionRow className="bg-light">
+                                    <SectionRowTitle>Linkages</SectionRowTitle>
+                                    <SectionRowContent large>{linkagesText}</SectionRowContent>
+                                </SectionRow>
 
-                            <SectionRow className="bg-light d-flex flex-row">
-                                <div className="mr-auto">
-                                    <Button outline size="sm" color="success" className="mr-2">View Memorandum</Button>
-                                    <Button outline size="sm" color="success">Edit Details</Button>
-                                </div>
-                                <Button outline size="sm" color="danger">Delete Memorandum</Button>
-                            </SectionRow>
-                        </SectionTable>
-                    </CardBody>
-                </Collapse>
-            </Card>
+                                <SectionRow className="bg-light d-flex flex-row">
+                                    <div className="mr-auto">
+                                        <Button outline size="sm" color="success" className="mr-2">View
+                                            Memorandum</Button>
+                                        <Button outline size="sm" color="success"
+                                                onClick={this.props.toggleEditMemorandum}>Edit Details</Button>
+                                    </div>
+                                    <Button outline size="sm" color="danger"
+                                            onClick={this.props.toggleDeleteMemorandum}>Delete Memorandum</Button>
+                                </SectionRow>
+                            </SectionTable>
+                        </CardBody>
+                    </Collapse>
+                </Card>
+            </div>
         );
     }
 }
