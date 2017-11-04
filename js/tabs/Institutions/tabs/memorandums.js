@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import moment from "moment";
 import graphql from "../../../graphql";
+import LoadingSpinner from "../../../loading";
+import settings from "../../../settings";
 
 import {
     Button,
@@ -8,16 +10,24 @@ import {
     CardBody,
     CardHeader,
     Collapse,
-    ListGroup,
-    ListGroupItem,
 } from "reactstrap";
+
+import {
+    Section,
+    SectionTitle,
+    SectionTable,
+    SectionRow,
+    SectionRowTitle,
+    SectionRowContentLarge,
+    SectionFooter,
+} from "../../../components/section";
 
 
 function fetchInstitution(id, onResponse) {
     graphql({
         query : `
         {
-            institutions {
+            institution(id: ${id}) {
                 id
                 name
                 memorandumSet {
@@ -50,6 +60,8 @@ class Memorandums extends Component {
 
         //Fetch active institution details
         fetchInstitution(props.institution.id, response => {
+            console.log(response);
+
             this.setState({
                 institution : response.data.institution,
             });
@@ -70,9 +82,15 @@ class Memorandums extends Component {
     }
 
     render() {
-        //TODO: Add memorandums
-        return (
+        if (this.state.institution === null) {
+            return <LoadingSpinner/>;
+        }
 
+        return (
+            <div id="institution-memorandums" className="d-flex flex-column p-0 h-100">
+                <MemorandumHead institution={this.state.institution}/>
+                <MemorandumBody memorandums={this.state.institution.memorandumSet}/>
+            </div>
         );
     }
 }
@@ -83,7 +101,18 @@ class MemorandumHead extends Component {
     }
 
     render() {
+        return (
+            <div className="page-head pt-5 d-flex flex-row align-items-end">
+                <div className="mr-auto">
+                    <h5 className="mb-0 text-secondary">Memorandums</h5>
+                    <h4 className="page-head-title mb-0">{this.props.institution.name}</h4>
+                </div>
 
+                <div className="page-head-actions">
+                    <Button outline size="sm" color="success">Add a Memorandum</Button>
+                </div>
+            </div>
+        );
     }
 }
 
@@ -137,213 +166,85 @@ class MemorandumBody extends Component {
             understandings : understandings,
         };
     }
+
+    render() {
+        return (
+            <div className="page-body">
+                <MemorandumListSection memorandums={this.state.agreements}>
+                    Memorandums of Agreement
+                </MemorandumListSection>
+
+                <MemorandumListSection memorandums={this.state.understandings}>
+                    Memorandums of Understanding
+                </MemorandumListSection>
+            </div>
+        );
+    }
 }
 
 class MemorandumListSection extends Component {
     constructor(props) {
         super(props);
-    }
-}
-
-class MemorandumsOfUnderstanding extends Component {
-    constructor(props) {
-        super(props);
 
         this.state = {
-            latestMemorandum : null,
-            previousMemorandums : [],
-            showingMemorandumId : null,
+            activeMemorandum : null,
         };
 
-        if (props.memorandums.length > 0) {
-            // This is sorted by date so latest version is the one on top
-            this.state.latestMemorandum = props.memorandums[0];
-            this.state.previousMemorandums = props.memorandums.splice(1); //Everything else
-        }
-
         this.emptyState = this.emptyState.bind(this);
-        this.getCollapseContent = this.getCollapseContent.bind(this);
-        this.memorandumIsShowing = this.memorandumIsShowing.bind(this);
-        this.makeMemorandumShowing = this.makeMemorandumShowing.bind(this);
+        this.setActiveMemorandum = this.setActiveMemorandum.bind(this);
+    }
+
+    setActiveMemorandum(memorandum) {
+        this.setState({
+            // Collapse if clicked memorandum is already the active memorandum
+            activeMemorandum : this.state.activeMemorandum.id === memorandum.id ? null : memorandum,
+        });
     }
 
     emptyState() {
         return (
-            <div className="p-5 text-center text-muted">
-                <h5 className="mb-0">There are no Memorandums of Understanding for this institution.</h5>
+            <div className="p-5 text-center bg-light">
+                <h5 className="text-secondary">There are no {this.props.children}s for this institution</h5>
             </div>
         );
     }
 
-    makeMemorandumShowing(memorandum) {
-        // If there are no showing memorandums or if the memorandum showing is not the one clicked
-        if (this.state.showingMemorandumId === null || this.state.showingMemorandumId !== memorandum.id) {
-            this.setState({
-                showingMemorandumId : memorandum.id,
-            });
-        } else {
-            // If the showing memorandum is clicked, collapse it
-            this.setState({
-                showingMemorandumId : null,
-            });
-        }
-    }
+    render() {
 
-    memorandumIsShowing(memorandum) {
-        if (this.state.showingMemorandumId === null) {
-            return false;
+        if (this.props.memorandums.length === 0) {
+            return (
+                <Section>
+                    <SectionTitle>{this.props.children}</SectionTitle>
+                    {this.emptyState()}
+                </Section>
+            );
         }
 
-        return this.state.showingMemorandumId === memorandum.id;
-    }
+        const rows = this.props.memorandums.map(memorandum => {
+            let isShowing = false;
 
-    getCollapseContent() {
-        if (this.state.latestMemorandum === null) {
-            return this.emptyState();
-        }
+            if (this.state.activeMemorandum !== null) {
+                isShowing = this.state.activeMemorandum.id === memorandum.id;
+            }
 
-        const previousMemorandums = this.state.previousMemorandums.map(memorandum => {
-            return <MemorandumRow memorandum={memorandum} isOpen={this.memorandumIsShowing(memorandum)}
-                                  toggle={() => this.makeMemorandumShowing(memorandum)}/>;
+            const onMemorandumRowClick = () => this.setActiveMemorandum(memorandum);
+            return <MemorandumRow isShowing={isShowing} memorandum={memorandum} onClick={onMemorandumRowClick}
+                                  key={memorandum.id}/>;
         });
 
-        const hasPreviousMemorandums = previousMemorandums.length !== 0;
-
         return (
-            <CardBody className="pt-0">
-                <small className="section-title">Latest Memorandum</small>
-                <MemorandumRow memorandum={this.state.latestMemorandum}
-                               isOpen={this.memorandumIsShowing(this.state.latestMemorandum)}
-                               toggle={() => this.makeMemorandumShowing(this.state.latestMemorandum)}/>
-
-                {hasPreviousMemorandums && <small className="section-title">Previous Memorandums</small>}
-                {previousMemorandums}
-            </CardBody>
+            <Section>
+                <SectionTitle>{this.props.children}</SectionTitle>
+                <SectionTable className="memorandums-accordion">
+                    {rows}
+                </SectionTable>
+                <SectionFooter>Select a memorandum to see its details</SectionFooter>
+            </Section>
         );
     }
 
-    render() {
-        let cardHeaderClass = "d-flex flex-row align-items-center ";
-
-        if (!this.props.showing) {
-            cardHeaderClass += "collapsed";
-        }
-
-        return (
-            <Card>
-                <CardHeader className={cardHeaderClass} onClick={this.props.toggle}>
-                    <h5 className="mr-auto mb-0">Memorandums of Understanding</h5>
-                    <Button outline size="sm" color="success" className="add-memorandum-btn">Add a new version</Button>
-                </CardHeader>
-
-                <Collapse isOpen={this.props.showing}>
-                    {this.getCollapseContent()}
-                </Collapse>
-            </Card>
-        );
-    }
 }
 
-class MemorandumsOfAgreement extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            latestMemorandum : null,
-            previousMemorandums : [],
-            showingMemorandumId : null,
-        };
-
-        if (props.memorandums.length > 0) {
-            // This is sorted by date so latest version is the one on top
-            this.state.latestMemorandum = props.memorandums[0];
-            this.state.previousMemorandums = props.memorandums.splice(1); //Everything else
-        }
-
-        this.emptyState = this.emptyState.bind(this);
-        this.getCollapseContent = this.getCollapseContent.bind(this);
-        this.memorandumIsShowing = this.memorandumIsShowing.bind(this);
-        this.makeMemorandumShowing = this.makeMemorandumShowing.bind(this);
-    }
-
-    emptyState() {
-        return (
-            <div className="p-5 text-center text-muted">
-                <h5 className="mb-0">There are no Memorandums of Agreement for this institution.</h5>
-            </div>
-        );
-    }
-
-    makeMemorandumShowing(memorandum) {
-        // If there are no showing memorandums or if the memorandum showing is not the one clicked
-        if (this.state.showingMemorandumId === null || this.state.showingMemorandumId !== memorandum.id) {
-            this.setState({
-                showingMemorandumId : memorandum.id,
-            });
-        } else {
-            // If the showing memorandum is clicked, collapse it
-            this.setState({
-                showingMemorandumId : null,
-            });
-        }
-    }
-
-    memorandumIsShowing(memorandum) {
-        if (this.state.showingMemorandumId === null) {
-            return false;
-        }
-
-        return this.state.showingMemorandumId === memorandum.id;
-    }
-
-    getCollapseContent() {
-        if (this.state.latestMemorandum === null) {
-            return this.emptyState();
-        }
-
-        const previousMemorandums = this.state.previousMemorandums.map(memorandum => {
-            return <MemorandumRow memorandum={memorandum} isOpen={this.memorandumIsShowing(memorandum)}
-                                  toggle={() => this.makeMemorandumShowing(memorandum)}/>;
-        });
-
-        const hasPreviousMemorandums = previousMemorandums.length !== 0;
-
-        return (
-            <CardBody className="pt-0">
-                <small className="section-title">Latest Memorandum</small>
-                <MemorandumRow memorandum={this.state.latestMemorandum}
-                               isOpen={this.memorandumIsShowing(this.state.latestMemorandum)}
-                               toggle={() => this.makeMemorandumShowing(this.state.latestMemorandum)}/>
-
-                {hasPreviousMemorandums && <small className="section-title">Previous Memorandums</small>}
-                {previousMemorandums}
-            </CardBody>
-        );
-    }
-
-    render() {
-        let cardHeaderClass = "d-flex flex-row align-items-center ";
-
-        if (!this.props.showing) {
-            cardHeaderClass += "collapsed";
-        }
-
-        this.getCollapseContent();
-
-        return (
-            <Card>
-                <CardHeader className={cardHeaderClass} onClick={this.props.toggle}>
-                    <h5 className="mr-auto mb-0">Memorandums of Agreement</h5>
-                    <Button outline size="sm" color="success" className="add-memorandum-btn">Add a new version</Button>
-                </CardHeader>
-
-                <Collapse isOpen={this.props.showing}>
-                    {this.getCollapseContent()}
-                </Collapse>
-            </Card>
-        );
-    }
-}
 
 class MemorandumRow extends Component {
     constructor(props) {
@@ -351,38 +252,57 @@ class MemorandumRow extends Component {
     }
 
     render() {
-        console.log(this.props);
-        let cardHeaderClass = this.props.showing ? "" : "collapsed";
+        let cardHeaderClass = this.props.isShowing ? "" : "collapsed";
         const memorandum = this.props.memorandum;
 
         function formatDate(date) {
             return date.format("LL");
         }
 
-        const versionDate = formatDate(memorandum.versionDate);
         const dateEffective = formatDate(memorandum.dateEffective);
         const dateExpiration = memorandum.dateExpiration === null ? "No expiration" : formatDate(memorandum.dateExpiration);
         const collegeInitiator = memorandum.collegeInitiator === null ? "No college initiator" : memorandum.collegeInitiator;
 
+        const linkages = memorandum.memorandumlinkageSet.reduce((linkageCode, linkagesString, index, array) => {
+            const linkage = settings.linkages[linkageCode];
+
+            linkagesString += `${linkage} `;
+
+            if (index + 1 !== array.length) {
+                linkagesString += ",";
+            }
+
+            return linkagesString;
+        }, "No linkages");
+
         return (
             <Card>
                 <CardHeader className={cardHeaderClass} onClick={this.props.toggle}>
-                    Version {versionDate}
+                    Effective {dateEffective}
                 </CardHeader>
 
                 <Collapse isOpen={this.props.isOpen}>
                     <CardBody className="p-0">
-                        <ListGroup>
-                            <MemorandumDetailRow fieldName="Date Effective"
-                                                 fieldValue={dateEffective}/>
-                            <MemorandumDetailRow fieldName="Date Expiration"
-                                                 fieldValue={dateExpiration}/>
-                            <MemorandumDetailRow fieldName="College Initiator"
-                                                 fieldValue={collegeInitiator}/>
-                            <ListGroupItem>
+                        <SectionTable>
+                            <SectionRow>
+                                <SectionRowTitle>Date Expiration</SectionRowTitle>
+                                <SectionRowContentLarge>{dateExpiration}</SectionRowContentLarge>
+                            </SectionRow>
+
+                            <SectionRow>
+                                <SectionRowTitle>College Initiator</SectionRowTitle>
+                                <SectionRowContentLarge>{collegeInitiator}</SectionRowContentLarge>
+                            </SectionRow>
+
+                            <SectionRow>
+                                <SectionRowTitle>Linkages</SectionRowTitle>
+                                <SectionRowContentLarge>{linkages}</SectionRowContentLarge>
+                            </SectionRow>
+
+                            <SectionRow>
                                 <Button outline color="primary">Open Memorandum Copy</Button>
-                            </ListGroupItem>
-                        </ListGroup>
+                            </SectionRow>
+                        </SectionTable>
                     </CardBody>
                 </Collapse>
             </Card>
@@ -390,19 +310,5 @@ class MemorandumRow extends Component {
     }
 }
 
-class MemorandumDetailRow extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        return (
-            <ListGroupItem>
-                <small className="font-weight-bold">{this.props.fieldName}</small>
-                <p className="lead mb-0">{this.props.fieldValue}</p>
-            </ListGroupItem>
-        );
-    }
-}
 
 export default Memorandums;

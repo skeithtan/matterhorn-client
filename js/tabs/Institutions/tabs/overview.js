@@ -140,9 +140,7 @@ class OverviewHead extends Component {
             <div className="page-head pt-5 d-flex flex-row align-items-end">
                 <div className="mr-auto">
                     <h5 className="mb-0 text-secondary">Overview</h5>
-                    <h4 className="page-head-title mb-0">
-                        {this.props.institution.name}
-                    </h4>
+                    <h4 className="page-head-title mb-0">{this.props.institution.name}</h4>
                 </div>
 
                 <div className="page-head-actions">
@@ -161,7 +159,6 @@ class OverviewHead extends Component {
                                       institution={this.props.institution}
                                       refresh={this.props.onEditInstitution}
                                       toggle={this.toggleEditInstitution}/>
-
             </div>
         );
     }

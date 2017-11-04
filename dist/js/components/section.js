@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.SectionRowSelectable = exports.SectionRowContent = exports.SectionRowContentLarge = exports.SectionRowTitle = exports.SectionRow = exports.SectionTable = exports.SectionTitle = exports.Section = undefined;
+exports.SectionRowSelectable = exports.SectionRowContent = exports.SectionRowContentLarge = exports.SectionFooter = exports.SectionRowTitle = exports.SectionRow = exports.SectionTable = exports.SectionTitle = exports.Section = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -67,8 +67,31 @@ var SectionTitle = function (_Component2) {
     return SectionTitle;
 }(_react.Component);
 
-var SectionTable = function (_Component3) {
-    _inherits(SectionTable, _Component3);
+var SectionFooter = function (_Component3) {
+    _inherits(SectionFooter, _Component3);
+
+    function SectionFooter(props) {
+        _classCallCheck(this, SectionFooter);
+
+        return _possibleConstructorReturn(this, (SectionFooter.__proto__ || Object.getPrototypeOf(SectionFooter)).call(this, props));
+    }
+
+    _createClass(SectionFooter, [{
+        key: "render",
+        value: function render() {
+            return _react2.default.createElement(
+                "small",
+                { className: "section-footer" },
+                this.props.children
+            );
+        }
+    }]);
+
+    return SectionFooter;
+}(_react.Component);
+
+var SectionTable = function (_Component4) {
+    _inherits(SectionTable, _Component4);
 
     function SectionTable(props) {
         _classCallCheck(this, SectionTable);
@@ -81,7 +104,7 @@ var SectionTable = function (_Component3) {
         value: function render() {
             return _react2.default.createElement(
                 _reactstrap.ListGroup,
-                null,
+                { className: this.props.className },
                 this.props.children
             );
         }
@@ -90,8 +113,8 @@ var SectionTable = function (_Component3) {
     return SectionTable;
 }(_react.Component);
 
-var SectionRow = function (_Component4) {
-    _inherits(SectionRow, _Component4);
+var SectionRow = function (_Component5) {
+    _inherits(SectionRow, _Component5);
 
     function SectionRow(props) {
         _classCallCheck(this, SectionRow);
@@ -113,8 +136,8 @@ var SectionRow = function (_Component4) {
     return SectionRow;
 }(_react.Component);
 
-var SectionRowTitle = function (_Component5) {
-    _inherits(SectionRowTitle, _Component5);
+var SectionRowTitle = function (_Component6) {
+    _inherits(SectionRowTitle, _Component6);
 
     function SectionRowTitle(props) {
         _classCallCheck(this, SectionRowTitle);
@@ -136,8 +159,8 @@ var SectionRowTitle = function (_Component5) {
     return SectionRowTitle;
 }(_react.Component);
 
-var SectionRowContentLarge = function (_Component6) {
-    _inherits(SectionRowContentLarge, _Component6);
+var SectionRowContentLarge = function (_Component7) {
+    _inherits(SectionRowContentLarge, _Component7);
 
     function SectionRowContentLarge(props) {
         _classCallCheck(this, SectionRowContentLarge);
@@ -160,8 +183,8 @@ var SectionRowContentLarge = function (_Component6) {
     return SectionRowContentLarge;
 }(_react.Component);
 
-var SectionRowContent = function (_Component7) {
-    _inherits(SectionRowContent, _Component7);
+var SectionRowContent = function (_Component8) {
+    _inherits(SectionRowContent, _Component8);
 
     function SectionRowContent(props) {
         _classCallCheck(this, SectionRowContent);
@@ -184,8 +207,8 @@ var SectionRowContent = function (_Component7) {
     return SectionRowContent;
 }(_react.Component);
 
-var SectionRowSelectable = function (_Component8) {
-    _inherits(SectionRowSelectable, _Component8);
+var SectionRowSelectable = function (_Component9) {
+    _inherits(SectionRowSelectable, _Component9);
 
     function SectionRowSelectable(props) {
         _classCallCheck(this, SectionRowSelectable);
@@ -221,6 +244,7 @@ exports.SectionTitle = SectionTitle;
 exports.SectionTable = SectionTable;
 exports.SectionRow = SectionRow;
 exports.SectionRowTitle = SectionRowTitle;
+exports.SectionFooter = SectionFooter;
 exports.SectionRowContentLarge = SectionRowContentLarge;
 exports.SectionRowContent = SectionRowContent;
 exports.SectionRowSelectable = SectionRowSelectable;

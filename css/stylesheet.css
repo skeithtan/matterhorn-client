@@ -177,7 +177,7 @@ li.nav-item.active .sidebar-image {
 .page-head-actions {
     min-width       : 200px;
     display         : flex;
-    justify-content : center;
+    justify-content : flex-end;
 }
 
 .page-body {
@@ -236,42 +236,38 @@ li.nav-item.active .sidebar-image {
 }
 
 /*Institutions Page*/
-#memorandums-accordion .card {
+.memorandums-accordion .card {
     border-radius : 0;
 }
 
-#memorandums-accordion > .card,
-#memorandums-accordion .card-header {
+.memorandums-accordion > .card,
+.memorandums-accordion .card-header {
     border-left  : none;
     border-right : none;
 }
 
-#memorandums-accordion > .card {
+.memorandums-accordion > .card {
     border : none;
 }
 
-#memorandums-accordion > .card:first-child {
+.memorandums-accordion > .card:first-child {
     border-top : 1px solid rgba(0, 0, 0, .125);
 }
 
-#memorandums-accordion .card > .card-header:not(.collapsed) {
+.memorandums-accordion .card > .card-header:not(.collapsed) {
     background : white;
 }
 
-#memorandums-accordion .add-memorandum-btn {
-    transition : 200ms opacity;
-}
-
-#memorandums-accordion .card-header.collapsed button.add-memorandum-btn {
+.memorandums-accordion .card-header.collapsed button.add-memorandum-btn {
     opacity        : 0;
     pointer-events : none;
 }
 
-#memorandums-accordion .card-header:not(.collapsed) button.add-memorandum-btn {
+.memorandums-accordion .card-header:not(.collapsed) button.add-memorandum-btn {
     opacity : 1;
 }
 
-#memorandums-accordion .card-header:not(.collapsed) {
+.memorandums-accordion .card-header:not(.collapsed) {
     border-bottom : 0;
 }
 

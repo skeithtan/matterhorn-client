@@ -29,13 +29,23 @@ class SectionTitle extends Component {
     }
 }
 
+class SectionFooter extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return <small className="section-footer">{this.props.children}</small>;
+    }
+}
+
 class SectionTable extends Component {
     constructor(props) {
         super(props);
     }
 
     render() {
-        return <ListGroup>{this.props.children}</ListGroup>;
+        return <ListGroup className={this.props.className}>{this.props.children}</ListGroup>;
     }
 }
 
@@ -106,6 +116,7 @@ export {
     SectionTable,
     SectionRow,
     SectionRowTitle,
+    SectionFooter,
     SectionRowContentLarge,
     SectionRowContent,
     SectionRowSelectable,
