@@ -88,6 +88,7 @@ class StudentFormModal extends Component {
                 name : "Nickname",
                 characterLimit : 64,
                 value : this.state.form.nickname,
+                optional : true,
             },
             {
                 name : "Birth date",

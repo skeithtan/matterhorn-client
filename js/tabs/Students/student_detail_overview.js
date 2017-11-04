@@ -12,7 +12,6 @@ import {
 } from "../../components/section";
 
 
-
 class StudentDetailOverview extends Component {
     constructor(props) {
         super(props);
@@ -30,10 +29,12 @@ class StudentDetailOverview extends Component {
                 <SectionTitle>Student Details</SectionTitle>
                 <SectionTable>
 
+                    {student.nickname.length > 0 && //Only show if student nickname exists
                     <SectionRow>
                         <SectionRowTitle>Nickname</SectionRowTitle>
                         <SectionRowContent large>{student.nickname}</SectionRowContent>
                     </SectionRow>
+                    }
 
                     <SectionRow>
                         <SectionRowTitle>Sex</SectionRowTitle>
@@ -50,10 +51,12 @@ class StudentDetailOverview extends Component {
                         <SectionRowContent large>{birthDate}</SectionRowContent>
                     </SectionRow>
 
+                    {student.nationality.length > 0 &&
                     <SectionRow>
                         <SectionRowTitle>Nationality</SectionRowTitle>
                         <SectionRowContent large>{student.nationality}</SectionRowContent>
                     </SectionRow>
+                    }
 
                     <SectionRow>
                         <SectionRowTitle>Civil Status</SectionRowTitle>
@@ -91,7 +94,8 @@ class StudentContact extends Component {
 
                     <SectionRow>
                         <SectionRowTitle>Emergency Contact</SectionRowTitle>
-                        <SectionRowContent large>{`${student.emergency_contact_name} (${student.emergency_contact_relationship})`}</SectionRowContent>
+                        <SectionRowContent
+                            large>{`${student.emergency_contact_name} (${student.emergency_contact_relationship})`}</SectionRowContent>
                     </SectionRow>
 
                     <SectionRow>

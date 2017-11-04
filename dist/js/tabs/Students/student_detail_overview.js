@@ -57,6 +57,7 @@ var StudentDetailOverview = function (_Component) {
                 _react2.default.createElement(
                     _section.SectionTable,
                     null,
+                    student.nickname.length > 0 && //Only show if student nickname exists
                     _react2.default.createElement(
                         _section.SectionRow,
                         null,
@@ -113,7 +114,7 @@ var StudentDetailOverview = function (_Component) {
                             birthDate
                         )
                     ),
-                    _react2.default.createElement(
+                    student.nationality.length > 0 && _react2.default.createElement(
                         _section.SectionRow,
                         null,
                         _react2.default.createElement(
@@ -212,7 +213,8 @@ var StudentContact = function (_Component2) {
                         ),
                         _react2.default.createElement(
                             _section.SectionRowContent,
-                            { large: true },
+                            {
+                                large: true },
                             student.emergency_contact_name + " (" + student.emergency_contact_relationship + ")"
                         )
                     ),

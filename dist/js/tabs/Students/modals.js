@@ -118,7 +118,8 @@ var StudentFormModal = function (_Component) {
             }, {
                 name: "Nickname",
                 characterLimit: 64,
-                value: this.state.form.nickname
+                value: this.state.form.nickname,
+                optional: true
             }, {
                 name: "Birth date",
                 characterLimit: null,
