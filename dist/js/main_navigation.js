@@ -42,11 +42,6 @@ var MainNavigation = function (_Component) {
     }
 
     _createClass(MainNavigation, [{
-        key: "componentDidMount",
-        value: function componentDidMount() {
-            (0, _jquery2.default)("[data-toggle=\"tooltip\"]").tooltip();
-        }
-    }, {
         key: "render",
         value: function render() {
             var _this2 = this;
@@ -112,8 +107,7 @@ var TabItem = function (_Component2) {
 
             return _react2.default.createElement(
                 _reactstrap.NavItem,
-                { className: className, "data-toggle": "tooltip", "data-placement": "right", title: this.props.name,
-                    onClick: onNavItemClick },
+                { className: className, onClick: onNavItemClick },
                 _react2.default.createElement(
                     "div",
                     { className: "d-flex flex-row align-items-center tab-set" },

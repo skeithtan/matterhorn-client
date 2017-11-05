@@ -17,10 +17,6 @@ class MainNavigation extends Component {
         super(props);
     }
 
-    componentDidMount() {
-        $("[data-toggle=\"tooltip\"]").tooltip();
-    }
-
     render() {
         const navItems = tabs.map((tab, index) => {
             const isActive = this.props.activeTab === tab;
@@ -67,8 +63,7 @@ class TabItem extends Component {
         };
 
         return (
-            <NavItem className={className} data-toggle="tooltip" data-placement="right" title={this.props.name}
-                     onClick={onNavItemClick}>
+            <NavItem className={className} onClick={onNavItemClick}>
                 <div className="d-flex flex-row align-items-center tab-set">
                     <h5 className="mb-0 text-white sidebar-tab-description">{this.props.name}</h5>
                     <img src={this.props.image} className="sidebar-image"/>
