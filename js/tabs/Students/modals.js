@@ -429,9 +429,9 @@ class DeleteStudentModal extends Component {
             title : "Deleting",
             message : "Deleting student...",
         });
-
+        
         $.ajax({
-            url : `${settings.serverURL}/students/${this.props.student.id}/`,
+            url : `${settings.serverURL}/students/${this.props.student.id_number}/`,
             method : "DELETE",
             beforeSend : authorizeXHR,
             success : () => {
