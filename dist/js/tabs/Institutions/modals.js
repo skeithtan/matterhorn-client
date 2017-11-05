@@ -658,6 +658,10 @@ var MemorandumFormModal = function (_Component3) {
                 message: "Editing memorandum..."
             });
 
+            if (this.state.form.college_initiator === "") {
+                this.state.form.college_initiator = null;
+            }
+
             _jquery2.default.ajax({
                 method: "PUT",
                 url: _settings2.default.serverURL + "/institutions/" + this.props.institution.id + "/memorandums/" + this.state.form.id + "/",
@@ -732,6 +736,20 @@ var MemorandumFormModal = function (_Component3) {
                     )
                 );
             });
+
+            var collegeInitiators = Object.entries(_settings2.default.colleges).map(function (college) {
+                return _react2.default.createElement(
+                    "option",
+                    { key: college[0], value: college[0] },
+                    college[1]
+                );
+            });
+
+            collegeInitiators.unshift(_react2.default.createElement(
+                "option",
+                { key: "null", value: "" },
+                "No college initiator"
+            ));
 
             function isValid(fieldName) {
                 return fieldErrors[fieldName].length === 0;
@@ -852,41 +870,7 @@ var MemorandumFormModal = function (_Component3) {
                                 _reactstrap.Input,
                                 { type: "select", defaultValue: this.state.form.college_initiator,
                                     onChange: this.getChangeHandler("college_initiator") },
-                                _react2.default.createElement(
-                                    "option",
-                                    { value: "CCS" },
-                                    "College of Computer Studies"
-                                ),
-                                _react2.default.createElement(
-                                    "option",
-                                    { value: "RVRCOB" },
-                                    "Ramon V. del Rosario College of Business"
-                                ),
-                                _react2.default.createElement(
-                                    "option",
-                                    { value: "CLA" },
-                                    "College of Liberal Arts"
-                                ),
-                                _react2.default.createElement(
-                                    "option",
-                                    { value: "SOE" },
-                                    "School of Economics"
-                                ),
-                                _react2.default.createElement(
-                                    "option",
-                                    { value: "GCOE" },
-                                    "Gokongwei College of Engineering"
-                                ),
-                                _react2.default.createElement(
-                                    "option",
-                                    { value: "COL" },
-                                    "College of Law"
-                                ),
-                                _react2.default.createElement(
-                                    "option",
-                                    { value: "BAGCED" },
-                                    "Brother Andrew Gonzales College of Education"
-                                )
+                                collegeInitiators
                             )
                         ),
                         _react2.default.createElement("br", null),

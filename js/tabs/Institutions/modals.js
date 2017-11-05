@@ -468,12 +468,16 @@ class MemorandumFormModal extends Component {
             message : "Editing memorandum...",
         });
 
+        if(this.state.form.college_initiator === "") {
+            this.state.form.college_initiator = null;
+        }
+
         $.ajax({
             method : "PUT",
             url : `${settings.serverURL}/institutions/${this.props.institution.id}/memorandums/${this.state.form.id}/`,
             // The array requires this to be JSON.
             data : JSON.stringify(this.state.form),
-            contentType: "application/json",
+            contentType : "application/json",
             beforeSend : authorizeXHR,
             success : (response) => {
                 console.log(response);
@@ -531,6 +535,14 @@ class MemorandumFormModal extends Component {
             </ListGroupItem>;
         });
 
+        let collegeInitiators = Object.entries(settings.colleges).map(college => {
+            return <option key={college[0]} value={college[0]}>{college[1]}</option>;
+        });
+
+        collegeInitiators.unshift(
+            <option key="null" value={""}>No college initiator</option>,
+        );
+
         function isValid(fieldName) {
             return fieldErrors[fieldName].length === 0;
         }
@@ -586,13 +598,7 @@ class MemorandumFormModal extends Component {
                             <Label>College Initiator</Label>
                             <Input type="select" defaultValue={this.state.form.college_initiator}
                                    onChange={this.getChangeHandler("college_initiator")}>
-                                <option value="CCS">College of Computer Studies</option>
-                                <option value="RVRCOB">Ramon V. del Rosario College of Business</option>
-                                <option value="CLA">College of Liberal Arts</option>
-                                <option value="SOE">School of Economics</option>
-                                <option value="GCOE">Gokongwei College of Engineering</option>
-                                <option value="COL">College of Law</option>
-                                <option value="BAGCED">Brother Andrew Gonzales College of Education</option>
+                                {collegeInitiators}
                             </Input>
                         </FormGroup>
                         <br/>
