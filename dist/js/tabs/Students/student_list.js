@@ -296,7 +296,7 @@ var StudentSection = function (_Component4) {
 
                 return _react2.default.createElement(
                     _section.SectionRow,
-                    { selectable: true, onClick: setActiveStudent, active: isActive, key: student.id },
+                    { selectable: true, onClick: setActiveStudent, active: isActive, key: student.id_number },
                     _react2.default.createElement(
                         "small",
                         { className: "d-block" },

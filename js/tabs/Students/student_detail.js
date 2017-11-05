@@ -23,7 +23,6 @@ function fetchStudent(id, onResponse) {
         query: `
         {
             student(id:${id}) {
-                id
                 category
                 id_number
                 college
@@ -99,7 +98,7 @@ class StudentDetail extends Component {
             student: null,
         });
 
-        fetchStudent(student.id, response => {
+        fetchStudent(student.id_number, response => {
             this.setState({
                 student: response.data.student,
             });

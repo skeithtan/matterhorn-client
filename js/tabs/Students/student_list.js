@@ -204,7 +204,7 @@ class StudentSection extends Component {
             const setActiveStudent = () => this.props.setActiveStudent(student);
 
             return (
-                <SectionRow selectable onClick={setActiveStudent} active={isActive} key={student.id}>
+                <SectionRow selectable onClick={setActiveStudent} active={isActive} key={student.id_number}>
                     <small className="d-block">{student.id_number}</small>
                     <b>{student.family_name}</b>, {student.first_name} {student.middle_name}
                 </SectionRow>
