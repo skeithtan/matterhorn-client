@@ -674,7 +674,7 @@ var StudentFormModal = function (_Component) {
                         { outline: true, color: "success",
                             onClick: this.props.edit ? this.submitEditStudentForm : this.submitAddStudentForm,
                             disabled: formHasErrors },
-                        this.props.edit ? "Edit" : "Add"
+                        this.props.edit ? "Save changes" : "Add"
                     )
                 )
             );

@@ -285,7 +285,7 @@ class InstitutionFormModal extends Component {
                     <Button outline color="success"
                             onClick={this.props.edit ? this.submitEditInstitutionForm : this.submitAddInstitutionForm}
                             disabled={formHasErrors}>
-                        {this.props.edit ? "Edit" : "Add"}
+                        {this.props.edit ? "Save changes" : "Add"}
                     </Button>
                 </ModalFooter>
             </Modal>
@@ -609,7 +609,7 @@ class MemorandumFormModal extends Component {
                     <Button outline color="success"
                             disabled={formHasErrors}
                             onClick={this.props.edit ? this.submitEditMemorandumForm : this.submitAddMemorandumForm}>
-                        {this.props.edit ? "Edit" : "Add"}
+                        {this.props.edit ? "Save changes" : "Add"}
                     </Button>
                 </ModalFooter>
             </Modal>

@@ -426,7 +426,7 @@ var InstitutionFormModal = function (_Component) {
                         { outline: true, color: "success",
                             onClick: this.props.edit ? this.submitEditInstitutionForm : this.submitAddInstitutionForm,
                             disabled: formHasErrors },
-                        this.props.edit ? "Edit" : "Add"
+                        this.props.edit ? "Save changes" : "Add"
                     )
                 )
             );
@@ -915,7 +915,7 @@ var MemorandumFormModal = function (_Component3) {
                         { outline: true, color: "success",
                             disabled: formHasErrors,
                             onClick: this.props.edit ? this.submitEditMemorandumForm : this.submitAddMemorandumForm },
-                        this.props.edit ? "Edit" : "Add"
+                        this.props.edit ? "Save changes" : "Add"
                     )
                 )
             );

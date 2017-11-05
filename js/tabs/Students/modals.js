@@ -408,7 +408,7 @@ class StudentFormModal extends Component {
                     <Button outline color="success"
                             onClick={this.props.edit ? this.submitEditStudentForm : this.submitAddStudentForm}
                             disabled={formHasErrors}>
-                        {this.props.edit ? "Edit" : "Add"}
+                        {this.props.edit ? "Save changes" : "Add"}
                     </Button>
                 </ModalFooter>
             </Modal>
