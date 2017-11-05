@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import moment from "moment";
 import graphql from "../../../graphql";
 import LoadingSpinner from "../../../loading";
@@ -22,14 +22,14 @@ import {
 } from "../../../components/section";
 
 import {
-    AddMemorandumModal,
+    MemorandumFormModal,
     DeleteMemorandumModal,
-    EditMemorandumModal,
 } from "../modals";
+
 
 function fetchInstitution(id, onResponse) {
     graphql({
-        query: `
+        query : `
         {
             institution(id: ${id}) {
                 id
@@ -48,7 +48,7 @@ function fetchInstitution(id, onResponse) {
             }
         }
        `,
-        onResponse: onResponse,
+        onResponse : onResponse,
     });
 }
 
@@ -58,8 +58,8 @@ class Memorandums extends Component {
         super(props);
 
         this.state = {
-            institution: null,
-            institutionID: props.institution.id,
+            institution : null,
+            institutionID : props.institution.id,
         };
 
         this.refreshMemorandums = this.refreshMemorandums.bind(this);
@@ -67,32 +67,32 @@ class Memorandums extends Component {
         //Fetch active institution details
         fetchInstitution(props.institution.id, response => {
             this.setState({
-                institution: response.data.institution,
+                institution : response.data.institution,
             });
         });
     }
 
     refreshMemorandums() {
         this.setState({
-            institution: null,
+            institution : null,
         });
 
         fetchInstitution(this.props.institution.id, response => {
             this.setState({
-                institution: response.data.institution,
+                institution : response.data.institution,
             });
         });
     }
 
     componentWillReceiveProps(nextProps) {
         this.setState({
-            institutionID: nextProps.institution.id,
-            institution: null,
+            institutionID : nextProps.institution.id,
+            institution : null,
         });
 
         fetchInstitution(nextProps.institution.id, response => {
             this.setState({
-                institution: response.data.institution,
+                institution : response.data.institution,
             });
         });
     }
@@ -118,7 +118,7 @@ class MemorandumHead extends Component {
         super(props);
 
         this.state = {
-            addMemorandumIsShowing: false,
+            addMemorandumIsShowing : false,
         };
 
         this.toggleAddMemorandum = this.toggleAddMemorandum.bind(this);
@@ -126,7 +126,7 @@ class MemorandumHead extends Component {
 
     toggleAddMemorandum() {
         this.setState({
-            addMemorandumIsShowing: !this.state.addMemorandumIsShowing,
+            addMemorandumIsShowing : !this.state.addMemorandumIsShowing,
         });
     }
 
@@ -143,10 +143,10 @@ class MemorandumHead extends Component {
                         Memorandum</Button>
                 </div>
 
-                <AddMemorandumModal isOpen={this.state.addMemorandumIsShowing}
-                                    institution={this.props.institution}
-                                    toggle={this.toggleAddMemorandum}
-                                    refresh={this.props.refreshMemorandums}/>
+                <MemorandumFormModal isOpen={this.state.addMemorandumIsShowing}
+                                     institution={this.props.institution}
+                                     toggle={this.toggleAddMemorandum}
+                                     refresh={this.props.refreshMemorandums}/>
             </div>
         );
     }
@@ -156,16 +156,10 @@ class MemorandumBody extends Component {
     constructor(props) {
         super(props);
 
-        //Parse dates
-        props.memorandums.forEach(memorandum => {
-            memorandum.date_effective = moment(memorandum.date_effective);
-            memorandum.date_expiration = moment(memorandum.date_expiration);
-        });
-
         //Sort by most recent
         props.memorandums.sort((a, b) => {
-            const aTime = a.date_effective;
-            const bTime = b.date_effective;
+            const aTime = moment(a.date_effective);
+            const bTime = moment(b.date_effective);
 
             if (aTime.isBefore(bTime)) {
                 return 1;
@@ -196,9 +190,9 @@ class MemorandumBody extends Component {
         });
 
         this.state = {
-            showing: null,
-            agreements: agreements,
-            understandings: understandings,
+            showing : null,
+            agreements : agreements,
+            understandings : understandings,
         };
 
     }
@@ -227,9 +221,9 @@ class MemorandumListSection extends Component {
         super(props);
 
         this.state = {
-            activeMemorandum: null,
-            deleteMemorandumIsShowing: false,
-            editMemorandumIsShowing: false,
+            activeMemorandum : null,
+            deleteMemorandumIsShowing : false,
+            editMemorandumIsShowing : false,
         };
 
         this.emptyState = this.emptyState.bind(this);
@@ -241,7 +235,7 @@ class MemorandumListSection extends Component {
     setActiveMemorandum(memorandum) {
         if (this.state.activeMemorandum === null) {
             this.setState({
-                activeMemorandum: memorandum,
+                activeMemorandum : memorandum,
             });
 
             return;
@@ -249,19 +243,19 @@ class MemorandumListSection extends Component {
 
         this.setState({
             // Collapse if clicked memorandum is already the active memorandum
-            activeMemorandum: this.state.activeMemorandum.id === memorandum.id ? null : memorandum,
+            activeMemorandum : this.state.activeMemorandum.id === memorandum.id ? null : memorandum,
         });
     }
 
     toggleDeleteMemorandum() {
         this.setState({
-            deleteMemorandumIsShowing: !this.state.deleteMemorandumIsShowing,
+            deleteMemorandumIsShowing : !this.state.deleteMemorandumIsShowing,
         });
     }
 
     toggleEditMemorandum() {
         this.setState({
-            editMemorandumIsShowing: !this.state.editMemorandumIsShowing,
+            editMemorandumIsShowing : !this.state.editMemorandumIsShowing,
         });
     }
 
@@ -316,7 +310,8 @@ class MemorandumListSection extends Component {
                                        refresh={this.props.refreshMemorandums}/>
 
                 {this.state.activeMemorandum !== null &&
-                <EditMemorandumModal isOpen={this.state.editMemorandumIsShowing}
+                <MemorandumFormModal edit
+                                     isOpen={this.state.editMemorandumIsShowing}
                                      institution={this.props.institution}
                                      memorandum={this.state.activeMemorandum}
                                      toggle={this.toggleEditMemorandum}
@@ -327,13 +322,12 @@ class MemorandumListSection extends Component {
 
 }
 
-
 class MemorandumRow extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            deleteMemorandumIsShowing: false,
+            deleteMemorandumIsShowing : false,
         };
     }
 
@@ -341,13 +335,18 @@ class MemorandumRow extends Component {
         const memorandum = this.props.memorandum;
 
         function formatDate(date) {
-            return date.format("LL");
+            return moment(date).format("LL");
         }
 
         const dateEffective = formatDate(memorandum.date_effective);
         const dateExpiration = memorandum.date_expiration === null ? "No expiration" : formatDate(memorandum.date_expiration);
         const collegeInitiator = memorandum.college_initiator === null ? "No college initiator" : memorandum.college_initiator;
         const linkages = memorandum.memorandumlinkage_set;
+
+        function viewMemorandum() {
+            const { shell } = require("electron");
+            shell.openExternal(memorandum.memorandum_file);
+        }
 
         let linkagesText = "No linkages";
 
@@ -370,7 +369,6 @@ class MemorandumRow extends Component {
                     <SectionRow selectable active={this.props.isShowing} onClick={this.props.onClick}>
                         <SectionRowContent large>Effective {dateEffective}</SectionRowContent>
                     </SectionRow>
-
                     <Collapse isOpen={this.props.isShowing}>
                         <CardBody className="p-0">
                             <SectionTable>
@@ -391,8 +389,10 @@ class MemorandumRow extends Component {
 
                                 <SectionRow className="bg-light d-flex flex-row">
                                     <div className="mr-auto">
-                                        <Button outline size="sm" color="success" className="mr-2">View
-                                            Memorandum</Button>
+                                        <Button outline size="sm" color="success" className="mr-2"
+                                                onClick={viewMemorandum}>
+                                            View Memorandum
+                                        </Button>
                                         <Button outline size="sm" color="success"
                                                 onClick={this.props.toggleEditMemorandum}>Edit Details</Button>
                                     </div>
@@ -402,6 +402,7 @@ class MemorandumRow extends Component {
                             </SectionTable>
                         </CardBody>
                     </Collapse>
+
                 </Card>
             </div>
         );

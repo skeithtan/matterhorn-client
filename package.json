@@ -30,6 +30,7 @@
     "popper.js": "^1.12.6",
     "react": "^15.6.2",
     "react-dom": "^15.6.2",
-    "reactstrap": "^5.0.0-alpha.3"
+    "reactstrap": "^5.0.0-alpha.3",
+    "uploadcare-widget": "^3.2.0"
   }
 }

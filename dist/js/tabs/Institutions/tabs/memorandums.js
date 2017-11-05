@@ -175,7 +175,7 @@ var MemorandumHead = function (_Component2) {
                         "Add a Memorandum"
                     )
                 ),
-                _react2.default.createElement(_modals.AddMemorandumModal, { isOpen: this.state.addMemorandumIsShowing,
+                _react2.default.createElement(_modals.MemorandumFormModal, { isOpen: this.state.addMemorandumIsShowing,
                     institution: this.props.institution,
                     toggle: this.toggleAddMemorandum,
                     refresh: this.props.refreshMemorandums })
@@ -192,18 +192,12 @@ var MemorandumBody = function (_Component3) {
     function MemorandumBody(props) {
         _classCallCheck(this, MemorandumBody);
 
-        //Parse dates
+        //Sort by most recent
         var _this5 = _possibleConstructorReturn(this, (MemorandumBody.__proto__ || Object.getPrototypeOf(MemorandumBody)).call(this, props));
 
-        props.memorandums.forEach(function (memorandum) {
-            memorandum.date_effective = (0, _moment2.default)(memorandum.date_effective);
-            memorandum.date_expiration = (0, _moment2.default)(memorandum.date_expiration);
-        });
-
-        //Sort by most recent
         props.memorandums.sort(function (a, b) {
-            var aTime = a.date_effective;
-            var bTime = b.date_effective;
+            var aTime = (0, _moment2.default)(a.date_effective);
+            var bTime = (0, _moment2.default)(b.date_effective);
 
             if (aTime.isBefore(bTime)) {
                 return 1;
@@ -398,7 +392,8 @@ var MemorandumListSection = function (_Component4) {
                     memorandum: this.state.activeMemorandum,
                     toggle: this.toggleDeleteMemorandum,
                     refresh: this.props.refreshMemorandums }),
-                this.state.activeMemorandum !== null && _react2.default.createElement(_modals.EditMemorandumModal, { isOpen: this.state.editMemorandumIsShowing,
+                this.state.activeMemorandum !== null && _react2.default.createElement(_modals.MemorandumFormModal, { edit: true,
+                    isOpen: this.state.editMemorandumIsShowing,
                     institution: this.props.institution,
                     memorandum: this.state.activeMemorandum,
                     toggle: this.toggleEditMemorandum,
@@ -430,13 +425,20 @@ var MemorandumRow = function (_Component5) {
             var memorandum = this.props.memorandum;
 
             function formatDate(date) {
-                return date.format("LL");
+                return (0, _moment2.default)(date).format("LL");
             }
 
             var dateEffective = formatDate(memorandum.date_effective);
             var dateExpiration = memorandum.date_expiration === null ? "No expiration" : formatDate(memorandum.date_expiration);
             var collegeInitiator = memorandum.college_initiator === null ? "No college initiator" : memorandum.college_initiator;
             var linkages = memorandum.memorandumlinkage_set;
+
+            function viewMemorandum() {
+                var _require = require("electron"),
+                    shell = _require.shell;
+
+                shell.openExternal(memorandum.memorandum_file);
+            }
 
             var linkagesText = "No linkages";
 
@@ -527,7 +529,8 @@ var MemorandumRow = function (_Component5) {
                                         { className: "mr-auto" },
                                         _react2.default.createElement(
                                             _reactstrap.Button,
-                                            { outline: true, size: "sm", color: "success", className: "mr-2" },
+                                            { outline: true, size: "sm", color: "success", className: "mr-2",
+                                                onClick: viewMemorandum },
                                             "View Memorandum"
                                         ),
                                         _react2.default.createElement(

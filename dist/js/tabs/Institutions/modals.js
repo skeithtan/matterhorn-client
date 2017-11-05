@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.EditMemorandumModal = exports.DeleteMemorandumModal = exports.AddMemorandumModal = exports.DeleteInstitutionModal = exports.InstitutionFormModal = undefined;
+exports.DeleteMemorandumModal = exports.MemorandumFormModal = exports.DeleteInstitutionModal = exports.InstitutionFormModal = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -521,44 +521,107 @@ var DeleteInstitutionModal = function (_Component2) {
     return DeleteInstitutionModal;
 }(_react.Component);
 
-var AddMemorandumModal = function (_Component3) {
-    _inherits(AddMemorandumModal, _Component3);
+var MemorandumFormModal = function (_Component3) {
+    _inherits(MemorandumFormModal, _Component3);
 
-    function AddMemorandumModal(props) {
-        _classCallCheck(this, AddMemorandumModal);
+    function MemorandumFormModal(props) {
+        _classCallCheck(this, MemorandumFormModal);
 
-        var _this7 = _possibleConstructorReturn(this, (AddMemorandumModal.__proto__ || Object.getPrototypeOf(AddMemorandumModal)).call(this, props));
+        var _this7 = _possibleConstructorReturn(this, (MemorandumFormModal.__proto__ || Object.getPrototypeOf(MemorandumFormModal)).call(this, props));
 
-        _this7.submitForm = _this7.submitForm.bind(_this7);
+        _this7.state = {
+            form: {
+                category: "MOA",
+                memorandum_file: "",
+                date_effective: "",
+                date_expiration: "",
+                college_initiator: ""
+            }
+        };
+
+        _this7.getFormErrors = _this7.getFormErrors.bind(_this7);
+        _this7.setupUploadCare = _this7.setupUploadCare.bind(_this7);
+        _this7.getChangeHandler = _this7.getChangeHandler.bind(_this7);
+        _this7.submitAddMemorandumForm = _this7.submitAddMemorandumForm.bind(_this7);
+        _this7.submitEditMemorandumForm = _this7.submitEditMemorandumForm.bind(_this7);
+
+        if (_this7.props.edit) {
+            console.log(_this7.props.memorandum);
+            Object.assign(_this7.state.form, props.memorandum);
+        }
         return _this7;
     }
 
-    _createClass(AddMemorandumModal, [{
-        key: "submitForm",
-        value: function submitForm() {
+    _createClass(MemorandumFormModal, [{
+        key: "getFormErrors",
+        value: function getFormErrors() {
+            return (0, _form_validator2.default)([{
+                name: "Date effective",
+                characterLimit: null,
+                value: this.state.form.date_effective
+            }, {
+                name: "File",
+                characterLimit: null,
+                value: this.state.form.memorandum_file
+            }]);
+        }
+    }, {
+        key: "getChangeHandler",
+        value: function getChangeHandler(fieldName) {
             var _this8 = this;
+
+            var form = this.state.form;
+
+            return function (event) {
+                var value = event.target.value;
+
+                form[fieldName] = value;
+                _this8.setState({
+                    form: form
+                });
+            };
+        }
+    }, {
+        key: "setupUploadCare",
+        value: function setupUploadCare() {
+            var _this9 = this;
+
+            var widget = uploadcare.SingleWidget("[role=uploadcare-uploader]");
+            var form = this.state.form;
+            var setMemorandumFile = function setMemorandumFile(link) {
+                form.memorandum_file = link;
+                _this9.setState({
+                    form: form
+                });
+
+                console.log(_this9.state.form);
+            };
+
+            widget.onChange(function (file) {
+                if (file) {
+                    file.done(function (info) {
+                        setMemorandumFile(info.cdnUrl);
+                    });
+                }
+            });
+        }
+    }, {
+        key: "submitAddMemorandumForm",
+        value: function submitAddMemorandumForm() {
+            var _this10 = this;
 
             var dismissToast = (0, _dismissable_toast_maker2.default)({
                 title: "Adding",
                 message: "Adding new memorandum..."
             });
 
-            console.log(this.props.institution.id);
-
             _jquery2.default.post({
                 url: _settings2.default.serverURL + "/institutions/" + this.props.institution.id + "/memorandums/",
-                data: {
-                    institution: this.props.institution.id,
-                    category: (0, _jquery2.default)("#add-memorandum-category").val(),
-                    memorandum_file: (0, _jquery2.default)("#add-memorandum-file").val(),
-                    date_effective: (0, _jquery2.default)("#add-memorandum-date-effective").val(),
-                    date_expiration: (0, _jquery2.default)("#add-memorandum-expiration-date").val(),
-                    college_initiator: (0, _jquery2.default)("#add-memorandum-college-initiator").val()
-                },
+                data: this.state.form,
                 beforeSend: _authorization2.default,
                 success: function success() {
                     dismissToast();
-                    _this8.props.refresh();
+                    _this10.props.refresh();
                     _izitoast2.default.success({
                         title: "Success",
                         message: "Successfully added memorandum"
@@ -577,17 +640,63 @@ var AddMemorandumModal = function (_Component3) {
             this.props.toggle();
         }
     }, {
+        key: "submitEditMemorandumForm",
+        value: function submitEditMemorandumForm() {
+            var _this11 = this;
+
+            var dismissToast = (0, _dismissable_toast_maker2.default)({
+                title: "Editing",
+                message: "Editing memorandum..."
+            });
+
+            _jquery2.default.ajax({
+                method: "PUT",
+                url: _settings2.default.serverURL + "/institutions/" + this.props.institution.id + "/memorandums/" + this.state.memorandum.id + "/",
+                data: this.state.form,
+                beforeSend: _authorization2.default,
+                success: function success() {
+                    dismissToast();
+                    _this11.props.refresh();
+                    _izitoast2.default.success({
+                        title: "Success",
+                        message: "Successfully modified memorandum"
+                    });
+                },
+                error: function error(response) {
+                    dismissToast();
+                    console.log(response);
+                    _izitoast2.default.error({
+                        title: "Error",
+                        message: "Unable to edit memorandum"
+                    });
+                }
+            });
+
+            this.props.toggle();
+        }
+    }, {
         key: "render",
         value: function render() {
+            var formErrors = this.getFormErrors();
+            var formHasErrors = formErrors.formHasErrors;
+            var fieldErrors = formErrors.fieldErrors;
+
+            function isValid(fieldName) {
+                return fieldErrors[fieldName].length === 0;
+            }
+
+            function fieldError(fieldName) {
+                return fieldErrors[fieldName][0];
+            }
+
             return _react2.default.createElement(
                 _reactstrap.Modal,
-                { isOpen: this.props.isOpen, toggle: this.props.toggle, backdrop: true, id: "add-memorandum-modal",
-                    onOpened: AddMemorandumModal.addValidation },
+                { isOpen: this.props.isOpen, toggle: this.props.toggle, backdrop: true,
+                    onOpened: this.setupUploadCare },
                 _react2.default.createElement(
                     _reactstrap.ModalHeader,
                     { toggle: this.props.toggle },
-                    "Add a Memorandum to ",
-                    this.props.institution.name
+                    this.props.edit ? "Edit memorandum" : "Add a memorandum to " + this.props.institution.name
                 ),
                 _react2.default.createElement(
                     _reactstrap.ModalBody,
@@ -600,12 +709,13 @@ var AddMemorandumModal = function (_Component3) {
                             null,
                             _react2.default.createElement(
                                 _reactstrap.Label,
-                                { "for": "add-memorandum-category" },
+                                null,
                                 "Category"
                             ),
                             _react2.default.createElement(
                                 _reactstrap.Input,
-                                { id: "add-memorandum-category", type: "select" },
+                                { type: "select", defaultValue: this.state.form.category,
+                                    onChange: this.getChangeHandler("category") },
                                 _react2.default.createElement(
                                     "option",
                                     { value: "MOA" },
@@ -623,42 +733,68 @@ var AddMemorandumModal = function (_Component3) {
                             null,
                             _react2.default.createElement(
                                 _reactstrap.Label,
-                                { "for": "add-memorandum-file" },
+                                null,
                                 "File Link"
                             ),
-                            _react2.default.createElement(_reactstrap.Input, { id: "add-memorandum-file", placeholder: "File Link", className: "text-input" })
+                            _react2.default.createElement(_reactstrap.Input, { type: "hidden", role: "uploadcare-uploader", name: "content",
+                                "data-public-key": _settings2.default.uploadcarePublicKey,
+                                valid: isValid("File") }),
+                            _react2.default.createElement(
+                                _reactstrap.FormFeedback,
+                                null,
+                                fieldError("File")
+                            ),
+                            this.props.edit && _react2.default.createElement(
+                                "small",
+                                { className: "text-secondary" },
+                                "To change memorandum file, upload a new file. Otherwise, leave this blank."
+                            )
                         ),
                         _react2.default.createElement(
                             _reactstrap.FormGroup,
                             null,
                             _react2.default.createElement(
                                 _reactstrap.Label,
-                                { "for": "add-memorandum-date-effective" },
+                                null,
                                 "Date Effective"
                             ),
-                            _react2.default.createElement(_reactstrap.Input, { type: "date", id: "add-memorandum-date-effective", className: "text-input" })
+                            _react2.default.createElement(_reactstrap.Input, { type: "date", defaultValue: this.state.form.date_effective,
+                                onChange: this.getChangeHandler("date_effective"),
+                                valid: isValid("Date effective") }),
+                            _react2.default.createElement(
+                                _reactstrap.FormFeedback,
+                                null,
+                                fieldError("Date effective")
+                            )
                         ),
                         _react2.default.createElement(
                             _reactstrap.FormGroup,
                             null,
                             _react2.default.createElement(
                                 _reactstrap.Label,
-                                { "for": "add-memorandum-expiration-date" },
+                                null,
                                 "Expiration Date"
                             ),
-                            _react2.default.createElement(_reactstrap.Input, { type: "date", id: "add-memorandum-expiration-date", className: "text-input" })
+                            _react2.default.createElement(_reactstrap.Input, { type: "date", defaultValue: this.state.form.date_expiration,
+                                onChange: this.getChangeHandler("date_expiration") }),
+                            _react2.default.createElement(
+                                "small",
+                                { className: "text-secondary" },
+                                "If the memorandum has no expiration date, leave this blank."
+                            )
                         ),
                         _react2.default.createElement(
                             _reactstrap.FormGroup,
                             null,
                             _react2.default.createElement(
                                 _reactstrap.Label,
-                                { "for": "add-memorandum-college-initiator" },
+                                null,
                                 "College Initiator"
                             ),
                             _react2.default.createElement(
                                 _reactstrap.Input,
-                                { type: "select", id: "add-memorandum-college-initiator" },
+                                { type: "select", defaultValue: this.state.form.college_initiator,
+                                    onChange: this.getChangeHandler("college_initiator") },
                                 _react2.default.createElement(
                                     "option",
                                     { value: "CCS" },
@@ -703,34 +839,17 @@ var AddMemorandumModal = function (_Component3) {
                     null,
                     _react2.default.createElement(
                         _reactstrap.Button,
-                        { outline: true, color: "success", id: "add-memorandum-modal-submit",
-                            onClick: this.submitForm },
-                        "Add Memorandum"
+                        { outline: true, color: "success",
+                            disabled: formHasErrors,
+                            onClick: this.props.edit ? this.submitEditMemorandumForm : this.submitAddMemorandumForm },
+                        this.props.edit ? "Edit" : "Add"
                     )
                 )
             );
         }
-    }], [{
-        key: "addValidation",
-        value: function (_addValidation) {
-            function addValidation() {
-                return _addValidation.apply(this, arguments);
-            }
-
-            addValidation.toString = function () {
-                return _addValidation.toString();
-            };
-
-            return addValidation;
-        }(function () {
-            addValidation({
-                inputs: (0, _jquery2.default)("#add-memorandum-modal").find(".text-input"),
-                button: (0, _jquery2.default)("#add-memorandum-modal-submit")
-            });
-        })
     }]);
 
-    return AddMemorandumModal;
+    return MemorandumFormModal;
 }(_react.Component);
 
 var DeleteMemorandumModal = function (_Component4) {
@@ -739,16 +858,16 @@ var DeleteMemorandumModal = function (_Component4) {
     function DeleteMemorandumModal(props) {
         _classCallCheck(this, DeleteMemorandumModal);
 
-        var _this9 = _possibleConstructorReturn(this, (DeleteMemorandumModal.__proto__ || Object.getPrototypeOf(DeleteMemorandumModal)).call(this, props));
+        var _this12 = _possibleConstructorReturn(this, (DeleteMemorandumModal.__proto__ || Object.getPrototypeOf(DeleteMemorandumModal)).call(this, props));
 
-        _this9.confirmDelete = _this9.confirmDelete.bind(_this9);
-        return _this9;
+        _this12.confirmDelete = _this12.confirmDelete.bind(_this12);
+        return _this12;
     }
 
     _createClass(DeleteMemorandumModal, [{
         key: "confirmDelete",
         value: function confirmDelete() {
-            var _this10 = this;
+            var _this13 = this;
 
             var dismissToast = (0, _dismissable_toast_maker2.default)({
                 title: "Deleting",
@@ -761,7 +880,7 @@ var DeleteMemorandumModal = function (_Component4) {
                 beforeSend: _authorization2.default,
                 success: function success() {
                     dismissToast();
-                    _this10.props.refresh();
+                    _this13.props.refresh();
                     _izitoast2.default.success({
                         title: "Success",
                         message: "Memorandum deleted",
@@ -813,227 +932,8 @@ var DeleteMemorandumModal = function (_Component4) {
     return DeleteMemorandumModal;
 }(_react.Component);
 
-var EditMemorandumModal = function (_Component5) {
-    _inherits(EditMemorandumModal, _Component5);
-
-    function EditMemorandumModal(props) {
-        _classCallCheck(this, EditMemorandumModal);
-
-        var _this11 = _possibleConstructorReturn(this, (EditMemorandumModal.__proto__ || Object.getPrototypeOf(EditMemorandumModal)).call(this, props));
-
-        _this11.submitForm = _this11.submitForm.bind(_this11);
-        return _this11;
-    }
-
-    _createClass(EditMemorandumModal, [{
-        key: "submitForm",
-        value: function submitForm() {
-            var _this12 = this;
-
-            var dismissToast = (0, _dismissable_toast_maker2.default)({
-                title: "Editing",
-                message: "Editing memorandum..."
-            });
-
-            _jquery2.default.ajax({
-                method: "PUT",
-                url: _settings2.default.serverURL + "/institutions/" + this.props.institution.id + "/memorandums/" + this.props.memorandum.id + "/",
-                data: {
-                    institution: this.props.institution.id,
-                    category: (0, _jquery2.default)("#edit-memorandum-category").val(),
-                    memorandum_file: (0, _jquery2.default)("#edit-memorandum-file").val(),
-                    date_effective: (0, _jquery2.default)("#edit-memorandum-date-effective").val(),
-                    date_expiration: (0, _jquery2.default)("#edit-memorandum-expiration-date").val(),
-                    college_initiator: (0, _jquery2.default)("#edit-memorandum-college-initiator").val()
-                },
-                beforeSend: _authorization2.default,
-                success: function success() {
-                    dismissToast();
-                    _this12.props.refresh();
-                    _izitoast2.default.success({
-                        title: "Success",
-                        message: "Successfully modified memorandum"
-                    });
-                },
-                error: function error(response) {
-                    dismissToast();
-                    console.log(response);
-                    _izitoast2.default.error({
-                        title: "Error",
-                        message: "Unable to edit memorandum"
-                    });
-                }
-            });
-
-            this.props.toggle();
-        }
-    }, {
-        key: "render",
-        value: function render() {
-            var memorandum = this.props.memorandum;
-            var dateEffective = (0, _moment2.default)(memorandum.dateEffective).format("YYYY-MM-DD");
-            var dateExpiration = (0, _moment2.default)(memorandum.dateExpiration).format("YYYY-MM-DD");
-
-            return _react2.default.createElement(
-                _reactstrap.Modal,
-                { isOpen: this.props.isOpen, toggle: this.props.toggle, backdrop: true, id: "edit-memorandum-modal",
-                    onOpened: EditMemorandumModal.addValidation },
-                _react2.default.createElement(
-                    _reactstrap.ModalHeader,
-                    { toggle: this.props.toggle },
-                    "Edit Memorandum"
-                ),
-                _react2.default.createElement(
-                    _reactstrap.ModalBody,
-                    { className: "form" },
-                    _react2.default.createElement(
-                        _reactstrap.Form,
-                        null,
-                        _react2.default.createElement(
-                            _reactstrap.FormGroup,
-                            null,
-                            _react2.default.createElement(
-                                _reactstrap.Label,
-                                { "for": "edit-memorandum-category" },
-                                "Category"
-                            ),
-                            _react2.default.createElement(
-                                _reactstrap.Input,
-                                { id: "edit-memorandum-category", type: "select", defaultValue: memorandum.category },
-                                _react2.default.createElement(
-                                    "option",
-                                    { value: "MOA" },
-                                    "Memorandum of Agreement"
-                                ),
-                                _react2.default.createElement(
-                                    "option",
-                                    { value: "MOU" },
-                                    "Memorandum of Understanding"
-                                )
-                            )
-                        ),
-                        _react2.default.createElement(
-                            _reactstrap.FormGroup,
-                            null,
-                            _react2.default.createElement(
-                                _reactstrap.Label,
-                                { "for": "edit-memorandum-file" },
-                                "File Link"
-                            ),
-                            _react2.default.createElement(_reactstrap.Input, { id: "edit-memorandum-file", placeholder: "File Link", className: "text-input",
-                                defaultValue: memorandum.memorandumFile })
-                        ),
-                        _react2.default.createElement(
-                            _reactstrap.FormGroup,
-                            null,
-                            _react2.default.createElement(
-                                _reactstrap.Label,
-                                { "for": "edit-memorandum-date-effective" },
-                                "Date Effective"
-                            ),
-                            _react2.default.createElement(_reactstrap.Input, { type: "date", id: "edit-memorandum-date-effective", className: "text-input",
-                                defaultValue: dateEffective })
-                        ),
-                        _react2.default.createElement(
-                            _reactstrap.FormGroup,
-                            null,
-                            _react2.default.createElement(
-                                _reactstrap.Label,
-                                { "for": "edit-memorandum-expiration-date" },
-                                "Expiration Date"
-                            ),
-                            _react2.default.createElement(_reactstrap.Input, { type: "date", id: "edit-memorandum-expiration-date", className: "text-input",
-                                defaultValue: dateExpiration })
-                        ),
-                        _react2.default.createElement(
-                            _reactstrap.FormGroup,
-                            null,
-                            _react2.default.createElement(
-                                _reactstrap.Label,
-                                { "for": "edit-memorandum-college-initiator" },
-                                "College Initiator"
-                            ),
-                            _react2.default.createElement(
-                                _reactstrap.Input,
-                                { type: "select", id: "edit-memorandum-college-initiator",
-                                    defaultValue: memorandum.collegeInitiator },
-                                _react2.default.createElement(
-                                    "option",
-                                    { value: "CCS" },
-                                    "College of Computer Studies"
-                                ),
-                                _react2.default.createElement(
-                                    "option",
-                                    { value: "RVRCOB" },
-                                    "Ramon V. del Rosario College of Business"
-                                ),
-                                _react2.default.createElement(
-                                    "option",
-                                    { value: "CLA" },
-                                    "College of Liberal Arts"
-                                ),
-                                _react2.default.createElement(
-                                    "option",
-                                    { value: "SOE" },
-                                    "School of Economics"
-                                ),
-                                _react2.default.createElement(
-                                    "option",
-                                    { value: "GCOE" },
-                                    "Gokongwei College of Engineering"
-                                ),
-                                _react2.default.createElement(
-                                    "option",
-                                    { value: "COL" },
-                                    "College of Law"
-                                ),
-                                _react2.default.createElement(
-                                    "option",
-                                    { value: "BAGCED" },
-                                    "Brother Andrew Gonzales College of Education"
-                                )
-                            )
-                        )
-                    )
-                ),
-                _react2.default.createElement(
-                    _reactstrap.ModalFooter,
-                    null,
-                    _react2.default.createElement(
-                        _reactstrap.Button,
-                        { outline: true, color: "success", id: "edit-memorandum-modal-submit",
-                            onClick: this.submitForm },
-                        "Edit"
-                    )
-                )
-            );
-        }
-    }], [{
-        key: "addValidation",
-        value: function (_addValidation2) {
-            function addValidation() {
-                return _addValidation2.apply(this, arguments);
-            }
-
-            addValidation.toString = function () {
-                return _addValidation2.toString();
-            };
-
-            return addValidation;
-        }(function () {
-            addValidation({
-                inputs: (0, _jquery2.default)("#edit-memorandum-modal").find(".text-input"),
-                button: (0, _jquery2.default)("#edit-memorandum-modal-submit")
-            });
-        })
-    }]);
-
-    return EditMemorandumModal;
-}(_react.Component);
-
 exports.InstitutionFormModal = InstitutionFormModal;
 exports.DeleteInstitutionModal = DeleteInstitutionModal;
-exports.AddMemorandumModal = AddMemorandumModal;
+exports.MemorandumFormModal = MemorandumFormModal;
 exports.DeleteMemorandumModal = DeleteMemorandumModal;
-exports.EditMemorandumModal = EditMemorandumModal;
 //# sourceMappingURL=modals.js.map

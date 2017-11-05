@@ -52,10 +52,16 @@
 <div id="window-handle-bar"></div>
 <div id="root"></div>
 <script>
-    // You can also require other files to run in this process
+    // App requirements
     require("./renderer.js");
     require("./dist/js/index");
 
+    //Upload care
+    UPLOADCARE_PUBLIC_KEY = require("./dist/js/settings").default.uploadcarePublicKey;
+    UPLOADCARE_SYSTEM_DIALOG = true;
+    const uploadcare = require('uploadcare-widget');
+
+    //Bootstrap
     let $ = require("jquery");
     let Popper = require("popper.js");
     require("bootstrap");

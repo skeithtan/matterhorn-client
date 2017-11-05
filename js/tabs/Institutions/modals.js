@@ -344,31 +344,92 @@ class DeleteInstitutionModal extends Component {
     }
 }
 
-class AddMemorandumModal extends Component {
+class MemorandumFormModal extends Component {
     constructor(props) {
         super(props);
 
-        this.submitForm = this.submitForm.bind(this);
+        this.state = {
+            form : {
+                category : "MOA",
+                memorandum_file : "",
+                date_effective : "",
+                date_expiration : "",
+                college_initiator : "",
+            },
+        };
+
+        this.getFormErrors = this.getFormErrors.bind(this);
+        this.setupUploadCare = this.setupUploadCare.bind(this);
+        this.getChangeHandler = this.getChangeHandler.bind(this);
+        this.submitAddMemorandumForm = this.submitAddMemorandumForm.bind(this);
+        this.submitEditMemorandumForm = this.submitEditMemorandumForm.bind(this);
+
+        if (this.props.edit) {
+            console.log(this.props.memorandum);
+            Object.assign(this.state.form, props.memorandum);
+        }
     }
 
-    submitForm() {
+    getFormErrors() {
+        return validateForm([
+            {
+                name : "Date effective",
+                characterLimit : null,
+                value : this.state.form.date_effective,
+            },
+            {
+                name : "File",
+                characterLimit : null,
+                value : this.state.form.memorandum_file,
+            },
+        ]);
+    }
+
+    getChangeHandler(fieldName) {
+        const form = this.state.form;
+
+        return event => {
+            const value = event.target.value;
+
+            form[fieldName] = value;
+            this.setState({
+                form : form,
+            });
+
+        };
+
+    }
+
+    setupUploadCare() {
+        const widget = uploadcare.SingleWidget("[role=uploadcare-uploader]");
+        const form = this.state.form;
+        const setMemorandumFile = link => {
+            form.memorandum_file = link;
+            this.setState({
+                form : form,
+            });
+
+            console.log(this.state.form);
+        };
+
+        widget.onChange(file => {
+            if (file) {
+                file.done(info => {
+                    setMemorandumFile(info.cdnUrl);
+                });
+            }
+        });
+    }
+
+    submitAddMemorandumForm() {
         const dismissToast = makeInfoToast({
             title : "Adding",
             message : "Adding new memorandum...",
         });
 
-        console.log(this.props.institution.id);
-
         $.post({
             url : `${settings.serverURL}/institutions/${this.props.institution.id}/memorandums/`,
-            data : {
-                institution : this.props.institution.id,
-                category : $("#add-memorandum-category").val(),
-                memorandum_file : $("#add-memorandum-file").val(),
-                date_effective : $("#add-memorandum-date-effective").val(),
-                date_expiration : $("#add-memorandum-expiration-date").val(),
-                college_initiator : $("#add-memorandum-college-initiator").val(),
-            },
+            data : this.state.form,
             beforeSend : authorizeXHR,
             success : () => {
                 dismissToast();
@@ -391,42 +452,97 @@ class AddMemorandumModal extends Component {
         this.props.toggle();
     }
 
-    static addValidation() {
-        addValidation({
-            inputs : $("#add-memorandum-modal").find(".text-input"),
-            button : $("#add-memorandum-modal-submit"),
+    submitEditMemorandumForm() {
+        const dismissToast = makeInfoToast({
+            title : "Editing",
+            message : "Editing memorandum...",
         });
+
+        $.ajax({
+            method : "PUT",
+            url : `${settings.serverURL}/institutions/${this.props.institution.id}/memorandums/${this.state.memorandum.id}/`,
+            data : this.state.form,
+            beforeSend : authorizeXHR,
+            success : () => {
+                dismissToast();
+                this.props.refresh();
+                iziToast.success({
+                    title : "Success",
+                    message : "Successfully modified memorandum",
+                });
+            },
+            error : response => {
+                dismissToast();
+                console.log(response);
+                iziToast.error({
+                    title : "Error",
+                    message : "Unable to edit memorandum",
+                });
+            },
+        });
+
+        this.props.toggle();
     }
 
     render() {
+        const formErrors = this.getFormErrors();
+        const formHasErrors = formErrors.formHasErrors;
+        const fieldErrors = formErrors.fieldErrors;
+
+        function isValid(fieldName) {
+            return fieldErrors[fieldName].length === 0;
+        }
+
+        function fieldError(fieldName) {
+            return fieldErrors[fieldName][0];
+        }
+
         return (
-            <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} backdrop={true} id="add-memorandum-modal"
-                   onOpened={AddMemorandumModal.addValidation}>
-                <ModalHeader toggle={this.props.toggle}>Add a Memorandum to {this.props.institution.name}</ModalHeader>
+            <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} backdrop={true}
+                   onOpened={this.setupUploadCare}>
+                <ModalHeader toggle={this.props.toggle}>
+                    {this.props.edit ? "Edit memorandum" : `Add a memorandum to ${this.props.institution.name}`}
+                </ModalHeader>
                 <ModalBody className="form">
                     <Form>
                         <FormGroup>
-                            <Label for="add-memorandum-category">Category</Label>
-                            <Input id="add-memorandum-category" type="select">
+                            <Label>Category</Label>
+                            <Input type="select" defaultValue={this.state.form.category}
+                                   onChange={this.getChangeHandler("category")}>
                                 <option value="MOA">Memorandum of Agreement</option>
                                 <option value="MOU">Memorandum of Understanding</option>
                             </Input>
                         </FormGroup>
                         <FormGroup>
-                            <Label for="add-memorandum-file">File Link</Label>
-                            <Input id="add-memorandum-file" placeholder="File Link" className="text-input"/>
+                            <Label>File Link</Label>
+                            <Input type="hidden" role="uploadcare-uploader" name="content"
+                                   data-public-key={settings.uploadcarePublicKey}
+                                   valid={isValid("File")}/>
+                            <FormFeedback>{fieldError("File")}</FormFeedback>
+                            {this.props.edit &&
+                            <small className="text-secondary">To change memorandum file, upload a new file. Otherwise,
+                                leave this blank.</small>
+                            }
                         </FormGroup>
                         <FormGroup>
-                            <Label for="add-memorandum-date-effective">Date Effective</Label>
-                            <Input type="date" id="add-memorandum-date-effective" className="text-input"/>
+                            <Label>Date Effective</Label>
+                            <Input type="date" defaultValue={this.state.form.date_effective}
+                                   onChange={this.getChangeHandler("date_effective")}
+                                   valid={isValid("Date effective")}/>
+                            <FormFeedback>{fieldError("Date effective")}</FormFeedback>
                         </FormGroup>
                         <FormGroup>
-                            <Label for="add-memorandum-expiration-date">Expiration Date</Label>
-                            <Input type="date" id="add-memorandum-expiration-date" className="text-input"/>
+                            <Label>Expiration Date</Label>
+                            <Input type="date" defaultValue={this.state.form.date_expiration}
+                                   onChange={this.getChangeHandler("date_expiration")}/>
+                            <small className="text-secondary">If the memorandum has no expiration date, leave this
+                                blank.
+                            </small>
                         </FormGroup>
                         <FormGroup>
-                            <Label for="add-memorandum-college-initiator">College Initiator</Label>
-                            <Input type="select" id="add-memorandum-college-initiator">
+                            <Label>College Initiator</Label>
+                            <Input type="select" defaultValue={this.state.form.college_initiator}
+                                   onChange={this.getChangeHandler("college_initiator")}>
                                 <option value="CCS">College of Computer Studies</option>
                                 <option value="RVRCOB">Ramon V. del Rosario College of Business</option>
                                 <option value="CLA">College of Liberal Arts</option>
@@ -439,12 +555,16 @@ class AddMemorandumModal extends Component {
                     </Form>
                 </ModalBody>
                 <ModalFooter>
-                    <Button outline color="success" id="add-memorandum-modal-submit"
-                            onClick={this.submitForm}>Add Memorandum</Button>
+                    <Button outline color="success"
+                            disabled={formHasErrors}
+                            onClick={this.props.edit ? this.submitEditMemorandumForm : this.submitAddMemorandumForm}>
+                        {this.props.edit ? "Edit" : "Add"}
+                    </Button>
                 </ModalFooter>
             </Modal>
         );
     }
+
 }
 
 class DeleteMemorandumModal extends Component {
@@ -500,120 +620,9 @@ class DeleteMemorandumModal extends Component {
     }
 }
 
-class EditMemorandumModal extends Component {
-    constructor(props) {
-        super(props);
-
-        this.submitForm = this.submitForm.bind(this);
-    }
-
-    submitForm() {
-        const dismissToast = makeInfoToast({
-            title : "Editing",
-            message : "Editing memorandum...",
-        });
-
-        $.ajax({
-            method : "PUT",
-            url : `${settings.serverURL}/institutions/${this.props.institution.id}/memorandums/${this.props.memorandum.id}/`,
-            data : {
-                institution : this.props.institution.id,
-                category : $("#edit-memorandum-category").val(),
-                memorandum_file : $("#edit-memorandum-file").val(),
-                date_effective : $("#edit-memorandum-date-effective").val(),
-                date_expiration : $("#edit-memorandum-expiration-date").val(),
-                college_initiator : $("#edit-memorandum-college-initiator").val(),
-            },
-            beforeSend : authorizeXHR,
-            success : () => {
-                dismissToast();
-                this.props.refresh();
-                iziToast.success({
-                    title : "Success",
-                    message : "Successfully modified memorandum",
-                });
-            },
-            error : response => {
-                dismissToast();
-                console.log(response);
-                iziToast.error({
-                    title : "Error",
-                    message : "Unable to edit memorandum",
-                });
-            },
-        });
-
-        this.props.toggle();
-    }
-
-    static addValidation() {
-        addValidation({
-            inputs : $("#edit-memorandum-modal").find(".text-input"),
-            button : $("#edit-memorandum-modal-submit"),
-        });
-    }
-
-    render() {
-        const memorandum = this.props.memorandum;
-        const dateEffective = moment(memorandum.dateEffective).format("YYYY-MM-DD");
-        const dateExpiration = moment(memorandum.dateExpiration).format("YYYY-MM-DD");
-
-        return (
-            <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} backdrop={true} id="edit-memorandum-modal"
-                   onOpened={EditMemorandumModal.addValidation}>
-                <ModalHeader toggle={this.props.toggle}>Edit Memorandum</ModalHeader>
-                <ModalBody className="form">
-                    <Form>
-                        <FormGroup>
-                            <Label for="edit-memorandum-category">Category</Label>
-                            <Input id="edit-memorandum-category" type="select" defaultValue={memorandum.category}>
-                                <option value="MOA">Memorandum of Agreement</option>
-                                <option value="MOU">Memorandum of Understanding</option>
-                            </Input>
-                        </FormGroup>
-                        <FormGroup>
-                            <Label for="edit-memorandum-file">File Link</Label>
-                            <Input id="edit-memorandum-file" placeholder="File Link" className="text-input"
-                                   defaultValue={memorandum.memorandumFile}/>
-                        </FormGroup>
-                        <FormGroup>
-                            <Label for="edit-memorandum-date-effective">Date Effective</Label>
-                            <Input type="date" id="edit-memorandum-date-effective" className="text-input"
-                                   defaultValue={dateEffective}/>
-                        </FormGroup>
-                        <FormGroup>
-                            <Label for="edit-memorandum-expiration-date">Expiration Date</Label>
-                            <Input type="date" id="edit-memorandum-expiration-date" className="text-input"
-                                   defaultValue={dateExpiration}/>
-                        </FormGroup>
-                        <FormGroup>
-                            <Label for="edit-memorandum-college-initiator">College Initiator</Label>
-                            <Input type="select" id="edit-memorandum-college-initiator"
-                                   defaultValue={memorandum.collegeInitiator}>
-                                <option value="CCS">College of Computer Studies</option>
-                                <option value="RVRCOB">Ramon V. del Rosario College of Business</option>
-                                <option value="CLA">College of Liberal Arts</option>
-                                <option value="SOE">School of Economics</option>
-                                <option value="GCOE">Gokongwei College of Engineering</option>
-                                <option value="COL">College of Law</option>
-                                <option value="BAGCED">Brother Andrew Gonzales College of Education</option>
-                            </Input>
-                        </FormGroup>
-                    </Form>
-                </ModalBody>
-                <ModalFooter>
-                    <Button outline color="success" id="edit-memorandum-modal-submit"
-                            onClick={this.submitForm}>Edit</Button>
-                </ModalFooter>
-            </Modal>
-        );
-    }
-}
-
 export {
     InstitutionFormModal,
     DeleteInstitutionModal,
-    AddMemorandumModal,
+    MemorandumFormModal,
     DeleteMemorandumModal,
-    EditMemorandumModal,
 };
