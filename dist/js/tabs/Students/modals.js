@@ -707,7 +707,7 @@ var DeleteStudentModal = function (_Component2) {
             });
 
             _jquery2.default.ajax({
-                url: _settings2.default.serverURL + "/students/" + this.props.student.id_number + "/",
+                url: _settings2.default.serverURL + "/students/" + this.props.student.id + "/",
                 method: "DELETE",
                 beforeSend: _authorization2.default,
                 success: function success() {
