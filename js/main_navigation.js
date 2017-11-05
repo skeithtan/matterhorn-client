@@ -65,7 +65,7 @@ class TabItem extends Component {
             <NavItem className={className} data-toggle="tooltip" data-placement="right" title={this.props.name}
                      onClick={onNavItemClick}>
                 <div className="d-flex flex-row align-items-center tab-set">
-                    <h6 className="lead mb-0 text-white">{this.props.name}</h6>
+                    <h5 className="mb-0 text-white sidebar-tab-description">{this.props.name}</h5>
                     <img src={this.props.image} className="sidebar-image"/>
                 </div>
             </NavItem>

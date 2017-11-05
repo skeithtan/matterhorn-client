@@ -113,8 +113,8 @@ var TabItem = function (_Component2) {
                     "div",
                     { className: "d-flex flex-row align-items-center tab-set" },
                     _react2.default.createElement(
-                        "h6",
-                        { className: "lead mb-0 text-white" },
+                        "h5",
+                        { className: "mb-0 text-white sidebar-tab-description" },
                         this.props.name
                     ),
                     _react2.default.createElement("img", { src: this.props.image, className: "sidebar-image" })
