@@ -200,12 +200,12 @@ input[type="search"]::-webkit-search-cancel-button {
     pointer-events : none;
 }
 
-#main-navigation .nav-item-text {
+#main-navigation .sidebar-tab-description {
     opacity    : 0;
     transition : 300ms;
 }
 
-#main-navigation.expanded .nav-item-text {
+#main-navigation.expanded .sidebar-tab-description {
     opacity : 1;
 }
 
