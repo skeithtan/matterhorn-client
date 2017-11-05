@@ -151,13 +151,6 @@ var SwitchUserButton = function (_Component3) {
     }, {
         key: "render",
         value: function render() {
-            var _this6 = this;
-
-            var onSignOutButtonClick = function onSignOutButtonClick() {
-                _this6.togglePopover();
-                (0, _index2.default)();
-            };
-
             return _react2.default.createElement(
                 "div",
                 { className: "w-100 p-3 d-flex justify-content-center align-content-center" },
@@ -180,7 +173,7 @@ var SwitchUserButton = function (_Component3) {
                     ),
                     _react2.default.createElement(
                         _reactstrap.Button,
-                        { color: "light", onClick: onSignOutButtonClick },
+                        { color: "light", onClick: _index2.default },
                         "Sign out"
                     )
                 ),

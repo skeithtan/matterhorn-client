@@ -91,11 +91,6 @@ class SwitchUserButton extends Component {
 
 
     render() {
-        const onSignOutButtonClick = () => {
-            this.togglePopover();
-            signOut();
-        };
-
         return (
             <div className="w-100 p-3 d-flex justify-content-center align-content-center">
                 <div id="switch-user-button" onClick={this.togglePopover} className="p-3 d-flex align-items-center">
@@ -103,7 +98,7 @@ class SwitchUserButton extends Component {
                         <h6 className="mb-0">Hello,</h6>
                         <h5 className="mb-0">{localStorage.username}</h5>
                     </div>
-                    <Button color="light" onClick={onSignOutButtonClick}>Sign out</Button>
+                    <Button color="light" onClick={signOut}>Sign out</Button>
                 </div>
 
                 <button className="expand-button" onClick={this.props.toggleNavigation}>
