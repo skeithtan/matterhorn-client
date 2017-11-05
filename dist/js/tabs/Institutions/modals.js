@@ -651,7 +651,7 @@ var MemorandumFormModal = function (_Component3) {
 
             _jquery2.default.ajax({
                 method: "PUT",
-                url: _settings2.default.serverURL + "/institutions/" + this.props.institution.id + "/memorandums/" + this.state.memorandum.id + "/",
+                url: _settings2.default.serverURL + "/institutions/" + this.props.institution.id + "/memorandums/" + this.state.form.id + "/",
                 data: this.state.form,
                 beforeSend: _authorization2.default,
                 success: function success() {

@@ -460,7 +460,7 @@ class MemorandumFormModal extends Component {
 
         $.ajax({
             method : "PUT",
-            url : `${settings.serverURL}/institutions/${this.props.institution.id}/memorandums/${this.state.memorandum.id}/`,
+            url : `${settings.serverURL}/institutions/${this.props.institution.id}/memorandums/${this.state.form.id}/`,
             data : this.state.form,
             beforeSend : authorizeXHR,
             success : () => {
