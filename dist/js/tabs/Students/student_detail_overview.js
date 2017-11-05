@@ -267,6 +267,20 @@ var StudentUniversity = function (_Component3) {
                 _react2.default.createElement(
                     _section.SectionTable,
                     null,
+                    student.category === "IN" && _react2.default.createElement(
+                        _section.SectionRow,
+                        null,
+                        _react2.default.createElement(
+                            _section.SectionRowTitle,
+                            null,
+                            "Institution"
+                        ),
+                        _react2.default.createElement(
+                            _section.SectionRowContent,
+                            { large: true },
+                            student.institution.name
+                        )
+                    ),
                     _react2.default.createElement(
                         _section.SectionRow,
                         null,

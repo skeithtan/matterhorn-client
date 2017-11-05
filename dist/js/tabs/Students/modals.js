@@ -23,6 +23,10 @@ var _form_validator = require("../../form_validator");
 
 var _form_validator2 = _interopRequireDefault(_form_validator);
 
+var _graphql = require("../../graphql");
+
+var _graphql2 = _interopRequireDefault(_graphql);
+
 var _settings = require("../../settings");
 
 var _settings2 = _interopRequireDefault(_settings);
@@ -45,6 +49,13 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+function fetchInstitutions(onResponse) {
+    (0, _graphql2.default)({
+        query: "\n        {\n            institutions {\n                id\n                name\n            }\n        }\n        ",
+        onResponse: onResponse
+    });
+}
+
 var StudentFormModal = function (_Component) {
     _inherits(StudentFormModal, _Component);
 
@@ -52,6 +63,8 @@ var StudentFormModal = function (_Component) {
         _classCallCheck(this, StudentFormModal);
 
         var _this = _possibleConstructorReturn(this, (StudentFormModal.__proto__ || Object.getPrototypeOf(StudentFormModal)).call(this, props));
+
+        console.log(_this.props);
 
         _this.state = {
             form: {
@@ -71,18 +84,37 @@ var StudentFormModal = function (_Component) {
                 emergency_contact_relationship: "",
                 emergency_contact_number: "",
                 college: "CCS",
-                student_type: "IN"
-            }
+                category: "IN"
+            },
+            institutions: null
         };
 
         _this.getFormErrors = _this.getFormErrors.bind(_this);
         _this.getChangeHandler = _this.getChangeHandler.bind(_this);
         _this.submitAddStudentForm = _this.submitAddStudentForm.bind(_this);
         _this.submitEditStudentForm = _this.submitEditStudentForm.bind(_this);
+        _this.fetchingInstitutions = _this.fetchingInstitutions.bind(_this);
+        _this.noInstitutions = _this.noInstitutions.bind(_this);
+
+        fetchInstitutions(function (response) {
+            var institutions = response.data.institutions;
+            var form = _this.state.form;
+
+            // Set default institution if institutions exist
+            if (institutions.length > 0) {
+                form.institution = institutions[0].id;
+            }
+
+            _this.setState({
+                institutions: institutions,
+                form: form
+            });
+        });
 
         if (_this.props.edit) {
             // Copy the object, do not equate, otherwise the object changes along with the form.
             Object.assign(_this.state.form, props.student);
+            _this.state.form.institution = props.student.institution.id;
         }
         return _this;
     }
@@ -191,6 +223,11 @@ var StudentFormModal = function (_Component) {
                 message: "Adding new student..."
             });
 
+            if (this.state.form.category === "OUT") {
+                // Outbound students do not have an institution
+                this.state.form.institution = null;
+            }
+
             _jquery2.default.post({
                 url: _settings2.default.serverURL + "/students/",
                 data: this.state.form,
@@ -225,6 +262,11 @@ var StudentFormModal = function (_Component) {
                 message: "Editing student..."
             });
 
+            if (this.state.form.category === "OUT") {
+                // Outbound students do not have an institution
+                this.state.form.institution = null;
+            }
+
             _jquery2.default.ajax({
                 method: "PUT",
                 url: _settings2.default.serverURL + "/students/" + this.state.form.id + "/",
@@ -251,11 +293,63 @@ var StudentFormModal = function (_Component) {
             this.props.toggle();
         }
     }, {
+        key: "fetchingInstitutions",
+        value: function fetchingInstitutions() {
+            return _react2.default.createElement(
+                _reactstrap.Modal,
+                { isOpen: this.props.isOpen, toggle: this.props.toggle, backdrop: true },
+                _react2.default.createElement(
+                    _reactstrap.ModalHeader,
+                    { toggle: this.props.toggle },
+                    "Please wait..."
+                ),
+                _react2.default.createElement(
+                    _reactstrap.ModalBody,
+                    { className: "form" },
+                    "Institutions are loading..."
+                )
+            );
+        }
+    }, {
+        key: "noInstitutions",
+        value: function noInstitutions() {
+            return _react2.default.createElement(
+                _reactstrap.Modal,
+                { isOpen: this.props.isOpen, toggle: this.props.toggle, backdrop: true },
+                _react2.default.createElement(
+                    _reactstrap.ModalHeader,
+                    { toggle: this.props.toggle },
+                    "Institutions need to be configured first."
+                ),
+                _react2.default.createElement(
+                    _reactstrap.ModalBody,
+                    { className: "form" },
+                    "Institutions must exist students can be added."
+                )
+            );
+        }
+    }, {
         key: "render",
         value: function render() {
             var formErrors = this.getFormErrors();
             var formHasErrors = formErrors.formHasErrors;
             var fieldErrors = formErrors.fieldErrors;
+
+            if (this.state.institutions === null) {
+                return this.fetchingInstitutions();
+            }
+
+            if (this.state.institutions.length === 0) {
+                return this.noInstitutions();
+            }
+
+            var institutions = this.state.institutions.map(function (institution) {
+                return _react2.default.createElement(
+                    "option",
+                    { value: institution.id, key: institution.id },
+                    institution.name
+                );
+            });
 
             function isValid(fieldName) {
                 return fieldErrors[fieldName].length === 0;
@@ -597,6 +691,45 @@ var StudentFormModal = function (_Component) {
                             _react2.default.createElement(
                                 _reactstrap.Label,
                                 null,
+                                "Student Type"
+                            ),
+                            _react2.default.createElement(
+                                _reactstrap.Input,
+                                { type: "select", onChange: this.getChangeHandler("category"),
+                                    defaultValue: this.state.form.category },
+                                _react2.default.createElement(
+                                    "option",
+                                    { value: "IN" },
+                                    "Inbound"
+                                ),
+                                _react2.default.createElement(
+                                    "option",
+                                    { value: "OUT" },
+                                    "Outbound"
+                                )
+                            )
+                        ),
+                        this.state.form.category === "IN" && _react2.default.createElement(
+                            _reactstrap.FormGroup,
+                            null,
+                            _react2.default.createElement(
+                                _reactstrap.Label,
+                                null,
+                                "Institution"
+                            ),
+                            _react2.default.createElement(
+                                _reactstrap.Input,
+                                { type: "select", onChange: this.getChangeHandler("institution"),
+                                    defaultValue: this.state.form.institution },
+                                institutions
+                            )
+                        ),
+                        _react2.default.createElement(
+                            _reactstrap.FormGroup,
+                            null,
+                            _react2.default.createElement(
+                                _reactstrap.Label,
+                                null,
                                 "College"
                             ),
                             _react2.default.createElement(
@@ -637,30 +770,6 @@ var StudentFormModal = function (_Component) {
                                     "option",
                                     { value: "BAGCED" },
                                     "Brother Andrew Gonzales College of Education"
-                                )
-                            )
-                        ),
-                        _react2.default.createElement(
-                            _reactstrap.FormGroup,
-                            null,
-                            _react2.default.createElement(
-                                _reactstrap.Label,
-                                null,
-                                "Student Type"
-                            ),
-                            _react2.default.createElement(
-                                _reactstrap.Input,
-                                { type: "select", onChange: this.getChangeHandler("student_type"),
-                                    defaultValue: this.state.form.student_type },
-                                _react2.default.createElement(
-                                    "option",
-                                    { value: "IN" },
-                                    "Inbound"
-                                ),
-                                _react2.default.createElement(
-                                    "option",
-                                    { value: "OUT" },
-                                    "Outbound"
                                 )
                             )
                         )

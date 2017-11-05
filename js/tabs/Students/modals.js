@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import authorizeXHR from "../../authorization";
 import makeInfoToast from "../../dismissable_toast_maker";
 import validateForm from "../../form_validator";
+import graphql from "../../graphql";
 import settings from "../../settings";
 import iziToast from "izitoast";
 import $ from "jquery";
@@ -20,9 +21,25 @@ import {
 } from "reactstrap";
 
 
+function fetchInstitutions(onResponse) {
+    graphql({
+        query : `
+        {
+            institutions {
+                id
+                name
+            }
+        }
+        `,
+        onResponse : onResponse,
+    });
+}
+
 class StudentFormModal extends Component {
     constructor(props) {
         super(props);
+
+        console.log(this.props);
 
         this.state = {
             form : {
@@ -42,18 +59,37 @@ class StudentFormModal extends Component {
                 emergency_contact_relationship : "",
                 emergency_contact_number : "",
                 college : "CCS",
-                student_type : "IN",
+                category : "IN",
             },
+            institutions : null,
         };
 
         this.getFormErrors = this.getFormErrors.bind(this);
         this.getChangeHandler = this.getChangeHandler.bind(this);
         this.submitAddStudentForm = this.submitAddStudentForm.bind(this);
         this.submitEditStudentForm = this.submitEditStudentForm.bind(this);
+        this.fetchingInstitutions = this.fetchingInstitutions.bind(this);
+        this.noInstitutions = this.noInstitutions.bind(this);
+
+        fetchInstitutions(response => {
+            const institutions = response.data.institutions;
+            const form = this.state.form;
+
+            // Set default institution if institutions exist
+            if (institutions.length > 0) {
+                form.institution = institutions[0].id;
+            }
+
+            this.setState({
+                institutions : institutions,
+                form : form,
+            });
+        });
 
         if (this.props.edit) {
             // Copy the object, do not equate, otherwise the object changes along with the form.
             Object.assign(this.state.form, props.student);
+            this.state.form.institution = props.student.institution.id;
         }
     }
 
@@ -158,6 +194,11 @@ class StudentFormModal extends Component {
             message : "Adding new student...",
         });
 
+        if (this.state.form.category === "OUT") {
+            // Outbound students do not have an institution
+            this.state.form.institution = null;
+        }
+
         $.post({
             url : `${settings.serverURL}/students/`,
             data : this.state.form,
@@ -189,6 +230,11 @@ class StudentFormModal extends Component {
             message : "Editing student...",
         });
 
+        if (this.state.form.category === "OUT") {
+            // Outbound students do not have an institution
+            this.state.form.institution = null;
+        }
+
         $.ajax({
             method : "PUT",
             url : `${settings.serverURL}/students/${this.state.form.id}/`,
@@ -215,10 +261,48 @@ class StudentFormModal extends Component {
         this.props.toggle();
     }
 
+    fetchingInstitutions() {
+        return (
+            <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} backdrop={true}>
+                <ModalHeader toggle={this.props.toggle}>
+                    Please wait...
+                </ModalHeader>
+                <ModalBody className="form">
+                    Institutions are loading...
+                </ModalBody>
+            </Modal>
+        );
+    }
+
+    noInstitutions() {
+        return (
+            <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} backdrop={true}>
+                <ModalHeader toggle={this.props.toggle}>
+                    Institutions need to be configured first.
+                </ModalHeader>
+                <ModalBody className="form">
+                    Institutions must exist students can be added.
+                </ModalBody>
+            </Modal>
+        );
+    }
+
     render() {
         const formErrors = this.getFormErrors();
         const formHasErrors = formErrors.formHasErrors;
         const fieldErrors = formErrors.fieldErrors;
+
+        if (this.state.institutions === null) {
+            return this.fetchingInstitutions();
+        }
+
+        if (this.state.institutions.length === 0) {
+            return this.noInstitutions();
+        }
+
+        const institutions = this.state.institutions.map(institution => {
+            return <option value={institution.id} key={institution.id}>{institution.name}</option>;
+        });
 
         function isValid(fieldName) {
             return fieldErrors[fieldName].length === 0;
@@ -382,6 +466,25 @@ class StudentFormModal extends Component {
                         <br/>
                         <h5 className="mb-3">University Details</h5>
                         <FormGroup>
+                            <Label>Student Type</Label>
+                            <Input type="select" onChange={this.getChangeHandler("category")}
+                                   defaultValue={this.state.form.category}>
+                                <option value="IN">Inbound</option>
+                                <option value="OUT">Outbound</option>
+                            </Input>
+                        </FormGroup>
+
+                        {this.state.form.category === "IN" &&
+                        <FormGroup>
+                            <Label>Institution</Label>
+                            <Input type="select" onChange={this.getChangeHandler("institution")}
+                                   defaultValue={this.state.form.institution}>
+                                {institutions}
+                            </Input>
+                        </FormGroup>
+                        }
+
+                        <FormGroup>
                             <Label>College</Label>
                             <Input type="select" onChange={this.getChangeHandler("college")}
                                    defaultValue={this.state.form.college}>
@@ -392,14 +495,6 @@ class StudentFormModal extends Component {
                                 <option value="GCOE">Gokongwei College of Engineering</option>
                                 <option value="COL">College of Law</option>
                                 <option value="BAGCED">Brother Andrew Gonzales College of Education</option>
-                            </Input>
-                        </FormGroup>
-                        <FormGroup>
-                            <Label>Student Type</Label>
-                            <Input type="select" onChange={this.getChangeHandler("student_type")}
-                                   defaultValue={this.state.form.student_type}>
-                                <option value="IN">Inbound</option>
-                                <option value="OUT">Outbound</option>
                             </Input>
                         </FormGroup>
                     </Form>
@@ -429,7 +524,7 @@ class DeleteStudentModal extends Component {
             title : "Deleting",
             message : "Deleting student...",
         });
-        
+
         $.ajax({
             url : `${settings.serverURL}/students/${this.props.student.id}/`,
             method : "DELETE",

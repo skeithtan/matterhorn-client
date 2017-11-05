@@ -34,7 +34,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function fetchStudent(id, onResponse) {
     (0, _graphql2.default)({
-        query: "\n        {\n            student(id:" + id + ") {\n                id\n                category\n                id_number\n                college\n                family_name\n                first_name\n                middle_name\n                nickname\n                nationality\n                home_address\n                phone_number\n                birth_date\n                sex\n                emergency_contact_name\n                emergency_contact_relationship\n                emergency_contact_number\n                email\n                civil_status\n            }\n        }\n       ",
+        query: "\n        {\n            student(id:" + id + ") {\n                id\n                category\n                id_number\n                college\n                family_name\n                first_name\n                middle_name\n                nickname\n                nationality\n                home_address\n                phone_number\n                birth_date\n                sex\n                emergency_contact_name\n                emergency_contact_relationship\n                emergency_contact_number\n                email\n                civil_status\n                institution {\n                    id\n                    name\n                }\n            }\n        }\n       ",
         onResponse: onResponse
     });
 }

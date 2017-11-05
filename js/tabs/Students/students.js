@@ -2,10 +2,7 @@ import React, { Component } from "react";
 import graphql from "../../graphql";
 import StudentList from "./student_list";
 import StudentDetail from "./student_detail";
-import {
-    AddStudentModal,
-    StudentFormModal,
-} from "./modals";
+import { StudentFormModal, } from "./modals";
 
 
 function fetchStudents(onResponse) {

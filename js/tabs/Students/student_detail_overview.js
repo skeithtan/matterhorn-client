@@ -124,6 +124,13 @@ class StudentUniversity extends Component {
                 <SectionTitle>University Details</SectionTitle>
                 <SectionTable>
 
+                    {student.category === "IN" &&
+                    <SectionRow>
+                        <SectionRowTitle>Institution</SectionRowTitle>
+                        <SectionRowContent large>{student.institution.name}</SectionRowContent>
+                    </SectionRow>
+                    }
+
                     <SectionRow>
                         <SectionRowTitle>College</SectionRowTitle>
                         <SectionRowContent large>{college}</SectionRowContent>
