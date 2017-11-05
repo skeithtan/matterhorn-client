@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import {
     Button,
 } from "reactstrap";
@@ -20,7 +20,7 @@ import graphql from "../../graphql";
 
 function fetchStudent(id, onResponse) {
     graphql({
-        query : `
+        query: `
         {
             student(id:${id}) {
                 id
@@ -44,7 +44,7 @@ function fetchStudent(id, onResponse) {
             }
         }
        `,
-        onResponse : onResponse,
+        onResponse: onResponse,
     });
 }
 
@@ -53,8 +53,8 @@ class StudentDetail extends Component {
         super(props);
 
         this.state = {
-            student : null,
-            studentID : null,
+            student: null,
+            studentID: null,
         };
 
         this.onEditStudent = this.onEditStudent.bind(this);
@@ -70,13 +70,13 @@ class StudentDetail extends Component {
 
     onEditStudent() {
         this.setState({
-            student : null,
+            student: null,
         });
 
         fetchStudent(this.state.studentID, response => {
             const student = response.data.student;
             this.setState({
-                student : student,
+                student: student,
             });
             this.props.refreshStudents();
         });
@@ -87,21 +87,21 @@ class StudentDetail extends Component {
 
         if (student === null) {
             this.setState({
-                student : null,
-                studentID : null,
+                student: null,
+                studentID: null,
             });
 
             return;
         }
 
         this.setState({
-            studentID : student.id,
-            student : null,
+            studentID: student.id,
+            student: null,
         });
 
         fetchStudent(student.id, response => {
             this.setState({
-                student : response.data.student,
+                student: response.data.student,
             });
         });
     }
@@ -131,8 +131,8 @@ class StudentDetailHead extends Component {
         super(props);
 
         this.state = {
-            deleteStudentIsShowing : false,
-            editStudentIsShowing : false,
+            deleteStudentIsShowing: false,
+            editStudentIsShowing: false,
         };
 
         this.toggleDeleteStudent = this.toggleDeleteStudent.bind(this);
@@ -141,13 +141,13 @@ class StudentDetailHead extends Component {
 
     toggleDeleteStudent() {
         this.setState({
-            deleteStudentIsShowing : !this.state.deleteStudentIsShowing,
+            deleteStudentIsShowing: !this.state.deleteStudentIsShowing,
         });
     }
 
     toggleEditStudent() {
         this.setState({
-            editStudentIsShowing : !this.state.editStudentIsShowing,
+            editStudentIsShowing: !this.state.editStudentIsShowing,
         });
     }
 

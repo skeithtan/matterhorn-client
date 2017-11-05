@@ -558,9 +558,9 @@ var StudentFormModal = function (_Component) {
                                 "Emergency Contact Relationship"
                             ),
                             _react2.default.createElement(_reactstrap.Input, { placeholder: "Emergency Contact Relationship",
-                                onChange: this.getChangeHandler("emergency_contact_name"),
+                                onChange: this.getChangeHandler("emergency_contact_relationship"),
                                 valid: isValid("Emergency contact relationship"),
-                                defaultValue: this.state.form.emergency_contact_name }),
+                                defaultValue: this.state.form.emergency_contact_relationship }),
                             _react2.default.createElement(
                                 _reactstrap.FormFeedback,
                                 null,
@@ -707,7 +707,7 @@ var DeleteStudentModal = function (_Component2) {
             });
 
             _jquery2.default.ajax({
-                url: _settings2.default.serverURL + "/students/" + this.props.student.idNumber + "/",
+                url: _settings2.default.serverURL + "/students/" + this.props.student.id_number + "/",
                 method: "DELETE",
                 beforeSend: _authorization2.default,
                 success: function success() {
@@ -734,7 +734,6 @@ var DeleteStudentModal = function (_Component2) {
     }, {
         key: "render",
         value: function render() {
-            // Hardcoded, I know. Bare with me. You can fix it if you want.
             var first = this.props.student.firstName;
             var middle = this.props.student.middleName;
             var last = this.props.student.familyName;

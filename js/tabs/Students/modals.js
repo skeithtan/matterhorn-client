@@ -364,9 +364,9 @@ class StudentFormModal extends Component {
                         <FormGroup>
                             <Label>Emergency Contact Relationship</Label>
                             <Input placeholder="Emergency Contact Relationship"
-                                   onChange={this.getChangeHandler("emergency_contact_name")}
+                                   onChange={this.getChangeHandler("emergency_contact_relationship")}
                                    valid={isValid("Emergency contact relationship")}
-                                   defaultValue={this.state.form.emergency_contact_name}/>
+                                   defaultValue={this.state.form.emergency_contact_relationship}/>
                             <FormFeedback>{fieldError("Emergency contact relationship")}</FormFeedback>
                         </FormGroup>
 
@@ -429,9 +429,9 @@ class DeleteStudentModal extends Component {
             title : "Deleting",
             message : "Deleting student...",
         });
-
+        
         $.ajax({
-            url : `${settings.serverURL}/students/${this.props.student.idNumber}/`,
+            url : `${settings.serverURL}/students/${this.props.student.id_number}/`,
             method : "DELETE",
             beforeSend : authorizeXHR,
             success : () => {
@@ -457,7 +457,6 @@ class DeleteStudentModal extends Component {
     }
 
     render() {
-        // Hardcoded, I know. Bare with me. You can fix it if you want.
         const first = this.props.student.firstName;
         const middle = this.props.student.middleName;
         const last = this.props.student.familyName;
