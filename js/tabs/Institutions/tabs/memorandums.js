@@ -41,8 +41,8 @@ function fetchInstitution(id, onResponse) {
                     date_effective
                     date_expiration
                     college_initiator
-                    memorandumlinkage_set {
-                        linkage
+                    linkages {
+                        code
                     }
                 }
             }
@@ -341,7 +341,7 @@ class MemorandumRow extends Component {
         const dateEffective = formatDate(memorandum.date_effective);
         const dateExpiration = memorandum.date_expiration === null ? "No expiration" : formatDate(memorandum.date_expiration);
         const collegeInitiator = memorandum.college_initiator === null ? "No college initiator" : memorandum.college_initiator;
-        const linkages = memorandum.memorandumlinkage_set;
+        const linkages = memorandum.linkages;
 
         function viewMemorandum() {
             const { shell } = require("electron");
@@ -353,8 +353,8 @@ class MemorandumRow extends Component {
         if (linkages.length > 0) {
             linkagesText = "";
 
-            linkages.forEach((linkageCode, index) => {
-                linkagesText += settings.linkages[linkageCode.linkage];
+            linkages.forEach((linkage, index) => {
+                linkagesText += settings.linkages[linkage.code];
 
                 if (index + 1 !== linkages.length) {
                     linkagesText += ", ";

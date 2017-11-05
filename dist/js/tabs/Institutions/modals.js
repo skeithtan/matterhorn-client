@@ -553,10 +553,11 @@ var MemorandumFormModal = function (_Component3) {
 
             if (newProps.edit) {
                 Object.assign(this.state.form, newProps.memorandum);
+                this.state.form.linkages = []; //Do not use prop linkage = make a new one.
 
-                // Linkages are in linkage.linkage format from graphQL. Convert to array form
-                newProps.memorandum.memorandumlinkage_set.forEach(function (linkage) {
-                    _this8.state.form.linkages.push(linkage.linkage);
+                // Linkages are in linkage.linkage format from graphQL. Convert to array form.
+                newProps.memorandum.linkages.forEach(function (linkage) {
+                    _this8.state.form.linkages.push(linkage.code);
                 });
             }
         }
@@ -660,9 +661,12 @@ var MemorandumFormModal = function (_Component3) {
             _jquery2.default.ajax({
                 method: "PUT",
                 url: _settings2.default.serverURL + "/institutions/" + this.props.institution.id + "/memorandums/" + this.state.form.id + "/",
-                data: this.state.form,
+                // The array requires this to be JSON.
+                data: JSON.stringify(this.state.form),
+                contentType: "application/json",
                 beforeSend: _authorization2.default,
-                success: function success() {
+                success: function success(response) {
+                    console.log(response);
                     dismissToast();
                     _this12.props.refresh();
                     _izitoast2.default.success({

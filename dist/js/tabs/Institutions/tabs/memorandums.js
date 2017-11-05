@@ -42,7 +42,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function fetchInstitution(id, onResponse) {
     (0, _graphql2.default)({
-        query: "\n        {\n            institution(id: " + id + ") {\n                id\n                name\n                memorandum_set {\n                    id\n                    category\n                    memorandum_file\n                    date_effective\n                    date_expiration\n                    college_initiator\n                    memorandumlinkage_set {\n                        linkage\n                    }\n                }\n            }\n        }\n       ",
+        query: "\n        {\n            institution(id: " + id + ") {\n                id\n                name\n                memorandum_set {\n                    id\n                    category\n                    memorandum_file\n                    date_effective\n                    date_expiration\n                    college_initiator\n                    linkages {\n                        code\n                    }\n                }\n            }\n        }\n       ",
         onResponse: onResponse
     });
 }
@@ -431,7 +431,7 @@ var MemorandumRow = function (_Component5) {
             var dateEffective = formatDate(memorandum.date_effective);
             var dateExpiration = memorandum.date_expiration === null ? "No expiration" : formatDate(memorandum.date_expiration);
             var collegeInitiator = memorandum.college_initiator === null ? "No college initiator" : memorandum.college_initiator;
-            var linkages = memorandum.memorandumlinkage_set;
+            var linkages = memorandum.linkages;
 
             function viewMemorandum() {
                 var _require = require("electron"),
@@ -445,8 +445,8 @@ var MemorandumRow = function (_Component5) {
             if (linkages.length > 0) {
                 linkagesText = "";
 
-                linkages.forEach(function (linkageCode, index) {
-                    linkagesText += _settings2.default.linkages[linkageCode.linkage];
+                linkages.forEach(function (linkage, index) {
+                    linkagesText += _settings2.default.linkages[linkage.code];
 
                     if (index + 1 !== linkages.length) {
                         linkagesText += ", ";

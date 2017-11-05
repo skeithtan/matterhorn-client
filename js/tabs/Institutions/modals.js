@@ -371,10 +371,11 @@ class MemorandumFormModal extends Component {
 
         if (newProps.edit) {
             Object.assign(this.state.form, newProps.memorandum);
+            this.state.form.linkages = []; //Do not use prop linkage = make a new one.
 
-            // Linkages are in linkage.linkage format from graphQL. Convert to array form
-            newProps.memorandum.memorandumlinkage_set.forEach(linkage => {
-                this.state.form.linkages.push(linkage.linkage);
+            // Linkages are in linkage.linkage format from graphQL. Convert to array form.
+            newProps.memorandum.linkages.forEach(linkage => {
+                this.state.form.linkages.push(linkage.code);
             });
         }
     }
@@ -470,9 +471,12 @@ class MemorandumFormModal extends Component {
         $.ajax({
             method : "PUT",
             url : `${settings.serverURL}/institutions/${this.props.institution.id}/memorandums/${this.state.form.id}/`,
-            data : this.state.form,
+            // The array requires this to be JSON.
+            data : JSON.stringify(this.state.form),
+            contentType: "application/json",
             beforeSend : authorizeXHR,
-            success : () => {
+            success : (response) => {
+                console.log(response);
                 dismissToast();
                 this.props.refresh();
                 iziToast.success({
