@@ -35,14 +35,23 @@ var App = function (_Component) {
         var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
         _this.state = {
-            activeTab: _tabs_list2.default[1]
+            activeTab: _tabs_list2.default[1],
+            navigationIsExpanded: false
         };
 
         _this.setActiveTab = _this.setActiveTab.bind(_this);
+        _this.toggleNavigation = _this.toggleNavigation.bind(_this);
         return _this;
     }
 
     _createClass(App, [{
+        key: "toggleNavigation",
+        value: function toggleNavigation() {
+            this.setState({
+                navigationIsExpanded: !this.state.navigationIsExpanded
+            });
+        }
+    }, {
         key: "setActiveTab",
         value: function setActiveTab(newTab) {
             this.setState({
@@ -55,8 +64,15 @@ var App = function (_Component) {
             return _react2.default.createElement(
                 "div",
                 { className: "h-100 d-flex" },
-                _react2.default.createElement(_main_navigation2.default, { activeTab: this.state.activeTab, setActiveTab: this.setActiveTab }),
-                this.state.activeTab.tab
+                _react2.default.createElement(_main_navigation2.default, { activeTab: this.state.activeTab, setActiveTab: this.setActiveTab,
+                    toggleNavigation: this.toggleNavigation, isExpanded: this.state.navigationIsExpanded }),
+                _react2.default.createElement(
+                    "div",
+                    { className: "w-100" },
+                    _react2.default.createElement("div", { id: "black-covering", onClick: this.toggleNavigation,
+                        className: this.state.navigationIsExpanded && "showing" }),
+                    this.state.activeTab.tab
+                )
             );
         }
     }]);

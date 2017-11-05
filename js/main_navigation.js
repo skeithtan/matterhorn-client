@@ -24,16 +24,26 @@ class MainNavigation extends Component {
     render() {
         const navItems = tabs.map((tab, index) => {
             const isActive = this.props.activeTab === tab;
-            return <TabItem name={tab.name} image={tab.image} key={index} isActive={isActive}
+            return <TabItem key={index}
+                            name={tab.name}
+                            image={tab.image}
+                            isActive={isActive}
+                            toggleNavigation={this.props.toggleNavigation}
                             setActiveTab={() => this.props.setActiveTab(tab)}/>;
         });
 
+        let navbarClassName = "bg-dlsu d-flex flex-column";
+
+        if (this.props.isExpanded) {
+            navbarClassName += " expanded";
+        }
+
         return (
-            <Navbar className="bg-dlsu d-flex flex-column justify-content-center" id="main-navigation">
-                <Nav className="d-flex flex-column w-100">
+            <Navbar className={navbarClassName} id="main-navigation">
+                <Nav className="d-flex flex-column w-100" id="main-navigation-tabs">
                     {navItems}
                 </Nav>
-                <SwitchUserButton/>
+                <SwitchUserButton toggleNavigation={this.props.toggleNavigation}/>
             </Navbar>
         );
     }
@@ -44,24 +54,22 @@ class TabItem extends Component {
         super(props);
     }
 
-    activeTab() {
-        return (
-            <NavItem className="active" data-toggle="tooltip" data-placement="right" title={this.props.name}>
-                <img src={this.props.image} className="sidebar-image"/>
-            </NavItem>
-        );
-    }
-
-    inactiveTab() {
-        return (
-            <NavItem data-toggle="tooltip" data-placement="right" title={this.props.name}>
-                <img src={this.props.image} className="sidebar-image" onClick={this.props.setActiveTab}/>
-            </NavItem>
-        );
-    }
-
     render() {
-        return this.props.isActive ? this.activeTab() : this.inactiveTab();
+        const className = this.props.isActive ? "active" : "";
+        const onNavItemClick = () => {
+            this.props.toggleNavigation();
+            this.props.setActiveTab();
+        };
+
+        return (
+            <NavItem className={className} data-toggle="tooltip" data-placement="right" title={this.props.name}
+                     onClick={onNavItemClick}>
+                <div className="d-flex flex-row align-items-center tab-set">
+                    <h6 className="lead mb-0 text-white">{this.props.name}</h6>
+                    <img src={this.props.image} className="sidebar-image"/>
+                </div>
+            </NavItem>
+        );
     }
 }
 
@@ -83,17 +91,24 @@ class SwitchUserButton extends Component {
 
 
     render() {
+        const onSignOutButtonClick = () => {
+            this.togglePopover();
+            signOut();
+        };
+
         return (
-            <div className="w-100">
-                <div id="switch-user-button" onClick={this.togglePopover}>
-                    <h6>{localStorage.username}</h6>
+            <div className="w-100 p-3 d-flex justify-content-center align-content-center">
+                <div id="switch-user-button" onClick={this.togglePopover} className="p-3 d-flex align-items-center">
+                    <div className="mr-auto text-left">
+                        <h6 className="mb-0">Hello,</h6>
+                        <h5 className="mb-0">{localStorage.username}</h5>
+                    </div>
+                    <Button color="light" onClick={onSignOutButtonClick}>Sign out</Button>
                 </div>
-                <Popover placement="right" isOpen={this.state.popoverIsOpen} target="switch-user-button"
-                         toggle={this.togglePopover}>
-                    <PopoverBody>
-                        <Button className={"bg-dlsu"} onClick={signOut}>Sign out</Button>
-                    </PopoverBody>
-                </Popover>
+
+                <button className="expand-button" onClick={this.props.toggleNavigation}>
+                    ▶
+                </button>
             </div>
         );
     }

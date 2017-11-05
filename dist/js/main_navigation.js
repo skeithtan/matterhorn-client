@@ -53,21 +53,31 @@ var MainNavigation = function (_Component) {
 
             var navItems = _tabs_list2.default.map(function (tab, index) {
                 var isActive = _this2.props.activeTab === tab;
-                return _react2.default.createElement(TabItem, { name: tab.name, image: tab.image, key: index, isActive: isActive,
+                return _react2.default.createElement(TabItem, { key: index,
+                    name: tab.name,
+                    image: tab.image,
+                    isActive: isActive,
+                    toggleNavigation: _this2.props.toggleNavigation,
                     setActiveTab: function setActiveTab() {
                         return _this2.props.setActiveTab(tab);
                     } });
             });
 
+            var navbarClassName = "bg-dlsu d-flex flex-column";
+
+            if (this.props.isExpanded) {
+                navbarClassName += " expanded";
+            }
+
             return _react2.default.createElement(
                 _reactstrap.Navbar,
-                { className: "bg-dlsu d-flex flex-column justify-content-center", id: "main-navigation" },
+                { className: navbarClassName, id: "main-navigation" },
                 _react2.default.createElement(
                     _reactstrap.Nav,
-                    { className: "d-flex flex-column w-100" },
+                    { className: "d-flex flex-column w-100", id: "main-navigation-tabs" },
                     navItems
                 ),
-                _react2.default.createElement(SwitchUserButton, null)
+                _react2.default.createElement(SwitchUserButton, { toggleNavigation: this.props.toggleNavigation })
             );
         }
     }]);
@@ -85,27 +95,31 @@ var TabItem = function (_Component2) {
     }
 
     _createClass(TabItem, [{
-        key: "activeTab",
-        value: function activeTab() {
-            return _react2.default.createElement(
-                _reactstrap.NavItem,
-                { className: "active", "data-toggle": "tooltip", "data-placement": "right", title: this.props.name },
-                _react2.default.createElement("img", { src: this.props.image, className: "sidebar-image" })
-            );
-        }
-    }, {
-        key: "inactiveTab",
-        value: function inactiveTab() {
-            return _react2.default.createElement(
-                _reactstrap.NavItem,
-                { "data-toggle": "tooltip", "data-placement": "right", title: this.props.name },
-                _react2.default.createElement("img", { src: this.props.image, className: "sidebar-image", onClick: this.props.setActiveTab })
-            );
-        }
-    }, {
         key: "render",
         value: function render() {
-            return this.props.isActive ? this.activeTab() : this.inactiveTab();
+            var _this4 = this;
+
+            var className = this.props.isActive ? "active" : "";
+            var onNavItemClick = function onNavItemClick() {
+                _this4.props.toggleNavigation();
+                _this4.props.setActiveTab();
+            };
+
+            return _react2.default.createElement(
+                _reactstrap.NavItem,
+                { className: className, "data-toggle": "tooltip", "data-placement": "right", title: this.props.name,
+                    onClick: onNavItemClick },
+                _react2.default.createElement(
+                    "div",
+                    { className: "d-flex flex-row align-items-center tab-set" },
+                    _react2.default.createElement(
+                        "h6",
+                        { className: "lead mb-0 text-white" },
+                        this.props.name
+                    ),
+                    _react2.default.createElement("img", { src: this.props.image, className: "sidebar-image" })
+                )
+            );
         }
     }]);
 
@@ -118,14 +132,14 @@ var SwitchUserButton = function (_Component3) {
     function SwitchUserButton(props) {
         _classCallCheck(this, SwitchUserButton);
 
-        var _this4 = _possibleConstructorReturn(this, (SwitchUserButton.__proto__ || Object.getPrototypeOf(SwitchUserButton)).call(this, props));
+        var _this5 = _possibleConstructorReturn(this, (SwitchUserButton.__proto__ || Object.getPrototypeOf(SwitchUserButton)).call(this, props));
 
-        _this4.state = {
+        _this5.state = {
             popoverIsOpen: false
         };
 
-        _this4.togglePopover = _this4.togglePopover.bind(_this4);
-        return _this4;
+        _this5.togglePopover = _this5.togglePopover.bind(_this5);
+        return _this5;
     }
 
     _createClass(SwitchUserButton, [{
@@ -138,31 +152,43 @@ var SwitchUserButton = function (_Component3) {
     }, {
         key: "render",
         value: function render() {
+            var _this6 = this;
+
+            var onSignOutButtonClick = function onSignOutButtonClick() {
+                _this6.togglePopover();
+                (0, _index2.default)();
+            };
+
             return _react2.default.createElement(
                 "div",
-                { className: "w-100" },
+                { className: "w-100 p-3 d-flex justify-content-center align-content-center" },
                 _react2.default.createElement(
                     "div",
-                    { id: "switch-user-button", onClick: this.togglePopover },
+                    { id: "switch-user-button", onClick: this.togglePopover, className: "p-3 d-flex align-items-center" },
                     _react2.default.createElement(
-                        "h6",
-                        null,
-                        localStorage.username
+                        "div",
+                        { className: "mr-auto text-left" },
+                        _react2.default.createElement(
+                            "h6",
+                            { className: "mb-0" },
+                            "Hello,"
+                        ),
+                        _react2.default.createElement(
+                            "h5",
+                            { className: "mb-0" },
+                            localStorage.username
+                        )
+                    ),
+                    _react2.default.createElement(
+                        _reactstrap.Button,
+                        { color: "light", onClick: onSignOutButtonClick },
+                        "Sign out"
                     )
                 ),
                 _react2.default.createElement(
-                    _reactstrap.Popover,
-                    { placement: "right", isOpen: this.state.popoverIsOpen, target: "switch-user-button",
-                        toggle: this.togglePopover },
-                    _react2.default.createElement(
-                        _reactstrap.PopoverBody,
-                        null,
-                        _react2.default.createElement(
-                            _reactstrap.Button,
-                            { className: "bg-dlsu", onClick: _index2.default },
-                            "Sign out"
-                        )
-                    )
+                    "button",
+                    { className: "expand-button", onClick: this.props.toggleNavigation },
+                    "\u25B6"
                 )
             );
         }

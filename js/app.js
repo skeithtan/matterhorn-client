@@ -8,9 +8,17 @@ class App extends Component {
         super(props);
         this.state = {
             activeTab : tabs[1],
+            navigationIsExpanded : false,
         };
 
         this.setActiveTab = this.setActiveTab.bind(this);
+        this.toggleNavigation = this.toggleNavigation.bind(this);
+    }
+
+    toggleNavigation() {
+        this.setState({
+            navigationIsExpanded : !this.state.navigationIsExpanded,
+        });
     }
 
     setActiveTab(newTab) {
@@ -23,8 +31,15 @@ class App extends Component {
     render() {
         return (
             <div className="h-100 d-flex">
-                <MainNavigation activeTab={this.state.activeTab} setActiveTab={this.setActiveTab}/>
-                {this.state.activeTab.tab}
+                <MainNavigation activeTab={this.state.activeTab} setActiveTab={this.setActiveTab}
+                                toggleNavigation={this.toggleNavigation} isExpanded={this.state.navigationIsExpanded}/>
+                <div className="w-100">
+                    <div id="black-covering" onClick={this.toggleNavigation}
+                         className={this.state.navigationIsExpanded && "showing"}>
+
+                    </div>
+                    {this.state.activeTab.tab}
+                </div>
             </div>
         );
     }

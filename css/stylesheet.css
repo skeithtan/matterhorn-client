@@ -126,10 +126,32 @@ input[type="search"]::-webkit-search-cancel-button {
     box-shadow         : 0 1px 1px rgba(0, 0, 0, 0.08), 0 1px 1px rgba(0, 0, 0, 0.24);
     z-index            : 1040;
     -webkit-app-region : drag;
-    max-width          : 80px;
     min-width          : 80px;
     width              : 80px;
     padding            : 0;
+    transition         : 600ms;
+}
+
+#main-navigation.expanded {
+    width     : 300px;
+    min-width : 300px;
+}
+
+#main-navigation-tabs > li {
+    display         : flex;
+    flex-direction  : row;
+    justify-content : flex-end;
+}
+
+#main-navigation #switch-user-button {
+    opacity        : 0;
+    pointer-events : none;
+    transition     : 300ms opacity;
+}
+
+#main-navigation.expanded #switch-user-button {
+    opacity        : 1;
+    pointer-events : all;
 }
 
 #main-navigation li.nav-item.active a.nav-item {
@@ -140,6 +162,10 @@ input[type="search"]::-webkit-search-cancel-button {
 #main-navigation .nav-link {
     padding : 0;
     width   : 100%;
+}
+
+#main-navigation-tabs {
+    margin-top : 40px;
 }
 
 #main-navigation ul.navbar-nav,
@@ -156,8 +182,35 @@ input[type="search"]::-webkit-search-cancel-button {
     background : rgba(0, 0, 0, 0.3);
 }
 
+#main-navigation .expand-button {
+    background : transparent;
+    color      : white;
+    border     : none;
+    font-size  : 40px;
+    opacity    : 0.7;
+    transition : 300ms;
+}
+
+#main-navigation .expand-button:hover {
+    opacity : 1;
+}
+
+#main-navigation.expanded .expand-button {
+    opacity        : 0;
+    pointer-events : none;
+}
+
+#main-navigation .nav-item-text {
+    opacity    : 0;
+    transition : 300ms;
+}
+
+#main-navigation.expanded .nav-item-text {
+    opacity : 1;
+}
+
 .sidebar-image {
-    margin     : 15px;
+    margin     : 20px;
     width      : 40px;
     height     : 40px;
     cursor     : pointer;
@@ -171,6 +224,22 @@ li.nav-item:hover .sidebar-image {
 
 li.nav-item.active .sidebar-image {
     opacity : 1;
+}
+
+#black-covering {
+    width          : 100%;
+    height         : 100%;
+    position       : absolute;
+    background     : black;
+    opacity        : 0;
+    z-index        : 200;
+    transition     : 300ms;
+    pointer-events : none;
+}
+
+#black-covering.showing {
+    opacity        : 0.4;
+    pointer-events : all;
 }
 
 /*Page Head*/
