@@ -223,12 +223,12 @@ li.nav-item.active .sidebar-image {
 }
 
 /*List group item override*/
-.list-group-item:first-child,
-.list-group-item:last-child {
+.list-group-item.section-row:first-child,
+.list-group-item.section-row:last-child {
     border-radius : 0 !important;
 }
 
-.list-group-item {
+.list-group-item.section-row {
     border-right : 0;
     border-left  : 0;
 }

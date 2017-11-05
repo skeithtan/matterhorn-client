@@ -4,7 +4,6 @@ import makeInfoToast from "../../dismissable_toast_maker";
 import validateForm from "../../form_validator";
 import settings from "../../settings";
 import iziToast from "izitoast";
-import moment from "moment";
 import $ from "jquery";
 
 import {
@@ -20,6 +19,8 @@ import {
     InputGroup,
     InputGroupAddon,
     FormFeedback,
+    ListGroup,
+    ListGroupItem,
 } from "reactstrap";
 
 
@@ -347,7 +348,16 @@ class DeleteInstitutionModal extends Component {
 class MemorandumFormModal extends Component {
     constructor(props) {
         super(props);
+        this.getFormErrors = this.getFormErrors.bind(this);
+        this.setupUploadCare = this.setupUploadCare.bind(this);
+        this.getChangeHandler = this.getChangeHandler.bind(this);
+        this.submitAddMemorandumForm = this.submitAddMemorandumForm.bind(this);
+        this.submitEditMemorandumForm = this.submitEditMemorandumForm.bind(this);
 
+        this.componentWillReceiveProps(props);
+    }
+
+    componentWillReceiveProps(newProps) {
         this.state = {
             form : {
                 category : "MOA",
@@ -355,18 +365,17 @@ class MemorandumFormModal extends Component {
                 date_effective : "",
                 date_expiration : "",
                 college_initiator : "",
+                linkages : [],
             },
         };
 
-        this.getFormErrors = this.getFormErrors.bind(this);
-        this.setupUploadCare = this.setupUploadCare.bind(this);
-        this.getChangeHandler = this.getChangeHandler.bind(this);
-        this.submitAddMemorandumForm = this.submitAddMemorandumForm.bind(this);
-        this.submitEditMemorandumForm = this.submitEditMemorandumForm.bind(this);
+        if (newProps.edit) {
+            Object.assign(this.state.form, newProps.memorandum);
 
-        if (this.props.edit) {
-            console.log(this.props.memorandum);
-            Object.assign(this.state.form, props.memorandum);
+            // Linkages are in linkage.linkage format from graphQL. Convert to array form
+            newProps.memorandum.memorandumlinkage_set.forEach(linkage => {
+                this.state.form.linkages.push(linkage.linkage);
+            });
         }
     }
 
@@ -489,6 +498,35 @@ class MemorandumFormModal extends Component {
         const formHasErrors = formErrors.formHasErrors;
         const fieldErrors = formErrors.fieldErrors;
 
+        const linkages = Object.entries(settings.linkages).map(linkage => {
+            const linkageCode = linkage[0];
+            const linkageString = linkage[1];
+            const isSelected = this.state.form.linkages.includes(linkageCode);
+            const className = isSelected ? "bg-dlsu-lighter text-white d-flex" : "d-flex";
+
+            const onClick = () => {
+                const form = this.state.form;
+
+                if (isSelected) {
+                    const linkages = form.linkages;
+                    linkages.splice(linkages.indexOf(linkageCode), 1);
+                } else {
+                    form.linkages.push(linkageCode);
+                }
+
+                this.setState({
+                    form : form,
+                });
+            };
+
+
+            return <ListGroupItem key={linkageCode} onClick={onClick}
+                                  className={className}>
+                <span className="mr-auto">{linkageString}</span>
+                {isSelected && <h5 className="mb-0">✓</h5>}
+            </ListGroupItem>;
+        });
+
         function isValid(fieldName) {
             return fieldErrors[fieldName].length === 0;
         }
@@ -505,6 +543,7 @@ class MemorandumFormModal extends Component {
                 </ModalHeader>
                 <ModalBody className="form">
                     <Form>
+                        <h5>Memorandum details</h5>
                         <FormGroup>
                             <Label>Category</Label>
                             <Input type="select" defaultValue={this.state.form.category}
@@ -552,6 +591,14 @@ class MemorandumFormModal extends Component {
                                 <option value="BAGCED">Brother Andrew Gonzales College of Education</option>
                             </Input>
                         </FormGroup>
+                        <br/>
+                        <h5>Linkages</h5>
+                        <small className="text-secondary mb-3 d-block">Select all linkages that apply to this
+                            memorandum.
+                        </small>
+                        <ListGroup>
+                            {linkages}
+                        </ListGroup>
                     </Form>
                 </ModalBody>
                 <ModalFooter>

@@ -31,10 +31,6 @@ var _izitoast = require("izitoast");
 
 var _izitoast2 = _interopRequireDefault(_izitoast);
 
-var _moment = require("moment");
-
-var _moment2 = _interopRequireDefault(_moment);
-
 var _jquery = require("jquery");
 
 var _jquery2 = _interopRequireDefault(_jquery);
@@ -529,30 +525,42 @@ var MemorandumFormModal = function (_Component3) {
 
         var _this7 = _possibleConstructorReturn(this, (MemorandumFormModal.__proto__ || Object.getPrototypeOf(MemorandumFormModal)).call(this, props));
 
-        _this7.state = {
-            form: {
-                category: "MOA",
-                memorandum_file: "",
-                date_effective: "",
-                date_expiration: "",
-                college_initiator: ""
-            }
-        };
-
         _this7.getFormErrors = _this7.getFormErrors.bind(_this7);
         _this7.setupUploadCare = _this7.setupUploadCare.bind(_this7);
         _this7.getChangeHandler = _this7.getChangeHandler.bind(_this7);
         _this7.submitAddMemorandumForm = _this7.submitAddMemorandumForm.bind(_this7);
         _this7.submitEditMemorandumForm = _this7.submitEditMemorandumForm.bind(_this7);
 
-        if (_this7.props.edit) {
-            console.log(_this7.props.memorandum);
-            Object.assign(_this7.state.form, props.memorandum);
-        }
+        _this7.componentWillReceiveProps(props);
         return _this7;
     }
 
     _createClass(MemorandumFormModal, [{
+        key: "componentWillReceiveProps",
+        value: function componentWillReceiveProps(newProps) {
+            var _this8 = this;
+
+            this.state = {
+                form: {
+                    category: "MOA",
+                    memorandum_file: "",
+                    date_effective: "",
+                    date_expiration: "",
+                    college_initiator: "",
+                    linkages: []
+                }
+            };
+
+            if (newProps.edit) {
+                Object.assign(this.state.form, newProps.memorandum);
+
+                // Linkages are in linkage.linkage format from graphQL. Convert to array form
+                newProps.memorandum.memorandumlinkage_set.forEach(function (linkage) {
+                    _this8.state.form.linkages.push(linkage.linkage);
+                });
+            }
+        }
+    }, {
         key: "getFormErrors",
         value: function getFormErrors() {
             return (0, _form_validator2.default)([{
@@ -568,7 +576,7 @@ var MemorandumFormModal = function (_Component3) {
     }, {
         key: "getChangeHandler",
         value: function getChangeHandler(fieldName) {
-            var _this8 = this;
+            var _this9 = this;
 
             var form = this.state.form;
 
@@ -576,7 +584,7 @@ var MemorandumFormModal = function (_Component3) {
                 var value = event.target.value;
 
                 form[fieldName] = value;
-                _this8.setState({
+                _this9.setState({
                     form: form
                 });
             };
@@ -584,17 +592,17 @@ var MemorandumFormModal = function (_Component3) {
     }, {
         key: "setupUploadCare",
         value: function setupUploadCare() {
-            var _this9 = this;
+            var _this10 = this;
 
             var widget = uploadcare.SingleWidget("[role=uploadcare-uploader]");
             var form = this.state.form;
             var setMemorandumFile = function setMemorandumFile(link) {
                 form.memorandum_file = link;
-                _this9.setState({
+                _this10.setState({
                     form: form
                 });
 
-                console.log(_this9.state.form);
+                console.log(_this10.state.form);
             };
 
             widget.onChange(function (file) {
@@ -608,7 +616,7 @@ var MemorandumFormModal = function (_Component3) {
     }, {
         key: "submitAddMemorandumForm",
         value: function submitAddMemorandumForm() {
-            var _this10 = this;
+            var _this11 = this;
 
             var dismissToast = (0, _dismissable_toast_maker2.default)({
                 title: "Adding",
@@ -621,7 +629,7 @@ var MemorandumFormModal = function (_Component3) {
                 beforeSend: _authorization2.default,
                 success: function success() {
                     dismissToast();
-                    _this10.props.refresh();
+                    _this11.props.refresh();
                     _izitoast2.default.success({
                         title: "Success",
                         message: "Successfully added memorandum"
@@ -642,7 +650,7 @@ var MemorandumFormModal = function (_Component3) {
     }, {
         key: "submitEditMemorandumForm",
         value: function submitEditMemorandumForm() {
-            var _this11 = this;
+            var _this12 = this;
 
             var dismissToast = (0, _dismissable_toast_maker2.default)({
                 title: "Editing",
@@ -656,7 +664,7 @@ var MemorandumFormModal = function (_Component3) {
                 beforeSend: _authorization2.default,
                 success: function success() {
                     dismissToast();
-                    _this11.props.refresh();
+                    _this12.props.refresh();
                     _izitoast2.default.success({
                         title: "Success",
                         message: "Successfully modified memorandum"
@@ -677,9 +685,49 @@ var MemorandumFormModal = function (_Component3) {
     }, {
         key: "render",
         value: function render() {
+            var _this13 = this;
+
             var formErrors = this.getFormErrors();
             var formHasErrors = formErrors.formHasErrors;
             var fieldErrors = formErrors.fieldErrors;
+
+            var linkages = Object.entries(_settings2.default.linkages).map(function (linkage) {
+                var linkageCode = linkage[0];
+                var linkageString = linkage[1];
+                var isSelected = _this13.state.form.linkages.includes(linkageCode);
+                var className = isSelected ? "bg-dlsu-lighter text-white d-flex" : "d-flex";
+
+                var onClick = function onClick() {
+                    var form = _this13.state.form;
+
+                    if (isSelected) {
+                        var _linkages = form.linkages;
+                        _linkages.splice(_linkages.indexOf(linkageCode), 1);
+                    } else {
+                        form.linkages.push(linkageCode);
+                    }
+
+                    _this13.setState({
+                        form: form
+                    });
+                };
+
+                return _react2.default.createElement(
+                    _reactstrap.ListGroupItem,
+                    { key: linkageCode, onClick: onClick,
+                        className: className },
+                    _react2.default.createElement(
+                        "span",
+                        { className: "mr-auto" },
+                        linkageString
+                    ),
+                    isSelected && _react2.default.createElement(
+                        "h5",
+                        { className: "mb-0" },
+                        "\u2713"
+                    )
+                );
+            });
 
             function isValid(fieldName) {
                 return fieldErrors[fieldName].length === 0;
@@ -704,6 +752,11 @@ var MemorandumFormModal = function (_Component3) {
                     _react2.default.createElement(
                         _reactstrap.Form,
                         null,
+                        _react2.default.createElement(
+                            "h5",
+                            null,
+                            "Memorandum details"
+                        ),
                         _react2.default.createElement(
                             _reactstrap.FormGroup,
                             null,
@@ -831,6 +884,22 @@ var MemorandumFormModal = function (_Component3) {
                                     "Brother Andrew Gonzales College of Education"
                                 )
                             )
+                        ),
+                        _react2.default.createElement("br", null),
+                        _react2.default.createElement(
+                            "h5",
+                            null,
+                            "Linkages"
+                        ),
+                        _react2.default.createElement(
+                            "small",
+                            { className: "text-secondary mb-3 d-block" },
+                            "Select all linkages that apply to this memorandum."
+                        ),
+                        _react2.default.createElement(
+                            _reactstrap.ListGroup,
+                            null,
+                            linkages
                         )
                     )
                 ),
@@ -858,16 +927,16 @@ var DeleteMemorandumModal = function (_Component4) {
     function DeleteMemorandumModal(props) {
         _classCallCheck(this, DeleteMemorandumModal);
 
-        var _this12 = _possibleConstructorReturn(this, (DeleteMemorandumModal.__proto__ || Object.getPrototypeOf(DeleteMemorandumModal)).call(this, props));
+        var _this14 = _possibleConstructorReturn(this, (DeleteMemorandumModal.__proto__ || Object.getPrototypeOf(DeleteMemorandumModal)).call(this, props));
 
-        _this12.confirmDelete = _this12.confirmDelete.bind(_this12);
-        return _this12;
+        _this14.confirmDelete = _this14.confirmDelete.bind(_this14);
+        return _this14;
     }
 
     _createClass(DeleteMemorandumModal, [{
         key: "confirmDelete",
         value: function confirmDelete() {
-            var _this13 = this;
+            var _this15 = this;
 
             var dismissToast = (0, _dismissable_toast_maker2.default)({
                 title: "Deleting",
@@ -880,7 +949,7 @@ var DeleteMemorandumModal = function (_Component4) {
                 beforeSend: _authorization2.default,
                 success: function success() {
                     dismissToast();
-                    _this13.props.refresh();
+                    _this15.props.refresh();
                     _izitoast2.default.success({
                         title: "Success",
                         message: "Memorandum deleted",

@@ -24,7 +24,6 @@ class StudentDetailOverview extends Component {
         const birthDate = moment(student.birth_date).format("LL");
 
         return (
-
             <Section>
                 <SectionTitle>Student Details</SectionTitle>
                 <SectionTable>
