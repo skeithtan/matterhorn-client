@@ -277,7 +277,7 @@ class MemorandumListSection extends Component {
             );
         }
 
-        const rows = this.props.memorandums.map(memorandum => {
+        const rows = this.props.memorandums.map((memorandum, index) => {
             let isShowing = false;
 
             if (this.state.activeMemorandum !== null) {
@@ -290,6 +290,7 @@ class MemorandumListSection extends Component {
                                   onClick={onMemorandumRowClick}
                                   toggleDeleteMemorandum={this.toggleDeleteMemorandum}
                                   toggleEditMemorandum={this.toggleEditMemorandum}
+                                  latest={index === 0}
                                   key={memorandum.id}/>;
         });
 
@@ -367,6 +368,9 @@ class MemorandumRow extends Component {
             <div>
                 <Card>
                     <SectionRow selectable active={this.props.isShowing} onClick={this.props.onClick}>
+                        {this.props.latest &&
+                        <SectionRowTitle>Latest Memorandum</SectionRowTitle>
+                        }
                         <SectionRowContent large>Effective {dateEffective}</SectionRowContent>
                     </SectionRow>
                     <Collapse isOpen={this.props.isShowing}>

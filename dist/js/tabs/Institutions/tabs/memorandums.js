@@ -347,7 +347,7 @@ var MemorandumListSection = function (_Component4) {
                 );
             }
 
-            var rows = this.props.memorandums.map(function (memorandum) {
+            var rows = this.props.memorandums.map(function (memorandum, index) {
                 var isShowing = false;
 
                 if (_this7.state.activeMemorandum !== null) {
@@ -362,6 +362,7 @@ var MemorandumListSection = function (_Component4) {
                     onClick: onMemorandumRowClick,
                     toggleDeleteMemorandum: _this7.toggleDeleteMemorandum,
                     toggleEditMemorandum: _this7.toggleEditMemorandum,
+                    latest: index === 0,
                     key: memorandum.id });
             });
 
@@ -463,6 +464,11 @@ var MemorandumRow = function (_Component5) {
                     _react2.default.createElement(
                         _section.SectionRow,
                         { selectable: true, active: this.props.isShowing, onClick: this.props.onClick },
+                        this.props.latest && _react2.default.createElement(
+                            _section.SectionRowTitle,
+                            null,
+                            "Latest Memorandum"
+                        ),
                         _react2.default.createElement(
                             _section.SectionRowContent,
                             { large: true },
