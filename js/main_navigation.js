@@ -29,7 +29,7 @@ class MainNavigation extends Component {
                             setActiveTab={() => this.props.setActiveTab(tab)}/>;
         });
 
-        let navbarClassName = "bg-dlsu d-flex flex-column";
+        let navbarClassName = "bg-dlsu d-flex flex-column justify-content-center";
 
         if (this.props.isExpanded) {
             navbarClassName += " expanded";

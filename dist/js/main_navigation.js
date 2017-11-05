@@ -59,7 +59,7 @@ var MainNavigation = function (_Component) {
                     } });
             });
 
-            var navbarClassName = "bg-dlsu d-flex flex-column";
+            var navbarClassName = "bg-dlsu d-flex flex-column justify-content-center";
 
             if (this.props.isExpanded) {
                 navbarClassName += " expanded";
