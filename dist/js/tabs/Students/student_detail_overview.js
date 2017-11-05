@@ -267,6 +267,20 @@ var StudentUniversity = function (_Component3) {
                 _react2.default.createElement(
                     _section.SectionTable,
                     null,
+                    _react2.default.createElement(
+                        _section.SectionRow,
+                        null,
+                        _react2.default.createElement(
+                            _section.SectionRowTitle,
+                            null,
+                            "Student Type"
+                        ),
+                        _react2.default.createElement(
+                            _section.SectionRowContent,
+                            { large: true },
+                            type
+                        )
+                    ),
                     student.category === "IN" && _react2.default.createElement(
                         _section.SectionRow,
                         null,
@@ -293,20 +307,6 @@ var StudentUniversity = function (_Component3) {
                             _section.SectionRowContent,
                             { large: true },
                             college
-                        )
-                    ),
-                    _react2.default.createElement(
-                        _section.SectionRow,
-                        null,
-                        _react2.default.createElement(
-                            _section.SectionRowTitle,
-                            null,
-                            "Student Type"
-                        ),
-                        _react2.default.createElement(
-                            _section.SectionRowContent,
-                            { large: true },
-                            type
                         )
                     )
                 )
