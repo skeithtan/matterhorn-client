@@ -28,6 +28,7 @@ class MainNavigation extends Component {
                             name={tab.name}
                             image={tab.image}
                             isActive={isActive}
+                            navigationIsExpanded={this.props.isExpanded}
                             toggleNavigation={this.props.toggleNavigation}
                             setActiveTab={() => this.props.setActiveTab(tab)}/>;
         });
@@ -57,7 +58,11 @@ class TabItem extends Component {
     render() {
         const className = this.props.isActive ? "active" : "";
         const onNavItemClick = () => {
-            this.props.toggleNavigation();
+            
+            if(this.props.navigationIsExpanded) {
+                this.props.toggleNavigation();
+            }
+
             this.props.setActiveTab();
         };
 

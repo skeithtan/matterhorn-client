@@ -57,6 +57,7 @@ var MainNavigation = function (_Component) {
                     name: tab.name,
                     image: tab.image,
                     isActive: isActive,
+                    navigationIsExpanded: _this2.props.isExpanded,
                     toggleNavigation: _this2.props.toggleNavigation,
                     setActiveTab: function setActiveTab() {
                         return _this2.props.setActiveTab(tab);
@@ -101,7 +102,11 @@ var TabItem = function (_Component2) {
 
             var className = this.props.isActive ? "active" : "";
             var onNavItemClick = function onNavItemClick() {
-                _this4.props.toggleNavigation();
+
+                if (_this4.props.navigationIsExpanded) {
+                    _this4.props.toggleNavigation();
+                }
+
                 _this4.props.setActiveTab();
             };
 
