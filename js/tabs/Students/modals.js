@@ -550,9 +550,9 @@ class DeleteStudentModal extends Component {
     }
 
     render() {
-        const first = this.props.student.firstName;
-        const middle = this.props.student.middleName;
-        const last = this.props.student.familyName;
+        const first = this.props.student.first_name;
+        const middle = this.props.student.middle_name;
+        const last = this.props.student.family_name;
         const name = first + " " + middle + " " + last;
 
         return (

@@ -841,9 +841,9 @@ var DeleteStudentModal = function (_Component2) {
     }, {
         key: "render",
         value: function render() {
-            var first = this.props.student.firstName;
-            var middle = this.props.student.middleName;
-            var last = this.props.student.familyName;
+            var first = this.props.student.first_name;
+            var middle = this.props.student.middle_name;
+            var last = this.props.student.family_name;
             var name = first + " " + middle + " " + last;
 
             return _react2.default.createElement(
