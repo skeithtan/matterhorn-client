@@ -1,9 +1,10 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import {
     Input,
     ListGroup,
     ListGroupItem,
 } from "reactstrap";
+
 
 class InstitutionList extends Component {
     constructor(props) {
@@ -12,9 +13,10 @@ class InstitutionList extends Component {
 
     render() {
         return (
-            <div className="sidebar h-100" id="institution-list">
+            <div className="h-100 d-flex flex-column">
                 <InstitutionListHead/>
                 <InstitutionListTable/>
+                <InstitutionTabBar/>
             </div>
         );
     }
@@ -27,9 +29,8 @@ class InstitutionListHead extends Component {
 
     render() {
         return (
-            // TODO: onChange function
             <div className="page-head">
-                <Input type="select" id="linkages" className="mb-3">
+                <Input type="select" id="linkages" className="mb-3 btn-outline-success">
                     <option value="S">Scholarship</option>
                     <option value="OI">OJT / Internship</option>
                     <option value="FE">Faculty Exchange</option>
@@ -47,6 +48,7 @@ class InstitutionListHead extends Component {
                     <option value="ASE">Administrative and Staff Exchange</option>
                     <option value="EM">Executive Meetings</option>
                 </Input>
+                <h4 className="page-head-title">Linkages</h4>
                 <Input type="search" placeholder="Search" className="search-input"/>
             </div>
         );
@@ -68,6 +70,29 @@ class InstitutionListTable extends Component {
                 </ListGroup>
             </div>
         );
+    }
+}
+
+class InstitutionTabBar extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return (
+            <div id="institution-navigation">
+                <ul className="p-3 justify-content-center mb-0 d-flex flex-row">
+                    <li className="col-lg-2 d-flex flex-row justify-content-center align-items-center">
+                        <img className="nav-image"/>
+                        <small className="ml-2 font-weight-bold mb-0 text-secondary">Belonging</small>
+                    </li>
+                    <li className="col-lg-2 d-flex flex-row justify-content-center align-items-center">
+                        <img className="nav-image"/>
+                        <small className="ml-2 font-weight-bold mb-0 text-secondary">All</small>
+                    </li>
+                </ul>
+            </div>
+        )
     }
 }
 

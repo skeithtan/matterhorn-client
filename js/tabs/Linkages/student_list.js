@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import {
     Button,
+    Input,
     ListGroup,
     ListGroupItem,
 } from "reactstrap";
+
 
 class StudentList extends Component {
     constructor(props) {
@@ -12,7 +14,7 @@ class StudentList extends Component {
 
     render() {
         return (
-            <div className="sidebar-right h-100" id="institution-list">
+            <div className="h-100 d-flex flex-column">
                 <StudentListHead/>
                 <StudentListTable/>
             </div>
@@ -28,9 +30,17 @@ class StudentListHead extends Component {
 
     render() {
         return (
-            <div className="page-head d-flex flex-row">
-                <h4 className="page-head-title">Students</h4>
-                <Button outline color="success" size="sm" className="ml-auto">Add</Button>
+            <div className="page-head pt-5 d-flex flex-column align-items-center">
+                <div className="d-flex flex-row w-100 mb-2 align-items-center">
+                    <div className="mr-auto">
+                        <h5 className="mb-0 text-secondary">Students</h5>
+                        <h4 className="page-head-title mb-0">Program name</h4>
+                    </div>
+                    <div>
+                        <button className="ml-auto btn btn-outline-success btn-sm">Add</button>
+                    </div>
+                </div>
+                <Input type="search" placeholder="Search" className="search-input"/>
             </div>
         );
     }

@@ -22,10 +22,6 @@ var _student_list = require("./student_list");
 
 var _student_list2 = _interopRequireDefault(_student_list);
 
-var _graphql = require("../../graphql");
-
-var _graphql2 = _interopRequireDefault(_graphql);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -34,63 +30,21 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-// TODO: GraphQL query for institutions with a specified linkage
-// TODO: Prop passing n shit
-
 var Linkages = function (_Component) {
     _inherits(Linkages, _Component);
 
     function Linkages(props) {
         _classCallCheck(this, Linkages);
 
-        var _this = _possibleConstructorReturn(this, (Linkages.__proto__ || Object.getPrototypeOf(Linkages)).call(this, props));
-
-        _this.state = {
-            institutionList: null,
-            activeLinkage: null,
-            activeInstitution: null,
-            activeProgram: null
-        };
-
-        _this.setActiveLinkage = _this.setActiveLinkage.bind(_this);
-        _this.setActiveInstitution = _this.setActiveInstitution.bind(_this);
-        _this.setActiveProgram = _this.setActiveProgram.bind(_this);
-        _this.refreshInstitutions = _this.refreshInstitutions.bind(_this);
-        return _this;
+        return _possibleConstructorReturn(this, (Linkages.__proto__ || Object.getPrototypeOf(Linkages)).call(this, props));
     }
 
     _createClass(Linkages, [{
-        key: "refreshInstitutions",
-        value: function refreshInstitutions() {
-            // TODO given the fetching query
-        }
-    }, {
-        key: "setActiveLinkage",
-        value: function setActiveLinkage(linkage) {
-            this.setState({
-                activeLinkage: linkage
-            });
-        }
-    }, {
-        key: "setActiveInstitution",
-        value: function setActiveInstitution(institution) {
-            this.setState({
-                activeInstitution: institution
-            });
-        }
-    }, {
-        key: "setActiveProgram",
-        value: function setActiveProgram(program) {
-            this.setState({
-                activeProgram: program
-            });
-        }
-    }, {
         key: "render",
         value: function render() {
             return _react2.default.createElement(
                 "div",
-                { className: "container-fluid d-flex flex-row p-0 h-100" },
+                { id: "linkages-page", className: "container-fluid d-flex flex-row p-0 h-100" },
                 _react2.default.createElement(_institution_list2.default, null),
                 _react2.default.createElement(_programs2.default, null),
                 _react2.default.createElement(_student_list2.default, null)

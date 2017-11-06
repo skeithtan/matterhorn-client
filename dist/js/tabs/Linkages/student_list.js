@@ -34,7 +34,7 @@ var StudentList = function (_Component) {
         value: function render() {
             return _react2.default.createElement(
                 "div",
-                { className: "sidebar-right h-100", id: "institution-list" },
+                { className: "h-100 d-flex flex-column" },
                 _react2.default.createElement(StudentListHead, null),
                 _react2.default.createElement(StudentListTable, null)
             );
@@ -61,17 +61,35 @@ var StudentListHead = function (_Component2) {
         value: function render() {
             return _react2.default.createElement(
                 "div",
-                { className: "page-head d-flex flex-row" },
+                { className: "page-head pt-5 d-flex flex-column align-items-center" },
                 _react2.default.createElement(
-                    "h4",
-                    { className: "page-head-title" },
-                    "Students"
+                    "div",
+                    { className: "d-flex flex-row w-100 mb-2 align-items-center" },
+                    _react2.default.createElement(
+                        "div",
+                        { className: "mr-auto" },
+                        _react2.default.createElement(
+                            "h5",
+                            { className: "mb-0 text-secondary" },
+                            "Students"
+                        ),
+                        _react2.default.createElement(
+                            "h4",
+                            { className: "page-head-title mb-0" },
+                            "Program name"
+                        )
+                    ),
+                    _react2.default.createElement(
+                        "div",
+                        null,
+                        _react2.default.createElement(
+                            "button",
+                            { className: "ml-auto btn btn-outline-success btn-sm" },
+                            "Add"
+                        )
+                    )
                 ),
-                _react2.default.createElement(
-                    _reactstrap.Button,
-                    { outline: true, color: "success", size: "sm", className: "ml-auto" },
-                    "Add"
-                )
+                _react2.default.createElement(_reactstrap.Input, { type: "search", placeholder: "Search", className: "search-input" })
             );
         }
     }]);
