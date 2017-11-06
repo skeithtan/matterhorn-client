@@ -32,14 +32,11 @@ var Programs = function (_Component) {
     _createClass(Programs, [{
         key: "render",
         value: function render() {
-            return (
-                // w-100 was something I added. If it breaks, this might be it.
-                _react2.default.createElement(
-                    "div",
-                    { className: "d-flex flex-column p-0 h-100 w-100" },
-                    _react2.default.createElement(ProgramsHead, null),
-                    _react2.default.createElement(ProgramsBody, null)
-                )
+            return _react2.default.createElement(
+                "div",
+                { className: "h-100 d-flex flex-column" },
+                _react2.default.createElement(ProgramsHead, null),
+                _react2.default.createElement(ProgramsBody, null)
             );
         }
     }]);
@@ -61,26 +58,35 @@ var ProgramsHead = function (_Component2) {
         value: function render() {
             return _react2.default.createElement(
                 "div",
-                { className: "page-head pt-5 d-flex flex-row align-items-center" },
+                { className: "page-head pt-5 d-flex flex-column align-items-center" },
                 _react2.default.createElement(
                     "div",
-                    { className: "mr-auto" },
+                    { className: "d-flex flex-row w-100 mb-2 align-items-center" },
                     _react2.default.createElement(
-                        "h4",
-                        { className: "page-head-title justify-content-left d-inline-block mb-0 mr-2" },
-                        "University Name",
+                        "div",
+                        { className: "mr-auto" },
                         _react2.default.createElement(
-                            "small",
-                            { className: "text-muted ml-2" },
-                            "Country"
+                            "h5",
+                            { className: "mb-0 text-secondary" },
+                            "Programs"
+                        ),
+                        _react2.default.createElement(
+                            "h4",
+                            { className: "page-head-title mb-0" },
+                            "Institution name"
+                        )
+                    ),
+                    _react2.default.createElement(
+                        "div",
+                        null,
+                        _react2.default.createElement(
+                            "button",
+                            { className: "ml-auto btn btn-outline-success btn-sm" },
+                            "Add"
                         )
                     )
                 ),
-                _react2.default.createElement(
-                    _reactstrap.Button,
-                    { outline: true, size: "sm", color: "success" },
-                    "Add Program"
-                )
+                _react2.default.createElement(_reactstrap.Input, { type: "search", placeholder: "Search", className: "search-input" })
             );
         }
     }]);

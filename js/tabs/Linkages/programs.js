@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import {
     Button,
+    Input,
 } from "reactstrap";
 
 class Programs extends Component {
@@ -10,8 +11,7 @@ class Programs extends Component {
 
     render() {
         return (
-            // w-100 was something I added. If it breaks, this might be it.
-            <div className="d-flex flex-column p-0 h-100 w-100">
+            <div className="h-100 d-flex flex-column">
                 <ProgramsHead/>
                 <ProgramsBody/>
             </div>
@@ -26,14 +26,17 @@ class ProgramsHead extends Component {
 
     render() {
         return (
-            <div className="page-head pt-5 d-flex flex-row align-items-center">
-                <div className="mr-auto">
-                    <h4 className="page-head-title justify-content-left d-inline-block mb-0 mr-2">
-                        University Name
-                        <small className="text-muted ml-2">Country</small>
-                    </h4>
+            <div className="page-head pt-5 d-flex flex-column align-items-center">
+                <div className="d-flex flex-row w-100 mb-2 align-items-center">
+                    <div className="mr-auto">
+                        <h5 className="mb-0 text-secondary">Programs</h5>
+                        <h4 className="page-head-title mb-0">Institution name</h4>
+                    </div>
+                    <div>
+                        <button className="ml-auto btn btn-outline-success btn-sm">Add</button>
+                    </div>
                 </div>
-                <Button outline size="sm" color="success">Add Program</Button>
+                <Input type="search" placeholder="Search" className="search-input"/>
             </div>
         );
     }

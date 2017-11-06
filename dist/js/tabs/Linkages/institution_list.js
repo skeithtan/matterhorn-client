@@ -34,9 +34,10 @@ var InstitutionList = function (_Component) {
         value: function render() {
             return _react2.default.createElement(
                 "div",
-                { className: "sidebar h-100", id: "institution-list" },
+                { className: "h-100 d-flex flex-column" },
                 _react2.default.createElement(InstitutionListHead, null),
-                _react2.default.createElement(InstitutionListTable, null)
+                _react2.default.createElement(InstitutionListTable, null),
+                _react2.default.createElement(InstitutionTabBar, null)
             );
         }
     }]);
@@ -56,97 +57,99 @@ var InstitutionListHead = function (_Component2) {
     _createClass(InstitutionListHead, [{
         key: "render",
         value: function render() {
-            return (
-                // TODO: onChange function
+            return _react2.default.createElement(
+                "div",
+                { className: "page-head" },
                 _react2.default.createElement(
-                    "div",
-                    { className: "page-head" },
+                    _reactstrap.Input,
+                    { type: "select", id: "linkages", className: "mb-3 btn-outline-success" },
                     _react2.default.createElement(
-                        _reactstrap.Input,
-                        { type: "select", id: "linkages", className: "mb-3" },
-                        _react2.default.createElement(
-                            "option",
-                            { value: "S" },
-                            "Scholarship"
-                        ),
-                        _react2.default.createElement(
-                            "option",
-                            { value: "OI" },
-                            "OJT / Internship"
-                        ),
-                        _react2.default.createElement(
-                            "option",
-                            { value: "FE" },
-                            "Faculty Exchange"
-                        ),
-                        _react2.default.createElement(
-                            "option",
-                            { value: "SE" },
-                            "Student Exchange"
-                        ),
-                        _react2.default.createElement(
-                            "option",
-                            { value: "RE" },
-                            "Researcher / Expert Exchange"
-                        ),
-                        _react2.default.createElement(
-                            "option",
-                            { value: "SP" },
-                            "Support for Projects Exchange"
-                        ),
-                        _react2.default.createElement(
-                            "option",
-                            { value: "RP" },
-                            "Research and Publication"
-                        ),
-                        _react2.default.createElement(
-                            "option",
-                            { value: "AP" },
-                            "Academic Program"
-                        ),
-                        _react2.default.createElement(
-                            "option",
-                            { value: "PF" },
-                            "Project Funding"
-                        ),
-                        _react2.default.createElement(
-                            "option",
-                            { value: "EMPI" },
-                            "Exchange of Materials, Publications and Information"
-                        ),
-                        _react2.default.createElement(
-                            "option",
-                            { value: "CE" },
-                            "Cultural Exchange"
-                        ),
-                        _react2.default.createElement(
-                            "option",
-                            { value: "SAMC" },
-                            "Seminars and Academic Meetings / Conferences"
-                        ),
-                        _react2.default.createElement(
-                            "option",
-                            { value: "TAP" },
-                            "Technical or Administrative Programs"
-                        ),
-                        _react2.default.createElement(
-                            "option",
-                            { value: "O" },
-                            "Established Office"
-                        ),
-                        _react2.default.createElement(
-                            "option",
-                            { value: "ASE" },
-                            "Administrative and Staff Exchange"
-                        ),
-                        _react2.default.createElement(
-                            "option",
-                            { value: "EM" },
-                            "Executive Meetings"
-                        )
+                        "option",
+                        { value: "S" },
+                        "Scholarship"
                     ),
-                    _react2.default.createElement(_reactstrap.Input, { type: "search", placeholder: "Search", className: "search-input" })
-                )
+                    _react2.default.createElement(
+                        "option",
+                        { value: "OI" },
+                        "OJT / Internship"
+                    ),
+                    _react2.default.createElement(
+                        "option",
+                        { value: "FE" },
+                        "Faculty Exchange"
+                    ),
+                    _react2.default.createElement(
+                        "option",
+                        { value: "SE" },
+                        "Student Exchange"
+                    ),
+                    _react2.default.createElement(
+                        "option",
+                        { value: "RE" },
+                        "Researcher / Expert Exchange"
+                    ),
+                    _react2.default.createElement(
+                        "option",
+                        { value: "SP" },
+                        "Support for Projects Exchange"
+                    ),
+                    _react2.default.createElement(
+                        "option",
+                        { value: "RP" },
+                        "Research and Publication"
+                    ),
+                    _react2.default.createElement(
+                        "option",
+                        { value: "AP" },
+                        "Academic Program"
+                    ),
+                    _react2.default.createElement(
+                        "option",
+                        { value: "PF" },
+                        "Project Funding"
+                    ),
+                    _react2.default.createElement(
+                        "option",
+                        { value: "EMPI" },
+                        "Exchange of Materials, Publications and Information"
+                    ),
+                    _react2.default.createElement(
+                        "option",
+                        { value: "CE" },
+                        "Cultural Exchange"
+                    ),
+                    _react2.default.createElement(
+                        "option",
+                        { value: "SAMC" },
+                        "Seminars and Academic Meetings / Conferences"
+                    ),
+                    _react2.default.createElement(
+                        "option",
+                        { value: "TAP" },
+                        "Technical or Administrative Programs"
+                    ),
+                    _react2.default.createElement(
+                        "option",
+                        { value: "O" },
+                        "Established Office"
+                    ),
+                    _react2.default.createElement(
+                        "option",
+                        { value: "ASE" },
+                        "Administrative and Staff Exchange"
+                    ),
+                    _react2.default.createElement(
+                        "option",
+                        { value: "EM" },
+                        "Executive Meetings"
+                    )
+                ),
+                _react2.default.createElement(
+                    "h4",
+                    { className: "page-head-title" },
+                    "Linkages"
+                ),
+                _react2.default.createElement(_reactstrap.Input, { type: "search", placeholder: "Search", className: "search-input" })
             );
         }
     }]);
@@ -183,8 +186,54 @@ var InstitutionListTable = function (_Component3) {
     return InstitutionListTable;
 }(_react.Component);
 
-var InstitutionListRow = function (_Component4) {
-    _inherits(InstitutionListRow, _Component4);
+var InstitutionTabBar = function (_Component4) {
+    _inherits(InstitutionTabBar, _Component4);
+
+    function InstitutionTabBar(props) {
+        _classCallCheck(this, InstitutionTabBar);
+
+        return _possibleConstructorReturn(this, (InstitutionTabBar.__proto__ || Object.getPrototypeOf(InstitutionTabBar)).call(this, props));
+    }
+
+    _createClass(InstitutionTabBar, [{
+        key: "render",
+        value: function render() {
+            return _react2.default.createElement(
+                "div",
+                { id: "institution-navigation" },
+                _react2.default.createElement(
+                    "ul",
+                    { className: "p-3 justify-content-center mb-0 d-flex flex-row" },
+                    _react2.default.createElement(
+                        "li",
+                        { className: "col-lg-2 d-flex flex-row justify-content-center align-items-center" },
+                        _react2.default.createElement("img", { className: "nav-image" }),
+                        _react2.default.createElement(
+                            "small",
+                            { className: "ml-2 font-weight-bold mb-0 text-secondary" },
+                            "Belonging"
+                        )
+                    ),
+                    _react2.default.createElement(
+                        "li",
+                        { className: "col-lg-2 d-flex flex-row justify-content-center align-items-center" },
+                        _react2.default.createElement("img", { className: "nav-image" }),
+                        _react2.default.createElement(
+                            "small",
+                            { className: "ml-2 font-weight-bold mb-0 text-secondary" },
+                            "All"
+                        )
+                    )
+                )
+            );
+        }
+    }]);
+
+    return InstitutionTabBar;
+}(_react.Component);
+
+var InstitutionListRow = function (_Component5) {
+    _inherits(InstitutionListRow, _Component5);
 
     function InstitutionListRow(props) {
         _classCallCheck(this, InstitutionListRow);
