@@ -64,8 +64,6 @@ var StudentFormModal = function (_Component) {
 
         var _this = _possibleConstructorReturn(this, (StudentFormModal.__proto__ || Object.getPrototypeOf(StudentFormModal)).call(this, props));
 
-        console.log(_this.props);
-
         _this.state = {
             form: {
                 id_number: "",

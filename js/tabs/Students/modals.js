@@ -39,8 +39,6 @@ class StudentFormModal extends Component {
     constructor(props) {
         super(props);
 
-        console.log(this.props);
-
         this.state = {
             form : {
                 id_number : "",
