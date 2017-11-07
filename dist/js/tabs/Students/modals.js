@@ -109,10 +109,13 @@ var StudentFormModal = function (_Component) {
             });
         });
 
-        if (_this.props.edit) {
+        if (props.edit) {
             // Copy the object, do not equate, otherwise the object changes along with the form.
             Object.assign(_this.state.form, props.student);
-            _this.state.form.institution = props.student.institution.id;
+
+            if (props.student.category === "IN") {
+                _this.state.form.institution = props.student.institution.id;
+            }
         }
         return _this;
     }

@@ -1,7 +1,8 @@
 {
-  "name": "electron-quick-start",
+  "productName": "Matterhorn",
+  "name": "eriosys-client",
   "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "description": "An information system for ERIO at DLSU",
   "main": "main.js",
   "scripts": {
     "start": "electron ."

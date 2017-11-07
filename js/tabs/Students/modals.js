@@ -84,10 +84,13 @@ class StudentFormModal extends Component {
             });
         });
 
-        if (this.props.edit) {
+        if (props.edit) {
             // Copy the object, do not equate, otherwise the object changes along with the form.
             Object.assign(this.state.form, props.student);
-            this.state.form.institution = props.student.institution.id;
+
+            if(props.student.category === "IN") {
+                this.state.form.institution = props.student.institution.id;
+            }
         }
     }
 
