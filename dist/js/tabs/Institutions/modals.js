@@ -964,7 +964,7 @@ var DeleteMemorandumModal = function (_Component4) {
                 { isOpen: this.props.isOpen, toggle: this.props.toggle, backdrop: true, id: "delete-memorandum-modal" },
                 _react2.default.createElement(
                     _reactstrap.ModalHeader,
-                    { toggle: this.props.toggle },
+                    { className: "text-danger", toggle: this.props.toggle },
                     "Delete Memorandum"
                 ),
                 _react2.default.createElement(

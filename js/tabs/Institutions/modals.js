@@ -666,7 +666,7 @@ class DeleteMemorandumModal extends Component {
     render() {
         return (
             <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} backdrop={true} id="delete-memorandum-modal">
-                <ModalHeader toggle={this.props.toggle}>Delete Memorandum</ModalHeader>
+                <ModalHeader className="text-danger" toggle={this.props.toggle}>Delete Memorandum</ModalHeader>
                 <ModalBody>This cannot be undone.</ModalBody>
                 <ModalFooter>
                     <Button color="danger" id="delete-memorandum-modal-submit"

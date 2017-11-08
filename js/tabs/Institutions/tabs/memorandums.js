@@ -9,6 +9,8 @@ import {
     Card,
     CardBody,
     Collapse,
+    ListGroup,
+    ListGroupItem,
 } from "reactstrap";
 
 import {
@@ -104,10 +106,13 @@ class Memorandums extends Component {
 
         return (
             <div id="institution-memorandums" className="d-flex flex-column p-0 h-100">
-                <MemorandumHead institution={this.state.institution} refreshMemorandums={this.refreshMemorandums}/>
-                <MemorandumBody institution={this.state.institution}
-                                memorandums={this.state.institution.memorandum_set}
-                                refreshMemorandums={this.refreshMemorandums}/>
+                <MemorandumHead institution={ this.state.institution } refreshMemorandums={ this.refreshMemorandums }/>
+                <div className="d-flex h-100 p-0 flex-row">
+                    <MemorandumBody institution={ this.state.institution }
+                                    memorandums={ this.state.institution.memorandum_set }
+                                    refreshMemorandums={ this.refreshMemorandums }/>
+                    <MemorandumDetails/>
+                </div>
             </div>
         );
     }
@@ -135,18 +140,18 @@ class MemorandumHead extends Component {
             <div className="page-head pt-5 d-flex flex-row align-items-end">
                 <div className="mr-auto">
                     <h5 className="mb-0 text-secondary">Memorandums</h5>
-                    <h4 className="page-head-title mb-0">{this.props.institution.name}</h4>
+                    <h4 className="page-head-title mb-0">{ this.props.institution.name }</h4>
                 </div>
 
                 <div className="page-head-actions">
-                    <Button outline size="sm" color="success" onClick={this.toggleAddMemorandum}>Add a
+                    <Button outline size="sm" color="success" onClick={ this.toggleAddMemorandum }>Add a
                         Memorandum</Button>
                 </div>
 
-                <MemorandumFormModal isOpen={this.state.addMemorandumIsShowing}
-                                     institution={this.props.institution}
-                                     toggle={this.toggleAddMemorandum}
-                                     refresh={this.props.refreshMemorandums}/>
+                <MemorandumFormModal isOpen={ this.state.addMemorandumIsShowing }
+                                     institution={ this.props.institution }
+                                     toggle={ this.toggleAddMemorandum }
+                                     refresh={ this.props.refreshMemorandums }/>
             </div>
         );
     }
@@ -199,17 +204,17 @@ class MemorandumBody extends Component {
 
     render() {
         return (
-            <div className="page-body">
-                <MemorandumListSection institution={this.props.institution}
-                                       memorandums={this.state.agreements}
-                                       refreshMemorandums={this.props.refreshMemorandums}>
-                    Memorandums of Agreement
+            <div className="page-body w-100">
+                <MemorandumListSection institution={ this.props.institution }
+                                       memorandums={ this.state.agreements }
+                                       refreshMemorandums={ this.props.refreshMemorandums }>
+                    MOA (Memorandums of Agreement)
                 </MemorandumListSection>
 
-                <MemorandumListSection institution={this.props.institution}
-                                       memorandums={this.state.understandings}
-                                       refreshMemorandums={this.props.refreshMemorandums}>
-                    Memorandums of Understanding
+                <MemorandumListSection institution={ this.props.institution }
+                                       memorandums={ this.state.understandings }
+                                       refreshMemorandums={ this.props.refreshMemorandums }>
+                    MOU (Memorandums of Understanding)
                 </MemorandumListSection>
             </div>
         );
@@ -262,7 +267,7 @@ class MemorandumListSection extends Component {
     emptyState() {
         return (
             <div className="p-5 text-center bg-light">
-                <h5 className="text-secondary">There are no {this.props.children} for this institution</h5>
+                <h5 className="text-secondary">There are no { this.props.children } for this institution</h5>
             </div>
         );
     }
@@ -271,8 +276,8 @@ class MemorandumListSection extends Component {
         if (this.props.memorandums.length === 0) {
             return (
                 <Section>
-                    <SectionTitle>{this.props.children}</SectionTitle>
-                    {this.emptyState()}
+                    <SectionTitle>{ this.props.children }</SectionTitle>
+                    { this.emptyState() }
                 </Section>
             );
         }
@@ -285,38 +290,37 @@ class MemorandumListSection extends Component {
             }
 
             const onMemorandumRowClick = () => this.setActiveMemorandum(memorandum);
-            return <MemorandumRow isShowing={isShowing}
-                                  memorandum={memorandum}
-                                  onClick={onMemorandumRowClick}
-                                  toggleDeleteMemorandum={this.toggleDeleteMemorandum}
-                                  toggleEditMemorandum={this.toggleEditMemorandum}
-                                  latest={index === 0}
-                                  key={memorandum.id}/>;
+            return <MemorandumRow isShowing={ isShowing }
+                                  memorandum={ memorandum }
+                                  onClick={ onMemorandumRowClick }
+                                  toggleDeleteMemorandum={ this.toggleDeleteMemorandum }
+                                  toggleEditMemorandum={ this.toggleEditMemorandum }
+                                  latest={ index === 0 }
+                                  key={ memorandum.id }/>;
         });
 
         return (
             <div>
                 <Section>
-                    <SectionTitle>{this.props.children}</SectionTitle>
+                    <SectionTitle>{ this.props.children }</SectionTitle>
                     <SectionTable className="memorandums-accordion">
-                        {rows}
+                        { rows }
                     </SectionTable>
-                    <SectionFooter>Select a memorandum to see its details</SectionFooter>
                 </Section>
 
-                <DeleteMemorandumModal isOpen={this.state.deleteMemorandumIsShowing}
-                                       institution={this.props.institution}
-                                       memorandum={this.state.activeMemorandum}
-                                       toggle={this.toggleDeleteMemorandum}
-                                       refresh={this.props.refreshMemorandums}/>
+                <DeleteMemorandumModal isOpen={ this.state.deleteMemorandumIsShowing }
+                                       institution={ this.props.institution }
+                                       memorandum={ this.state.activeMemorandum }
+                                       toggle={ this.toggleDeleteMemorandum }
+                                       refresh={ this.props.refreshMemorandums }/>
 
-                {this.state.activeMemorandum !== null &&
+                { this.state.activeMemorandum !== null &&
                 <MemorandumFormModal edit
-                                     isOpen={this.state.editMemorandumIsShowing}
-                                     institution={this.props.institution}
-                                     memorandum={this.state.activeMemorandum}
-                                     toggle={this.toggleEditMemorandum}
-                                     refresh={this.props.refreshMemorandums}/>}
+                                     isOpen={ this.state.editMemorandumIsShowing }
+                                     institution={ this.props.institution }
+                                     memorandum={ this.state.activeMemorandum }
+                                     toggle={ this.toggleEditMemorandum }
+                                     refresh={ this.props.refreshMemorandums }/> }
             </div>
         );
     }
@@ -345,7 +349,7 @@ class MemorandumRow extends Component {
         const linkages = memorandum.linkages;
 
         function viewMemorandum() {
-            const { shell } = require("electron");
+            const {shell} = require("electron");
             shell.openExternal(memorandum.memorandum_file);
         }
 
@@ -367,41 +371,41 @@ class MemorandumRow extends Component {
         return (
             <div>
                 <Card>
-                    <SectionRow selectable active={this.props.isShowing} onClick={this.props.onClick}>
-                        {this.props.latest &&
+                    <SectionRow selectable active={ this.props.isShowing } onClick={ this.props.onClick }>
+                        { this.props.latest &&
                         <SectionRowTitle>Latest Memorandum</SectionRowTitle>
                         }
-                        <SectionRowContent large>Effective {dateEffective}</SectionRowContent>
+                        <SectionRowContent large>Effective { dateEffective }</SectionRowContent>
                     </SectionRow>
-                    <Collapse isOpen={this.props.isShowing}>
+                    <Collapse isOpen={ this.props.isShowing }>
                         <CardBody className="p-0">
                             <SectionTable>
                                 <SectionRow className="bg-light">
                                     <SectionRowTitle>Date Expiration</SectionRowTitle>
-                                    <SectionRowContent large>{dateExpiration}</SectionRowContent>
+                                    <SectionRowContent large>{ dateExpiration }</SectionRowContent>
                                 </SectionRow>
 
                                 <SectionRow className="bg-light">
                                     <SectionRowTitle>College Initiator</SectionRowTitle>
-                                    <SectionRowContent large>{collegeInitiator}</SectionRowContent>
+                                    <SectionRowContent large>{ collegeInitiator }</SectionRowContent>
                                 </SectionRow>
 
                                 <SectionRow className="bg-light">
                                     <SectionRowTitle>Linkages</SectionRowTitle>
-                                    <SectionRowContent large>{linkagesText}</SectionRowContent>
+                                    <SectionRowContent large>{ linkagesText }</SectionRowContent>
                                 </SectionRow>
 
                                 <SectionRow className="bg-light d-flex flex-row">
                                     <div className="mr-auto">
                                         <Button outline size="sm" color="success" className="mr-2"
-                                                onClick={viewMemorandum}>
+                                                onClick={ viewMemorandum }>
                                             View Memorandum
                                         </Button>
                                         <Button outline size="sm" color="success"
-                                                onClick={this.props.toggleEditMemorandum}>Edit Details</Button>
+                                                onClick={ this.props.toggleEditMemorandum }>Edit Details</Button>
                                     </div>
                                     <Button outline size="sm" color="danger"
-                                            onClick={this.props.toggleDeleteMemorandum}>Delete Memorandum</Button>
+                                            onClick={ this.props.toggleDeleteMemorandum }>Delete Memorandum</Button>
                                 </SectionRow>
                             </SectionTable>
                         </CardBody>
@@ -413,5 +417,46 @@ class MemorandumRow extends Component {
     }
 }
 
+class MemorandumDetails extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return (
+            <div id="memorandum-detail" className="p-0 h-100 page-body justify-content-center">
+                <h6 className="text-center mt-5">Memorandum of [Category]</h6>
+                {/* Details */}
+                <div className="d-flex flex-row justify-content-center mt-3">
+                    <div className="text-right d-flex flex-column mr-3">
+                        <small className="text-muted">Date Effective</small>
+                        <small className="text-muted">Expiration Date</small>
+                        <small className="text-muted">College Initiator</small>
+                    </div>
+                    <div className="d-flex flex-column">
+                        <small>18 June 2017</small>
+                        <small>20 June 2020</small>
+                        <small>RVRCOB</small>
+                    </div>
+                </div>
+                {/* Buttons */}
+                <div className="d-flex flex-row justify-content-center mt-3">
+                    <Button outline color="success" size="sm" className="mr-2">View</Button>
+                    <Button outline color="success" size="sm" className="mr-2">Edit</Button>
+                    <Button outline color="danger" size="sm">Delete</Button>
+                </div>
+                {/* Linkages */}
+                <div>
+                    <SectionTitle>Linkages</SectionTitle>
+                    <ListGroup>
+                        <SectionRow>Test</SectionRow>
+                        <SectionRow>Test</SectionRow>
+                        <SectionRow>Test</SectionRow>
+                    </ListGroup>
+                </div>
+            </div>
+        );
+    }
+}
 
 export default Memorandums;
