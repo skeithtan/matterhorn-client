@@ -186,11 +186,15 @@ input[type="search"]::-webkit-search-cancel-button {
     background : transparent;
     color      : white;
     border     : none;
-    font-size  : 40px;
     opacity    : 0.7;
     transition : 300ms;
     position   : absolute;
-    bottom     : 0;
+    bottom     : 8px;
+}
+
+#main-navigation .expand-button > img {
+    width  : 40px;
+    height : 40px;
 }
 
 #main-navigation .expand-button:hover {

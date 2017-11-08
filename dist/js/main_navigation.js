@@ -180,7 +180,7 @@ var SwitchUserButton = function (_Component3) {
                 _react2.default.createElement(
                     "button",
                     { className: "expand-button", onClick: this.props.toggleNavigation },
-                    "\u25B6"
+                    _react2.default.createElement("img", { src: "./images/hamburger.png" })
                 )
             );
         }

@@ -101,8 +101,9 @@ class SwitchUserButton extends Component {
                     <Button color="light" onClick={signOut}>Sign out</Button>
                 </div>
 
+
                 <button className="expand-button" onClick={this.props.toggleNavigation}>
-                    ▶
+                    <img src="./images/hamburger.png" />
                 </button>
             </div>
         );
