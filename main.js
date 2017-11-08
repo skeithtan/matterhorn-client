@@ -18,6 +18,7 @@ function createWindow() {
         height : 600,
         minWidth : 1100,
         minHeight : 600,
+        frame: process.platform !== "darwin", // No frame on macs
         titleBarStyle : "hiddenInset",
     });
 
