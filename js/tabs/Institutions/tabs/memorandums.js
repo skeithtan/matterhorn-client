@@ -9,6 +9,8 @@ import {
     Card,
     CardBody,
     Collapse,
+    ListGroup,
+    ListGroupItem,
 } from "reactstrap";
 
 import {
@@ -105,9 +107,12 @@ class Memorandums extends Component {
         return (
             <div id="institution-memorandums" className="d-flex flex-column p-0 h-100">
                 <MemorandumHead institution={ this.state.institution } refreshMemorandums={ this.refreshMemorandums }/>
-                <MemorandumBody institution={ this.state.institution }
-                                memorandums={ this.state.institution.memorandum_set }
-                                refreshMemorandums={ this.refreshMemorandums }/>
+                <div className="d-flex h-100 p-0 flex-row">
+                    <MemorandumBody institution={ this.state.institution }
+                                    memorandums={ this.state.institution.memorandum_set }
+                                    refreshMemorandums={ this.refreshMemorandums }/>
+                    <MemorandumDetails/>
+                </div>
             </div>
         );
     }
@@ -199,7 +204,7 @@ class MemorandumBody extends Component {
 
     render() {
         return (
-            <div className="page-body">
+            <div className="page-body w-100">
                 <MemorandumListSection institution={ this.props.institution }
                                        memorandums={ this.state.agreements }
                                        refreshMemorandums={ this.props.refreshMemorandums }>
@@ -412,5 +417,46 @@ class MemorandumRow extends Component {
     }
 }
 
+class MemorandumDetails extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return (
+            <div id="memorandum-detail" className="p-0 h-100 page-body justify-content-center">
+                <h6 className="text-center mt-5">Memorandum of [Category]</h6>
+                {/* Details */}
+                <div className="d-flex flex-row justify-content-center mt-3">
+                    <div className="text-right d-flex flex-column mr-3">
+                        <small className="text-muted">Date Effective</small>
+                        <small className="text-muted">Expiration Date</small>
+                        <small className="text-muted">College Initiator</small>
+                    </div>
+                    <div className="d-flex flex-column">
+                        <small>18 June 2017</small>
+                        <small>20 June 2020</small>
+                        <small>RVRCOB</small>
+                    </div>
+                </div>
+                {/* Buttons */}
+                <div className="d-flex flex-row justify-content-center mt-3">
+                    <Button outline color="success" size="sm" className="mr-2">View</Button>
+                    <Button outline color="success" size="sm" className="mr-2">Edit</Button>
+                    <Button outline color="danger" size="sm">Delete</Button>
+                </div>
+                {/* Linkages */}
+                <div>
+                    <SectionTitle>Linkages</SectionTitle>
+                    <ListGroup>
+                        <SectionRow>Test</SectionRow>
+                        <SectionRow>Test</SectionRow>
+                        <SectionRow>Test</SectionRow>
+                    </ListGroup>
+                </div>
+            </div>
+        );
+    }
+}
 
 export default Memorandums;

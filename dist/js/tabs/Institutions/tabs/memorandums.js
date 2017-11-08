@@ -113,9 +113,14 @@ var Memorandums = function (_Component) {
                 "div",
                 { id: "institution-memorandums", className: "d-flex flex-column p-0 h-100" },
                 _react2.default.createElement(MemorandumHead, { institution: this.state.institution, refreshMemorandums: this.refreshMemorandums }),
-                _react2.default.createElement(MemorandumBody, { institution: this.state.institution,
-                    memorandums: this.state.institution.memorandum_set,
-                    refreshMemorandums: this.refreshMemorandums })
+                _react2.default.createElement(
+                    "div",
+                    { className: "d-flex h-100 p-0 flex-row" },
+                    _react2.default.createElement(MemorandumBody, { institution: this.state.institution,
+                        memorandums: this.state.institution.memorandum_set,
+                        refreshMemorandums: this.refreshMemorandums }),
+                    _react2.default.createElement(MemorandumDetails, null)
+                )
             );
         }
     }]);
@@ -241,7 +246,7 @@ var MemorandumBody = function (_Component3) {
         value: function render() {
             return _react2.default.createElement(
                 "div",
-                { className: "page-body" },
+                { className: "page-body w-100" },
                 _react2.default.createElement(
                     MemorandumListSection,
                     { institution: this.props.institution,
@@ -557,6 +562,122 @@ var MemorandumRow = function (_Component5) {
     }]);
 
     return MemorandumRow;
+}(_react.Component);
+
+var MemorandumDetails = function (_Component6) {
+    _inherits(MemorandumDetails, _Component6);
+
+    function MemorandumDetails(props) {
+        _classCallCheck(this, MemorandumDetails);
+
+        return _possibleConstructorReturn(this, (MemorandumDetails.__proto__ || Object.getPrototypeOf(MemorandumDetails)).call(this, props));
+    }
+
+    _createClass(MemorandumDetails, [{
+        key: "render",
+        value: function render() {
+            return _react2.default.createElement(
+                "div",
+                { id: "memorandum-detail", className: "p-0 h-100 page-body justify-content-center" },
+                _react2.default.createElement(
+                    "h6",
+                    { className: "text-center mt-5" },
+                    "Memorandum of [Category]"
+                ),
+                _react2.default.createElement(
+                    "div",
+                    { className: "d-flex flex-row justify-content-center mt-3" },
+                    _react2.default.createElement(
+                        "div",
+                        { className: "text-right d-flex flex-column mr-3" },
+                        _react2.default.createElement(
+                            "small",
+                            { className: "text-muted" },
+                            "Date Effective"
+                        ),
+                        _react2.default.createElement(
+                            "small",
+                            { className: "text-muted" },
+                            "Expiration Date"
+                        ),
+                        _react2.default.createElement(
+                            "small",
+                            { className: "text-muted" },
+                            "College Initiator"
+                        )
+                    ),
+                    _react2.default.createElement(
+                        "div",
+                        { className: "d-flex flex-column" },
+                        _react2.default.createElement(
+                            "small",
+                            null,
+                            "18 June 2017"
+                        ),
+                        _react2.default.createElement(
+                            "small",
+                            null,
+                            "20 June 2020"
+                        ),
+                        _react2.default.createElement(
+                            "small",
+                            null,
+                            "RVRCOB"
+                        )
+                    )
+                ),
+                _react2.default.createElement(
+                    "div",
+                    { className: "d-flex flex-row justify-content-center mt-3" },
+                    _react2.default.createElement(
+                        _reactstrap.Button,
+                        { outline: true, color: "success", size: "sm", className: "mr-2" },
+                        "View"
+                    ),
+                    _react2.default.createElement(
+                        _reactstrap.Button,
+                        { outline: true, color: "success", size: "sm", className: "mr-2" },
+                        "Edit"
+                    ),
+                    _react2.default.createElement(
+                        _reactstrap.Button,
+                        { outline: true, color: "danger", size: "sm" },
+                        "Delete"
+                    )
+                ),
+                _react2.default.createElement(
+                    "div",
+                    null,
+                    _react2.default.createElement(
+                        _section.SectionTitle,
+                        null,
+                        "Linkages"
+                    ),
+                    _react2.default.createElement(
+                        _reactstrap.ListGroup,
+                        null,
+                        _react2.default.createElement(
+                            _section.SectionRow,
+                            null,
+                            "Test"
+                        ),
+                        _react2.default.createElement(
+                            _section.SectionRow,
+                            null,
+                            "Test"
+                        ),
+                        _react2.default.createElement(
+                            _section.SectionRow,
+                            null,
+                            "Test"
+                        )
+                    )
+                )
+            );
+        }
+    }]);
+
+    return MemorandumDetails;
 }(_react.Component);
 
 exports.default = Memorandums;
