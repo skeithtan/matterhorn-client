@@ -247,14 +247,14 @@ var MemorandumBody = function (_Component3) {
                     { institution: this.props.institution,
                         memorandums: this.state.agreements,
                         refreshMemorandums: this.props.refreshMemorandums },
-                    "Memorandums of Agreement"
+                    "MOA (Memorandums of Agreement)"
                 ),
                 _react2.default.createElement(
                     MemorandumListSection,
                     { institution: this.props.institution,
                         memorandums: this.state.understandings,
                         refreshMemorandums: this.props.refreshMemorandums },
-                    "Memorandums of Understanding"
+                    "MOU (Memorandums of Understanding)"
                 )
             );
         }
@@ -381,11 +381,6 @@ var MemorandumListSection = function (_Component4) {
                         _section.SectionTable,
                         { className: "memorandums-accordion" },
                         rows
-                    ),
-                    _react2.default.createElement(
-                        _section.SectionFooter,
-                        null,
-                        "Select a memorandum to see its details"
                     )
                 ),
                 _react2.default.createElement(_modals.DeleteMemorandumModal, { isOpen: this.state.deleteMemorandumIsShowing,
