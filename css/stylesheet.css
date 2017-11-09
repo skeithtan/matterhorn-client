@@ -33,6 +33,11 @@
     color : var(--dlsu-green) !important;
 }
 
+/*Content*/
+#content {
+    overflow-x : scroll;
+}
+
 /*Section titles and footers*/
 small.section-title,
 small.section-footer {
@@ -505,4 +510,6 @@ li.nav-item.active .sidebar-image,
 #linkages-page > div {
     border-right : 1px solid var(--gray);
     width        : 33.33%;
+    min-width    : 33.33%;
+    max-width    : 33.33%;
 }

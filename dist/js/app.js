@@ -68,7 +68,7 @@ var App = function (_Component) {
                     toggleNavigation: this.toggleNavigation, isExpanded: this.state.navigationIsExpanded }),
                 _react2.default.createElement(
                     "div",
-                    { className: "w-100" },
+                    { id: "content", className: "w-100" },
                     _react2.default.createElement("div", { id: "black-covering", onClick: this.toggleNavigation,
                         className: this.state.navigationIsExpanded && "showing" }),
                     this.state.activeTab.tab
