@@ -336,10 +336,6 @@ li.nav-item.active .sidebar-image,
     bottom         : 0;
 }
 
-#switch-user-button:hover {
-    background : rgba(0, 0, 0, 0.1);
-}
-
 /*Institutions Page*/
 .memorandums-accordion .card {
     border-radius : 0;
