@@ -34,6 +34,11 @@ var tabs = [{
     },
     image: "./images/memorandumgrey.png",
     activeImage: "./images/memorandumgreen.png"
+}, {
+    name: "Programs",
+    tab: undefined,
+    image: "./images/programsgrey.png",
+    activeImage: "./images/programsgreen.png"
 }];
 
 exports.default = tabs;

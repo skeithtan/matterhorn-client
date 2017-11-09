@@ -555,7 +555,7 @@ var MemorandumFormModal = function (_Component3) {
                 Object.assign(this.state.form, newProps.memorandum);
                 this.state.form.linkages = []; //Do not use prop linkage = make a new one.
 
-                // Linkages are in linkage.linkage format from graphQL. Convert to array form.
+                // Programs are in linkage.linkage format from graphQL. Convert to array form.
                 newProps.memorandum.linkages.forEach(function (linkage) {
                     _this8.state.form.linkages.push(linkage.code);
                 });

@@ -2,8 +2,6 @@ import React from "react";
 import Home from "./home";
 import Institutions from "./Institutions/institutions";
 import Students from "./Students/students";
-import Linkages from "./Linkages/linkages";
-
 
 const tabs = [
     {
@@ -20,11 +18,6 @@ const tabs = [
         name : "Students",
         tab : <Students/>,
         image : "./images/student.png",
-    },
-    {
-        name : "Linkages",
-        tab : <Linkages/>,
-        image : "./images/linkwhite.png"
     },
 ];
 

@@ -506,10 +506,14 @@ li.nav-item.active .sidebar-image,
     border-color     : #28a745;
 }
 
-/*Linkages page*/
+/*Programs page*/
 #linkages-page > div {
     border-right : 1px solid var(--gray);
-    width        : 33.33%;
-    min-width    : 33.33%;
-    max-width    : 33.33%;
+    width        : 25%;
+    min-width    : 300px;
+}
+
+/*Institution Tab Content*/
+#tab-content {
+    overflow-x : scroll;
 }
