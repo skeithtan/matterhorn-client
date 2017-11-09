@@ -374,7 +374,8 @@ class MemorandumDetailPane extends Component {
                                        refresh={ this.props.refreshMemorandums }/>
 
                 { this.state.activeMemorandum !== null &&
-                <MemorandumFormModal isOpen={ this.state.editMemorandumIsShowing }
+                <MemorandumFormModal edit
+                                     isOpen={ this.state.editMemorandumIsShowing }
                                      institution={ this.props.institution }
                                      memorandum={ memorandum }
                                      toggle={ this.toggleEditMemorandum }
@@ -398,7 +399,7 @@ class MemorandumDetails extends Component {
         const type = this.props.memorandum.category === "A" ? "Agreement" : "Understanding";
         const expiryDate = this.props.memorandum.date_expiration === null ? "None" : formatDate(this.props.memorandum.date_expiration);
         const college = this.props.memorandum.college_initiator === null ? "None" : this.props.memorandum.college_initiator;
-        
+
         return (
             <div>
                 <h6 className="text-center mt-5">Effective { dateEffective }</h6>
