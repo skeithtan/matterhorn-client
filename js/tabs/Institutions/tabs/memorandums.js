@@ -111,7 +111,7 @@ class Memorandums extends Component {
                     <MemorandumBody institution={ this.state.institution }
                                     memorandums={ this.state.institution.memorandum_set }
                                     refreshMemorandums={ this.refreshMemorandums }/>
-                    <MemorandumDetails/>
+                    <MemorandumDetailPane/>
                 </div>
             </div>
         );
@@ -417,7 +417,8 @@ class MemorandumRow extends Component {
     }
 }
 
-class MemorandumDetails extends Component {
+// TODO: pass props
+class MemorandumDetailPane extends Component {
     constructor(props) {
         super(props);
     }
@@ -425,35 +426,61 @@ class MemorandumDetails extends Component {
     render() {
         return (
             <div id="memorandum-detail" className="p-0 h-100 page-body justify-content-center">
-                <h6 className="text-center mt-5">Memorandum of [Category]</h6>
-                {/* Details */}
+                <MemorandumDetails/>
+                <MemorandumLinkages/>
+            </div>
+        );
+    }
+}
+
+// TODO: pass props
+class MemorandumDetails extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return (
+            <div>
+                <h6 className="text-center mt-5">Effective June 18, 2017</h6>
                 <div className="d-flex flex-row justify-content-center mt-3">
                     <div className="text-right d-flex flex-column mr-3">
-                        <small className="text-muted">Date Effective</small>
+                        <small className="text-muted">Memorandum Type</small>
                         <small className="text-muted">Expiration Date</small>
                         <small className="text-muted">College Initiator</small>
                     </div>
                     <div className="d-flex flex-column">
-                        <small>18 June 2017</small>
-                        <small>20 June 2020</small>
+                        <small>Agreement</small>
+                        <small>June 18, 2020</small>
                         <small>RVRCOB</small>
                     </div>
                 </div>
-                {/* Buttons */}
+                { /* Buttons */ }
                 <div className="d-flex flex-row justify-content-center mt-3">
                     <Button outline color="success" size="sm" className="mr-2">View</Button>
                     <Button outline color="success" size="sm" className="mr-2">Edit</Button>
                     <Button outline color="danger" size="sm">Delete</Button>
                 </div>
-                {/* Linkages */}
-                <div>
-                    <SectionTitle>Linkages</SectionTitle>
-                    <ListGroup>
-                        <SectionRow>Test</SectionRow>
-                        <SectionRow>Test</SectionRow>
-                        <SectionRow>Test</SectionRow>
-                    </ListGroup>
-                </div>
+            </div>
+        );
+    }
+}
+
+class MemorandumLinkages extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        // TODO: const that returns <SectionRow> per linkage in the linkage set
+        return (
+            <div id="memorandum-linkages">
+                <SectionTitle>Linkages</SectionTitle>
+                <ListGroup>
+                    <SectionRow>Test</SectionRow>
+                    <SectionRow>Test</SectionRow>
+                    <SectionRow>Test</SectionRow>
+                </ListGroup>
             </div>
         );
     }
