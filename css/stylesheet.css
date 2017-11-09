@@ -149,12 +149,13 @@ input[type="search"]::-webkit-search-cancel-button {
     position   : absolute;
     top        : 48px;
     opacity    : 0.65;
-    transition : 300ms;
+    transition : 500ms;
 }
 
 #main-navigation.expanded .dlsu-logo {
     width   : 80px;
     height  : 80px;
+    top     : 24px;
     opacity : 1;
 }
 
@@ -204,12 +205,12 @@ input[type="search"]::-webkit-search-cancel-button {
     opacity    : 0.7;
     transition : 300ms;
     position   : absolute;
-    bottom     : 8px;
+    bottom     : 16px;
 }
 
 #main-navigation .expand-button > img {
-    width  : 40px;
-    height : 40px;
+    width  : 36px;
+    height : 36px;
 }
 
 #main-navigation .expand-button:hover {
@@ -372,7 +373,7 @@ li.nav-item.active .sidebar-image,
 }
 
 #memorandum-linkages .section-row {
-    background: var(--light);
+    background : var(--light);
 }
 
 /*Sign In*/
