@@ -174,7 +174,7 @@ var SwitchUserButton = function (_Component3) {
                     ),
                     _react2.default.createElement(
                         _reactstrap.Button,
-                        { color: "light", onClick: _index2.default },
+                        { outline: true, color: "light", onClick: _index2.default, size: "sm" },
                         "Sign out"
                     )
                 ),

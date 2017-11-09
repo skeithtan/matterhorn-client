@@ -100,7 +100,7 @@ class SwitchUserButton extends Component {
                         <h6 className="mb-0">Hello,</h6>
                         <h5 className="mb-0">{localStorage.username}</h5>
                     </div>
-                    <Button color="light" onClick={signOut}>Sign out</Button>
+                    <Button outline color="light" onClick={signOut} size="sm">Sign out</Button>
                 </div>
 
 
