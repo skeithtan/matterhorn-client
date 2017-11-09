@@ -119,7 +119,7 @@ var Memorandums = function (_Component) {
                     _react2.default.createElement(MemorandumBody, { institution: this.state.institution,
                         memorandums: this.state.institution.memorandum_set,
                         refreshMemorandums: this.refreshMemorandums }),
-                    _react2.default.createElement(MemorandumDetails, null)
+                    _react2.default.createElement(MemorandumDetailPane, null)
                 )
             );
         }
@@ -564,8 +564,38 @@ var MemorandumRow = function (_Component5) {
     return MemorandumRow;
 }(_react.Component);
 
-var MemorandumDetails = function (_Component6) {
-    _inherits(MemorandumDetails, _Component6);
+// TODO: pass props
+
+
+var MemorandumDetailPane = function (_Component6) {
+    _inherits(MemorandumDetailPane, _Component6);
+
+    function MemorandumDetailPane(props) {
+        _classCallCheck(this, MemorandumDetailPane);
+
+        return _possibleConstructorReturn(this, (MemorandumDetailPane.__proto__ || Object.getPrototypeOf(MemorandumDetailPane)).call(this, props));
+    }
+
+    _createClass(MemorandumDetailPane, [{
+        key: "render",
+        value: function render() {
+            return _react2.default.createElement(
+                "div",
+                { id: "memorandum-detail", className: "p-0 h-100 page-body justify-content-center" },
+                _react2.default.createElement(MemorandumDetails, null),
+                _react2.default.createElement(MemorandumLinkages, null)
+            );
+        }
+    }]);
+
+    return MemorandumDetailPane;
+}(_react.Component);
+
+// TODO: pass props
+
+
+var MemorandumDetails = function (_Component7) {
+    _inherits(MemorandumDetails, _Component7);
 
     function MemorandumDetails(props) {
         _classCallCheck(this, MemorandumDetails);
@@ -578,11 +608,11 @@ var MemorandumDetails = function (_Component6) {
         value: function render() {
             return _react2.default.createElement(
                 "div",
-                { id: "memorandum-detail", className: "p-0 h-100 page-body justify-content-center" },
+                null,
                 _react2.default.createElement(
                     "h6",
                     { className: "text-center mt-5" },
-                    "Memorandum of [Category]"
+                    "Effective June 18, 2017"
                 ),
                 _react2.default.createElement(
                     "div",
@@ -593,7 +623,7 @@ var MemorandumDetails = function (_Component6) {
                         _react2.default.createElement(
                             "small",
                             { className: "text-muted" },
-                            "Date Effective"
+                            "Memorandum Type"
                         ),
                         _react2.default.createElement(
                             "small",
@@ -612,12 +642,12 @@ var MemorandumDetails = function (_Component6) {
                         _react2.default.createElement(
                             "small",
                             null,
-                            "18 June 2017"
+                            "Agreement"
                         ),
                         _react2.default.createElement(
                             "small",
                             null,
-                            "20 June 2020"
+                            "June 18, 2020"
                         ),
                         _react2.default.createElement(
                             "small",
@@ -644,40 +674,59 @@ var MemorandumDetails = function (_Component6) {
                         { outline: true, color: "danger", size: "sm" },
                         "Delete"
                     )
-                ),
-                _react2.default.createElement(
-                    "div",
-                    null,
-                    _react2.default.createElement(
-                        _section.SectionTitle,
-                        null,
-                        "Linkages"
-                    ),
-                    _react2.default.createElement(
-                        _reactstrap.ListGroup,
-                        null,
-                        _react2.default.createElement(
-                            _section.SectionRow,
-                            null,
-                            "Test"
-                        ),
-                        _react2.default.createElement(
-                            _section.SectionRow,
-                            null,
-                            "Test"
-                        ),
-                        _react2.default.createElement(
-                            _section.SectionRow,
-                            null,
-                            "Test"
-                        )
-                    )
                 )
             );
         }
     }]);
 
     return MemorandumDetails;
+}(_react.Component);
+
+var MemorandumLinkages = function (_Component8) {
+    _inherits(MemorandumLinkages, _Component8);
+
+    function MemorandumLinkages(props) {
+        _classCallCheck(this, MemorandumLinkages);
+
+        return _possibleConstructorReturn(this, (MemorandumLinkages.__proto__ || Object.getPrototypeOf(MemorandumLinkages)).call(this, props));
+    }
+
+    _createClass(MemorandumLinkages, [{
+        key: "render",
+        value: function render() {
+            // TODO: const that returns <SectionRow> per linkage in the linkage set
+            return _react2.default.createElement(
+                "div",
+                { id: "memorandum-linkages" },
+                _react2.default.createElement(
+                    _section.SectionTitle,
+                    null,
+                    "Linkages"
+                ),
+                _react2.default.createElement(
+                    _reactstrap.ListGroup,
+                    null,
+                    _react2.default.createElement(
+                        _section.SectionRow,
+                        null,
+                        "Test"
+                    ),
+                    _react2.default.createElement(
+                        _section.SectionRow,
+                        null,
+                        "Test"
+                    ),
+                    _react2.default.createElement(
+                        _section.SectionRow,
+                        null,
+                        "Test"
+                    )
+                )
+            );
+        }
+    }]);
+
+    return MemorandumLinkages;
 }(_react.Component);
 
 exports.default = Memorandums;

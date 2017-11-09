@@ -371,6 +371,10 @@ li.nav-item.active .sidebar-image,
     overflow-y  : scroll;
 }
 
+#memorandum-linkages .section-row {
+    background: var(--light);
+}
+
 /*Sign In*/
 #sign-in {
     position   : absolute;
