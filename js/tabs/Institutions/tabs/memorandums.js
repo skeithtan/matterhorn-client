@@ -443,13 +443,12 @@ class MemorandumLinkages extends Component {
             );
         }
 
-        const rows = this.props.linkages.map(linkage => {
+        const rows = this.props.linkages.map((linkage, index) => {
             return (
-                <SectionRow>{ settings.linkages[linkage.code] }</SectionRow>
+                <SectionRow key={ index }>{ settings.linkages[linkage.code] }</SectionRow>
             );
         });
 
-        console.log(this.props.linkages);
         return (
             <div id="memorandum-linkages">
                 <SectionTitle>Linkages</SectionTitle>

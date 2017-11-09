@@ -616,15 +616,14 @@ var MemorandumLinkages = function (_Component8) {
                 );
             }
 
-            var rows = this.props.linkages.map(function (linkage) {
+            var rows = this.props.linkages.map(function (linkage, index) {
                 return _react2.default.createElement(
                     _section.SectionRow,
-                    null,
+                    { key: index },
                     _settings2.default.linkages[linkage.code]
                 );
             });
 
-            console.log(this.props.linkages);
             return _react2.default.createElement(
                 "div",
                 { id: "memorandum-linkages" },
