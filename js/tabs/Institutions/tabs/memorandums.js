@@ -107,12 +107,9 @@ class Memorandums extends Component {
         return (
             <div id="institution-memorandums" className="d-flex flex-column p-0 h-100">
                 <MemorandumHead institution={ this.state.institution } refreshMemorandums={ this.refreshMemorandums }/>
-                <div className="d-flex h-100 p-0 flex-row">
-                    <MemorandumBody institution={ this.state.institution }
-                                    memorandums={ this.state.institution.memorandum_set }
-                                    refreshMemorandums={ this.refreshMemorandums }/>
-                    <MemorandumDetailPane/>
-                </div>
+                <MemorandumBody institution={ this.state.institution }
+                                memorandums={ this.state.institution.memorandum_set }
+                                refreshMemorandums={ this.refreshMemorandums }/>
             </div>
         );
     }
@@ -195,27 +192,47 @@ class MemorandumBody extends Component {
         });
 
         this.state = {
+            activeMemorandum : null,
             showing : null,
             agreements : agreements,
             understandings : understandings,
         };
 
+        this.setActiveMemorandum = this.setActiveMemorandum.bind(this);
+    }
+
+    setActiveMemorandum(memorandum) {
+        this.setState({
+            activeMemorandum : memorandum,
+        });
     }
 
     render() {
         return (
             <div className="page-body w-100">
-                <MemorandumListSection institution={ this.props.institution }
-                                       memorandums={ this.state.agreements }
-                                       refreshMemorandums={ this.props.refreshMemorandums }>
-                    MOA (Memorandums of Agreement)
-                </MemorandumListSection>
+                <div className="d-flex h-100 p-0 flex-row">
+                    <div className="w-100">
+                        <MemorandumListSection institution={ this.props.institution }
+                                               activeMemorandum={ this.state.activeMemorandum }
+                                               memorandums={ this.state.agreements }
+                                               setActiveMemorandum={ this.setActiveMemorandum }
+                                               refreshMemorandums={ this.props.refreshMemorandums }>
+                            MOA (Memorandums of Agreement)
+                        </MemorandumListSection>
 
-                <MemorandumListSection institution={ this.props.institution }
-                                       memorandums={ this.state.understandings }
-                                       refreshMemorandums={ this.props.refreshMemorandums }>
-                    MOU (Memorandums of Understanding)
-                </MemorandumListSection>
+                        <MemorandumListSection institution={ this.props.institution }
+                                               memorandums={ this.state.understandings }
+                                               activeMemorandum={ this.state.activeMemorandum }
+                                               setActiveMemorandum={ this.setActiveMemorandum }
+                                               refreshMemorandums={ this.props.refreshMemorandums }>
+                            MOU (Memorandums of Understanding)
+                        </MemorandumListSection>
+                    </div>
+                    { this.state.activeMemorandum !== null &&
+                    <MemorandumDetailPane activeMemorandum={ this.state.activeMemorandum }
+                                          institution={ this.props.institution }
+                                          refreshMemorandums={ this.props.refreshMemorandums }/> }
+                </div>
             </div>
         );
     }
@@ -226,30 +243,13 @@ class MemorandumListSection extends Component {
         super(props);
 
         this.state = {
-            activeMemorandum : null,
             deleteMemorandumIsShowing : false,
             editMemorandumIsShowing : false,
         };
 
         this.emptyState = this.emptyState.bind(this);
-        this.setActiveMemorandum = this.setActiveMemorandum.bind(this);
         this.toggleDeleteMemorandum = this.toggleDeleteMemorandum.bind(this);
         this.toggleEditMemorandum = this.toggleEditMemorandum.bind(this);
-    }
-
-    setActiveMemorandum(memorandum) {
-        if (this.state.activeMemorandum === null) {
-            this.setState({
-                activeMemorandum : memorandum,
-            });
-
-            return;
-        }
-
-        this.setState({
-            // Collapse if clicked memorandum is already the active memorandum
-            activeMemorandum : this.state.activeMemorandum.id === memorandum.id ? null : memorandum,
-        });
     }
 
     toggleDeleteMemorandum() {
@@ -283,18 +283,17 @@ class MemorandumListSection extends Component {
         }
 
         const rows = this.props.memorandums.map((memorandum, index) => {
-            let isShowing = false;
+            const onMemorandumRowClick = () => this.props.setActiveMemorandum(memorandum);
 
-            if (this.state.activeMemorandum !== null) {
-                isShowing = this.state.activeMemorandum.id === memorandum.id;
+            let isActive = false;
+
+            if (this.props.activeMemorandum !== null) {
+                isActive = this.props.activeMemorandum.id === memorandum.id;
             }
 
-            const onMemorandumRowClick = () => this.setActiveMemorandum(memorandum);
-            return <MemorandumRow isShowing={ isShowing }
-                                  memorandum={ memorandum }
+            return <MemorandumRow memorandum={ memorandum }
+                                  isActive={ isActive }
                                   onClick={ onMemorandumRowClick }
-                                  toggleDeleteMemorandum={ this.toggleDeleteMemorandum }
-                                  toggleEditMemorandum={ this.toggleEditMemorandum }
                                   latest={ index === 0 }
                                   key={ memorandum.id }/>;
         });
@@ -304,36 +303,19 @@ class MemorandumListSection extends Component {
                 <Section>
                     <SectionTitle>{ this.props.children }</SectionTitle>
                     <SectionTable className="memorandums-accordion">
-                        { rows }
+                        <ListGroup>
+                            { rows }
+                        </ListGroup>
                     </SectionTable>
                 </Section>
-
-                <DeleteMemorandumModal isOpen={ this.state.deleteMemorandumIsShowing }
-                                       institution={ this.props.institution }
-                                       memorandum={ this.state.activeMemorandum }
-                                       toggle={ this.toggleDeleteMemorandum }
-                                       refresh={ this.props.refreshMemorandums }/>
-
-                { this.state.activeMemorandum !== null &&
-                <MemorandumFormModal edit
-                                     isOpen={ this.state.editMemorandumIsShowing }
-                                     institution={ this.props.institution }
-                                     memorandum={ this.state.activeMemorandum }
-                                     toggle={ this.toggleEditMemorandum }
-                                     refresh={ this.props.refreshMemorandums }/> }
             </div>
         );
     }
-
 }
 
 class MemorandumRow extends Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            deleteMemorandumIsShowing : false,
-        };
     }
 
     render() {
@@ -344,105 +326,82 @@ class MemorandumRow extends Component {
         }
 
         const dateEffective = formatDate(memorandum.date_effective);
-        const dateExpiration = memorandum.date_expiration === null ? "No expiration" : formatDate(memorandum.date_expiration);
-        const collegeInitiator = memorandum.college_initiator === null ? "No college initiator" : memorandum.college_initiator;
-        const linkages = memorandum.linkages;
-
-        function viewMemorandum() {
-            const {shell} = require("electron");
-            shell.openExternal(memorandum.memorandum_file);
-        }
-
-        let linkagesText = "No linkages";
-
-        if (linkages.length > 0) {
-            linkagesText = "";
-
-            linkages.forEach((linkage, index) => {
-                linkagesText += settings.linkages[linkage.code];
-
-                if (index + 1 !== linkages.length) {
-                    linkagesText += ", ";
-                }
-            });
-
-        }
-
         return (
-            <div>
-                <Card>
-                    <SectionRow selectable active={ this.props.isShowing } onClick={ this.props.onClick }>
-                        { this.props.latest &&
-                        <SectionRowTitle>Latest Memorandum</SectionRowTitle>
-                        }
-                        <SectionRowContent large>Effective { dateEffective }</SectionRowContent>
-                    </SectionRow>
-                    <Collapse isOpen={ this.props.isShowing }>
-                        <CardBody className="p-0">
-                            <SectionTable>
-                                <SectionRow className="bg-light">
-                                    <SectionRowTitle>Date Expiration</SectionRowTitle>
-                                    <SectionRowContent large>{ dateExpiration }</SectionRowContent>
-                                </SectionRow>
-
-                                <SectionRow className="bg-light">
-                                    <SectionRowTitle>College Initiator</SectionRowTitle>
-                                    <SectionRowContent large>{ collegeInitiator }</SectionRowContent>
-                                </SectionRow>
-
-                                <SectionRow className="bg-light">
-                                    <SectionRowTitle>Linkages</SectionRowTitle>
-                                    <SectionRowContent large>{ linkagesText }</SectionRowContent>
-                                </SectionRow>
-
-                                <SectionRow className="bg-light d-flex flex-row">
-                                    <div className="mr-auto">
-                                        <Button outline size="sm" color="success" className="mr-2"
-                                                onClick={ viewMemorandum }>
-                                            View Memorandum
-                                        </Button>
-                                        <Button outline size="sm" color="success"
-                                                onClick={ this.props.toggleEditMemorandum }>Edit Details</Button>
-                                    </div>
-                                    <Button outline size="sm" color="danger"
-                                            onClick={ this.props.toggleDeleteMemorandum }>Delete Memorandum</Button>
-                                </SectionRow>
-                            </SectionTable>
-                        </CardBody>
-                    </Collapse>
-
-                </Card>
-            </div>
+            <SectionRow onClick={ this.props.onClick }
+                        active={ this.props.isActive }>Effective { dateEffective }</SectionRow>
         );
     }
 }
 
-// TODO: pass props
 class MemorandumDetailPane extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            deleteMemorandumIsShowing : false,
+            editMemorandumIsShowing : false,
+        };
+
+        this.toggleDeleteMemorandum = this.toggleDeleteMemorandum.bind(this);
+        this.toggleEditMemorandum = this.toggleEditMemorandum.bind(this);
+    }
+
+    toggleDeleteMemorandum() {
+        this.setState({
+            deleteMemorandumIsShowing : !this.state.deleteMemorandumIsShowing,
+        });
+    }
+
+    toggleEditMemorandum() {
+        this.setState({
+            editMemorandumIsShowing : !this.state.editMemorandumIsShowing,
+        });
     }
 
     render() {
+        const memorandum = this.props.activeMemorandum;
         return (
             <div id="memorandum-detail" className="p-0 h-100 page-body justify-content-center">
-                <MemorandumDetails/>
+                <MemorandumDetails memorandum={ memorandum }
+                                   toggleDeleteMemorandum={ this.toggleDeleteMemorandum }
+                                   toggleEditMemorandum={ this.toggleEditMemorandum }/>
                 <MemorandumLinkages/>
+
+                <DeleteMemorandumModal isOpen={ this.state.deleteMemorandumIsShowing }
+                                       institution={ this.props.institution }
+                                       memorandum={ memorandum }
+                                       toggle={ this.toggleDeleteMemorandum }
+                                       refresh={ this.props.refreshMemorandums }/>
+
+                { this.state.activeMemorandum !== null &&
+                <MemorandumFormModal isOpen={ this.state.editMemorandumIsShowing }
+                                     institution={ this.props.institution }
+                                     memorandum={ memorandum }
+                                     toggle={ this.toggleEditMemorandum }
+                                     refresh={ this.props.refreshMemorandums }/> }
             </div>
         );
     }
 }
 
-// TODO: pass props
 class MemorandumDetails extends Component {
     constructor(props) {
         super(props);
     }
 
     render() {
+        function formatDate(date) {
+            return moment(date).format("LL");
+        }
+
+        const dateEffective = formatDate(this.props.memorandum.date_effective);
+        const type = this.props.memorandum.category === "A" ? "Agreement" : "Understanding";
+        const expiryDate = this.props.memorandum.date_expiration === null ? "None" : formatDate(this.props.memorandum.date_expiration);
+        const college = this.props.memorandum.college_initiator === null ? "None" : this.props.memorandum.college_initiator;
+        
         return (
             <div>
-                <h6 className="text-center mt-5">Effective June 18, 2017</h6>
+                <h6 className="text-center mt-5">Effective { dateEffective }</h6>
                 <div className="d-flex flex-row justify-content-center mt-3">
                     <div className="text-right d-flex flex-column mr-3">
                         <small className="text-muted">Memorandum Type</small>
@@ -450,16 +409,18 @@ class MemorandumDetails extends Component {
                         <small className="text-muted">College Initiator</small>
                     </div>
                     <div className="d-flex flex-column">
-                        <small>Agreement</small>
-                        <small>June 18, 2020</small>
-                        <small>RVRCOB</small>
+                        <small>{ type }</small>
+                        <small>{ expiryDate }</small>
+                        <small>{ college }</small>
                     </div>
                 </div>
                 { /* Buttons */ }
                 <div className="d-flex flex-row justify-content-center mt-3">
                     <Button outline color="success" size="sm" className="mr-2">View</Button>
-                    <Button outline color="success" size="sm" className="mr-2">Edit</Button>
-                    <Button outline color="danger" size="sm">Delete</Button>
+                    <Button outline color="success" size="sm" className="mr-2"
+                            onClick={ this.props.toggleEditMemorandum }>Edit</Button>
+                    <Button outline color="danger" size="sm"
+                            onClick={ this.props.toggleDeleteMemorandum }>Delete</Button>
                 </div>
             </div>
         );
