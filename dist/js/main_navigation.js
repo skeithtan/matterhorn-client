@@ -68,6 +68,7 @@ var MainNavigation = function (_Component) {
             return _react2.default.createElement(
                 _reactstrap.Navbar,
                 { className: navbarClassName, id: "main-navigation" },
+                _react2.default.createElement("img", { src: "./images/dlsu_white.png", className: "dlsu-logo" }),
                 _react2.default.createElement(
                     _reactstrap.Nav,
                     { className: "d-flex flex-column w-100", id: "main-navigation-tabs" },

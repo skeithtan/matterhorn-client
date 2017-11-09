@@ -37,6 +37,8 @@ class MainNavigation extends Component {
 
         return (
             <Navbar className={navbarClassName} id="main-navigation">
+                <img src="./images/dlsu_white.png" className="dlsu-logo"/>
+
                 <Nav className="d-flex flex-column w-100" id="main-navigation-tabs">
                     {navItems}
                 </Nav>
@@ -54,8 +56,8 @@ class TabItem extends Component {
     render() {
         const className = this.props.isActive ? "active" : "";
         const onNavItemClick = () => {
-            
-            if(this.props.navigationIsExpanded) {
+
+            if (this.props.navigationIsExpanded) {
                 this.props.toggleNavigation();
             }
 
@@ -103,7 +105,7 @@ class SwitchUserButton extends Component {
 
 
                 <button className="expand-button" onClick={this.props.toggleNavigation}>
-                    <img src="./images/hamburger.png" />
+                    <img src="./images/hamburger.png"/>
                 </button>
             </div>
         );

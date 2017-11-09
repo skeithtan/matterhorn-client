@@ -143,6 +143,21 @@ input[type="search"]::-webkit-search-cancel-button {
     justify-content : flex-end;
 }
 
+#main-navigation .dlsu-logo {
+    width      : 48px;
+    height     : 48px;
+    position   : absolute;
+    top        : 48px;
+    opacity    : 0.65;
+    transition : 300ms;
+}
+
+#main-navigation.expanded .dlsu-logo {
+    width   : 80px;
+    height  : 80px;
+    opacity : 1;
+}
+
 #main-navigation #switch-user-button {
     opacity        : 0;
     pointer-events : none;
