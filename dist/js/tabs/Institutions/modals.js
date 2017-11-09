@@ -664,7 +664,7 @@ var MemorandumFormModal = function (_Component3) {
 
             _jquery2.default.ajax({
                 method: "PUT",
-                url: _settings2.default.serverURL + "/institutions/" + this.props.institution.id + "/memorandums/" + this.state.form.id + "/",
+                url: _settings2.default.serverURL + "/memorandums/" + this.state.form.id + "/",
                 // The array requires this to be JSON.
                 data: JSON.stringify(this.state.form),
                 contentType: "application/json",

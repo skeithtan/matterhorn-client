@@ -474,7 +474,7 @@ class MemorandumFormModal extends Component {
 
         $.ajax({
             method : "PUT",
-            url : `${settings.serverURL}/institutions/${this.props.institution.id}/memorandums/${this.state.form.id}/`,
+            url : `${settings.serverURL}/memorandums/${this.state.form.id}/`,
             // The array requires this to be JSON.
             data : JSON.stringify(this.state.form),
             contentType : "application/json",
