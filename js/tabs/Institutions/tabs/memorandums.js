@@ -397,7 +397,7 @@ class MemorandumDetails extends Component {
         }
 
         const dateEffective = formatDate(this.props.memorandum.date_effective);
-        const type = this.props.memorandum.category === "A" ? "Agreement" : "Understanding";
+        const type = this.props.memorandum.category === "MOA" ? "Agreement" : "Understanding";
         const expiryDate = this.props.memorandum.date_expiration === null ? "None" : formatDate(this.props.memorandum.date_expiration);
         const college = this.props.memorandum.college_initiator === null ? "None" : this.props.memorandum.college_initiator;
 
@@ -435,6 +435,14 @@ class MemorandumLinkages extends Component {
     }
 
     render() {
+        if (this.props.linkages.length === 0) {
+            return (
+                <div className="p-5 mt-3 text-center">
+                    <h5 className="text-secondary">There are no linkages for this institution</h5>
+                </div>
+            );
+        }
+
         const rows = this.props.linkages.map(linkage => {
             return (
                 <SectionRow>{ settings.linkages[linkage.code] }</SectionRow>

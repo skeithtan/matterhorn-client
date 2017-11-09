@@ -509,7 +509,7 @@ var MemorandumDetails = function (_Component7) {
             }
 
             var dateEffective = formatDate(this.props.memorandum.date_effective);
-            var type = this.props.memorandum.category === "A" ? "Agreement" : "Understanding";
+            var type = this.props.memorandum.category === "MOA" ? "Agreement" : "Understanding";
             var expiryDate = this.props.memorandum.date_expiration === null ? "None" : formatDate(this.props.memorandum.date_expiration);
             var college = this.props.memorandum.college_initiator === null ? "None" : this.props.memorandum.college_initiator;
 
@@ -604,6 +604,18 @@ var MemorandumLinkages = function (_Component8) {
     _createClass(MemorandumLinkages, [{
         key: "render",
         value: function render() {
+            if (this.props.linkages.length === 0) {
+                return _react2.default.createElement(
+                    "div",
+                    { className: "p-5 mt-3 text-center" },
+                    _react2.default.createElement(
+                        "h5",
+                        { className: "text-secondary" },
+                        "There are no linkages for this institution"
+                    )
+                );
+            }
+
             var rows = this.props.linkages.map(function (linkage) {
                 return _react2.default.createElement(
                     _section.SectionRow,
