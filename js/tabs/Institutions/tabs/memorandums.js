@@ -365,13 +365,14 @@ class MemorandumDetailPane extends Component {
                 <MemorandumDetails memorandum={ memorandum }
                                    toggleDeleteMemorandum={ this.toggleDeleteMemorandum }
                                    toggleEditMemorandum={ this.toggleEditMemorandum }/>
-                <MemorandumLinkages/>
+                <MemorandumLinkages linkages={ memorandum.linkages }/>
 
+                { this.state.activeMemorandum !== null &&
                 <DeleteMemorandumModal isOpen={ this.state.deleteMemorandumIsShowing }
                                        institution={ this.props.institution }
                                        memorandum={ memorandum }
                                        toggle={ this.toggleDeleteMemorandum }
-                                       refresh={ this.props.refreshMemorandums }/>
+                                       refresh={ this.props.refreshMemorandums }/> }
 
                 { this.state.activeMemorandum !== null &&
                 <MemorandumFormModal edit
@@ -434,14 +435,18 @@ class MemorandumLinkages extends Component {
     }
 
     render() {
-        // TODO: const that returns <SectionRow> per linkage in the linkage set
+        const rows = this.props.linkages.map(linkage => {
+            return (
+                <SectionRow>{ settings.linkages[linkage.code] }</SectionRow>
+            );
+        });
+
+        console.log(this.props.linkages);
         return (
             <div id="memorandum-linkages">
                 <SectionTitle>Linkages</SectionTitle>
                 <ListGroup>
-                    <SectionRow>Test</SectionRow>
-                    <SectionRow>Test</SectionRow>
-                    <SectionRow>Test</SectionRow>
+                    { rows }
                 </ListGroup>
             </div>
         );

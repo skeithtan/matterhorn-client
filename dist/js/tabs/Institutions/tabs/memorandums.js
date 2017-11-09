@@ -473,8 +473,8 @@ var MemorandumDetailPane = function (_Component6) {
                 _react2.default.createElement(MemorandumDetails, { memorandum: memorandum,
                     toggleDeleteMemorandum: this.toggleDeleteMemorandum,
                     toggleEditMemorandum: this.toggleEditMemorandum }),
-                _react2.default.createElement(MemorandumLinkages, null),
-                _react2.default.createElement(_modals.DeleteMemorandumModal, { isOpen: this.state.deleteMemorandumIsShowing,
+                _react2.default.createElement(MemorandumLinkages, { linkages: memorandum.linkages }),
+                this.state.activeMemorandum !== null && _react2.default.createElement(_modals.DeleteMemorandumModal, { isOpen: this.state.deleteMemorandumIsShowing,
                     institution: this.props.institution,
                     memorandum: memorandum,
                     toggle: this.toggleDeleteMemorandum,
@@ -604,7 +604,15 @@ var MemorandumLinkages = function (_Component8) {
     _createClass(MemorandumLinkages, [{
         key: "render",
         value: function render() {
-            // TODO: const that returns <SectionRow> per linkage in the linkage set
+            var rows = this.props.linkages.map(function (linkage) {
+                return _react2.default.createElement(
+                    _section.SectionRow,
+                    null,
+                    _settings2.default.linkages[linkage.code]
+                );
+            });
+
+            console.log(this.props.linkages);
             return _react2.default.createElement(
                 "div",
                 { id: "memorandum-linkages" },
@@ -616,21 +624,7 @@ var MemorandumLinkages = function (_Component8) {
                 _react2.default.createElement(
                     _reactstrap.ListGroup,
                     null,
-                    _react2.default.createElement(
-                        _section.SectionRow,
-                        null,
-                        "Test"
-                    ),
-                    _react2.default.createElement(
-                        _section.SectionRow,
-                        null,
-                        "Test"
-                    ),
-                    _react2.default.createElement(
-                        _section.SectionRow,
-                        null,
-                        "Test"
-                    )
+                    rows
                 )
             );
         }
