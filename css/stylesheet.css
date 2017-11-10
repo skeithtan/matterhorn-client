@@ -313,9 +313,68 @@ li.nav-item.active .sidebar-image,
 
 .sidebar, .sidebar-right {
     max-width      : 300px;
-    min-width      : 300px;
     display        : flex;
     flex-direction : column;
+    flex-shrink    : 0;
+}
+
+/*Collapse*/
+
+.collapsible {
+    width                      : 300px;
+    transition                 : 300ms;
+    transition-timing-function : ease;
+}
+
+.collapsible.collapsed {
+    width      : 64px;
+    background : var(--search-white);
+    color      : var(--secondary);
+    transform  : rotate(0deg);
+    float      : left;
+    box-shadow : 0 3px 20px 0px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    cursor     : pointer;
+}
+
+.collapsible.collapsed:hover {
+    background : white;
+}
+
+.collapsible:not(.collapsed) {
+    width : 300px;
+}
+
+.collapse-content, .expand-content {
+    transition : 150ms;
+}
+
+.collapse-content {
+    position        : absolute;
+    width           : 63px;
+    top             : 0;
+    height          : 100%;
+    display         : flex;
+    align-items     : center;
+    justify-content : center;
+    text-align      : center;
+}
+
+.collapsible:not(.collapsed) .expand-content,
+.collapsible.collapsed .collapse-content {
+    opacity        : 1;
+    pointer-events : all;
+}
+
+.collapsible:not(.collapsed) .collapse-content,
+.collapsible.collapsed .expand-content {
+    opacity        : 0;
+    pointer-events : none;
+}
+
+.collapse-content h4 {
+    margin-bottom : 0;
+    transform     : rotate(270deg);
+    color         : var(--secondary);
 }
 
 /*List group item override*/

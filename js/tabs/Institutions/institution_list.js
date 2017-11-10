@@ -4,8 +4,12 @@ import LoadingSpinner from "../../loading";
 import {
     Input,
     Button,
-    ListGroupItem,
 } from "reactstrap";
+
+import {
+    CollapseContent,
+    ExpandContent,
+} from "../../components/collapse_content";
 
 import {
     Section,
@@ -22,8 +26,11 @@ class InstitutionList extends Component {
 
         this.state = {
             searchKeyword : null,
+            collapsed : false,
         };
 
+        this.expand = this.expand.bind(this);
+        this.collapse = this.collapse.bind(this);
         this.setSearchKeyword = this.setSearchKeyword.bind(this);
         this.getFilteredInstitutions = this.getFilteredInstitutions.bind(this);
     }
@@ -65,20 +72,42 @@ class InstitutionList extends Component {
         return filtered;
     }
 
+    collapse() {
+        this.setState({
+            collapsed : true,
+        });
+    };
+
+    expand() {
+        this.setState({
+            collapsed : false,
+        });
+    }
+
     render() {
         const isSearching = this.state.searchKeyword !== null;
         //Show all institutions or, if it has a filter, show the filtered?
         const showingInstitutions = isSearching ? this.getFilteredInstitutions() : this.props.institutions;
 
+        let className = "sidebar h-100 collapsible ";
+        if (this.state.collapsed) {
+            className += "collapsed";
+        }
+
         return (
-            <div className="sidebar h-100" id="institution-list">
-                <InstitutionListHead setSearchKeyword={this.setSearchKeyword}
-                                     toggleAddInstitution={this.props.toggleAddInstitution}/>
-                <InstitutionListTable countries={showingInstitutions}
-                                      isSearching={isSearching}
-                                      toggleAddInstitution={this.props.toggleAddInstitution}
-                                      activeInstitution={this.props.activeInstitution}
-                                      setActiveInstitution={this.props.setActiveInstitution}/>
+            <div className={className} id="institution-list">
+                <ExpandContent>
+                    <InstitutionListHead setSearchKeyword={this.setSearchKeyword}
+                                         toggleAddInstitution={this.props.toggleAddInstitution}
+                                         collapse={this.collapse}/>
+                    <InstitutionListTable countries={showingInstitutions}
+                                          isSearching={isSearching}
+                                          toggleAddInstitution={this.props.toggleAddInstitution}
+                                          activeInstitution={this.props.activeInstitution}
+                                          setActiveInstitution={this.props.setActiveInstitution}/>
+                </ExpandContent>
+
+                <CollapseContent title="Institutions" expand={this.expand}/>
             </div>
         );
     }
@@ -99,7 +128,7 @@ class InstitutionListHead extends Component {
         return (
             <div className="page-head">
                 <div className="page-head-controls">
-                    <Button outline color="secondary" size="sm">Collapse</Button>
+                    <Button outline color="secondary" size="sm" onClick={this.props.collapse}>Collapse</Button>
                     <Button outline color="success" size="sm" className="ml-auto"
                             onClick={this.props.toggleAddInstitution}>Add</Button>
                 </div>

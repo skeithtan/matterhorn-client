@@ -16,6 +16,8 @@ var _loading2 = _interopRequireDefault(_loading);
 
 var _reactstrap = require("reactstrap");
 
+var _collapse_content = require("../../components/collapse_content");
+
 var _section = require("../../components/section");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -35,9 +37,12 @@ var InstitutionList = function (_Component) {
         var _this = _possibleConstructorReturn(this, (InstitutionList.__proto__ || Object.getPrototypeOf(InstitutionList)).call(this, props));
 
         _this.state = {
-            searchKeyword: null
+            searchKeyword: null,
+            collapsed: false
         };
 
+        _this.expand = _this.expand.bind(_this);
+        _this.collapse = _this.collapse.bind(_this);
         _this.setSearchKeyword = _this.setSearchKeyword.bind(_this);
         _this.getFilteredInstitutions = _this.getFilteredInstitutions.bind(_this);
         return _this;
@@ -83,22 +88,47 @@ var InstitutionList = function (_Component) {
             return filtered;
         }
     }, {
+        key: "collapse",
+        value: function collapse() {
+            this.setState({
+                collapsed: true
+            });
+        }
+    }, {
+        key: "expand",
+        value: function expand() {
+            this.setState({
+                collapsed: false
+            });
+        }
+    }, {
         key: "render",
         value: function render() {
             var isSearching = this.state.searchKeyword !== null;
             //Show all institutions or, if it has a filter, show the filtered?
             var showingInstitutions = isSearching ? this.getFilteredInstitutions() : this.props.institutions;
 
+            var className = "sidebar h-100 collapsible ";
+            if (this.state.collapsed) {
+                className += "collapsed";
+            }
+
             return _react2.default.createElement(
                 "div",
-                { className: "sidebar h-100", id: "institution-list" },
-                _react2.default.createElement(InstitutionListHead, { setSearchKeyword: this.setSearchKeyword,
-                    toggleAddInstitution: this.props.toggleAddInstitution }),
-                _react2.default.createElement(InstitutionListTable, { countries: showingInstitutions,
-                    isSearching: isSearching,
-                    toggleAddInstitution: this.props.toggleAddInstitution,
-                    activeInstitution: this.props.activeInstitution,
-                    setActiveInstitution: this.props.setActiveInstitution })
+                { className: className, id: "institution-list" },
+                _react2.default.createElement(
+                    _collapse_content.ExpandContent,
+                    null,
+                    _react2.default.createElement(InstitutionListHead, { setSearchKeyword: this.setSearchKeyword,
+                        toggleAddInstitution: this.props.toggleAddInstitution,
+                        collapse: this.collapse }),
+                    _react2.default.createElement(InstitutionListTable, { countries: showingInstitutions,
+                        isSearching: isSearching,
+                        toggleAddInstitution: this.props.toggleAddInstitution,
+                        activeInstitution: this.props.activeInstitution,
+                        setActiveInstitution: this.props.setActiveInstitution })
+                ),
+                _react2.default.createElement(_collapse_content.CollapseContent, { title: "Institutions", expand: this.expand })
             );
         }
     }]);
@@ -135,7 +165,7 @@ var InstitutionListHead = function (_Component2) {
                     { className: "page-head-controls" },
                     _react2.default.createElement(
                         _reactstrap.Button,
-                        { outline: true, color: "secondary", size: "sm" },
+                        { outline: true, color: "secondary", size: "sm", onClick: this.props.collapse },
                         "Collapse"
                     ),
                     _react2.default.createElement(
