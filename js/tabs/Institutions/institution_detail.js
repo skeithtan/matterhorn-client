@@ -33,6 +33,7 @@ class InstitutionDetail extends Component {
     setActiveTab(tab) {
         this.setState({
             activeTab : tab,
+            sidebarContent : null,
         });
     }
 
