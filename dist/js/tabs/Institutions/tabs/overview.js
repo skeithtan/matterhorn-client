@@ -52,6 +52,8 @@ var InstitutionOverview = function (_Component) {
             institutionID: props.institution.id
         };
 
+        _this.props.setSidebarContent(null);
+
         _this.onEditInstitution = _this.onEditInstitution.bind(_this);
 
         //Fetch active institution details

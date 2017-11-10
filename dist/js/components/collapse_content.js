@@ -3,20 +3,13 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.ExpandContent = exports.CollapseContent = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
-
-var _main_navigation = require("./main_navigation");
-
-var _main_navigation2 = _interopRequireDefault(_main_navigation);
-
-var _tabs_list = require("./tabs/tabs_list");
-
-var _tabs_list2 = _interopRequireDefault(_tabs_list);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -26,59 +19,57 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var App = function (_Component) {
-    _inherits(App, _Component);
+var CollapseContent = function (_Component) {
+    _inherits(CollapseContent, _Component);
 
-    function App(props) {
-        _classCallCheck(this, App);
+    function CollapseContent(props) {
+        _classCallCheck(this, CollapseContent);
 
-        var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
-
-        _this.state = {
-            activeTab: _tabs_list2.default[1],
-            navigationIsExpanded: false
-        };
-
-        _this.setActiveTab = _this.setActiveTab.bind(_this);
-        _this.toggleNavigation = _this.toggleNavigation.bind(_this);
-        return _this;
+        return _possibleConstructorReturn(this, (CollapseContent.__proto__ || Object.getPrototypeOf(CollapseContent)).call(this, props));
     }
 
-    _createClass(App, [{
-        key: "toggleNavigation",
-        value: function toggleNavigation() {
-            this.setState({
-                navigationIsExpanded: !this.state.navigationIsExpanded
-            });
-        }
-    }, {
-        key: "setActiveTab",
-        value: function setActiveTab(newTab) {
-            this.setState({
-                activeTab: newTab
-            });
-        }
-    }, {
+    _createClass(CollapseContent, [{
         key: "render",
         value: function render() {
             return _react2.default.createElement(
                 "div",
-                { className: "h-100 d-flex" },
-                _react2.default.createElement(_main_navigation2.default, { activeTab: this.state.activeTab, setActiveTab: this.setActiveTab,
-                    toggleNavigation: this.toggleNavigation, isExpanded: this.state.navigationIsExpanded }),
+                { className: "collapse-content", onClick: this.props.expand },
+                _react2.default.createElement("img", { src: "./images/expand.png", className: "expand-image" }),
                 _react2.default.createElement(
-                    "div",
-                    { id: "content", className: "w-100 page-body" },
-                    _react2.default.createElement("div", { id: "black-covering", onClick: this.toggleNavigation,
-                        className: this.state.navigationIsExpanded && "showing" }),
-                    this.state.activeTab.tab
+                    "h4",
+                    null,
+                    this.props.title
                 )
             );
         }
     }]);
 
-    return App;
+    return CollapseContent;
 }(_react.Component);
 
-exports.default = App;
-//# sourceMappingURL=app.js.map
+var ExpandContent = function (_Component2) {
+    _inherits(ExpandContent, _Component2);
+
+    function ExpandContent(props) {
+        _classCallCheck(this, ExpandContent);
+
+        return _possibleConstructorReturn(this, (ExpandContent.__proto__ || Object.getPrototypeOf(ExpandContent)).call(this, props));
+    }
+
+    _createClass(ExpandContent, [{
+        key: "render",
+        value: function render() {
+            return _react2.default.createElement(
+                "div",
+                { className: "expand-content" },
+                this.props.children
+            );
+        }
+    }]);
+
+    return ExpandContent;
+}(_react.Component);
+
+exports.CollapseContent = CollapseContent;
+exports.ExpandContent = ExpandContent;
+//# sourceMappingURL=collapse_content.js.map

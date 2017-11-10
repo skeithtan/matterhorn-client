@@ -282,6 +282,7 @@ li.nav-item.active .sidebar-image,
 .page-head-controls {
     display        : flex;
     flex-direction : row;
+    margin-bottom  : 8px;
 }
 
 .page-head-actions {
@@ -311,10 +312,89 @@ li.nav-item.active .sidebar-image,
 }
 
 .sidebar, .sidebar-right {
-    max-width      : 300px;
-    min-width      : 300px;
+    width          : 300px;
     display        : flex;
     flex-direction : column;
+    flex-shrink    : 0;
+}
+
+/*Collapse*/
+
+.collapse-image {
+    width      : 24px;
+    height     : 24px;
+    transition : 150ms;
+}
+
+.expand-image {
+    width    : 24px;
+    height   : 24px;
+    position : absolute;
+    top      : 16px;
+}
+
+.collapse-image:hover {
+    opacity : 0.6;
+    cursor  : pointer;
+}
+
+.collapsible {
+    width                      : 300px;
+    transition                 : 300ms;
+    transition-timing-function : ease;
+    overflow                   : hidden;
+}
+
+.collapsible.collapsed {
+    width      : 64px;
+    background : var(--light);
+    transform  : rotate(0deg);
+    float      : left;
+    box-shadow : 0 3px 5px 0px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    cursor     : pointer;
+    z-index    : 1; /* This sets the shadow above */
+}
+
+.collapsible.collapsed:hover {
+    background : white;
+}
+
+.collapsible:not(.collapsed) {
+    width : 300px;
+}
+
+.collapse-content {
+    position        : absolute;
+    width           : 63px;
+    top             : 0;
+    height          : 100%;
+    display         : flex;
+    align-items     : center;
+    justify-content : center;
+    text-align      : center;
+}
+
+.collapsible .expand-content,
+.collapsible .collapse-content {
+    transition : 150ms opacity;
+}
+
+.collapsible:not(.collapsed) .expand-content,
+.collapsible.collapsed .collapse-content {
+    opacity        : 1;
+    pointer-events : all;
+}
+
+.collapsible:not(.collapsed) .collapse-content,
+.collapsible.collapsed .expand-content {
+    opacity        : 0;
+    pointer-events : none;
+}
+
+.collapse-content h4 {
+    margin-bottom : 0;
+    transform     : rotate(270deg);
+    color         : var(--secondary);
 }
 
 /*List group item override*/
@@ -367,8 +447,6 @@ li.nav-item.active .sidebar-image,
 }
 
 #memorandum-detail {
-    min-width   : 350px;
-    max-width   : 350px;
     border-left : 1px solid var(--gray);
     overflow-y  : scroll;
 }
@@ -506,10 +584,14 @@ li.nav-item.active .sidebar-image,
     border-color     : #28a745;
 }
 
-/*Linkages page*/
+/*Programs page*/
 #linkages-page > div {
     border-right : 1px solid var(--gray);
-    width        : 33.33%;
-    min-width    : 33.33%;
-    max-width    : 33.33%;
+    width        : 25%;
+    min-width    : 300px;
+}
+
+/*Institution Tab Content*/
+#tab-content {
+    overflow-x : scroll;
 }

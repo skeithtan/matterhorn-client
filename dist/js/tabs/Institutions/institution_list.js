@@ -16,6 +16,8 @@ var _loading2 = _interopRequireDefault(_loading);
 
 var _reactstrap = require("reactstrap");
 
+var _collapse_content = require("../../components/collapse_content");
+
 var _section = require("../../components/section");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -35,9 +37,12 @@ var InstitutionList = function (_Component) {
         var _this = _possibleConstructorReturn(this, (InstitutionList.__proto__ || Object.getPrototypeOf(InstitutionList)).call(this, props));
 
         _this.state = {
-            searchKeyword: null
+            searchKeyword: null,
+            collapsed: false
         };
 
+        _this.expand = _this.expand.bind(_this);
+        _this.collapse = _this.collapse.bind(_this);
         _this.setSearchKeyword = _this.setSearchKeyword.bind(_this);
         _this.getFilteredInstitutions = _this.getFilteredInstitutions.bind(_this);
         return _this;
@@ -83,22 +88,47 @@ var InstitutionList = function (_Component) {
             return filtered;
         }
     }, {
+        key: "collapse",
+        value: function collapse() {
+            this.setState({
+                collapsed: true
+            });
+        }
+    }, {
+        key: "expand",
+        value: function expand() {
+            this.setState({
+                collapsed: false
+            });
+        }
+    }, {
         key: "render",
         value: function render() {
             var isSearching = this.state.searchKeyword !== null;
             //Show all institutions or, if it has a filter, show the filtered?
             var showingInstitutions = isSearching ? this.getFilteredInstitutions() : this.props.institutions;
 
+            var className = "sidebar h-100 collapsible ";
+            if (this.state.collapsed) {
+                className += "collapsed";
+            }
+
             return _react2.default.createElement(
                 "div",
-                { className: "sidebar h-100", id: "institution-list" },
-                _react2.default.createElement(InstitutionListHead, { setSearchKeyword: this.setSearchKeyword,
-                    toggleAddInstitution: this.props.toggleAddInstitution }),
-                _react2.default.createElement(InstitutionListTable, { countries: showingInstitutions,
-                    isSearching: isSearching,
-                    toggleAddInstitution: this.props.toggleAddInstitution,
-                    activeInstitution: this.props.activeInstitution,
-                    setActiveInstitution: this.props.setActiveInstitution })
+                { className: className, id: "institution-list" },
+                _react2.default.createElement(
+                    _collapse_content.ExpandContent,
+                    null,
+                    _react2.default.createElement(InstitutionListHead, { setSearchKeyword: this.setSearchKeyword,
+                        toggleAddInstitution: this.props.toggleAddInstitution,
+                        collapse: this.collapse }),
+                    _react2.default.createElement(InstitutionListTable, { countries: showingInstitutions,
+                        isSearching: isSearching,
+                        toggleAddInstitution: this.props.toggleAddInstitution,
+                        activeInstitution: this.props.activeInstitution,
+                        setActiveInstitution: this.props.setActiveInstitution })
+                ),
+                _react2.default.createElement(_collapse_content.CollapseContent, { title: "Institutions", expand: this.expand })
             );
         }
     }]);
@@ -133,6 +163,7 @@ var InstitutionListHead = function (_Component2) {
                 _react2.default.createElement(
                     "div",
                     { className: "page-head-controls" },
+                    _react2.default.createElement("img", { src: "./images/collapse.png", className: "collapse-image", onClick: this.props.collapse }),
                     _react2.default.createElement(
                         _reactstrap.Button,
                         { outline: true, color: "success", size: "sm", className: "ml-auto",
@@ -287,38 +318,6 @@ var InstitutionSection = function (_Component4) {
     }]);
 
     return InstitutionSection;
-}(_react.Component);
-
-var InstitutionRow = function (_Component5) {
-    _inherits(InstitutionRow, _Component5);
-
-    function InstitutionRow(props) {
-        _classCallCheck(this, InstitutionRow);
-
-        return _possibleConstructorReturn(this, (InstitutionRow.__proto__ || Object.getPrototypeOf(InstitutionRow)).call(this, props));
-    }
-
-    _createClass(InstitutionRow, [{
-        key: "render",
-        value: function render() {
-            if (this.props.isActive) {
-                return _react2.default.createElement(
-                    _reactstrap.ListGroupItem,
-                    { className: "bg-dlsu text-white" },
-                    this.props.institution.name
-                );
-            } else {
-                return _react2.default.createElement(
-                    _reactstrap.ListGroupItem,
-                    {
-                        onClick: this.props.setActiveInstitution },
-                    this.props.institution.name
-                );
-            }
-        }
-    }]);
-
-    return InstitutionRow;
 }(_react.Component);
 
 exports.default = InstitutionList;

@@ -57,10 +57,12 @@ var Memorandums = function (_Component) {
 
         _this.state = {
             institution: null,
-            institutionID: props.institution.id
+            institutionID: props.institution.id,
+            activeMemorandumId: null
         };
 
         _this.refreshMemorandums = _this.refreshMemorandums.bind(_this);
+        _this.setActiveMemorandum = _this.setActiveMemorandum.bind(_this);
 
         //Fetch active institution details
         fetchInstitution(props.institution.id, function (response) {
@@ -72,16 +74,45 @@ var Memorandums = function (_Component) {
     }
 
     _createClass(Memorandums, [{
+        key: "setActiveMemorandum",
+        value: function setActiveMemorandum(memorandum) {
+            var _this2 = this;
+
+            if (memorandum === null) {
+                this.props.setSidebarContent(null);
+            }
+
+            var refreshMemorandums = function refreshMemorandums() {
+                _this2.refreshMemorandums();
+            };
+
+            var onDeleteMemorandum = function onDeleteMemorandum() {
+                _this2.setState({
+                    activeMemorandumId: null
+                });
+                _this2.refreshMemorandums();
+                _this2.setActiveMemorandum(null);
+            };
+
+            this.props.setSidebarContent(_react2.default.createElement(MemorandumDetailPane, { memorandum: memorandum,
+                removeActiveMemorandum: onDeleteMemorandum,
+                refreshMemorandums: refreshMemorandums }));
+
+            this.setState({
+                activeMemorandumId: memorandum.id
+            });
+        }
+    }, {
         key: "refreshMemorandums",
         value: function refreshMemorandums() {
-            var _this2 = this;
+            var _this3 = this;
 
             this.setState({
                 institution: null
             });
 
             fetchInstitution(this.props.institution.id, function (response) {
-                _this2.setState({
+                _this3.setState({
                     institution: response.data.institution
                 });
             });
@@ -89,7 +120,13 @@ var Memorandums = function (_Component) {
     }, {
         key: "componentWillReceiveProps",
         value: function componentWillReceiveProps(nextProps) {
-            var _this3 = this;
+            var _this4 = this;
+
+            if (this.state.institutionID === nextProps.institution.id) {
+                return;
+            }
+
+            this.props.setSidebarContent(null);
 
             this.setState({
                 institutionID: nextProps.institution.id,
@@ -97,7 +134,7 @@ var Memorandums = function (_Component) {
             });
 
             fetchInstitution(nextProps.institution.id, function (response) {
-                _this3.setState({
+                _this4.setState({
                     institution: response.data.institution
                 });
             });
@@ -115,7 +152,10 @@ var Memorandums = function (_Component) {
                 _react2.default.createElement(MemorandumHead, { institution: this.state.institution, refreshMemorandums: this.refreshMemorandums }),
                 _react2.default.createElement(MemorandumBody, { institution: this.state.institution,
                     memorandums: this.state.institution.memorandum_set,
-                    refreshMemorandums: this.refreshMemorandums })
+                    activeMemorandumId: this.state.activeMemorandumId,
+                    setActiveMemorandum: this.setActiveMemorandum,
+                    refreshMemorandums: this.refreshMemorandums,
+                    setSidebarContent: this.props.setSidebarContent })
             );
         }
     }]);
@@ -129,14 +169,14 @@ var MemorandumHead = function (_Component2) {
     function MemorandumHead(props) {
         _classCallCheck(this, MemorandumHead);
 
-        var _this4 = _possibleConstructorReturn(this, (MemorandumHead.__proto__ || Object.getPrototypeOf(MemorandumHead)).call(this, props));
+        var _this5 = _possibleConstructorReturn(this, (MemorandumHead.__proto__ || Object.getPrototypeOf(MemorandumHead)).call(this, props));
 
-        _this4.state = {
+        _this5.state = {
             addMemorandumIsShowing: false
         };
 
-        _this4.toggleAddMemorandum = _this4.toggleAddMemorandum.bind(_this4);
-        return _this4;
+        _this5.toggleAddMemorandum = _this5.toggleAddMemorandum.bind(_this5);
+        return _this5;
     }
 
     _createClass(MemorandumHead, [{
@@ -193,7 +233,7 @@ var MemorandumBody = function (_Component3) {
         _classCallCheck(this, MemorandumBody);
 
         //Sort by most recent
-        var _this5 = _possibleConstructorReturn(this, (MemorandumBody.__proto__ || Object.getPrototypeOf(MemorandumBody)).call(this, props));
+        var _this6 = _possibleConstructorReturn(this, (MemorandumBody.__proto__ || Object.getPrototypeOf(MemorandumBody)).call(this, props));
 
         props.memorandums.sort(function (a, b) {
             var aTime = (0, _moment2.default)(a.date_effective);
@@ -227,25 +267,14 @@ var MemorandumBody = function (_Component3) {
             }
         });
 
-        _this5.state = {
-            activeMemorandum: null,
-            showing: null,
+        _this6.state = {
             agreements: agreements,
             understandings: understandings
         };
-
-        _this5.setActiveMemorandum = _this5.setActiveMemorandum.bind(_this5);
-        return _this5;
+        return _this6;
     }
 
     _createClass(MemorandumBody, [{
-        key: "setActiveMemorandum",
-        value: function setActiveMemorandum(memorandum) {
-            this.setState({
-                activeMemorandum: memorandum
-            });
-        }
-    }, {
         key: "render",
         value: function render() {
             return _react2.default.createElement(
@@ -260,9 +289,9 @@ var MemorandumBody = function (_Component3) {
                         _react2.default.createElement(
                             MemorandumListSection,
                             { institution: this.props.institution,
-                                activeMemorandum: this.state.activeMemorandum,
+                                activeMemorandumId: this.props.activeMemorandumId,
                                 memorandums: this.state.agreements,
-                                setActiveMemorandum: this.setActiveMemorandum,
+                                setActiveMemorandum: this.props.setActiveMemorandum,
                                 refreshMemorandums: this.props.refreshMemorandums },
                             "MOA (Memorandums of Agreement)"
                         ),
@@ -270,15 +299,12 @@ var MemorandumBody = function (_Component3) {
                             MemorandumListSection,
                             { institution: this.props.institution,
                                 memorandums: this.state.understandings,
-                                activeMemorandum: this.state.activeMemorandum,
-                                setActiveMemorandum: this.setActiveMemorandum,
+                                activeMemorandumId: this.props.activeMemorandumId,
+                                setActiveMemorandum: this.props.setActiveMemorandum,
                                 refreshMemorandums: this.props.refreshMemorandums },
                             "MOU (Memorandums of Understanding)"
                         )
-                    ),
-                    this.state.activeMemorandum !== null && _react2.default.createElement(MemorandumDetailPane, { activeMemorandum: this.state.activeMemorandum,
-                        institution: this.props.institution,
-                        refreshMemorandums: this.props.refreshMemorandums })
+                    )
                 )
             );
         }
@@ -293,17 +319,17 @@ var MemorandumListSection = function (_Component4) {
     function MemorandumListSection(props) {
         _classCallCheck(this, MemorandumListSection);
 
-        var _this6 = _possibleConstructorReturn(this, (MemorandumListSection.__proto__ || Object.getPrototypeOf(MemorandumListSection)).call(this, props));
+        var _this7 = _possibleConstructorReturn(this, (MemorandumListSection.__proto__ || Object.getPrototypeOf(MemorandumListSection)).call(this, props));
 
-        _this6.state = {
+        _this7.state = {
             deleteMemorandumIsShowing: false,
             editMemorandumIsShowing: false
         };
 
-        _this6.emptyState = _this6.emptyState.bind(_this6);
-        _this6.toggleDeleteMemorandum = _this6.toggleDeleteMemorandum.bind(_this6);
-        _this6.toggleEditMemorandum = _this6.toggleEditMemorandum.bind(_this6);
-        return _this6;
+        _this7.emptyState = _this7.emptyState.bind(_this7);
+        _this7.toggleDeleteMemorandum = _this7.toggleDeleteMemorandum.bind(_this7);
+        _this7.toggleEditMemorandum = _this7.toggleEditMemorandum.bind(_this7);
+        return _this7;
     }
 
     _createClass(MemorandumListSection, [{
@@ -338,7 +364,7 @@ var MemorandumListSection = function (_Component4) {
     }, {
         key: "render",
         value: function render() {
-            var _this7 = this;
+            var _this8 = this;
 
             if (this.props.memorandums.length === 0) {
                 return _react2.default.createElement(
@@ -355,13 +381,13 @@ var MemorandumListSection = function (_Component4) {
 
             var rows = this.props.memorandums.map(function (memorandum, index) {
                 var onMemorandumRowClick = function onMemorandumRowClick() {
-                    return _this7.props.setActiveMemorandum(memorandum);
+                    return _this8.props.setActiveMemorandum(memorandum);
                 };
 
                 var isActive = false;
 
-                if (_this7.props.activeMemorandum !== null) {
-                    isActive = _this7.props.activeMemorandum.id === memorandum.id;
+                if (_this8.props.activeMemorandumId !== null) {
+                    isActive = _this8.props.activeMemorandumId === memorandum.id;
                 }
 
                 return _react2.default.createElement(MemorandumRow, { memorandum: memorandum,
@@ -437,16 +463,18 @@ var MemorandumDetailPane = function (_Component6) {
     function MemorandumDetailPane(props) {
         _classCallCheck(this, MemorandumDetailPane);
 
-        var _this9 = _possibleConstructorReturn(this, (MemorandumDetailPane.__proto__ || Object.getPrototypeOf(MemorandumDetailPane)).call(this, props));
+        var _this10 = _possibleConstructorReturn(this, (MemorandumDetailPane.__proto__ || Object.getPrototypeOf(MemorandumDetailPane)).call(this, props));
 
-        _this9.state = {
+        _this10.state = {
             deleteMemorandumIsShowing: false,
-            editMemorandumIsShowing: false
+            editMemorandumIsShowing: false,
+            memorandum: props.memorandum
         };
 
-        _this9.toggleDeleteMemorandum = _this9.toggleDeleteMemorandum.bind(_this9);
-        _this9.toggleEditMemorandum = _this9.toggleEditMemorandum.bind(_this9);
-        return _this9;
+        _this10.onEditMemorandum = _this10.onEditMemorandum.bind(_this10);
+        _this10.toggleDeleteMemorandum = _this10.toggleDeleteMemorandum.bind(_this10);
+        _this10.toggleEditMemorandum = _this10.toggleEditMemorandum.bind(_this10);
+        return _this10;
     }
 
     _createClass(MemorandumDetailPane, [{
@@ -464,9 +492,23 @@ var MemorandumDetailPane = function (_Component6) {
             });
         }
     }, {
+        key: "componentWillReceiveProps",
+        value: function componentWillReceiveProps(props) {
+            this.setState({
+                memorandum: props.memorandum
+            });
+        }
+    }, {
+        key: "onEditMemorandum",
+        value: function onEditMemorandum(memorandum) {
+            this.setState({
+                memorandum: memorandum
+            });
+        }
+    }, {
         key: "render",
         value: function render() {
-            var memorandum = this.props.activeMemorandum;
+            var memorandum = this.state.memorandum;
             return _react2.default.createElement(
                 "div",
                 { id: "memorandum-detail", className: "p-0 h-100 page-body justify-content-center" },
@@ -475,15 +517,15 @@ var MemorandumDetailPane = function (_Component6) {
                     toggleEditMemorandum: this.toggleEditMemorandum }),
                 _react2.default.createElement(MemorandumLinkages, { linkages: memorandum.linkages }),
                 this.state.activeMemorandum !== null && _react2.default.createElement(_modals.DeleteMemorandumModal, { isOpen: this.state.deleteMemorandumIsShowing,
-                    institution: this.props.institution,
                     memorandum: memorandum,
                     toggle: this.toggleDeleteMemorandum,
+                    onDeleteSuccess: this.props.removeActiveMemorandum,
                     refresh: this.props.refreshMemorandums }),
                 this.state.activeMemorandum !== null && _react2.default.createElement(_modals.MemorandumFormModal, { edit: true,
                     isOpen: this.state.editMemorandumIsShowing,
-                    institution: this.props.institution,
                     memorandum: memorandum,
                     toggle: this.toggleEditMemorandum,
+                    onEditSuccess: this.onEditMemorandum,
                     refresh: this.props.refreshMemorandums })
             );
         }
@@ -517,7 +559,7 @@ var MemorandumDetails = function (_Component7) {
                 "div",
                 null,
                 _react2.default.createElement(
-                    "h6",
+                    "h5",
                     { className: "text-center mt-5" },
                     "Effective ",
                     dateEffective

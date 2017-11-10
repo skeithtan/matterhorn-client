@@ -9,8 +9,10 @@ class InstitutionDetail extends Component {
 
         this.state = {
             activeTab : tabs[0],
+            sidebarContent : null,
         };
 
+        this.setSidebarContent = this.setSidebarContent.bind(this);
         this.setActiveTab = this.setActiveTab.bind(this);
     }
 
@@ -22,9 +24,16 @@ class InstitutionDetail extends Component {
         );
     }
 
+    setSidebarContent(sidebarContent) {
+        this.setState({
+            sidebarContent : sidebarContent,
+        });
+    }
+
     setActiveTab(tab) {
         this.setState({
             activeTab : tab,
+            sidebarContent : null,
         });
     }
 
@@ -33,12 +42,21 @@ class InstitutionDetail extends Component {
             return InstitutionDetail.unselectedState();
         }
 
-        const currentTab = this.state.activeTab.tab(this.props.institution, this.props.onDeleteActiveInstitution, this.props.refreshInstitutions);
+        const currentTab = this.state.activeTab.tab(this.props.institution, this.setSidebarContent, this.props.onDeleteActiveInstitution, this.props.refreshInstitutions);
 
         return (
-            <div id="institution-detail" className="container-fluid d-flex flex-column p-0 h-100">
-                <div id="tab-content">{currentTab}</div>
-                <InstitutionDetailTabBar setActiveTab={this.setActiveTab} activeTab={this.state.activeTab} tabs={tabs}/>
+            <div id="institution-detail" className="w-100 d-flex flex-row">
+                <div className="container-fluid d-flex flex-column p-0 h-100">
+                    <div id="tab-content">{currentTab}</div>
+                    <InstitutionDetailTabBar setActiveTab={this.setActiveTab} activeTab={this.state.activeTab}
+                                             tabs={tabs}/>
+                </div>
+
+                {this.state.sidebarContent !== null &&
+                <div className="sidebar-right">
+                    {this.state.sidebarContent}
+                </div>
+                }
             </div>
 
         );
