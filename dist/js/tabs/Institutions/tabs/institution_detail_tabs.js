@@ -64,47 +64,27 @@ var InstitutionDetailTab = function (_Component2) {
     function InstitutionDetailTab(props) {
         _classCallCheck(this, InstitutionDetailTab);
 
-        var _this3 = _possibleConstructorReturn(this, (InstitutionDetailTab.__proto__ || Object.getPrototypeOf(InstitutionDetailTab)).call(this, props));
-
-        _this3.activeTab = _this3.activeTab.bind(_this3);
-        _this3.inactiveTab = _this3.inactiveTab.bind(_this3);
-        return _this3;
+        return _possibleConstructorReturn(this, (InstitutionDetailTab.__proto__ || Object.getPrototypeOf(InstitutionDetailTab)).call(this, props));
     }
 
     _createClass(InstitutionDetailTab, [{
-        key: "activeTab",
-        value: function activeTab() {
-            return _react2.default.createElement(
-                "li",
-                { className: "col-lg-2 d-flex flex-row justify-content-center align-items-center",
-                    onClick: this.props.onClick },
-                _react2.default.createElement("img", { className: "nav-image", src: this.props.tab.activeImage }),
-                _react2.default.createElement(
-                    "small",
-                    { className: "ml-2 font-weight-bold mb-0 text-dlsu" },
-                    this.props.tab.name
-                )
-            );
-        }
-    }, {
-        key: "inactiveTab",
-        value: function inactiveTab() {
-            return _react2.default.createElement(
-                "li",
-                { className: "col-lg-2 d-flex flex-row justify-content-center align-items-center",
-                    onClick: this.props.onClick },
-                _react2.default.createElement("img", { className: "nav-image", src: this.props.tab.image }),
-                _react2.default.createElement(
-                    "small",
-                    { className: "ml-2 font-weight-bold mb-0 text-secondary" },
-                    this.props.tab.name
-                )
-            );
-        }
-    }, {
         key: "render",
         value: function render() {
-            return this.props.isActive ? this.activeTab() : this.inactiveTab();
+            var image = this.props.isActive ? this.props.tab.activeImage : this.props.tab.image;
+            var textClass = "ml-2 font-weight-bold mb-0 ";
+            textClass += this.props.isActive ? "text-dlsu" : "text-secondary";
+
+            return _react2.default.createElement(
+                "li",
+                { className: "col-lg-2 d-flex flex-row justify-content-center align-items-center",
+                    onClick: this.props.isActive ? null : this.props.onClick },
+                _react2.default.createElement("img", { className: "nav-image", src: image }),
+                _react2.default.createElement(
+                    "small",
+                    { className: textClass },
+                    this.props.tab.name
+                )
+            );
         }
     }]);
 
