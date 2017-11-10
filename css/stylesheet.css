@@ -328,6 +328,22 @@ li.nav-item.active .sidebar-image,
     border-left  : 0;
 }
 
+/*Tab Bar*/
+.tab-bar {
+    border-top : 1px solid var(--gray);
+    background : var(--header-white);
+    flex       : 0;
+}
+
+.tab-bar-image {
+    width  : 30px;
+    height : 30px;
+}
+
+.tab-bar ul li {
+    max-width : 240px;
+}
+
 /*Switch user*/
 #switch-user-button {
     width          : 100%;
@@ -457,21 +473,6 @@ li.nav-item.active .sidebar-image,
 }
 
 /*Institution Navigation*/
-#institution-navigation {
-    border-top : 1px solid var(--gray);
-    background : var(--header-white);
-    flex       : 0;
-}
-
-.nav-image {
-    width  : 30px;
-    height : 30px;
-}
-
-#institution-navigation ul li {
-    max-width : 240px;
-}
-
 #tab-content {
     flex       : 1;
     min-height : 0;

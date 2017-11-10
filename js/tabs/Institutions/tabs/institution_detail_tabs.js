@@ -16,7 +16,7 @@ class InstitutionDetailTabBar extends Component {
         });
 
         return (
-            <div id="institution-navigation">
+            <div className="tab-bar">
                 <ul className="p-3 justify-content-center mb-0 d-flex flex-row">
                     {tabs}
                 </ul>
@@ -48,7 +48,7 @@ class InstitutionDetailTab extends Component {
         return (
             <li className="col-lg-2 d-flex flex-row justify-content-center align-items-center"
                 onClick={this.props.onClick}>
-                <img className="nav-image" src={this.props.tab.image}/>
+                <img className="tab-bar-image" src={this.props.tab.image}/>
                 <small className="ml-2 font-weight-bold mb-0 text-secondary">{this.props.tab.name}</small>
             </li>
         );

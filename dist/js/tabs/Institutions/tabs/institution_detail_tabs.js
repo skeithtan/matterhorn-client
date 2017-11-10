@@ -45,7 +45,7 @@ var InstitutionDetailTabBar = function (_Component) {
 
             return _react2.default.createElement(
                 "div",
-                { id: "institution-navigation" },
+                { className: "tab-bar" },
                 _react2.default.createElement(
                     "ul",
                     { className: "p-3 justify-content-center mb-0 d-flex flex-row" },
@@ -93,7 +93,7 @@ var InstitutionDetailTab = function (_Component2) {
                 "li",
                 { className: "col-lg-2 d-flex flex-row justify-content-center align-items-center",
                     onClick: this.props.onClick },
-                _react2.default.createElement("img", { className: "nav-image", src: this.props.tab.image }),
+                _react2.default.createElement("img", { className: "tab-bar-image", src: this.props.tab.image }),
                 _react2.default.createElement(
                     "small",
                     { className: "ml-2 font-weight-bold mb-0 text-secondary" },
