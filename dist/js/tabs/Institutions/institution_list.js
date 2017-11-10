@@ -135,6 +135,11 @@ var InstitutionListHead = function (_Component2) {
                     { className: "page-head-controls" },
                     _react2.default.createElement(
                         _reactstrap.Button,
+                        { outline: true, color: "secondary", size: "sm" },
+                        "Collapse"
+                    ),
+                    _react2.default.createElement(
+                        _reactstrap.Button,
                         { outline: true, color: "success", size: "sm", className: "ml-auto",
                             onClick: this.props.toggleAddInstitution },
                         "Add"
@@ -287,38 +292,6 @@ var InstitutionSection = function (_Component4) {
     }]);
 
     return InstitutionSection;
-}(_react.Component);
-
-var InstitutionRow = function (_Component5) {
-    _inherits(InstitutionRow, _Component5);
-
-    function InstitutionRow(props) {
-        _classCallCheck(this, InstitutionRow);
-
-        return _possibleConstructorReturn(this, (InstitutionRow.__proto__ || Object.getPrototypeOf(InstitutionRow)).call(this, props));
-    }
-
-    _createClass(InstitutionRow, [{
-        key: "render",
-        value: function render() {
-            if (this.props.isActive) {
-                return _react2.default.createElement(
-                    _reactstrap.ListGroupItem,
-                    { className: "bg-dlsu text-white" },
-                    this.props.institution.name
-                );
-            } else {
-                return _react2.default.createElement(
-                    _reactstrap.ListGroupItem,
-                    {
-                        onClick: this.props.setActiveInstitution },
-                    this.props.institution.name
-                );
-            }
-        }
-    }]);
-
-    return InstitutionRow;
 }(_react.Component);
 
 exports.default = InstitutionList;

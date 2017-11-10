@@ -99,6 +99,7 @@ class InstitutionListHead extends Component {
         return (
             <div className="page-head">
                 <div className="page-head-controls">
+                    <Button outline color="secondary" size="sm">Collapse</Button>
                     <Button outline color="success" size="sm" className="ml-auto"
                             onClick={this.props.toggleAddInstitution}>Add</Button>
                 </div>
@@ -190,21 +191,6 @@ class InstitutionSection extends Component {
                 </SectionTable>
             </Section>
         );
-    }
-}
-
-class InstitutionRow extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        if (this.props.isActive) {
-            return <ListGroupItem className="bg-dlsu text-white">{this.props.institution.name}</ListGroupItem>;
-        } else {
-            return <ListGroupItem
-                onClick={this.props.setActiveInstitution}>{this.props.institution.name}</ListGroupItem>;
-        }
     }
 }
 
