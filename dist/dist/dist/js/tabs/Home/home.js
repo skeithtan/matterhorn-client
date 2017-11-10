@@ -1,6 +1,12 @@
 "use strict";
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
+    return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+} : function (obj) {
+    return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+};
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -19,14 +25,6 @@ var _createClass = function () {
 var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
-
-var _home_tabs_list = require("./tabs/home_tabs_list");
-
-var _home_tabs_list2 = _interopRequireDefault(_home_tabs_list);
-
-var _home_tabs = require("./tabs/home_tabs");
-
-var _home_tabs2 = _interopRequireDefault(_home_tabs);
 
 function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : { default: obj };
@@ -56,30 +54,13 @@ var Home = function (_Component) {
     function Home(props) {
         _classCallCheck(this, Home);
 
-        var _this = _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).call(this, props));
-
-        _this.state = {
-            activeTab: _home_tabs_list2.default[0]
-        };
-
-        _this.setActiveTab = _this.setActiveTab.bind(_this);
-        return _this;
+        return _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).call(this, props));
     }
 
     _createClass(Home, [{
-        key: "setActiveTab",
-        value: function setActiveTab(tab) {
-            this.setState({
-                activeTab: tab
-            });
-        }
-    }, {
         key: "render",
         value: function render() {
-            var currentTab = this.state.activeTab.tab;
-            return _react2.default.createElement("div", { id: "home", className: "container-fluid d-flex flex-column p-0 h-100" }, _react2.default.createElement("div", { id: "tab-content" }, currentTab), _react2.default.createElement(_home_tabs2.default, { setActiveTab: this.setActiveTab,
-                activeTab: this.state.activeTab,
-                tabs: _home_tabs_list2.default }));
+            return _react2.default.createElement("h1", null, "Home");
         }
     }]);
 
@@ -87,5 +68,6 @@ var Home = function (_Component) {
 }(_react.Component);
 
 exports.default = Home;
+//# sourceMappingURL=home.js.map
 //# sourceMappingURL=home.js.map
 //# sourceMappingURL=home.js.map

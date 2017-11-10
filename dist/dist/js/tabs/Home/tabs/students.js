@@ -20,13 +20,9 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _home_tabs_list = require("./tabs/home_tabs_list");
+var _reactstrap = require("reactstrap");
 
-var _home_tabs_list2 = _interopRequireDefault(_home_tabs_list);
-
-var _home_tabs = require("./tabs/home_tabs");
-
-var _home_tabs2 = _interopRequireDefault(_home_tabs);
+var _section = require("../../../components/section");
 
 function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : { default: obj };
@@ -50,42 +46,25 @@ function _inherits(subClass, superClass) {
     }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 }
 
-var Home = function (_Component) {
-    _inherits(Home, _Component);
+var Students = function (_Component) {
+    _inherits(Students, _Component);
 
-    function Home(props) {
-        _classCallCheck(this, Home);
+    function Students(props) {
+        _classCallCheck(this, Students);
 
-        var _this = _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).call(this, props));
-
-        _this.state = {
-            activeTab: _home_tabs_list2.default[0]
-        };
-
-        _this.setActiveTab = _this.setActiveTab.bind(_this);
-        return _this;
+        return _possibleConstructorReturn(this, (Students.__proto__ || Object.getPrototypeOf(Students)).call(this, props));
     }
 
-    _createClass(Home, [{
-        key: "setActiveTab",
-        value: function setActiveTab(tab) {
-            this.setState({
-                activeTab: tab
-            });
-        }
-    }, {
+    _createClass(Students, [{
         key: "render",
         value: function render() {
-            var currentTab = this.state.activeTab.tab;
-            return _react2.default.createElement("div", { id: "home", className: "container-fluid d-flex flex-column p-0 h-100" }, _react2.default.createElement("div", { id: "tab-content" }, currentTab), _react2.default.createElement(_home_tabs2.default, { setActiveTab: this.setActiveTab,
-                activeTab: this.state.activeTab,
-                tabs: _home_tabs_list2.default }));
+            return _react2.default.createElement("div", { className: "d-flex flex-column align-items-center page-body" }, _react2.default.createElement(_reactstrap.Card, { className: "home-card mt-4" }, _react2.default.createElement(_reactstrap.CardBody, { className: "p-0" }, _react2.default.createElement("div", { className: "d-flex flex-row p-3 justify-content-between align-items-center" }, _react2.default.createElement("div", null, _react2.default.createElement("small", { className: "text-uppercase text-secondary" }, "Student name"), _react2.default.createElement("h6", { className: "mb-0" }, "Paul McCartney")), _react2.default.createElement("div", null, _react2.default.createElement("small", { className: "text-uppercase text-secondary" }, "ID number"), _react2.default.createElement("h6", { className: "mb-0" }, "11540680")), _react2.default.createElement(_reactstrap.CardSubtitle, { className: "text-danger" }, "Returning in 2 months")), _react2.default.createElement("div", { className: "d-flex flex-column p-0" }, _react2.default.createElement(_section.SectionRow, null, _react2.default.createElement(_section.SectionRowTitle, null, "Program"), _react2.default.createElement(_section.SectionRowContent, null, "Summer Program 2018")), _react2.default.createElement(_section.SectionRow, null, _react2.default.createElement(_section.SectionRowTitle, null, "Start Date"), _react2.default.createElement(_section.SectionRowContent, null, "June 18, 1998")), _react2.default.createElement(_section.SectionRow, null, _react2.default.createElement(_section.SectionRowTitle, null, "End Date"), _react2.default.createElement(_section.SectionRowContent, null, "June 18, 1998"))))));
         }
     }]);
 
-    return Home;
+    return Students;
 }(_react.Component);
 
-exports.default = Home;
-//# sourceMappingURL=home.js.map
-//# sourceMappingURL=home.js.map
+exports.default = Students;
+//# sourceMappingURL=students.js.map
+//# sourceMappingURL=students.js.map

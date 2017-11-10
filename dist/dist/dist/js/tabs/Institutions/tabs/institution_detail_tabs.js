@@ -1,6 +1,12 @@
 "use strict";
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
+    return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+} : function (obj) {
+    return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+};
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -42,46 +48,48 @@ function _inherits(subClass, superClass) {
     }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 }
 
-var HomeTabBar = function (_Component) {
-    _inherits(HomeTabBar, _Component);
+var InstitutionDetailTabBar = function (_Component) {
+    _inherits(InstitutionDetailTabBar, _Component);
 
-    function HomeTabBar(props) {
-        _classCallCheck(this, HomeTabBar);
+    function InstitutionDetailTabBar(props) {
+        _classCallCheck(this, InstitutionDetailTabBar);
 
-        return _possibleConstructorReturn(this, (HomeTabBar.__proto__ || Object.getPrototypeOf(HomeTabBar)).call(this, props));
+        return _possibleConstructorReturn(this, (InstitutionDetailTabBar.__proto__ || Object.getPrototypeOf(InstitutionDetailTabBar)).call(this, props));
     }
 
-    _createClass(HomeTabBar, [{
+    _createClass(InstitutionDetailTabBar, [{
         key: "render",
         value: function render() {
             var _this2 = this;
 
             var tabs = this.props.tabs.map(function (tab, index) {
-                return _react2.default.createElement(HomeTab, { tab: tab,
+                return _react2.default.createElement(InstitutionDetailTab, {
+                    tab: tab,
                     key: index,
                     onClick: function onClick() {
                         return _this2.props.setActiveTab(tab);
                     },
-                    isActive: _this2.props.activeTab === tab });
+                    isActive: _this2.props.activeTab === tab
+                });
             });
 
             return _react2.default.createElement("div", { className: "tab-bar" }, _react2.default.createElement("ul", { className: "p-3 justify-content-center mb-0 d-flex flex-row" }, tabs));
         }
     }]);
 
-    return HomeTabBar;
+    return InstitutionDetailTabBar;
 }(_react.Component);
 
-var HomeTab = function (_Component2) {
-    _inherits(HomeTab, _Component2);
+var InstitutionDetailTab = function (_Component2) {
+    _inherits(InstitutionDetailTab, _Component2);
 
-    function HomeTab(props) {
-        _classCallCheck(this, HomeTab);
+    function InstitutionDetailTab(props) {
+        _classCallCheck(this, InstitutionDetailTab);
 
-        return _possibleConstructorReturn(this, (HomeTab.__proto__ || Object.getPrototypeOf(HomeTab)).call(this, props));
+        return _possibleConstructorReturn(this, (InstitutionDetailTab.__proto__ || Object.getPrototypeOf(InstitutionDetailTab)).call(this, props));
     }
 
-    _createClass(HomeTab, [{
+    _createClass(InstitutionDetailTab, [{
         key: "render",
         value: function render() {
             var image = this.props.isActive ? this.props.tab.activeImage : this.props.tab.image;
@@ -89,13 +97,14 @@ var HomeTab = function (_Component2) {
             textClass += this.props.isActive ? "text-dlsu" : "text-secondary";
 
             return _react2.default.createElement("li", { className: "col-lg-2 d-flex flex-row justify-content-center align-items-center",
-                onClick: this.props.isActive ? null : this.props.onClick }, _react2.default.createElement("img", { className: "tab-bar-image", src: image }), _react2.default.createElement("small", { className: textClass }, this.props.tab.name));
+                onClick: this.props.isActive ? null : this.props.onClick }, _react2.default.createElement("img", { className: "nav-image", src: image }), _react2.default.createElement("small", { className: textClass }, this.props.tab.name));
         }
     }]);
 
-    return HomeTab;
+    return InstitutionDetailTab;
 }(_react.Component);
 
-exports.default = HomeTabBar;
-//# sourceMappingURL=home_tabs.js.map
-//# sourceMappingURL=home_tabs.js.map
+exports.default = InstitutionDetailTabBar;
+//# sourceMappingURL=institution_detail_tabs.js.map
+//# sourceMappingURL=institution_detail_tabs.js.map
+//# sourceMappingURL=institution_detail_tabs.js.map

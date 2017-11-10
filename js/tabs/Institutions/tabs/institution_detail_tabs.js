@@ -41,7 +41,7 @@ class InstitutionDetailTab extends Component {
         return (
             <li className="col-lg-2 d-flex flex-row justify-content-center align-items-center"
                 onClick={this.props.isActive ? null : this.props.onClick }>
-                <img className="nav-image" src={image}/>
+                <img className="tab-bar-image" src={image}/>
                 <small className={textClass}>{this.props.tab.name}</small>
             </li>
         );
