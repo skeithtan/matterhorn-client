@@ -22,6 +22,10 @@ var _study_field_list = require("./study_field_list");
 
 var _study_field_list2 = _interopRequireDefault(_study_field_list);
 
+var _student_list = require("./student_list");
+
+var _student_list2 = _interopRequireDefault(_student_list);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -83,7 +87,8 @@ var Programs = function (_Component) {
                     null,
                     _react2.default.createElement(_program_list2.default, null)
                 ),
-                _react2.default.createElement(_study_field_list2.default, null)
+                _react2.default.createElement(_study_field_list2.default, null),
+                _react2.default.createElement(_student_list2.default, null)
             );
         }
     }]);

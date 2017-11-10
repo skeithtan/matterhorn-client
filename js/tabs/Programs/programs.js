@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import YearList from "./year_list";
 import ProgramList from "./program_list";
 import StudyFieldList from "./study_field_list";
+import StudentList from "./student_list";
 
 class Programs extends Component {
     constructor(props) {
@@ -45,7 +46,7 @@ class Programs extends Component {
                     {/* Program List Tab Bar */}
                 </div>
                 <StudyFieldList/>
-                { /* Student List */ }
+                <StudentList/>
             </div>
         );
     }

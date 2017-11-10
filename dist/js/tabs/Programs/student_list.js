@@ -10,6 +10,10 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactstrap = require("reactstrap");
+
+var _section = require("../../components/section");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -29,7 +33,14 @@ var StudentList = function (_Component) {
 
     _createClass(StudentList, [{
         key: "render",
-        value: function render() {}
+        value: function render() {
+            return _react2.default.createElement(
+                "div",
+                { className: "h-100 d-flex flex-column" },
+                _react2.default.createElement(StudentListHead, null),
+                _react2.default.createElement(StudentListTable, null)
+            );
+        }
     }]);
 
     return StudentList;
@@ -46,7 +57,31 @@ var StudentListHead = function (_Component2) {
 
     _createClass(StudentListHead, [{
         key: "render",
-        value: function render() {}
+        value: function render() {
+            return _react2.default.createElement(
+                "div",
+                { className: "page-head d-flex flex-column align-items-center" },
+                _react2.default.createElement(
+                    "div",
+                    { className: "d-flex flex-row w-100 mb-2 align-items-center" },
+                    _react2.default.createElement(
+                        "div",
+                        { className: "mr-auto" },
+                        _react2.default.createElement(
+                            "h5",
+                            { className: "mb-0 text-secondary" },
+                            "Students"
+                        ),
+                        _react2.default.createElement(
+                            "h4",
+                            { className: "page-head-title mb-0" },
+                            "Study Field Name"
+                        )
+                    )
+                ),
+                _react2.default.createElement(_reactstrap.Input, { type: "search", placeholder: "Search", className: "search-input" })
+            );
+        }
     }]);
 
     return StudentListHead;
@@ -63,7 +98,15 @@ var StudentListTable = function (_Component3) {
 
     _createClass(StudentListTable, [{
         key: "render",
-        value: function render() {}
+        value: function render() {
+            return _react2.default.createElement(
+                "div",
+                { className: "page-body" },
+                _react2.default.createElement(StudentRow, null),
+                _react2.default.createElement(StudentRow, null),
+                _react2.default.createElement(StudentRow, null)
+            );
+        }
     }]);
 
     return StudentListTable;
@@ -80,7 +123,17 @@ var StudentRow = function (_Component4) {
 
     _createClass(StudentRow, [{
         key: "render",
-        value: function render() {}
+        value: function render() {
+            return _react2.default.createElement(
+                _section.SectionRow,
+                null,
+                _react2.default.createElement(
+                    _section.SectionRowContent,
+                    null,
+                    "Student Name"
+                )
+            );
+        }
     }]);
 
     return StudentRow;
