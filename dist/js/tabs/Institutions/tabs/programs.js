@@ -1,10 +1,22 @@
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
+
+var _graphql = require("../../../graphql");
+
+var _graphql2 = _interopRequireDefault(_graphql);
+
+var _loading = require("../../../loading");
+
+var _loading2 = _interopRequireDefault(_loading);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -14,34 +26,26 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Institutions = function (_Component) {
-    _inherits(Institutions, _Component);
+// TODO: Function for fetching the academic year
 
-    function Institutions(props) {
-        _classCallCheck(this, Institutions);
+var Programs = function (_Component) {
+    _inherits(Programs, _Component);
 
-        return _possibleConstructorReturn(this, (Institutions.__proto__ || Object.getPrototypeOf(Institutions)).call(this, props));
+    function Programs(props) {
+        _classCallCheck(this, Programs);
+
+        return _possibleConstructorReturn(this, (Programs.__proto__ || Object.getPrototypeOf(Programs)).call(this, props));
     }
 
-    _createClass(Institutions, [{
+    _createClass(Programs, [{
         key: "render",
         value: function render() {
-            return _react2.default.createElement("div", { className: "h-100 d-flex flex-column" });
+            return _react2.default.createElement("div", { id: "institution-programs", className: "d-flex flex-row p-0 h-100" });
         }
     }]);
 
-    return Institutions;
+    return Programs;
 }(_react.Component);
 
-var InstitutionListHead = function (_Component2) {
-    _inherits(InstitutionListHead, _Component2);
-
-    function InstitutionListHead() {
-        _classCallCheck(this, InstitutionListHead);
-
-        return _possibleConstructorReturn(this, (InstitutionListHead.__proto__ || Object.getPrototypeOf(InstitutionListHead)).apply(this, arguments));
-    }
-
-    return InstitutionListHead;
-}(_react.Component);
-//# sourceMappingURL=institutions.js.map
+exports.default = Programs;
+//# sourceMappingURL=programs.js.map

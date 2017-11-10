@@ -1,10 +1,20 @@
 "use strict";
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+var _createClass = function () {
+    function defineProperties(target, props) {
+        for (var i = 0; i < props.length; i++) {
+            var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+        }
+    }return function (Constructor, protoProps, staticProps) {
+        if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+    };
+}();
 
 var _react = require("react");
 
@@ -20,13 +30,27 @@ var _collapse_content = require("../../components/collapse_content");
 
 var _section = require("../../components/section");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : { default: obj };
+}
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
+    }
+}
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+function _possibleConstructorReturn(self, call) {
+    if (!self) {
+        throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+    }return call && ((typeof call === "undefined" ? "undefined" : _typeof(call)) === "object" || typeof call === "function") ? call : self;
+}
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) {
+    if (typeof superClass !== "function" && superClass !== null) {
+        throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : _typeof(superClass)));
+    }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+}
 
 var InstitutionList = function (_Component) {
     _inherits(InstitutionList, _Component);
@@ -113,23 +137,13 @@ var InstitutionList = function (_Component) {
                 className += "collapsed";
             }
 
-            return _react2.default.createElement(
-                "div",
-                { className: className, id: "institution-list" },
-                _react2.default.createElement(
-                    _collapse_content.ExpandContent,
-                    null,
-                    _react2.default.createElement(InstitutionListHead, { setSearchKeyword: this.setSearchKeyword,
-                        toggleAddInstitution: this.props.toggleAddInstitution,
-                        collapse: this.collapse }),
-                    _react2.default.createElement(InstitutionListTable, { countries: showingInstitutions,
-                        isSearching: isSearching,
-                        toggleAddInstitution: this.props.toggleAddInstitution,
-                        activeInstitution: this.props.activeInstitution,
-                        setActiveInstitution: this.props.setActiveInstitution })
-                ),
-                _react2.default.createElement(_collapse_content.CollapseContent, { title: "Institutions", expand: this.expand })
-            );
+            return _react2.default.createElement("div", { className: className, id: "institution-list" }, _react2.default.createElement(_collapse_content.ExpandContent, null, _react2.default.createElement(InstitutionListHead, { setSearchKeyword: this.setSearchKeyword,
+                toggleAddInstitution: this.props.toggleAddInstitution,
+                collapse: this.collapse }), _react2.default.createElement(InstitutionListTable, { countries: showingInstitutions,
+                isSearching: isSearching,
+                toggleAddInstitution: this.props.toggleAddInstitution,
+                activeInstitution: this.props.activeInstitution,
+                setActiveInstitution: this.props.setActiveInstitution })), _react2.default.createElement(_collapse_content.CollapseContent, { title: "Institutions", expand: this.expand }));
         }
     }]);
 
@@ -157,27 +171,8 @@ var InstitutionListHead = function (_Component2) {
     }, {
         key: "render",
         value: function render() {
-            return _react2.default.createElement(
-                "div",
-                { className: "page-head" },
-                _react2.default.createElement(
-                    "div",
-                    { className: "page-head-controls" },
-                    _react2.default.createElement("img", { src: "./images/collapse.png", className: "collapse-image", onClick: this.props.collapse }),
-                    _react2.default.createElement(
-                        _reactstrap.Button,
-                        { outline: true, color: "success", size: "sm", className: "ml-auto",
-                            onClick: this.props.toggleAddInstitution },
-                        "Add"
-                    )
-                ),
-                _react2.default.createElement(
-                    "h4",
-                    { className: "page-head-title" },
-                    "Institutions"
-                ),
-                _react2.default.createElement(_reactstrap.Input, { type: "search", placeholder: "Search", className: "search-input", onChange: this.onSearchInputChange })
-            );
+            return _react2.default.createElement("div", { className: "page-head" }, _react2.default.createElement("div", { className: "page-head-controls" }, _react2.default.createElement("img", { src: "./images/collapse.png", className: "collapse-image", onClick: this.props.collapse }), _react2.default.createElement(_reactstrap.Button, { outline: true, color: "success", size: "sm", className: "ml-auto",
+                onClick: this.props.toggleAddInstitution }, "Add")), _react2.default.createElement("h4", { className: "page-head-title" }, "Institutions"), _react2.default.createElement(_reactstrap.Input, { type: "search", placeholder: "Search", className: "search-input", onChange: this.onSearchInputChange }));
         }
     }]);
 
@@ -199,25 +194,7 @@ var InstitutionListTable = function (_Component3) {
     _createClass(InstitutionListTable, [{
         key: "emptyState",
         value: function emptyState() {
-            return _react2.default.createElement(
-                "div",
-                { className: "loading-container" },
-                _react2.default.createElement(
-                    "h4",
-                    null,
-                    "There's nothing here."
-                ),
-                _react2.default.createElement(
-                    "p",
-                    null,
-                    "When added, Institutions will show up here."
-                ),
-                _react2.default.createElement(
-                    _reactstrap.Button,
-                    { outline: true, color: "success", onClick: this.props.toggleAddInstitution },
-                    "Add an Institution"
-                )
-            );
+            return _react2.default.createElement("div", { className: "loading-container" }, _react2.default.createElement("h4", null, "There's nothing here."), _react2.default.createElement("p", null, "When added, Institutions will show up here."), _react2.default.createElement(_reactstrap.Button, { outline: true, color: "success", onClick: this.props.toggleAddInstitution }, "Add an Institution"));
         }
     }, {
         key: "render",
@@ -240,24 +217,12 @@ var InstitutionListTable = function (_Component3) {
                     setActiveInstitution: _this4.props.setActiveInstitution });
             });
 
-            return _react2.default.createElement(
-                "div",
-                { className: "page-body" },
-                sections
-            );
+            return _react2.default.createElement("div", { className: "page-body" }, sections);
         }
     }], [{
         key: "noResultsState",
         value: function noResultsState() {
-            return _react2.default.createElement(
-                "div",
-                { className: "loading-container" },
-                _react2.default.createElement(
-                    "h3",
-                    null,
-                    "No results found"
-                )
-            );
+            return _react2.default.createElement("div", { className: "loading-container" }, _react2.default.createElement("h3", null, "No results found"));
         }
     }]);
 
@@ -289,31 +254,10 @@ var InstitutionSection = function (_Component4) {
                     return _this6.props.setActiveInstitution(institution);
                 };
 
-                return _react2.default.createElement(
-                    _section.SectionRow,
-                    { selectable: true, onClick: setActiveInstitution, active: isActive, key: institution.id },
-                    _react2.default.createElement(
-                        _section.SectionRowContent,
-                        null,
-                        institution.name
-                    )
-                );
+                return _react2.default.createElement(_section.SectionRow, { selectable: true, onClick: setActiveInstitution, active: isActive, key: institution.id }, _react2.default.createElement(_section.SectionRowContent, null, institution.name));
             });
 
-            return _react2.default.createElement(
-                _section.Section,
-                null,
-                _react2.default.createElement(
-                    _section.SectionTitle,
-                    null,
-                    this.props.title
-                ),
-                _react2.default.createElement(
-                    _section.SectionTable,
-                    null,
-                    rows
-                )
-            );
+            return _react2.default.createElement(_section.Section, null, _react2.default.createElement(_section.SectionTitle, null, this.props.title), _react2.default.createElement(_section.SectionTable, null, rows));
         }
     }]);
 
@@ -321,4 +265,5 @@ var InstitutionSection = function (_Component4) {
 }(_react.Component);
 
 exports.default = InstitutionList;
+//# sourceMappingURL=institution_list.js.map
 //# sourceMappingURL=institution_list.js.map

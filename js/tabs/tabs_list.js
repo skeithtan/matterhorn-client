@@ -4,7 +4,6 @@ import Institutions from "./Institutions/institutions";
 import Students from "./Students/students";
 import Programs from "./Programs/programs";
 
-
 const tabs = [
     {
         name : "Home",

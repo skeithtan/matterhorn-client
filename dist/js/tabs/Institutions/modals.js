@@ -670,9 +670,18 @@ var MemorandumFormModal = function (_Component3) {
                 contentType: "application/json",
                 beforeSend: _authorization2.default,
                 success: function success(response) {
-                    console.log(response);
                     dismissToast();
+
+                    var memorandum = response;
+                    memorandum.linkages = memorandum.linkages.map(function (linkage) {
+                        return {
+                            code: linkage
+                        };
+                    });
+
+                    _this12.props.onEditSuccess(memorandum);
                     _this12.props.refresh();
+
                     _izitoast2.default.success({
                         title: "Success",
                         message: "Successfully modified memorandum"
@@ -932,11 +941,12 @@ var DeleteMemorandumModal = function (_Component4) {
             });
 
             _jquery2.default.ajax({
-                url: _settings2.default.serverURL + "/institutions/" + this.props.institution.id + "/memorandums/" + this.props.memorandum.id,
+                url: _settings2.default.serverURL + "/memorandums/" + this.props.memorandum.id,
                 method: "DELETE",
                 beforeSend: _authorization2.default,
                 success: function success() {
                     dismissToast();
+                    _this15.props.onDeleteSuccess();
                     _this15.props.refresh();
                     _izitoast2.default.success({
                         title: "Success",

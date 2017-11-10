@@ -16,12 +16,17 @@ var _memorandums = require("./memorandums");
 
 var _memorandums2 = _interopRequireDefault(_memorandums);
 
+var _programs = require("./programs");
+
+var _programs2 = _interopRequireDefault(_programs);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var tabs = [{
     name: "Overview",
-    tab: function tab(institution, onDeleteActiveInstitution, refreshInstitutions) {
+    tab: function tab(institution, setSidebarContent, onDeleteActiveInstitution, refreshInstitutions) {
         return _react2.default.createElement(_overview2.default, { institution: institution,
+            setSidebarContent: setSidebarContent,
             onDeleteActiveInstitution: onDeleteActiveInstitution,
             refreshInstitutions: refreshInstitutions });
     },
@@ -29,11 +34,20 @@ var tabs = [{
     activeImage: "./images/burgergreen.png"
 }, {
     name: "Memorandums",
-    tab: function tab(institution) {
-        return _react2.default.createElement(_memorandums2.default, { institution: institution });
+    tab: function tab(institution, setSidebarContent) {
+        return _react2.default.createElement(_memorandums2.default, { institution: institution, setSidebarContent: setSidebarContent
+        });
     },
     image: "./images/memorandumgrey.png",
     activeImage: "./images/memorandumgreen.png"
+}, {
+    name: "Programs",
+    tab: function tab(institution, setSidebarContent) {
+        return _react2.default.createElement(_programs2.default, { institution: institution, setSidebarContent: setSidebarContent
+        });
+    },
+    image: "./images/programsgrey.png",
+    activeImage: "./images/programsgreen.png"
 }];
 
 exports.default = tabs;

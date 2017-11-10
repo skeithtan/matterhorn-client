@@ -1,13 +1,15 @@
 import React from "react";
 import InstitutionOverview from "./overview";
 import Memorandums from "./memorandums";
+import Programs from "./programs";
 
 
 const tabs = [
     {
         name : "Overview",
-        tab : (institution, onDeleteActiveInstitution, refreshInstitutions) => {
+        tab : (institution, setSidebarContent, onDeleteActiveInstitution, refreshInstitutions) => {
             return <InstitutionOverview institution={institution}
+                                        setSidebarContent={setSidebarContent}
                                         onDeleteActiveInstitution={onDeleteActiveInstitution}
                                         refreshInstitutions={refreshInstitutions}/>;
         },
@@ -16,11 +18,21 @@ const tabs = [
     },
     {
         name : "Memorandums",
-        tab : institution => {
-            return <Memorandums institution={institution}/>;
+        tab : (institution, setSidebarContent) => {
+            return <Memorandums institution={institution} setSidebarContent={setSidebarContent}
+            />;
         },
         image : "./images/memorandumgrey.png",
         activeImage : "./images/memorandumgreen.png",
+    },
+    {
+        name : "Programs",
+        tab : (institution, setSidebarContent) => {
+            return <Programs institution={institution} setSidebarContent={setSidebarContent}
+            />;
+        },
+        image : "./images/programsgrey.png",
+        activeImage : "./images/programsgreen.png",
     },
 ];
 
