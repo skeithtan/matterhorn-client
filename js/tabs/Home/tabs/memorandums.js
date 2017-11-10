@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import {
     Card,
     CardBody,
-    CardTitle,
     CardSubtitle,
 } from "reactstrap";
 import {
@@ -11,6 +10,8 @@ import {
     SectionRowTitle,
 } from "../../../components/section";
 
+// TODO: Queries
+
 class Memorandums extends Component {
     constructor(props) {
         super(props);
@@ -18,7 +19,7 @@ class Memorandums extends Component {
 
     render() {
         return (
-            <div id="home-content" className="d-flex flex-column align-items-center page-body">
+            <div className="d-flex flex-column align-items-center page-body">
                 <Card className="home-card mt-4">
                     <CardBody className="p-0">
                         <div className="d-flex flex-row p-3 justify-content-between align-items-center">

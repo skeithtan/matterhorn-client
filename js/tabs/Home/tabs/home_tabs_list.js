@@ -1,5 +1,7 @@
 import React from "react";
 import Memorandums from "./memorandums";
+import Programs from "./programs";
+import Students from "./students";
 
 const tabs = [
     {
@@ -10,13 +12,13 @@ const tabs = [
     },
     {
         name : "Programs",
-        tab : undefined,
+        tab : <Programs/>,
         image : "./images/programsgrey.png",
         activeImage : "./images/programsgreen.png",
     },
     {
         name : "Students",
-        tab : undefined,
+        tab : <Students/>,
         image : "./images/memorandumgrey.png",
         activeImage : "./images/memorandumgreen.png",
     },

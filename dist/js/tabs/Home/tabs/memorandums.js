@@ -22,6 +22,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+// TODO: Queries
+
 var Memorandums = function (_Component) {
     _inherits(Memorandums, _Component);
 
@@ -36,7 +38,7 @@ var Memorandums = function (_Component) {
         value: function render() {
             return _react2.default.createElement(
                 "div",
-                { id: "home-content", className: "d-flex flex-column align-items-center page-body" },
+                { className: "d-flex flex-column align-items-center page-body" },
                 _react2.default.createElement(
                     _reactstrap.Card,
                     { className: "home-card mt-4" },

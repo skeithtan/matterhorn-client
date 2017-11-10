@@ -12,6 +12,14 @@ var _memorandums = require("./memorandums");
 
 var _memorandums2 = _interopRequireDefault(_memorandums);
 
+var _programs = require("./programs");
+
+var _programs2 = _interopRequireDefault(_programs);
+
+var _students = require("./students");
+
+var _students2 = _interopRequireDefault(_students);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var tabs = [{
@@ -21,12 +29,12 @@ var tabs = [{
     activeImage: "./images/memorandumgreen.png"
 }, {
     name: "Programs",
-    tab: undefined,
+    tab: _react2.default.createElement(_programs2.default, null),
     image: "./images/programsgrey.png",
     activeImage: "./images/programsgreen.png"
 }, {
     name: "Students",
-    tab: undefined,
+    tab: _react2.default.createElement(_students2.default, null),
     image: "./images/memorandumgrey.png",
     activeImage: "./images/memorandumgreen.png"
 }];

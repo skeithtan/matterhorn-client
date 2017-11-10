@@ -10,6 +10,10 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactstrap = require("reactstrap");
+
+var _section = require("../../../components/section");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -29,7 +33,103 @@ var Programs = function (_Component) {
 
     _createClass(Programs, [{
         key: "render",
-        value: function render() {}
+        value: function render() {
+            return _react2.default.createElement(
+                "div",
+                { className: "d-flex flex-column align-items-center page-body" },
+                _react2.default.createElement(
+                    _reactstrap.Card,
+                    { className: "home-card mt-4" },
+                    _react2.default.createElement(
+                        _reactstrap.CardBody,
+                        { className: "p-0" },
+                        _react2.default.createElement(
+                            "div",
+                            { className: "d-flex flex-row p-3 justify-content-between align-items-center" },
+                            _react2.default.createElement(
+                                "div",
+                                null,
+                                _react2.default.createElement(
+                                    "small",
+                                    { className: "text-uppercase text-secondary" },
+                                    "Institution name"
+                                ),
+                                _react2.default.createElement(
+                                    "h6",
+                                    { className: "mb-0" },
+                                    "Institution Name"
+                                )
+                            ),
+                            _react2.default.createElement(
+                                "div",
+                                null,
+                                _react2.default.createElement(
+                                    "small",
+                                    { className: "text-uppercase text-secondary" },
+                                    "Memorandum type"
+                                ),
+                                _react2.default.createElement(
+                                    "h6",
+                                    { className: "mb-0" },
+                                    "Memorandum of [Category]"
+                                )
+                            ),
+                            _react2.default.createElement(
+                                _reactstrap.CardSubtitle,
+                                { className: "text-danger" },
+                                "Expiring in 2 months"
+                            )
+                        ),
+                        _react2.default.createElement(
+                            "div",
+                            { className: "d-flex flex-column p-0" },
+                            _react2.default.createElement(
+                                _section.SectionRow,
+                                null,
+                                _react2.default.createElement(
+                                    _section.SectionRowTitle,
+                                    null,
+                                    "Date Effective"
+                                ),
+                                _react2.default.createElement(
+                                    _section.SectionRowContent,
+                                    null,
+                                    "June 18, 1998"
+                                )
+                            ),
+                            _react2.default.createElement(
+                                _section.SectionRow,
+                                null,
+                                _react2.default.createElement(
+                                    _section.SectionRowTitle,
+                                    null,
+                                    "Date Effective"
+                                ),
+                                _react2.default.createElement(
+                                    _section.SectionRowContent,
+                                    null,
+                                    "June 18, 1998"
+                                )
+                            ),
+                            _react2.default.createElement(
+                                _section.SectionRow,
+                                null,
+                                _react2.default.createElement(
+                                    _section.SectionRowTitle,
+                                    null,
+                                    "Date Effective"
+                                ),
+                                _react2.default.createElement(
+                                    _section.SectionRowContent,
+                                    null,
+                                    "June 18, 1998"
+                                )
+                            )
+                        )
+                    )
+                )
+            );
+        }
     }]);
 
     return Programs;
