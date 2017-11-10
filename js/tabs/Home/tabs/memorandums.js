@@ -29,9 +29,9 @@ class Memorandums extends Component {
                             </div>
                             <div>
                                 <small className="text-uppercase text-secondary">Memorandum type</small>
-                                <h6 className="mb-0">Memorandum of [Category]</h6>
+                                <h6 className="mb-0">Understanding</h6>
                             </div>
-                            <CardSubtitle className="text-danger">Expiring in 2 months</CardSubtitle>
+                            <CardSubtitle className="text-danger">Expiring in 6 months</CardSubtitle>
                         </div>
                         <div className="d-flex flex-column p-0">
                             <SectionRow>
@@ -39,70 +39,12 @@ class Memorandums extends Component {
                                 <SectionRowContent>June 18, 1998</SectionRowContent>
                             </SectionRow>
                             <SectionRow>
-                                <SectionRowTitle>Date Effective</SectionRowTitle>
-                                <SectionRowContent>June 18, 1998</SectionRowContent>
+                                <SectionRowTitle>Date of Expiration</SectionRowTitle>
+                                <SectionRowContent>June 18, 2017</SectionRowContent>
                             </SectionRow>
                             <SectionRow>
-                                <SectionRowTitle>Date Effective</SectionRowTitle>
-                                <SectionRowContent>June 18, 1998</SectionRowContent>
-                            </SectionRow>
-                        </div>
-                    </CardBody>
-                </Card>
-                <Card className="home-card mt-4">
-                    <CardBody className="p-0">
-                        <div className="d-flex flex-row p-3 justify-content-between align-items-center">
-                            <div>
-                                <small className="text-uppercase text-secondary">Institution name</small>
-                                <h6 className="mb-0">Institution Name</h6>
-                            </div>
-                            <div>
-                                <small className="text-uppercase text-secondary">Memorandum type</small>
-                                <h6 className="mb-0">Memorandum of [Category]</h6>
-                            </div>
-                            <CardSubtitle className="text-danger">Expiring in 2 months</CardSubtitle>
-                        </div>
-                        <div className="d-flex flex-column p-0">
-                            <SectionRow>
-                                <SectionRowTitle>Date Effective</SectionRowTitle>
-                                <SectionRowContent>June 18, 1998</SectionRowContent>
-                            </SectionRow>
-                            <SectionRow>
-                                <SectionRowTitle>Date Effective</SectionRowTitle>
-                                <SectionRowContent>June 18, 1998</SectionRowContent>
-                            </SectionRow>
-                            <SectionRow>
-                                <SectionRowTitle>Date Effective</SectionRowTitle>
-                                <SectionRowContent>June 18, 1998</SectionRowContent>
-                            </SectionRow>
-                        </div>
-                    </CardBody>
-                </Card>
-                <Card className="home-card mt-4">
-                    <CardBody className="p-0">
-                        <div className="d-flex flex-row p-3 justify-content-between align-items-center">
-                            <div>
-                                <small className="text-uppercase text-secondary">Institution name</small>
-                                <h6 className="mb-0">Institution Name</h6>
-                            </div>
-                            <div>
-                                <small className="text-uppercase text-secondary">Memorandum type</small>
-                                <h6 className="mb-0">Memorandum of [Category]</h6>
-                            </div>
-                            <CardSubtitle className="text-danger">Expiring in 2 months</CardSubtitle>
-                        </div>
-                        <div className="d-flex flex-column p-0">
-                            <SectionRow>
-                                <SectionRowTitle>Date Effective</SectionRowTitle>
-                                <SectionRowContent>June 18, 1998</SectionRowContent>
-                            </SectionRow>
-                            <SectionRow>
-                                <SectionRowTitle>Date Effective</SectionRowTitle>
-                                <SectionRowContent>June 18, 1998</SectionRowContent>
-                            </SectionRow>
-                            <SectionRow>
-                                <SectionRowTitle>Date Effective</SectionRowTitle>
-                                <SectionRowContent>June 18, 1998</SectionRowContent>
+                                <SectionRowTitle>College Initiator</SectionRowTitle>
+                                <SectionRowContent>RVRCOB</SectionRowContent>
                             </SectionRow>
                         </div>
                     </CardBody>
