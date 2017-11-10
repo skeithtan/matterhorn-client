@@ -18,6 +18,10 @@ var _program_list = require("./program_list");
 
 var _program_list2 = _interopRequireDefault(_program_list);
 
+var _program_list_tabs = require("./program_list_tabs");
+
+var _program_list_tabs2 = _interopRequireDefault(_program_list_tabs);
+
 var _study_field_list = require("./study_field_list");
 
 var _study_field_list2 = _interopRequireDefault(_study_field_list);
@@ -84,8 +88,9 @@ var Programs = function (_Component) {
                 _react2.default.createElement(_year_list2.default, null),
                 _react2.default.createElement(
                     "div",
-                    null,
-                    _react2.default.createElement(_program_list2.default, null)
+                    { className: "d-flex flex-column p-0 h-100" },
+                    _react2.default.createElement(_program_list2.default, null),
+                    _react2.default.createElement(_program_list_tabs2.default, null)
                 ),
                 _react2.default.createElement(_study_field_list2.default, null),
                 _react2.default.createElement(_student_list2.default, null)

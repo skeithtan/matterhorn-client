@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import YearList from "./year_list";
 import ProgramList from "./program_list";
+import ProgramListTabBar from "./program_list_tabs";
 import StudyFieldList from "./study_field_list";
 import StudentList from "./student_list";
 
@@ -41,9 +42,9 @@ class Programs extends Component {
         return (
             <div id="programs-page" className="container-fluid d-flex flex-row p-0 h-100 page-body">
                 <YearList/>
-                <div>
+                <div className="d-flex flex-column p-0 h-100">
                     <ProgramList/>
-                    {/* Program List Tab Bar */}
+                    <ProgramListTabBar/>
                 </div>
                 <StudyFieldList/>
                 <StudentList/>
