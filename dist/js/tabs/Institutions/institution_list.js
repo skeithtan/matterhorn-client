@@ -163,11 +163,7 @@ var InstitutionListHead = function (_Component2) {
                 _react2.default.createElement(
                     "div",
                     { className: "page-head-controls" },
-                    _react2.default.createElement(
-                        _reactstrap.Button,
-                        { outline: true, color: "secondary", size: "sm", onClick: this.props.collapse },
-                        "Collapse"
-                    ),
+                    _react2.default.createElement("img", { src: "./images/collapse.png", className: "collapse-image", onClick: this.props.collapse }),
                     _react2.default.createElement(
                         _reactstrap.Button,
                         { outline: true, color: "success", size: "sm", className: "ml-auto",

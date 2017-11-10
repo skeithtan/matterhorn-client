@@ -34,6 +34,7 @@ var CollapseContent = function (_Component) {
             return _react2.default.createElement(
                 "div",
                 { className: "collapse-content", onClick: this.props.expand },
+                _react2.default.createElement("img", { src: "./images/expand.png", className: "expand-image" }),
                 _react2.default.createElement(
                     "h4",
                     null,

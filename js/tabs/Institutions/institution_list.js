@@ -128,7 +128,8 @@ class InstitutionListHead extends Component {
         return (
             <div className="page-head">
                 <div className="page-head-controls">
-                    <Button outline color="secondary" size="sm" onClick={this.props.collapse}>Collapse</Button>
+                    <img src="./images/collapse.png" className="collapse-image" onClick={this.props.collapse}/>
+
                     <Button outline color="success" size="sm" className="ml-auto"
                             onClick={this.props.toggleAddInstitution}>Add</Button>
                 </div>
