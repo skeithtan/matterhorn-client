@@ -24,8 +24,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var tabs = [{
     name: "Overview",
-    tab: function tab(institution, onDeleteActiveInstitution, refreshInstitutions) {
+    tab: function tab(institution, setSidebarContent, onDeleteActiveInstitution, refreshInstitutions) {
         return _react2.default.createElement(_overview2.default, { institution: institution,
+            setSidebarContent: setSidebarContent,
             onDeleteActiveInstitution: onDeleteActiveInstitution,
             refreshInstitutions: refreshInstitutions });
     },
@@ -33,15 +34,17 @@ var tabs = [{
     activeImage: "./images/burgergreen.png"
 }, {
     name: "Memorandums",
-    tab: function tab(institution) {
-        return _react2.default.createElement(_memorandums2.default, { institution: institution });
+    tab: function tab(institution, setSidebarContent) {
+        return _react2.default.createElement(_memorandums2.default, { institution: institution, setSidebarContent: setSidebarContent
+        });
     },
     image: "./images/memorandumgrey.png",
     activeImage: "./images/memorandumgreen.png"
 }, {
     name: "Programs",
-    tab: function tab(institution) {
-        return _react2.default.createElement(_programs2.default, { institution: institution });
+    tab: function tab(institution, setSidebarContent) {
+        return _react2.default.createElement(_programs2.default, { institution: institution, setSidebarContent: setSidebarContent
+        });
     },
     image: "./images/programsgrey.png",
     activeImage: "./images/programsgreen.png"

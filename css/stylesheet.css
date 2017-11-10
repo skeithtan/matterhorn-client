@@ -447,8 +447,6 @@ li.nav-item.active .sidebar-image,
 }
 
 #memorandum-detail {
-    min-width   : 350px;
-    max-width   : 350px;
     border-left : 1px solid var(--gray);
     overflow-y  : scroll;
 }

@@ -35,14 +35,23 @@ var InstitutionDetail = function (_Component) {
         var _this = _possibleConstructorReturn(this, (InstitutionDetail.__proto__ || Object.getPrototypeOf(InstitutionDetail)).call(this, props));
 
         _this.state = {
-            activeTab: _institution_tabs_list2.default[0]
+            activeTab: _institution_tabs_list2.default[0],
+            sidebarContent: null
         };
 
+        _this.setSidebarContent = _this.setSidebarContent.bind(_this);
         _this.setActiveTab = _this.setActiveTab.bind(_this);
         return _this;
     }
 
     _createClass(InstitutionDetail, [{
+        key: "setSidebarContent",
+        value: function setSidebarContent(sidebarContent) {
+            this.setState({
+                sidebarContent: sidebarContent
+            });
+        }
+    }, {
         key: "setActiveTab",
         value: function setActiveTab(tab) {
             this.setState({
@@ -56,17 +65,27 @@ var InstitutionDetail = function (_Component) {
                 return InstitutionDetail.unselectedState();
             }
 
-            var currentTab = this.state.activeTab.tab(this.props.institution, this.props.onDeleteActiveInstitution, this.props.refreshInstitutions);
+            var currentTab = this.state.activeTab.tab(this.props.institution, this.setSidebarContent, this.props.onDeleteActiveInstitution, this.props.refreshInstitutions);
 
             return _react2.default.createElement(
                 "div",
-                { id: "institution-detail", className: "container-fluid d-flex flex-column p-0 h-100" },
+                { id: "institution-detail", className: "w-100 d-flex flex-row" },
                 _react2.default.createElement(
                     "div",
-                    { id: "tab-content" },
-                    currentTab
+                    { className: "container-fluid d-flex flex-column p-0 h-100" },
+                    _react2.default.createElement(
+                        "div",
+                        { id: "tab-content" },
+                        currentTab
+                    ),
+                    _react2.default.createElement(_institution_detail_tabs2.default, { setActiveTab: this.setActiveTab, activeTab: this.state.activeTab,
+                        tabs: _institution_tabs_list2.default })
                 ),
-                _react2.default.createElement(_institution_detail_tabs2.default, { setActiveTab: this.setActiveTab, activeTab: this.state.activeTab, tabs: _institution_tabs_list2.default })
+                this.state.sidebarContent !== null && _react2.default.createElement(
+                    "div",
+                    { className: "sidebar-right" },
+                    this.state.sidebarContent
+                )
             );
         }
     }], [{

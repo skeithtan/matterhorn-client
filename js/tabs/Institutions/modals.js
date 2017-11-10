@@ -468,7 +468,7 @@ class MemorandumFormModal extends Component {
             message : "Editing memorandum...",
         });
 
-        if(this.state.form.college_initiator === "") {
+        if (this.state.form.college_initiator === "") {
             this.state.form.college_initiator = null;
         }
 
@@ -480,9 +480,18 @@ class MemorandumFormModal extends Component {
             contentType : "application/json",
             beforeSend : authorizeXHR,
             success : (response) => {
-                console.log(response);
                 dismissToast();
+
+                const memorandum = response;
+                memorandum.linkages = memorandum.linkages.map(linkage => {
+                    return {
+                        code : linkage,
+                    };
+                });
+
+                this.props.onEditSuccess(memorandum);
                 this.props.refresh();
+
                 iziToast.success({
                     title : "Success",
                     message : "Successfully modified memorandum",
@@ -638,11 +647,12 @@ class DeleteMemorandumModal extends Component {
         });
 
         $.ajax({
-            url : `${settings.serverURL}/institutions/${this.props.institution.id}/memorandums/${this.props.memorandum.id}`,
+            url : `${settings.serverURL}/memorandums/${this.props.memorandum.id}`,
             method : "DELETE",
             beforeSend : authorizeXHR,
             success : () => {
                 dismissToast();
+                this.props.onDeleteSuccess();
                 this.props.refresh();
                 iziToast.success({
                     title : "Success",

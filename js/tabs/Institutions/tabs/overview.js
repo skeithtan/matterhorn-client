@@ -49,6 +49,8 @@ class InstitutionOverview extends Component {
             institutionID : props.institution.id,
         };
 
+        this.props.setSidebarContent(null);
+
         this.onEditInstitution = this.onEditInstitution.bind(this);
 
         //Fetch active institution details
