@@ -6,11 +6,7 @@ import settings from "../../../settings";
 
 import {
     Button,
-    Card,
-    CardBody,
-    Collapse,
     ListGroup,
-    ListGroupItem,
 } from "reactstrap";
 
 import {
@@ -18,9 +14,6 @@ import {
     SectionTitle,
     SectionTable,
     SectionRow,
-    SectionRowTitle,
-    SectionRowContent,
-    SectionFooter,
 } from "../../../components/section";
 
 import {
@@ -445,10 +438,11 @@ class MemorandumLinkages extends Component {
 
         const rows = this.props.linkages.map((linkage, index) => {
             return (
-                <SectionRow key={ index }>{ settings.linkages[linkage.code] }</SectionRow>
+                <SectionRow key={inde}>{ settings.linkages[linkage.code] }</SectionRow>
             );
         });
 
+        console.log(this.props.linkages);
         return (
             <div id="memorandum-linkages">
                 <SectionTitle>Linkages</SectionTitle>
