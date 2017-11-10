@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 
-
 class HomeTabBar extends Component {
     constructor(props) {
         super(props);

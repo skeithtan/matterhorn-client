@@ -1,17 +1,18 @@
 import React from "react";
+import Memorandums from "./memorandums";
 
 const tabs = [
     {
         name : "Memorandums",
-        tab : undefined,
+        tab : <Memorandums/>,
         image : "./images/memorandumgrey.png",
         activeImage : "./images/memorandumgreen.png",
     },
     {
         name : "Programs",
         tab : undefined,
-        image : "./images/memorandumgrey.png",
-        activeImage : "./images/memorandumgreen.png",
+        image : "./images/programsgrey.png",
+        activeImage : "./images/programsgreen.png",
     },
     {
         name : "Students",

@@ -38,6 +38,28 @@
     overflow-x : scroll;
 }
 
+/*Home*/
+.home-card {
+    min-width   : 640px;
+    max-width   : 640px;
+    transition  : 200ms;
+    overflow    : hidden;
+    flex-shrink : 0;
+    box-shadow  : 0 3px 20px 0px rgba(0, 0, 0, 0.03), 0 0px 4px rgba(0, 0, 0, 0.13);
+}
+
+.home-card:last-child {
+    margin-bottom : 36px;
+}
+
+.home-card:hover {
+    box-shadow : 0 10px 20px rgba(0, 0, 0, 0.06), 0 6px 6px rgba(0, 0, 0, 0.23);
+}
+
+.home-card .section-row:last-child {
+    border-bottom : none;
+}
+
 /*Section titles and footers*/
 small.section-title,
 small.section-footer {
@@ -476,6 +498,7 @@ li.nav-item.active .sidebar-image,
 #tab-content {
     flex       : 1;
     min-height : 0;
+    overflow-y : scroll;
 }
 
 /*UploadCare Widget*/

@@ -21,7 +21,6 @@ class Home extends Component {
 
     render() {
         const currentTab = this.state.activeTab.tab;
-        console.log(this.state.activeTab);
         return (
             <div id="home" className="container-fluid d-flex flex-column p-0 h-100">
                 <div id="tab-content">{ currentTab }</div>
