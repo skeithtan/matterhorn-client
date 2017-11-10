@@ -30,6 +30,16 @@ var HomeTabBar = function (_Component) {
     _createClass(HomeTabBar, [{
         key: "render",
         value: function render() {
+            var _this2 = this;
+
+            var tabs = this.props.tabs.map(function (tab, index) {
+                return _react2.default.createElement(HomeTab, { tab: tab,
+                    key: index,
+                    onClick: function onClick() {
+                        return _this2.props.setActiveTab(tab);
+                    },
+                    isActive: _this2.props.activeTab === tab });
+            });
 
             return _react2.default.createElement(
                 "div",
@@ -57,7 +67,23 @@ var HomeTab = function (_Component2) {
 
     _createClass(HomeTab, [{
         key: "render",
-        value: function render() {}
+        value: function render() {
+            var image = this.props.isActive ? this.props.tab.activeImage : this.props.tab.image;
+            var textClass = "ml-2 font-weight-bold mb-0 ";
+            textClass += this.props.isActive ? "text-dlsu" : "text-secondary";
+
+            return _react2.default.createElement(
+                "li",
+                { className: "col-lg-2 d-flex flex-row justify-content-center align-items-center",
+                    onClick: this.props.isActive ? null : this.props.onClick },
+                _react2.default.createElement("img", { className: "tab-bar-image", src: image }),
+                _react2.default.createElement(
+                    "small",
+                    { className: textClass },
+                    this.props.tab.name
+                )
+            );
+        }
     }]);
 
     return HomeTab;
