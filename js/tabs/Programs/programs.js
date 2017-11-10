@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import YearList from "./year_list";
-import ProgramBody from "./program_body";
+import ProgramList from "./program_list";
+import StudyFieldList from "./study_field_list";
 
 class Programs extends Component {
     constructor(props) {
@@ -39,7 +40,12 @@ class Programs extends Component {
         return (
             <div id="programs-page" className="container-fluid d-flex flex-row p-0 h-100 page-body">
                 <YearList/>
-                <ProgramBody/>
+                <div>
+                    <ProgramList/>
+                    {/* Program List Tab Bar */}
+                </div>
+                <StudyFieldList/>
+                { /* Student List */ }
             </div>
         );
     }

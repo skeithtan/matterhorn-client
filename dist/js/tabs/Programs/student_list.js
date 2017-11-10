@@ -69,25 +69,8 @@ var StudentListTable = function (_Component3) {
     return StudentListTable;
 }(_react.Component);
 
-var StudentSection = function (_Component4) {
-    _inherits(StudentSection, _Component4);
-
-    function StudentSection(props) {
-        _classCallCheck(this, StudentSection);
-
-        return _possibleConstructorReturn(this, (StudentSection.__proto__ || Object.getPrototypeOf(StudentSection)).call(this, props));
-    }
-
-    _createClass(StudentSection, [{
-        key: "render",
-        value: function render() {}
-    }]);
-
-    return StudentSection;
-}(_react.Component);
-
-var StudentRow = function (_Component5) {
-    _inherits(StudentRow, _Component5);
+var StudentRow = function (_Component4) {
+    _inherits(StudentRow, _Component4);
 
     function StudentRow(props) {
         _classCallCheck(this, StudentRow);

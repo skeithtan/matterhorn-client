@@ -14,9 +14,13 @@ var _year_list = require("./year_list");
 
 var _year_list2 = _interopRequireDefault(_year_list);
 
-var _program_body = require("./program_body");
+var _program_list = require("./program_list");
 
-var _program_body2 = _interopRequireDefault(_program_body);
+var _program_list2 = _interopRequireDefault(_program_list);
+
+var _study_field_list = require("./study_field_list");
+
+var _study_field_list2 = _interopRequireDefault(_study_field_list);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -74,7 +78,12 @@ var Programs = function (_Component) {
                 "div",
                 { id: "programs-page", className: "container-fluid d-flex flex-row p-0 h-100 page-body" },
                 _react2.default.createElement(_year_list2.default, null),
-                _react2.default.createElement(_program_body2.default, null)
+                _react2.default.createElement(
+                    "div",
+                    null,
+                    _react2.default.createElement(_program_list2.default, null)
+                ),
+                _react2.default.createElement(_study_field_list2.default, null)
             );
         }
     }]);

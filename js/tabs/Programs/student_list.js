@@ -30,16 +30,6 @@ class StudentListTable extends Component {
     }
 }
 
-class StudentSection extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-
-    }
-}
-
 class StudentRow extends Component {
     constructor(props) {
         super(props);
