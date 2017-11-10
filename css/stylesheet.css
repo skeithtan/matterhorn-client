@@ -507,7 +507,7 @@ li.nav-item.active .sidebar-image,
 }
 
 /*Linkages page*/
-#linkages-page > div {
+#programs-page > div {
     border-right : 1px solid var(--gray);
     width        : 33.33%;
     min-width    : 33.33%;

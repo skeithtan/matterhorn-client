@@ -2,7 +2,7 @@ import React from "react";
 import Home from "./home";
 import Institutions from "./Institutions/institutions";
 import Students from "./Students/students";
-import Linkages from "./Linkages/linkages";
+import Programs from "./Programs/programs";
 
 
 const tabs = [
@@ -22,9 +22,9 @@ const tabs = [
         image : "./images/student.png",
     },
     {
-        name : "Linkages",
-        tab : <Linkages/>,
-        image : "./images/linkwhite.png"
+        name : "Programs",
+        tab : <Programs/>,
+        image : "./images/airplane.png"
     },
 ];
 

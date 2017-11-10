@@ -20,9 +20,9 @@ var _students = require("./Students/students");
 
 var _students2 = _interopRequireDefault(_students);
 
-var _linkages = require("./Linkages/linkages");
+var _programs = require("./Programs/programs");
 
-var _linkages2 = _interopRequireDefault(_linkages);
+var _programs2 = _interopRequireDefault(_programs);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -39,9 +39,9 @@ var tabs = [{
     tab: _react2.default.createElement(_students2.default, null),
     image: "./images/student.png"
 }, {
-    name: "Linkages",
-    tab: _react2.default.createElement(_linkages2.default, null),
-    image: "./images/linkwhite.png"
+    name: "Programs",
+    tab: _react2.default.createElement(_programs2.default, null),
+    image: "./images/airplane.png"
 }];
 
 exports.default = tabs;
