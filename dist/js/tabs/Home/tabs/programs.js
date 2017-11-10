@@ -52,12 +52,12 @@ var Programs = function (_Component) {
                                 _react2.default.createElement(
                                     "small",
                                     { className: "text-uppercase text-secondary" },
-                                    "Institution name"
+                                    "Program name"
                                 ),
                                 _react2.default.createElement(
                                     "h6",
                                     { className: "mb-0" },
-                                    "Institution Name"
+                                    "Summer Program 2018"
                                 )
                             ),
                             _react2.default.createElement(
@@ -66,18 +66,18 @@ var Programs = function (_Component) {
                                 _react2.default.createElement(
                                     "small",
                                     { className: "text-uppercase text-secondary" },
-                                    "Memorandum type"
+                                    "Term"
                                 ),
                                 _react2.default.createElement(
                                     "h6",
                                     { className: "mb-0" },
-                                    "Memorandum of [Category]"
+                                    "2016 - 2017, Term 1"
                                 )
                             ),
                             _react2.default.createElement(
                                 _reactstrap.CardSubtitle,
                                 { className: "text-danger" },
-                                "Expiring in 2 months"
+                                "Ending in 2 months"
                             )
                         ),
                         _react2.default.createElement(
@@ -89,7 +89,21 @@ var Programs = function (_Component) {
                                 _react2.default.createElement(
                                     _section.SectionRowTitle,
                                     null,
-                                    "Date Effective"
+                                    "Institution"
+                                ),
+                                _react2.default.createElement(
+                                    _section.SectionRowContent,
+                                    null,
+                                    "University of Tokyo"
+                                )
+                            ),
+                            _react2.default.createElement(
+                                _section.SectionRow,
+                                null,
+                                _react2.default.createElement(
+                                    _section.SectionRowTitle,
+                                    null,
+                                    "Start Date"
                                 ),
                                 _react2.default.createElement(
                                     _section.SectionRowContent,
@@ -103,21 +117,7 @@ var Programs = function (_Component) {
                                 _react2.default.createElement(
                                     _section.SectionRowTitle,
                                     null,
-                                    "Date Effective"
-                                ),
-                                _react2.default.createElement(
-                                    _section.SectionRowContent,
-                                    null,
-                                    "June 18, 1998"
-                                )
-                            ),
-                            _react2.default.createElement(
-                                _section.SectionRow,
-                                null,
-                                _react2.default.createElement(
-                                    _section.SectionRowTitle,
-                                    null,
-                                    "Date Effective"
+                                    "End Date"
                                 ),
                                 _react2.default.createElement(
                                     _section.SectionRowContent,

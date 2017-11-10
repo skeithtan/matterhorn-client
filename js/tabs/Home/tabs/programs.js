@@ -22,26 +22,26 @@ class Programs extends Component {
                     <CardBody className="p-0">
                         <div className="d-flex flex-row p-3 justify-content-between align-items-center">
                             <div>
-                                <small className="text-uppercase text-secondary">Institution name</small>
-                                <h6 className="mb-0">Institution Name</h6>
+                                <small className="text-uppercase text-secondary">Program name</small>
+                                <h6 className="mb-0">Summer Program 2018</h6>
                             </div>
                             <div>
-                                <small className="text-uppercase text-secondary">Memorandum type</small>
-                                <h6 className="mb-0">Memorandum of [Category]</h6>
+                                <small className="text-uppercase text-secondary">Term</small>
+                                <h6 className="mb-0">2016 - 2017, Term 1</h6>
                             </div>
-                            <CardSubtitle className="text-danger">Expiring in 2 months</CardSubtitle>
+                            <CardSubtitle className="text-danger">Ending in 2 months</CardSubtitle>
                         </div>
                         <div className="d-flex flex-column p-0">
                             <SectionRow>
-                                <SectionRowTitle>Date Effective</SectionRowTitle>
+                                <SectionRowTitle>Institution</SectionRowTitle>
+                                <SectionRowContent>University of Tokyo</SectionRowContent>
+                            </SectionRow>
+                            <SectionRow>
+                                <SectionRowTitle>Start Date</SectionRowTitle>
                                 <SectionRowContent>June 18, 1998</SectionRowContent>
                             </SectionRow>
                             <SectionRow>
-                                <SectionRowTitle>Date Effective</SectionRowTitle>
-                                <SectionRowContent>June 18, 1998</SectionRowContent>
-                            </SectionRow>
-                            <SectionRow>
-                                <SectionRowTitle>Date Effective</SectionRowTitle>
+                                <SectionRowTitle>End Date</SectionRowTitle>
                                 <SectionRowContent>June 18, 1998</SectionRowContent>
                             </SectionRow>
                         </div>
