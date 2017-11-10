@@ -148,7 +148,7 @@ var Memorandums = function (_Component) {
 
             return _react2.default.createElement(
                 "div",
-                { id: "institution-memorandums", className: "d-flex flex-column p-0 h-100" },
+                { className: "d-flex flex-column p-0 h-100" },
                 _react2.default.createElement(MemorandumHead, { institution: this.state.institution, refreshMemorandums: this.refreshMemorandums }),
                 _react2.default.createElement(MemorandumBody, { institution: this.state.institution,
                     memorandums: this.state.institution.memorandum_set,
@@ -411,11 +411,7 @@ var MemorandumListSection = function (_Component4) {
                     _react2.default.createElement(
                         _section.SectionTable,
                         { className: "memorandums-accordion" },
-                        _react2.default.createElement(
-                            _reactstrap.ListGroup,
-                            null,
-                            rows
-                        )
+                        rows
                     )
                 )
             );

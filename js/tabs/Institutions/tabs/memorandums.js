@@ -137,7 +137,7 @@ class Memorandums extends Component {
         }
 
         return (
-            <div id="institution-memorandums" className="d-flex flex-column p-0 h-100">
+            <div className="d-flex flex-column p-0 h-100">
                 <MemorandumHead institution={this.state.institution} refreshMemorandums={this.refreshMemorandums}/>
                 <MemorandumBody institution={this.state.institution}
                                 memorandums={this.state.institution.memorandum_set}
@@ -325,9 +325,7 @@ class MemorandumListSection extends Component {
                 <Section>
                     <SectionTitle>{this.props.children}</SectionTitle>
                     <SectionTable className="memorandums-accordion">
-                        <ListGroup>
-                            {rows}
-                        </ListGroup>
+                        {rows}
                     </SectionTable>
                 </Section>
             </div>
