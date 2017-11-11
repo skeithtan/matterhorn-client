@@ -86,18 +86,30 @@ var Memorandums = function (_Component) {
             activeCard: null
         };
 
-        fetchInstitutions(function (response) {
-            var institutions = response.data.institutions;
-            _this.setState({
-                cards: makeCardsFromInstitution(institutions)
-            });
-        });
-
+        _this.refreshCards = _this.refreshCards.bind(_this);
         _this.setActiveCard = _this.setActiveCard.bind(_this);
+
+        _this.refreshCards();
         return _this;
     }
 
     _createClass(Memorandums, [{
+        key: "refreshCards",
+        value: function refreshCards() {
+            var _this2 = this;
+
+            this.setState({
+                cards: null //clear first
+            });
+
+            fetchInstitutions(function (response) {
+                var institutions = response.data.institutions;
+                _this2.setState({
+                    cards: makeCardsFromInstitution(institutions)
+                });
+            });
+        }
+    }, {
         key: "setActiveCard",
         value: function setActiveCard(index) {
             if (this.state.activeCard === index) {
@@ -115,7 +127,7 @@ var Memorandums = function (_Component) {
     }, {
         key: "render",
         value: function render() {
-            var _this2 = this;
+            var _this3 = this;
 
             if (this.state.cards === null) {
                 return _react2.default.createElement(_loading2.default, null);
@@ -126,9 +138,9 @@ var Memorandums = function (_Component) {
             }
 
             var cards = this.state.cards.map(function (card, index) {
-                var isActive = _this2.state.activeCard === index;
+                var isActive = _this3.state.activeCard === index;
                 var setActiveCard = function setActiveCard() {
-                    return _this2.setActiveCard(index);
+                    return _this3.setActiveCard(index);
                 };
                 return _react2.default.createElement(MemorandumCard, { key: index, card: card, onClick: setActiveCard, active: isActive });
             });
@@ -165,7 +177,7 @@ var MemorandumCard = function (_Component2) {
     _createClass(MemorandumCard, [{
         key: "render",
         value: function render() {
-            var _this4 = this;
+            var _this5 = this;
 
             var dateExpiration = this.props.card.memorandum.dateExpiration.format("LL");
             var expirationToNow = this.props.card.memorandum.dateExpiration.fromNow();
@@ -192,7 +204,7 @@ var MemorandumCard = function (_Component2) {
             return _react2.default.createElement(
                 "div",
                 { className: cardClass, onClick: this.props.onClick, ref: function ref(card) {
-                        return _this4.card = card;
+                        return _this5.card = card;
                     } },
                 _react2.default.createElement(
                     _section.SectionRow,

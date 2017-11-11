@@ -75,20 +75,29 @@ class Memorandums extends Component {
             activeCard : null,
         };
 
-        fetchInstitutions(response => {
-            const institutions = response.data.institutions;
-            this.setState({
-                cards : makeCardsFromInstitution(institutions),
-            });
-        });
-
+        this.refreshCards = this.refreshCards.bind(this);
         this.setActiveCard = this.setActiveCard.bind(this);
+
+        this.refreshCards();
     }
 
     static emptyState() {
         return (
             <h5>There are no memorandums found with an expiration date</h5>
         );
+    }
+
+    refreshCards() {
+        this.setState({
+            cards : null //clear first
+        });
+
+        fetchInstitutions(response => {
+            const institutions = response.data.institutions;
+            this.setState({
+                cards : makeCardsFromInstitution(institutions),
+            });
+        });
     }
 
     setActiveCard(index) {

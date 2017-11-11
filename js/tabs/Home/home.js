@@ -28,7 +28,13 @@ class Home extends Component {
     }
 
     render() {
-        const currentTab = this.state.activeTab.tab;
+        const currentTab = this.state.activeTab.tab(this.setSidebarContent);
+
+        let sidebarClass = "sidebar-right ";
+        if (this.state.sidebarContent === null) {
+            sidebarClass += "dismissed";
+        }
+
         return (
             <div id="home" className="container-fluid d-flex flex-row p-0 h-100">
                 <div className="d-flex flex-column p-0 h-100 w-100">
@@ -37,11 +43,9 @@ class Home extends Component {
                                 activeTab={this.state.activeTab}
                                 tabs={tabs}/>
                 </div>
-                {this.state.sidebarContent !== null &&
-                <div className="sidebar-right">
+                <div className={sidebarClass}>
                     {this.state.sidebarContent}
                 </div>
-                }
             </div>
         );
     }

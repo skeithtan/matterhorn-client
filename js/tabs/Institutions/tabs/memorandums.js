@@ -65,11 +65,7 @@ class Memorandums extends Component {
         this.setActiveMemorandum = this.setActiveMemorandum.bind(this);
 
         //Fetch active institution details
-        fetchInstitution(props.institution.id, response => {
-            this.setState({
-                institution : response.data.institution,
-            });
-        });
+        this.refreshMemorandums();
     }
 
     setActiveMemorandum(memorandum) {
