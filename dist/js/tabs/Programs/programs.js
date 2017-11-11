@@ -44,7 +44,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function fetchYears(onResponse) {
     (0, _graphql2.default)({
-        query: "\n        {\n            programs {\n                academic_year {\n                    academic_year_start\n                }\n            }\n        }\n       ",
+        query: "\n        {\n            academic_years {\n                academic_year_start\n            }\n        }\n       ",
         onResponse: onResponse
     });
 }
@@ -82,7 +82,7 @@ var Programs = function (_Component) {
 
             fetchYears(function (response) {
                 _this2.setState({
-                    yearList: response.data.programs
+                    yearList: response.data.academic_years
                 });
             });
         }

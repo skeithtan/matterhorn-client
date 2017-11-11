@@ -10,10 +10,8 @@ function fetchYears(onResponse) {
     graphql({
         query : `
         {
-            programs {
-                academic_year {
-                    academic_year_start
-                }
+            academic_years {
+                academic_year_start
             }
         }
        `,
@@ -45,7 +43,7 @@ class Programs extends Component {
     refreshYears() {
         fetchYears(response => {
             this.setState({
-                yearList : response.data.programs,
+                yearList : response.data.academic_years,
             });
         });
     }

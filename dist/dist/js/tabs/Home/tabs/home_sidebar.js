@@ -20,10 +20,6 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactstrap = require("reactstrap");
-
-var _section = require("../../../components/section");
-
 function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : { default: obj };
 }
@@ -46,27 +42,25 @@ function _inherits(subClass, superClass) {
     }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 }
 
-// TODO: Queries
+var HomeSidebar = function (_Component) {
+    _inherits(HomeSidebar, _Component);
 
-var Memorandums = function (_Component) {
-    _inherits(Memorandums, _Component);
+    function HomeSidebar(props) {
+        _classCallCheck(this, HomeSidebar);
 
-    function Memorandums(props) {
-        _classCallCheck(this, Memorandums);
-
-        return _possibleConstructorReturn(this, (Memorandums.__proto__ || Object.getPrototypeOf(Memorandums)).call(this, props));
+        return _possibleConstructorReturn(this, (HomeSidebar.__proto__ || Object.getPrototypeOf(HomeSidebar)).call(this, props));
     }
 
-    _createClass(Memorandums, [{
+    _createClass(HomeSidebar, [{
         key: "render",
         value: function render() {
-            return _react2.default.createElement("div", { className: "d-flex flex-column align-items-center page-body" }, _react2.default.createElement(_reactstrap.Card, { className: "home-card mt-4" }, _react2.default.createElement(_reactstrap.CardBody, { className: "p-0" }, _react2.default.createElement("div", { className: "d-flex flex-row p-3 justify-content-between align-items-center" }, _react2.default.createElement("div", null, _react2.default.createElement("small", { className: "text-uppercase text-secondary" }, "Institution name"), _react2.default.createElement("h6", { className: "mb-0" }, "Institution Name")), _react2.default.createElement("div", null, _react2.default.createElement("small", { className: "text-uppercase text-secondary" }, "Memorandum type"), _react2.default.createElement("h6", { className: "mb-0" }, "Understanding")), _react2.default.createElement(_reactstrap.CardSubtitle, { className: "text-danger" }, "Expiring in 6 months")), _react2.default.createElement("div", { className: "d-flex flex-column p-0" }, _react2.default.createElement(_section.SectionRow, null, _react2.default.createElement(_section.SectionRowTitle, null, "Date Effective"), _react2.default.createElement(_section.SectionRowContent, null, "June 18, 1998")), _react2.default.createElement(_section.SectionRow, null, _react2.default.createElement(_section.SectionRowTitle, null, "Date of Expiration"), _react2.default.createElement(_section.SectionRowContent, null, "June 18, 2017")), _react2.default.createElement(_section.SectionRow, null, _react2.default.createElement(_section.SectionRowTitle, null, "College Initiator"), _react2.default.createElement(_section.SectionRowContent, null, "RVRCOB"))))));
+            return _react2.default.createElement("div", { className: "page-body sidebar-right" }, "Something");
         }
     }]);
 
-    return Memorandums;
+    return HomeSidebar;
 }(_react.Component);
 
-exports.default = Memorandums;
-//# sourceMappingURL=memorandums.js.map
-//# sourceMappingURL=memorandums.js.map
+exports.default = HomeSidebar;
+//# sourceMappingURL=home_sidebar.js.map
+//# sourceMappingURL=home_sidebar.js.map

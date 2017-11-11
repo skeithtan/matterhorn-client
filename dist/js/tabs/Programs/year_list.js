@@ -106,12 +106,12 @@ var YearListTable = function (_Component3) {
             }
 
             var rows = this.props.yearList.map(function (year, index) {
-                var yearStart = Number(year.academic_year.academic_year_start);
+                var yearStart = Number(year.academic_year_start);
                 return _react2.default.createElement(
                     _reactstrap.ListGroupItem,
                     { key: index,
                         onClick: function onClick() {
-                            return _this4.props.setActiveYear(year.academic_year.academic_year_start);
+                            return _this4.props.setActiveYear(year.academic_year_start);
                         } },
                     yearStart,
                     " - ",

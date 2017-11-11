@@ -53,9 +53,9 @@ class YearListTable extends Component {
         }
 
         const rows = this.props.yearList.map((year, index) => {
-            const yearStart = Number(year.academic_year.academic_year_start);
+            const yearStart = Number(year.academic_year_start);
             return <ListGroupItem key={ index }
-                                  onClick={ () => this.props.setActiveYear(year.academic_year.academic_year_start) }>
+                                  onClick={ () => this.props.setActiveYear(year.academic_year_start) }>
                 { yearStart } - { yearStart + 1 }
             </ListGroupItem>;
         });

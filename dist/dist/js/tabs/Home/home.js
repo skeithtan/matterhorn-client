@@ -28,6 +28,10 @@ var _home_tabs = require("./tabs/home_tabs");
 
 var _home_tabs2 = _interopRequireDefault(_home_tabs);
 
+var _home_sidebar = require("./home_sidebar");
+
+var _home_sidebar2 = _interopRequireDefault(_home_sidebar);
+
 function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : { default: obj };
 }
@@ -77,9 +81,9 @@ var Home = function (_Component) {
         key: "render",
         value: function render() {
             var currentTab = this.state.activeTab.tab;
-            return _react2.default.createElement("div", { id: "home", className: "container-fluid d-flex flex-column p-0 h-100" }, _react2.default.createElement("div", { id: "tab-content" }, currentTab), _react2.default.createElement(_home_tabs2.default, { setActiveTab: this.setActiveTab,
+            return _react2.default.createElement("div", { id: "home", className: "container-fluid d-flex flex-row p-0 h-100" }, _react2.default.createElement("div", { className: "d-flex flex-column p-0 h-100 w-100" }, _react2.default.createElement("div", { id: "tab-content" }, currentTab), _react2.default.createElement(_home_tabs2.default, { setActiveTab: this.setActiveTab,
                 activeTab: this.state.activeTab,
-                tabs: _home_tabs_list2.default }));
+                tabs: _home_tabs_list2.default })), _react2.default.createElement(_home_sidebar2.default, null));
         }
     }]);
 
