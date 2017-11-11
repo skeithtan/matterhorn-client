@@ -42,7 +42,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function fetchInstitution(id, onResponse) {
     (0, _graphql2.default)({
-        query: "\n        {\n            institution(id: " + id + ") {\n                id\n                name\n                memorandum_set {\n                    id\n                    category\n                    memorandum_file\n                    date_effective\n                    date_expiration\n                    college_initiator\n                    linkages {\n                        code\n                    }\n                }\n            }\n        }\n       ",
+        query: "\n                {\n                  institution(id:" + id + ") {\n                    id\n                    name\n                    moas {\n                      id\n                      category\n                      memorandum_file\n                      date_effective\n                      date_expiration\n                      college_initiator\n                      linkages\n                    }\n                    mous {\n                      id\n                      category\n                      memorandum_file\n                      date_effective\n                      date_expiration\n                      college_initiator\n                      linkages\n                    }\n                  }\n                }\n       ",
         onResponse: onResponse
     });
 }
@@ -146,12 +146,19 @@ var Memorandums = function (_Component) {
                 return _react2.default.createElement(_loading2.default, null);
             }
 
+            var memorandums = {
+                agreements: this.state.institution.mous,
+                understandings: this.state.institution.moas,
+                latestMOU: this.state.institution.latest_mou,
+                latestMOA: this.state.institution.latest_moa
+            };
+
             return _react2.default.createElement(
                 "div",
-                { id: "institution-memorandums", className: "d-flex flex-column p-0 h-100" },
+                { className: "d-flex flex-column p-0 h-100" },
                 _react2.default.createElement(MemorandumHead, { institution: this.state.institution, refreshMemorandums: this.refreshMemorandums }),
                 _react2.default.createElement(MemorandumBody, { institution: this.state.institution,
-                    memorandums: this.state.institution.memorandum_set,
+                    memorandums: memorandums,
                     activeMemorandumId: this.state.activeMemorandumId,
                     setActiveMemorandum: this.setActiveMemorandum,
                     refreshMemorandums: this.refreshMemorandums,
@@ -232,46 +239,7 @@ var MemorandumBody = function (_Component3) {
     function MemorandumBody(props) {
         _classCallCheck(this, MemorandumBody);
 
-        //Sort by most recent
-        var _this6 = _possibleConstructorReturn(this, (MemorandumBody.__proto__ || Object.getPrototypeOf(MemorandumBody)).call(this, props));
-
-        props.memorandums.sort(function (a, b) {
-            var aTime = (0, _moment2.default)(a.date_effective);
-            var bTime = (0, _moment2.default)(b.date_effective);
-
-            if (aTime.isBefore(bTime)) {
-                return 1;
-            }
-
-            if (aTime.isAfter(bTime)) {
-                return -1;
-            }
-
-            return 0;
-        });
-
-        var agreements = [];
-        var understandings = [];
-
-        //Categorize
-        props.memorandums.forEach(function (memorandum) {
-            switch (memorandum.category) {
-                case "MOA":
-                    agreements.push(memorandum);
-                    return;
-                case "MOU":
-                    understandings.push(memorandum);
-                    return;
-                default:
-                    return;
-            }
-        });
-
-        _this6.state = {
-            agreements: agreements,
-            understandings: understandings
-        };
-        return _this6;
+        return _possibleConstructorReturn(this, (MemorandumBody.__proto__ || Object.getPrototypeOf(MemorandumBody)).call(this, props));
     }
 
     _createClass(MemorandumBody, [{
@@ -290,7 +258,8 @@ var MemorandumBody = function (_Component3) {
                             MemorandumListSection,
                             { institution: this.props.institution,
                                 activeMemorandumId: this.props.activeMemorandumId,
-                                memorandums: this.state.agreements,
+                                memorandums: this.props.memorandums.agreements,
+                                latest: this.props.memorandums.latestMOA,
                                 setActiveMemorandum: this.props.setActiveMemorandum,
                                 refreshMemorandums: this.props.refreshMemorandums },
                             "MOA (Memorandums of Agreement)"
@@ -298,7 +267,8 @@ var MemorandumBody = function (_Component3) {
                         _react2.default.createElement(
                             MemorandumListSection,
                             { institution: this.props.institution,
-                                memorandums: this.state.understandings,
+                                memorandums: this.props.memorandums.understandings,
+                                latest: this.props.memorandums.latestMOU,
                                 activeMemorandumId: this.props.activeMemorandumId,
                                 setActiveMemorandum: this.props.setActiveMemorandum,
                                 refreshMemorandums: this.props.refreshMemorandums },
@@ -411,11 +381,7 @@ var MemorandumListSection = function (_Component4) {
                     _react2.default.createElement(
                         _section.SectionTable,
                         { className: "memorandums-accordion" },
-                        _react2.default.createElement(
-                            _reactstrap.ListGroup,
-                            null,
-                            rows
-                        )
+                        rows
                     )
                 )
             );
