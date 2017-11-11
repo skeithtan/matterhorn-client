@@ -80,6 +80,7 @@ class Memorandums extends Component {
 
         this.state = {
             cards : null,
+            activeCard : null,
         };
 
         fetchInstitutions(response => {
@@ -88,12 +89,28 @@ class Memorandums extends Component {
                 cards : makeCardsFromInstitution(institutions),
             });
         });
+
+        this.setActiveCard = this.setActiveCard.bind(this);
     }
 
     static emptyState() {
         return (
             <h5>There are no memorandums found with an expiration date</h5>
         );
+    }
+
+    setActiveCard(index) {
+        if (this.state.activeCard === index) {
+            this.setState({
+                activeCard : null //Deselect when already selected
+            });
+
+            return;
+        }
+
+        this.setState({
+            activeCard : index,
+        });
     }
 
     render() {
@@ -107,7 +124,10 @@ class Memorandums extends Component {
         }
 
         const cards = this.state.cards.map((card, index) => {
-            return <MemorandumCard key={index} card={card}/>;
+            const isActive = this.state.activeCard === index;
+            const setActiveCard = () => this.setActiveCard(index);
+
+            return <MemorandumCard key={index} card={card} onClick={setActiveCard} active={isActive}/>;
         });
 
         return (
@@ -124,7 +144,6 @@ class MemorandumCard extends Component {
     }
 
     render() {
-
         const dateEffective = this.props.card.memorandum.dateEffective.format("LL");
         const dateExpiration = this.props.card.memorandum.dateExpiration.format("LL");
         const expirationToNow = this.props.card.memorandum.dateExpiration.fromNow();
@@ -137,16 +156,21 @@ class MemorandumCard extends Component {
 
         const urgent = monthsBeforeExpiration <= 6;
 
-        let className = undefined;
+        let expirationClass = undefined;
         if (urgent) {
-            className = "bg-danger text-white";
+            expirationClass = "bg-danger text-white";
         } else {
-            className = "bg-dlsu-lighter text-white";
+            expirationClass = "bg-dlsu-lighter text-white";
+        }
+
+        let cardClass = "home-card rounded ";
+        if (this.props.active) {
+            cardClass += "active";
         }
 
         return (
-            <Card className="home-card mt-4 rounded">
-                <SectionRow className={className}>
+            <Card className={cardClass} onClick={this.props.onClick}>
+                <SectionRow className={expirationClass}>
                     <SectionRowContent large>{hasExpired ? "Expired " : "Expires"} {expirationToNow}</SectionRowContent>
                 </SectionRow>
                 <SectionRow>
@@ -157,10 +181,10 @@ class MemorandumCard extends Component {
                     <SectionRowTitle>Memorandum Type</SectionRowTitle>
                     <SectionRowContent large>{this.props.card.memorandum.type}</SectionRowContent>
                 </SectionRow>
-                <SectionRow>
-                    <SectionRowTitle>Date Effective</SectionRowTitle>
-                    <SectionRowContent>{dateEffective}</SectionRowContent>
-                </SectionRow>
+                {/*<SectionRow>*/}
+                {/*<SectionRowTitle>Date Effective</SectionRowTitle>*/}
+                {/*<SectionRowContent>{dateEffective}</SectionRowContent>*/}
+                {/*</SectionRow>*/}
                 <SectionRow>
                     <SectionRowTitle>Date of Expiration</SectionRowTitle>
                     <SectionRowContent>{dateExpiration}</SectionRowContent>

@@ -42,6 +42,7 @@
 .home-card {
     min-width   : 640px;
     max-width   : 640px;
+    margin      : 16px;
     transition  : 200ms;
     overflow    : hidden;
     flex-shrink : 0;
@@ -52,10 +53,11 @@
     margin-bottom : 36px;
 }
 
-/*.home-card .list-group-item.section-row:first-child,*/
-/*.home-card .list-group-item.section-row:last-child {*/
-    /*border-radius : inherit !important;*/
-/*}*/
+.home-card.active {
+    min-width  : 720px;
+    box-shadow : 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+    margin     : 56px;
+}
 
 .home-card:hover {
     box-shadow : 0 10px 20px rgba(0, 0, 0, 0.06), 0 6px 6px rgba(0, 0, 0, 0.23);

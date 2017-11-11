@@ -84,7 +84,8 @@ var Memorandums = function (_Component) {
         var _this = _possibleConstructorReturn(this, (Memorandums.__proto__ || Object.getPrototypeOf(Memorandums)).call(this, props));
 
         _this.state = {
-            cards: null
+            cards: null,
+            activeCard: null
         };
 
         fetchInstitutions(function (response) {
@@ -93,12 +94,30 @@ var Memorandums = function (_Component) {
                 cards: makeCardsFromInstitution(institutions)
             });
         });
+
+        _this.setActiveCard = _this.setActiveCard.bind(_this);
         return _this;
     }
 
     _createClass(Memorandums, [{
+        key: "setActiveCard",
+        value: function setActiveCard(index) {
+            if (this.state.activeCard === index) {
+                this.setState({
+                    activeCard: null //Deselect when already selected
+                });
+
+                return;
+            }
+
+            this.setState({
+                activeCard: index
+            });
+        }
+    }, {
         key: "render",
         value: function render() {
+            var _this2 = this;
 
             if (this.state.cards === null) {
                 return _react2.default.createElement(_loading2.default, null);
@@ -109,7 +128,12 @@ var Memorandums = function (_Component) {
             }
 
             var cards = this.state.cards.map(function (card, index) {
-                return _react2.default.createElement(MemorandumCard, { key: index, card: card });
+                var isActive = _this2.state.activeCard === index;
+                var setActiveCard = function setActiveCard() {
+                    return _this2.setActiveCard(index);
+                };
+
+                return _react2.default.createElement(MemorandumCard, { key: index, card: card, onClick: setActiveCard, active: isActive });
             });
 
             return _react2.default.createElement(
@@ -144,7 +168,6 @@ var MemorandumCard = function (_Component2) {
     _createClass(MemorandumCard, [{
         key: "render",
         value: function render() {
-
             var dateEffective = this.props.card.memorandum.dateEffective.format("LL");
             var dateExpiration = this.props.card.memorandum.dateExpiration.format("LL");
             var expirationToNow = this.props.card.memorandum.dateExpiration.fromNow();
@@ -156,19 +179,24 @@ var MemorandumCard = function (_Component2) {
 
             var urgent = monthsBeforeExpiration <= 6;
 
-            var className = undefined;
+            var expirationClass = undefined;
             if (urgent) {
-                className = "bg-danger text-white";
+                expirationClass = "bg-danger text-white";
             } else {
-                className = "bg-dlsu-lighter text-white";
+                expirationClass = "bg-dlsu-lighter text-white";
+            }
+
+            var cardClass = "home-card rounded ";
+            if (this.props.active) {
+                cardClass += "active";
             }
 
             return _react2.default.createElement(
                 _reactstrap.Card,
-                { className: "home-card mt-4 rounded" },
+                { className: cardClass, onClick: this.props.onClick },
                 _react2.default.createElement(
                     _section.SectionRow,
-                    { className: className },
+                    { className: expirationClass },
                     _react2.default.createElement(
                         _section.SectionRowContent,
                         { large: true },
@@ -203,20 +231,6 @@ var MemorandumCard = function (_Component2) {
                         _section.SectionRowContent,
                         { large: true },
                         this.props.card.memorandum.type
-                    )
-                ),
-                _react2.default.createElement(
-                    _section.SectionRow,
-                    null,
-                    _react2.default.createElement(
-                        _section.SectionRowTitle,
-                        null,
-                        "Date Effective"
-                    ),
-                    _react2.default.createElement(
-                        _section.SectionRowContent,
-                        null,
-                        dateEffective
                     )
                 ),
                 _react2.default.createElement(
