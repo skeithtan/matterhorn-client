@@ -30,6 +30,10 @@ var _student_list = require("./student_list");
 
 var _student_list2 = _interopRequireDefault(_student_list);
 
+var _graphql = require("../../graphql");
+
+var _graphql2 = _interopRequireDefault(_graphql);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -37,6 +41,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+function fetchYears(onResponse) {
+    (0, _graphql2.default)({
+        query: "\n        {\n            programs {\n                academic_year {\n                    academic_year_start\n                }\n            }\n        }\n       ",
+        onResponse: onResponse
+    });
+}
 
 var Programs = function (_Component) {
     _inherits(Programs, _Component);
@@ -47,18 +58,35 @@ var Programs = function (_Component) {
         var _this = _possibleConstructorReturn(this, (Programs.__proto__ || Object.getPrototypeOf(Programs)).call(this, props));
 
         _this.state = {
+            yearList: null,
             activeYear: null,
             activeTerm: null,
-            activeProgram: null
+            activeProgram: null,
+            activeStudyField: null
         };
 
+        _this.refreshYears = _this.refreshYears.bind(_this);
         _this.setActiveYear = _this.setActiveYear.bind(_this);
         _this.setActiveTerm = _this.setActiveTerm.bind(_this);
         _this.setActiveProgram = _this.setActiveProgram.bind(_this);
+        _this.setActiveStudyField = _this.setActiveStudyField.bind(_this);
+
+        _this.refreshYears();
         return _this;
     }
 
     _createClass(Programs, [{
+        key: "refreshYears",
+        value: function refreshYears() {
+            var _this2 = this;
+
+            fetchYears(function (response) {
+                _this2.setState({
+                    yearList: response.data.programs
+                });
+            });
+        }
+    }, {
         key: "setActiveYear",
         value: function setActiveYear(year) {
             this.setState({
@@ -80,12 +108,20 @@ var Programs = function (_Component) {
             });
         }
     }, {
+        key: "setActiveStudyField",
+        value: function setActiveStudyField(studyField) {
+            this.setState({
+                activeStudyField: studyField
+            });
+        }
+    }, {
         key: "render",
         value: function render() {
             return _react2.default.createElement(
                 "div",
                 { id: "programs-page", className: "container-fluid d-flex flex-row p-0 h-100 page-body" },
-                _react2.default.createElement(_year_list2.default, null),
+                _react2.default.createElement(_year_list2.default, { yearList: this.state.yearList,
+                    setActiveYear: this.setActiveYear }),
                 _react2.default.createElement(
                     "div",
                     { className: "d-flex flex-column p-0 h-100" },

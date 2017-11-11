@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import {
     Input,
+    Button,
 } from "reactstrap";
 import {
     SectionRow,
@@ -30,11 +31,12 @@ class StudentListHead extends Component {
     render() {
         return (
             <div className="page-head d-flex flex-column align-items-center">
-                <div className="d-flex flex-row w-100 mb-2 align-items-center">
-                    <div className="mr-auto">
-                        <h5 className="mb-0 text-secondary">Students</h5>
-                        <h4 className="page-head-title mb-0">Study Field Name</h4>
-                    </div>
+                <div className="page-head-controls ml-auto">
+                    <Button outline color="success" size="sm" className="ml-auto">Add</Button>
+                </div>
+                <div className="w-100 mb-2">
+                    <h5 className="mb-0 text-secondary">Students</h5>
+                    <h4 className="page-head-title mb-0">Study Field Name</h4>
                 </div>
                 <Input type="search" placeholder="Search" className="search-input"/>
             </div>

@@ -63,20 +63,25 @@ var StudentListHead = function (_Component2) {
                 { className: "page-head d-flex flex-column align-items-center" },
                 _react2.default.createElement(
                     "div",
-                    { className: "d-flex flex-row w-100 mb-2 align-items-center" },
+                    { className: "page-head-controls ml-auto" },
                     _react2.default.createElement(
-                        "div",
-                        { className: "mr-auto" },
-                        _react2.default.createElement(
-                            "h5",
-                            { className: "mb-0 text-secondary" },
-                            "Students"
-                        ),
-                        _react2.default.createElement(
-                            "h4",
-                            { className: "page-head-title mb-0" },
-                            "Study Field Name"
-                        )
+                        _reactstrap.Button,
+                        { outline: true, color: "success", size: "sm", className: "ml-auto" },
+                        "Add"
+                    )
+                ),
+                _react2.default.createElement(
+                    "div",
+                    { className: "w-100 mb-2" },
+                    _react2.default.createElement(
+                        "h5",
+                        { className: "mb-0 text-secondary" },
+                        "Students"
+                    ),
+                    _react2.default.createElement(
+                        "h4",
+                        { className: "page-head-title mb-0" },
+                        "Study Field Name"
                     )
                 ),
                 _react2.default.createElement(_reactstrap.Input, { type: "search", placeholder: "Search", className: "search-input" })

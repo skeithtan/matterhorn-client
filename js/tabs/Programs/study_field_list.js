@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import {
-    Section,
     SectionRow,
     SectionRowContent,
     SectionTable,
-    SectionTitle,
 } from "../../components/section";
+import {
+    Button,
+} from "reactstrap";
 
 class StudyFieldList extends Component {
     constructor(props) {
@@ -30,6 +31,9 @@ class StudyFieldListHead extends Component {
     render() {
         return (
             <div className="page-head d-flex flex-column align-items-center">
+                <div className="page-head-controls ml-auto">
+                    <Button outline color="success" size="sm" className="ml-auto">Add</Button>
+                </div>
                 <div className="w-100">
                     <h5 className="mb-0 text-secondary">Study Fields</h5>
                     <h4 className="page-head-title mb-0">Program Name</h4>

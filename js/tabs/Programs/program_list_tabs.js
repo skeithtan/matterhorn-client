@@ -10,7 +10,7 @@ class ProgramListTabBar extends Component {
             <div id="institution-navigation">
                 <ul className="p-3 justify-content-center mb-0 d-flex flex-row">
                     <li className="d-flex">
-                        <small className="ml-4 font-weight-bold mb-0 ">Term 1</small>
+                        <small className="font-weight-bold mb-0 ">Term 1</small>
                     </li>
                     <li className="d-flex">
                         <small className="ml-4 font-weight-bold mb-0 ">Term 2</small>

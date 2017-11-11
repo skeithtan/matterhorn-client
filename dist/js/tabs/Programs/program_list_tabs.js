@@ -41,7 +41,7 @@ var ProgramListTabBar = function (_Component) {
                         { className: "d-flex" },
                         _react2.default.createElement(
                             "small",
-                            { className: "ml-4 font-weight-bold mb-0 " },
+                            { className: "font-weight-bold mb-0 " },
                             "Term 1"
                         )
                     ),

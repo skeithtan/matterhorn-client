@@ -4,8 +4,10 @@ import {
     SectionTable,
 } from "../../components/section";
 import {
+    ListGroupItem,
     Button,
 } from "reactstrap";
+import LoadingSpinner from "../../loading";
 
 class YearList extends Component {
     constructor(props) {
@@ -16,7 +18,8 @@ class YearList extends Component {
         return (
             <div className="sidebar h-100" id="term-list">
                 <YearListHead/>
-                <YearListTable/>
+                <YearListTable yearList={ this.props.yearList }
+                               setActiveYear={ this.props.setActiveYear }/>
             </div>
         );
     }
@@ -45,26 +48,24 @@ class YearListTable extends Component {
     }
 
     render() {
+        if (this.props.yearList === null) {
+            return <LoadingSpinner/>;
+        }
+
+        const rows = this.props.yearList.map((year, index) => {
+            const yearStart = Number(year.academic_year.academic_year_start);
+            return <ListGroupItem key={ index }
+                                  onClick={ () => this.props.setActiveYear(year.academic_year.academic_year_start) }>
+                { yearStart } - { yearStart + 1 }
+            </ListGroupItem>;
+        });
+
         return (
             <div className="page-body">
                 <SectionTable>
-                    <YearRow/>
-                    <YearRow/>
-                    <YearRow/>
+                    { rows }
                 </SectionTable>
             </div>
-        );
-    }
-}
-
-class YearRow extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        return (
-            <SectionRow>2016 - 2017</SectionRow>
         );
     }
 }
