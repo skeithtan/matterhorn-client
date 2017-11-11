@@ -18,10 +18,6 @@ var _home_tabs = require("./tabs/home_tabs");
 
 var _home_tabs2 = _interopRequireDefault(_home_tabs);
 
-var _home_sidebar = require("./home_sidebar");
-
-var _home_sidebar2 = _interopRequireDefault(_home_sidebar);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -39,7 +35,8 @@ var Home = function (_Component) {
         var _this = _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).call(this, props));
 
         _this.state = {
-            activeTab: _home_tabs_list2.default[0]
+            activeTab: _home_tabs_list2.default[0],
+            sidebarContent: null
         };
 
         _this.setActiveTab = _this.setActiveTab.bind(_this);
@@ -51,6 +48,13 @@ var Home = function (_Component) {
         value: function setActiveTab(tab) {
             this.setState({
                 activeTab: tab
+            });
+        }
+    }, {
+        key: "setSidebarContent",
+        value: function setSidebarContent(content) {
+            this.setState({
+                sidebarContent: content
             });
         }
     }, {
@@ -72,7 +76,11 @@ var Home = function (_Component) {
                         activeTab: this.state.activeTab,
                         tabs: _home_tabs_list2.default })
                 ),
-                _react2.default.createElement(_home_sidebar2.default, null)
+                this.state.sidebarContent !== null && _react2.default.createElement(
+                    "div",
+                    { className: "sidebar-right" },
+                    this.state.sidebarContent
+                )
             );
         }
     }]);

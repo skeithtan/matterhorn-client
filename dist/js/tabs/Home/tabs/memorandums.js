@@ -160,7 +160,7 @@ var MemorandumCard = function (_Component2) {
             if (urgent) {
                 className = "bg-danger text-white";
             } else {
-                className = "bg-primary text-white";
+                className = "bg-dlsu-lighter text-white";
             }
 
             return _react2.default.createElement(
