@@ -40,13 +40,14 @@
 
 /*Home*/
 .home-card {
-    min-width   : 640px;
-    max-width   : 640px;
-    margin      : 16px;
-    transition  : 200ms;
-    overflow    : hidden;
-    flex-shrink : 0;
-    box-shadow  : 0 3px 20px 0px rgba(0, 0, 0, 0.03), 0 0px 4px rgba(0, 0, 0, 0.13);
+    min-width     : 640px;
+    max-width     : 640px;
+    margin        : 16px;
+    transition    : 200ms;
+    overflow      : hidden;
+    flex-shrink   : 0;
+    z-index       : 1; /* Fixes border-radius issue */
+    box-shadow    : 0 3px 20px 0px rgba(0, 0, 0, 0.03), 0 0px 4px rgba(0, 0, 0, 0.13);
 }
 
 .home-card:last-child {
@@ -56,7 +57,7 @@
 .home-card.active {
     min-width  : 720px;
     box-shadow : 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
-    margin     : 56px;
+    margin     : 48px;
 }
 
 .home-card:hover {
@@ -163,7 +164,7 @@ input[type="search"]::-webkit-search-cancel-button {
     min-width          : 80px;
     width              : 80px;
     padding            : 0;
-    transition         : 600ms;
+    transition         : 350ms;
 }
 
 #main-navigation.expanded {
@@ -427,9 +428,9 @@ li.nav-item.active .sidebar-image,
 }
 
 /*List group item override*/
-.list-group-item.section-row:first-child:not(.home-card .section-row),
-.list-group-item.section-row:last-child:not(.home-card .section-row) {
-    border-radius : 0 !important;
+.list-group-item.section-row:first-child,
+.list-group-item.section-row:last-child {
+    border-radius : 0;
 }
 
 .list-group-item.section-row {
