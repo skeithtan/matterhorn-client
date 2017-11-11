@@ -23,11 +23,9 @@ function fetchInstitutions(onResponse) {
                     id
                     name
                         latest_mou {
-                            date_effective
                             date_expiration
                         }
                         latest_moa {
-                            date_effective
                             date_expiration
                         }
                   }
@@ -182,12 +180,8 @@ class MemorandumCard extends Component {
                     <SectionRowContent large>{this.props.card.memorandum.type}</SectionRowContent>
                 </SectionRow>
                 <SectionRow>
-                    <SectionRowTitle>Date Effective</SectionRowTitle>
-                    <SectionRowContent>{dateEffective}</SectionRowContent>
-                </SectionRow>
-                <SectionRow>
                     <SectionRowTitle>Date of Expiration</SectionRowTitle>
-                    <SectionRowContent>{dateExpiration}</SectionRowContent>
+                    <SectionRowContent large>{dateExpiration}</SectionRowContent>
                 </SectionRow>
             </Card>
         );
