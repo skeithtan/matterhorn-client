@@ -239,6 +239,20 @@ var MemorandumCard = function (_Component2) {
                     _react2.default.createElement(
                         _section.SectionRowTitle,
                         null,
+                        "Date Effective"
+                    ),
+                    _react2.default.createElement(
+                        _section.SectionRowContent,
+                        null,
+                        dateEffective
+                    )
+                ),
+                _react2.default.createElement(
+                    _section.SectionRow,
+                    null,
+                    _react2.default.createElement(
+                        _section.SectionRowTitle,
+                        null,
                         "Date of Expiration"
                     ),
                     _react2.default.createElement(

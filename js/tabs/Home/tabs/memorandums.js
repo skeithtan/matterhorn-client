@@ -181,10 +181,10 @@ class MemorandumCard extends Component {
                     <SectionRowTitle>Memorandum Type</SectionRowTitle>
                     <SectionRowContent large>{this.props.card.memorandum.type}</SectionRowContent>
                 </SectionRow>
-                {/*<SectionRow>*/}
-                {/*<SectionRowTitle>Date Effective</SectionRowTitle>*/}
-                {/*<SectionRowContent>{dateEffective}</SectionRowContent>*/}
-                {/*</SectionRow>*/}
+                <SectionRow>
+                    <SectionRowTitle>Date Effective</SectionRowTitle>
+                    <SectionRowContent>{dateEffective}</SectionRowContent>
+                </SectionRow>
                 <SectionRow>
                     <SectionRowTitle>Date of Expiration</SectionRowTitle>
                     <SectionRowContent>{dateExpiration}</SectionRowContent>
