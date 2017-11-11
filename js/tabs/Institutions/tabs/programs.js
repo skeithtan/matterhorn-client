@@ -10,6 +10,21 @@ import {
     SectionTitle,
 } from "../../../components/section";
 
+function fetchYears(institutionID, onResponse) {
+    graphql({
+        query : `
+        {
+            programs(institution:${institutionID}) {
+                academic_year {
+                    academic_year_start
+                }
+            }
+        }
+       `,
+        onResponse : onResponse,
+    });
+}
+
 function fetchPrograms(institutionID, onResponse) {
     graphql({
         query : `
@@ -28,10 +43,34 @@ class Programs extends Component {
         super(props);
 
         this.state = {
+            yearList : null,
+            programList : null,
+            institutionID : props.institution.id,
+            currentYear : null,
             currentProgram : null,
         };
 
+        this.setCurrentYear = this.setCurrentYear.bind(this);
         this.setCurrentProgram = this.setCurrentProgram.bind(this);
+
+        fetchYears(props.institution.id, response => {
+            this.setState({
+                yearList : response.data.programs,
+            });
+        });
+
+        fetchPrograms(props.institution.id, response => {
+            this.setState({
+                programList : response.data.programs,
+            });
+        });
+    }
+
+    setCurrentYear(year) {
+        console.log(year);
+        this.setState({
+            currentYear : year,
+        });
     }
 
     setCurrentProgram(program) {
@@ -40,11 +79,38 @@ class Programs extends Component {
         });
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (this.state.institutionID === nextProps.institution.id) {
+            return;
+        }
+
+        this.setState({
+            institutionID : nextProps.institution.id,
+            yearList : null,
+            programList : null,
+        });
+
+        fetchYears(nextProps.institution.id, response => {
+            this.setState({
+                yearList : response.data.programs,
+            });
+        });
+
+        fetchPrograms(nextProps.institution.id, response => {
+            this.setState({
+                programList : response.data.programs,
+            });
+        });
+    }
+
     render() {
         return (
             <div className="h-100 w-100">
-                <ProgramsHead institution={ this.props.institution }/>
-                <ProgramsTable institution={ this.props.institution } setCurrentProgram={ this.setCurrentProgram }/>
+                <ProgramsHead institution={ this.props.institution }
+                              years={ this.state.yearList }
+                              setCurrentYear={ this.setCurrentYear }/>
+                <ProgramsTable programs={ this.state.programList }
+                               setCurrentProgram={ this.setCurrentProgram }/>
             </div>
         );
     }
@@ -55,11 +121,28 @@ class ProgramsHead extends Component {
         super(props);
     }
 
+    getOrderedYears() {
+        if (this.props.years === null) {
+            return [];
+        }
+
+        let years = this.props.years.map(year => Number(year.academic_year.academic_year_start));
+        years = years.sort(function (a, b) {
+            return a - b;
+        });
+
+        return years;
+    }
+
     toggleAddPrograms() {
         //TODO
     }
 
     render() {
+        const years = this.getOrderedYears().map((year, index) => {
+            return <option key={ index } value={ year }>{ year } - { year + 1 }</option>;
+        });
+
         return (
             <div className="page-head pt-5 d-flex flex-row align-items-end">
                 <div className="mr-auto">
@@ -68,6 +151,12 @@ class ProgramsHead extends Component {
                 </div>
 
                 <div className="page-head-actions">
+                    { years.length !== 0 &&
+                    <select className="form-control mr-3"
+                            onChange={ () => this.props.setCurrentYear }
+                            defaultValue={ this.getOrderedYears()[0] }>
+                        { years }
+                    </select> }
                     <Button outline size="sm" color="success">
                         Add a Program
                     </Button>
@@ -80,40 +169,13 @@ class ProgramsHead extends Component {
 class ProgramsTable extends Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            institutionID : props.institution.id,
-            programList : null,
-        };
-
-        fetchPrograms(props.institution.id, response => {
-            this.setState({
-                programList : response.data.programs,
-            });
-        });
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (this.state.institutionID === nextProps.institution.id) {
-            return;
-        }
-
-        this.setState({
-            institutionID : nextProps.institution.id,
-            programList : null,
-        });
-
-        fetchPrograms(nextProps.institution.id, response => {
-            this.setState({
-                programList : response.data.programs,
-            });
-        });
     }
 
     render() {
         return (
             <div className="w-100">
-                <ProgramsListSection programs={ this.state.programList }/>
+                <ProgramsListSection programs={ this.props.programs }
+                                     setCurrentProgram={ this.props.setCurrentProgram }/>
             </div>
         );
     }
@@ -136,8 +198,6 @@ class ProgramsListSection extends Component {
     }
 
     render() {
-        console.log(this.props.programs);
-
         if (this.props.programs === null) {
             return <LoadingSpinner/>;
         }
@@ -149,7 +209,7 @@ class ProgramsListSection extends Component {
         let rows = this.props.programs.map((program, index) => {
             //TODO: onClick
             return (
-                <SectionRow key={ index }>
+                <SectionRow key={ index } onClick={ () => this.props.setCurrentProgram(program) }>
                     <SectionRowContent large>{ program.name }</SectionRowContent>
                 </SectionRow>
             );
