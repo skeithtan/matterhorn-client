@@ -14,6 +14,8 @@ import {
     SectionTitle,
     SectionTable,
     SectionRow,
+    SectionRowContent,
+    SectionRowTitle,
 } from "../../../components/section";
 
 import {
@@ -326,7 +328,12 @@ class MemorandumRow extends Component {
         const dateEffective = formatDate(memorandum.date_effective);
         return (
             <SectionRow onClick={this.props.onClick}
-                        active={this.props.isActive}>Effective {dateEffective}</SectionRow>
+                        active={this.props.isActive}>
+                {this.props.latest &&
+                <SectionRowTitle>Latest Memorandum</SectionRowTitle>
+                }
+                <SectionRowContent large>Effective {dateEffective}</SectionRowContent>
+            </SectionRow>
         );
     }
 }

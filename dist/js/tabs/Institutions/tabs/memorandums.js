@@ -414,8 +414,17 @@ var MemorandumRow = function (_Component5) {
                 _section.SectionRow,
                 { onClick: this.props.onClick,
                     active: this.props.isActive },
-                "Effective ",
-                dateEffective
+                this.props.latest && _react2.default.createElement(
+                    _section.SectionRowTitle,
+                    null,
+                    "Latest Memorandum"
+                ),
+                _react2.default.createElement(
+                    _section.SectionRowContent,
+                    { large: true },
+                    "Effective ",
+                    dateEffective
+                )
             );
         }
     }]);
