@@ -89,7 +89,12 @@ var Memorandums = function (_Component) {
         _this.refreshCards = _this.refreshCards.bind(_this);
         _this.setActiveCard = _this.setActiveCard.bind(_this);
 
-        _this.refreshCards();
+        fetchInstitutions(function (response) {
+            var institutions = response.data.institutions;
+            _this.setState({
+                cards: makeCardsFromInstitution(institutions)
+            });
+        });
         return _this;
     }
 

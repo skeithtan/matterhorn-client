@@ -63,7 +63,11 @@ var Memorandums = function (_Component) {
         _this.setActiveMemorandum = _this.setActiveMemorandum.bind(_this);
 
         //Fetch active institution details
-        _this.refreshMemorandums();
+        fetchInstitution(_this.props.institution.id, function (response) {
+            _this.setState({
+                institution: response.data.institution
+            });
+        });
         return _this;
     }
 

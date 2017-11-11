@@ -78,7 +78,12 @@ class Memorandums extends Component {
         this.refreshCards = this.refreshCards.bind(this);
         this.setActiveCard = this.setActiveCard.bind(this);
 
-        this.refreshCards();
+        fetchInstitutions(response => {
+            const institutions = response.data.institutions;
+            this.setState({
+                cards : makeCardsFromInstitution(institutions),
+            });
+        });
     }
 
     static emptyState() {
