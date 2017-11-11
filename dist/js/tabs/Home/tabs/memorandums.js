@@ -36,7 +36,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function fetchInstitutions(onResponse) {
     (0, _graphql2.default)({
-        query: "\n                {\n                  institutions {\n                    id\n                    name\n                        latest_mou {\n                            date_effective\n                            date_expiration\n                        }\n                        latest_moa {\n                            date_effective\n                            date_expiration\n                        }\n                  }\n                }\n        ",
+        query: "\n                {\n                  institutions {\n                    id\n                    name\n                        latest_mou {\n                            date_expiration\n                        }\n                        latest_moa {\n                            date_expiration\n                        }\n                  }\n                }\n        ",
         onResponse: onResponse
     });
 }
@@ -239,25 +239,11 @@ var MemorandumCard = function (_Component2) {
                     _react2.default.createElement(
                         _section.SectionRowTitle,
                         null,
-                        "Date Effective"
-                    ),
-                    _react2.default.createElement(
-                        _section.SectionRowContent,
-                        null,
-                        dateEffective
-                    )
-                ),
-                _react2.default.createElement(
-                    _section.SectionRow,
-                    null,
-                    _react2.default.createElement(
-                        _section.SectionRowTitle,
-                        null,
                         "Date of Expiration"
                     ),
                     _react2.default.createElement(
                         _section.SectionRowContent,
-                        null,
+                        { large: true },
                         dateExpiration
                     )
                 )
