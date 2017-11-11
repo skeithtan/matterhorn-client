@@ -538,8 +538,6 @@ var MemorandumFormModal = function (_Component3) {
     _createClass(MemorandumFormModal, [{
         key: "componentWillReceiveProps",
         value: function componentWillReceiveProps(newProps) {
-            var _this8 = this;
-
             this.state = {
                 form: {
                     category: "MOA",
@@ -555,10 +553,7 @@ var MemorandumFormModal = function (_Component3) {
                 Object.assign(this.state.form, newProps.memorandum);
                 this.state.form.linkages = []; //Do not use prop linkage = make a new one.
 
-                // Linkages are in linkage.linkage format from graphQL. Convert to array form.
-                newProps.memorandum.linkages.forEach(function (linkage) {
-                    _this8.state.form.linkages.push(linkage.code);
-                });
+                Object.assign(this.state.form.linkages, newProps.memorandum.linkages);
             }
         }
     }, {
@@ -577,7 +572,7 @@ var MemorandumFormModal = function (_Component3) {
     }, {
         key: "getChangeHandler",
         value: function getChangeHandler(fieldName) {
-            var _this9 = this;
+            var _this8 = this;
 
             var form = this.state.form;
 
@@ -585,7 +580,7 @@ var MemorandumFormModal = function (_Component3) {
                 var value = event.target.value;
 
                 form[fieldName] = value;
-                _this9.setState({
+                _this8.setState({
                     form: form
                 });
             };
@@ -593,17 +588,17 @@ var MemorandumFormModal = function (_Component3) {
     }, {
         key: "setupUploadCare",
         value: function setupUploadCare() {
-            var _this10 = this;
+            var _this9 = this;
 
             var widget = uploadcare.SingleWidget("[role=uploadcare-uploader]");
             var form = this.state.form;
             var setMemorandumFile = function setMemorandumFile(link) {
                 form.memorandum_file = link;
-                _this10.setState({
+                _this9.setState({
                     form: form
                 });
 
-                console.log(_this10.state.form);
+                console.log(_this9.state.form);
             };
 
             widget.onChange(function (file) {
@@ -617,7 +612,7 @@ var MemorandumFormModal = function (_Component3) {
     }, {
         key: "submitAddMemorandumForm",
         value: function submitAddMemorandumForm() {
-            var _this11 = this;
+            var _this10 = this;
 
             var dismissToast = (0, _dismissable_toast_maker2.default)({
                 title: "Adding",
@@ -630,7 +625,7 @@ var MemorandumFormModal = function (_Component3) {
                 beforeSend: _authorization2.default,
                 success: function success() {
                     dismissToast();
-                    _this11.props.refresh();
+                    _this10.props.refresh();
                     _izitoast2.default.success({
                         title: "Success",
                         message: "Successfully added memorandum"
@@ -651,7 +646,7 @@ var MemorandumFormModal = function (_Component3) {
     }, {
         key: "submitEditMemorandumForm",
         value: function submitEditMemorandumForm() {
-            var _this12 = this;
+            var _this11 = this;
 
             var dismissToast = (0, _dismissable_toast_maker2.default)({
                 title: "Editing",
@@ -679,8 +674,8 @@ var MemorandumFormModal = function (_Component3) {
                         };
                     });
 
-                    _this12.props.onEditSuccess(memorandum);
-                    _this12.props.refresh();
+                    _this11.props.onEditSuccess(memorandum);
+                    _this11.props.refresh();
 
                     _izitoast2.default.success({
                         title: "Success",
@@ -702,7 +697,7 @@ var MemorandumFormModal = function (_Component3) {
     }, {
         key: "render",
         value: function render() {
-            var _this13 = this;
+            var _this12 = this;
 
             var formErrors = this.getFormErrors();
             var formHasErrors = formErrors.formHasErrors;
@@ -711,20 +706,22 @@ var MemorandumFormModal = function (_Component3) {
             var linkages = Object.entries(_settings2.default.linkages).map(function (linkage) {
                 var linkageCode = linkage[0];
                 var linkageString = linkage[1];
-                var isSelected = _this13.state.form.linkages.includes(linkageCode);
+
+                var isSelected = _this12.state.form.linkages.includes(linkageCode);
                 var className = isSelected ? "bg-dlsu-lighter text-white d-flex" : "d-flex";
 
                 var onClick = function onClick() {
-                    var form = _this13.state.form;
+                    var form = _this12.state.form;
 
                     if (isSelected) {
                         var _linkages = form.linkages;
+                        // Remove from linkages the selected linkage
                         _linkages.splice(_linkages.indexOf(linkageCode), 1);
                     } else {
                         form.linkages.push(linkageCode);
                     }
 
-                    _this13.setState({
+                    _this12.setState({
                         form: form
                     });
                 };
@@ -924,16 +921,16 @@ var DeleteMemorandumModal = function (_Component4) {
     function DeleteMemorandumModal(props) {
         _classCallCheck(this, DeleteMemorandumModal);
 
-        var _this14 = _possibleConstructorReturn(this, (DeleteMemorandumModal.__proto__ || Object.getPrototypeOf(DeleteMemorandumModal)).call(this, props));
+        var _this13 = _possibleConstructorReturn(this, (DeleteMemorandumModal.__proto__ || Object.getPrototypeOf(DeleteMemorandumModal)).call(this, props));
 
-        _this14.confirmDelete = _this14.confirmDelete.bind(_this14);
-        return _this14;
+        _this13.confirmDelete = _this13.confirmDelete.bind(_this13);
+        return _this13;
     }
 
     _createClass(DeleteMemorandumModal, [{
         key: "confirmDelete",
         value: function confirmDelete() {
-            var _this15 = this;
+            var _this14 = this;
 
             var dismissToast = (0, _dismissable_toast_maker2.default)({
                 title: "Deleting",
@@ -946,8 +943,8 @@ var DeleteMemorandumModal = function (_Component4) {
                 beforeSend: _authorization2.default,
                 success: function success() {
                     dismissToast();
-                    _this15.props.onDeleteSuccess();
-                    _this15.props.refresh();
+                    _this14.props.onDeleteSuccess();
+                    _this14.props.refresh();
                     _izitoast2.default.success({
                         title: "Success",
                         message: "Memorandum deleted",

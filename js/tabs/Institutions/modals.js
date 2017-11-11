@@ -373,10 +373,7 @@ class MemorandumFormModal extends Component {
             Object.assign(this.state.form, newProps.memorandum);
             this.state.form.linkages = []; //Do not use prop linkage = make a new one.
 
-            // Linkages are in linkage.linkage format from graphQL. Convert to array form.
-            newProps.memorandum.linkages.forEach(linkage => {
-                this.state.form.linkages.push(linkage.code);
-            });
+            Object.assign(this.state.form.linkages, newProps.memorandum.linkages);
         }
     }
 
@@ -518,6 +515,7 @@ class MemorandumFormModal extends Component {
         const linkages = Object.entries(settings.linkages).map(linkage => {
             const linkageCode = linkage[0];
             const linkageString = linkage[1];
+
             const isSelected = this.state.form.linkages.includes(linkageCode);
             const className = isSelected ? "bg-dlsu-lighter text-white d-flex" : "d-flex";
 
@@ -526,6 +524,7 @@ class MemorandumFormModal extends Component {
 
                 if (isSelected) {
                     const linkages = form.linkages;
+                    // Remove from linkages the selected linkage
                     linkages.splice(linkages.indexOf(linkageCode), 1);
                 } else {
                     form.linkages.push(linkageCode);
