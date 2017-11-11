@@ -321,7 +321,8 @@ class MemorandumRow extends Component {
 
         const dateEffective = formatDate(memorandum.date_effective);
         return (
-            <SectionRow onClick={this.props.onClick}
+            <SectionRow selectable
+                        onClick={this.props.onClick}
                         active={this.props.isActive}>
                 {this.props.latest &&
                 <SectionRowTitle>Latest Memorandum</SectionRowTitle>

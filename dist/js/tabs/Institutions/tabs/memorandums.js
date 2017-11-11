@@ -410,7 +410,8 @@ var MemorandumRow = function (_Component5) {
             var dateEffective = formatDate(memorandum.date_effective);
             return _react2.default.createElement(
                 _section.SectionRow,
-                { onClick: this.props.onClick,
+                { selectable: true,
+                    onClick: this.props.onClick,
                     active: this.props.isActive },
                 this.props.latest && _react2.default.createElement(
                     _section.SectionRowTitle,
