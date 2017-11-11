@@ -19,8 +19,8 @@ const tabs = [
     {
         name : "Students",
         tab : <Students/>,
-        image : "./images/memorandumgrey.png",
-        activeImage : "./images/memorandumgreen.png",
+        image : "./images/studentgrey.png",
+        activeImage : "./images/studentgreen.png",
     },
 ];
 

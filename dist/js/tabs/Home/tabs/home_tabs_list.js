@@ -35,8 +35,8 @@ var tabs = [{
 }, {
     name: "Students",
     tab: _react2.default.createElement(_students2.default, null),
-    image: "./images/memorandumgrey.png",
-    activeImage: "./images/memorandumgreen.png"
+    image: "./images/studentgrey.png",
+    activeImage: "./images/studentgreen.png"
 }];
 
 exports.default = tabs;
