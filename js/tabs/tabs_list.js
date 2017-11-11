@@ -1,5 +1,5 @@
 import React from "react";
-import Home from "./home";
+import Home from "./Home/home";
 import Institutions from "./Institutions/institutions";
 import Students from "./Students/students";
 import Programs from "./Programs/programs";

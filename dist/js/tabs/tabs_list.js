@@ -8,7 +8,7 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _home = require("./home");
+var _home = require("./Home/home");
 
 var _home2 = _interopRequireDefault(_home);
 

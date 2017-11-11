@@ -18,29 +18,27 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var InstitutionDetailTabBar = function (_Component) {
-    _inherits(InstitutionDetailTabBar, _Component);
+var HomeTabBar = function (_Component) {
+    _inherits(HomeTabBar, _Component);
 
-    function InstitutionDetailTabBar(props) {
-        _classCallCheck(this, InstitutionDetailTabBar);
+    function HomeTabBar(props) {
+        _classCallCheck(this, HomeTabBar);
 
-        return _possibleConstructorReturn(this, (InstitutionDetailTabBar.__proto__ || Object.getPrototypeOf(InstitutionDetailTabBar)).call(this, props));
+        return _possibleConstructorReturn(this, (HomeTabBar.__proto__ || Object.getPrototypeOf(HomeTabBar)).call(this, props));
     }
 
-    _createClass(InstitutionDetailTabBar, [{
+    _createClass(HomeTabBar, [{
         key: "render",
         value: function render() {
             var _this2 = this;
 
             var tabs = this.props.tabs.map(function (tab, index) {
-                return _react2.default.createElement(InstitutionDetailTab, {
-                    tab: tab,
+                return _react2.default.createElement(HomeTab, { tab: tab,
                     key: index,
                     onClick: function onClick() {
                         return _this2.props.setActiveTab(tab);
                     },
-                    isActive: _this2.props.activeTab === tab
-                });
+                    isActive: _this2.props.activeTab === tab });
             });
 
             return _react2.default.createElement(
@@ -55,19 +53,19 @@ var InstitutionDetailTabBar = function (_Component) {
         }
     }]);
 
-    return InstitutionDetailTabBar;
+    return HomeTabBar;
 }(_react.Component);
 
-var InstitutionDetailTab = function (_Component2) {
-    _inherits(InstitutionDetailTab, _Component2);
+var HomeTab = function (_Component2) {
+    _inherits(HomeTab, _Component2);
 
-    function InstitutionDetailTab(props) {
-        _classCallCheck(this, InstitutionDetailTab);
+    function HomeTab(props) {
+        _classCallCheck(this, HomeTab);
 
-        return _possibleConstructorReturn(this, (InstitutionDetailTab.__proto__ || Object.getPrototypeOf(InstitutionDetailTab)).call(this, props));
+        return _possibleConstructorReturn(this, (HomeTab.__proto__ || Object.getPrototypeOf(HomeTab)).call(this, props));
     }
 
-    _createClass(InstitutionDetailTab, [{
+    _createClass(HomeTab, [{
         key: "render",
         value: function render() {
             var image = this.props.isActive ? this.props.tab.activeImage : this.props.tab.image;
@@ -88,8 +86,8 @@ var InstitutionDetailTab = function (_Component2) {
         }
     }]);
 
-    return InstitutionDetailTab;
+    return HomeTab;
 }(_react.Component);
 
-exports.default = InstitutionDetailTabBar;
-//# sourceMappingURL=institution_detail_tabs.js.map
+exports.default = HomeTabBar;
+//# sourceMappingURL=home_tabs.js.map
