@@ -7,7 +7,7 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            activeTab : tabs[1],
+            activeTab : tabs[0], // Default tab is home
             navigationIsExpanded : false,
         };
 
