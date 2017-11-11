@@ -2,12 +2,8 @@ import React, { Component } from "react";
 import moment from "moment";
 import graphql from "../../../graphql";
 import LoadingSpinner from "../../../loading";
-import settings from "../../../settings";
 
-import {
-    Button,
-    ListGroup,
-} from "reactstrap";
+import { Button, } from "reactstrap";
 
 import {
     Section,
@@ -18,10 +14,8 @@ import {
     SectionRowTitle,
 } from "../../../components/section";
 
-import {
-    MemorandumFormModal,
-    DeleteMemorandumModal,
-} from "../modals";
+import { MemorandumFormModal } from "../modals";
+import { MemorandumSidebarPane } from "./sidebar_panes";
 
 
 function fetchInstitution(id, onResponse) {
@@ -98,9 +92,9 @@ class Memorandums extends Component {
 
 
         this.props.setSidebarContent(
-            <MemorandumDetailPane memorandum={memorandum}
-                                  removeActiveMemorandum={onDeleteMemorandum}
-                                  refreshMemorandums={refreshMemorandums}/>,
+            <MemorandumSidebarPane memorandum={memorandum}
+                                   removeActiveMemorandum={onDeleteMemorandum}
+                                   refreshMemorandums={refreshMemorandums}/>,
         );
 
         this.setState({
@@ -334,147 +328,6 @@ class MemorandumRow extends Component {
                 }
                 <SectionRowContent large>Effective {dateEffective}</SectionRowContent>
             </SectionRow>
-        );
-    }
-}
-
-class MemorandumDetailPane extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            deleteMemorandumIsShowing : false,
-            editMemorandumIsShowing : false,
-            memorandum : props.memorandum,
-        };
-
-        this.onEditMemorandum = this.onEditMemorandum.bind(this);
-        this.toggleDeleteMemorandum = this.toggleDeleteMemorandum.bind(this);
-        this.toggleEditMemorandum = this.toggleEditMemorandum.bind(this);
-    }
-
-    toggleDeleteMemorandum() {
-        this.setState({
-            deleteMemorandumIsShowing : !this.state.deleteMemorandumIsShowing,
-        });
-    }
-
-    toggleEditMemorandum() {
-        this.setState({
-            editMemorandumIsShowing : !this.state.editMemorandumIsShowing,
-        });
-    }
-
-    componentWillReceiveProps(props) {
-        this.setState({
-            memorandum : props.memorandum,
-        });
-    }
-
-    onEditMemorandum(memorandum) {
-        this.setState({
-            memorandum : memorandum,
-        });
-    }
-
-    render() {
-        const memorandum = this.state.memorandum;
-        return (
-            <div id="memorandum-detail" className="p-0 h-100 page-body justify-content-center">
-                <MemorandumDetails memorandum={memorandum}
-                                   toggleDeleteMemorandum={this.toggleDeleteMemorandum}
-                                   toggleEditMemorandum={this.toggleEditMemorandum}/>
-                <MemorandumLinkages linkages={memorandum.linkages}/>
-
-                {this.state.activeMemorandum !== null &&
-                <DeleteMemorandumModal isOpen={this.state.deleteMemorandumIsShowing}
-                                       memorandum={memorandum}
-                                       toggle={this.toggleDeleteMemorandum}
-                                       onDeleteSuccess={this.props.removeActiveMemorandum}
-                                       refresh={this.props.refreshMemorandums}/>}
-
-                {this.state.activeMemorandum !== null &&
-                <MemorandumFormModal edit
-                                     isOpen={this.state.editMemorandumIsShowing}
-                                     memorandum={memorandum}
-                                     toggle={this.toggleEditMemorandum}
-                                     onEditSuccess={this.onEditMemorandum}
-                                     refresh={this.props.refreshMemorandums}/>}
-            </div>
-        );
-    }
-}
-
-class MemorandumDetails extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        function formatDate(date) {
-            return moment(date).format("LL");
-        }
-
-        const dateEffective = formatDate(this.props.memorandum.date_effective);
-        const type = this.props.memorandum.category === "MOA" ? "Agreement" : "Understanding";
-        const expiryDate = this.props.memorandum.date_expiration === null ? "None" : formatDate(this.props.memorandum.date_expiration);
-        const college = this.props.memorandum.college_initiator === null ? "None" : this.props.memorandum.college_initiator;
-
-        return (
-            <div>
-                <h5 className="text-center mt-5">Effective {dateEffective}</h5>
-                <div className="d-flex flex-row justify-content-center mt-3">
-                    <div className="text-right d-flex flex-column mr-3">
-                        <small className="text-muted">Memorandum Type</small>
-                        <small className="text-muted">Expiration Date</small>
-                        <small className="text-muted">College Initiator</small>
-                    </div>
-                    <div className="d-flex flex-column">
-                        <small>{type}</small>
-                        <small>{expiryDate}</small>
-                        <small>{college}</small>
-                    </div>
-                </div>
-                {/* Buttons */}
-                <div className="d-flex flex-row justify-content-center mt-3">
-                    <Button outline color="success" size="sm" className="mr-2">View</Button>
-                    <Button outline color="success" size="sm" className="mr-2"
-                            onClick={this.props.toggleEditMemorandum}>Edit</Button>
-                    <Button outline color="danger" size="sm"
-                            onClick={this.props.toggleDeleteMemorandum}>Delete</Button>
-                </div>
-            </div>
-        );
-    }
-}
-
-class MemorandumLinkages extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        if (this.props.linkages.length === 0) {
-            return (
-                <div className="p-5 mt-3 text-center">
-                    <h5 className="text-secondary">There are no linkages for this institution</h5>
-                </div>
-            );
-        }
-
-        const rows = this.props.linkages.map((linkage, index) => {
-            return (
-                <SectionRow key={index}>{settings.linkages[linkage.code]}</SectionRow>
-            );
-        });
-
-        return (
-            <div id="memorandum-linkages">
-                <SectionTitle>Linkages</SectionTitle>
-                <ListGroup>
-                    {rows}
-                </ListGroup>
-            </div>
         );
     }
 }
