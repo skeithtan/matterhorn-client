@@ -46,10 +46,19 @@ var Programs = function (_Component) {
         var _this = _possibleConstructorReturn(this, (Programs.__proto__ || Object.getPrototypeOf(Programs)).call(this, props));
 
         _this.state = {
+            programList: null,
+            institutionID: props.institution.id,
             currentProgram: null
         };
 
         _this.setCurrentProgram = _this.setCurrentProgram.bind(_this);
+
+        fetchPrograms(props.institution.id, function (response) {
+            console.log(response.data.programs);
+            _this.setState({
+                programList: response.data.programs
+            });
+        });
         return _this;
     }
 
@@ -61,13 +70,36 @@ var Programs = function (_Component) {
             });
         }
     }, {
+        key: "componentWillReceiveProps",
+        value: function componentWillReceiveProps(nextProps) {
+            var _this2 = this;
+
+            if (this.state.institutionID === nextProps.institution.id) {
+                return;
+            }
+
+            this.setState({
+                institutionID: nextProps.institution.id,
+                programList: null
+            });
+
+            fetchPrograms(nextProps.institution.id, function (response) {
+                console.log(response.data.programs);
+                _this2.setState({
+                    programList: response.data.programs
+                });
+            });
+        }
+    }, {
         key: "render",
         value: function render() {
             return _react2.default.createElement(
                 "div",
                 { className: "h-100 w-100" },
                 _react2.default.createElement(ProgramsHead, { institution: this.props.institution }),
-                _react2.default.createElement(ProgramsTable, { institution: this.props.institution, setCurrentProgram: this.setCurrentProgram })
+                _react2.default.createElement(ProgramsTable, { institution: this.props.institution,
+                    programs: this.state.programList,
+                    setCurrentProgram: this.setCurrentProgram })
             );
         }
     }]);
@@ -131,48 +163,16 @@ var ProgramsTable = function (_Component3) {
     function ProgramsTable(props) {
         _classCallCheck(this, ProgramsTable);
 
-        var _this3 = _possibleConstructorReturn(this, (ProgramsTable.__proto__ || Object.getPrototypeOf(ProgramsTable)).call(this, props));
-
-        _this3.state = {
-            institutionID: props.institution.id,
-            programList: null
-        };
-
-        fetchPrograms(props.institution.id, function (response) {
-            _this3.setState({
-                programList: response.data.programs
-            });
-        });
-        return _this3;
+        return _possibleConstructorReturn(this, (ProgramsTable.__proto__ || Object.getPrototypeOf(ProgramsTable)).call(this, props));
     }
 
     _createClass(ProgramsTable, [{
-        key: "componentWillReceiveProps",
-        value: function componentWillReceiveProps(nextProps) {
-            var _this4 = this;
-
-            if (this.state.institutionID === nextProps.institution.id) {
-                return;
-            }
-
-            this.setState({
-                institutionID: nextProps.institution.id,
-                programList: null
-            });
-
-            fetchPrograms(nextProps.institution.id, function (response) {
-                _this4.setState({
-                    programList: response.data.programs
-                });
-            });
-        }
-    }, {
         key: "render",
         value: function render() {
             return _react2.default.createElement(
                 "div",
                 { className: "w-100" },
-                _react2.default.createElement(ProgramsListSection, { programs: this.state.programList })
+                _react2.default.createElement(ProgramsListSection, { programs: this.props.programs })
             );
         }
     }]);
@@ -205,8 +205,6 @@ var ProgramsListSection = function (_Component4) {
     }, {
         key: "render",
         value: function render() {
-            console.log(this.props.programs);
-
             if (this.props.programs === null) {
                 return _react2.default.createElement(_loading2.default, null);
             }

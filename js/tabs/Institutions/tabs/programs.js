@@ -28,10 +28,19 @@ class Programs extends Component {
         super(props);
 
         this.state = {
+            programList : null,
+            institutionID : props.institution.id,
             currentProgram : null,
         };
 
         this.setCurrentProgram = this.setCurrentProgram.bind(this);
+
+        fetchPrograms(props.institution.id, response => {
+            console.log(response.data.programs);
+            this.setState({
+                programList : response.data.programs,
+            });
+        });
     }
 
     setCurrentProgram(program) {
@@ -40,11 +49,31 @@ class Programs extends Component {
         });
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (this.state.institutionID === nextProps.institution.id) {
+            return;
+        }
+
+        this.setState({
+            institutionID : nextProps.institution.id,
+            programList : null,
+        });
+
+        fetchPrograms(nextProps.institution.id, response => {
+            console.log(response.data.programs);
+            this.setState({
+                programList : response.data.programs,
+            });
+        });
+    }
+
     render() {
         return (
             <div className="h-100 w-100">
                 <ProgramsHead institution={ this.props.institution }/>
-                <ProgramsTable institution={ this.props.institution } setCurrentProgram={ this.setCurrentProgram }/>
+                <ProgramsTable institution={ this.props.institution }
+                               programs={ this.state.programList }
+                               setCurrentProgram={ this.setCurrentProgram }/>
             </div>
         );
     }
@@ -80,40 +109,12 @@ class ProgramsHead extends Component {
 class ProgramsTable extends Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            institutionID : props.institution.id,
-            programList : null,
-        };
-
-        fetchPrograms(props.institution.id, response => {
-            this.setState({
-                programList : response.data.programs,
-            });
-        });
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (this.state.institutionID === nextProps.institution.id) {
-            return;
-        }
-
-        this.setState({
-            institutionID : nextProps.institution.id,
-            programList : null,
-        });
-
-        fetchPrograms(nextProps.institution.id, response => {
-            this.setState({
-                programList : response.data.programs,
-            });
-        });
     }
 
     render() {
         return (
             <div className="w-100">
-                <ProgramsListSection programs={ this.state.programList }/>
+                <ProgramsListSection programs={ this.props.programs }/>
             </div>
         );
     }
@@ -136,8 +137,6 @@ class ProgramsListSection extends Component {
     }
 
     render() {
-        console.log(this.props.programs);
-
         if (this.props.programs === null) {
             return <LoadingSpinner/>;
         }
