@@ -68,6 +68,11 @@ var InstitutionDetail = function (_Component) {
 
             var currentTab = this.state.activeTab.tab(this.props.institution, this.setSidebarContent, this.props.onDeleteActiveInstitution, this.props.refreshInstitutions);
 
+            var sidebarClass = "sidebar-right ";
+            if (this.state.sidebarContent === null) {
+                sidebarClass += "dismissed";
+            }
+
             return _react2.default.createElement(
                 "div",
                 { id: "institution-detail", className: "w-100 d-flex flex-row" },
@@ -82,9 +87,9 @@ var InstitutionDetail = function (_Component) {
                     _react2.default.createElement(_institution_detail_tabs2.default, { setActiveTab: this.setActiveTab, activeTab: this.state.activeTab,
                         tabs: _institution_tabs_list2.default })
                 ),
-                this.state.sidebarContent !== null && _react2.default.createElement(
+                _react2.default.createElement(
                     "div",
-                    { className: "sidebar-right" },
+                    { className: sidebarClass },
                     this.state.sidebarContent
                 )
             );
