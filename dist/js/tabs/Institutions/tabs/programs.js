@@ -30,6 +30,13 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+function fetchPrograms(institutionID, onResponse) {
+    (0, _graphql2.default)({
+        query: "\n        {\n            programs(institution:" + institutionID + ") {\n                name\n            }\n        }\n       ",
+        onResponse: onResponse
+    });
+}
+
 var Programs = function (_Component) {
     _inherits(Programs, _Component);
 
@@ -60,7 +67,7 @@ var Programs = function (_Component) {
                 "div",
                 { className: "h-100 w-100" },
                 _react2.default.createElement(ProgramsHead, { institution: this.props.institution }),
-                _react2.default.createElement(ProgramsTable, { setCurrentProgram: this.setCurrentProgram })
+                _react2.default.createElement(ProgramsTable, { institution: this.props.institution, setCurrentProgram: this.setCurrentProgram })
             );
         }
     }]);
@@ -124,16 +131,48 @@ var ProgramsTable = function (_Component3) {
     function ProgramsTable(props) {
         _classCallCheck(this, ProgramsTable);
 
-        return _possibleConstructorReturn(this, (ProgramsTable.__proto__ || Object.getPrototypeOf(ProgramsTable)).call(this, props));
+        var _this3 = _possibleConstructorReturn(this, (ProgramsTable.__proto__ || Object.getPrototypeOf(ProgramsTable)).call(this, props));
+
+        _this3.state = {
+            institutionID: props.institution.id,
+            programList: null
+        };
+
+        fetchPrograms(props.institution.id, function (response) {
+            _this3.setState({
+                programList: response.data.programs
+            });
+        });
+        return _this3;
     }
 
     _createClass(ProgramsTable, [{
+        key: "componentWillReceiveProps",
+        value: function componentWillReceiveProps(nextProps) {
+            var _this4 = this;
+
+            if (this.state.institutionID === nextProps.institution.id) {
+                return;
+            }
+
+            this.setState({
+                institutionID: nextProps.institution.id,
+                programList: null
+            });
+
+            fetchPrograms(nextProps.institution.id, function (response) {
+                _this4.setState({
+                    programList: response.data.programs
+                });
+            });
+        }
+    }, {
         key: "render",
         value: function render() {
             return _react2.default.createElement(
-                "h1",
-                null,
-                "World"
+                "div",
+                { className: "w-100" },
+                _react2.default.createElement(ProgramsListSection, { programs: this.state.programList })
             );
         }
     }]);
@@ -147,29 +186,40 @@ var ProgramsListSection = function (_Component4) {
     function ProgramsListSection(props) {
         _classCallCheck(this, ProgramsListSection);
 
-        var _this4 = _possibleConstructorReturn(this, (ProgramsListSection.__proto__ || Object.getPrototypeOf(ProgramsListSection)).call(this, props));
+        var _this5 = _possibleConstructorReturn(this, (ProgramsListSection.__proto__ || Object.getPrototypeOf(ProgramsListSection)).call(this, props));
 
-        _this4.emptyState = _this4.emptyState.bind(_this4);
-        return _this4;
+        _this5.emptyState = _this5.emptyState.bind(_this5);
+        return _this5;
     }
 
     _createClass(ProgramsListSection, [{
         key: "emptyState",
         value: function emptyState() {
-            //TODO
+            // TODO
+            return _react2.default.createElement(
+                "div",
+                null,
+                "This is empty"
+            );
         }
     }, {
         key: "render",
         value: function render() {
+            console.log(this.props.programs);
+
+            if (this.props.programs === null) {
+                return _react2.default.createElement(_loading2.default, null);
+            }
+
             if (this.props.programs.length === 0) {
                 return this.emptyState();
             }
 
-            var rows = this.props.programs.map(function (program) {
+            var rows = this.props.programs.map(function (program, index) {
                 //TODO: onClick
                 return _react2.default.createElement(
                     _section.SectionRow,
-                    { key: program.id },
+                    { key: index },
                     _react2.default.createElement(
                         _section.SectionRowContent,
                         { large: true },

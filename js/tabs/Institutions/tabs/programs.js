@@ -10,6 +10,18 @@ import {
     SectionTitle,
 } from "../../../components/section";
 
+function fetchPrograms(institutionID, onResponse) {
+    graphql({
+        query : `
+        {
+            programs(institution:${institutionID}) {
+                name
+            }
+        }
+       `,
+        onResponse : onResponse,
+    });
+}
 
 class Programs extends Component {
     constructor(props) {
@@ -31,8 +43,8 @@ class Programs extends Component {
     render() {
         return (
             <div className="h-100 w-100">
-                <ProgramsHead institution={this.props.institution}/>
-                <ProgramsTable setCurrentProgram={this.setCurrentProgram}/>
+                <ProgramsHead institution={ this.props.institution }/>
+                <ProgramsTable institution={ this.props.institution } setCurrentProgram={ this.setCurrentProgram }/>
             </div>
         );
     }
@@ -52,7 +64,7 @@ class ProgramsHead extends Component {
             <div className="page-head pt-5 d-flex flex-row align-items-end">
                 <div className="mr-auto">
                     <h5 className="mb-0 text-secondary">Programs</h5>
-                    <h4 className="page-head-title mb-0">{this.props.institution.name}</h4>
+                    <h4 className="page-head-title mb-0">{ this.props.institution.name }</h4>
                 </div>
 
                 <div className="page-head-actions">
@@ -68,10 +80,42 @@ class ProgramsHead extends Component {
 class ProgramsTable extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            institutionID : props.institution.id,
+            programList : null,
+        };
+
+        fetchPrograms(props.institution.id, response => {
+            this.setState({
+                programList : response.data.programs,
+            });
+        });
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (this.state.institutionID === nextProps.institution.id) {
+            return;
+        }
+
+        this.setState({
+            institutionID : nextProps.institution.id,
+            programList : null,
+        });
+
+        fetchPrograms(nextProps.institution.id, response => {
+            this.setState({
+                programList : response.data.programs,
+            });
+        });
     }
 
     render() {
-        return <h1>World</h1>;
+        return (
+            <div className="w-100">
+                <ProgramsListSection programs={ this.state.programList }/>
+            </div>
+        );
     }
 }
 
@@ -83,19 +127,30 @@ class ProgramsListSection extends Component {
     }
 
     emptyState() {
-        //TODO
+        // TODO
+        return (
+            <div>
+                This is empty
+            </div>
+        );
     }
 
     render() {
+        console.log(this.props.programs);
+
+        if (this.props.programs === null) {
+            return <LoadingSpinner/>;
+        }
+
         if (this.props.programs.length === 0) {
             return this.emptyState();
         }
 
-        let rows = this.props.programs.map(program => {
+        let rows = this.props.programs.map((program, index) => {
             //TODO: onClick
             return (
-                <SectionRow key={program.id}>
-                    <SectionRowContent large>{program.name}</SectionRowContent>
+                <SectionRow key={ index }>
+                    <SectionRowContent large>{ program.name }</SectionRowContent>
                 </SectionRow>
             );
         });
@@ -103,9 +158,9 @@ class ProgramsListSection extends Component {
         return (
             <div>
                 <Section>
-                    <SectionTitle>{this.props.children}</SectionTitle>
+                    <SectionTitle>{ this.props.children }</SectionTitle>
                     <SectionTable className="memorandums-accordion">
-                        {rows}
+                        { rows }
                     </SectionTable>
                 </Section>
             </div>
