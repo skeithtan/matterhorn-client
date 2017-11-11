@@ -156,11 +156,11 @@ class MemorandumCard extends Component {
 
         const urgent = monthsBeforeExpiration <= 6;
 
-        let expirationClass = undefined;
+        let expirationClass = "text-white ";
         if (urgent) {
-            expirationClass = "bg-danger text-white";
+            expirationClass += "bg-danger";
         } else {
-            expirationClass = "bg-dlsu-lighter text-white";
+            expirationClass += "bg-dlsu-lighter";
         }
 
         let cardClass = "home-card rounded ";

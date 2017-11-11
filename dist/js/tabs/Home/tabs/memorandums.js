@@ -179,11 +179,11 @@ var MemorandumCard = function (_Component2) {
 
             var urgent = monthsBeforeExpiration <= 6;
 
-            var expirationClass = undefined;
+            var expirationClass = "text-white ";
             if (urgent) {
-                expirationClass = "bg-danger text-white";
+                expirationClass += "bg-danger";
             } else {
-                expirationClass = "bg-dlsu-lighter text-white";
+                expirationClass += "bg-dlsu-lighter";
             }
 
             var cardClass = "home-card rounded ";
