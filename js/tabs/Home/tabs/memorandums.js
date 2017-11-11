@@ -147,7 +147,7 @@ class MemorandumCard extends Component {
         return (
             <Card className="home-card mt-4 rounded">
                 <SectionRow className={className}>
-                    <SectionRowContent large>{hasExpired ? "Expired " : "Expires in"} {expirationToNow}</SectionRowContent>
+                    <SectionRowContent large>{hasExpired ? "Expired " : "Expires"} {expirationToNow}</SectionRowContent>
                 </SectionRow>
                 <SectionRow>
                     <SectionRowTitle>Institution Name</SectionRowTitle>

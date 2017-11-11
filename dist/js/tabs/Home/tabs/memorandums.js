@@ -172,7 +172,7 @@ var MemorandumCard = function (_Component2) {
                     _react2.default.createElement(
                         _section.SectionRowContent,
                         { large: true },
-                        hasExpired ? "Expired " : "Expires in",
+                        hasExpired ? "Expired " : "Expires",
                         " ",
                         expirationToNow
                     )
