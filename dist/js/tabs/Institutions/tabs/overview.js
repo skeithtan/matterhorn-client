@@ -32,11 +32,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-function fetchInstitution(id, onResponse) {
-    (0, _graphql2.default)({
-        query: "\n        {\n            institution(id:" + id + ") {\n                id\n                name\n                address\n                website\n                contact_person_email\n                contact_person_name\n                contact_person_number\n                country {\n                    name\n                }\n                agreement\n            }\n        }\n       ",
-        onResponse: onResponse
-    });
+function fetchInstitution(id, onResult) {
+    _graphql2.default.query("\n    {\n        institution(id:" + id + ") {\n            id\n            name\n            address\n            website\n            contact_person_email\n            contact_person_name\n            contact_person_number\n            country {\n                name\n            }\n            agreement\n        }\n    }    \n    ").then(onResult);
 }
 
 var InstitutionOverview = function (_Component) {
@@ -57,8 +54,8 @@ var InstitutionOverview = function (_Component) {
         _this.onEditInstitution = _this.onEditInstitution.bind(_this);
 
         //Fetch active institution details
-        fetchInstitution(props.institution.id, function (response) {
-            var institution = response.data.institution;
+        fetchInstitution(props.institution.id, function (result) {
+            var institution = result.institution;
 
             //Make country = country.name for simplicity
             institution.country = institution.country.name;
@@ -80,8 +77,8 @@ var InstitutionOverview = function (_Component) {
                 institution: null
             });
 
-            fetchInstitution(nextProps.institution.id, function (response) {
-                var institution = response.data.institution;
+            fetchInstitution(nextProps.institution.id, function (result) {
+                var institution = result.institution;
 
                 //Make country = country.name for simplicity
                 institution.country = institution.country.name;
@@ -101,8 +98,8 @@ var InstitutionOverview = function (_Component) {
                 institution: null
             });
 
-            fetchInstitution(this.state.institutionID, function (response) {
-                var institution = response.data.institution;
+            fetchInstitution(this.state.institutionID, function (result) {
+                var institution = result.institution;
 
                 //Make country = country.name for simplicity
                 institution.country = institution.country.name;

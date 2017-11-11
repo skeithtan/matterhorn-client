@@ -21,18 +21,15 @@ import {
 } from "reactstrap";
 
 
-function fetchInstitutions(onResponse) {
-    graphql({
-        query : `
-        {
-            institutions {
-                id
-                name
-            }
+function fetchInstitutions(onResult) {
+    graphql.query(`
+    {
+        institutions {
+            id
+            name
         }
-        `,
-        onResponse : onResponse,
-    });
+    }
+    `).then(onResult);
 }
 
 class StudentFormModal extends Component {
@@ -69,8 +66,8 @@ class StudentFormModal extends Component {
         this.fetchingInstitutions = this.fetchingInstitutions.bind(this);
         this.noInstitutions = this.noInstitutions.bind(this);
 
-        fetchInstitutions(response => {
-            const institutions = response.data.institutions;
+        fetchInstitutions(result => {
+            const institutions = result.institutions;
             const form = this.state.form;
 
             // Set default institution if institutions exist

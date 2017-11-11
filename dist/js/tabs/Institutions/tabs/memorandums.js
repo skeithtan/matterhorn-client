@@ -38,11 +38,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-function fetchInstitution(id, onResponse) {
-    (0, _graphql2.default)({
-        query: "\n                {\n                  institution(id:" + id + ") {\n                    id\n                    name\n                    moas {\n                      id\n                      category\n                      memorandum_file\n                      date_effective\n                      date_expiration\n                      college_initiator\n                      linkages\n                    }\n                    mous {\n                      id\n                      category\n                      memorandum_file\n                      date_effective\n                      date_expiration\n                      college_initiator\n                      linkages\n                    }\n                  }\n                }\n       ",
-        onResponse: onResponse
-    });
+function fetchInstitution(id, onResult) {
+    _graphql2.default.query("\n    {\n      institution(id:" + id + ") {\n        id\n        name\n        moas {\n          id\n          category\n          memorandum_file\n          date_effective\n          date_expiration\n          college_initiator\n          linkages\n        }\n        mous {\n          id\n          category\n          memorandum_file\n          date_effective\n          date_expiration\n          college_initiator\n          linkages\n        }\n      }\n    }\n    ").then(onResult);
 }
 
 var Memorandums = function (_Component) {
@@ -63,9 +60,9 @@ var Memorandums = function (_Component) {
         _this.setActiveMemorandum = _this.setActiveMemorandum.bind(_this);
 
         //Fetch active institution details
-        fetchInstitution(_this.props.institution.id, function (response) {
+        fetchInstitution(_this.props.institution.id, function (result) {
             _this.setState({
-                institution: response.data.institution
+                institution: result.institution
             });
         });
         return _this;
@@ -109,9 +106,9 @@ var Memorandums = function (_Component) {
                 institution: null
             });
 
-            fetchInstitution(this.props.institution.id, function (response) {
+            fetchInstitution(this.props.institution.id, function (result) {
                 _this3.setState({
-                    institution: response.data.institution
+                    institution: result.institution
                 });
             });
         }
@@ -132,9 +129,9 @@ var Memorandums = function (_Component) {
                 activeMemorandumId: null //Remove current active memorandum ID
             });
 
-            fetchInstitution(nextProps.institution.id, function (response) {
+            fetchInstitution(nextProps.institution.id, function (result) {
                 _this4.setState({
-                    institution: response.data.institution
+                    institution: result.institution
                 });
             });
         }

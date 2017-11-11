@@ -18,27 +18,24 @@ import {
 } from "../../../components/section";
 
 
-function fetchInstitution(id, onResponse) {
-    graphql({
-        query : `
-        {
-            institution(id:${id}) {
-                id
+function fetchInstitution(id, onResult) {
+    graphql.query(`
+    {
+        institution(id:${id}) {
+            id
+            name
+            address
+            website
+            contact_person_email
+            contact_person_name
+            contact_person_number
+            country {
                 name
-                address
-                website
-                contact_person_email
-                contact_person_name
-                contact_person_number
-                country {
-                    name
-                }
-                agreement
             }
+            agreement
         }
-       `,
-        onResponse : onResponse,
-    });
+    }    
+    `).then(onResult);
 }
 
 class InstitutionOverview extends Component {
@@ -54,8 +51,8 @@ class InstitutionOverview extends Component {
         this.onEditInstitution = this.onEditInstitution.bind(this);
 
         //Fetch active institution details
-        fetchInstitution(props.institution.id, response => {
-            const institution = response.data.institution;
+        fetchInstitution(props.institution.id, result => {
+            const institution = result.institution;
 
             //Make country = country.name for simplicity
             institution.country = institution.country.name;
@@ -72,8 +69,8 @@ class InstitutionOverview extends Component {
             institution : null,
         });
 
-        fetchInstitution(nextProps.institution.id, response => {
-            const institution = response.data.institution;
+        fetchInstitution(nextProps.institution.id, result => {
+            const institution = result.institution;
 
             //Make country = country.name for simplicity
             institution.country = institution.country.name;
@@ -90,8 +87,8 @@ class InstitutionOverview extends Component {
             institution : null,
         });
 
-        fetchInstitution(this.state.institutionID, response => {
-            const institution = response.data.institution;
+        fetchInstitution(this.state.institutionID, result => {
+            const institution = result.institution;
 
             //Make country = country.name for simplicity
             institution.country = institution.country.name;

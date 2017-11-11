@@ -3,24 +3,24 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.default = graphql;
 
 var _settings = require("./settings");
 
 var _settings2 = _interopRequireDefault(_settings);
 
+var _lokka = require("lokka");
+
+var _lokka2 = _interopRequireDefault(_lokka);
+
+var _lokkaTransportHttp = require("lokka-transport-http");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function graphql(object) {
-    var xhr = new XMLHttpRequest();
-    xhr.responseType = "json";
-    xhr.open("POST", _settings2.default.serverURL + "/graphql/");
-    xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.setRequestHeader("Accept", "application/json");
-    xhr.setRequestHeader("Authorization", "Token " + localStorage.token);
-    xhr.onload = function () {
-        return object.onResponse(xhr.response);
-    };
-    xhr.send(JSON.stringify({ query: object.query }));
-}
+var headers = { "Authorization": "Token " + localStorage.token };
+
+var graphql = new _lokka2.default({
+    transport: new _lokkaTransportHttp.Transport(_settings2.default.serverURL + "/graphql/", { headers: headers })
+});
+
+exports.default = graphql;
 //# sourceMappingURL=graphql.js.map

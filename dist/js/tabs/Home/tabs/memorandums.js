@@ -32,11 +32,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-function fetchInstitutions(onResponse) {
-    (0, _graphql2.default)({
-        query: "\n                {\n                  institutions {\n                    id\n                    name\n                        latest_mou {\n                            date_expiration\n                        }\n                        latest_moa {\n                            date_expiration\n                        }\n                  }\n                }\n        ",
-        onResponse: onResponse
-    });
+function fetchInstitutions(onResult) {
+    _graphql2.default.query("\n                    {\n                      institutions {\n                        id\n                        name\n                            latest_mou {\n                                date_expiration\n                            }\n                            latest_moa {\n                                date_expiration\n                            }\n                      }\n                    }\n        ").then(onResult);
 }
 
 function makeCardInfo(memorandumType, institution, memorandum) {
@@ -89,8 +86,8 @@ var Memorandums = function (_Component) {
         _this.refreshCards = _this.refreshCards.bind(_this);
         _this.setActiveCard = _this.setActiveCard.bind(_this);
 
-        fetchInstitutions(function (response) {
-            var institutions = response.data.institutions;
+        fetchInstitutions(function (result) {
+            var institutions = result.institutions;
             _this.setState({
                 cards: makeCardsFromInstitution(institutions)
             });
@@ -107,8 +104,8 @@ var Memorandums = function (_Component) {
                 cards: null //clear first
             });
 
-            fetchInstitutions(function (response) {
-                var institutions = response.data.institutions;
+            fetchInstitutions(function (result) {
+                var institutions = result.institutions;
                 _this2.setState({
                     cards: makeCardsFromInstitution(institutions)
                 });

@@ -10,24 +10,21 @@ import {
 import LoadingSpinner from "../../../loading";
 
 
-function fetchInstitutions(onResponse) {
-    graphql({
-        query : `
-                {
-                  institutions {
-                    id
-                    name
-                        latest_mou {
-                            date_expiration
-                        }
-                        latest_moa {
-                            date_expiration
-                        }
-                  }
-                }
-        `,
-        onResponse : onResponse,
-    });
+function fetchInstitutions(onResult) {
+    graphql.query(`
+                    {
+                      institutions {
+                        id
+                        name
+                            latest_mou {
+                                date_expiration
+                            }
+                            latest_moa {
+                                date_expiration
+                            }
+                      }
+                    }
+        `).then(onResult);
 }
 
 function makeCardInfo(memorandumType, institution, memorandum) {
@@ -78,8 +75,8 @@ class Memorandums extends Component {
         this.refreshCards = this.refreshCards.bind(this);
         this.setActiveCard = this.setActiveCard.bind(this);
 
-        fetchInstitutions(response => {
-            const institutions = response.data.institutions;
+        fetchInstitutions(result => {
+            const institutions = result.institutions;
             this.setState({
                 cards : makeCardsFromInstitution(institutions),
             });
@@ -97,8 +94,8 @@ class Memorandums extends Component {
             cards : null //clear first
         });
 
-        fetchInstitutions(response => {
-            const institutions = response.data.institutions;
+        fetchInstitutions(result => {
+            const institutions = result.institutions;
             this.setState({
                 cards : makeCardsFromInstitution(institutions),
             });

@@ -32,11 +32,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-function fetchStudents(onResponse) {
-    (0, _graphql2.default)({
-        query: "\n        {\n            students {\n                id\n                id_number\n                family_name\n                first_name\n                middle_name\n            }\n        }\n        ",
-        onResponse: onResponse
-    });
+function fetchStudents(onResult) {
+    _graphql2.default.query("\n    {\n        students {\n            id\n            id_number\n            family_name\n            first_name\n            middle_name\n        }\n    }\n    ").then(onResult);
 }
 
 var Students = function (_Component) {
@@ -66,9 +63,9 @@ var Students = function (_Component) {
         value: function refreshStudents() {
             var _this2 = this;
 
-            fetchStudents(function (response) {
+            fetchStudents(function (result) {
                 _this2.setState({
-                    allStudents: response.data.students
+                    allStudents: result.students
                 });
             });
         }

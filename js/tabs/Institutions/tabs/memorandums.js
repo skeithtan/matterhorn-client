@@ -18,36 +18,33 @@ import { MemorandumFormModal } from "../modals";
 import { MemorandumSidebarPane } from "./sidebar_panes";
 
 
-function fetchInstitution(id, onResponse) {
-    graphql({
-        query : `
-                {
-                  institution(id:${id}) {
-                    id
-                    name
-                    moas {
-                      id
-                      category
-                      memorandum_file
-                      date_effective
-                      date_expiration
-                      college_initiator
-                      linkages
-                    }
-                    mous {
-                      id
-                      category
-                      memorandum_file
-                      date_effective
-                      date_expiration
-                      college_initiator
-                      linkages
-                    }
-                  }
-                }
-       `,
-        onResponse : onResponse,
-    });
+function fetchInstitution(id, onResult) {
+    graphql.query(`
+    {
+      institution(id:${id}) {
+        id
+        name
+        moas {
+          id
+          category
+          memorandum_file
+          date_effective
+          date_expiration
+          college_initiator
+          linkages
+        }
+        mous {
+          id
+          category
+          memorandum_file
+          date_effective
+          date_expiration
+          college_initiator
+          linkages
+        }
+      }
+    }
+    `).then(onResult);
 }
 
 
@@ -65,9 +62,9 @@ class Memorandums extends Component {
         this.setActiveMemorandum = this.setActiveMemorandum.bind(this);
 
         //Fetch active institution details
-        fetchInstitution(this.props.institution.id, response => {
+        fetchInstitution(this.props.institution.id, result => {
             this.setState({
-                institution : response.data.institution,
+                institution : result.institution,
             });
         });
     }
@@ -107,9 +104,9 @@ class Memorandums extends Component {
             institution : null,
         });
 
-        fetchInstitution(this.props.institution.id, response => {
+        fetchInstitution(this.props.institution.id, result => {
             this.setState({
-                institution : response.data.institution,
+                institution : result.institution,
             });
         });
     }
@@ -127,9 +124,9 @@ class Memorandums extends Component {
             activeMemorandumId : null //Remove current active memorandum ID
         });
 
-        fetchInstitution(nextProps.institution.id, response => {
+        fetchInstitution(nextProps.institution.id, result => {
             this.setState({
-                institution : response.data.institution,
+                institution : result.institution,
             });
         });
     }
