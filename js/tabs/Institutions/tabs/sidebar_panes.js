@@ -59,7 +59,7 @@ class MemorandumSidebarPane extends Component {
     render() {
         const memorandum = this.state.memorandum;
         return (
-            <div id="memorandum-detail" className="p-0 h-100 page-body">
+            <div className="p-0 h-100 d-flex flex-column">
                 <div className="page-head pt-5 d-flex flex-row align-items-end">
                     <div className="mr-auto">
                         <h5 className="mb-0">Memorandum</h5>
@@ -67,25 +67,27 @@ class MemorandumSidebarPane extends Component {
                 </div>
 
 
-                <MemorandumDetails memorandum={memorandum}
-                                   toggleDeleteMemorandum={this.toggleDeleteMemorandum}
-                                   toggleEditMemorandum={this.toggleEditMemorandum}/>
-                <MemorandumLinkages linkages={memorandum.linkages}/>
+                <div className="page-body">
+                    <MemorandumDetails memorandum={memorandum}
+                                       toggleDeleteMemorandum={this.toggleDeleteMemorandum}
+                                       toggleEditMemorandum={this.toggleEditMemorandum}/>
+                    <MemorandumLinkages linkages={memorandum.linkages}/>
 
-                {this.state.activeMemorandum !== null &&
-                <DeleteMemorandumModal isOpen={this.state.deleteMemorandumIsShowing}
-                                       memorandum={memorandum}
-                                       toggle={this.toggleDeleteMemorandum}
-                                       onDeleteSuccess={this.props.removeActiveMemorandum}
-                                       refresh={this.props.refreshMemorandums}/>}
+                    {this.state.activeMemorandum !== null &&
+                    <DeleteMemorandumModal isOpen={this.state.deleteMemorandumIsShowing}
+                                           memorandum={memorandum}
+                                           toggle={this.toggleDeleteMemorandum}
+                                           onDeleteSuccess={this.props.removeActiveMemorandum}
+                                           refresh={this.props.refreshMemorandums}/>}
 
-                {this.state.activeMemorandum !== null &&
-                <MemorandumFormModal edit
-                                     isOpen={this.state.editMemorandumIsShowing}
-                                     memorandum={memorandum}
-                                     toggle={this.toggleEditMemorandum}
-                                     onEditSuccess={this.onEditMemorandum}
-                                     refresh={this.props.refreshMemorandums}/>}
+                    {this.state.activeMemorandum !== null &&
+                    <MemorandumFormModal edit
+                                         isOpen={this.state.editMemorandumIsShowing}
+                                         memorandum={memorandum}
+                                         toggle={this.toggleEditMemorandum}
+                                         onEditSuccess={this.onEditMemorandum}
+                                         refresh={this.props.refreshMemorandums}/>}
+                </div>
             </div>
         );
     }
@@ -132,12 +134,12 @@ class MemorandumDetails extends Component {
                     </SectionRow>
                     <SectionRow>
                         <SectionRowContent className="d-flex">
-                                <Button outline color="success" size="sm" className="mr-2"
-                                        onClick={viewMemorandum}>View</Button>
-                                <Button outline color="success" size="sm" className="mr-auto"
-                                        onClick={this.props.toggleEditMemorandum}>Edit</Button>
-                                <Button outline color="danger" size="sm"
-                                        onClick={this.props.toggleDeleteMemorandum}>Delete</Button>
+                            <Button outline color="success" size="sm" className="mr-2"
+                                    onClick={viewMemorandum}>View</Button>
+                            <Button outline color="success" size="sm" className="mr-auto"
+                                    onClick={this.props.toggleEditMemorandum}>Edit</Button>
+                            <Button outline color="danger" size="sm"
+                                    onClick={this.props.toggleDeleteMemorandum}>Delete</Button>
                         </SectionRowContent>
                     </SectionRow>
                 </SectionTable>
@@ -174,10 +176,10 @@ class MemorandumLinkages extends Component {
         }
 
         return (
-            <div id="memorandum-linkages">
+            <Section>
                 <SectionTitle>Linkages</SectionTitle>
                 {body}
-            </div>
+            </Section>
         );
     }
 }

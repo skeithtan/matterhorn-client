@@ -87,7 +87,7 @@ var MemorandumSidebarPane = function (_Component) {
             var memorandum = this.state.memorandum;
             return _react2.default.createElement(
                 "div",
-                { id: "memorandum-detail", className: "p-0 h-100 page-body" },
+                { className: "p-0 h-100 d-flex flex-column" },
                 _react2.default.createElement(
                     "div",
                     { className: "page-head pt-5 d-flex flex-row align-items-end" },
@@ -101,21 +101,25 @@ var MemorandumSidebarPane = function (_Component) {
                         )
                     )
                 ),
-                _react2.default.createElement(MemorandumDetails, { memorandum: memorandum,
-                    toggleDeleteMemorandum: this.toggleDeleteMemorandum,
-                    toggleEditMemorandum: this.toggleEditMemorandum }),
-                _react2.default.createElement(MemorandumLinkages, { linkages: memorandum.linkages }),
-                this.state.activeMemorandum !== null && _react2.default.createElement(_modals.DeleteMemorandumModal, { isOpen: this.state.deleteMemorandumIsShowing,
-                    memorandum: memorandum,
-                    toggle: this.toggleDeleteMemorandum,
-                    onDeleteSuccess: this.props.removeActiveMemorandum,
-                    refresh: this.props.refreshMemorandums }),
-                this.state.activeMemorandum !== null && _react2.default.createElement(_modals.MemorandumFormModal, { edit: true,
-                    isOpen: this.state.editMemorandumIsShowing,
-                    memorandum: memorandum,
-                    toggle: this.toggleEditMemorandum,
-                    onEditSuccess: this.onEditMemorandum,
-                    refresh: this.props.refreshMemorandums })
+                _react2.default.createElement(
+                    "div",
+                    { className: "page-body" },
+                    _react2.default.createElement(MemorandumDetails, { memorandum: memorandum,
+                        toggleDeleteMemorandum: this.toggleDeleteMemorandum,
+                        toggleEditMemorandum: this.toggleEditMemorandum }),
+                    _react2.default.createElement(MemorandumLinkages, { linkages: memorandum.linkages }),
+                    this.state.activeMemorandum !== null && _react2.default.createElement(_modals.DeleteMemorandumModal, { isOpen: this.state.deleteMemorandumIsShowing,
+                        memorandum: memorandum,
+                        toggle: this.toggleDeleteMemorandum,
+                        onDeleteSuccess: this.props.removeActiveMemorandum,
+                        refresh: this.props.refreshMemorandums }),
+                    this.state.activeMemorandum !== null && _react2.default.createElement(_modals.MemorandumFormModal, { edit: true,
+                        isOpen: this.state.editMemorandumIsShowing,
+                        memorandum: memorandum,
+                        toggle: this.toggleEditMemorandum,
+                        onEditSuccess: this.onEditMemorandum,
+                        refresh: this.props.refreshMemorandums })
+                )
             );
         }
     }]);
@@ -290,8 +294,8 @@ var MemorandumLinkages = function (_Component3) {
             }
 
             return _react2.default.createElement(
-                "div",
-                { id: "memorandum-linkages" },
+                _section.Section,
+                null,
                 _react2.default.createElement(
                     _section.SectionTitle,
                     null,
