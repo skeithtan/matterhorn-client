@@ -3,11 +3,6 @@ import graphql from "../../../graphql";
 import moment from "moment";
 
 import {
-    Card,
-    CardBody,
-} from "reactstrap";
-
-import {
     SectionRow,
     SectionRowContent,
     SectionRowTitle,
@@ -109,6 +104,7 @@ class Memorandums extends Component {
         this.setState({
             activeCard : index,
         });
+
     }
 
     render() {
@@ -124,7 +120,6 @@ class Memorandums extends Component {
         const cards = this.state.cards.map((card, index) => {
             const isActive = this.state.activeCard === index;
             const setActiveCard = () => this.setActiveCard(index);
-
             return <MemorandumCard key={index} card={card} onClick={setActiveCard} active={isActive}/>;
         });
 
@@ -142,10 +137,8 @@ class MemorandumCard extends Component {
     }
 
     render() {
-        const dateEffective = this.props.card.memorandum.dateEffective.format("LL");
         const dateExpiration = this.props.card.memorandum.dateExpiration.format("LL");
         const expirationToNow = this.props.card.memorandum.dateExpiration.fromNow();
-
 
         const now = moment();
         const dateExpirationMoment = this.props.card.memorandum.dateExpiration;
@@ -167,7 +160,7 @@ class MemorandumCard extends Component {
         }
 
         return (
-            <Card className={cardClass} onClick={this.props.onClick}>
+            <div className={cardClass} onClick={this.props.onClick} ref={(card) => this.card = card}>
                 <SectionRow className={expirationClass}>
                     <SectionRowContent large>{hasExpired ? "Expired " : "Expires"} {expirationToNow}</SectionRowContent>
                 </SectionRow>
@@ -183,7 +176,7 @@ class MemorandumCard extends Component {
                     <SectionRowTitle>Date of Expiration</SectionRowTitle>
                     <SectionRowContent large>{dateExpiration}</SectionRowContent>
                 </SectionRow>
-            </Card>
+            </div>
         );
     }
 }
