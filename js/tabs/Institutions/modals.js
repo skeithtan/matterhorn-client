@@ -478,14 +478,7 @@ class MemorandumFormModal extends Component {
             beforeSend : authorizeXHR,
             success : (response) => {
                 dismissToast();
-
                 const memorandum = response;
-                memorandum.linkages = memorandum.linkages.map(linkage => {
-                    return {
-                        code : linkage,
-                    };
-                });
-
                 this.props.onEditSuccess(memorandum);
                 this.props.refresh();
 

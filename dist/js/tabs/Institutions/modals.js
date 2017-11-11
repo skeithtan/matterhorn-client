@@ -666,14 +666,7 @@ var MemorandumFormModal = function (_Component3) {
                 beforeSend: _authorization2.default,
                 success: function success(response) {
                     dismissToast();
-
                     var memorandum = response;
-                    memorandum.linkages = memorandum.linkages.map(function (linkage) {
-                        return {
-                            code: linkage
-                        };
-                    });
-
                     _this11.props.onEditSuccess(memorandum);
                     _this11.props.refresh();
 
