@@ -25,23 +25,30 @@ import {
 function fetchInstitution(id, onResponse) {
     graphql({
         query : `
-        {
-            institution(id: ${id}) {
-                id
-                name
-                memorandum_set {
+                {
+                  institution(id:${id}) {
                     id
-                    category
-                    memorandum_file
-                    date_effective
-                    date_expiration
-                    college_initiator
-                    linkages {
-                        code
+                    name
+                    moas {
+                      id
+                      category
+                      memorandum_file
+                      date_effective
+                      date_expiration
+                      college_initiator
+                      linkages
                     }
+                    mous {
+                      id
+                      category
+                      memorandum_file
+                      date_effective
+                      date_expiration
+                      college_initiator
+                      linkages
+                    }
+                  }
                 }
-            }
-        }
        `,
         onResponse : onResponse,
     });
@@ -136,11 +143,18 @@ class Memorandums extends Component {
             return <LoadingSpinner/>;
         }
 
+        const memorandums = {
+            agreements : this.state.institution.mous,
+            understandings : this.state.institution.moas,
+            latestMOU : this.state.institution.latest_mou,
+            latestMOA : this.state.institution.latest_moa,
+        };
+
         return (
             <div className="d-flex flex-column p-0 h-100">
                 <MemorandumHead institution={this.state.institution} refreshMemorandums={this.refreshMemorandums}/>
                 <MemorandumBody institution={this.state.institution}
-                                memorandums={this.state.institution.memorandum_set}
+                                memorandums={memorandums}
                                 activeMemorandumId={this.state.activeMemorandumId}
                                 setActiveMemorandum={this.setActiveMemorandum}
                                 refreshMemorandums={this.refreshMemorandums}
@@ -192,44 +206,6 @@ class MemorandumHead extends Component {
 class MemorandumBody extends Component {
     constructor(props) {
         super(props);
-
-        //Sort by most recent
-        props.memorandums.sort((a, b) => {
-            const aTime = moment(a.date_effective);
-            const bTime = moment(b.date_effective);
-
-            if (aTime.isBefore(bTime)) {
-                return 1;
-            }
-
-            if (aTime.isAfter(bTime)) {
-                return -1;
-            }
-
-            return 0;
-        });
-
-        let agreements = [];
-        let understandings = [];
-
-        //Categorize
-        props.memorandums.forEach(memorandum => {
-            switch (memorandum.category) {
-                case "MOA":
-                    agreements.push(memorandum);
-                    return;
-                case "MOU":
-                    understandings.push(memorandum);
-                    return;
-                default:
-                    return;
-            }
-        });
-
-        this.state = {
-            agreements : agreements,
-            understandings : understandings,
-        };
     }
 
 
@@ -240,14 +216,16 @@ class MemorandumBody extends Component {
                     <div className="w-100">
                         <MemorandumListSection institution={this.props.institution}
                                                activeMemorandumId={this.props.activeMemorandumId}
-                                               memorandums={this.state.agreements}
+                                               memorandums={this.props.memorandums.agreements}
+                                               latest={this.props.memorandums.latestMOA}
                                                setActiveMemorandum={this.props.setActiveMemorandum}
                                                refreshMemorandums={this.props.refreshMemorandums}>
                             MOA (Memorandums of Agreement)
                         </MemorandumListSection>
 
                         <MemorandumListSection institution={this.props.institution}
-                                               memorandums={this.state.understandings}
+                                               memorandums={this.props.memorandums.understandings}
+                                               latest={this.props.memorandums.latestMOU}
                                                activeMemorandumId={this.props.activeMemorandumId}
                                                setActiveMemorandum={this.props.setActiveMemorandum}
                                                refreshMemorandums={this.props.refreshMemorandums}>
