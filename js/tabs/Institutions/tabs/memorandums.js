@@ -102,7 +102,6 @@ class Memorandums extends Component {
         });
     }
 
-
     refreshMemorandums() {
         this.setState({
             institution : null,
@@ -125,6 +124,7 @@ class Memorandums extends Component {
         this.setState({
             institutionID : nextProps.institution.id,
             institution : null,
+            activeMemorandumId : null //Remove current active memorandum ID
         });
 
         fetchInstitution(nextProps.institution.id, response => {

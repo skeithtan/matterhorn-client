@@ -67,7 +67,6 @@ function makeCardsFromInstitution(institutions) {
 }
 
 class Memorandums extends Component {
-
     constructor(props) {
         super(props);
 
@@ -108,7 +107,6 @@ class Memorandums extends Component {
     }
 
     render() {
-
         if (this.state.cards === null) {
             return <LoadingSpinner/>;
         }

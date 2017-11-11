@@ -128,7 +128,8 @@ var Memorandums = function (_Component) {
 
             this.setState({
                 institutionID: nextProps.institution.id,
-                institution: null
+                institution: null,
+                activeMemorandumId: null //Remove current active memorandum ID
             });
 
             fetchInstitution(nextProps.institution.id, function (response) {
