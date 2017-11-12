@@ -12,8 +12,6 @@ var _react2 = _interopRequireDefault(_react);
 
 var _section = require("../../components/section");
 
-var _reactstrap = require("reactstrap");
-
 var _loading = require("../../components/loading");
 
 var _loading2 = _interopRequireDefault(_loading);
@@ -43,6 +41,7 @@ var YearList = function (_Component) {
                 { className: "sidebar h-100", id: "term-list" },
                 _react2.default.createElement(YearListHead, null),
                 _react2.default.createElement(YearListTable, { yearList: this.props.yearList,
+                    activeYear: this.props.activeYear,
                     setActiveYear: this.props.setActiveYear })
             );
         }
@@ -115,16 +114,27 @@ var YearListTable = function (_Component3) {
             }
 
             var rows = this.props.yearList.map(function (year, index) {
+                var isActive = false;
+
+                if (_this4.props.activeYear !== null) {
+                    isActive = _this4.props.activeYear === year.academic_year_start;
+                }
+
+                var setActiveYear = function setActiveYear() {
+                    return _this4.props.setActiveYear(year.academic_year_start);
+                };
+
                 var yearStart = Number(year.academic_year_start);
                 return _react2.default.createElement(
-                    _reactstrap.ListGroupItem,
-                    { key: index,
-                        onClick: function onClick() {
-                            return _this4.props.setActiveYear(year.academic_year_start);
-                        } },
-                    yearStart,
-                    " - ",
-                    yearStart + 1
+                    _section.SectionRow,
+                    { selectable: true, key: index, onClick: setActiveYear, active: isActive },
+                    _react2.default.createElement(
+                        _section.SectionRowContent,
+                        null,
+                        yearStart,
+                        " - ",
+                        yearStart + 1
+                    )
                 );
             });
 
