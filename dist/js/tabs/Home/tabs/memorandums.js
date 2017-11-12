@@ -310,7 +310,8 @@ var MemorandumCardCollapseContent = function (_Component3) {
         var _this6 = _possibleConstructorReturn(this, (MemorandumCardCollapseContent.__proto__ || Object.getPrototypeOf(MemorandumCardCollapseContent)).call(this, props));
 
         _this6.state = {
-            memorandum: props.memorandum
+            memorandum: props.memorandum,
+            isOpen: false
         };
 
         fetchMemorandumDetails(props.memorandum.id, function (result) {
@@ -334,6 +335,8 @@ var MemorandumCardCollapseContent = function (_Component3) {
     _createClass(MemorandumCardCollapseContent, [{
         key: "render",
         value: function render() {
+            var _this7 = this;
+
             var memorandum = this.state.memorandum;
 
             if (!memorandumIsFetched(memorandum)) {
@@ -365,9 +368,16 @@ var MemorandumCardCollapseContent = function (_Component3) {
                 });
             }
 
+            // Allows content to expand gracefully
+            setTimeout(function () {
+                _this7.setState({
+                    isOpen: true
+                });
+            }, 200);
+
             return _react2.default.createElement(
-                "div",
-                { className: "card-details fetched" },
+                _reactstrap.Collapse,
+                { isOpen: this.state.isOpen },
                 _react2.default.createElement(
                     _section.SectionRow,
                     null,

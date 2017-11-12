@@ -109,8 +109,8 @@ var InstitutionList = function (_Component) {
             var showingInstitutions = isSearching ? this.getFilteredInstitutions() : this.props.institutions;
 
             var className = "sidebar h-100 collapsible ";
-            if (this.state.collapsed) {
-                className += "collapsed";
+            if (this.state.isOpen) {
+                className += "isOpen";
             }
 
             return _react2.default.createElement(

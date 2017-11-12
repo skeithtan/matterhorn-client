@@ -90,8 +90,8 @@ class InstitutionList extends Component {
         const showingInstitutions = isSearching ? this.getFilteredInstitutions() : this.props.institutions;
 
         let className = "sidebar h-100 collapsible ";
-        if (this.state.collapsed) {
-            className += "collapsed";
+        if (this.state.isOpen) {
+            className += "isOpen";
         }
 
         return (

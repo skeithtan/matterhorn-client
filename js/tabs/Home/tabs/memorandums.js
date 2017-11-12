@@ -239,6 +239,7 @@ class MemorandumCardCollapseContent extends Component {
 
         this.state = {
             memorandum : props.memorandum,
+            isOpen : false,
         };
 
         fetchMemorandumDetails(props.memorandum.id, result => {
@@ -291,8 +292,15 @@ class MemorandumCardCollapseContent extends Component {
             });
         }
 
+        // Allows content to expand gracefully
+        setTimeout(() => {
+            this.setState({
+                isOpen : true,
+            });
+        }, 200);
+
         return (
-            <div className="card-details fetched">
+            <Collapse isOpen={this.state.isOpen}>
                 <SectionRow>
                     <SectionRowTitle>Date Effective</SectionRowTitle>
                     <SectionRowContent large>{dateEffective}</SectionRowContent>
@@ -309,7 +317,7 @@ class MemorandumCardCollapseContent extends Component {
                     <Button outline size="sm" color="success" className="mr-2">View memorandum document</Button>
                     <Button outline size="sm" color="success">Renew Memorandum</Button>
                 </SectionRow>
-            </div>
+            </Collapse>
         );
 
     }

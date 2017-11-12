@@ -79,16 +79,6 @@
     border-bottom : none;
 }
 
-.home-card .card-details {
-    transition : 500ms;
-    transition-timing-function: ease-in;
-    max-height : 80px;
-}
-
-.home-card .card-details.fetched {
-    max-height : 400px; /* Arbitrary large number */
-}
-
 /*Section titles and footers*/
 small.section-title,
 small.section-footer {
