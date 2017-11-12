@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import graphql from "../../../graphql";
 import moment from "moment";
-
+import LoadingSpinner from "../../../loading";
 import {
     SectionRow,
     SectionRowContent,
     SectionRowTitle,
 } from "../../../components/section";
-import LoadingSpinner from "../../../loading";
+import MemorandumSidebarPane from "./memorandum_sidebar_pane";
 
 
 function fetchInstitutions(onResult) {
@@ -36,7 +36,7 @@ function makeCardInfo(memorandumType, institution, memorandum) {
             id : institution.id,
         },
         memorandum : {
-            id: memorandum.id,
+            id : memorandum.id,
             type : memorandumType,
             dateEffective : moment(memorandum.date_effective),
             dateExpiration : moment(memorandum.date_expiration),

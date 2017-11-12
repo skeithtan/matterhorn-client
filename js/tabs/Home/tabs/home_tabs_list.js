@@ -6,19 +6,19 @@ import Students from "./students";
 const tabs = [
     {
         name : "Memorandums",
-        tab : setSidebarContent => <Memorandums setSidebarContent={setSidebarContent}/>,
+        tab : <Memorandums/>,
         image : "./images/memorandumgrey.png",
         activeImage : "./images/memorandumgreen.png",
     },
     {
         name : "Programs",
-        tab : setSidebarContent => <Programs setSidebarContent={setSidebarContent}/>,
+        tab : <Programs/>,
         image : "./images/programsgrey.png",
         activeImage : "./images/programsgreen.png",
     },
     {
         name : "Students",
-        tab : setSidebarContent => <Students setSidebarContent={setSidebarContent}/>,
+        tab : <Students/>,
         image : "./images/studentgrey.png",
         activeImage : "./images/studentgreen.png",
     },

@@ -18,11 +18,15 @@ var _moment = require("moment");
 
 var _moment2 = _interopRequireDefault(_moment);
 
-var _section = require("../../../components/section");
-
 var _loading = require("../../../loading");
 
 var _loading2 = _interopRequireDefault(_loading);
+
+var _section = require("../../../components/section");
+
+var _memorandum_sidebar_pane = require("./memorandum_sidebar_pane");
+
+var _memorandum_sidebar_pane2 = _interopRequireDefault(_memorandum_sidebar_pane);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

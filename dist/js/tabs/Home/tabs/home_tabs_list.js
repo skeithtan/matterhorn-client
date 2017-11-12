@@ -24,23 +24,17 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var tabs = [{
     name: "Memorandums",
-    tab: function tab(setSidebarContent) {
-        return _react2.default.createElement(_memorandums2.default, { setSidebarContent: setSidebarContent });
-    },
+    tab: _react2.default.createElement(_memorandums2.default, null),
     image: "./images/memorandumgrey.png",
     activeImage: "./images/memorandumgreen.png"
 }, {
     name: "Programs",
-    tab: function tab(setSidebarContent) {
-        return _react2.default.createElement(_programs2.default, { setSidebarContent: setSidebarContent });
-    },
+    tab: _react2.default.createElement(_programs2.default, null),
     image: "./images/programsgrey.png",
     activeImage: "./images/programsgreen.png"
 }, {
     name: "Students",
-    tab: function tab(setSidebarContent) {
-        return _react2.default.createElement(_students2.default, { setSidebarContent: setSidebarContent });
-    },
+    tab: _react2.default.createElement(_students2.default, null),
     image: "./images/studentgrey.png",
     activeImage: "./images/studentgreen.png"
 }];
