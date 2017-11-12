@@ -42,8 +42,8 @@ class StudentList extends Component {
         const searchKeyword = this.state.searchKeyword.toLowerCase();
 
         return this.props.students.filter(student => {
-            const fullName = `${student.firstName} ${student.middleName} ${student.familyName}`.toLowerCase();
-            return fullName.includes(searchKeyword) || student.idNumber.includes(searchKeyword);
+            const fullName = `${student.first_name} ${student.middle_name} ${student.family_name}`.toLowerCase();
+            return fullName.includes(searchKeyword) || student.id_number.includes(searchKeyword);
         });
     }
 
