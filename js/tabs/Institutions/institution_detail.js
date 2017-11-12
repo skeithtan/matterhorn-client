@@ -44,6 +44,11 @@ class InstitutionDetail extends Component {
 
         const currentTab = this.state.activeTab.tab(this.props.institution, this.setSidebarContent, this.props.onDeleteActiveInstitution, this.props.refreshInstitutions);
 
+        let sidebarClass = "sidebar-right ";
+        if (this.state.sidebarContent === null) {
+            sidebarClass += "dismissed";
+        }
+
         return (
             <div id="institution-detail" className="w-100 d-flex flex-row">
                 <div className="container-fluid d-flex flex-column p-0 h-100">
@@ -52,11 +57,9 @@ class InstitutionDetail extends Component {
                                              tabs={tabs}/>
                 </div>
 
-                {this.state.sidebarContent !== null &&
-                <div className="sidebar-right">
+                <div className={sidebarClass}>
                     {this.state.sidebarContent}
                 </div>
-                }
             </div>
 
         );

@@ -21,27 +21,15 @@ class Home extends Component {
         });
     }
 
-    setSidebarContent(content) {
-        this.setState({
-            sidebarContent : content,
-        });
-    }
-
     render() {
-        const currentTab = this.state.activeTab.tab;
         return (
             <div id="home" className="container-fluid d-flex flex-row p-0 h-100">
                 <div className="d-flex flex-column p-0 h-100 w-100">
-                    <div id="tab-content">{currentTab}</div>
+                    <div id="tab-content">{this.state.activeTab.tab}</div>
                     <HomeTabBar setActiveTab={this.setActiveTab}
                                 activeTab={this.state.activeTab}
                                 tabs={tabs}/>
                 </div>
-                {this.state.sidebarContent !== null &&
-                <div className="sidebar-right">
-                    {this.state.sidebarContent}
-                </div>
-                }
             </div>
         );
     }

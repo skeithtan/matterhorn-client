@@ -40,14 +40,14 @@
 
 /*Home*/
 .home-card {
-    min-width     : 640px;
-    max-width     : 640px;
-    margin        : 16px;
-    transition    : 200ms;
-    overflow      : hidden;
-    flex-shrink   : 0;
-    z-index       : 1; /* Fixes border-radius issue */
-    box-shadow    : 0 3px 20px 0px rgba(0, 0, 0, 0.03), 0 0px 4px rgba(0, 0, 0, 0.13);
+    min-width   : 640px;
+    max-width   : 640px;
+    margin      : 16px;
+    transition  : 200ms;
+    overflow    : hidden;
+    flex-shrink : 0;
+    z-index     : 1; /* Fixes border-radius issue */
+    box-shadow  : 0 3px 20px 0px rgba(0, 0, 0, 0.03), 0 0px 4px rgba(0, 0, 0, 0.13);
 }
 
 .home-card:last-child {
@@ -339,6 +339,11 @@ li.nav-item.active .sidebar-image,
 
 .sidebar-right {
     border-left : 1px solid var(--gray);
+    transition  : 400ms;
+}
+
+.sidebar-right.dismissed {
+    width   : 0;
 }
 
 .sidebar, .sidebar-right {
@@ -349,7 +354,6 @@ li.nav-item.active .sidebar-image,
 }
 
 /*Collapse*/
-
 .collapse-image {
     width      : 24px;
     height     : 24px;

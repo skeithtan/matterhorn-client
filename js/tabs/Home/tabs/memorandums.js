@@ -1,37 +1,34 @@
 import React, { Component } from "react";
 import graphql from "../../../graphql";
 import moment from "moment";
-
 import {
     Card,
 } from "reactstrap";
-
+import LoadingSpinner from "../../../loading";
 import {
     SectionRow,
     SectionRowContent,
     SectionRowTitle,
 } from "../../../components/section";
-import LoadingSpinner from "../../../loading";
 
 
-function fetchInstitutions(onResponse) {
-    graphql({
-        query : `
-                {
-                  institutions {
-                    id
-                    name
-                        latest_mou {
-                            date_expiration
-                        }
-                        latest_moa {
-                            date_expiration
-                        }
-                  }
-                }
-        `,
-        onResponse : onResponse,
-    });
+function fetchInstitutions(onResult) {
+    graphql.query(`
+                    {
+                      institutions {
+                        id
+                        name
+                            latest_mou {
+                                id
+                                date_expiration
+                            }
+                            latest_moa {
+                                id
+                                date_expiration
+                            }
+                      }
+                    }
+        `).then(onResult);
 }
 
 function makeCardInfo(memorandumType, institution, memorandum) {
@@ -41,6 +38,7 @@ function makeCardInfo(memorandumType, institution, memorandum) {
             id : institution.id,
         },
         memorandum : {
+            id : memorandum.id,
             type : memorandumType,
             dateEffective : moment(memorandum.date_effective),
             dateExpiration : moment(memorandum.date_expiration),
@@ -71,7 +69,6 @@ function makeCardsFromInstitution(institutions) {
 }
 
 class Memorandums extends Component {
-
     constructor(props) {
         super(props);
 
@@ -80,14 +77,15 @@ class Memorandums extends Component {
             activeCard : null,
         };
 
-        fetchInstitutions(response => {
-            const institutions = response.data.institutions;
+        this.refreshCards = this.refreshCards.bind(this);
+        this.setActiveCard = this.setActiveCard.bind(this);
+
+        fetchInstitutions(result => {
+            const institutions = result.institutions;
             this.setState({
                 cards : makeCardsFromInstitution(institutions),
             });
         });
-
-        this.setActiveCard = this.setActiveCard.bind(this);
     }
 
     static emptyState() {
@@ -96,8 +94,21 @@ class Memorandums extends Component {
         );
     }
 
-    setActiveCard(index) {
-        if (this.state.activeCard === index) {
+    refreshCards() {
+        this.setState({
+            cards : null //clear first
+        });
+
+        fetchInstitutions(result => {
+            const institutions = result.institutions;
+            this.setState({
+                cards : makeCardsFromInstitution(institutions),
+            });
+        });
+    }
+
+    setActiveCard(id) {
+        if (this.state.activeCard === id) {
             this.setState({
                 activeCard : null //Deselect when already selected
             });
@@ -106,12 +117,12 @@ class Memorandums extends Component {
         }
 
         this.setState({
-            activeCard : index,
+            activeCard : id,
         });
+
     }
 
     render() {
-
         if (this.state.cards === null) {
             return <LoadingSpinner/>;
         }
@@ -120,11 +131,11 @@ class Memorandums extends Component {
             return Memorandums.emptyState();
         }
 
-        const cards = this.state.cards.map((card, index) => {
-            const isActive = this.state.activeCard === index;
-            const setActiveCard = () => this.setActiveCard(index);
-
-            return <MemorandumCard key={index} card={card} onClick={setActiveCard} active={isActive}/>;
+        const cards = this.state.cards.map(card => {
+            const id = card.memorandum.id;
+            const isActive = this.state.activeCard === id;
+            const setActiveCard = () => this.setActiveCard(id);
+            return <MemorandumCard key={id} card={card} onClick={setActiveCard} active={isActive}/>;
         });
 
         return (
@@ -141,10 +152,8 @@ class MemorandumCard extends Component {
     }
 
     render() {
-        const dateEffective = this.props.card.memorandum.dateEffective.format("LL");
         const dateExpiration = this.props.card.memorandum.dateExpiration.format("LL");
         const expirationToNow = this.props.card.memorandum.dateExpiration.fromNow();
-
 
         const now = moment();
         const dateExpirationMoment = this.props.card.memorandum.dateExpiration;
@@ -166,7 +175,7 @@ class MemorandumCard extends Component {
         }
 
         return (
-            <Card className={cardClass} onClick={this.props.onClick}>
+            <div className={cardClass} onClick={this.props.onClick} ref={(card) => this.card = card}>
                 <SectionRow className={expirationClass}>
                     <SectionRowContent large>{hasExpired ? "Expired " : "Expires"} {expirationToNow}</SectionRowContent>
                 </SectionRow>
@@ -182,7 +191,7 @@ class MemorandumCard extends Component {
                     <SectionRowTitle>Date of Expiration</SectionRowTitle>
                     <SectionRowContent large>{dateExpiration}</SectionRowContent>
                 </SectionRow>
-            </Card>
+            </div>
         );
     }
 }

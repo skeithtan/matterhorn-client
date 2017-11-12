@@ -5,21 +5,18 @@ import StudentDetail from "./student_detail";
 import { StudentFormModal, } from "./modals";
 
 
-function fetchStudents(onResponse) {
-    graphql({
-        query : `
-        {
-            students {
-                id
-                id_number
-                family_name
-                first_name
-                middle_name
-            }
+function fetchStudents(onResult) {
+    graphql.query(`
+    {
+        students {
+            id
+            id_number
+            family_name
+            first_name
+            middle_name
         }
-        `,
-        onResponse : onResponse,
-    });
+    }
+    `).then(onResult);
 }
 
 class Students extends Component {
@@ -40,9 +37,9 @@ class Students extends Component {
     }
 
     refreshStudents() {
-        fetchStudents(response => {
+        fetchStudents(result => {
             this.setState({
-                allStudents : response.data.students,
+                allStudents : result.students,
             });
         });
     }

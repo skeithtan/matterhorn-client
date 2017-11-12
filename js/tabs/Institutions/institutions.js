@@ -7,9 +7,8 @@ import {
 import graphql from "../../graphql";
 
 
-function fetchInstitutions(onResponse) {
-    graphql({
-        query : `
+function fetchInstitutions(onResult) {
+    graphql.query(`
         {
             countries {
                 name
@@ -19,9 +18,7 @@ function fetchInstitutions(onResponse) {
                 }
             }
         }
-        `,
-        onResponse : onResponse,
-    });
+    `).then(onResult);
 }
 
 class Institutions extends Component {
@@ -44,9 +41,9 @@ class Institutions extends Component {
     }
 
     refreshInstitutions() {
-        fetchInstitutions(response => {
+        fetchInstitutions(result => {
             this.setState({
-                institutionList : response.data.countries,
+                institutionList : result.countries,
             });
         });
     }

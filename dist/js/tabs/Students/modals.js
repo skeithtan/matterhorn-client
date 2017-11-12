@@ -49,11 +49,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-function fetchInstitutions(onResponse) {
-    (0, _graphql2.default)({
-        query: "\n        {\n            institutions {\n                id\n                name\n            }\n        }\n        ",
-        onResponse: onResponse
-    });
+function fetchInstitutions(onResult) {
+    _graphql2.default.query("\n    {\n        institutions {\n            id\n            name\n        }\n    }\n    ").then(onResult);
 }
 
 var StudentFormModal = function (_Component) {
@@ -94,8 +91,8 @@ var StudentFormModal = function (_Component) {
         _this.fetchingInstitutions = _this.fetchingInstitutions.bind(_this);
         _this.noInstitutions = _this.noInstitutions.bind(_this);
 
-        fetchInstitutions(function (response) {
-            var institutions = response.data.institutions;
+        fetchInstitutions(function (result) {
+            var institutions = result.institutions;
             var form = _this.state.form;
 
             // Set default institution if institutions exist

@@ -42,11 +42,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-function fetchYears(onResponse) {
-    (0, _graphql2.default)({
-        query: "\n        {\n            academic_years {\n                academic_year_start\n            }\n        }\n       ",
-        onResponse: onResponse
-    });
+function fetchYears(onResult) {
+    _graphql2.default.query("\n    {\n        academic_years {\n            academic_year_start\n        }\n    }\n    ").then(onResult);
 }
 
 var Programs = function (_Component) {
@@ -80,9 +77,9 @@ var Programs = function (_Component) {
         value: function refreshYears() {
             var _this2 = this;
 
-            fetchYears(function (response) {
+            fetchYears(function (result) {
                 _this2.setState({
-                    yearList: response.data.academic_years
+                    yearList: result.academic_years
                 });
             });
         }

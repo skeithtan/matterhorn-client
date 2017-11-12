@@ -14,7 +14,9 @@ var _lokka2 = _interopRequireDefault(_lokka);
 
 var _lokkaTransportHttp = require("lokka-transport-http");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : { default: obj };
+}
 
 var headers = { "Authorization": "Token " + localStorage.token };
 
@@ -23,4 +25,5 @@ var graphql = new _lokka2.default({
 });
 
 exports.default = graphql;
+//# sourceMappingURL=graphql.js.map
 //# sourceMappingURL=graphql.js.map

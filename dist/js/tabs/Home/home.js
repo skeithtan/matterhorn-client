@@ -51,16 +51,8 @@ var Home = function (_Component) {
             });
         }
     }, {
-        key: "setSidebarContent",
-        value: function setSidebarContent(content) {
-            this.setState({
-                sidebarContent: content
-            });
-        }
-    }, {
         key: "render",
         value: function render() {
-            var currentTab = this.state.activeTab.tab;
             return _react2.default.createElement(
                 "div",
                 { id: "home", className: "container-fluid d-flex flex-row p-0 h-100" },
@@ -70,16 +62,11 @@ var Home = function (_Component) {
                     _react2.default.createElement(
                         "div",
                         { id: "tab-content" },
-                        currentTab
+                        this.state.activeTab.tab
                     ),
                     _react2.default.createElement(_home_tabs2.default, { setActiveTab: this.setActiveTab,
                         activeTab: this.state.activeTab,
                         tabs: _home_tabs_list2.default })
-                ),
-                this.state.sidebarContent !== null && _react2.default.createElement(
-                    "div",
-                    { className: "sidebar-right" },
-                    this.state.sidebarContent
                 )
             );
         }

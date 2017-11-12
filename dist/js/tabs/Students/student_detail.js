@@ -32,11 +32,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-function fetchStudent(id, onResponse) {
-    (0, _graphql2.default)({
-        query: "\n        {\n            student(id:" + id + ") {\n                id\n                category\n                id_number\n                college\n                family_name\n                first_name\n                middle_name\n                nickname\n                nationality\n                home_address\n                phone_number\n                birth_date\n                sex\n                emergency_contact_name\n                emergency_contact_relationship\n                emergency_contact_number\n                email\n                civil_status\n                institution {\n                    id\n                    name\n                }\n            }\n        }\n       ",
-        onResponse: onResponse
-    });
+function fetchStudent(id, onResult) {
+    _graphql2.default.query("\n    {\n        student(id:" + id + ") {\n            id\n            category\n            id_number\n            college\n            family_name\n            first_name\n            middle_name\n            nickname\n            nationality\n            home_address\n            phone_number\n            birth_date\n            sex\n            emergency_contact_name\n            emergency_contact_relationship\n            emergency_contact_number\n            email\n            civil_status\n            institution {\n                id\n                name\n            }\n        }\n    }\n    ").then(onResult);
 }
 
 var StudentDetail = function (_Component) {
@@ -65,8 +62,8 @@ var StudentDetail = function (_Component) {
                 student: null
             });
 
-            fetchStudent(this.state.studentID, function (response) {
-                var student = response.data.student;
+            fetchStudent(this.state.studentID, function (result) {
+                var student = result.student;
                 _this2.setState({
                     student: student
                 });
@@ -94,9 +91,9 @@ var StudentDetail = function (_Component) {
                 student: null
             });
 
-            fetchStudent(student.id, function (response) {
+            fetchStudent(student.id, function (result) {
                 _this3.setState({
-                    student: response.data.student
+                    student: result.student
                 });
             });
         }

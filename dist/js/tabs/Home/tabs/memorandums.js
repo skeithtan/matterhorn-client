@@ -20,11 +20,11 @@ var _moment2 = _interopRequireDefault(_moment);
 
 var _reactstrap = require("reactstrap");
 
-var _section = require("../../../components/section");
-
 var _loading = require("../../../loading");
 
 var _loading2 = _interopRequireDefault(_loading);
+
+var _section = require("../../../components/section");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -34,11 +34,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-function fetchInstitutions(onResponse) {
-    (0, _graphql2.default)({
-        query: "\n                {\n                  institutions {\n                    id\n                    name\n                        latest_mou {\n                            date_expiration\n                        }\n                        latest_moa {\n                            date_expiration\n                        }\n                  }\n                }\n        ",
-        onResponse: onResponse
-    });
+function fetchInstitutions(onResult) {
+    _graphql2.default.query("\n                    {\n                      institutions {\n                        id\n                        name\n                            latest_mou {\n                                id\n                                date_expiration\n                            }\n                            latest_moa {\n                                id\n                                date_expiration\n                            }\n                      }\n                    }\n        ").then(onResult);
 }
 
 function makeCardInfo(memorandumType, institution, memorandum) {
@@ -48,6 +45,7 @@ function makeCardInfo(memorandumType, institution, memorandum) {
             id: institution.id
         },
         memorandum: {
+            id: memorandum.id,
             type: memorandumType,
             dateEffective: (0, _moment2.default)(memorandum.date_effective),
             dateExpiration: (0, _moment2.default)(memorandum.date_expiration)
@@ -88,21 +86,38 @@ var Memorandums = function (_Component) {
             activeCard: null
         };
 
-        fetchInstitutions(function (response) {
-            var institutions = response.data.institutions;
+        _this.refreshCards = _this.refreshCards.bind(_this);
+        _this.setActiveCard = _this.setActiveCard.bind(_this);
+
+        fetchInstitutions(function (result) {
+            var institutions = result.institutions;
             _this.setState({
                 cards: makeCardsFromInstitution(institutions)
             });
         });
-
-        _this.setActiveCard = _this.setActiveCard.bind(_this);
         return _this;
     }
 
     _createClass(Memorandums, [{
+        key: "refreshCards",
+        value: function refreshCards() {
+            var _this2 = this;
+
+            this.setState({
+                cards: null //clear first
+            });
+
+            fetchInstitutions(function (result) {
+                var institutions = result.institutions;
+                _this2.setState({
+                    cards: makeCardsFromInstitution(institutions)
+                });
+            });
+        }
+    }, {
         key: "setActiveCard",
-        value: function setActiveCard(index) {
-            if (this.state.activeCard === index) {
+        value: function setActiveCard(id) {
+            if (this.state.activeCard === id) {
                 this.setState({
                     activeCard: null //Deselect when already selected
                 });
@@ -111,13 +126,13 @@ var Memorandums = function (_Component) {
             }
 
             this.setState({
-                activeCard: index
+                activeCard: id
             });
         }
     }, {
         key: "render",
         value: function render() {
-            var _this2 = this;
+            var _this3 = this;
 
             if (this.state.cards === null) {
                 return _react2.default.createElement(_loading2.default, null);
@@ -127,13 +142,13 @@ var Memorandums = function (_Component) {
                 return Memorandums.emptyState();
             }
 
-            var cards = this.state.cards.map(function (card, index) {
-                var isActive = _this2.state.activeCard === index;
+            var cards = this.state.cards.map(function (card) {
+                var id = card.memorandum.id;
+                var isActive = _this3.state.activeCard === id;
                 var setActiveCard = function setActiveCard() {
-                    return _this2.setActiveCard(index);
+                    return _this3.setActiveCard(id);
                 };
-
-                return _react2.default.createElement(MemorandumCard, { key: index, card: card, onClick: setActiveCard, active: isActive });
+                return _react2.default.createElement(MemorandumCard, { key: id, card: card, onClick: setActiveCard, active: isActive });
             });
 
             return _react2.default.createElement(
@@ -168,7 +183,8 @@ var MemorandumCard = function (_Component2) {
     _createClass(MemorandumCard, [{
         key: "render",
         value: function render() {
-            var dateEffective = this.props.card.memorandum.dateEffective.format("LL");
+            var _this5 = this;
+
             var dateExpiration = this.props.card.memorandum.dateExpiration.format("LL");
             var expirationToNow = this.props.card.memorandum.dateExpiration.fromNow();
 
@@ -192,8 +208,10 @@ var MemorandumCard = function (_Component2) {
             }
 
             return _react2.default.createElement(
-                _reactstrap.Card,
-                { className: cardClass, onClick: this.props.onClick },
+                "div",
+                { className: cardClass, onClick: this.props.onClick, ref: function ref(card) {
+                        return _this5.card = card;
+                    } },
                 _react2.default.createElement(
                     _section.SectionRow,
                     { className: expirationClass },

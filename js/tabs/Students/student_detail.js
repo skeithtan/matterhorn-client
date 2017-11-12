@@ -17,38 +17,35 @@ import LoadingSpinner from "../../loading";
 import graphql from "../../graphql";
 
 
-function fetchStudent(id, onResponse) {
-    graphql({
-        query : `
-        {
-            student(id:${id}) {
+function fetchStudent(id, onResult) {
+    graphql.query(`
+    {
+        student(id:${id}) {
+            id
+            category
+            id_number
+            college
+            family_name
+            first_name
+            middle_name
+            nickname
+            nationality
+            home_address
+            phone_number
+            birth_date
+            sex
+            emergency_contact_name
+            emergency_contact_relationship
+            emergency_contact_number
+            email
+            civil_status
+            institution {
                 id
-                category
-                id_number
-                college
-                family_name
-                first_name
-                middle_name
-                nickname
-                nationality
-                home_address
-                phone_number
-                birth_date
-                sex
-                emergency_contact_name
-                emergency_contact_relationship
-                emergency_contact_number
-                email
-                civil_status
-                institution {
-                    id
-                    name
-                }
+                name
             }
         }
-       `,
-        onResponse : onResponse,
-    });
+    }
+    `).then(onResult);
 }
 
 class StudentDetail extends Component {
@@ -76,8 +73,8 @@ class StudentDetail extends Component {
             student : null,
         });
 
-        fetchStudent(this.state.studentID, response => {
-            const student = response.data.student;
+        fetchStudent(this.state.studentID, result => {
+            const student = result.student;
             this.setState({
                 student : student,
             });
@@ -102,9 +99,9 @@ class StudentDetail extends Component {
             student : null,
         });
 
-        fetchStudent(student.id, response => {
+        fetchStudent(student.id, result => {
             this.setState({
-                student : response.data.student,
+                student : result.student,
             });
         });
     }

@@ -6,17 +6,15 @@ import StudyFieldList from "./study_field_list";
 import StudentList from "./student_list";
 import graphql from "../../graphql";
 
-function fetchYears(onResponse) {
-    graphql({
-        query : `
-        {
-            academic_years {
-                academic_year_start
-            }
+
+function fetchYears(onResult) {
+    graphql.query(`
+    {
+        academic_years {
+            academic_year_start
         }
-       `,
-        onResponse : onResponse,
-    });
+    }
+    `).then(onResult);
 }
 
 class Programs extends Component {
@@ -41,9 +39,9 @@ class Programs extends Component {
     }
 
     refreshYears() {
-        fetchYears(response => {
+        fetchYears(result => {
             this.setState({
-                yearList : response.data.academic_years,
+                yearList : result.academic_years,
             });
         });
     }

@@ -10,32 +10,26 @@ import {
     SectionTitle,
 } from "../../../components/section";
 
-function fetchYears(institutionID, onResponse) {
-    graphql({
-        query : `
-        {
-            programs(institution:${institutionID}) {
-                academic_year {
-                    academic_year_start
-                }
+function fetchYears(institutionID, onResult) {
+    graphql.query(`
+    {
+        programs(institution:${institutionID}) {
+            academic_year {
+                academic_year_start
             }
         }
-       `,
-        onResponse : onResponse,
-    });
+    }
+    `).then(onResult);
 }
 
-function fetchPrograms(institutionID, onResponse) {
-    graphql({
-        query : `
-        {
-            programs(institution:${institutionID}) {
-                name
-            }
+function fetchPrograms(institutionID, onResult) {
+    graphql.query(`
+    {
+        programs(institution:${institutionID}) {
+            name
         }
-       `,
-        onResponse : onResponse,
-    });
+    }
+    `).then(onResult);
 }
 
 class Programs extends Component {
@@ -53,15 +47,15 @@ class Programs extends Component {
         this.setCurrentYear = this.setCurrentYear.bind(this);
         this.setCurrentProgram = this.setCurrentProgram.bind(this);
 
-        fetchYears(props.institution.id, response => {
+        fetchYears(props.institution.id, result => {
             this.setState({
-                yearList : response.data.programs,
+                yearList : result.programs,
             });
         });
 
-        fetchPrograms(props.institution.id, response => {
+        fetchPrograms(props.institution.id, result => {
             this.setState({
-                programList : response.data.programs,
+                programList : result.programs,
             });
         });
     }
@@ -90,15 +84,15 @@ class Programs extends Component {
             programList : null,
         });
 
-        fetchYears(nextProps.institution.id, response => {
+        fetchYears(nextProps.institution.id, result => {
             this.setState({
-                yearList : response.data.programs,
+                yearList : result.programs,
             });
         });
 
-        fetchPrograms(nextProps.institution.id, response => {
+        fetchPrograms(nextProps.institution.id, result => {
             this.setState({
-                programList : response.data.programs,
+                programList : result.programs,
             });
         });
     }

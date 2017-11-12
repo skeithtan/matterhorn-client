@@ -30,18 +30,12 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-function fetchYears(institutionID, onResponse) {
-    (0, _graphql2.default)({
-        query: "\n        {\n            programs(institution:" + institutionID + ") {\n                academic_year {\n                    academic_year_start\n                }\n            }\n        }\n       ",
-        onResponse: onResponse
-    });
+function fetchYears(institutionID, onResult) {
+    _graphql2.default.query("\n    {\n        programs(institution:" + institutionID + ") {\n            academic_year {\n                academic_year_start\n            }\n        }\n    }\n    ").then(onResult);
 }
 
-function fetchPrograms(institutionID, onResponse) {
-    (0, _graphql2.default)({
-        query: "\n        {\n            programs(institution:" + institutionID + ") {\n                name\n            }\n        }\n       ",
-        onResponse: onResponse
-    });
+function fetchPrograms(institutionID, onResult) {
+    _graphql2.default.query("\n    {\n        programs(institution:" + institutionID + ") {\n            name\n        }\n    }\n    ").then(onResult);
 }
 
 var Programs = function (_Component) {
@@ -63,15 +57,15 @@ var Programs = function (_Component) {
         _this.setCurrentYear = _this.setCurrentYear.bind(_this);
         _this.setCurrentProgram = _this.setCurrentProgram.bind(_this);
 
-        fetchYears(props.institution.id, function (response) {
+        fetchYears(props.institution.id, function (result) {
             _this.setState({
-                yearList: response.data.programs
+                yearList: result.programs
             });
         });
 
-        fetchPrograms(props.institution.id, function (response) {
+        fetchPrograms(props.institution.id, function (result) {
             _this.setState({
-                programList: response.data.programs
+                programList: result.programs
             });
         });
         return _this;
@@ -107,15 +101,15 @@ var Programs = function (_Component) {
                 programList: null
             });
 
-            fetchYears(nextProps.institution.id, function (response) {
+            fetchYears(nextProps.institution.id, function (result) {
                 _this2.setState({
-                    yearList: response.data.programs
+                    yearList: result.programs
                 });
             });
 
-            fetchPrograms(nextProps.institution.id, function (response) {
+            fetchPrograms(nextProps.institution.id, function (result) {
                 _this2.setState({
-                    programList: response.data.programs
+                    programList: result.programs
                 });
             });
         }
