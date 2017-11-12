@@ -18,7 +18,7 @@ var _graphql = require("../../../graphql");
 
 var _graphql2 = _interopRequireDefault(_graphql);
 
-var _loading = require("../../../loading");
+var _loading = require("../../../components/loading");
 
 var _loading2 = _interopRequireDefault(_loading);
 
@@ -39,7 +39,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 function fetchInstitution(id, onResult) {
-    _graphql2.default.query("\n    {\n      institution(id:" + id + ") {\n        id\n        name\n        moas {\n          id\n          category\n          memorandum_file\n          date_effective\n          date_expiration\n          college_initiator\n          linkages\n        }\n        mous {\n          id\n          category\n          memorandum_file\n          date_effective\n          date_expiration\n          college_initiator\n          linkages\n        }\n      }\n    }\n    ").then(onResult);
+    _graphql2.default.query("\n    {\n      institution(id:" + id + ") {\n        id\n        name\n        moas {\n          id\n          category\n          memorandum_file\n          date_effective\n          date_expiration\n          college_initiator\n          linkages\n        }\n        mous \n      }\n    }\n    ").then(onResult);
 }
 
 var Memorandums = function (_Component) {

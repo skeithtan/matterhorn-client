@@ -14,7 +14,7 @@ var _section = require("../../components/section");
 
 var _reactstrap = require("reactstrap");
 
-var _loading = require("../../loading");
+var _loading = require("../../components/loading");
 
 var _loading2 = _interopRequireDefault(_loading);
 

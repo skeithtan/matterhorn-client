@@ -13,7 +13,7 @@ import {
     StudentFormModal,
 
 } from "./modals";
-import LoadingSpinner from "../../loading";
+import LoadingSpinner from "../../components/loading";
 import graphql from "../../graphql";
 
 

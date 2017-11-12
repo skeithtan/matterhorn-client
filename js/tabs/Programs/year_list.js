@@ -7,7 +7,7 @@ import {
     ListGroupItem,
     Button,
 } from "reactstrap";
-import LoadingSpinner from "../../loading";
+import LoadingSpinner from "../../components/loading";
 
 class YearList extends Component {
     constructor(props) {

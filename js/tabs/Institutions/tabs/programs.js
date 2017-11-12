@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import graphql from "../../../graphql";
-import LoadingSpinner from "../../../loading";
+import LoadingSpinner from "../../../components/loading";
 import { Button } from "reactstrap";
 import {
     Section,

@@ -10,7 +10,7 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _loading = require("../../../loading");
+var _loading = require("../../../components/loading");
 
 var _loading2 = _interopRequireDefault(_loading);
 

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import LoadingSpinner from "../../loading";
+import LoadingSpinner from "../../components/loading";
 
 import {
     Input,

@@ -14,7 +14,7 @@ var _graphql = require("../../../graphql");
 
 var _graphql2 = _interopRequireDefault(_graphql);
 
-var _loading = require("../../../loading");
+var _loading = require("../../../components/loading");
 
 var _loading2 = _interopRequireDefault(_loading);
 

@@ -33,14 +33,14 @@ var LoadingSpinner = function (_Component) {
             return _react2.default.createElement(
                 "div",
                 { className: "loading-container" },
-                _react2.default.createElement(
+                !this.props.noSpinner && _react2.default.createElement(
                     "div",
                     { className: "spinner spinner-secondary spinner-sm" },
                     _react2.default.createElement("div", { className: "bounce1" }),
                     _react2.default.createElement("div", { className: "bounce2" }),
                     _react2.default.createElement("div", { className: "bounce3" })
                 ),
-                _react2.default.createElement(
+                !this.props.noText && _react2.default.createElement(
                     "h3",
                     { className: "mt-4" },
                     "Loading..."

@@ -16,7 +16,7 @@ var _student_detail_overview = require("./student_detail_overview");
 
 var _modals = require("./modals");
 
-var _loading = require("../../loading");
+var _loading = require("../../components/loading");
 
 var _loading2 = _interopRequireDefault(_loading);
 

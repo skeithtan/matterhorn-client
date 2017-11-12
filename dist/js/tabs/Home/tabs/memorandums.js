@@ -18,11 +18,17 @@ var _moment = require("moment");
 
 var _moment2 = _interopRequireDefault(_moment);
 
-var _loading = require("../../../loading");
+var _loading = require("../../../components/loading");
 
 var _loading2 = _interopRequireDefault(_loading);
 
 var _section = require("../../../components/section");
+
+var _reactstrap = require("reactstrap");
+
+var _settings = require("../../../settings");
+
+var _settings2 = _interopRequireDefault(_settings);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -33,7 +39,15 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 function fetchInstitutions(onResult) {
-    _graphql2.default.query("\n                    {\n                      institutions {\n                        id\n                        name\n                            latest_mou {\n                                id\n                                date_expiration\n                            }\n                            latest_moa {\n                                id\n                                date_expiration\n                            }\n                      }\n                    }\n        ").then(onResult);
+    _graphql2.default.query("\n    {\n      institutions {\n        id\n        name\n            latest_mou {\n                id\n                date_expiration\n            }\n            latest_moa {\n                id\n                date_expiration\n            }\n      }\n    }\n    ").then(onResult);
+}
+
+function fetchMemorandumDetails(id, onResult) {
+    _graphql2.default.query("\n    {\n      memorandum(id: " + id + ") {\n        id\n        category\n        memorandum_file\n        date_effective\n        date_expiration\n        college_initiator\n        linkages\n      }\n    }\n    ").then(onResult);
+}
+
+function memorandumIsFetched(memorandum) {
+    return memorandum.category !== undefined;
 }
 
 function makeCardInfo(memorandumType, institution, memorandum) {
@@ -205,6 +219,18 @@ var MemorandumCard = function (_Component2) {
                 cardClass += "active";
             }
 
+            var collapseContent = null;
+
+            if (memorandumIsFetched(this.props.card.memorandum) || this.props.active) {
+                //Have we fetched it yet? This way we only mount those that have been fetched
+                //or if it hasn't been fetched but is active.
+                collapseContent = _react2.default.createElement(
+                    "div",
+                    null,
+                    _react2.default.createElement(MemorandumCardCollapseContent, { memorandum: this.props.card.memorandum })
+                );
+            }
+
             return _react2.default.createElement(
                 "div",
                 { className: cardClass, onClick: this.props.onClick, ref: function ref(card) {
@@ -262,12 +288,143 @@ var MemorandumCard = function (_Component2) {
                         { large: true },
                         dateExpiration
                     )
+                ),
+                _react2.default.createElement(
+                    _reactstrap.Collapse,
+                    { isOpen: this.props.active },
+                    collapseContent
                 )
             );
         }
     }]);
 
     return MemorandumCard;
+}(_react.Component);
+
+var MemorandumCardCollapseContent = function (_Component3) {
+    _inherits(MemorandumCardCollapseContent, _Component3);
+
+    function MemorandumCardCollapseContent(props) {
+        _classCallCheck(this, MemorandumCardCollapseContent);
+
+        var _this6 = _possibleConstructorReturn(this, (MemorandumCardCollapseContent.__proto__ || Object.getPrototypeOf(MemorandumCardCollapseContent)).call(this, props));
+
+        _this6.state = {
+            memorandum: props.memorandum
+        };
+
+        fetchMemorandumDetails(props.memorandum.id, function (result) {
+            var memorandum = result.memorandum;
+            var stateMemorandum = _this6.state.memorandum;
+
+            // Store fetched information in the instance
+            stateMemorandum.category = memorandum.category;
+            stateMemorandum.memorandum_file = memorandum.memorandum_file;
+            stateMemorandum.date_effective = memorandum.date_effective;
+            stateMemorandum.college_initiator = memorandum.college_initiator;
+            stateMemorandum.linkages = memorandum.linkages;
+        });
+        return _this6;
+    }
+
+    _createClass(MemorandumCardCollapseContent, [{
+        key: "render",
+        value: function render() {
+            var memorandum = this.state.memorandum;
+
+            if (!memorandumIsFetched(memorandum)) {
+                return _react2.default.createElement(
+                    "div",
+                    { className: "card-details" },
+                    _react2.default.createElement(_loading2.default, { noText: true })
+                );
+            }
+
+            var dateEffective = (0, _moment2.default)(memorandum.date_effective).format("LL");
+
+            var collegeInitiator = "No college initiator";
+            if (memorandum.college_initiator !== null) {
+                collegeInitiator = _settings2.default.colleges[memorandum.college_initiator];
+            }
+
+            var linkages = "No linkages";
+            if (memorandum.linkages.length > 0) {
+                linkages = "";
+
+                memorandum.linkages.forEach(function (linkage, index) {
+                    var linkageString = _settings2.default.linkages[linkage];
+                    if (index === memorandum.linkages.length - 1) {
+                        linkages += linkageString;
+                    } else {
+                        linkages += linkageString + ", ";
+                    }
+                });
+            }
+
+            return _react2.default.createElement(
+                "div",
+                { className: "card-details fetched" },
+                _react2.default.createElement(
+                    _section.SectionRow,
+                    null,
+                    _react2.default.createElement(
+                        _section.SectionRowTitle,
+                        null,
+                        "Date Effective"
+                    ),
+                    _react2.default.createElement(
+                        _section.SectionRowContent,
+                        { large: true },
+                        dateEffective
+                    )
+                ),
+                _react2.default.createElement(
+                    _section.SectionRow,
+                    null,
+                    _react2.default.createElement(
+                        _section.SectionRowTitle,
+                        null,
+                        "College Initiator"
+                    ),
+                    _react2.default.createElement(
+                        _section.SectionRowContent,
+                        { large: true },
+                        collegeInitiator
+                    )
+                ),
+                _react2.default.createElement(
+                    _section.SectionRow,
+                    null,
+                    _react2.default.createElement(
+                        _section.SectionRowTitle,
+                        null,
+                        "Linkages"
+                    ),
+                    _react2.default.createElement(
+                        _section.SectionRowContent,
+                        { large: true },
+                        linkages
+                    )
+                ),
+                _react2.default.createElement(
+                    _section.SectionRow,
+                    null,
+                    _react2.default.createElement(
+                        _reactstrap.Button,
+                        { outline: true, size: "sm", color: "success", className: "mr-2" },
+                        "View memorandum document"
+                    ),
+                    _react2.default.createElement(
+                        _reactstrap.Button,
+                        { outline: true, size: "sm", color: "success" },
+                        "Renew Memorandum"
+                    )
+                )
+            );
+        }
+    }]);
+
+    return MemorandumCardCollapseContent;
 }(_react.Component);
 
 exports.default = Memorandums;

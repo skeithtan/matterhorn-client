@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import moment from "moment";
 import graphql from "../../../graphql";
-import LoadingSpinner from "../../../loading";
+import LoadingSpinner from "../../../components/loading";
 
 import { Button, } from "reactstrap";
 
@@ -33,15 +33,7 @@ function fetchInstitution(id, onResult) {
           college_initiator
           linkages
         }
-        mous {
-          id
-          category
-          memorandum_file
-          date_effective
-          date_expiration
-          college_initiator
-          linkages
-        }
+        mous 
       }
     }
     `).then(onResult);
