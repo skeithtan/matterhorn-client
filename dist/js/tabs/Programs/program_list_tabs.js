@@ -30,6 +30,8 @@ var ProgramListTabBar = function (_Component) {
     _createClass(ProgramListTabBar, [{
         key: "render",
         value: function render() {
+            var _this2 = this;
+
             return _react2.default.createElement(
                 "div",
                 { id: "institution-navigation" },
@@ -38,7 +40,9 @@ var ProgramListTabBar = function (_Component) {
                     { className: "p-3 justify-content-center mb-0 d-flex flex-row" },
                     _react2.default.createElement(
                         "li",
-                        { className: "d-flex" },
+                        { className: "d-flex", onClick: function onClick() {
+                                return _this2.props.setActiveTerm(1);
+                            } },
                         _react2.default.createElement(
                             "small",
                             { className: "font-weight-bold mb-0 " },
@@ -47,7 +51,9 @@ var ProgramListTabBar = function (_Component) {
                     ),
                     _react2.default.createElement(
                         "li",
-                        { className: "d-flex" },
+                        { className: "d-flex", onClick: function onClick() {
+                                return _this2.props.setActiveTerm(2);
+                            } },
                         _react2.default.createElement(
                             "small",
                             { className: "ml-4 font-weight-bold mb-0 " },
@@ -56,7 +62,9 @@ var ProgramListTabBar = function (_Component) {
                     ),
                     _react2.default.createElement(
                         "li",
-                        { className: "d-flex" },
+                        { className: "d-flex", onClick: function onClick() {
+                                return _this2.props.setActiveTerm(3);
+                            } },
                         _react2.default.createElement(
                             "small",
                             { className: "ml-4 font-weight-bold mb-0 " },

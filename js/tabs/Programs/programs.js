@@ -107,11 +107,13 @@ class Programs extends Component {
         return (
             <div id="programs-page" className="container-fluid d-flex flex-row p-0 h-100 page-body">
                 <YearList yearList={ this.state.yearList }
-                          setActiveYear={ this.setActiveYear }/>
+                          setActiveYear={ this.setActiveYear }
+                          activeYear={ this.state.activeYear }/>
                 { this.state.activeYear !== null &&
                 <div id="program-list" className="d-flex flex-column p-0 h-100">
                     <ProgramList programList={ this.state.programList }
                                  activeYear={ this.state.activeYear }
+                                 activeTerm={ this.state.activeTerm }
                                  activeProgram={ this.state.activeProgram }
                                  setActiveProgram={ this.setActiveProgram }/>
                     <ProgramListTabBar activeTerm={ this.state.activeTerm }

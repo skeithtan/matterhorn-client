@@ -19,7 +19,8 @@ class ProgramList extends Component {
     render() {
         return (
             <div className="h-100 d-flex flex-column">
-                <ProgramListHead year={ this.props.activeYear }/>
+                <ProgramListHead year={ this.props.activeYear }
+                                 term={ this.props.activeTerm }/>
                 <ProgramListTable programList={ this.props.programList }
                                   activeProgram={ this.props.activeProgram }
                                   setActiveProgram={ this.props.setActiveProgram }/>
@@ -39,7 +40,10 @@ class ProgramListHead extends Component {
                 <div className="d-flex flex-row w-100 mb-2 align-items-center">
                     <div className="mr-auto">
                         <h5 className="mb-0 text-secondary">Programs</h5>
-                        <h4 className="page-head-title mb-0">{ this.props.year } - { this.props.year + 1 }</h4>
+                        <div className="d-flex flex-row">
+                            <h4 className="page-head-title mb-0">{ this.props.year } - { this.props.year + 1 }</h4>
+                            <h4 className="text-secondary ml-2">Term { this.props.term }</h4>
+                        </div>
                     </div>
                 </div>
                 <Input type="search" placeholder="Search" className="search-input"/>
@@ -74,9 +78,7 @@ class ProgramListTable extends Component {
         });
 
         // Arrange alphabetically
-        institutions = institutions.sort(function (a, b) {
-            return a - b;
-        });
+        institutions = institutions.sort();
 
         let categorizedByInstitution = [];
 

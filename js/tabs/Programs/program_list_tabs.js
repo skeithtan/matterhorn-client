@@ -9,13 +9,13 @@ class ProgramListTabBar extends Component {
         return (
             <div id="institution-navigation">
                 <ul className="p-3 justify-content-center mb-0 d-flex flex-row">
-                    <li className="d-flex">
+                    <li className="d-flex" onClick={ () => this.props.setActiveTerm(1) }>
                         <small className="font-weight-bold mb-0 ">Term 1</small>
                     </li>
-                    <li className="d-flex">
+                    <li className="d-flex" onClick={ () => this.props.setActiveTerm(2) }>
                         <small className="ml-4 font-weight-bold mb-0 ">Term 2</small>
                     </li>
-                    <li className="d-flex">
+                    <li className="d-flex" onClick={ () => this.props.setActiveTerm(3) }>
                         <small className="ml-4 font-weight-bold mb-0 ">Term 3</small>
                     </li>
                 </ul>

@@ -41,7 +41,8 @@ var ProgramList = function (_Component) {
             return _react2.default.createElement(
                 "div",
                 { className: "h-100 d-flex flex-column" },
-                _react2.default.createElement(ProgramListHead, { year: this.props.activeYear }),
+                _react2.default.createElement(ProgramListHead, { year: this.props.activeYear,
+                    term: this.props.activeTerm }),
                 _react2.default.createElement(ProgramListTable, { programList: this.props.programList,
                     activeProgram: this.props.activeProgram,
                     setActiveProgram: this.props.setActiveProgram })
@@ -79,11 +80,21 @@ var ProgramListHead = function (_Component2) {
                             "Programs"
                         ),
                         _react2.default.createElement(
-                            "h4",
-                            { className: "page-head-title mb-0" },
-                            this.props.year,
-                            " - ",
-                            this.props.year + 1
+                            "div",
+                            { className: "d-flex flex-row" },
+                            _react2.default.createElement(
+                                "h4",
+                                { className: "page-head-title mb-0" },
+                                this.props.year,
+                                " - ",
+                                this.props.year + 1
+                            ),
+                            _react2.default.createElement(
+                                "h4",
+                                { className: "text-secondary ml-2" },
+                                "Term ",
+                                this.props.term
+                            )
                         )
                     )
                 ),
@@ -130,9 +141,7 @@ var ProgramListTable = function (_Component3) {
             });
 
             // Arrange alphabetically
-            institutions = institutions.sort(function (a, b) {
-                return a - b;
-            });
+            institutions = institutions.sort();
 
             var categorizedByInstitution = [];
 
