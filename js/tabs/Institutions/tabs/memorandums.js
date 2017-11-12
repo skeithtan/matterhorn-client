@@ -138,8 +138,8 @@ class Memorandums extends Component {
         }
 
         const memorandums = {
-            agreements : this.state.institution.mous,
-            understandings : this.state.institution.moas,
+            agreements : this.state.institution.moas,
+            understandings : this.state.institution.mous,
             latestMOU : this.state.institution.latest_mou,
             latestMOA : this.state.institution.latest_moa,
         };
