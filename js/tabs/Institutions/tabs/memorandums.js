@@ -33,7 +33,16 @@ function fetchInstitution(id, onResult) {
           college_initiator
           linkages
         }
-        mous 
+        mous {
+          id
+          category
+          memorandum_file
+          date_effective
+          date_expiration
+          college_initiator
+          linkages
+        }
+        
       }
     }
     `).then(onResult);
