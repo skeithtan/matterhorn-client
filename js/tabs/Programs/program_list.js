@@ -11,6 +11,7 @@ import {
 } from "../../components/section";
 import LoadingSpinner from "../../components/loading";
 
+
 class ProgramList extends Component {
     constructor(props) {
         super(props);
@@ -19,11 +20,11 @@ class ProgramList extends Component {
     render() {
         return (
             <div className="h-100 d-flex flex-column">
-                <ProgramListHead year={ this.props.activeYear }
-                                 term={ this.props.activeTerm }/>
-                <ProgramListTable programList={ this.props.programList }
-                                  activeProgram={ this.props.activeProgram }
-                                  setActiveProgram={ this.props.setActiveProgram }/>
+                <ProgramListHead year={this.props.activeYear}
+                                 term={this.props.activeTerm}/>
+                <ProgramListTable programList={this.props.programList}
+                                  activeProgram={this.props.activeProgram}
+                                  setActiveProgram={this.props.setActiveProgram}/>
             </div>
         );
     }
@@ -39,10 +40,12 @@ class ProgramListHead extends Component {
             <div className="page-head d-flex flex-column align-items-center">
                 <div className="d-flex flex-row w-100 mb-2 align-items-center">
                     <div className="mr-auto">
-                        <h5 className="mb-0 text-secondary">Programs</h5>
+                        <h5 className="mb-0 text-secondary mt-3">Programs</h5>
                         <div className="d-flex flex-row">
-                            <h4 className="page-head-title mb-0">{ this.props.year } - { this.props.year + 1 }</h4>
-                            <h4 className="text-secondary ml-2">Term { this.props.term }</h4>
+                            <h4 className="page-head-title mb-0">
+                                {this.props.year} - {this.props.year + 1}
+                                <span className="text-secondary font-weight-normal"> Term {this.props.term}</span>
+                            </h4>
                         </div>
                     </div>
                 </div>
@@ -120,16 +123,16 @@ class ProgramListTable extends Component {
         const institutionPrograms = this.getFilteredPrograms();
 
         const sections = institutionPrograms.map((institutionProgram, index) => {
-            return <ProgramSection key={ index }
-                                   title={ institutionProgram.institution }
-                                   activeProgram={ this.props.activeProgram }
-                                   programs={ institutionProgram.programs }
-                                   setActiveProgram={ this.props.setActiveProgram }/>;
+            return <ProgramSection key={index}
+                                   title={institutionProgram.institution}
+                                   activeProgram={this.props.activeProgram}
+                                   programs={institutionProgram.programs}
+                                   setActiveProgram={this.props.setActiveProgram}/>;
         });
 
         return (
             <div className="page-body">
-                { sections }
+                {sections}
             </div>
         );
     }
@@ -151,17 +154,17 @@ class ProgramSection extends Component {
             const setActiveProgram = () => this.props.setActiveProgram(program);
 
             return (
-                <SectionRow selectable key={ index } onClick={ setActiveProgram } active={ isActive }>
-                    <SectionRowContent>{ program.name }</SectionRowContent>
+                <SectionRow selectable key={index} onClick={setActiveProgram} active={isActive}>
+                    <SectionRowContent>{program.name}</SectionRowContent>
                 </SectionRow>
             );
         });
 
         return (
             <Section>
-                <SectionTitle>{ this.props.title }</SectionTitle>
+                <SectionTitle>{this.props.title}</SectionTitle>
                 <SectionTable>
-                    { rows }
+                    {rows}
                 </SectionTable>
             </Section>
         );

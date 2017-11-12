@@ -76,7 +76,7 @@ var ProgramListHead = function (_Component2) {
                         { className: "mr-auto" },
                         _react2.default.createElement(
                             "h5",
-                            { className: "mb-0 text-secondary" },
+                            { className: "mb-0 text-secondary mt-3" },
                             "Programs"
                         ),
                         _react2.default.createElement(
@@ -87,13 +87,13 @@ var ProgramListHead = function (_Component2) {
                                 { className: "page-head-title mb-0" },
                                 this.props.year,
                                 " - ",
-                                this.props.year + 1
-                            ),
-                            _react2.default.createElement(
-                                "h4",
-                                { className: "text-secondary ml-2" },
-                                "Term ",
-                                this.props.term
+                                this.props.year + 1,
+                                _react2.default.createElement(
+                                    "span",
+                                    { className: "text-secondary font-weight-normal" },
+                                    " Term ",
+                                    this.props.term
+                                )
                             )
                         )
                     )
