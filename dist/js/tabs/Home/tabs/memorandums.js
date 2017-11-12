@@ -133,14 +133,6 @@ var Memorandums = function (_Component) {
     }, {
         key: "setActiveCard",
         value: function setActiveCard(id) {
-            if (this.state.activeCard === id) {
-                this.setState({
-                    activeCard: null //Deselect when already selected
-                });
-
-                return;
-            }
-
             this.setState({
                 activeCard: id
             });
@@ -167,9 +159,16 @@ var Memorandums = function (_Component) {
                 return _react2.default.createElement(MemorandumCard, { key: id, card: card, onClick: setActiveCard, active: isActive });
             });
 
+            var onBackgroundClick = function onBackgroundClick(event) {
+                if (event.target === event.currentTarget) {
+                    _this3.setActiveCard(null);
+                }
+            };
+
             return _react2.default.createElement(
                 "div",
-                { className: "d-flex flex-column align-items-center page-body p-4" },
+                { className: "d-flex flex-column align-items-center page-body p-4",
+                    onClick: onBackgroundClick },
                 cards
             );
         }

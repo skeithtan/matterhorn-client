@@ -132,18 +132,9 @@ class Memorandums extends Component {
     }
 
     setActiveCard(id) {
-        if (this.state.activeCard === id) {
-            this.setState({
-                activeCard : null //Deselect when already selected
-            });
-
-            return;
-        }
-
         this.setState({
             activeCard : id,
         });
-
     }
 
     render() {
@@ -162,8 +153,15 @@ class Memorandums extends Component {
             return <MemorandumCard key={id} card={card} onClick={setActiveCard} active={isActive}/>;
         });
 
+        const onBackgroundClick = event => {
+            if (event.target === event.currentTarget) {
+                this.setActiveCard(null);
+            }
+        };
+
         return (
-            <div className="d-flex flex-column align-items-center page-body p-4">
+            <div className="d-flex flex-column align-items-center page-body p-4"
+                 onClick={onBackgroundClick}>
                 {cards}
             </div>
         );
