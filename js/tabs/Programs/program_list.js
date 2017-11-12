@@ -142,9 +142,16 @@ class ProgramSection extends Component {
 
     render() {
         const rows = this.props.programs.map((program, index) => {
+            let isActive = false;
+
+            if (this.props.activeProgram !== null) {
+                isActive = this.props.activeProgram.name === program.name;
+            }
+
             const setActiveProgram = () => this.props.setActiveProgram(program);
+
             return (
-                <SectionRow key={ index } onClick={ setActiveProgram }>
+                <SectionRow selectable key={ index } onClick={ setActiveProgram } active={ isActive }>
                     <SectionRowContent>{ program.name }</SectionRowContent>
                 </SectionRow>
             );

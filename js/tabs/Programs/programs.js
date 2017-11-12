@@ -35,6 +35,8 @@ function fetchPrograms(year, term, onResult) {
     `).then(onResult);
 }
 
+// TODO: Fetch students under a program and sort them by study field
+
 class Programs extends Component {
     constructor(props) {
         super(props);

@@ -76,7 +76,7 @@ var InstitutionDetailTab = function (_Component2) {
 
             return _react2.default.createElement(
                 "li",
-                { className: "col-lg-2 d-flex flex-row justify-content-center align-items-center",
+                { className: "col-lg-2 d-flex flex-row justify-content-center align-items-center selectable-tab",
                     onClick: this.props.isActive ? null : this.props.onClick },
                 _react2.default.createElement("img", { className: "tab-bar-image", src: image }),
                 _react2.default.createElement(

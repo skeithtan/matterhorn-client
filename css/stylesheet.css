@@ -469,6 +469,10 @@ li.nav-item.active .sidebar-image,
     max-width : 240px;
 }
 
+.selectable-tab {
+    cursor : pointer;
+}
+
 /*Switch user*/
 #switch-user-button {
     width          : 100%;
@@ -653,9 +657,4 @@ li.nav-item.active .sidebar-image,
     border-right : 1px solid var(--gray);
     width        : 33.33%;
     min-width    : 320px;
-}
-
-/*Institution Tab Content*/
-#tab-content {
-    overflow-x : scroll;
 }

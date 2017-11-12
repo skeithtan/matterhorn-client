@@ -50,6 +50,8 @@ function fetchPrograms(year, term, onResult) {
     _graphql2.default.query("\n    {\n        programs(year:" + year + ", term:" + term + ") {\n            name\n            memorandum {\n                institution {\n                    name\n                }\n            }\n            terms {\n                number\n            }\n        }\n    }\n    ").then(onResult);
 }
 
+// TODO: Fetch students under a program and sort them by study field
+
 var Programs = function (_Component) {
     _inherits(Programs, _Component);
 
