@@ -124,11 +124,10 @@ var Programs = function (_Component) {
                     setActiveYear: this.setActiveYear }),
                 _react2.default.createElement(
                     "div",
-                    { className: "d-flex flex-column p-0 h-100" },
+                    { id: "program-list", className: "d-flex flex-column p-0 h-100" },
                     _react2.default.createElement(_program_list2.default, null),
                     _react2.default.createElement(_program_list_tabs2.default, null)
                 ),
-                _react2.default.createElement(_study_field_list2.default, null),
                 _react2.default.createElement(_student_list2.default, null)
             );
         }

@@ -4,7 +4,6 @@ import moment from "moment";
 
 import {
     Card,
-    CardBody,
 } from "reactstrap";
 
 import {

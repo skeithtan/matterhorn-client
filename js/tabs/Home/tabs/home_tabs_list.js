@@ -12,7 +12,7 @@ const tabs = [
     },
     {
         name : "Programs",
-        tab : <Programs/>,
+        tab : undefined,
         image : "./images/programsgrey.png",
         activeImage : "./images/programsgreen.png",
     },
