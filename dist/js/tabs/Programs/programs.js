@@ -22,13 +22,13 @@ var _program_list_tabs = require("./program_list_tabs");
 
 var _program_list_tabs2 = _interopRequireDefault(_program_list_tabs);
 
-var _study_field_list = require("./study_field_list");
-
-var _study_field_list2 = _interopRequireDefault(_study_field_list);
-
 var _student_list = require("./student_list");
 
 var _student_list2 = _interopRequireDefault(_student_list);
+
+var _terms_list = require("./terms_list");
+
+var _terms_list2 = _interopRequireDefault(_terms_list);
 
 var _graphql = require("../../graphql");
 
@@ -153,7 +153,8 @@ var Programs = function (_Component) {
                         activeTerm: this.state.activeTerm,
                         activeProgram: this.state.activeProgram,
                         setActiveProgram: this.setActiveProgram }),
-                    _react2.default.createElement(_program_list_tabs2.default, { activeTerm: this.state.activeTerm,
+                    _react2.default.createElement(_program_list_tabs2.default, { terms: _terms_list2.default,
+                        activeTerm: this.state.activeTerm,
                         setActiveTerm: this.setActiveTerm })
                 ),
                 this.state.activeProgram !== null && _react2.default.createElement(_student_list2.default, null)

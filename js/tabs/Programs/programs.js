@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import YearList from "./year_list";
 import ProgramList from "./program_list";
 import ProgramListTabBar from "./program_list_tabs";
-import StudyFieldList from "./study_field_list";
 import StudentList from "./student_list";
+import terms from "./terms_list";
 import graphql from "../../graphql";
 
 
@@ -118,7 +118,8 @@ class Programs extends Component {
                                  activeTerm={ this.state.activeTerm }
                                  activeProgram={ this.state.activeProgram }
                                  setActiveProgram={ this.setActiveProgram }/>
-                    <ProgramListTabBar activeTerm={ this.state.activeTerm }
+                    <ProgramListTabBar terms={ terms }
+                                       activeTerm={ this.state.activeTerm }
                                        setActiveTerm={ this.setActiveTerm }/>
                 </div> }
                 { this.state.activeProgram !== null && <StudentList/> }

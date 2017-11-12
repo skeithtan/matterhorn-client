@@ -6,20 +6,36 @@ class ProgramListTabBar extends Component {
     }
 
     render() {
+        const terms = this.props.terms.map((term, index) => {
+            return <ProgramListTerm term={ term }
+                                    key={ index }
+                                    onClick={ () => this.props.setActiveTerm(term.number) }
+                                    isActive={ this.props.activeTerm === term.number }/>;
+        });
+
         return (
             <div id="institution-navigation">
                 <ul className="p-3 justify-content-center mb-0 d-flex flex-row">
-                    <li className="d-flex" onClick={ () => this.props.setActiveTerm(1) }>
-                        <small className="font-weight-bold mb-0 ">Term 1</small>
-                    </li>
-                    <li className="d-flex" onClick={ () => this.props.setActiveTerm(2) }>
-                        <small className="ml-4 font-weight-bold mb-0 ">Term 2</small>
-                    </li>
-                    <li className="d-flex" onClick={ () => this.props.setActiveTerm(3) }>
-                        <small className="ml-4 font-weight-bold mb-0 ">Term 3</small>
-                    </li>
+                    { terms }
                 </ul>
             </div>
+        );
+    }
+}
+
+class ProgramListTerm extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        let textClass = "ml-4 font-weight-bold mb-0 ";
+        textClass += this.props.isActive ? "text-dlsu" : "text-secondary";
+
+        return (
+            <li className="d-flex" onClick={ this.props.onClick }>
+                <small className={ textClass }>{ this.props.term.name }</small>
+            </li>
         );
     }
 }

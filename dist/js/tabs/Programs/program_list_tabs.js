@@ -32,51 +32,58 @@ var ProgramListTabBar = function (_Component) {
         value: function render() {
             var _this2 = this;
 
+            var terms = this.props.terms.map(function (term, index) {
+                return _react2.default.createElement(ProgramListTerm, { term: term,
+                    key: index,
+                    onClick: function onClick() {
+                        return _this2.props.setActiveTerm(term.number);
+                    },
+                    isActive: _this2.props.activeTerm === term.number });
+            });
+
             return _react2.default.createElement(
                 "div",
                 { id: "institution-navigation" },
                 _react2.default.createElement(
                     "ul",
                     { className: "p-3 justify-content-center mb-0 d-flex flex-row" },
-                    _react2.default.createElement(
-                        "li",
-                        { className: "d-flex", onClick: function onClick() {
-                                return _this2.props.setActiveTerm(1);
-                            } },
-                        _react2.default.createElement(
-                            "small",
-                            { className: "font-weight-bold mb-0 " },
-                            "Term 1"
-                        )
-                    ),
-                    _react2.default.createElement(
-                        "li",
-                        { className: "d-flex", onClick: function onClick() {
-                                return _this2.props.setActiveTerm(2);
-                            } },
-                        _react2.default.createElement(
-                            "small",
-                            { className: "ml-4 font-weight-bold mb-0 " },
-                            "Term 2"
-                        )
-                    ),
-                    _react2.default.createElement(
-                        "li",
-                        { className: "d-flex", onClick: function onClick() {
-                                return _this2.props.setActiveTerm(3);
-                            } },
-                        _react2.default.createElement(
-                            "small",
-                            { className: "ml-4 font-weight-bold mb-0 " },
-                            "Term 3"
-                        )
-                    )
+                    terms
                 )
             );
         }
     }]);
 
     return ProgramListTabBar;
+}(_react.Component);
+
+var ProgramListTerm = function (_Component2) {
+    _inherits(ProgramListTerm, _Component2);
+
+    function ProgramListTerm(props) {
+        _classCallCheck(this, ProgramListTerm);
+
+        return _possibleConstructorReturn(this, (ProgramListTerm.__proto__ || Object.getPrototypeOf(ProgramListTerm)).call(this, props));
+    }
+
+    _createClass(ProgramListTerm, [{
+        key: "render",
+        value: function render() {
+            var textClass = "ml-4 font-weight-bold mb-0 ";
+            textClass += this.props.isActive ? "text-dlsu" : "text-secondary";
+
+            return _react2.default.createElement(
+                "li",
+                { className: "d-flex", onClick: this.props.onClick },
+                _react2.default.createElement(
+                    "small",
+                    { className: textClass },
+                    this.props.term.name
+                )
+            );
+        }
+    }]);
+
+    return ProgramListTerm;
 }(_react.Component);
 
 exports.default = ProgramListTabBar;
