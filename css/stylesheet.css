@@ -668,8 +668,3 @@ li.nav-item.active .sidebar-image,
     width        : 33.33%;
     min-width    : 320px;
 }
-
-/*Institution Tab Content*/
-#tab-content {
-    overflow-x : scroll;
-}

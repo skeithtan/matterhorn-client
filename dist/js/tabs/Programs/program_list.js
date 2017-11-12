@@ -220,12 +220,19 @@ var ProgramSection = function (_Component4) {
             var _this7 = this;
 
             var rows = this.props.programs.map(function (program, index) {
+                var isActive = false;
+
+                if (_this7.props.activeProgram !== null) {
+                    isActive = _this7.props.activeProgram.name === program.name;
+                }
+
                 var setActiveProgram = function setActiveProgram() {
                     return _this7.props.setActiveProgram(program);
                 };
+
                 return _react2.default.createElement(
                     _section.SectionRow,
-                    { key: index, onClick: setActiveProgram },
+                    { selectable: true, key: index, onClick: setActiveProgram, active: isActive },
                     _react2.default.createElement(
                         _section.SectionRowContent,
                         null,
