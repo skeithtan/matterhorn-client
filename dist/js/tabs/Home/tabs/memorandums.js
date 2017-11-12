@@ -18,9 +18,9 @@ var _moment = require("moment");
 
 var _moment2 = _interopRequireDefault(_moment);
 
-var _section = require("../../../components/section");
+var _scrollIntoView = require("scroll-into-view");
 
-var _reactstrap = require("reactstrap");
+var _scrollIntoView2 = _interopRequireDefault(_scrollIntoView);
 
 var _settings = require("../../../settings");
 
@@ -29,6 +29,10 @@ var _settings2 = _interopRequireDefault(_settings);
 var _loading = require("../../../components/loading");
 
 var _loading2 = _interopRequireDefault(_loading);
+
+var _section = require("../../../components/section");
+
+var _reactstrap = require("reactstrap");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -231,9 +235,14 @@ var MemorandumCard = function (_Component2) {
                 );
             }
 
+            var onCardClick = function onCardClick() {
+                (0, _scrollIntoView2.default)(_this5.card);
+                _this5.props.onClick();
+            };
+
             return _react2.default.createElement(
                 "div",
-                { className: cardClass, onClick: this.props.onClick, ref: function ref(card) {
+                { className: cardClass, onClick: onCardClick, ref: function ref(card) {
                         return _this5.card = card;
                     } },
                 _react2.default.createElement(

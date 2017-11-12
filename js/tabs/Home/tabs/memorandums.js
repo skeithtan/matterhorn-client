@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import graphql from "../../../graphql";
 import moment from "moment";
+import scrollIntoView from "scroll-into-view";
+import settings from "../../../settings";
+import LoadingSpinner from "../../../components/loading";
+
 import {
     SectionRow,
     SectionRowContent,
@@ -10,8 +14,6 @@ import {
     Button,
     Collapse,
 } from "reactstrap";
-import settings from "../../../settings";
-import LoadingSpinner from "../../../components/loading";
 
 
 function fetchInstitutions(onResult) {
@@ -207,9 +209,14 @@ class MemorandumCard extends Component {
                 </div>;
         }
 
+        const onCardClick = () => {
+            scrollIntoView(this.card);
+            this.props.onClick();
+        };
+
 
         return (
-            <div className={cardClass} onClick={this.props.onClick} ref={(card) => this.card = card}>
+            <div className={cardClass} onClick={onCardClick} ref={(card) => this.card = card}>
                 <SectionRow className={expirationClass}>
                     <SectionRowContent large>{hasExpired ? "Expired " : "Expires"} {expirationToNow}</SectionRowContent>
                 </SectionRow>
@@ -242,6 +249,7 @@ class MemorandumCardCollapseContent extends Component {
             isOpen : false,
         };
 
+
         fetchMemorandumDetails(props.memorandum.id, result => {
             let memorandum = result.memorandum;
             let stateMemorandum = this.state.memorandum;
@@ -269,7 +277,6 @@ class MemorandumCardCollapseContent extends Component {
                 </div>
             );
         }
-
 
         const dateEffective = moment(memorandum.date_effective).format("LL");
 

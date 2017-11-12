@@ -50,6 +50,10 @@
 }
 
 /*Home*/
+#home .tab-content > .page-body {
+
+}
+
 .home-card {
     min-width   : 640px;
     max-width   : 640px;
