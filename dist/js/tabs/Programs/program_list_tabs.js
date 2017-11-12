@@ -43,7 +43,7 @@ var ProgramListTabBar = function (_Component) {
 
             return _react2.default.createElement(
                 "div",
-                { id: "institution-navigation" },
+                { className: "tab-bar" },
                 _react2.default.createElement(
                     "ul",
                     { className: "p-3 justify-content-center mb-0 d-flex flex-row" },
@@ -73,7 +73,7 @@ var ProgramListTerm = function (_Component2) {
 
             return _react2.default.createElement(
                 "li",
-                { className: "d-flex", onClick: this.props.onClick },
+                { className: "d-flex selectable-tab", onClick: this.props.onClick },
                 _react2.default.createElement(
                     "small",
                     { className: textClass },

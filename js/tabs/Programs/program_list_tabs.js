@@ -14,7 +14,7 @@ class ProgramListTabBar extends Component {
         });
 
         return (
-            <div id="institution-navigation">
+            <div className="tab-bar">
                 <ul className="p-3 justify-content-center mb-0 d-flex flex-row">
                     { terms }
                 </ul>
@@ -33,7 +33,7 @@ class ProgramListTerm extends Component {
         textClass += this.props.isActive ? "text-dlsu" : "text-secondary";
 
         return (
-            <li className="d-flex" onClick={ this.props.onClick }>
+            <li className="d-flex selectable-tab" onClick={ this.props.onClick }>
                 <small className={ textClass }>{ this.props.term.name }</small>
             </li>
         );

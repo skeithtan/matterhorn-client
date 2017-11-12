@@ -478,6 +478,10 @@ li.nav-item.active .sidebar-image,
     max-width : 240px;
 }
 
+.selectable-tab {
+    cursor : pointer;
+}
+
 /*Switch user*/
 #switch-user-button {
     width          : 100%;
