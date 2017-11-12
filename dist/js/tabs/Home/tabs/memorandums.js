@@ -33,7 +33,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 function fetchInstitutions(onResult) {
-    _graphql2.default.query("\n                    {\n                      institutions {\n                        id\n                        name\n                            latest_mou {\n                                date_expiration\n                            }\n                            latest_moa {\n                                date_expiration\n                            }\n                      }\n                    }\n        ").then(onResult);
+    _graphql2.default.query("\n                    {\n                      institutions {\n                        id\n                        name\n                            latest_mou {\n                                id\n                                date_expiration\n                            }\n                            latest_moa {\n                                id\n                                date_expiration\n                            }\n                      }\n                    }\n        ").then(onResult);
 }
 
 function makeCardInfo(memorandumType, institution, memorandum) {
@@ -43,6 +43,7 @@ function makeCardInfo(memorandumType, institution, memorandum) {
             id: institution.id
         },
         memorandum: {
+            id: memorandum.id,
             type: memorandumType,
             dateEffective: (0, _moment2.default)(memorandum.date_effective),
             dateExpiration: (0, _moment2.default)(memorandum.date_expiration)
@@ -113,8 +114,8 @@ var Memorandums = function (_Component) {
         }
     }, {
         key: "setActiveCard",
-        value: function setActiveCard(index) {
-            if (this.state.activeCard === index) {
+        value: function setActiveCard(id) {
+            if (this.state.activeCard === id) {
                 this.setState({
                     activeCard: null //Deselect when already selected
                 });
@@ -123,7 +124,7 @@ var Memorandums = function (_Component) {
             }
 
             this.setState({
-                activeCard: index
+                activeCard: id
             });
         }
     }, {
@@ -139,12 +140,13 @@ var Memorandums = function (_Component) {
                 return Memorandums.emptyState();
             }
 
-            var cards = this.state.cards.map(function (card, index) {
-                var isActive = _this3.state.activeCard === index;
+            var cards = this.state.cards.map(function (card) {
+                var id = card.memorandum.id;
+                var isActive = _this3.state.activeCard === id;
                 var setActiveCard = function setActiveCard() {
-                    return _this3.setActiveCard(index);
+                    return _this3.setActiveCard(id);
                 };
-                return _react2.default.createElement(MemorandumCard, { key: index, card: card, onClick: setActiveCard, active: isActive });
+                return _react2.default.createElement(MemorandumCard, { key: id, card: card, onClick: setActiveCard, active: isActive });
             });
 
             return _react2.default.createElement(

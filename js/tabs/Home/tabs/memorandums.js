@@ -17,9 +17,11 @@ function fetchInstitutions(onResult) {
                         id
                         name
                             latest_mou {
+                                id
                                 date_expiration
                             }
                             latest_moa {
+                                id
                                 date_expiration
                             }
                       }
@@ -34,6 +36,7 @@ function makeCardInfo(memorandumType, institution, memorandum) {
             id : institution.id,
         },
         memorandum : {
+            id: memorandum.id,
             type : memorandumType,
             dateEffective : moment(memorandum.date_effective),
             dateExpiration : moment(memorandum.date_expiration),
@@ -102,8 +105,8 @@ class Memorandums extends Component {
         });
     }
 
-    setActiveCard(index) {
-        if (this.state.activeCard === index) {
+    setActiveCard(id) {
+        if (this.state.activeCard === id) {
             this.setState({
                 activeCard : null //Deselect when already selected
             });
@@ -112,7 +115,7 @@ class Memorandums extends Component {
         }
 
         this.setState({
-            activeCard : index,
+            activeCard : id,
         });
 
     }
@@ -126,10 +129,11 @@ class Memorandums extends Component {
             return Memorandums.emptyState();
         }
 
-        const cards = this.state.cards.map((card, index) => {
-            const isActive = this.state.activeCard === index;
-            const setActiveCard = () => this.setActiveCard(index);
-            return <MemorandumCard key={index} card={card} onClick={setActiveCard} active={isActive}/>;
+        const cards = this.state.cards.map(card => {
+            const id = card.memorandum.id;
+            const isActive = this.state.activeCard === id;
+            const setActiveCard = () => this.setActiveCard(id);
+            return <MemorandumCard key={id} card={card} onClick={setActiveCard} active={isActive}/>;
         });
 
         return (
