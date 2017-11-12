@@ -1,9 +1,12 @@
 import React, { Component } from "react";
 import {
-    SectionRow, SectionRowContent,
+    SectionRow,
+    SectionRowContent,
     SectionTable,
 } from "../../components/section";
 import LoadingSpinner from "../../components/loading";
+import { Button } from "reactstrap";
+
 
 class YearList extends Component {
     constructor(props) {
@@ -14,9 +17,9 @@ class YearList extends Component {
         return (
             <div className="sidebar h-100" id="term-list">
                 <YearListHead/>
-                <YearListTable yearList={ this.props.yearList }
-                               activeYear={ this.props.activeYear }
-                               setActiveYear={ this.props.setActiveYear }/>
+                <YearListTable yearList={this.props.yearList}
+                               activeYear={this.props.activeYear}
+                               setActiveYear={this.props.setActiveYear}/>
             </div>
         );
     }
@@ -30,6 +33,9 @@ class YearListHead extends Component {
     render() {
         return (
             <div className="page-head">
+                <div className="page-head-controls">
+                    <Button outline color="success" size="sm" className="ml-auto">Add</Button>
+                </div>
                 <h4 className="page-head-title mb-0">Academic Years</h4>
             </div>
         );
@@ -71,15 +77,15 @@ class YearListTable extends Component {
             const setActiveYear = () => this.props.setActiveYear(year.academic_year_start);
 
             const yearStart = Number(year.academic_year_start);
-            return <SectionRow selectable key={ index } onClick={ setActiveYear } active={ isActive }>
-                <SectionRowContent>{ yearStart } - { yearStart + 1 }</SectionRowContent>
+            return <SectionRow selectable key={index} onClick={setActiveYear} active={isActive}>
+                <SectionRowContent>{yearStart} - {yearStart + 1}</SectionRowContent>
             </SectionRow>;
         });
 
         return (
             <div className="page-body">
                 <SectionTable>
-                    { rows }
+                    {rows}
                 </SectionTable>
             </div>
         );

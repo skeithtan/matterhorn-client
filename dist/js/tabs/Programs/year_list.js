@@ -16,6 +16,8 @@ var _loading = require("../../components/loading");
 
 var _loading2 = _interopRequireDefault(_loading);
 
+var _reactstrap = require("reactstrap");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -65,6 +67,15 @@ var YearListHead = function (_Component2) {
             return _react2.default.createElement(
                 "div",
                 { className: "page-head" },
+                _react2.default.createElement(
+                    "div",
+                    { className: "page-head-controls" },
+                    _react2.default.createElement(
+                        _reactstrap.Button,
+                        { outline: true, color: "success", size: "sm", className: "ml-auto" },
+                        "Add"
+                    )
+                ),
                 _react2.default.createElement(
                     "h4",
                     { className: "page-head-title mb-0" },
