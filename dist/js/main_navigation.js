@@ -10,17 +10,9 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _jquery = require("jquery");
-
-var _jquery2 = _interopRequireDefault(_jquery);
-
 var _tabs_list = require("./tabs/tabs_list");
 
 var _tabs_list2 = _interopRequireDefault(_tabs_list);
-
-var _index = require("./index");
-
-var _index2 = _interopRequireDefault(_index);
 
 var _reactstrap = require("reactstrap");
 
@@ -74,7 +66,7 @@ var MainNavigation = function (_Component) {
                     { className: "d-flex flex-column w-100", id: "main-navigation-tabs" },
                     navItems
                 ),
-                _react2.default.createElement(SwitchUserButton, { toggleNavigation: this.props.toggleNavigation })
+                _react2.default.createElement(SwitchUserButton, { toggleNavigation: this.props.toggleNavigation, signOut: this.props.signOut })
             );
         }
     }]);
@@ -174,7 +166,7 @@ var SwitchUserButton = function (_Component3) {
                     ),
                     _react2.default.createElement(
                         _reactstrap.Button,
-                        { outline: true, color: "light", onClick: _index2.default, size: "sm" },
+                        { outline: true, color: "light", onClick: this.props.signOut, size: "sm" },
                         "Sign out"
                     )
                 ),

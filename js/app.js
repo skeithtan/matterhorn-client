@@ -32,7 +32,8 @@ class App extends Component {
         return (
             <div className="h-100 d-flex">
                 <MainNavigation activeTab={this.state.activeTab} setActiveTab={this.setActiveTab}
-                                toggleNavigation={this.toggleNavigation} isExpanded={this.state.navigationIsExpanded}/>
+                                toggleNavigation={this.toggleNavigation} isExpanded={this.state.navigationIsExpanded}
+                                signOut={this.props.signOut}/>
                 <div id="content" className="w-100 page-body">
                     <div id="black-covering" onClick={this.toggleNavigation}
                          className={this.state.navigationIsExpanded && "showing"}>

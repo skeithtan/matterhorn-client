@@ -201,11 +201,8 @@ var StudentFormModal = function (_Component) {
             var _this2 = this;
 
             var form = this.state.form;
-
             return function (event) {
-                var value = event.target.value;
-
-                form[fieldName] = value;
+                form[fieldName] = event.target.value;
                 _this2.setState({
                     form: form
                 });

@@ -1,13 +1,9 @@
 import React, { Component } from "react";
-import $ from "jquery";
 import tabs from "./tabs/tabs_list";
-import signOut from "./index";
 import {
     Nav,
     Navbar,
     NavItem,
-    Popover,
-    PopoverBody,
     Button,
 } from "reactstrap";
 
@@ -42,7 +38,7 @@ class MainNavigation extends Component {
                 <Nav className="d-flex flex-column w-100" id="main-navigation-tabs">
                     {navItems}
                 </Nav>
-                <SwitchUserButton toggleNavigation={this.props.toggleNavigation}/>
+                <SwitchUserButton toggleNavigation={this.props.toggleNavigation} signOut={this.props.signOut}/>
             </Navbar>
         );
     }
@@ -100,7 +96,7 @@ class SwitchUserButton extends Component {
                         <h6 className="mb-0">Hello,</h6>
                         <h5 className="mb-0">{localStorage.username}</h5>
                     </div>
-                    <Button outline color="light" onClick={signOut} size="sm">Sign out</Button>
+                    <Button outline color="light" onClick={this.props.signOut} size="sm">Sign out</Button>
                 </div>
 
 

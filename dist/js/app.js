@@ -65,7 +65,8 @@ var App = function (_Component) {
                 "div",
                 { className: "h-100 d-flex" },
                 _react2.default.createElement(_main_navigation2.default, { activeTab: this.state.activeTab, setActiveTab: this.setActiveTab,
-                    toggleNavigation: this.toggleNavigation, isExpanded: this.state.navigationIsExpanded }),
+                    toggleNavigation: this.toggleNavigation, isExpanded: this.state.navigationIsExpanded,
+                    signOut: this.props.signOut }),
                 _react2.default.createElement(
                     "div",
                     { id: "content", className: "w-100 page-body" },

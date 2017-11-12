@@ -175,11 +175,8 @@ class StudentFormModal extends Component {
 
     getChangeHandler(fieldName) {
         const form = this.state.form;
-
         return event => {
-            const value = event.target.value;
-
-            form[fieldName] = value;
+            form[fieldName] = event.target.value;
             this.setState({
                 form : form,
             });
