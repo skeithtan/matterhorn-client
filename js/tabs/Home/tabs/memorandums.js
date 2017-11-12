@@ -7,7 +7,6 @@ import {
     SectionRowContent,
     SectionRowTitle,
 } from "../../../components/section";
-import MemorandumSidebarPane from "./memorandum_sidebar_pane";
 
 
 function fetchInstitutions(onResult) {

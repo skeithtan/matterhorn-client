@@ -24,10 +24,6 @@ var _loading2 = _interopRequireDefault(_loading);
 
 var _section = require("../../../components/section");
 
-var _memorandum_sidebar_pane = require("./memorandum_sidebar_pane");
-
-var _memorandum_sidebar_pane2 = _interopRequireDefault(_memorandum_sidebar_pane);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
