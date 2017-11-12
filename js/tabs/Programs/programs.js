@@ -73,13 +73,12 @@ class Programs extends Component {
     render() {
         return (
             <div id="programs-page" className="container-fluid d-flex flex-row p-0 h-100 page-body">
-                <YearList yearList={this.state.yearList}
-                          setActiveYear={this.setActiveYear}/>
-                <div className="d-flex flex-column p-0 h-100">
+                <YearList yearList={ this.state.yearList }
+                          setActiveYear={ this.setActiveYear }/>
+                <div id="program-list" className="d-flex flex-column p-0 h-100">
                     <ProgramList/>
                     <ProgramListTabBar/>
                 </div>
-                <StudyFieldList/>
                 <StudentList/>
             </div>
         );

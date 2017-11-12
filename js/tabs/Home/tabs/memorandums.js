@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import graphql from "../../../graphql";
 import moment from "moment";
-import LoadingSpinner from "../../../components/loading";
 import {
     SectionRow,
     SectionRowContent,
@@ -12,6 +11,7 @@ import {
     Collapse,
 } from "reactstrap";
 import settings from "../../../settings";
+import LoadingSpinner from "../../../components/loading";
 
 
 function fetchInstitutions(onResult) {

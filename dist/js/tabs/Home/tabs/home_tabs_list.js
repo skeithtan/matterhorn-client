@@ -29,7 +29,7 @@ var tabs = [{
     activeImage: "./images/memorandumgreen.png"
 }, {
     name: "Programs",
-    tab: _react2.default.createElement(_programs2.default, null),
+    tab: undefined,
     image: "./images/programsgrey.png",
     activeImage: "./images/programsgreen.png"
 }, {

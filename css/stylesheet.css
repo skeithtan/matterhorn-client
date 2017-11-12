@@ -626,9 +626,9 @@ li.nav-item.active .sidebar-image,
 }
 
 /*Programs page*/
-#programs-page > div {
+#programs-page > div, #program-list {
     border-right : 1px solid var(--gray);
-    width        : 25%;
+    width        : 33.33%;
     min-width    : 320px;
 }
 

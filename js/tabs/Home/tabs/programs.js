@@ -9,43 +9,166 @@ import {
     SectionRowContent,
     SectionRowTitle,
 } from "../../../components/section";
+import moment from "moment";
+import graphql from "../../../graphql";
+import LoadingSpinner from "../../../components/loading";
+
+// TODO: Change query, if ever
+function fetchInstitutions(onResponse) {
+    graphql({
+        query : `
+        {
+            institutions {
+                id
+                name
+                latest_moa {
+                    active_program {
+                        name
+                        linkage {
+                            name
+                        }
+                        terms {
+                            number
+                            end_date
+                        }
+                    }
+                }
+            }
+        }
+        `,
+        onResponse : onResponse,
+    });
+}
+
+function makeCardInfo(institution, program) {
+    return {
+        institution : {
+            name : institution.name,
+            id : institution.id,
+        },
+        program : {
+            name : program.name,
+            linkage : program.linkage.name,
+            // TODO: terms, we only need the active one
+        },
+    };
+}
+
+function makeCardsFromInstitution(institutions) {
+    let cards = [];
+
+    institutions.forEach(institution => {
+        if (institution.latest_moa !== null && institution.latest_moa.active_program !== null) {
+            cards.push(makeCardInfo(institution, institution.latest_moa.active_program));
+        }
+    });
+
+    // TODO: Sorting by end date
+
+    return cards;
+}
 
 class Programs extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            cards : null,
+            activeCard : null,
+        };
+
+        fetchInstitutions(response => {
+            const institutions = response.data.institutions;
+            this.setState({
+                cards : makeCardsFromInstitution(institutions),
+            });
+        });
+
+        this.setActiveCard = this.setActiveCard.bind(this);
+    }
+
+    static emptyState() {
+        return (
+            <h5>There are no memorandums found with an expiration date</h5>
+        );
+    }
+
+    setActiveCard(index) {
+        if (this.state.activeCard === index) {
+            this.setState({
+                activeCard : null,
+            });
+            return;
+        }
+
+        this.setState({
+            activeCard : index,
+        });
+    }
+
+    render() {
+        if (this.state.cards === null) {
+            return <LoadingSpinner/>;
+        }
+
+        if (this.state.cards.length === 0) {
+            return Programs.emptyState();
+        }
+
+        const cards = this.state.cards.map((card, index) => {
+            const isActive = this.state.activeCard === index;
+            const setActiveCard = () => this.setActiveCard(index);
+            return <ProgramCard key={index} card={card} onClick={setActiveCard} active={isActive}/>;
+        });
+
+        return (
+            <div className="d-flex flex-column align-items-center page-body p-4">
+                {cards}
+            </div>
+        );
+    }
+}
+
+class ProgramCard extends Component {
     constructor(props) {
         super(props);
     }
 
     render() {
+        // TODO: dates
+
+        let cardClass = "home-card rounded ";
+        if (this.props.active) {
+            cardClass += "active";
+        }
+
+        // TODO: What is urgent?
+
+        let expirationClass = "text-white ";
+        // TODO: Conditions for class variations
+
         return (
             <div className="d-flex flex-column align-items-center page-body">
-                <Card className="home-card mt-4">
-                    <CardBody className="p-0">
-                        <div className="d-flex flex-row p-3 justify-content-between align-items-center">
-                            <div>
-                                <small className="text-uppercase text-secondary">Program name</small>
-                                <h6 className="mb-0">Summer Program 2018</h6>
-                            </div>
-                            <div>
-                                <small className="text-uppercase text-secondary">Term</small>
-                                <h6 className="mb-0">2016 - 2017, Term 1</h6>
-                            </div>
-                            <CardSubtitle className="text-danger">Ending in 2 months</CardSubtitle>
-                        </div>
-                        <div className="d-flex flex-column p-0">
-                            <SectionRow>
-                                <SectionRowTitle>Institution</SectionRowTitle>
-                                <SectionRowContent>University of Tokyo</SectionRowContent>
-                            </SectionRow>
-                            <SectionRow>
-                                <SectionRowTitle>Start Date</SectionRowTitle>
-                                <SectionRowContent>June 18, 1998</SectionRowContent>
-                            </SectionRow>
-                            <SectionRow>
-                                <SectionRowTitle>End Date</SectionRowTitle>
-                                <SectionRowContent>June 18, 1998</SectionRowContent>
-                            </SectionRow>
-                        </div>
-                    </CardBody>
+                <Card className={cardClass} onClick={this.props.onClick}>
+                    <SectionRow>
+                        <SectionRowContent large>{/*Expiry*/}</SectionRowContent>
+                    </SectionRow>
+                    <SectionRow>
+                        <SectionRowTitle>Institution Name</SectionRowTitle>
+                        <SectionRowContent large>{this.props.card.institution.name}</SectionRowContent>
+                    </SectionRow>
+                    <SectionRow>
+                        <SectionRowTitle>Program Name</SectionRowTitle>
+                        <SectionRowContent large>{this.props.card.program.name}</SectionRowContent>
+                    </SectionRow>
+                    <SectionRow>
+                        <SectionRowTitle>Linkage</SectionRowTitle>
+                        <SectionRowContent large>{/*Linkage*/}</SectionRowContent>
+                    </SectionRow>
+                    <SectionRow>
+                        <SectionRowTitle>End Date</SectionRowTitle>
+                        <SectionRowContent large>{/*End Date*/}</SectionRowContent>
+                    </SectionRow>
                 </Card>
             </div>
         );

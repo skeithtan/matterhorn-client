@@ -18,10 +18,6 @@ var _moment = require("moment");
 
 var _moment2 = _interopRequireDefault(_moment);
 
-var _loading = require("../../../components/loading");
-
-var _loading2 = _interopRequireDefault(_loading);
-
 var _section = require("../../../components/section");
 
 var _reactstrap = require("reactstrap");
@@ -29,6 +25,10 @@ var _reactstrap = require("reactstrap");
 var _settings = require("../../../settings");
 
 var _settings2 = _interopRequireDefault(_settings);
+
+var _loading = require("../../../components/loading");
+
+var _loading2 = _interopRequireDefault(_loading);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
