@@ -67,15 +67,6 @@ var YearListHead = function (_Component2) {
                 "div",
                 { className: "page-head" },
                 _react2.default.createElement(
-                    "div",
-                    { className: "page-head-controls" },
-                    _react2.default.createElement(
-                        _reactstrap.Button,
-                        { outline: true, color: "success", size: "sm", className: "ml-auto" },
-                        "Add"
-                    )
-                ),
-                _react2.default.createElement(
                     "h4",
                     { className: "page-head-title mb-0" },
                     "Academic Years"
@@ -96,13 +87,31 @@ var YearListTable = function (_Component3) {
         return _possibleConstructorReturn(this, (YearListTable.__proto__ || Object.getPrototypeOf(YearListTable)).call(this, props));
     }
 
+    // TODO: Arrange years in ascending order
+
+    // IDK if this is right
+
+
     _createClass(YearListTable, [{
+        key: "emptyState",
+        value: function emptyState() {
+            return _react2.default.createElement(
+                "div",
+                null,
+                "This is empty"
+            );
+        }
+    }, {
         key: "render",
         value: function render() {
             var _this4 = this;
 
             if (this.props.yearList === null) {
                 return _react2.default.createElement(_loading2.default, null);
+            }
+
+            if (this.props.yearList.length === 0) {
+                return this.emptyState();
             }
 
             var rows = this.props.yearList.map(function (year, index) {
