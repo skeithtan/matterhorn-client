@@ -251,6 +251,10 @@ class MemorandumCardCollapseContent extends Component {
             stateMemorandum.date_effective = memorandum.date_effective;
             stateMemorandum.college_initiator = memorandum.college_initiator;
             stateMemorandum.linkages = memorandum.linkages;
+
+            this.setState({
+                memorandum : memorandum,
+            });
         });
     }
 

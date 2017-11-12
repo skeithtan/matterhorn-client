@@ -323,6 +323,10 @@ var MemorandumCardCollapseContent = function (_Component3) {
             stateMemorandum.date_effective = memorandum.date_effective;
             stateMemorandum.college_initiator = memorandum.college_initiator;
             stateMemorandum.linkages = memorandum.linkages;
+
+            _this6.setState({
+                memorandum: memorandum
+            });
         });
         return _this6;
     }
