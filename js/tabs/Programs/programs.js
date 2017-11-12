@@ -17,14 +17,33 @@ function fetchYears(onResult) {
     `).then(onResult);
 }
 
+function fetchPrograms(year, term, onResult) {
+    graphql.query(`
+    {
+        programs(year:${year}, term:${term}) {
+            name
+            memorandum {
+                institution {
+                    name
+                }
+            }
+            terms {
+                number
+            }
+        }
+    }
+    `).then(onResult);
+}
+
 class Programs extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
             yearList : null,
+            programList : null,
             activeYear : null,
-            activeTerm : null,
+            activeTerm : 1,
             activeProgram : null,
             activeStudyField : null,
         };
@@ -50,15 +69,29 @@ class Programs extends Component {
         this.setState({
             activeYear : year,
         });
+
+        fetchPrograms(year, this.state.activeTerm, result => {
+            this.setState({
+                programList : result.programs,
+            });
+        });
     }
 
     setActiveTerm(term) {
         this.setState({
             activeTerm : term,
         });
+
+        fetchPrograms(this.state.activeYear, term, result => {
+            console.log(result.programs);
+            this.setState({
+                programList : result.programs,
+            });
+        });
     }
 
     setActiveProgram(program) {
+        console.log(program);
         this.setState({
             activeProgram : program,
         });
@@ -74,12 +107,19 @@ class Programs extends Component {
         return (
             <div id="programs-page" className="container-fluid d-flex flex-row p-0 h-100 page-body">
                 <YearList yearList={ this.state.yearList }
-                          setActiveYear={ this.setActiveYear }/>
+                          setActiveYear={ this.setActiveYear }
+                          activeYear={ this.state.activeYear }/>
+                { this.state.activeYear !== null &&
                 <div id="program-list" className="d-flex flex-column p-0 h-100">
-                    <ProgramList/>
-                    <ProgramListTabBar/>
-                </div>
-                <StudentList/>
+                    <ProgramList programList={ this.state.programList }
+                                 activeYear={ this.state.activeYear }
+                                 activeTerm={ this.state.activeTerm }
+                                 activeProgram={ this.state.activeProgram }
+                                 setActiveProgram={ this.setActiveProgram }/>
+                    <ProgramListTabBar activeTerm={ this.state.activeTerm }
+                                       setActiveTerm={ this.setActiveTerm }/>
+                </div> }
+                { this.state.activeProgram !== null && <StudentList/> }
             </div>
         );
     }

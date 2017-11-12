@@ -33,9 +33,6 @@ class YearListHead extends Component {
     render() {
         return (
             <div className="page-head">
-                <div className="page-head-controls">
-                    <Button outline color="success" size="sm" className="ml-auto">Add</Button>
-                </div>
                 <h4 className="page-head-title mb-0">Academic Years</h4>
             </div>
         );
@@ -47,9 +44,24 @@ class YearListTable extends Component {
         super(props);
     }
 
+    // TODO: Arrange years in ascending order
+    
+    // IDK if this is right
+    emptyState() {
+        return (
+            <div>
+                This is empty
+            </div>
+        );
+    }
+
     render() {
         if (this.props.yearList === null) {
             return <LoadingSpinner/>;
+        }
+
+        if (this.props.yearList.length === 0) {
+            return this.emptyState();
         }
 
         const rows = this.props.yearList.map((year, index) => {

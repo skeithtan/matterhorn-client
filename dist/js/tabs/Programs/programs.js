@@ -46,6 +46,10 @@ function fetchYears(onResult) {
     _graphql2.default.query("\n    {\n        academic_years {\n            academic_year_start\n        }\n    }\n    ").then(onResult);
 }
 
+function fetchPrograms(year, term, onResult) {
+    _graphql2.default.query("\n    {\n        programs(year:" + year + ", term:" + term + ") {\n            name\n            memorandum {\n                institution {\n                    name\n                }\n            }\n            terms {\n                number\n            }\n        }\n    }\n    ").then(onResult);
+}
+
 var Programs = function (_Component) {
     _inherits(Programs, _Component);
 
@@ -56,8 +60,9 @@ var Programs = function (_Component) {
 
         _this.state = {
             yearList: null,
+            programList: null,
             activeYear: null,
-            activeTerm: null,
+            activeTerm: 1,
             activeProgram: null,
             activeStudyField: null
         };
@@ -86,20 +91,38 @@ var Programs = function (_Component) {
     }, {
         key: "setActiveYear",
         value: function setActiveYear(year) {
+            var _this3 = this;
+
             this.setState({
                 activeYear: year
+            });
+
+            fetchPrograms(year, this.state.activeTerm, function (result) {
+                _this3.setState({
+                    programList: result.programs
+                });
             });
         }
     }, {
         key: "setActiveTerm",
         value: function setActiveTerm(term) {
+            var _this4 = this;
+
             this.setState({
                 activeTerm: term
+            });
+
+            fetchPrograms(this.state.activeYear, term, function (result) {
+                console.log(result.programs);
+                _this4.setState({
+                    programList: result.programs
+                });
             });
         }
     }, {
         key: "setActiveProgram",
         value: function setActiveProgram(program) {
+            console.log(program);
             this.setState({
                 activeProgram: program
             });
@@ -118,14 +141,20 @@ var Programs = function (_Component) {
                 "div",
                 { id: "programs-page", className: "container-fluid d-flex flex-row p-0 h-100 page-body" },
                 _react2.default.createElement(_year_list2.default, { yearList: this.state.yearList,
-                    setActiveYear: this.setActiveYear }),
-                _react2.default.createElement(
+                    setActiveYear: this.setActiveYear,
+                    activeYear: this.state.activeYear }),
+                this.state.activeYear !== null && _react2.default.createElement(
                     "div",
                     { id: "program-list", className: "d-flex flex-column p-0 h-100" },
-                    _react2.default.createElement(_program_list2.default, null),
-                    _react2.default.createElement(_program_list_tabs2.default, null)
+                    _react2.default.createElement(_program_list2.default, { programList: this.state.programList,
+                        activeYear: this.state.activeYear,
+                        activeTerm: this.state.activeTerm,
+                        activeProgram: this.state.activeProgram,
+                        setActiveProgram: this.setActiveProgram }),
+                    _react2.default.createElement(_program_list_tabs2.default, { activeTerm: this.state.activeTerm,
+                        setActiveTerm: this.setActiveTerm })
                 ),
-                _react2.default.createElement(_student_list2.default, null)
+                this.state.activeProgram !== null && _react2.default.createElement(_student_list2.default, null)
             );
         }
     }]);

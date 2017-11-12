@@ -14,6 +14,10 @@ var _reactstrap = require("reactstrap");
 
 var _section = require("../../components/section");
 
+var _loading = require("../../components/loading");
+
+var _loading2 = _interopRequireDefault(_loading);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -37,8 +41,11 @@ var ProgramList = function (_Component) {
             return _react2.default.createElement(
                 "div",
                 { className: "h-100 d-flex flex-column" },
-                _react2.default.createElement(ProgramListHead, null),
-                _react2.default.createElement(ProgramListTable, null)
+                _react2.default.createElement(ProgramListHead, { year: this.props.activeYear,
+                    term: this.props.activeTerm }),
+                _react2.default.createElement(ProgramListTable, { programList: this.props.programList,
+                    activeProgram: this.props.activeProgram,
+                    setActiveProgram: this.props.setActiveProgram })
             );
         }
     }]);
@@ -73,9 +80,21 @@ var ProgramListHead = function (_Component2) {
                             "Programs"
                         ),
                         _react2.default.createElement(
-                            "h4",
-                            { className: "page-head-title mb-0" },
-                            "2017-2018"
+                            "div",
+                            { className: "d-flex flex-row" },
+                            _react2.default.createElement(
+                                "h4",
+                                { className: "page-head-title mb-0" },
+                                this.props.year,
+                                " - ",
+                                this.props.year + 1
+                            ),
+                            _react2.default.createElement(
+                                "h4",
+                                { className: "text-secondary ml-2" },
+                                "Term ",
+                                this.props.term
+                            )
                         )
                     )
                 ),
@@ -93,17 +112,92 @@ var ProgramListTable = function (_Component3) {
     function ProgramListTable(props) {
         _classCallCheck(this, ProgramListTable);
 
-        return _possibleConstructorReturn(this, (ProgramListTable.__proto__ || Object.getPrototypeOf(ProgramListTable)).call(this, props));
+        var _this3 = _possibleConstructorReturn(this, (ProgramListTable.__proto__ || Object.getPrototypeOf(ProgramListTable)).call(this, props));
+
+        _this3.getFilteredPrograms = _this3.getFilteredPrograms.bind(_this3);
+        _this3.emptyState = _this3.emptyState.bind(_this3);
+        return _this3;
     }
 
     _createClass(ProgramListTable, [{
+        key: "getFilteredPrograms",
+        value: function getFilteredPrograms() {
+            var _this4 = this;
+
+            if (this.props.programList === null) {
+                return [];
+            }
+
+            var institutions = [];
+
+            // Makes the list of Institution Names
+            this.props.programList.forEach(function (program) {
+                institutions.push(program.memorandum.institution.name);
+            });
+
+            // Get uniques only?
+            institutions = institutions.filter(function (value, index, self) {
+                return self.indexOf(value) === index;
+            });
+
+            // Arrange alphabetically
+            institutions = institutions.sort();
+
+            var categorizedByInstitution = [];
+
+            institutions.forEach(function (institution) {
+                var programs = [];
+                categorizedByInstitution.push({
+                    institution: institution,
+                    programs: programs
+                });
+
+                _this4.props.programList.forEach(function (program) {
+                    var programInstitution = program.memorandum.institution.name;
+                    if (programInstitution === institution) {
+                        programs.push(program);
+                    }
+                });
+            });
+
+            return categorizedByInstitution;
+        }
+    }, {
+        key: "emptyState",
+        value: function emptyState() {
+            return _react2.default.createElement(
+                "div",
+                null,
+                "This is empty"
+            );
+        }
+    }, {
         key: "render",
         value: function render() {
+            var _this5 = this;
+
+            if (this.props.programList === null) {
+                return _react2.default.createElement(_loading2.default, null);
+            }
+
+            if (this.props.programList.length === 0) {
+                return this.emptyState();
+            }
+
+            var institutionPrograms = this.getFilteredPrograms();
+
+            var sections = institutionPrograms.map(function (institutionProgram, index) {
+                return _react2.default.createElement(ProgramSection, { key: index,
+                    title: institutionProgram.institution,
+                    activeProgram: _this5.props.activeProgram,
+                    programs: institutionProgram.programs,
+                    setActiveProgram: _this5.props.setActiveProgram });
+            });
+
             return _react2.default.createElement(
                 "div",
                 { className: "page-body" },
-                _react2.default.createElement(ProgramListSection, null),
-                _react2.default.createElement(ProgramListSection, null)
+                sections
             );
         }
     }]);
@@ -111,65 +205,53 @@ var ProgramListTable = function (_Component3) {
     return ProgramListTable;
 }(_react.Component);
 
-var ProgramListSection = function (_Component4) {
-    _inherits(ProgramListSection, _Component4);
+var ProgramSection = function (_Component4) {
+    _inherits(ProgramSection, _Component4);
 
-    function ProgramListSection(props) {
-        _classCallCheck(this, ProgramListSection);
+    function ProgramSection(props) {
+        _classCallCheck(this, ProgramSection);
 
-        return _possibleConstructorReturn(this, (ProgramListSection.__proto__ || Object.getPrototypeOf(ProgramListSection)).call(this, props));
+        return _possibleConstructorReturn(this, (ProgramSection.__proto__ || Object.getPrototypeOf(ProgramSection)).call(this, props));
     }
 
-    _createClass(ProgramListSection, [{
+    _createClass(ProgramSection, [{
         key: "render",
         value: function render() {
+            var _this7 = this;
+
+            var rows = this.props.programs.map(function (program, index) {
+                var setActiveProgram = function setActiveProgram() {
+                    return _this7.props.setActiveProgram(program);
+                };
+                return _react2.default.createElement(
+                    _section.SectionRow,
+                    { key: index, onClick: setActiveProgram },
+                    _react2.default.createElement(
+                        _section.SectionRowContent,
+                        null,
+                        program.name
+                    )
+                );
+            });
+
             return _react2.default.createElement(
                 _section.Section,
                 null,
                 _react2.default.createElement(
                     _section.SectionTitle,
                     null,
-                    "Institution Name"
+                    this.props.title
                 ),
                 _react2.default.createElement(
                     _section.SectionTable,
                     null,
-                    _react2.default.createElement(ProgramRow, null),
-                    _react2.default.createElement(ProgramRow, null),
-                    _react2.default.createElement(ProgramRow, null)
+                    rows
                 )
             );
         }
     }]);
 
-    return ProgramListSection;
-}(_react.Component);
-
-var ProgramRow = function (_Component5) {
-    _inherits(ProgramRow, _Component5);
-
-    function ProgramRow(props) {
-        _classCallCheck(this, ProgramRow);
-
-        return _possibleConstructorReturn(this, (ProgramRow.__proto__ || Object.getPrototypeOf(ProgramRow)).call(this, props));
-    }
-
-    _createClass(ProgramRow, [{
-        key: "render",
-        value: function render() {
-            return _react2.default.createElement(
-                _section.SectionRow,
-                null,
-                _react2.default.createElement(
-                    _section.SectionRowContent,
-                    null,
-                    "Program Name"
-                )
-            );
-        }
-    }]);
-
-    return ProgramRow;
+    return ProgramSection;
 }(_react.Component);
 
 exports.default = ProgramList;
