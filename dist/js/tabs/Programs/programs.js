@@ -94,7 +94,8 @@ var Programs = function (_Component) {
             var _this3 = this;
 
             this.setState({
-                activeYear: year
+                activeYear: year,
+                activeProgram: null
             });
 
             fetchPrograms(year, this.state.activeTerm, function (result) {
@@ -109,7 +110,8 @@ var Programs = function (_Component) {
             var _this4 = this;
 
             this.setState({
-                activeTerm: term
+                activeTerm: term,
+                activeProgram: null
             });
 
             fetchPrograms(this.state.activeYear, term, function (result) {

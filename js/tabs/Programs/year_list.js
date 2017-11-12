@@ -1,12 +1,8 @@
 import React, { Component } from "react";
 import {
-    SectionRow,
+    SectionRow, SectionRowContent,
     SectionTable,
 } from "../../components/section";
-import {
-    ListGroupItem,
-    Button,
-} from "reactstrap";
 import LoadingSpinner from "../../components/loading";
 
 class YearList extends Component {
@@ -19,6 +15,7 @@ class YearList extends Component {
             <div className="sidebar h-100" id="term-list">
                 <YearListHead/>
                 <YearListTable yearList={ this.props.yearList }
+                               activeYear={ this.props.activeYear }
                                setActiveYear={ this.props.setActiveYear }/>
             </div>
         );
@@ -45,7 +42,7 @@ class YearListTable extends Component {
     }
 
     // TODO: Arrange years in ascending order
-    
+
     // IDK if this is right
     emptyState() {
         return (
@@ -65,11 +62,18 @@ class YearListTable extends Component {
         }
 
         const rows = this.props.yearList.map((year, index) => {
+            let isActive = false;
+
+            if (this.props.activeYear !== null) {
+                isActive = this.props.activeYear === year.academic_year_start;
+            }
+
+            const setActiveYear = () => this.props.setActiveYear(year.academic_year_start);
+
             const yearStart = Number(year.academic_year_start);
-            return <ListGroupItem key={ index }
-                                  onClick={ () => this.props.setActiveYear(year.academic_year_start) }>
-                { yearStart } - { yearStart + 1 }
-            </ListGroupItem>;
+            return <SectionRow selectable key={ index } onClick={ setActiveYear } active={ isActive }>
+                <SectionRowContent>{ yearStart } - { yearStart + 1 }</SectionRowContent>
+            </SectionRow>;
         });
 
         return (

@@ -68,6 +68,7 @@ class Programs extends Component {
     setActiveYear(year) {
         this.setState({
             activeYear : year,
+            activeProgram : null,
         });
 
         fetchPrograms(year, this.state.activeTerm, result => {
@@ -80,6 +81,7 @@ class Programs extends Component {
     setActiveTerm(term) {
         this.setState({
             activeTerm : term,
+            activeProgram : null,
         });
 
         fetchPrograms(this.state.activeYear, term, result => {
