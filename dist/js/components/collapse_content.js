@@ -33,7 +33,7 @@ var CollapseContent = function (_Component) {
         value: function render() {
             return _react2.default.createElement(
                 "div",
-                { className: "collapse-content", onClick: this.props.expand },
+                { className: "collapse-content " + (this.props.className || ""), onClick: this.props.expand },
                 _react2.default.createElement("img", { src: "./images/expand.png", className: "expand-image" }),
                 _react2.default.createElement(
                     "h4",
@@ -61,7 +61,7 @@ var ExpandContent = function (_Component2) {
         value: function render() {
             return _react2.default.createElement(
                 "div",
-                { className: "expand-content" },
+                { className: "expand-content " + (this.props.className || "") },
                 this.props.children
             );
         }

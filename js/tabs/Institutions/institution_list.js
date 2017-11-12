@@ -96,7 +96,7 @@ class InstitutionList extends Component {
 
         return (
             <div className={className} id="institution-list">
-                <ExpandContent>
+                <ExpandContent className="d-flex flex-column h-100">
                     <InstitutionListHead setSearchKeyword={this.setSearchKeyword}
                                          toggleAddInstitution={this.props.toggleAddInstitution}
                                          collapse={this.collapse}/>

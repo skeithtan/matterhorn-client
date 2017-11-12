@@ -118,7 +118,7 @@ var InstitutionList = function (_Component) {
                 { className: className, id: "institution-list" },
                 _react2.default.createElement(
                     _collapse_content.ExpandContent,
-                    null,
+                    { className: "d-flex flex-column h-100" },
                     _react2.default.createElement(InstitutionListHead, { setSearchKeyword: this.setSearchKeyword,
                         toggleAddInstitution: this.props.toggleAddInstitution,
                         collapse: this.collapse }),

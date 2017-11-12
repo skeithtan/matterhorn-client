@@ -8,7 +8,7 @@ class CollapseContent extends Component {
 
     render() {
         return (
-            <div className="collapse-content" onClick={this.props.expand}>
+            <div className={`collapse-content ${this.props.className || ""}`} onClick={this.props.expand}>
                 <img src="./images/expand.png" className="expand-image"/>
                 <h4>{this.props.title}</h4>
             </div>
@@ -23,7 +23,7 @@ class ExpandContent extends Component {
 
     render() {
         return (
-            <div className="expand-content">
+            <div className={`expand-content ${this.props.className || ""}`}>
                 {this.props.children}
             </div>
         );
