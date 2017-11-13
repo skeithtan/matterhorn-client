@@ -15,65 +15,8 @@ import LoadingSpinner from "../../components/loading";
 class ProgramList extends Component {
     constructor(props) {
         super(props);
-    }
-
-    render() {
-        return (
-            <div className="h-100 d-flex flex-column">
-                <ProgramListHead year={this.props.activeYear}
-                                 activeTerm={this.props.activeTerm}
-                                 setActiveTerm={this.props.setActiveTerm}/>
-                <ProgramListTable programList={this.props.programList}
-                                  activeProgram={this.props.activeProgram}
-                                  setActiveProgram={this.props.setActiveProgram}/>
-            </div>
-        );
-    }
-}
-
-class ProgramListHead extends Component {
-    constructor(props) {
-        super(props);
-        this.onTermChange = this.onTermChange.bind(this);
-    }
-
-    onTermChange(event) {
-        this.props.setActiveTerm(event.target.value);
-    }
-
-    render() {
-        return (
-            <div className="page-head d-flex flex-column align-items-center">
-                <div className="page-head-controls mr-auto">
-                    <Input type="select" defaultValue={this.props.activeTerm}
-                           className="ml-auto btn-sm btn-outline-success" id="term-select" onChange={this.onTermChange}>
-                        <option value="1">Term 1</option>
-                        <option value="2">Term 2</option>
-                        <option value="3">Term 3</option>
-                    </Input>
-                </div>
-                <div className="d-flex flex-row w-100 mb-2 align-items-center">
-                    <div className="mr-auto">
-                        <h5 className="mb-0 text-secondary">Programs</h5>
-                        <div className="d-flex flex-row">
-                            <h4 className="page-head-title mb-0">
-                                {this.props.year} - {this.props.year + 1}
-                            </h4>
-                        </div>
-                    </div>
-                </div>
-                <Input type="search" placeholder="Search" className="search-input"/>
-            </div>
-        );
-    }
-}
-
-class ProgramListTable extends Component {
-    constructor(props) {
-        super(props);
 
         this.getFilteredPrograms = this.getFilteredPrograms.bind(this);
-        this.emptyState = this.emptyState.bind(this);
     }
 
     getFilteredPrograms() {
@@ -88,7 +31,7 @@ class ProgramListTable extends Component {
             institutions.push(program.memorandum.institution.name);
         });
 
-        // Get uniques only?
+        // Get uniques only
         institutions = institutions.filter((value, index, self) => {
             return self.indexOf(value) === index;
         });
@@ -116,6 +59,67 @@ class ProgramListTable extends Component {
         return categorizedByInstitution;
     }
 
+    render() {
+        const filteredPrograms = this.getFilteredPrograms();
+
+        return (
+            <div className="h-100 d-flex flex-column">
+                <ProgramListHead year={ this.props.activeYear }
+                                 activeTerm={ this.props.activeTerm }
+                                 setActiveTerm={ this.props.setActiveTerm }/>
+                <ProgramListTable programs={ filteredPrograms }
+                                  activeProgram={ this.props.activeProgram }
+                                  setActiveProgram={ this.props.setActiveProgram }/>
+            </div>
+        );
+    }
+}
+
+class ProgramListHead extends Component {
+    constructor(props) {
+        super(props);
+        this.onTermChange = this.onTermChange.bind(this);
+    }
+
+    onTermChange(event) {
+        this.props.setActiveTerm(event.target.value);
+    }
+
+    render() {
+        return (
+            <div className="page-head d-flex flex-column align-items-center">
+                <div className="page-head-controls mr-auto">
+                    <Input type="select" defaultValue={ this.props.activeTerm }
+                           className="ml-auto btn-sm btn-outline-success" id="term-select"
+                           onChange={ this.onTermChange }>
+                        <option value="1">Term 1</option>
+                        <option value="2">Term 2</option>
+                        <option value="3">Term 3</option>
+                    </Input>
+                </div>
+                <div className="d-flex flex-row w-100 mb-2 align-items-center">
+                    <div className="mr-auto">
+                        <h5 className="mb-0 text-secondary">Programs</h5>
+                        <div className="d-flex flex-row">
+                            <h4 className="page-head-title mb-0">
+                                { this.props.year } - { this.props.year + 1 }
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+                <Input type="search" placeholder="Search" className="search-input"/>
+            </div>
+        );
+    }
+}
+
+class ProgramListTable extends Component {
+    constructor(props) {
+        super(props);
+
+        this.emptyState = this.emptyState.bind(this);
+    }
+
     emptyState() {
         return (
             <div>
@@ -125,27 +129,25 @@ class ProgramListTable extends Component {
     }
 
     render() {
-        if (this.props.programList === null) {
+        if (this.props.programs === null) {
             return <LoadingSpinner/>;
         }
 
-        if (this.props.programList.length === 0) {
+        if (this.props.programs.length === 0) {
             return this.emptyState();
         }
 
-        const institutionPrograms = this.getFilteredPrograms();
-
-        const sections = institutionPrograms.map((institutionProgram, index) => {
-            return <ProgramSection key={index}
-                                   title={institutionProgram.institution}
-                                   activeProgram={this.props.activeProgram}
-                                   programs={institutionProgram.programs}
-                                   setActiveProgram={this.props.setActiveProgram}/>;
+        const sections = this.props.programs.map((institutionProgram, index) => {
+            return <ProgramSection key={ index }
+                                   title={ institutionProgram.institution }
+                                   activeProgram={ this.props.activeProgram }
+                                   programs={ institutionProgram.programs }
+                                   setActiveProgram={ this.props.setActiveProgram }/>;
         });
 
         return (
             <div className="page-body">
-                {sections}
+                { sections }
             </div>
         );
     }
@@ -167,17 +169,17 @@ class ProgramSection extends Component {
             const setActiveProgram = () => this.props.setActiveProgram(program);
 
             return (
-                <SectionRow selectable key={index} onClick={setActiveProgram} active={isActive}>
-                    <SectionRowContent>{program.name}</SectionRowContent>
+                <SectionRow selectable key={ index } onClick={ setActiveProgram } active={ isActive }>
+                    <SectionRowContent>{ program.name }</SectionRowContent>
                 </SectionRow>
             );
         });
 
         return (
             <Section>
-                <SectionTitle>{this.props.title}</SectionTitle>
+                <SectionTitle>{ this.props.title }</SectionTitle>
                 <SectionTable>
-                    {rows}
+                    { rows }
                 </SectionTable>
             </Section>
         );

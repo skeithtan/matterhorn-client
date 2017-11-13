@@ -32,19 +32,67 @@ var ProgramList = function (_Component) {
     function ProgramList(props) {
         _classCallCheck(this, ProgramList);
 
-        return _possibleConstructorReturn(this, (ProgramList.__proto__ || Object.getPrototypeOf(ProgramList)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (ProgramList.__proto__ || Object.getPrototypeOf(ProgramList)).call(this, props));
+
+        _this.getFilteredPrograms = _this.getFilteredPrograms.bind(_this);
+        return _this;
     }
 
     _createClass(ProgramList, [{
+        key: "getFilteredPrograms",
+        value: function getFilteredPrograms() {
+            var _this2 = this;
+
+            if (this.props.programList === null) {
+                return [];
+            }
+
+            var institutions = [];
+
+            // Makes the list of Institution Names
+            this.props.programList.forEach(function (program) {
+                institutions.push(program.memorandum.institution.name);
+            });
+
+            // Get uniques only
+            institutions = institutions.filter(function (value, index, self) {
+                return self.indexOf(value) === index;
+            });
+
+            // Arrange alphabetically
+            institutions = institutions.sort();
+
+            var categorizedByInstitution = [];
+
+            institutions.forEach(function (institution) {
+                var programs = [];
+                categorizedByInstitution.push({
+                    institution: institution,
+                    programs: programs
+                });
+
+                _this2.props.programList.forEach(function (program) {
+                    var programInstitution = program.memorandum.institution.name;
+                    if (programInstitution === institution) {
+                        programs.push(program);
+                    }
+                });
+            });
+
+            return categorizedByInstitution;
+        }
+    }, {
         key: "render",
         value: function render() {
+            var filteredPrograms = this.getFilteredPrograms();
+
             return _react2.default.createElement(
                 "div",
                 { className: "h-100 d-flex flex-column" },
                 _react2.default.createElement(ProgramListHead, { year: this.props.activeYear,
                     activeTerm: this.props.activeTerm,
                     setActiveTerm: this.props.setActiveTerm }),
-                _react2.default.createElement(ProgramListTable, { programList: this.props.programList,
+                _react2.default.createElement(ProgramListTable, { programs: filteredPrograms,
                     activeProgram: this.props.activeProgram,
                     setActiveProgram: this.props.setActiveProgram })
             );
@@ -60,10 +108,10 @@ var ProgramListHead = function (_Component2) {
     function ProgramListHead(props) {
         _classCallCheck(this, ProgramListHead);
 
-        var _this2 = _possibleConstructorReturn(this, (ProgramListHead.__proto__ || Object.getPrototypeOf(ProgramListHead)).call(this, props));
+        var _this3 = _possibleConstructorReturn(this, (ProgramListHead.__proto__ || Object.getPrototypeOf(ProgramListHead)).call(this, props));
 
-        _this2.onTermChange = _this2.onTermChange.bind(_this2);
-        return _this2;
+        _this3.onTermChange = _this3.onTermChange.bind(_this3);
+        return _this3;
     }
 
     _createClass(ProgramListHead, [{
@@ -83,7 +131,8 @@ var ProgramListHead = function (_Component2) {
                     _react2.default.createElement(
                         _reactstrap.Input,
                         { type: "select", defaultValue: this.props.activeTerm,
-                            className: "ml-auto btn-sm btn-outline-success", id: "term-select", onChange: this.onTermChange },
+                            className: "ml-auto btn-sm btn-outline-success", id: "term-select",
+                            onChange: this.onTermChange },
                         _react2.default.createElement(
                             "option",
                             { value: "1" },
@@ -139,57 +188,13 @@ var ProgramListTable = function (_Component3) {
     function ProgramListTable(props) {
         _classCallCheck(this, ProgramListTable);
 
-        var _this3 = _possibleConstructorReturn(this, (ProgramListTable.__proto__ || Object.getPrototypeOf(ProgramListTable)).call(this, props));
+        var _this4 = _possibleConstructorReturn(this, (ProgramListTable.__proto__ || Object.getPrototypeOf(ProgramListTable)).call(this, props));
 
-        _this3.getFilteredPrograms = _this3.getFilteredPrograms.bind(_this3);
-        _this3.emptyState = _this3.emptyState.bind(_this3);
-        return _this3;
+        _this4.emptyState = _this4.emptyState.bind(_this4);
+        return _this4;
     }
 
     _createClass(ProgramListTable, [{
-        key: "getFilteredPrograms",
-        value: function getFilteredPrograms() {
-            var _this4 = this;
-
-            if (this.props.programList === null) {
-                return [];
-            }
-
-            var institutions = [];
-
-            // Makes the list of Institution Names
-            this.props.programList.forEach(function (program) {
-                institutions.push(program.memorandum.institution.name);
-            });
-
-            // Get uniques only?
-            institutions = institutions.filter(function (value, index, self) {
-                return self.indexOf(value) === index;
-            });
-
-            // Arrange alphabetically
-            institutions = institutions.sort();
-
-            var categorizedByInstitution = [];
-
-            institutions.forEach(function (institution) {
-                var programs = [];
-                categorizedByInstitution.push({
-                    institution: institution,
-                    programs: programs
-                });
-
-                _this4.props.programList.forEach(function (program) {
-                    var programInstitution = program.memorandum.institution.name;
-                    if (programInstitution === institution) {
-                        programs.push(program);
-                    }
-                });
-            });
-
-            return categorizedByInstitution;
-        }
-    }, {
         key: "emptyState",
         value: function emptyState() {
             return _react2.default.createElement(
@@ -203,17 +208,15 @@ var ProgramListTable = function (_Component3) {
         value: function render() {
             var _this5 = this;
 
-            if (this.props.programList === null) {
+            if (this.props.programs === null) {
                 return _react2.default.createElement(_loading2.default, null);
             }
 
-            if (this.props.programList.length === 0) {
+            if (this.props.programs.length === 0) {
                 return this.emptyState();
             }
 
-            var institutionPrograms = this.getFilteredPrograms();
-
-            var sections = institutionPrograms.map(function (institutionProgram, index) {
+            var sections = this.props.programs.map(function (institutionProgram, index) {
                 return _react2.default.createElement(ProgramSection, { key: index,
                     title: institutionProgram.institution,
                     activeProgram: _this5.props.activeProgram,
