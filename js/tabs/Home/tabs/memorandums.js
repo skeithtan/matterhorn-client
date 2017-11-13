@@ -325,11 +325,13 @@ class MemorandumCardCollapseContent extends Component {
         };
 
         // Allows content to expand gracefully
-        setTimeout(() => {
-            this.setState({
-                isOpen : true,
-            });
-        }, 300);
+        if(!this.state.isOpen) {
+            setTimeout(() => {
+                this.setState({
+                    isOpen : true,
+                });
+            }, 200);
+        }
 
         return (
             <Collapse isOpen={this.state.isOpen}>

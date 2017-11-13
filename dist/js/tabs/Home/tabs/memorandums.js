@@ -408,11 +408,13 @@ var MemorandumCardCollapseContent = function (_Component3) {
             };
 
             // Allows content to expand gracefully
-            setTimeout(function () {
-                _this7.setState({
-                    isOpen: true
-                });
-            }, 300);
+            if (!this.state.isOpen) {
+                setTimeout(function () {
+                    _this7.setState({
+                        isOpen: true
+                    });
+                }, 200);
+            }
 
             return _react2.default.createElement(
                 _reactstrap.Collapse,
