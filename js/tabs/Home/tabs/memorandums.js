@@ -320,6 +320,10 @@ class MemorandumCardCollapseContent extends Component {
             });
         }
 
+        const viewMemorandum = () => {
+            require("electron").shell.openExternal(this.props.memorandum.memorandum_file);
+        };
+
         // Allows content to expand gracefully
         setTimeout(() => {
             this.setState({
@@ -342,8 +346,12 @@ class MemorandumCardCollapseContent extends Component {
                     <SectionRowContent large>{linkages}</SectionRowContent>
                 </SectionRow>
                 <SectionRow>
-                    <Button outline size="sm" color="success" className="mr-2">View memorandum document</Button>
-                    <Button outline size="sm" color="success" onClick={this.props.toggleRenewModal}>Renew Memorandum</Button>
+                    <Button outline size="sm" color="success" className="mr-2" onClick={viewMemorandum}>
+                        View memorandum document
+                    </Button>
+                    <Button outline size="sm" color="success" onClick={this.props.toggleRenewModal}>
+                        Renew Memorandum
+                    </Button>
                 </SectionRow>
             </Collapse>
         );

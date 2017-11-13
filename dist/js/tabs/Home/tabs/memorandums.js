@@ -403,6 +403,10 @@ var MemorandumCardCollapseContent = function (_Component3) {
                 });
             }
 
+            var viewMemorandum = function viewMemorandum() {
+                require("electron").shell.openExternal(_this7.props.memorandum.memorandum_file);
+            };
+
             // Allows content to expand gracefully
             setTimeout(function () {
                 _this7.setState({
@@ -460,7 +464,7 @@ var MemorandumCardCollapseContent = function (_Component3) {
                     null,
                     _react2.default.createElement(
                         _reactstrap.Button,
-                        { outline: true, size: "sm", color: "success", className: "mr-2" },
+                        { outline: true, size: "sm", color: "success", className: "mr-2", onClick: viewMemorandum },
                         "View memorandum document"
                     ),
                     _react2.default.createElement(
