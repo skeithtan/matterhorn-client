@@ -549,7 +549,7 @@ var MemorandumFormModal = function (_Component3) {
                 }
             };
 
-            if (newProps.edit) {
+            if (newProps.memorandum !== undefined) {
                 Object.assign(this.state.form, newProps.memorandum);
                 this.state.form.linkages = []; //Do not use prop linkage = make a new one.
 
@@ -692,9 +692,9 @@ var MemorandumFormModal = function (_Component3) {
         value: function render() {
             var _this12 = this;
 
-            var formErrors = this.getFormErrors();
-            var formHasErrors = formErrors.formHasErrors;
-            var fieldErrors = formErrors.fieldErrors;
+            var _getFormErrors = this.getFormErrors(),
+                formHasErrors = _getFormErrors.formHasErrors,
+                fieldErrors = _getFormErrors.fieldErrors;
 
             var linkages = Object.entries(_settings2.default.linkages).map(function (linkage) {
                 var linkageCode = linkage[0];

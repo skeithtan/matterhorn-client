@@ -34,6 +34,8 @@ var _section = require("../../../components/section");
 
 var _reactstrap = require("reactstrap");
 
+var _modals = require("../../Institutions/modals");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -156,7 +158,8 @@ var Memorandums = function (_Component) {
                 var setActiveCard = function setActiveCard() {
                     return _this3.setActiveCard(id);
                 };
-                return _react2.default.createElement(MemorandumCard, { key: id, card: card, onClick: setActiveCard, active: isActive });
+                return _react2.default.createElement(MemorandumCard, { key: id, card: card, onClick: setActiveCard, active: isActive,
+                    refreshCards: _this3.refreshCards });
             });
 
             var onBackgroundClick = function onBackgroundClick(event) {
@@ -192,10 +195,24 @@ var MemorandumCard = function (_Component2) {
     function MemorandumCard(props) {
         _classCallCheck(this, MemorandumCard);
 
-        return _possibleConstructorReturn(this, (MemorandumCard.__proto__ || Object.getPrototypeOf(MemorandumCard)).call(this, props));
+        var _this4 = _possibleConstructorReturn(this, (MemorandumCard.__proto__ || Object.getPrototypeOf(MemorandumCard)).call(this, props));
+
+        _this4.state = {
+            renewModalIsOpen: false
+        };
+
+        _this4.toggleRenewModal = _this4.toggleRenewModal.bind(_this4);
+        return _this4;
     }
 
     _createClass(MemorandumCard, [{
+        key: "toggleRenewModal",
+        value: function toggleRenewModal() {
+            this.setState({
+                renewModalIsOpen: !this.state.renewModalIsOpen
+            });
+        }
+    }, {
         key: "render",
         value: function render() {
             var _this5 = this;
@@ -230,7 +247,17 @@ var MemorandumCard = function (_Component2) {
                 collapseContent = _react2.default.createElement(
                     "div",
                     null,
-                    _react2.default.createElement(MemorandumCardCollapseContent, { memorandum: this.props.card.memorandum })
+                    _react2.default.createElement(MemorandumCardCollapseContent, { memorandum: this.props.card.memorandum,
+                        institution: this.props.card.institution,
+                        toggleRenewModal: this.toggleRenewModal }),
+                    _react2.default.createElement(_modals.MemorandumFormModal, {
+                        institution: this.props.card.institution, toggle: this.toggleRenewModal,
+                        isOpen: this.state.renewModalIsOpen,
+                        refresh: this.props.refreshCards,
+                        memorandum: {
+                            category: this.props.card.memorandum.category,
+                            linkages: this.props.card.memorandum.linkages
+                        } })
                 );
             }
 
@@ -381,7 +408,7 @@ var MemorandumCardCollapseContent = function (_Component3) {
                 _this7.setState({
                     isOpen: true
                 });
-            }, 200);
+            }, 300);
 
             return _react2.default.createElement(
                 _reactstrap.Collapse,
@@ -438,7 +465,7 @@ var MemorandumCardCollapseContent = function (_Component3) {
                     ),
                     _react2.default.createElement(
                         _reactstrap.Button,
-                        { outline: true, size: "sm", color: "success" },
+                        { outline: true, size: "sm", color: "success", onClick: this.props.toggleRenewModal },
                         "Renew Memorandum"
                     )
                 )

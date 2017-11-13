@@ -14,6 +14,7 @@ import {
     Button,
     Collapse,
 } from "reactstrap";
+import { MemorandumFormModal } from "../../Institutions/modals";
 
 
 function fetchInstitutions(onResult) {
@@ -150,7 +151,8 @@ class Memorandums extends Component {
             const id = card.memorandum.id;
             const isActive = this.state.activeCard === id;
             const setActiveCard = () => this.setActiveCard(id);
-            return <MemorandumCard key={id} card={card} onClick={setActiveCard} active={isActive}/>;
+            return <MemorandumCard key={id} card={card} onClick={setActiveCard} active={isActive}
+                                   refreshCards={this.refreshCards}/>;
         });
 
         const onBackgroundClick = event => {
@@ -171,6 +173,18 @@ class Memorandums extends Component {
 class MemorandumCard extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            renewModalIsOpen : false,
+        };
+
+        this.toggleRenewModal = this.toggleRenewModal.bind(this);
+    }
+
+    toggleRenewModal() {
+        this.setState({
+            renewModalIsOpen : !this.state.renewModalIsOpen,
+        });
     }
 
     render() {
@@ -203,7 +217,17 @@ class MemorandumCard extends Component {
             //or if it hasn't been fetched but is active.
             collapseContent =
                 <div>
-                    <MemorandumCardCollapseContent memorandum={this.props.card.memorandum}/>
+                    <MemorandumCardCollapseContent memorandum={this.props.card.memorandum}
+                                                   institution={this.props.card.institution}
+                                                   toggleRenewModal={this.toggleRenewModal}/>
+                    <MemorandumFormModal
+                        institution={this.props.card.institution} toggle={this.toggleRenewModal}
+                        isOpen={this.state.renewModalIsOpen}
+                        refresh={this.props.refreshCards}
+                        memorandum={{
+                            category : this.props.card.memorandum.category,
+                            linkages : this.props.card.memorandum.linkages,
+                        }}/>
                 </div>;
         }
 
@@ -246,7 +270,6 @@ class MemorandumCardCollapseContent extends Component {
             memorandum : props.memorandum,
             isOpen : false,
         };
-
 
         fetchMemorandumDetails(props.memorandum.id, result => {
             let memorandum = result.memorandum;
@@ -302,7 +325,7 @@ class MemorandumCardCollapseContent extends Component {
             this.setState({
                 isOpen : true,
             });
-        }, 200);
+        }, 300);
 
         return (
             <Collapse isOpen={this.state.isOpen}>
@@ -320,7 +343,7 @@ class MemorandumCardCollapseContent extends Component {
                 </SectionRow>
                 <SectionRow>
                     <Button outline size="sm" color="success" className="mr-2">View memorandum document</Button>
-                    <Button outline size="sm" color="success">Renew Memorandum</Button>
+                    <Button outline size="sm" color="success" onClick={this.props.toggleRenewModal}>Renew Memorandum</Button>
                 </SectionRow>
             </Collapse>
         );

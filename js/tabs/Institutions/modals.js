@@ -369,7 +369,7 @@ class MemorandumFormModal extends Component {
             },
         };
 
-        if (newProps.edit) {
+        if (newProps.memorandum !== undefined) {
             Object.assign(this.state.form, newProps.memorandum);
             this.state.form.linkages = []; //Do not use prop linkage = make a new one.
 
@@ -501,9 +501,7 @@ class MemorandumFormModal extends Component {
     }
 
     render() {
-        const formErrors = this.getFormErrors();
-        const formHasErrors = formErrors.formHasErrors;
-        const fieldErrors = formErrors.fieldErrors;
+        const { formHasErrors, fieldErrors } = this.getFormErrors();
 
         const linkages = Object.entries(settings.linkages).map(linkage => {
             const linkageCode = linkage[0];
