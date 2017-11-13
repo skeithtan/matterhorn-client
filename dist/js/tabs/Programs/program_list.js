@@ -93,6 +93,7 @@ var ProgramList = function (_Component) {
                     activeTerm: this.props.activeTerm,
                     setActiveTerm: this.props.setActiveTerm }),
                 _react2.default.createElement(ProgramListTable, { programs: filteredPrograms,
+                    activeTerm: this.props.activeTerm,
                     activeProgram: this.props.activeProgram,
                     setActiveProgram: this.props.setActiveProgram })
             );
@@ -199,8 +200,13 @@ var ProgramListTable = function (_Component3) {
         value: function emptyState() {
             return _react2.default.createElement(
                 "div",
-                null,
-                "This is empty"
+                { className: "h-100 d-flex flex-column justify-content-center text-center" },
+                _react2.default.createElement(
+                    "h5",
+                    { className: "text-secondary" },
+                    "There are no programs for Term ",
+                    this.props.activeTerm
+                )
             );
         }
     }, {

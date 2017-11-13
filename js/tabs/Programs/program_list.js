@@ -68,6 +68,7 @@ class ProgramList extends Component {
                                  activeTerm={ this.props.activeTerm }
                                  setActiveTerm={ this.props.setActiveTerm }/>
                 <ProgramListTable programs={ filteredPrograms }
+                                  activeTerm={ this.props.activeTerm }
                                   activeProgram={ this.props.activeProgram }
                                   setActiveProgram={ this.props.setActiveProgram }/>
             </div>
@@ -122,8 +123,8 @@ class ProgramListTable extends Component {
 
     emptyState() {
         return (
-            <div>
-                This is empty
+            <div className="h-100 d-flex flex-column justify-content-center text-center">
+                <h5 className="text-secondary">There are no programs for Term { this.props.activeTerm }</h5>
             </div>
         );
     }
