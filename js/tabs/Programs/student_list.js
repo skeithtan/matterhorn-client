@@ -9,6 +9,7 @@ import {
     SectionTable,
     SectionRow,
 } from "../../components/section";
+import LoadingSpinner from "../../components/loading";
 
 class StudentList extends Component {
     constructor(props) {
@@ -99,7 +100,7 @@ class StudentListTable extends Component {
 
     render() {
         if (this.props.studyFields === null) {
-            // LOADING SPINNER
+            return <LoadingSpinner/>;
         }
 
         if (this.props.studyFields.length === 0) {

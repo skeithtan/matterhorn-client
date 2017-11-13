@@ -14,6 +14,10 @@ var _reactstrap = require("reactstrap");
 
 var _section = require("../../components/section");
 
+var _loading = require("../../components/loading");
+
+var _loading2 = _interopRequireDefault(_loading);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -163,7 +167,7 @@ var StudentListTable = function (_Component3) {
         key: "render",
         value: function render() {
             if (this.props.studyFields === null) {
-                // LOADING SPINNER
+                return _react2.default.createElement(_loading2.default, null);
             }
 
             if (this.props.studyFields.length === 0) {
