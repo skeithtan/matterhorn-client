@@ -21,7 +21,8 @@ class ProgramList extends Component {
         return (
             <div className="h-100 d-flex flex-column">
                 <ProgramListHead year={this.props.activeYear}
-                                 term={this.props.activeTerm}/>
+                                 activeTerm={this.props.activeTerm}
+                                 setActiveTerm={this.props.setActiveTerm}/>
                 <ProgramListTable programList={this.props.programList}
                                   activeProgram={this.props.activeProgram}
                                   setActiveProgram={this.props.setActiveProgram}/>
@@ -33,18 +34,30 @@ class ProgramList extends Component {
 class ProgramListHead extends Component {
     constructor(props) {
         super(props);
+        this.onTermChange = this.onTermChange.bind(this);
+    }
+
+    onTermChange(event) {
+        this.props.setActiveTerm(event.target.value);
     }
 
     render() {
         return (
             <div className="page-head d-flex flex-column align-items-center">
+                <div className="page-head-controls mr-auto">
+                    <Input type="select" defaultValue={this.props.activeTerm}
+                           className="ml-auto btn-sm btn-outline-success" id="term-select" onChange={this.onTermChange}>
+                        <option value="1">Term 1</option>
+                        <option value="2">Term 2</option>
+                        <option value="3">Term 3</option>
+                    </Input>
+                </div>
                 <div className="d-flex flex-row w-100 mb-2 align-items-center">
                     <div className="mr-auto">
-                        <h5 className="mb-0 text-secondary mt-3">Programs</h5>
+                        <h5 className="mb-0 text-secondary">Programs</h5>
                         <div className="d-flex flex-row">
                             <h4 className="page-head-title mb-0">
                                 {this.props.year} - {this.props.year + 1}
-                                <span className="text-secondary font-weight-normal"> Term {this.props.term}</span>
                             </h4>
                         </div>
                     </div>

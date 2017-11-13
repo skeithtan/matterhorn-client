@@ -18,10 +18,6 @@ var _program_list = require("./program_list");
 
 var _program_list2 = _interopRequireDefault(_program_list);
 
-var _program_list_tabs = require("./program_list_tabs");
-
-var _program_list_tabs2 = _interopRequireDefault(_program_list_tabs);
-
 var _student_list = require("./student_list");
 
 var _student_list2 = _interopRequireDefault(_student_list);
@@ -117,7 +113,6 @@ var Programs = function (_Component) {
             });
 
             fetchPrograms(this.state.activeYear, term, function (result) {
-                console.log(result.programs);
                 _this4.setState({
                     programList: result.programs
                 });
@@ -147,18 +142,12 @@ var Programs = function (_Component) {
                 _react2.default.createElement(_year_list2.default, { yearList: this.state.yearList,
                     setActiveYear: this.setActiveYear,
                     activeYear: this.state.activeYear }),
-                this.state.activeYear !== null && _react2.default.createElement(
-                    "div",
-                    { id: "program-list", className: "d-flex flex-column p-0 h-100" },
-                    _react2.default.createElement(_program_list2.default, { programList: this.state.programList,
-                        activeYear: this.state.activeYear,
-                        activeTerm: this.state.activeTerm,
-                        activeProgram: this.state.activeProgram,
-                        setActiveProgram: this.setActiveProgram }),
-                    _react2.default.createElement(_program_list_tabs2.default, { terms: _terms_list2.default,
-                        activeTerm: this.state.activeTerm,
-                        setActiveTerm: this.setActiveTerm })
-                ),
+                this.state.activeYear !== null && _react2.default.createElement(_program_list2.default, { programList: this.state.programList,
+                    activeYear: this.state.activeYear,
+                    activeTerm: this.state.activeTerm,
+                    activeProgram: this.state.activeProgram,
+                    setActiveTerm: this.setActiveTerm,
+                    setActiveProgram: this.setActiveProgram }),
                 this.state.activeProgram !== null && _react2.default.createElement(_student_list2.default, null)
             );
         }

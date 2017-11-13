@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import YearList from "./year_list";
 import ProgramList from "./program_list";
-import ProgramListTabBar from "./program_list_tabs";
 import StudentList from "./student_list";
 import terms from "./terms_list";
 import graphql from "../../graphql";
@@ -87,7 +86,6 @@ class Programs extends Component {
         });
 
         fetchPrograms(this.state.activeYear, term, result => {
-            console.log(result.programs);
             this.setState({
                 programList : result.programs,
             });
@@ -110,21 +108,18 @@ class Programs extends Component {
     render() {
         return (
             <div id="programs-page" className="container-fluid d-flex flex-row p-0 h-100 page-body">
-                <YearList yearList={ this.state.yearList }
-                          setActiveYear={ this.setActiveYear }
-                          activeYear={ this.state.activeYear }/>
-                { this.state.activeYear !== null &&
-                <div id="program-list" className="d-flex flex-column p-0 h-100">
-                    <ProgramList programList={ this.state.programList }
-                                 activeYear={ this.state.activeYear }
-                                 activeTerm={ this.state.activeTerm }
-                                 activeProgram={ this.state.activeProgram }
-                                 setActiveProgram={ this.setActiveProgram }/>
-                    <ProgramListTabBar terms={ terms }
-                                       activeTerm={ this.state.activeTerm }
-                                       setActiveTerm={ this.setActiveTerm }/>
-                </div> }
-                { this.state.activeProgram !== null && <StudentList/> }
+                <YearList yearList={this.state.yearList}
+                          setActiveYear={this.setActiveYear}
+                          activeYear={this.state.activeYear}/>
+                {this.state.activeYear !== null &&
+                <ProgramList programList={this.state.programList}
+                             activeYear={this.state.activeYear}
+                             activeTerm={this.state.activeTerm}
+                             activeProgram={this.state.activeProgram}
+                             setActiveTerm={this.setActiveTerm}
+                             setActiveProgram={this.setActiveProgram}/>
+                }
+                {this.state.activeProgram !== null && <StudentList/>}
             </div>
         );
     }

@@ -51,7 +51,6 @@
 
 /*Home*/
 #home .tab-content > .page-body {
-
 }
 
 .home-card {
@@ -661,4 +660,8 @@ li.nav-item.active .sidebar-image,
     border-right : 1px solid var(--gray);
     width        : 33.33%;
     min-width    : 320px;
+}
+
+#term-select {
+    height : 31px !important;
 }
