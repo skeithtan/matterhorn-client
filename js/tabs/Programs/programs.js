@@ -34,7 +34,28 @@ function fetchPrograms(year, term, onResult) {
     `).then(onResult);
 }
 
-// TODO: Fetch students under a program and sort them by study field
+function fetchStudents(id, onResult) {
+    graphql.query(`
+    {
+        program(id:${id}) {
+            id
+            studyfield_set {
+                id
+                name
+                studentprogram_set {
+                    student {
+                        id
+                        id_number
+                        first_name
+                        middle_name
+                        family_name
+                    }
+                }
+            }
+        }
+    }
+    `).then(onResult);
+}
 
 class Programs extends Component {
     constructor(props) {
@@ -43,6 +64,7 @@ class Programs extends Component {
         this.state = {
             yearList : null,
             programList : null,
+            studentList : null,
             activeYear : null,
             activeTerm : 1,
             activeProgram : null,
@@ -53,8 +75,7 @@ class Programs extends Component {
         this.setActiveYear = this.setActiveYear.bind(this);
         this.setActiveTerm = this.setActiveTerm.bind(this);
         this.setActiveProgram = this.setActiveProgram.bind(this);
-        this.setActiveStudyField = this.setActiveStudyField.bind(this);
-
+        this.refreshStudents = this.refreshStudents.bind(this);
         this.refreshYears();
     }
 
@@ -93,33 +114,44 @@ class Programs extends Component {
     }
 
     setActiveProgram(program) {
-        console.log(program);
         this.setState({
             activeProgram : program,
         });
+
+        fetchStudents(program.id, result => {
+            this.setState({
+                studentList : result.program,
+            });
+        });
     }
 
-    setActiveStudyField(studyField) {
-        this.setState({
-            activeStudyField : studyField,
+    refreshStudents() {
+        fetchStudents(program.id, result => {
+            this.setState({
+                studentList : result.program,
+            });
         });
     }
 
     render() {
         return (
             <div id="programs-page" className="container-fluid d-flex flex-row p-0 h-100 page-body">
-                <YearList yearList={this.state.yearList}
-                          setActiveYear={this.setActiveYear}
-                          activeYear={this.state.activeYear}/>
-                {this.state.activeYear !== null &&
-                <ProgramList programList={this.state.programList}
-                             activeYear={this.state.activeYear}
-                             activeTerm={this.state.activeTerm}
-                             activeProgram={this.state.activeProgram}
-                             setActiveTerm={this.setActiveTerm}
-                             setActiveProgram={this.setActiveProgram}/>
+                <YearList yearList={ this.state.yearList }
+                          setActiveYear={ this.setActiveYear }
+                          activeYear={ this.state.activeYear }/>
+                { this.state.activeYear !== null &&
+                <ProgramList programList={ this.state.programList }
+                             activeYear={ this.state.activeYear }
+                             activeTerm={ this.state.activeTerm }
+                             activeProgram={ this.state.activeProgram }
+                             setActiveTerm={ this.setActiveTerm }
+                             setActiveProgram={ this.setActiveProgram }/>
                 }
-                {this.state.activeProgram !== null && <StudentList/>}
+                { this.state.activeProgram !== null &&
+                <StudentList studentList={ this.state.studentList }
+                             activeProgram={ this.state.activeProgram }
+                             refreshStudents={ this.refreshStudents }/>
+                }
             </div>
         );
     }

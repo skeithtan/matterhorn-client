@@ -28,16 +28,32 @@ var StudentList = function (_Component) {
     function StudentList(props) {
         _classCallCheck(this, StudentList);
 
-        return _possibleConstructorReturn(this, (StudentList.__proto__ || Object.getPrototypeOf(StudentList)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (StudentList.__proto__ || Object.getPrototypeOf(StudentList)).call(this, props));
+
+        _this.getFilteredStudents = _this.getFilteredStudents.bind(_this);
+        return _this;
     }
 
     _createClass(StudentList, [{
+        key: "getFilteredStudents",
+        value: function getFilteredStudents() {
+            if (this.props.studentList === null) {
+                return [];
+            }
+
+            var students = [];
+
+            // TODO
+        }
+    }, {
         key: "render",
         value: function render() {
+            var students = this.getFilteredStudents();
+
             return _react2.default.createElement(
                 "div",
                 { className: "h-100 d-flex flex-column" },
-                _react2.default.createElement(StudentListHead, null),
+                _react2.default.createElement(StudentListHead, { activeProgram: this.props.activeProgram }),
                 _react2.default.createElement(StudentListTable, null)
             );
         }
@@ -81,7 +97,7 @@ var StudentListHead = function (_Component2) {
                     _react2.default.createElement(
                         "h4",
                         { className: "page-head-title mb-0" },
-                        "Study Field Name"
+                        this.props.activeProgram.name
                     )
                 ),
                 _react2.default.createElement(_reactstrap.Input, { type: "search", placeholder: "Search", className: "search-input" })

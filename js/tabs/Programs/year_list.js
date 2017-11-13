@@ -11,15 +11,43 @@ import { Button } from "reactstrap";
 class YearList extends Component {
     constructor(props) {
         super(props);
+
+        this.getArrangedYears = this.getArrangedYears.bind(this);
+    }
+
+    getArrangedYears() {
+        if (this.props.yearList === null) {
+            return [];
+        }
+
+        let years = [];
+
+        this.props.yearList.forEach(year => {
+            years.push(year.academic_year_start);
+        });
+
+        // Get uniques only
+        years = years.filter((value, index, self) => {
+            return self.indexOf(value) === index;
+        });
+
+        // Arrange in ascending order
+        years = years.sort(function (a, b) {
+            return a - b;
+        });
+
+        return years;
     }
 
     render() {
+        const years = this.getArrangedYears();
+
         return (
             <div className="sidebar h-100" id="term-list">
                 <YearListHead/>
-                <YearListTable yearList={this.props.yearList}
-                               activeYear={this.props.activeYear}
-                               setActiveYear={this.props.setActiveYear}/>
+                <YearListTable yearList={ years }
+                               activeYear={ this.props.activeYear }
+                               setActiveYear={ this.props.setActiveYear }/>
             </div>
         );
     }
@@ -71,21 +99,21 @@ class YearListTable extends Component {
             let isActive = false;
 
             if (this.props.activeYear !== null) {
-                isActive = this.props.activeYear === year.academic_year_start;
+                isActive = this.props.activeYear === year;
             }
 
-            const setActiveYear = () => this.props.setActiveYear(year.academic_year_start);
+            const setActiveYear = () => this.props.setActiveYear(year);
 
-            const yearStart = Number(year.academic_year_start);
-            return <SectionRow selectable key={index} onClick={setActiveYear} active={isActive}>
-                <SectionRowContent>{yearStart} - {yearStart + 1}</SectionRowContent>
+            const yearStart = Number(year);
+            return <SectionRow selectable key={ index } onClick={ setActiveYear } active={ isActive }>
+                <SectionRowContent>{ yearStart } - { yearStart + 1 }</SectionRowContent>
             </SectionRow>;
         });
 
         return (
             <div className="page-body">
                 <SectionTable>
-                    {rows}
+                    { rows }
                 </SectionTable>
             </div>
         );

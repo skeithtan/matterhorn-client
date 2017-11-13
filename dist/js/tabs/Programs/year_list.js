@@ -32,17 +32,47 @@ var YearList = function (_Component) {
     function YearList(props) {
         _classCallCheck(this, YearList);
 
-        return _possibleConstructorReturn(this, (YearList.__proto__ || Object.getPrototypeOf(YearList)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (YearList.__proto__ || Object.getPrototypeOf(YearList)).call(this, props));
+
+        _this.getArrangedYears = _this.getArrangedYears.bind(_this);
+        return _this;
     }
 
     _createClass(YearList, [{
+        key: "getArrangedYears",
+        value: function getArrangedYears() {
+            if (this.props.yearList === null) {
+                return [];
+            }
+
+            var years = [];
+
+            this.props.yearList.forEach(function (year) {
+                years.push(year.academic_year_start);
+            });
+
+            // Get uniques only
+            years = years.filter(function (value, index, self) {
+                return self.indexOf(value) === index;
+            });
+
+            // Arrange in ascending order
+            years = years.sort(function (a, b) {
+                return a - b;
+            });
+
+            return years;
+        }
+    }, {
         key: "render",
         value: function render() {
+            var years = this.getArrangedYears();
+
             return _react2.default.createElement(
                 "div",
                 { className: "sidebar h-100", id: "term-list" },
                 _react2.default.createElement(YearListHead, null),
-                _react2.default.createElement(YearListTable, { yearList: this.props.yearList,
+                _react2.default.createElement(YearListTable, { yearList: years,
                     activeYear: this.props.activeYear,
                     setActiveYear: this.props.setActiveYear })
             );
@@ -128,14 +158,14 @@ var YearListTable = function (_Component3) {
                 var isActive = false;
 
                 if (_this4.props.activeYear !== null) {
-                    isActive = _this4.props.activeYear === year.academic_year_start;
+                    isActive = _this4.props.activeYear === year;
                 }
 
                 var setActiveYear = function setActiveYear() {
-                    return _this4.props.setActiveYear(year.academic_year_start);
+                    return _this4.props.setActiveYear(year);
                 };
 
-                var yearStart = Number(year.academic_year_start);
+                var yearStart = Number(year);
                 return _react2.default.createElement(
                     _section.SectionRow,
                     { selectable: true, key: index, onClick: setActiveYear, active: isActive },

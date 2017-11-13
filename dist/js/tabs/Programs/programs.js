@@ -46,7 +46,9 @@ function fetchPrograms(year, term, onResult) {
     _graphql2.default.query("\n    {\n        programs(year:" + year + ", term:" + term + ") {\n            name\n            memorandum {\n                institution {\n                    name\n                }\n            }\n            terms {\n                number\n            }\n        }\n    }\n    ").then(onResult);
 }
 
-// TODO: Fetch students under a program and sort them by study field
+function fetchStudents(id, onResult) {
+    _graphql2.default.query("\n    {\n        program(id:" + id + ") {\n            id\n            studyfield_set {\n                id\n                name\n                studentprogram_set {\n                    student {\n                        id\n                        id_number\n                        first_name\n                        middle_name\n                        family_name\n                    }\n                }\n            }\n        }\n    }\n    ").then(onResult);
+}
 
 var Programs = function (_Component) {
     _inherits(Programs, _Component);
@@ -59,6 +61,7 @@ var Programs = function (_Component) {
         _this.state = {
             yearList: null,
             programList: null,
+            studentList: null,
             activeYear: null,
             activeTerm: 1,
             activeProgram: null,
@@ -69,8 +72,7 @@ var Programs = function (_Component) {
         _this.setActiveYear = _this.setActiveYear.bind(_this);
         _this.setActiveTerm = _this.setActiveTerm.bind(_this);
         _this.setActiveProgram = _this.setActiveProgram.bind(_this);
-        _this.setActiveStudyField = _this.setActiveStudyField.bind(_this);
-
+        _this.refreshStudents = _this.refreshStudents.bind(_this);
         _this.refreshYears();
         return _this;
     }
@@ -121,16 +123,27 @@ var Programs = function (_Component) {
     }, {
         key: "setActiveProgram",
         value: function setActiveProgram(program) {
-            console.log(program);
+            var _this5 = this;
+
             this.setState({
                 activeProgram: program
             });
+
+            fetchStudents(program.id, function (result) {
+                _this5.setState({
+                    studentList: result.program
+                });
+            });
         }
     }, {
-        key: "setActiveStudyField",
-        value: function setActiveStudyField(studyField) {
-            this.setState({
-                activeStudyField: studyField
+        key: "refreshStudents",
+        value: function refreshStudents() {
+            var _this6 = this;
+
+            fetchStudents(program.id, function (result) {
+                _this6.setState({
+                    studentList: result.program
+                });
             });
         }
     }, {
@@ -148,7 +161,9 @@ var Programs = function (_Component) {
                     activeProgram: this.state.activeProgram,
                     setActiveTerm: this.setActiveTerm,
                     setActiveProgram: this.setActiveProgram }),
-                this.state.activeProgram !== null && _react2.default.createElement(_student_list2.default, null)
+                this.state.activeProgram !== null && _react2.default.createElement(_student_list2.default, { studentList: this.state.studentList,
+                    activeProgram: this.state.activeProgram,
+                    refreshStudents: this.refreshStudents })
             );
         }
     }]);
