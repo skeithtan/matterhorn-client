@@ -120,8 +120,8 @@ class ProgramListTable extends Component {
 
     emptyState() {
         return (
-            <div className="h-100 d-flex flex-column justify-content-center text-center">
-                <h5 className="text-secondary">There are no programs for Term { this.props.activeTerm }</h5>
+            <div className="loading-container">
+                <h5>There are no programs for Term { this.props.activeTerm }</h5>
             </div>
         );
     }

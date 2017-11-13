@@ -197,10 +197,10 @@ var ProgramListTable = function (_Component3) {
         value: function emptyState() {
             return _react2.default.createElement(
                 "div",
-                { className: "h-100 d-flex flex-column justify-content-center text-center" },
+                { className: "loading-container" },
                 _react2.default.createElement(
                     "h5",
-                    { className: "text-secondary" },
+                    null,
                     "There are no programs for Term ",
                     this.props.activeTerm
                 )

@@ -137,8 +137,12 @@ var YearListTable = function (_Component3) {
         value: function emptyState() {
             return _react2.default.createElement(
                 "div",
-                null,
-                "This is empty"
+                { className: "loading-container" },
+                _react2.default.createElement(
+                    "h4",
+                    null,
+                    "There's nothing here."
+                )
             );
         }
     }, {

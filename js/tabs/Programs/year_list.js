@@ -80,8 +80,8 @@ class YearListTable extends Component {
     // IDK if this is right
     emptyState() {
         return (
-            <div>
-                This is empty
+            <div className="loading-container">
+                <h4>There's nothing here.</h4>
             </div>
         );
     }

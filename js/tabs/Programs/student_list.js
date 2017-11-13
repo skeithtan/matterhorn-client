@@ -84,9 +84,28 @@ class StudentListHead extends Component {
 class StudentListTable extends Component {
     constructor(props) {
         super(props);
+
+        this.emptyState = this.emptyState.bind(this);
+    }
+
+    emptyState() {
+        return (
+            <div className="loading-container">
+                <h4>There's nothing here.</h4>
+                <p>When added, Students will show up here.</p>
+            </div>
+        );
     }
 
     render() {
+        if (this.props.studyFields === null) {
+            // LOADING SPINNER
+        }
+
+        if (this.props.studyFields.length === 0) {
+            return this.emptyState();
+        }
+
         const sections = this.props.studyFields.map((studyField, index) => {
             return <StudentSection key={ index }
                                    title={ studyField.studyField }

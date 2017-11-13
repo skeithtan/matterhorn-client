@@ -135,12 +135,41 @@ var StudentListTable = function (_Component3) {
     function StudentListTable(props) {
         _classCallCheck(this, StudentListTable);
 
-        return _possibleConstructorReturn(this, (StudentListTable.__proto__ || Object.getPrototypeOf(StudentListTable)).call(this, props));
+        var _this3 = _possibleConstructorReturn(this, (StudentListTable.__proto__ || Object.getPrototypeOf(StudentListTable)).call(this, props));
+
+        _this3.emptyState = _this3.emptyState.bind(_this3);
+        return _this3;
     }
 
     _createClass(StudentListTable, [{
+        key: "emptyState",
+        value: function emptyState() {
+            return _react2.default.createElement(
+                "div",
+                { className: "loading-container" },
+                _react2.default.createElement(
+                    "h4",
+                    null,
+                    "There's nothing here."
+                ),
+                _react2.default.createElement(
+                    "p",
+                    null,
+                    "When added, Students will show up here."
+                )
+            );
+        }
+    }, {
         key: "render",
         value: function render() {
+            if (this.props.studyFields === null) {
+                // LOADING SPINNER
+            }
+
+            if (this.props.studyFields.length === 0) {
+                return this.emptyState();
+            }
+
             var sections = this.props.studyFields.map(function (studyField, index) {
                 return _react2.default.createElement(StudentSection, { key: index,
                     title: studyField.studyField,
