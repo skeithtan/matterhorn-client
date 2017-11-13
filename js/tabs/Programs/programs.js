@@ -20,6 +20,7 @@ function fetchPrograms(year, term, onResult) {
     graphql.query(`
     {
         programs(year:${year}, term:${term}) {
+            id
             name
             memorandum {
                 institution {
@@ -43,6 +44,9 @@ function fetchStudents(id, onResult) {
                 id
                 name
                 studentprogram_set {
+                    study_field {
+                        name
+                    }
                     student {
                         id
                         id_number
@@ -64,7 +68,7 @@ class Programs extends Component {
         this.state = {
             yearList : null,
             programList : null,
-            studentList : null,
+            studyFieldList : null,
             activeYear : null,
             activeTerm : 1,
             activeProgram : null,
@@ -91,6 +95,7 @@ class Programs extends Component {
         this.setState({
             activeYear : year,
             activeProgram : null,
+            studyFieldList : null,
         });
 
         fetchPrograms(year, this.state.activeTerm, result => {
@@ -116,19 +121,20 @@ class Programs extends Component {
     setActiveProgram(program) {
         this.setState({
             activeProgram : program,
+            studyFieldList : null,
         });
 
         fetchStudents(program.id, result => {
             this.setState({
-                studentList : result.program,
+                studyFieldList : result.program.studyfield_set,
             });
         });
     }
 
     refreshStudents() {
-        fetchStudents(program.id, result => {
+        fetchStudents(this.state.activeProgram.id, result => {
             this.setState({
-                studentList : result.program,
+                studyFieldList : result.program.studyfield_set,
             });
         });
     }
@@ -148,7 +154,7 @@ class Programs extends Component {
                              setActiveProgram={ this.setActiveProgram }/>
                 }
                 { this.state.activeProgram !== null &&
-                <StudentList studentList={ this.state.studentList }
+                <StudentList studyFieldList={ this.state.studyFieldList }
                              activeProgram={ this.state.activeProgram }
                              refreshStudents={ this.refreshStudents }/>
                 }

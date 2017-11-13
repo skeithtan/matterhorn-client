@@ -39,7 +39,7 @@ var StudentList = function (_Component) {
         };
 
         _this.setSearchKeyword = _this.setSearchKeyword.bind(_this);
-        _this.getFilteredStudents = _this.getFilteredStudents.bind(_this);
+        _this.getFilteredStudents = _this.getSortedStudyFields.bind(_this);
         return _this;
     }
 
@@ -53,7 +53,7 @@ var StudentList = function (_Component) {
             });
         }
     }, {
-        key: "getFilteredStudents",
+        key: "getSortedStudyFields",
         value: function getFilteredStudents() {
             if (this.props.students === null || this.state.searchKeyword === null) {
                 return [];
@@ -70,7 +70,7 @@ var StudentList = function (_Component) {
         key: "render",
         value: function render() {
             var isSearching = this.state.searchKeyword !== null;
-            var showingStudents = isSearching ? this.getFilteredStudents() : this.props.students;
+            var showingStudents = isSearching ? this.getSortedStudyFields() : this.props.students;
 
             return _react2.default.createElement(
                 "div",
@@ -128,7 +128,8 @@ var StudentListHead = function (_Component2) {
                     { className: "page-head-title" },
                     "Students"
                 ),
-                _react2.default.createElement(_reactstrap.Input, { type: "search", placeholder: "Search", className: "search-input", onChange: this.onSearchInputChange })
+                _react2.default.createElement(_reactstrap.Input, { type: "search", placeholder: "Search", className: "search-input",
+                    onChange: this.onSearchInputChange })
             );
         }
     }]);

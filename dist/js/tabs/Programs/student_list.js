@@ -30,31 +30,52 @@ var StudentList = function (_Component) {
 
         var _this = _possibleConstructorReturn(this, (StudentList.__proto__ || Object.getPrototypeOf(StudentList)).call(this, props));
 
-        _this.getFilteredStudents = _this.getFilteredStudents.bind(_this);
+        _this.getSortedStudyFields = _this.getSortedStudyFields.bind(_this);
         return _this;
     }
 
     _createClass(StudentList, [{
-        key: "getFilteredStudents",
-        value: function getFilteredStudents() {
-            if (this.props.studentList === null) {
+        key: "getSortedStudyFields",
+        value: function getSortedStudyFields() {
+            if (this.props.studyFieldList === null) {
                 return [];
             }
 
-            var students = [];
+            var studyFields = this.props.studyFieldList;
 
-            // TODO
+            // Get uniques only
+            studyFields = studyFields.filter(function (value, index, self) {
+                return self.indexOf(value) === index;
+            });
+
+            // A different approach
+            var categorizedByStudyField = [];
+            studyFields.forEach(function (studyField) {
+                var students = [];
+                studyField.studentprogram_set.forEach(function (studentProgram) {
+                    if (studentProgram.study_field.name === studyField.name) {
+                        students.push(studentProgram.student);
+                    }
+                });
+                categorizedByStudyField.push({
+                    studyField: studyField.name,
+                    students: students
+                });
+            });
+
+            return categorizedByStudyField;
         }
     }, {
         key: "render",
         value: function render() {
-            var students = this.getFilteredStudents();
+            var studyFields = this.getSortedStudyFields();
 
             return _react2.default.createElement(
                 "div",
                 { className: "h-100 d-flex flex-column" },
-                _react2.default.createElement(StudentListHead, { activeProgram: this.props.activeProgram }),
-                _react2.default.createElement(StudentListTable, null)
+                _react2.default.createElement(StudentListHead, { activeProgram: this.props.activeProgram,
+                    refreshStudents: this.props.refreshStudents }),
+                _react2.default.createElement(StudentListTable, { studyFields: studyFields })
             );
         }
     }]);
@@ -120,12 +141,16 @@ var StudentListTable = function (_Component3) {
     _createClass(StudentListTable, [{
         key: "render",
         value: function render() {
+            var sections = this.props.studyFields.map(function (studyField, index) {
+                return _react2.default.createElement(StudentSection, { key: index,
+                    title: studyField.studyField,
+                    students: studyField.students });
+            });
+
             return _react2.default.createElement(
                 "div",
                 { className: "page-body" },
-                _react2.default.createElement(StudentRow, null),
-                _react2.default.createElement(StudentRow, null),
-                _react2.default.createElement(StudentRow, null)
+                sections
             );
         }
     }]);
@@ -133,31 +158,57 @@ var StudentListTable = function (_Component3) {
     return StudentListTable;
 }(_react.Component);
 
-var StudentRow = function (_Component4) {
-    _inherits(StudentRow, _Component4);
+var StudentSection = function (_Component4) {
+    _inherits(StudentSection, _Component4);
 
-    function StudentRow(props) {
-        _classCallCheck(this, StudentRow);
+    function StudentSection(props) {
+        _classCallCheck(this, StudentSection);
 
-        return _possibleConstructorReturn(this, (StudentRow.__proto__ || Object.getPrototypeOf(StudentRow)).call(this, props));
+        return _possibleConstructorReturn(this, (StudentSection.__proto__ || Object.getPrototypeOf(StudentSection)).call(this, props));
     }
 
-    _createClass(StudentRow, [{
+    _createClass(StudentSection, [{
         key: "render",
         value: function render() {
+            var rows = this.props.students.map(function (student, index) {
+                return _react2.default.createElement(
+                    _section.SectionRow,
+                    { key: index },
+                    _react2.default.createElement(
+                        "small",
+                        { className: "d-block" },
+                        student.id_number
+                    ),
+                    _react2.default.createElement(
+                        "b",
+                        null,
+                        student.family_name
+                    ),
+                    ", ",
+                    student.first_name,
+                    " ",
+                    student.middle_name
+                );
+            });
+
             return _react2.default.createElement(
-                _section.SectionRow,
+                _section.Section,
                 null,
                 _react2.default.createElement(
-                    _section.SectionRowContent,
+                    _section.SectionTitle,
                     null,
-                    "Student Name"
+                    this.props.title
+                ),
+                _react2.default.createElement(
+                    _section.SectionTable,
+                    null,
+                    rows
                 )
             );
         }
     }]);
 
-    return StudentRow;
+    return StudentSection;
 }(_react.Component);
 
 exports.default = StudentList;

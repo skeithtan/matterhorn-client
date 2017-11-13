@@ -47,11 +47,8 @@ var ProgramList = function (_Component) {
                 return [];
             }
 
-            var institutions = [];
-
-            // Makes the list of Institution Names
-            this.props.programList.forEach(function (program) {
-                institutions.push(program.memorandum.institution.name);
+            var institutions = this.props.programList.map(function (program) {
+                return program.memorandum.institution.name;
             });
 
             // Get uniques only

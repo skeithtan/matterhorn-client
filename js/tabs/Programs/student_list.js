@@ -4,34 +4,57 @@ import {
     Button,
 } from "reactstrap";
 import {
+    Section,
+    SectionTitle,
+    SectionTable,
     SectionRow,
-    SectionRowContent,
 } from "../../components/section";
 
 class StudentList extends Component {
     constructor(props) {
         super(props);
 
-        this.getFilteredStudents = this.getFilteredStudents.bind(this);
+        this.getSortedStudyFields = this.getSortedStudyFields.bind(this);
     }
 
-    getFilteredStudents() {
-        if (this.props.studentList === null) {
+    getSortedStudyFields() {
+        if (this.props.studyFieldList === null) {
             return [];
         }
 
-        let students = [];
+        let studyFields = this.props.studyFieldList;
 
-        // TODO
+        // Get uniques only
+        studyFields = studyFields.filter((value, index, self) => {
+            return self.indexOf(value) === index;
+        });
+
+        // A different approach
+        let categorizedByStudyField = [];
+        studyFields.forEach(studyField => {
+            let students = [];
+            studyField.studentprogram_set.forEach(studentProgram => {
+                if (studentProgram.study_field.name === studyField.name) {
+                    students.push(studentProgram.student);
+                }
+            });
+            categorizedByStudyField.push({
+                studyField : studyField.name,
+                students : students,
+            });
+        });
+
+        return categorizedByStudyField;
     }
 
     render() {
-        const students = this.getFilteredStudents();
+        const studyFields = this.getSortedStudyFields();
 
         return (
             <div className="h-100 d-flex flex-column">
-                <StudentListHead activeProgram={ this.props.activeProgram }/>
-                <StudentListTable/>
+                <StudentListHead activeProgram={ this.props.activeProgram }
+                                 refreshStudents={ this.props.refreshStudents }/>
+                <StudentListTable studyFields={ studyFields }/>
             </div>
         );
     }
@@ -64,26 +87,42 @@ class StudentListTable extends Component {
     }
 
     render() {
+        const sections = this.props.studyFields.map((studyField, index) => {
+            return <StudentSection key={ index }
+                                   title={ studyField.studyField }
+                                   students={ studyField.students }/>;
+        });
+
         return (
             <div className="page-body">
-                <StudentRow/>
-                <StudentRow/>
-                <StudentRow/>
+                { sections }
             </div>
         );
     }
 }
 
-class StudentRow extends Component {
+class StudentSection extends Component {
     constructor(props) {
         super(props);
     }
 
     render() {
+        const rows = this.props.students.map((student, index) => {
+            return (
+                <SectionRow key={ index }>
+                    <small className="d-block">{ student.id_number }</small>
+                    <b>{ student.family_name }</b>, { student.first_name } { student.middle_name }
+                </SectionRow>
+            );
+        });
+
         return (
-            <SectionRow>
-                <SectionRowContent>Student Name</SectionRowContent>
-            </SectionRow>
+            <Section>
+                <SectionTitle>{ this.props.title }</SectionTitle>
+                <SectionTable>
+                    { rows }
+                </SectionTable>
+            </Section>
         );
     }
 }

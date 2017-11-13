@@ -24,11 +24,8 @@ class ProgramList extends Component {
             return [];
         }
 
-        let institutions = [];
-
-        // Makes the list of Institution Names
-        this.props.programList.forEach(program => {
-            institutions.push(program.memorandum.institution.name);
+        let institutions = this.props.programList.map(program => {
+            return program.memorandum.institution.name;
         });
 
         // Get uniques only

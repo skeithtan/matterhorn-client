@@ -43,11 +43,11 @@ function fetchYears(onResult) {
 }
 
 function fetchPrograms(year, term, onResult) {
-    _graphql2.default.query("\n    {\n        programs(year:" + year + ", term:" + term + ") {\n            name\n            memorandum {\n                institution {\n                    name\n                }\n            }\n            terms {\n                number\n            }\n        }\n    }\n    ").then(onResult);
+    _graphql2.default.query("\n    {\n        programs(year:" + year + ", term:" + term + ") {\n            id\n            name\n            memorandum {\n                institution {\n                    name\n                }\n            }\n            terms {\n                number\n            }\n        }\n    }\n    ").then(onResult);
 }
 
 function fetchStudents(id, onResult) {
-    _graphql2.default.query("\n    {\n        program(id:" + id + ") {\n            id\n            studyfield_set {\n                id\n                name\n                studentprogram_set {\n                    student {\n                        id\n                        id_number\n                        first_name\n                        middle_name\n                        family_name\n                    }\n                }\n            }\n        }\n    }\n    ").then(onResult);
+    _graphql2.default.query("\n    {\n        program(id:" + id + ") {\n            id\n            studyfield_set {\n                id\n                name\n                studentprogram_set {\n                    study_field {\n                        name\n                    }\n                    student {\n                        id\n                        id_number\n                        first_name\n                        middle_name\n                        family_name\n                    }\n                }\n            }\n        }\n    }\n    ").then(onResult);
 }
 
 var Programs = function (_Component) {
@@ -61,7 +61,7 @@ var Programs = function (_Component) {
         _this.state = {
             yearList: null,
             programList: null,
-            studentList: null,
+            studyFieldList: null,
             activeYear: null,
             activeTerm: 1,
             activeProgram: null,
@@ -95,7 +95,8 @@ var Programs = function (_Component) {
 
             this.setState({
                 activeYear: year,
-                activeProgram: null
+                activeProgram: null,
+                studyFieldList: null
             });
 
             fetchPrograms(year, this.state.activeTerm, function (result) {
@@ -126,12 +127,13 @@ var Programs = function (_Component) {
             var _this5 = this;
 
             this.setState({
-                activeProgram: program
+                activeProgram: program,
+                studyFieldList: null
             });
 
             fetchStudents(program.id, function (result) {
                 _this5.setState({
-                    studentList: result.program
+                    studyFieldList: result.program.studyfield_set
                 });
             });
         }
@@ -140,9 +142,9 @@ var Programs = function (_Component) {
         value: function refreshStudents() {
             var _this6 = this;
 
-            fetchStudents(program.id, function (result) {
+            fetchStudents(this.state.activeProgram.id, function (result) {
                 _this6.setState({
-                    studentList: result.program
+                    studyFieldList: result.program.studyfield_set
                 });
             });
         }
@@ -161,7 +163,7 @@ var Programs = function (_Component) {
                     activeProgram: this.state.activeProgram,
                     setActiveTerm: this.setActiveTerm,
                     setActiveProgram: this.setActiveProgram }),
-                this.state.activeProgram !== null && _react2.default.createElement(_student_list2.default, { studentList: this.state.studentList,
+                this.state.activeProgram !== null && _react2.default.createElement(_student_list2.default, { studyFieldList: this.state.studyFieldList,
                     activeProgram: this.state.activeProgram,
                     refreshStudents: this.refreshStudents })
             );
