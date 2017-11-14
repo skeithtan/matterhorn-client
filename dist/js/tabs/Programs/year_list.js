@@ -127,11 +127,6 @@ var YearListTable = function (_Component3) {
         return _possibleConstructorReturn(this, (YearListTable.__proto__ || Object.getPrototypeOf(YearListTable)).call(this, props));
     }
 
-    // TODO: Arrange years in ascending order
-
-    // IDK if this is right
-
-
     _createClass(YearListTable, [{
         key: "emptyState",
         value: function emptyState() {

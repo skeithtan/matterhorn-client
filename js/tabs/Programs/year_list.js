@@ -75,9 +75,6 @@ class YearListTable extends Component {
         super(props);
     }
 
-    // TODO: Arrange years in ascending order
-
-    // IDK if this is right
     emptyState() {
         return (
             <div className="loading-container">

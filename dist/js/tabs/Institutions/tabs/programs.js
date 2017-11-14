@@ -34,8 +34,8 @@ function fetchYears(institutionID, onResult) {
     _graphql2.default.query("\n    {\n        programs(institution:" + institutionID + ") {\n            academic_year {\n                academic_year_start\n            }\n        }\n    }\n    ").then(onResult);
 }
 
-function fetchPrograms(institutionID, onResult) {
-    _graphql2.default.query("\n    {\n        programs(institution:" + institutionID + ") {\n            name\n        }\n    }\n    ").then(onResult);
+function fetchPrograms(institutionID, year, onResult) {
+    _graphql2.default.query("\n    {\n        programs(institution:" + institutionID + ", year:" + year + ") {\n            id\n            name\n        }\n    }\n    ").then(onResult);
 }
 
 var Programs = function (_Component) {
@@ -47,44 +47,77 @@ var Programs = function (_Component) {
         var _this = _possibleConstructorReturn(this, (Programs.__proto__ || Object.getPrototypeOf(Programs)).call(this, props));
 
         _this.state = {
-            yearList: null,
-            programList: null,
             institutionID: props.institution.id,
-            currentYear: null,
-            currentProgram: null
+            yearList: null,
+            activeYear: null,
+            programList: null,
+            activeProgram: null
         };
 
-        _this.setCurrentYear = _this.setCurrentYear.bind(_this);
-        _this.setCurrentProgram = _this.setCurrentProgram.bind(_this);
+        _this.getOrderedYears = _this.getOrderedYears.bind(_this);
+        _this.setActiveYear = _this.setActiveYear.bind(_this);
+        _this.setActiveProgram = _this.setActiveProgram.bind(_this);
 
-        fetchYears(props.institution.id, function (result) {
+        fetchYears(_this.state.institutionID, function (result) {
             _this.setState({
-                yearList: result.programs
+                yearList: _this.getOrderedYears(result.programs)
             });
-        });
-
-        fetchPrograms(props.institution.id, function (result) {
-            _this.setState({
-                programList: result.programs
-            });
+            if (_this.state.yearList !== null) {
+                _this.setState({
+                    activeYear: _this.state.yearList[0]
+                });
+            }
+            if (_this.state.activeYear !== undefined) {
+                fetchPrograms(props.institution.id, _this.state.activeYear, function (result) {
+                    _this.setState({
+                        programList: result.programs
+                    });
+                });
+            }
         });
         return _this;
     }
 
     _createClass(Programs, [{
-        key: "setCurrentYear",
-        value: function setCurrentYear(year) {
-            console.log(year);
+        key: "setActiveYear",
+        value: function setActiveYear(year) {
             this.setState({
-                currentYear: year
+                activeYear: year,
+                activeProgram: null
             });
         }
     }, {
-        key: "setCurrentProgram",
-        value: function setCurrentProgram(program) {
+        key: "setActiveProgram",
+        value: function setActiveProgram(program) {
             this.setState({
-                currentProgram: program
+                activeProgram: program
             });
+            console.log(program);
+        }
+    }, {
+        key: "getOrderedYears",
+        value: function getOrderedYears(programs) {
+            if (programs.length === 0) {
+                return [];
+            }
+
+            var years = [];
+
+            programs.forEach(function (year) {
+                years.push(year.academic_year.academic_year_start);
+            });
+
+            // Get uniques only
+            years = years.filter(function (value, index, self) {
+                return self.indexOf(value) === index;
+            });
+
+            // Arrange in ascending order
+            years = years.sort(function (a, b) {
+                return a - b;
+            });
+
+            return years;
         }
     }, {
         key: "componentWillReceiveProps",
@@ -98,19 +131,26 @@ var Programs = function (_Component) {
             this.setState({
                 institutionID: nextProps.institution.id,
                 yearList: null,
-                programList: null
+                programList: null,
+                activeYear: null
             });
 
             fetchYears(nextProps.institution.id, function (result) {
                 _this2.setState({
-                    yearList: result.programs
+                    yearList: _this2.getOrderedYears(result.programs)
                 });
-            });
-
-            fetchPrograms(nextProps.institution.id, function (result) {
-                _this2.setState({
-                    programList: result.programs
-                });
+                if (_this2.state.yearList !== null) {
+                    _this2.setState({
+                        activeYear: _this2.state.yearList[0]
+                    });
+                }
+                if (_this2.state.activeYear !== undefined) {
+                    fetchPrograms(nextProps.institution.id, _this2.state.activeYear, function (result) {
+                        _this2.setState({
+                            programList: result.programs
+                        });
+                    });
+                }
             });
         }
     }, {
@@ -118,12 +158,13 @@ var Programs = function (_Component) {
         value: function render() {
             return _react2.default.createElement(
                 "div",
-                { className: "h-100 w-100" },
+                { className: "w-100" },
                 _react2.default.createElement(ProgramsHead, { institution: this.props.institution,
                     years: this.state.yearList,
-                    setCurrentYear: this.setCurrentYear }),
+                    setCurrentYear: this.setActiveYear }),
                 _react2.default.createElement(ProgramsTable, { programs: this.state.programList,
-                    setCurrentProgram: this.setCurrentProgram })
+                    currentProgram: this.state.activeProgram,
+                    setCurrentProgram: this.setActiveProgram })
             );
         }
     }]);
@@ -141,35 +182,16 @@ var ProgramsHead = function (_Component2) {
     }
 
     _createClass(ProgramsHead, [{
-        key: "getOrderedYears",
-        value: function getOrderedYears() {
-            if (this.props.years === null) {
-                return [];
-            }
-
-            var years = this.props.years.map(function (year) {
-                return Number(year.academic_year.academic_year_start);
-            });
-            years = years.sort(function (a, b) {
-                return a - b;
-            });
-
-            return years;
-        }
-    }, {
-        key: "toggleAddPrograms",
-        value: function toggleAddPrograms() {
-            //TODO
-        }
-    }, {
         key: "render",
         value: function render() {
-            var _this4 = this;
+            if (this.props.years === null) {
+                return _react2.default.createElement(_loading2.default, null);
+            }
 
-            var years = this.getOrderedYears().map(function (year, index) {
+            var years = this.props.years.map(function (year, index) {
                 return _react2.default.createElement(
                     "option",
-                    { key: index, value: year },
+                    { key: index },
                     year,
                     " - ",
                     year + 1
@@ -196,13 +218,9 @@ var ProgramsHead = function (_Component2) {
                 _react2.default.createElement(
                     "div",
                     { className: "page-head-actions" },
-                    years.length !== 0 && _react2.default.createElement(
+                    this.props.years.length !== 0 && _react2.default.createElement(
                         "select",
-                        { className: "form-control mr-3",
-                            onChange: function onChange() {
-                                return _this4.props.setCurrentYear;
-                            },
-                            defaultValue: this.getOrderedYears()[0] },
+                        { className: "form-control mr-3 btn btn-outline-success" },
                         years
                     ),
                     _react2.default.createElement(
@@ -228,12 +246,35 @@ var ProgramsTable = function (_Component3) {
     }
 
     _createClass(ProgramsTable, [{
+        key: "emptyState",
+        value: function emptyState() {
+            return _react2.default.createElement(
+                "div",
+                { className: "loading-container" },
+                _react2.default.createElement(
+                    "h4",
+                    null,
+                    "There's nothing here."
+                ),
+                _react2.default.createElement(
+                    "p",
+                    null,
+                    "When added, Students will show up here."
+                )
+            );
+        }
+    }, {
         key: "render",
         value: function render() {
+            if (this.props.programs === null || this.props.programs.length === 0) {
+                return this.emptyState();
+            }
+
             return _react2.default.createElement(
                 "div",
                 { className: "w-100" },
                 _react2.default.createElement(ProgramsListSection, { programs: this.props.programs,
+                    currentProgram: this.props.currentProgram,
                     setCurrentProgram: this.props.setCurrentProgram })
             );
         }
@@ -248,42 +289,28 @@ var ProgramsListSection = function (_Component4) {
     function ProgramsListSection(props) {
         _classCallCheck(this, ProgramsListSection);
 
-        var _this6 = _possibleConstructorReturn(this, (ProgramsListSection.__proto__ || Object.getPrototypeOf(ProgramsListSection)).call(this, props));
-
-        _this6.emptyState = _this6.emptyState.bind(_this6);
-        return _this6;
+        return _possibleConstructorReturn(this, (ProgramsListSection.__proto__ || Object.getPrototypeOf(ProgramsListSection)).call(this, props));
     }
 
     _createClass(ProgramsListSection, [{
-        key: "emptyState",
-        value: function emptyState() {
-            // TODO
-            return _react2.default.createElement(
-                "div",
-                null,
-                "This is empty"
-            );
-        }
-    }, {
         key: "render",
         value: function render() {
-            var _this7 = this;
-
-            if (this.props.programs === null) {
-                return _react2.default.createElement(_loading2.default, null);
-            }
-
-            if (this.props.programs.length === 0) {
-                return this.emptyState();
-            }
+            var _this6 = this;
 
             var rows = this.props.programs.map(function (program, index) {
-                //TODO: onClick
+                var isActive = false;
+
+                if (_this6.props.currentProgram !== null) {
+                    isActive = _this6.props.currentProgram.id === program.id;
+                }
+
+                var setCurrentProgram = function setCurrentProgram() {
+                    return _this6.props.setCurrentProgram(program);
+                };
+
                 return _react2.default.createElement(
                     _section.SectionRow,
-                    { key: index, onClick: function onClick() {
-                            return _this7.props.setCurrentProgram(program);
-                        } },
+                    { key: index, onClick: setCurrentProgram, active: isActive },
                     _react2.default.createElement(
                         _section.SectionRowContent,
                         { large: true },

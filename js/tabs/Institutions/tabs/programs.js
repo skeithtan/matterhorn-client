@@ -22,10 +22,11 @@ function fetchYears(institutionID, onResult) {
     `).then(onResult);
 }
 
-function fetchPrograms(institutionID, onResult) {
+function fetchPrograms(institutionID, year, onResult) {
     graphql.query(`
     {
-        programs(institution:${institutionID}) {
+        programs(institution:${institutionID}, year:${year}) {
+            id
             name
         }
     }
@@ -37,40 +38,72 @@ class Programs extends Component {
         super(props);
 
         this.state = {
-            yearList : null,
-            programList : null,
             institutionID : props.institution.id,
-            currentYear : null,
-            currentProgram : null,
+            yearList : null,
+            activeYear : null,
+            programList : null,
+            activeProgram : null,
         };
 
-        this.setCurrentYear = this.setCurrentYear.bind(this);
-        this.setCurrentProgram = this.setCurrentProgram.bind(this);
+        this.getOrderedYears = this.getOrderedYears.bind(this);
+        this.setActiveYear = this.setActiveYear.bind(this);
+        this.setActiveProgram = this.setActiveProgram.bind(this);
 
-        fetchYears(props.institution.id, result => {
+        fetchYears(this.state.institutionID, result => {
             this.setState({
-                yearList : result.programs,
+                yearList : this.getOrderedYears(result.programs),
             });
-        });
-
-        fetchPrograms(props.institution.id, result => {
-            this.setState({
-                programList : result.programs,
-            });
+            if (this.state.yearList !== null) {
+                this.setState({
+                    activeYear : this.state.yearList[0],
+                });
+            }
+            if (this.state.activeYear !== undefined) {
+                fetchPrograms(props.institution.id, this.state.activeYear, result => {
+                    this.setState({
+                        programList : result.programs,
+                    });
+                });
+            }
         });
     }
 
-    setCurrentYear(year) {
-        console.log(year);
+    setActiveYear(year) {
         this.setState({
-            currentYear : year,
+            activeYear : year,
+            activeProgram : null,
         });
     }
 
-    setCurrentProgram(program) {
+    setActiveProgram(program) {
         this.setState({
-            currentProgram : program,
+            activeProgram : program,
         });
+        console.log(program);
+    }
+
+    getOrderedYears(programs) {
+        if (programs.length === 0) {
+            return [];
+        }
+
+        let years = [];
+
+        programs.forEach(year => {
+            years.push(year.academic_year.academic_year_start);
+        });
+
+        // Get uniques only
+        years = years.filter((value, index, self) => {
+            return self.indexOf(value) === index;
+        });
+
+        // Arrange in ascending order
+        years = years.sort(function (a, b) {
+            return a - b;
+        });
+
+        return years;
     }
 
     componentWillReceiveProps(nextProps) {
@@ -82,29 +115,37 @@ class Programs extends Component {
             institutionID : nextProps.institution.id,
             yearList : null,
             programList : null,
+            activeYear : null,
         });
 
         fetchYears(nextProps.institution.id, result => {
             this.setState({
-                yearList : result.programs,
+                yearList : this.getOrderedYears(result.programs),
             });
-        });
-
-        fetchPrograms(nextProps.institution.id, result => {
-            this.setState({
-                programList : result.programs,
-            });
+            if (this.state.yearList !== null) {
+                this.setState({
+                    activeYear : this.state.yearList[0],
+                });
+            }
+            if (this.state.activeYear !== undefined) {
+                fetchPrograms(nextProps.institution.id, this.state.activeYear, result => {
+                    this.setState({
+                        programList : result.programs,
+                    });
+                });
+            }
         });
     }
 
     render() {
         return (
-            <div className="h-100 w-100">
+            <div className="w-100">
                 <ProgramsHead institution={ this.props.institution }
                               years={ this.state.yearList }
-                              setCurrentYear={ this.setCurrentYear }/>
+                              setCurrentYear={ this.setActiveYear }/>
                 <ProgramsTable programs={ this.state.programList }
-                               setCurrentProgram={ this.setCurrentProgram }/>
+                               currentProgram={ this.state.activeProgram }
+                               setCurrentProgram={ this.setActiveProgram }/>
             </div>
         );
     }
@@ -115,26 +156,13 @@ class ProgramsHead extends Component {
         super(props);
     }
 
-    getOrderedYears() {
+    render() {
         if (this.props.years === null) {
-            return [];
+            return <LoadingSpinner/>;
         }
 
-        let years = this.props.years.map(year => Number(year.academic_year.academic_year_start));
-        years = years.sort(function (a, b) {
-            return a - b;
-        });
-
-        return years;
-    }
-
-    toggleAddPrograms() {
-        //TODO
-    }
-
-    render() {
-        const years = this.getOrderedYears().map((year, index) => {
-            return <option key={ index } value={ year }>{ year } - { year + 1 }</option>;
+        const years = this.props.years.map((year, index) => {
+            return <option key={ index }>{ year } - { year + 1 }</option>;
         });
 
         return (
@@ -145,12 +173,11 @@ class ProgramsHead extends Component {
                 </div>
 
                 <div className="page-head-actions">
-                    { years.length !== 0 &&
-                    <select className="form-control mr-3"
-                            onChange={ () => this.props.setCurrentYear }
-                            defaultValue={ this.getOrderedYears()[0] }>
+                    { this.props.years.length !== 0 &&
+                    <select className="form-control mr-3 btn btn-outline-success">
                         { years }
-                    </select> }
+                    </select>
+                    }
                     <Button outline size="sm" color="success">
                         Add a Program
                     </Button>
@@ -165,10 +192,24 @@ class ProgramsTable extends Component {
         super(props);
     }
 
+    emptyState() {
+        return (
+            <div className="loading-container">
+                <h4>There's nothing here.</h4>
+                <p>When added, Students will show up here.</p>
+            </div>
+        );
+    }
+
     render() {
+        if (this.props.programs === null || this.props.programs.length === 0) {
+            return this.emptyState();
+        }
+
         return (
             <div className="w-100">
                 <ProgramsListSection programs={ this.props.programs }
+                                     currentProgram={ this.props.currentProgram }
                                      setCurrentProgram={ this.props.setCurrentProgram }/>
             </div>
         );
@@ -178,32 +219,20 @@ class ProgramsTable extends Component {
 class ProgramsListSection extends Component {
     constructor(props) {
         super(props);
-
-        this.emptyState = this.emptyState.bind(this);
-    }
-
-    emptyState() {
-        // TODO
-        return (
-            <div>
-                This is empty
-            </div>
-        );
     }
 
     render() {
-        if (this.props.programs === null) {
-            return <LoadingSpinner/>;
-        }
-
-        if (this.props.programs.length === 0) {
-            return this.emptyState();
-        }
-
         let rows = this.props.programs.map((program, index) => {
-            //TODO: onClick
+            let isActive = false;
+
+            if (this.props.currentProgram !== null) {
+                isActive = this.props.currentProgram.id === program.id;
+            }
+
+            const setCurrentProgram = () => this.props.setCurrentProgram(program);
+
             return (
-                <SectionRow key={ index } onClick={ () => this.props.setCurrentProgram(program) }>
+                <SectionRow key={ index } onClick={ setCurrentProgram } active={ isActive }>
                     <SectionRowContent large>{ program.name }</SectionRowContent>
                 </SectionRow>
             );
