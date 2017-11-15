@@ -33,6 +33,10 @@
     color : var(--dlsu-green) !important;
 }
 
+body {
+    overflow : hidden;
+}
+
 /*Content*/
 #content {
     overflow-x : scroll;
