@@ -56,19 +56,15 @@ var Home = function (_Component) {
             return _react2.default.createElement(
                 "div",
                 { id: "home",
-                    className: "container-fluid d-flex flex-row p-0 h-100" },
+                    className: "d-flex flex-column p-0 h-100 w-100" },
                 _react2.default.createElement(
                     "div",
-                    { className: "d-flex flex-column p-0 h-100 w-100" },
-                    _react2.default.createElement(
-                        "div",
-                        { id: "tab-content" },
-                        this.state.activeTab.tab
-                    ),
-                    _react2.default.createElement(_tab_bar2.default, { setActiveTab: this.setActiveTab,
-                        activeTab: this.state.activeTab,
-                        tabs: _home_tabs_list2.default })
-                )
+                    { id: "tab-content" },
+                    this.state.activeTab.tab
+                ),
+                _react2.default.createElement(_tab_bar2.default, { setActiveTab: this.setActiveTab,
+                    activeTab: this.state.activeTab,
+                    tabs: _home_tabs_list2.default })
             );
         }
     }]);
