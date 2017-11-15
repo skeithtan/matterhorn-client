@@ -4,6 +4,7 @@ import ProgramList from "./program_list";
 import StudentList from "./student_list";
 import terms from "./terms_list";
 import graphql from "../../graphql";
+import { AcademicYearSidebarPane } from "./sidebar_panes";
 
 
 function fetchYears(onResult) {
@@ -73,14 +74,22 @@ class Programs extends Component {
             activeTerm : 1,
             activeProgram : null,
             activeStudyField : null,
+            sidebarContent : null,
         };
 
         this.refreshYears = this.refreshYears.bind(this);
         this.setActiveYear = this.setActiveYear.bind(this);
         this.setActiveTerm = this.setActiveTerm.bind(this);
-        this.setActiveProgram = this.setActiveProgram.bind(this);
         this.refreshStudents = this.refreshStudents.bind(this);
+        this.setActiveProgram = this.setActiveProgram.bind(this);
+        this.setSidebarContent = this.setSidebarContent.bind(this);
         this.refreshYears();
+    }
+
+    setSidebarContent(sidebarContent) {
+        this.setState({
+            sidebarContent : sidebarContent,
+        });
     }
 
     refreshYears() {
@@ -93,16 +102,18 @@ class Programs extends Component {
 
     setActiveYear(year) {
         this.setState({
-            activeYear : year,
+            activeYear : year.academic_year_start,
             activeProgram : null,
             studyFieldList : null,
         });
 
-        fetchPrograms(year, this.state.activeTerm, result => {
+        fetchPrograms(year.academic_year_start, this.state.activeTerm, result => {
             this.setState({
                 programList : result.programs,
             });
         });
+
+        this.setSidebarContent(<AcademicYearSidebarPane academicYear={year}/>);
     }
 
     setActiveTerm(term) {
@@ -140,24 +151,36 @@ class Programs extends Component {
     }
 
     render() {
+        let sidebarClass = "sidebar-right ";
+        if (this.state.sidebarContent === null) {
+            sidebarClass += "dismissed";
+        }
+
         return (
-            <div id="programs-page" className="container-fluid d-flex flex-row p-0 h-100 page-body">
-                <YearList yearList={ this.state.yearList }
-                          setActiveYear={ this.setActiveYear }
-                          activeYear={ this.state.activeYear }/>
-                { this.state.activeYear !== null &&
-                <ProgramList programList={ this.state.programList }
-                             activeYear={ this.state.activeYear }
-                             activeTerm={ this.state.activeTerm }
-                             activeProgram={ this.state.activeProgram }
-                             setActiveTerm={ this.setActiveTerm }
-                             setActiveProgram={ this.setActiveProgram }/>
-                }
-                { this.state.activeProgram !== null &&
-                <StudentList studyFieldList={ this.state.studyFieldList }
-                             activeProgram={ this.state.activeProgram }
-                             refreshStudents={ this.refreshStudents }/>
-                }
+            <div className="d-flex flex-row h-100">
+                <div id="programs-page"
+                     className="container-fluid d-flex flex-row p-0 h-100 page-body">
+                    <YearList yearList={this.state.yearList}
+                              setActiveYear={this.setActiveYear}
+                              activeYear={this.state.activeYear}/>
+                    {this.state.activeYear !== null &&
+                    <ProgramList programList={this.state.programList}
+                                 activeYear={this.state.activeYear}
+                                 activeTerm={this.state.activeTerm}
+                                 activeProgram={this.state.activeProgram}
+                                 setActiveTerm={this.setActiveTerm}
+                                 setActiveProgram={this.setActiveProgram}/>
+                    }
+                    {this.state.activeProgram !== null &&
+                    <StudentList studyFieldList={this.state.studyFieldList}
+                                 activeProgram={this.state.activeProgram}
+                                 refreshStudents={this.refreshStudents}/>
+                    }
+
+                </div>
+                <div className={sidebarClass}>
+                    {this.state.sidebarContent}
+                </div>
             </div>
         );
     }

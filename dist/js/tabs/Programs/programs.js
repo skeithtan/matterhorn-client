@@ -30,6 +30,8 @@ var _graphql = require("../../graphql");
 
 var _graphql2 = _interopRequireDefault(_graphql);
 
+var _sidebar_panes = require("./sidebar_panes");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -65,19 +67,28 @@ var Programs = function (_Component) {
             activeYear: null,
             activeTerm: 1,
             activeProgram: null,
-            activeStudyField: null
+            activeStudyField: null,
+            sidebarContent: null
         };
 
         _this.refreshYears = _this.refreshYears.bind(_this);
         _this.setActiveYear = _this.setActiveYear.bind(_this);
         _this.setActiveTerm = _this.setActiveTerm.bind(_this);
-        _this.setActiveProgram = _this.setActiveProgram.bind(_this);
         _this.refreshStudents = _this.refreshStudents.bind(_this);
+        _this.setActiveProgram = _this.setActiveProgram.bind(_this);
+        _this.setSidebarContent = _this.setSidebarContent.bind(_this);
         _this.refreshYears();
         return _this;
     }
 
     _createClass(Programs, [{
+        key: "setSidebarContent",
+        value: function setSidebarContent(sidebarContent) {
+            this.setState({
+                sidebarContent: sidebarContent
+            });
+        }
+    }, {
         key: "refreshYears",
         value: function refreshYears() {
             var _this2 = this;
@@ -94,16 +105,18 @@ var Programs = function (_Component) {
             var _this3 = this;
 
             this.setState({
-                activeYear: year,
+                activeYear: year.academic_year_start,
                 activeProgram: null,
                 studyFieldList: null
             });
 
-            fetchPrograms(year, this.state.activeTerm, function (result) {
+            fetchPrograms(year.academic_year_start, this.state.activeTerm, function (result) {
                 _this3.setState({
                     programList: result.programs
                 });
             });
+
+            this.setSidebarContent(_react2.default.createElement(_sidebar_panes.AcademicYearSidebarPane, { academicYear: year }));
         }
     }, {
         key: "setActiveTerm",
@@ -151,21 +164,36 @@ var Programs = function (_Component) {
     }, {
         key: "render",
         value: function render() {
+            var sidebarClass = "sidebar-right ";
+            if (this.state.sidebarContent === null) {
+                sidebarClass += "dismissed";
+            }
+
             return _react2.default.createElement(
                 "div",
-                { id: "programs-page", className: "container-fluid d-flex flex-row p-0 h-100 page-body" },
-                _react2.default.createElement(_year_list2.default, { yearList: this.state.yearList,
-                    setActiveYear: this.setActiveYear,
-                    activeYear: this.state.activeYear }),
-                this.state.activeYear !== null && _react2.default.createElement(_program_list2.default, { programList: this.state.programList,
-                    activeYear: this.state.activeYear,
-                    activeTerm: this.state.activeTerm,
-                    activeProgram: this.state.activeProgram,
-                    setActiveTerm: this.setActiveTerm,
-                    setActiveProgram: this.setActiveProgram }),
-                this.state.activeProgram !== null && _react2.default.createElement(_student_list2.default, { studyFieldList: this.state.studyFieldList,
-                    activeProgram: this.state.activeProgram,
-                    refreshStudents: this.refreshStudents })
+                { className: "d-flex flex-row h-100" },
+                _react2.default.createElement(
+                    "div",
+                    { id: "programs-page",
+                        className: "container-fluid d-flex flex-row p-0 h-100 page-body" },
+                    _react2.default.createElement(_year_list2.default, { yearList: this.state.yearList,
+                        setActiveYear: this.setActiveYear,
+                        activeYear: this.state.activeYear }),
+                    this.state.activeYear !== null && _react2.default.createElement(_program_list2.default, { programList: this.state.programList,
+                        activeYear: this.state.activeYear,
+                        activeTerm: this.state.activeTerm,
+                        activeProgram: this.state.activeProgram,
+                        setActiveTerm: this.setActiveTerm,
+                        setActiveProgram: this.setActiveProgram }),
+                    this.state.activeProgram !== null && _react2.default.createElement(_student_list2.default, { studyFieldList: this.state.studyFieldList,
+                        activeProgram: this.state.activeProgram,
+                        refreshStudents: this.refreshStudents })
+                ),
+                _react2.default.createElement(
+                    "div",
+                    { className: sidebarClass },
+                    this.state.sidebarContent
+                )
             );
         }
     }]);

@@ -33,23 +33,10 @@ class YearList extends Component {
             return [];
         }
 
-        let years = [];
-
-        this.props.yearList.forEach(year => {
-            years.push(year.academic_year_start);
-        });
-
-        // Get uniques only
-        years = years.filter((value, index, self) => {
-            return self.indexOf(value) === index;
-        });
-
         // Arrange in ascending order
-        years = years.sort(function (a, b) {
-            return a - b;
+        return this.props.yearList.sort(function (a, b) {
+            return a.academic_year_start - b.academic_year_start;
         });
-
-        return years;
     }
 
     render() {
@@ -96,6 +83,7 @@ class YearListTable extends Component {
     }
 
     emptyState() {
+        //TODO: Add year
         return (
             <div className="loading-container">
                 <h4>There's nothing here.</h4>
@@ -116,12 +104,12 @@ class YearListTable extends Component {
             let isActive = false;
 
             if (this.props.activeYear !== null) {
-                isActive = this.props.activeYear === year;
+                isActive = this.props.activeYear.academic_year_start === year.academic_year_start;
             }
 
             const setActiveYear = () => this.props.setActiveYear(year);
 
-            const yearStart = Number(year);
+            const yearStart = Number(year.academic_year_start);
             return <SectionRow selectable
                                key={index}
                                onClick={setActiveYear}

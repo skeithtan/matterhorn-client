@@ -59,23 +59,10 @@ var YearList = function (_Component) {
                 return [];
             }
 
-            var years = [];
-
-            this.props.yearList.forEach(function (year) {
-                years.push(year.academic_year_start);
-            });
-
-            // Get uniques only
-            years = years.filter(function (value, index, self) {
-                return self.indexOf(value) === index;
-            });
-
             // Arrange in ascending order
-            years = years.sort(function (a, b) {
-                return a - b;
+            return this.props.yearList.sort(function (a, b) {
+                return a.academic_year_start - b.academic_year_start;
             });
-
-            return years;
         }
     }, {
         key: "render",
@@ -151,6 +138,7 @@ var YearListTable = function (_Component3) {
     _createClass(YearListTable, [{
         key: "emptyState",
         value: function emptyState() {
+            //TODO: Add year
             return _react2.default.createElement(
                 "div",
                 { className: "loading-container" },
@@ -178,14 +166,14 @@ var YearListTable = function (_Component3) {
                 var isActive = false;
 
                 if (_this4.props.activeYear !== null) {
-                    isActive = _this4.props.activeYear === year;
+                    isActive = _this4.props.activeYear.academic_year_start === year.academic_year_start;
                 }
 
                 var setActiveYear = function setActiveYear() {
                     return _this4.props.setActiveYear(year);
                 };
 
-                var yearStart = Number(year);
+                var yearStart = Number(year.academic_year_start);
                 return _react2.default.createElement(
                     _section.SectionRow,
                     { selectable: true,
