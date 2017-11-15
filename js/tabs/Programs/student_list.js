@@ -10,12 +10,24 @@ import {
     SectionRow,
 } from "../../components/section";
 import LoadingSpinner from "../../components/loading";
+import { StudentFormModal } from "./modals";
 
 class StudentList extends Component {
     constructor(props) {
         super(props);
 
+        this.state = {
+            addStudentsIsShowing : false,
+        };
+
+        this.toggleAddStudents = this.toggleAddStudents.bind(this);
         this.getSortedStudyFields = this.getSortedStudyFields.bind(this);
+    }
+
+    toggleAddStudents() {
+        this.setState({
+            addStudentsIsShowing : !this.state.addStudentsIsShowing,
+        });
     }
 
     getSortedStudyFields() {
@@ -54,8 +66,13 @@ class StudentList extends Component {
         return (
             <div className="programs-page-pane d-flex flex-column">
                 <StudentListHead activeProgram={ this.props.activeProgram }
-                                 refreshStudents={ this.props.refreshStudents }/>
+                                 toggleAddStudents={ this.toggleAddStudents }/>
                 <StudentListTable studyFields={ studyFields }/>
+                <StudentFormModal activeProgram={ this.props.activeProgram }
+                                  studyFields={ studyFields }
+                                  refreshStudents={ this.props.refreshStudents }
+                                  toggle={ this.toggleAddStudents }
+                                  isOpen={ this.state.addStudentsIsShowing }/>
             </div>
         );
     }
@@ -70,7 +87,8 @@ class StudentListHead extends Component {
         return (
             <div className="page-head d-flex flex-column align-items-center">
                 <div className="page-head-controls ml-auto">
-                    <Button outline color="success" size="sm" className="ml-auto">Add</Button>
+                    <Button outline color="success" size="sm" className="ml-auto"
+                            onClick={ this.props.toggleAddStudents }>Add</Button>
                 </div>
                 <div className="w-100 mb-2">
                     <h5 className="mb-0 text-secondary">Students</h5>

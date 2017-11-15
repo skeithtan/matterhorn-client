@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.AcademicYearFormModal = undefined;
+exports.StudentFormModal = exports.AcademicYearFormModal = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -20,6 +20,10 @@ var _form_validator2 = _interopRequireDefault(_form_validator);
 var _moment = require("moment");
 
 var _moment2 = _interopRequireDefault(_moment);
+
+var _graphql = require("../../graphql");
+
+var _graphql2 = _interopRequireDefault(_graphql);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -504,5 +508,134 @@ var AcademicYearFormModal = function (_Component) {
     return AcademicYearFormModal;
 }(_react.Component);
 
+function fetchAllStudents(onResult) {
+    _graphql2.default.query("\n    {\n        students {\n            id\n            first_name\n            middle_name\n            family_name\n        }\n    }\n    ").then(onResult);
+}
+
+var StudentFormModal = function (_Component2) {
+    _inherits(StudentFormModal, _Component2);
+
+    function StudentFormModal(props) {
+        _classCallCheck(this, StudentFormModal);
+
+        var _this4 = _possibleConstructorReturn(this, (StudentFormModal.__proto__ || Object.getPrototypeOf(StudentFormModal)).call(this, props));
+
+        _this4.componentWillReceiveProps(props);
+        return _this4;
+    }
+
+    _createClass(StudentFormModal, [{
+        key: "componentWillReceiveProps",
+        value: function componentWillReceiveProps(newProps) {
+            var _this5 = this;
+
+            this.state = {
+                studentList: null,
+                form: {
+                    study_field: "",
+                    students: []
+                }
+            };
+
+            fetchAllStudents(function (result) {
+                _this5.setState({
+                    studentList: result.students
+                });
+            });
+
+            if (newProps.program !== undefined) {
+                Object.assign(this.state.form, newProps.program);
+                this.state.form.students = [];
+            }
+        }
+    }, {
+        key: "getChangeHandler",
+        value: function getChangeHandler(fieldName) {
+            var _this6 = this;
+
+            var form = this.state.form;
+
+            return function (event) {
+                var value = event.target.value;
+
+                form[fieldName] = value;
+
+                _this6.setState({
+                    form: form
+                });
+            };
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            if (this.props.studyFields === null) {}
+
+            if (this.props.studyFields.length === 0) {}
+
+            var studyFields = this.props.studyFields.map(function (studyField, index) {
+                return _react2.default.createElement(
+                    "option",
+                    { key: index, value: studyField.id },
+                    studyField.studyField
+                );
+            });
+
+            return _react2.default.createElement(
+                _reactstrap.Modal,
+                { isOpen: this.props.isOpen, toggle: this.props.toggle, backdrop: true,
+                    id: "add-students-modal" },
+                _react2.default.createElement(
+                    _reactstrap.ModalHeader,
+                    null,
+                    "Add Students to ",
+                    this.props.activeProgram.name
+                ),
+                _react2.default.createElement(
+                    _reactstrap.ModalBody,
+                    null,
+                    _react2.default.createElement(
+                        _reactstrap.Form,
+                        null,
+                        _react2.default.createElement(
+                            _reactstrap.FormGroup,
+                            null,
+                            _react2.default.createElement(
+                                _reactstrap.Label,
+                                null,
+                                "Study Field"
+                            ),
+                            _react2.default.createElement(
+                                _reactstrap.Input,
+                                { type: "select", defaultValue: this.state.form.category,
+                                    onChange: this.getChangeHandler("study_field") },
+                                studyFields
+                            )
+                        ),
+                        _react2.default.createElement("br", null),
+                        this.state.studentList !== null && _react2.default.createElement(
+                            "div",
+                            null,
+                            _react2.default.createElement(
+                                "h5",
+                                null,
+                                "Students"
+                            ),
+                            _react2.default.createElement(
+                                "small",
+                                { className: "text-secondary mb-3 d-block" },
+                                "Select all students that apply to this study field."
+                            ),
+                            _react2.default.createElement(_reactstrap.ListGroup, null)
+                        )
+                    )
+                )
+            );
+        }
+    }]);
+
+    return StudentFormModal;
+}(_react.Component);
+
 exports.AcademicYearFormModal = AcademicYearFormModal;
+exports.StudentFormModal = StudentFormModal;
 //# sourceMappingURL=modals.js.map
