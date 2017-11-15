@@ -42,6 +42,10 @@ var tabs = [{
     name: "Programs",
     tab: _react2.default.createElement(_programs2.default, null),
     image: "./images/airplane.png"
+}, {
+    name: "Archives",
+    tab: null,
+    image: "./images/archive.png"
 }];
 
 exports.default = tabs;

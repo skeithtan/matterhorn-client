@@ -4,6 +4,7 @@ import Institutions from "./Institutions/institutions";
 import Students from "./Students/students";
 import Programs from "./Programs/programs";
 
+
 const tabs = [
     {
         name : "Home",
@@ -23,7 +24,12 @@ const tabs = [
     {
         name : "Programs",
         tab : <Programs/>,
-        image : "./images/airplane.png"
+        image : "./images/airplane.png",
+    },
+    {
+        name : "Archives",
+        tab : null,
+        image : "./images/archive.png",
     },
 ];
 
