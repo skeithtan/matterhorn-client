@@ -18,22 +18,22 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var HomeTabBar = function (_Component) {
-    _inherits(HomeTabBar, _Component);
+var TabBar = function (_Component) {
+    _inherits(TabBar, _Component);
 
-    function HomeTabBar(props) {
-        _classCallCheck(this, HomeTabBar);
+    function TabBar(props) {
+        _classCallCheck(this, TabBar);
 
-        return _possibleConstructorReturn(this, (HomeTabBar.__proto__ || Object.getPrototypeOf(HomeTabBar)).call(this, props));
+        return _possibleConstructorReturn(this, (TabBar.__proto__ || Object.getPrototypeOf(TabBar)).call(this, props));
     }
 
-    _createClass(HomeTabBar, [{
+    _createClass(TabBar, [{
         key: "render",
         value: function render() {
             var _this2 = this;
 
             var tabs = this.props.tabs.map(function (tab, index) {
-                return _react2.default.createElement(HomeTab, { tab: tab,
+                return _react2.default.createElement(TabItem, { tab: tab,
                     key: index,
                     onClick: function onClick() {
                         return _this2.props.setActiveTab(tab);
@@ -53,19 +53,19 @@ var HomeTabBar = function (_Component) {
         }
     }]);
 
-    return HomeTabBar;
+    return TabBar;
 }(_react.Component);
 
-var HomeTab = function (_Component2) {
-    _inherits(HomeTab, _Component2);
+var TabItem = function (_Component2) {
+    _inherits(TabItem, _Component2);
 
-    function HomeTab(props) {
-        _classCallCheck(this, HomeTab);
+    function TabItem(props) {
+        _classCallCheck(this, TabItem);
 
-        return _possibleConstructorReturn(this, (HomeTab.__proto__ || Object.getPrototypeOf(HomeTab)).call(this, props));
+        return _possibleConstructorReturn(this, (TabItem.__proto__ || Object.getPrototypeOf(TabItem)).call(this, props));
     }
 
-    _createClass(HomeTab, [{
+    _createClass(TabItem, [{
         key: "render",
         value: function render() {
             var image = this.props.isActive ? this.props.tab.activeImage : this.props.tab.image;
@@ -76,7 +76,8 @@ var HomeTab = function (_Component2) {
                 "li",
                 { className: "col-lg-2 d-flex flex-row justify-content-center align-items-center selectable-tab",
                     onClick: this.props.isActive ? null : this.props.onClick },
-                _react2.default.createElement("img", { className: "tab-bar-image", src: image }),
+                _react2.default.createElement("img", { className: "tab-bar-image",
+                    src: image }),
                 _react2.default.createElement(
                     "small",
                     { className: textClass },
@@ -86,8 +87,8 @@ var HomeTab = function (_Component2) {
         }
     }]);
 
-    return HomeTab;
+    return TabItem;
 }(_react.Component);
 
-exports.default = HomeTabBar;
-//# sourceMappingURL=home_tabs.js.map
+exports.default = TabBar;
+//# sourceMappingURL=tab_bar.js.map

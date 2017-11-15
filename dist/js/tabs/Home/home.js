@@ -14,9 +14,9 @@ var _home_tabs_list = require("./tabs/home_tabs_list");
 
 var _home_tabs_list2 = _interopRequireDefault(_home_tabs_list);
 
-var _home_tabs = require("./tabs/home_tabs");
+var _tab_bar = require("../../components/tab_bar");
 
-var _home_tabs2 = _interopRequireDefault(_home_tabs);
+var _tab_bar2 = _interopRequireDefault(_tab_bar);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -55,7 +55,8 @@ var Home = function (_Component) {
         value: function render() {
             return _react2.default.createElement(
                 "div",
-                { id: "home", className: "container-fluid d-flex flex-row p-0 h-100" },
+                { id: "home",
+                    className: "container-fluid d-flex flex-row p-0 h-100" },
                 _react2.default.createElement(
                     "div",
                     { className: "d-flex flex-column p-0 h-100 w-100" },
@@ -64,7 +65,7 @@ var Home = function (_Component) {
                         { id: "tab-content" },
                         this.state.activeTab.tab
                     ),
-                    _react2.default.createElement(_home_tabs2.default, { setActiveTab: this.setActiveTab,
+                    _react2.default.createElement(_tab_bar2.default, { setActiveTab: this.setActiveTab,
                         activeTab: this.state.activeTab,
                         tabs: _home_tabs_list2.default })
                 )

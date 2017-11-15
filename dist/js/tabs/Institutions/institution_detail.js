@@ -14,9 +14,9 @@ var _institution_tabs_list = require("./tabs/institution_tabs_list");
 
 var _institution_tabs_list2 = _interopRequireDefault(_institution_tabs_list);
 
-var _institution_detail_tabs = require("./tabs/institution_detail_tabs");
+var _tab_bar = require("../../components/tab_bar");
 
-var _institution_detail_tabs2 = _interopRequireDefault(_institution_detail_tabs);
+var _tab_bar2 = _interopRequireDefault(_tab_bar);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -75,7 +75,8 @@ var InstitutionDetail = function (_Component) {
 
             return _react2.default.createElement(
                 "div",
-                { id: "institution-detail", className: "w-100 d-flex flex-row" },
+                { id: "institution-detail",
+                    className: "w-100 d-flex flex-row" },
                 _react2.default.createElement(
                     "div",
                     { className: "container-fluid d-flex flex-column p-0 h-100" },
@@ -84,7 +85,8 @@ var InstitutionDetail = function (_Component) {
                         { id: "tab-content" },
                         currentTab
                     ),
-                    _react2.default.createElement(_institution_detail_tabs2.default, { setActiveTab: this.setActiveTab, activeTab: this.state.activeTab,
+                    _react2.default.createElement(_tab_bar2.default, { setActiveTab: this.setActiveTab,
+                        activeTab: this.state.activeTab,
                         tabs: _institution_tabs_list2.default })
                 ),
                 _react2.default.createElement(

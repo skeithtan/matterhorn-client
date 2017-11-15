@@ -1,19 +1,17 @@
 import React, { Component } from "react";
 
 
-class InstitutionDetailTabBar extends Component {
+class TabBar extends Component {
     constructor(props) {
         super(props);
     }
 
     render() {
         const tabs = this.props.tabs.map((tab, index) => {
-            return <InstitutionDetailTab
-                tab={tab}
-                key={index}
-                onClick={() => this.props.setActiveTab(tab)}
-                isActive={this.props.activeTab === tab}
-            />;
+            return <TabItem tab={tab}
+                            key={index}
+                            onClick={() => this.props.setActiveTab(tab)}
+                            isActive={this.props.activeTab === tab}/>;
         });
 
         return (
@@ -26,8 +24,7 @@ class InstitutionDetailTabBar extends Component {
     }
 }
 
-
-class InstitutionDetailTab extends Component {
+class TabItem extends Component {
     constructor(props) {
         super(props);
     }
@@ -37,15 +34,15 @@ class InstitutionDetailTab extends Component {
         let textClass = "ml-2 font-weight-bold mb-0 ";
         textClass += this.props.isActive ? "text-dlsu" : "text-secondary";
 
-
         return (
             <li className="col-lg-2 d-flex flex-row justify-content-center align-items-center selectable-tab"
-                onClick={this.props.isActive ? null : this.props.onClick }>
-                <img className="tab-bar-image" src={image}/>
+                onClick={this.props.isActive ? null : this.props.onClick}>
+                <img className="tab-bar-image"
+                     src={image}/>
                 <small className={textClass}>{this.props.tab.name}</small>
             </li>
         );
     }
 }
 
-export default InstitutionDetailTabBar;
+export default TabBar;
