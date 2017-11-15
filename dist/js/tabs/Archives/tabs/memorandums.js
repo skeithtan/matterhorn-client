@@ -20,6 +20,10 @@ var _moment2 = _interopRequireDefault(_moment);
 
 var _reactstrap = require("reactstrap");
 
+var _loading = require("../../../components/loading");
+
+var _loading2 = _interopRequireDefault(_loading);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -29,7 +33,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 function fetchMemorandums(year, onResult) {
-    _graphql2.default.query("\n    {\n        memorandums(archived:true, year_archived:" + year + ") {\n\t\tid\n\t\tcategory\n\t\tarchived_at\n\t\tarchiver\n\t\tdate_effective\n\t\tinstitution {\n\t\t\tname\n\t\t}\n\t}").then(onResult);
+    _graphql2.default.query("\n    {\n        memorandums(archived:true, year_archived:" + year + ") {\n\t\tid\n\t\tcategory\n\t\tarchived_at\n\t\tarchiver\n\t\tdate_effective\n            institution {\n                name\n            }\n\t\t}\n\t}\n\t").then(onResult);
 }
 
 var MemorandumArchives = function (_Component) {
@@ -41,18 +45,34 @@ var MemorandumArchives = function (_Component) {
         var _this = _possibleConstructorReturn(this, (MemorandumArchives.__proto__ || Object.getPrototypeOf(MemorandumArchives)).call(this, props));
 
         _this.state = {
-            activeYear: (0, _moment2.default)().year()
+            activeYear: (0, _moment2.default)().year(),
+            memorandums: null
         };
 
         _this.setCurrentYear = _this.setCurrentYear.bind(_this);
+
+        fetchMemorandums(_this.state.activeYear, function (result) {
+            _this.setState({
+                memorandums: result.memorandums
+            });
+        });
         return _this;
     }
 
     _createClass(MemorandumArchives, [{
         key: "setCurrentYear",
         value: function setCurrentYear(year) {
+            var _this2 = this;
+
             this.setState({
-                activeYear: year
+                activeYear: year,
+                memorandums: null //Loading
+            });
+
+            fetchMemorandums(year, function (result) {
+                _this2.setState({
+                    memorandums: result.memorandums
+                });
             });
         }
     }, {
@@ -60,10 +80,10 @@ var MemorandumArchives = function (_Component) {
         value: function render() {
             return _react2.default.createElement(
                 "div",
-                null,
+                { className: "d-flex flex-column h-100" },
                 _react2.default.createElement(MemorandumArchivesHead, { setCurrentYear: this.setCurrentYear,
                     activeYear: this.state.activeYear }),
-                _react2.default.createElement(MemorandumArchivesTable, null)
+                _react2.default.createElement(MemorandumArchivesTable, { memorandums: this.state.memorandums })
             );
         }
     }]);
@@ -77,10 +97,10 @@ var MemorandumArchivesHead = function (_Component2) {
     function MemorandumArchivesHead(props) {
         _classCallCheck(this, MemorandumArchivesHead);
 
-        var _this2 = _possibleConstructorReturn(this, (MemorandumArchivesHead.__proto__ || Object.getPrototypeOf(MemorandumArchivesHead)).call(this, props));
+        var _this3 = _possibleConstructorReturn(this, (MemorandumArchivesHead.__proto__ || Object.getPrototypeOf(MemorandumArchivesHead)).call(this, props));
 
-        _this2.onCurrentYearChange = _this2.onCurrentYearChange.bind(_this2);
-        return _this2;
+        _this3.onCurrentYearChange = _this3.onCurrentYearChange.bind(_this3);
+        return _this3;
     }
 
     _createClass(MemorandumArchivesHead, [{
@@ -157,9 +177,21 @@ var MemorandumArchivesTable = function (_Component3) {
     _createClass(MemorandumArchivesTable, [{
         key: "render",
         value: function render() {
+            if (this.props.memorandums === null) {
+                return _react2.default.createElement(_loading2.default, null);
+            }
+
+            if (this.props.memorandums.length === 0) {
+                return MemorandumArchivesTable.emptyState();
+            }
+
+            var rows = this.props.memorandums.map(function (memorandum, index) {
+                return _react2.default.createElement(MemorandumArchivesRow, { memorandum: memorandum, key: index });
+            });
+
             return _react2.default.createElement(
                 _reactstrap.Table,
-                null,
+                { striped: true },
                 _react2.default.createElement(
                     "thead",
                     null,
@@ -192,12 +224,81 @@ var MemorandumArchivesTable = function (_Component3) {
                             "Archived By"
                         )
                     )
+                ),
+                _react2.default.createElement(
+                    "tbody",
+                    null,
+                    rows
+                )
+            );
+        }
+    }], [{
+        key: "emptyState",
+        value: function emptyState() {
+            return _react2.default.createElement(
+                "div",
+                { className: "loading-container" },
+                _react2.default.createElement(
+                    "h3",
+                    null,
+                    "There's nothing here"
                 )
             );
         }
     }]);
 
     return MemorandumArchivesTable;
+}(_react.Component);
+
+var MemorandumArchivesRow = function (_Component4) {
+    _inherits(MemorandumArchivesRow, _Component4);
+
+    function MemorandumArchivesRow(props) {
+        _classCallCheck(this, MemorandumArchivesRow);
+
+        return _possibleConstructorReturn(this, (MemorandumArchivesRow.__proto__ || Object.getPrototypeOf(MemorandumArchivesRow)).call(this, props));
+    }
+
+    _createClass(MemorandumArchivesRow, [{
+        key: "render",
+        value: function render() {
+            var memorandumType = this.props.memorandum.category === "MOA" ? "Agreement" : "Understanding";
+            var dateEffective = (0, _moment2.default)(this.props.memorandum.date_effective).format("LL");
+            var archiveDate = (0, _moment2.default)(this.props.memorandum.archived_at).format("LLL");
+
+            return _react2.default.createElement(
+                "tr",
+                null,
+                _react2.default.createElement(
+                    "td",
+                    null,
+                    this.props.memorandum.institution.name
+                ),
+                _react2.default.createElement(
+                    "td",
+                    null,
+                    memorandumType
+                ),
+                _react2.default.createElement(
+                    "td",
+                    null,
+                    dateEffective
+                ),
+                _react2.default.createElement(
+                    "td",
+                    null,
+                    archiveDate
+                ),
+                _react2.default.createElement(
+                    "td",
+                    null,
+                    this.props.memorandum.archiver
+                )
+            );
+        }
+    }]);
+
+    return MemorandumArchivesRow;
 }(_react.Component);
 
 exports.default = MemorandumArchives;

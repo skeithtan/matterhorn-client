@@ -2,11 +2,10 @@ import React, { Component } from "react";
 import graphql from "../../../graphql";
 import moment from "moment";
 import {
-    FormGroup,
     Input,
-    Label,
     Table,
 } from "reactstrap";
+import LoadingSpinner from "../../../components/loading";
 
 
 function fetchMemorandums(year, onResult) {
@@ -18,10 +17,12 @@ function fetchMemorandums(year, onResult) {
 		archived_at
 		archiver
 		date_effective
-		institution {
-			name
+            institution {
+                name
+            }
 		}
-	}`).then(onResult);
+	}
+	`).then(onResult);
 }
 
 class MemorandumArchives extends Component {
@@ -30,23 +31,37 @@ class MemorandumArchives extends Component {
 
         this.state = {
             activeYear : moment().year(),
+            memorandums : null,
         };
 
         this.setCurrentYear = this.setCurrentYear.bind(this);
+
+        fetchMemorandums(this.state.activeYear, result => {
+            this.setState({
+                memorandums : result.memorandums,
+            });
+        });
     }
 
     setCurrentYear(year) {
         this.setState({
             activeYear : year,
+            memorandums : null, //Loading
+        });
+
+        fetchMemorandums(year, result => {
+            this.setState({
+                memorandums : result.memorandums,
+            });
         });
     }
 
     render() {
         return (
-            <div>
+            <div className="d-flex flex-column h-100">
                 <MemorandumArchivesHead setCurrentYear={this.setCurrentYear}
                                         activeYear={this.state.activeYear}/>
-                <MemorandumArchivesTable/>
+                <MemorandumArchivesTable memorandums={this.state.memorandums}/>
             </div>
         );
     }
@@ -104,9 +119,30 @@ class MemorandumArchivesTable extends Component {
         super(props);
     }
 
-    render() {
+    static emptyState() {
         return (
-            <Table>
+            <div className="loading-container">
+                <h3>There's nothing here</h3>
+            </div>
+        );
+    }
+
+    render() {
+        if (this.props.memorandums === null) {
+            return <LoadingSpinner/>;
+        }
+
+        if (this.props.memorandums.length === 0) {
+            return MemorandumArchivesTable.emptyState();
+        }
+
+        const rows = this.props.memorandums.map((memorandum, index) => {
+            return <MemorandumArchivesRow memorandum={memorandum} key={index}/>;
+        });
+
+
+        return (
+            <Table striped>
                 <thead>
                 <tr>
                     <th>Institution Name</th>
@@ -116,7 +152,32 @@ class MemorandumArchivesTable extends Component {
                     <th>Archived By</th>
                 </tr>
                 </thead>
+                <tbody>
+                {rows}
+                </tbody>
             </Table>
+        );
+    }
+}
+
+class MemorandumArchivesRow extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        const memorandumType = this.props.memorandum.category === "MOA" ? "Agreement" : "Understanding";
+        const dateEffective = moment(this.props.memorandum.date_effective).format("LL");
+        const archiveDate = moment(this.props.memorandum.archived_at).format("LLL");
+
+        return (
+            <tr>
+                <td>{this.props.memorandum.institution.name}</td>
+                <td>{memorandumType}</td>
+                <td>{dateEffective}</td>
+                <td>{archiveDate}</td>
+                <td>{this.props.memorandum.archiver}</td>
+            </tr>
         );
     }
 }
