@@ -9,6 +9,7 @@ import {
     SectionTable,
     SectionTitle,
 } from "../../../components/section";
+import { ProgramSidebarPane } from "./sidebar_panes";
 
 function fetchYears(institutionID, onResult) {
     graphql.query(`
@@ -28,6 +29,12 @@ function fetchPrograms(institutionID, year, onResult) {
         programs(institution:${institutionID}, year:${year}) {
             id
             name
+            linkage {
+                name
+            }
+            studyfield_set {
+                name
+            }
         }
     }
     `).then(onResult);
@@ -48,6 +55,7 @@ class Programs extends Component {
         this.getOrderedYears = this.getOrderedYears.bind(this);
         this.setActiveYear = this.setActiveYear.bind(this);
         this.setActiveProgram = this.setActiveProgram.bind(this);
+        this.refreshPrograms = this.refreshPrograms.bind(this);
 
         fetchYears(this.state.institutionID, result => {
             this.setState({
@@ -76,10 +84,29 @@ class Programs extends Component {
     }
 
     setActiveProgram(program) {
+        if (program === null) {
+            this.props.setSidebarContent(null);
+        }
+
+        const refreshProgram = () => {
+            this.refreshPrograms();
+        };
+
+        const onDeleteProgram = () => {
+            this.setState({
+                activeProgram : null,
+            });
+            this.refreshPrograms();
+            this.setActiveProgram(null);
+        };
+
+        this.props.setSidebarContent(
+            <ProgramSidebarPane program={ program }/>,
+        );
+
         this.setState({
             activeProgram : program,
         });
-        console.log(program);
     }
 
     getOrderedYears(programs) {
@@ -104,6 +131,15 @@ class Programs extends Component {
         });
 
         return years;
+    }
+
+    // There might be a need to check for the activeYear
+    refreshPrograms() {
+        fetchPrograms(this.state.institutionID, this.state.activeYear, result => {
+            this.setState({
+                programList : result.programs,
+            });
+        });
     }
 
     componentWillReceiveProps(nextProps) {

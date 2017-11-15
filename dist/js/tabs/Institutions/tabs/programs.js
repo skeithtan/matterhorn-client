@@ -22,6 +22,8 @@ var _reactstrap = require("reactstrap");
 
 var _section = require("../../../components/section");
 
+var _sidebar_panes = require("./sidebar_panes");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -35,7 +37,7 @@ function fetchYears(institutionID, onResult) {
 }
 
 function fetchPrograms(institutionID, year, onResult) {
-    _graphql2.default.query("\n    {\n        programs(institution:" + institutionID + ", year:" + year + ") {\n            id\n            name\n        }\n    }\n    ").then(onResult);
+    _graphql2.default.query("\n    {\n        programs(institution:" + institutionID + ", year:" + year + ") {\n            id\n            name\n            linkage {\n                name\n            }\n            studyfield_set {\n                name\n            }\n        }\n    }\n    ").then(onResult);
 }
 
 var Programs = function (_Component) {
@@ -57,6 +59,7 @@ var Programs = function (_Component) {
         _this.getOrderedYears = _this.getOrderedYears.bind(_this);
         _this.setActiveYear = _this.setActiveYear.bind(_this);
         _this.setActiveProgram = _this.setActiveProgram.bind(_this);
+        _this.refreshPrograms = _this.refreshPrograms.bind(_this);
 
         fetchYears(_this.state.institutionID, function (result) {
             _this.setState({
@@ -89,10 +92,29 @@ var Programs = function (_Component) {
     }, {
         key: "setActiveProgram",
         value: function setActiveProgram(program) {
+            var _this2 = this;
+
+            if (program === null) {
+                this.props.setSidebarContent(null);
+            }
+
+            var refreshProgram = function refreshProgram() {
+                _this2.refreshPrograms();
+            };
+
+            var onDeleteProgram = function onDeleteProgram() {
+                _this2.setState({
+                    activeProgram: null
+                });
+                _this2.refreshPrograms();
+                _this2.setActiveProgram(null);
+            };
+
+            this.props.setSidebarContent(_react2.default.createElement(_sidebar_panes.ProgramSidebarPane, { program: program }));
+
             this.setState({
                 activeProgram: program
             });
-            console.log(program);
         }
     }, {
         key: "getOrderedYears",
@@ -119,10 +141,24 @@ var Programs = function (_Component) {
 
             return years;
         }
+
+        // There might be a need to check for the activeYear
+
+    }, {
+        key: "refreshPrograms",
+        value: function refreshPrograms() {
+            var _this3 = this;
+
+            fetchPrograms(this.state.institutionID, this.state.activeYear, function (result) {
+                _this3.setState({
+                    programList: result.programs
+                });
+            });
+        }
     }, {
         key: "componentWillReceiveProps",
         value: function componentWillReceiveProps(nextProps) {
-            var _this2 = this;
+            var _this4 = this;
 
             if (this.state.institutionID === nextProps.institution.id) {
                 return;
@@ -136,17 +172,17 @@ var Programs = function (_Component) {
             });
 
             fetchYears(nextProps.institution.id, function (result) {
-                _this2.setState({
-                    yearList: _this2.getOrderedYears(result.programs)
+                _this4.setState({
+                    yearList: _this4.getOrderedYears(result.programs)
                 });
-                if (_this2.state.yearList !== null) {
-                    _this2.setState({
-                        activeYear: _this2.state.yearList[0]
+                if (_this4.state.yearList !== null) {
+                    _this4.setState({
+                        activeYear: _this4.state.yearList[0]
                     });
                 }
-                if (_this2.state.activeYear !== undefined) {
-                    fetchPrograms(nextProps.institution.id, _this2.state.activeYear, function (result) {
-                        _this2.setState({
+                if (_this4.state.activeYear !== undefined) {
+                    fetchPrograms(nextProps.institution.id, _this4.state.activeYear, function (result) {
+                        _this4.setState({
                             programList: result.programs
                         });
                     });
@@ -295,17 +331,17 @@ var ProgramsListSection = function (_Component4) {
     _createClass(ProgramsListSection, [{
         key: "render",
         value: function render() {
-            var _this6 = this;
+            var _this8 = this;
 
             var rows = this.props.programs.map(function (program, index) {
                 var isActive = false;
 
-                if (_this6.props.currentProgram !== null) {
-                    isActive = _this6.props.currentProgram.id === program.id;
+                if (_this8.props.currentProgram !== null) {
+                    isActive = _this8.props.currentProgram.id === program.id;
                 }
 
                 var setCurrentProgram = function setCurrentProgram() {
-                    return _this6.props.setCurrentProgram(program);
+                    return _this8.props.setCurrentProgram(program);
                 };
 
                 return _react2.default.createElement(

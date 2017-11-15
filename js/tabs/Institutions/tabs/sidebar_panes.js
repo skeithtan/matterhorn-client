@@ -68,25 +68,25 @@ class MemorandumSidebarPane extends Component {
 
 
                 <div className="page-body">
-                    <MemorandumDetails memorandum={memorandum}
-                                       toggleDeleteMemorandum={this.toggleDeleteMemorandum}
-                                       toggleEditMemorandum={this.toggleEditMemorandum}/>
-                    <MemorandumLinkages linkages={memorandum.linkages}/>
+                    <MemorandumDetails memorandum={ memorandum }
+                                       toggleDeleteMemorandum={ this.toggleDeleteMemorandum }
+                                       toggleEditMemorandum={ this.toggleEditMemorandum }/>
+                    <MemorandumLinkages linkages={ memorandum.linkages }/>
 
-                    {this.state.activeMemorandum !== null &&
-                    <DeleteMemorandumModal isOpen={this.state.deleteMemorandumIsShowing}
-                                           memorandum={memorandum}
-                                           toggle={this.toggleDeleteMemorandum}
-                                           onDeleteSuccess={this.props.removeActiveMemorandum}
-                                           refresh={this.props.refreshMemorandums}/>}
+                    { this.state.activeMemorandum !== null &&
+                    <DeleteMemorandumModal isOpen={ this.state.deleteMemorandumIsShowing }
+                                           memorandum={ memorandum }
+                                           toggle={ this.toggleDeleteMemorandum }
+                                           onDeleteSuccess={ this.props.removeActiveMemorandum }
+                                           refresh={ this.props.refreshMemorandums }/> }
 
-                    {this.state.activeMemorandum !== null &&
+                    { this.state.activeMemorandum !== null &&
                     <MemorandumFormModal edit
-                                         isOpen={this.state.editMemorandumIsShowing}
-                                         memorandum={memorandum}
-                                         toggle={this.toggleEditMemorandum}
-                                         onEditSuccess={this.onEditMemorandum}
-                                         refresh={this.props.refreshMemorandums}/>}
+                                         isOpen={ this.state.editMemorandumIsShowing }
+                                         memorandum={ memorandum }
+                                         toggle={ this.toggleEditMemorandum }
+                                         onEditSuccess={ this.onEditMemorandum }
+                                         refresh={ this.props.refreshMemorandums }/> }
                 </div>
             </div>
         );
@@ -118,28 +118,28 @@ class MemorandumDetails extends Component {
                 <SectionTable>
                     <SectionRow>
                         <SectionRowTitle>Memorandum Type</SectionRowTitle>
-                        <SectionRowContent>{type}</SectionRowContent>
+                        <SectionRowContent>{ type }</SectionRowContent>
                     </SectionRow>
                     <SectionRow>
                         <SectionRowTitle>Date Effective</SectionRowTitle>
-                        <SectionRowContent>{dateEffective}</SectionRowContent>
+                        <SectionRowContent>{ dateEffective }</SectionRowContent>
                     </SectionRow>
                     <SectionRow>
                         <SectionRowTitle>Expiration Date</SectionRowTitle>
-                        <SectionRowContent>{expiryDate}</SectionRowContent>
+                        <SectionRowContent>{ expiryDate }</SectionRowContent>
                     </SectionRow>
                     <SectionRow>
                         <SectionRowTitle>College Initiator</SectionRowTitle>
-                        <SectionRowContent>{college}</SectionRowContent>
+                        <SectionRowContent>{ college }</SectionRowContent>
                     </SectionRow>
                     <SectionRow>
                         <SectionRowContent className="d-flex">
                             <Button outline color="success" size="sm" className="mr-2"
-                                    onClick={viewMemorandum}>View</Button>
+                                    onClick={ viewMemorandum }>View</Button>
                             <Button outline color="success" size="sm" className="mr-auto"
-                                    onClick={this.props.toggleEditMemorandum}>Edit</Button>
+                                    onClick={ this.props.toggleEditMemorandum }>Edit</Button>
                             <Button outline color="danger" size="sm"
-                                    onClick={this.props.toggleDeleteMemorandum}>Delete</Button>
+                                    onClick={ this.props.toggleDeleteMemorandum }>Delete</Button>
                         </SectionRowContent>
                     </SectionRow>
                 </SectionTable>
@@ -163,14 +163,14 @@ class MemorandumLinkages extends Component {
 
         const rows = this.props.linkages.map((linkage, index) => {
             return (
-                <SectionRow key={index}>{settings.linkages[linkage]}</SectionRow>
+                <SectionRow key={ index }>{ settings.linkages[linkage] }</SectionRow>
             );
         });
 
         if (this.props.linkages.length > 0) {
             body = (
                 <SectionTable>
-                    {rows}
+                    { rows }
                 </SectionTable>
             );
         }
@@ -178,11 +178,145 @@ class MemorandumLinkages extends Component {
         return (
             <Section>
                 <SectionTitle>Linkages</SectionTitle>
-                {body}
+                { body }
+            </Section>
+        );
+    }
+}
+
+class ProgramSidebarPane extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            deleteProgramIsShowing : false,
+            editProgramIsShowing : false,
+            program : props.program,
+        };
+
+        this.toggleDeleteProgram = this.toggleDeleteProgram.bind(this);
+        this.toggleEditProgram = this.toggleEditProgram.bind(this);
+        this.onEditProgram = this.onEditProgram.bind(this);
+    }
+
+    toggleDeleteProgram() {
+        this.setState({
+            deleteMemorandumIsShowing : !this.state.deleteProgramIsShowing,
+        });
+    }
+
+    toggleEditProgram() {
+        this.setState({
+            editProgramIsShowing : !this.state.editProgramIsShowing,
+        });
+    }
+
+    componentWillReceiveProps(props) {
+        this.setState({
+            program : props.program,
+        });
+    }
+
+    onEditProgram(program) {
+        this.setState({
+            program : program,
+        });
+    }
+
+    render() {
+        const program = this.state.program;
+        return (
+            <div className="p-0 h-100 d-flex flex-column">
+                <div className="page-head pt-5 d-flex flex-row align-items-end">
+                    <div className="mr-auto">
+                        <h5 className="mb-0">Program</h5>
+                    </div>
+                </div>
+
+
+                <div className="page-body">
+                    <ProgramDetails program={ program }
+                                    toggleDeleteProgram={ this.toggleDeleteProgram }
+                                    toggleEditProgram={ this.toggleEditProgram }/>
+                    <ProgramStudyFields studyFields={ program.studyfield_set }/>
+
+                    { /* Delete and Edit Modals */ }
+                </div>
+            </div>
+        );
+    }
+}
+
+class ProgramDetails extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        const program = this.props.program;
+        return (
+            <Section>
+                <SectionTitle>Details</SectionTitle>
+                <SectionTable>
+                    <SectionRow>
+                        <SectionRowTitle>Program Name</SectionRowTitle>
+                        <SectionRowContent>{ program.name }</SectionRowContent>
+                    </SectionRow>
+                    <SectionRow>
+                        <SectionRowTitle>Linkage</SectionRowTitle>
+                        <SectionRowContent>{ program.linkage.name }</SectionRowContent>
+                    </SectionRow>
+                    <SectionRow>
+                        <SectionRowContent className="d-flex">
+                            <Button outline color="success" size="sm" className="mr-auto"
+                                    onClick={ this.props.toggleEditMemorandum }>Edit</Button>
+                            <Button outline color="danger" size="sm"
+                                    onClick={ this.props.toggleDeleteMemorandum }>Delete</Button>
+                        </SectionRowContent>
+                    </SectionRow>
+                </SectionTable>
+            </Section>
+        );
+    }
+}
+
+class ProgramStudyFields extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        let body = (
+            <div className="p-4 pt-5 pb-5 bg-light text-center">
+                <h5 className="text-secondary">There are no study fields for this program.</h5>
+            </div>
+        );
+
+        const rows = this.props.studyFields.map((studyField, index) => {
+            return (
+                <SectionRow key={ index }>{ studyField.name }</SectionRow>
+            );
+        });
+
+        if (this.props.studyFields.length > 0) {
+            body = (
+                <SectionTable>
+                    { rows }
+                </SectionTable>
+            );
+        }
+
+        return (
+            <Section>
+                <SectionTitle>Study Fields</SectionTitle>
+                { body }
             </Section>
         );
     }
 }
 
 
-export { MemorandumSidebarPane };
+export {
+    MemorandumSidebarPane,
+    ProgramSidebarPane,
+};

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.MemorandumSidebarPane = undefined;
+exports.ProgramSidebarPane = exports.MemorandumSidebarPane = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -309,5 +309,223 @@ var MemorandumLinkages = function (_Component3) {
     return MemorandumLinkages;
 }(_react.Component);
 
+var ProgramSidebarPane = function (_Component4) {
+    _inherits(ProgramSidebarPane, _Component4);
+
+    function ProgramSidebarPane(props) {
+        _classCallCheck(this, ProgramSidebarPane);
+
+        var _this5 = _possibleConstructorReturn(this, (ProgramSidebarPane.__proto__ || Object.getPrototypeOf(ProgramSidebarPane)).call(this, props));
+
+        _this5.state = {
+            deleteProgramIsShowing: false,
+            editProgramIsShowing: false,
+            program: props.program
+        };
+
+        _this5.toggleDeleteProgram = _this5.toggleDeleteProgram.bind(_this5);
+        _this5.toggleEditProgram = _this5.toggleEditProgram.bind(_this5);
+        _this5.onEditProgram = _this5.onEditProgram.bind(_this5);
+        return _this5;
+    }
+
+    _createClass(ProgramSidebarPane, [{
+        key: "toggleDeleteProgram",
+        value: function toggleDeleteProgram() {
+            this.setState({
+                deleteMemorandumIsShowing: !this.state.deleteProgramIsShowing
+            });
+        }
+    }, {
+        key: "toggleEditProgram",
+        value: function toggleEditProgram() {
+            this.setState({
+                editProgramIsShowing: !this.state.editProgramIsShowing
+            });
+        }
+    }, {
+        key: "componentWillReceiveProps",
+        value: function componentWillReceiveProps(props) {
+            this.setState({
+                program: props.program
+            });
+        }
+    }, {
+        key: "onEditProgram",
+        value: function onEditProgram(program) {
+            this.setState({
+                program: program
+            });
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            var program = this.state.program;
+            return _react2.default.createElement(
+                "div",
+                { className: "p-0 h-100 d-flex flex-column" },
+                _react2.default.createElement(
+                    "div",
+                    { className: "page-head pt-5 d-flex flex-row align-items-end" },
+                    _react2.default.createElement(
+                        "div",
+                        { className: "mr-auto" },
+                        _react2.default.createElement(
+                            "h5",
+                            { className: "mb-0" },
+                            "Program"
+                        )
+                    )
+                ),
+                _react2.default.createElement(
+                    "div",
+                    { className: "page-body" },
+                    _react2.default.createElement(ProgramDetails, { program: program,
+                        toggleDeleteProgram: this.toggleDeleteProgram,
+                        toggleEditProgram: this.toggleEditProgram }),
+                    _react2.default.createElement(ProgramStudyFields, { studyFields: program.studyfield_set })
+                )
+            );
+        }
+    }]);
+
+    return ProgramSidebarPane;
+}(_react.Component);
+
+var ProgramDetails = function (_Component5) {
+    _inherits(ProgramDetails, _Component5);
+
+    function ProgramDetails(props) {
+        _classCallCheck(this, ProgramDetails);
+
+        return _possibleConstructorReturn(this, (ProgramDetails.__proto__ || Object.getPrototypeOf(ProgramDetails)).call(this, props));
+    }
+
+    _createClass(ProgramDetails, [{
+        key: "render",
+        value: function render() {
+            var program = this.props.program;
+            return _react2.default.createElement(
+                _section.Section,
+                null,
+                _react2.default.createElement(
+                    _section.SectionTitle,
+                    null,
+                    "Details"
+                ),
+                _react2.default.createElement(
+                    _section.SectionTable,
+                    null,
+                    _react2.default.createElement(
+                        _section.SectionRow,
+                        null,
+                        _react2.default.createElement(
+                            _section.SectionRowTitle,
+                            null,
+                            "Program Name"
+                        ),
+                        _react2.default.createElement(
+                            _section.SectionRowContent,
+                            null,
+                            program.name
+                        )
+                    ),
+                    _react2.default.createElement(
+                        _section.SectionRow,
+                        null,
+                        _react2.default.createElement(
+                            _section.SectionRowTitle,
+                            null,
+                            "Linkage"
+                        ),
+                        _react2.default.createElement(
+                            _section.SectionRowContent,
+                            null,
+                            program.linkage.name
+                        )
+                    ),
+                    _react2.default.createElement(
+                        _section.SectionRow,
+                        null,
+                        _react2.default.createElement(
+                            _section.SectionRowContent,
+                            { className: "d-flex" },
+                            _react2.default.createElement(
+                                _reactstrap.Button,
+                                { outline: true, color: "success", size: "sm", className: "mr-auto",
+                                    onClick: this.props.toggleEditMemorandum },
+                                "Edit"
+                            ),
+                            _react2.default.createElement(
+                                _reactstrap.Button,
+                                { outline: true, color: "danger", size: "sm",
+                                    onClick: this.props.toggleDeleteMemorandum },
+                                "Delete"
+                            )
+                        )
+                    )
+                )
+            );
+        }
+    }]);
+
+    return ProgramDetails;
+}(_react.Component);
+
+var ProgramStudyFields = function (_Component6) {
+    _inherits(ProgramStudyFields, _Component6);
+
+    function ProgramStudyFields(props) {
+        _classCallCheck(this, ProgramStudyFields);
+
+        return _possibleConstructorReturn(this, (ProgramStudyFields.__proto__ || Object.getPrototypeOf(ProgramStudyFields)).call(this, props));
+    }
+
+    _createClass(ProgramStudyFields, [{
+        key: "render",
+        value: function render() {
+            var body = _react2.default.createElement(
+                "div",
+                { className: "p-4 pt-5 pb-5 bg-light text-center" },
+                _react2.default.createElement(
+                    "h5",
+                    { className: "text-secondary" },
+                    "There are no study fields for this program."
+                )
+            );
+
+            var rows = this.props.studyFields.map(function (studyField, index) {
+                return _react2.default.createElement(
+                    _section.SectionRow,
+                    { key: index },
+                    studyField.name
+                );
+            });
+
+            if (this.props.studyFields.length > 0) {
+                body = _react2.default.createElement(
+                    _section.SectionTable,
+                    null,
+                    rows
+                );
+            }
+
+            return _react2.default.createElement(
+                _section.Section,
+                null,
+                _react2.default.createElement(
+                    _section.SectionTitle,
+                    null,
+                    "Study Fields"
+                ),
+                body
+            );
+        }
+    }]);
+
+    return ProgramStudyFields;
+}(_react.Component);
+
 exports.MemorandumSidebarPane = MemorandumSidebarPane;
+exports.ProgramSidebarPane = ProgramSidebarPane;
 //# sourceMappingURL=sidebar_panes.js.map
