@@ -207,7 +207,7 @@ var StudentDetailHead = function (_Component2) {
                         "Archive"
                     )
                 ),
-                _react2.default.createElement(_modals.DeleteStudentModal, { isOpen: this.state.deleteStudentIsShowing,
+                _react2.default.createElement(_modals.ArchiveStudentModal, { isOpen: this.state.deleteStudentIsShowing,
                     student: this.props.student,
                     toggle: this.toggleDeleteStudent,
                     refresh: this.props.onDeleteStudent }),

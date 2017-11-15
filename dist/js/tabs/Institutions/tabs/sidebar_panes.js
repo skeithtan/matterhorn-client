@@ -108,7 +108,7 @@ var MemorandumSidebarPane = function (_Component) {
                         toggleDeleteMemorandum: this.toggleDeleteMemorandum,
                         toggleEditMemorandum: this.toggleEditMemorandum }),
                     _react2.default.createElement(MemorandumLinkages, { linkages: memorandum.linkages }),
-                    this.state.activeMemorandum !== null && _react2.default.createElement(_modals.DeleteMemorandumModal, { isOpen: this.state.deleteMemorandumIsShowing,
+                    this.state.activeMemorandum !== null && _react2.default.createElement(_modals.ArchiveMemorandumModal, { isOpen: this.state.deleteMemorandumIsShowing,
                         memorandum: memorandum,
                         toggle: this.toggleDeleteMemorandum,
                         onDeleteSuccess: this.props.removeActiveMemorandum,

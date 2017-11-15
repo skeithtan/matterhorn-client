@@ -4,7 +4,7 @@ import settings from "../../../settings";
 import { Button, } from "reactstrap";
 
 import {
-    DeleteMemorandumModal,
+    ArchiveMemorandumModal,
     MemorandumFormModal,
 } from "../modals";
 import {
@@ -74,11 +74,11 @@ class MemorandumSidebarPane extends Component {
                     <MemorandumLinkages linkages={ memorandum.linkages }/>
 
                     { this.state.activeMemorandum !== null &&
-                    <DeleteMemorandumModal isOpen={ this.state.deleteMemorandumIsShowing }
-                                           memorandum={ memorandum }
-                                           toggle={ this.toggleDeleteMemorandum }
-                                           onDeleteSuccess={ this.props.removeActiveMemorandum }
-                                           refresh={ this.props.refreshMemorandums }/> }
+                    <ArchiveMemorandumModal isOpen={ this.state.deleteMemorandumIsShowing }
+                                            memorandum={ memorandum }
+                                            toggle={ this.toggleDeleteMemorandum }
+                                            onDeleteSuccess={ this.props.removeActiveMemorandum }
+                                            refresh={ this.props.refreshMemorandums }/> }
 
                     { this.state.activeMemorandum !== null &&
                     <MemorandumFormModal edit

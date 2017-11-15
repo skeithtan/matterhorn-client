@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.DeleteMemorandumModal = exports.MemorandumFormModal = exports.DeleteInstitutionModal = exports.InstitutionFormModal = undefined;
+exports.ArchiveMemorandumModal = exports.MemorandumFormModal = exports.ArchiveInstitutionModal = exports.InstitutionFormModal = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -436,21 +436,21 @@ var InstitutionFormModal = function (_Component) {
     return InstitutionFormModal;
 }(_react.Component);
 
-var DeleteInstitutionModal = function (_Component2) {
-    _inherits(DeleteInstitutionModal, _Component2);
+var ArchiveInstitutionModal = function (_Component2) {
+    _inherits(ArchiveInstitutionModal, _Component2);
 
-    function DeleteInstitutionModal(props) {
-        _classCallCheck(this, DeleteInstitutionModal);
+    function ArchiveInstitutionModal(props) {
+        _classCallCheck(this, ArchiveInstitutionModal);
 
-        var _this5 = _possibleConstructorReturn(this, (DeleteInstitutionModal.__proto__ || Object.getPrototypeOf(DeleteInstitutionModal)).call(this, props));
+        var _this5 = _possibleConstructorReturn(this, (ArchiveInstitutionModal.__proto__ || Object.getPrototypeOf(ArchiveInstitutionModal)).call(this, props));
 
-        _this5.confirmDelete = _this5.confirmDelete.bind(_this5);
+        _this5.confirmArchive = _this5.confirmArchive.bind(_this5);
         return _this5;
     }
 
-    _createClass(DeleteInstitutionModal, [{
-        key: "confirmDelete",
-        value: function confirmDelete() {
+    _createClass(ArchiveInstitutionModal, [{
+        key: "confirmArchive",
+        value: function confirmArchive() {
             var _this6 = this;
 
             var dismissToast = (0, _dismissable_toast_maker2.default)({
@@ -502,7 +502,7 @@ var DeleteInstitutionModal = function (_Component2) {
                     null,
                     _react2.default.createElement(
                         _reactstrap.Button,
-                        { outline: true, color: "warning", onClick: this.confirmDelete },
+                        { outline: true, color: "warning", onClick: this.confirmArchive },
                         "Confirm Archive"
                     )
                 )
@@ -510,7 +510,7 @@ var DeleteInstitutionModal = function (_Component2) {
         }
     }]);
 
-    return DeleteInstitutionModal;
+    return ArchiveInstitutionModal;
 }(_react.Component);
 
 var MemorandumFormModal = function (_Component3) {
@@ -904,21 +904,21 @@ var MemorandumFormModal = function (_Component3) {
     return MemorandumFormModal;
 }(_react.Component);
 
-var DeleteMemorandumModal = function (_Component4) {
-    _inherits(DeleteMemorandumModal, _Component4);
+var ArchiveMemorandumModal = function (_Component4) {
+    _inherits(ArchiveMemorandumModal, _Component4);
 
-    function DeleteMemorandumModal(props) {
-        _classCallCheck(this, DeleteMemorandumModal);
+    function ArchiveMemorandumModal(props) {
+        _classCallCheck(this, ArchiveMemorandumModal);
 
-        var _this13 = _possibleConstructorReturn(this, (DeleteMemorandumModal.__proto__ || Object.getPrototypeOf(DeleteMemorandumModal)).call(this, props));
+        var _this13 = _possibleConstructorReturn(this, (ArchiveMemorandumModal.__proto__ || Object.getPrototypeOf(ArchiveMemorandumModal)).call(this, props));
 
-        _this13.confirmDelete = _this13.confirmDelete.bind(_this13);
+        _this13.confirmArchive = _this13.confirmArchive.bind(_this13);
         return _this13;
     }
 
-    _createClass(DeleteMemorandumModal, [{
-        key: "confirmDelete",
-        value: function confirmDelete() {
+    _createClass(ArchiveMemorandumModal, [{
+        key: "confirmArchive",
+        value: function confirmArchive() {
             var _this14 = this;
 
             var dismissToast = (0, _dismissable_toast_maker2.default)({
@@ -969,7 +969,7 @@ var DeleteMemorandumModal = function (_Component4) {
                     _react2.default.createElement(
                         _reactstrap.Button,
                         { outline: true, color: "warning", id: "archive-memorandum-modal-submit",
-                            onClick: this.confirmDelete },
+                            onClick: this.confirmArchive },
                         "Archive"
                     )
                 )
@@ -977,11 +977,11 @@ var DeleteMemorandumModal = function (_Component4) {
         }
     }]);
 
-    return DeleteMemorandumModal;
+    return ArchiveMemorandumModal;
 }(_react.Component);
 
 exports.InstitutionFormModal = InstitutionFormModal;
-exports.DeleteInstitutionModal = DeleteInstitutionModal;
+exports.ArchiveInstitutionModal = ArchiveInstitutionModal;
 exports.MemorandumFormModal = MemorandumFormModal;
-exports.DeleteMemorandumModal = DeleteMemorandumModal;
+exports.ArchiveMemorandumModal = ArchiveMemorandumModal;
 //# sourceMappingURL=modals.js.map

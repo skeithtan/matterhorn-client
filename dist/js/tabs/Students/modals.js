@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.DeleteStudentModal = exports.StudentFormModal = undefined;
+exports.ArchiveStudentModal = exports.StudentFormModal = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -788,21 +788,21 @@ var StudentFormModal = function (_Component) {
     return StudentFormModal;
 }(_react.Component);
 
-var DeleteStudentModal = function (_Component2) {
-    _inherits(DeleteStudentModal, _Component2);
+var ArchiveStudentModal = function (_Component2) {
+    _inherits(ArchiveStudentModal, _Component2);
 
-    function DeleteStudentModal(props) {
-        _classCallCheck(this, DeleteStudentModal);
+    function ArchiveStudentModal(props) {
+        _classCallCheck(this, ArchiveStudentModal);
 
-        var _this5 = _possibleConstructorReturn(this, (DeleteStudentModal.__proto__ || Object.getPrototypeOf(DeleteStudentModal)).call(this, props));
+        var _this5 = _possibleConstructorReturn(this, (ArchiveStudentModal.__proto__ || Object.getPrototypeOf(ArchiveStudentModal)).call(this, props));
 
-        _this5.confirmDelete = _this5.confirmDelete.bind(_this5);
+        _this5.confirmArchive = _this5.confirmArchive.bind(_this5);
         return _this5;
     }
 
-    _createClass(DeleteStudentModal, [{
-        key: "confirmDelete",
-        value: function confirmDelete() {
+    _createClass(ArchiveStudentModal, [{
+        key: "confirmArchive",
+        value: function confirmArchive() {
             var _this6 = this;
 
             var dismissToast = (0, _dismissable_toast_maker2.default)({
@@ -858,7 +858,7 @@ var DeleteStudentModal = function (_Component2) {
                     null,
                     _react2.default.createElement(
                         _reactstrap.Button,
-                        { outline: true, color: "warning", onClick: this.confirmDelete },
+                        { outline: true, color: "warning", onClick: this.confirmArchive },
                         "Confirm Archive"
                     )
                 )
@@ -866,9 +866,9 @@ var DeleteStudentModal = function (_Component2) {
         }
     }]);
 
-    return DeleteStudentModal;
+    return ArchiveStudentModal;
 }(_react.Component);
 
 exports.StudentFormModal = StudentFormModal;
-exports.DeleteStudentModal = DeleteStudentModal;
+exports.ArchiveStudentModal = ArchiveStudentModal;
 //# sourceMappingURL=modals.js.map

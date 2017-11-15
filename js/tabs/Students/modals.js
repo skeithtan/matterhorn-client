@@ -507,14 +507,14 @@ class StudentFormModal extends Component {
 
 }
 
-class DeleteStudentModal extends Component {
+class ArchiveStudentModal extends Component {
     constructor(props) {
         super(props);
 
-        this.confirmDelete = this.confirmDelete.bind(this);
+        this.confirmArchive = this.confirmArchive.bind(this);
     }
 
-    confirmDelete() {
+    confirmArchive() {
         const dismissToast = makeInfoToast({
             title : "Archiving",
             message : "Archiving student...",
@@ -557,7 +557,7 @@ class DeleteStudentModal extends Component {
                 <ModalHeader>Are you sure you want to
                     archive {name}?</ModalHeader>
                 <ModalFooter>
-                    <Button outline color="warning" onClick={this.confirmDelete}>Confirm Archive</Button>
+                    <Button outline color="warning" onClick={this.confirmArchive}>Confirm Archive</Button>
                 </ModalFooter>
             </Modal>
         );
@@ -566,5 +566,5 @@ class DeleteStudentModal extends Component {
 
 export {
     StudentFormModal,
-    DeleteStudentModal,
+    ArchiveStudentModal,
 };

@@ -4,7 +4,7 @@ import graphql from "../../../graphql";
 import { Button } from "reactstrap";
 
 import {
-    DeleteInstitutionModal,
+    ArchiveInstitutionModal,
     InstitutionFormModal,
 } from "../modals";
 
@@ -158,10 +158,10 @@ class OverviewHead extends Component {
                             onClick={this.toggleDeleteInstitution}>Archive</Button>
                 </div>
 
-                <DeleteInstitutionModal isOpen={this.state.deleteInstitutionIsShowing}
-                                        institution={this.props.institution}
-                                        toggle={this.toggleDeleteInstitution}
-                                        refresh={this.props.onDeleteInstitution}/>
+                <ArchiveInstitutionModal isOpen={this.state.deleteInstitutionIsShowing}
+                                         institution={this.props.institution}
+                                         toggle={this.toggleDeleteInstitution}
+                                         refresh={this.props.onDeleteInstitution}/>
 
                 <InstitutionFormModal edit
                                       isOpen={this.state.editInstitutionIsShowing}

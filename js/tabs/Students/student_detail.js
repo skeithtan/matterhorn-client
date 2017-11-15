@@ -9,7 +9,7 @@ import {
 
 } from "./student_detail_overview";
 import {
-    DeleteStudentModal,
+    ArchiveStudentModal,
     StudentFormModal,
 
 } from "./modals";
@@ -171,10 +171,10 @@ class StudentDetailHead extends Component {
                     <Button outline size="sm" color="warning" onClick={this.toggleDeleteStudent}>Archive</Button>
                 </div>
 
-                <DeleteStudentModal isOpen={this.state.deleteStudentIsShowing}
-                                    student={this.props.student}
-                                    toggle={this.toggleDeleteStudent}
-                                    refresh={this.props.onDeleteStudent}/>
+                <ArchiveStudentModal isOpen={this.state.deleteStudentIsShowing}
+                                     student={this.props.student}
+                                     toggle={this.toggleDeleteStudent}
+                                     refresh={this.props.onDeleteStudent}/>
 
                 <StudentFormModal edit
                                   isOpen={this.state.editStudentIsShowing}

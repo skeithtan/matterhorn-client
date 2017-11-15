@@ -201,7 +201,7 @@ var OverviewHead = function (_Component2) {
                         "Archive"
                     )
                 ),
-                _react2.default.createElement(_modals.DeleteInstitutionModal, { isOpen: this.state.deleteInstitutionIsShowing,
+                _react2.default.createElement(_modals.ArchiveInstitutionModal, { isOpen: this.state.deleteInstitutionIsShowing,
                     institution: this.props.institution,
                     toggle: this.toggleDeleteInstitution,
                     refresh: this.props.onDeleteInstitution }),

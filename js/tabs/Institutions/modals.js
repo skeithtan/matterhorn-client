@@ -291,13 +291,13 @@ class InstitutionFormModal extends Component {
     }
 }
 
-class DeleteInstitutionModal extends Component {
+class ArchiveInstitutionModal extends Component {
     constructor(props) {
         super(props);
-        this.confirmDelete = this.confirmDelete.bind(this);
+        this.confirmArchive = this.confirmArchive.bind(this);
     }
 
-    confirmDelete() {
+    confirmArchive() {
         const dismissToast = makeInfoToast({
             title : "Deleting",
             message : "Deleting institution...",
@@ -336,7 +336,7 @@ class DeleteInstitutionModal extends Component {
                 <ModalHeader>Are you sure you want to
                     archive {this.props.institution.name}?</ModalHeader>
                 <ModalFooter>
-                    <Button outline color="warning" onClick={this.confirmDelete}>Confirm Archive</Button>
+                    <Button outline color="warning" onClick={this.confirmArchive}>Confirm Archive</Button>
                 </ModalFooter>
             </Modal>
         );
@@ -621,14 +621,14 @@ class MemorandumFormModal extends Component {
 
 }
 
-class DeleteMemorandumModal extends Component {
+class ArchiveMemorandumModal extends Component {
     constructor(props) {
         super(props);
 
-        this.confirmDelete = this.confirmDelete.bind(this);
+        this.confirmArchive = this.confirmArchive.bind(this);
     }
 
-    confirmDelete() {
+    confirmArchive() {
         const dismissToast = makeInfoToast({
             title : "Archiving",
             message : "Archiving memorandum...",
@@ -667,7 +667,7 @@ class DeleteMemorandumModal extends Component {
                 <ModalHeader toggle={this.props.toggle}>Archive Memorandum</ModalHeader>
                 <ModalFooter>
                     <Button outline color="warning" id="archive-memorandum-modal-submit"
-                            onClick={this.confirmDelete}>Archive</Button>
+                            onClick={this.confirmArchive}>Archive</Button>
                 </ModalFooter>
             </Modal>
         );
@@ -676,7 +676,7 @@ class DeleteMemorandumModal extends Component {
 
 export {
     InstitutionFormModal,
-    DeleteInstitutionModal,
+    ArchiveInstitutionModal,
     MemorandumFormModal,
-    DeleteMemorandumModal,
+    ArchiveMemorandumModal,
 };
