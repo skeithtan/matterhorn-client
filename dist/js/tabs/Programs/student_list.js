@@ -76,7 +76,7 @@ var StudentList = function (_Component) {
 
             return _react2.default.createElement(
                 "div",
-                { className: "h-100 d-flex flex-column" },
+                { className: "programs-page-pane d-flex flex-column" },
                 _react2.default.createElement(StudentListHead, { activeProgram: this.props.activeProgram,
                     refreshStudents: this.props.refreshStudents }),
                 _react2.default.createElement(StudentListTable, { studyFields: studyFields })

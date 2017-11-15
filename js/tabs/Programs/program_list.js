@@ -60,7 +60,7 @@ class ProgramList extends Component {
         const filteredPrograms = this.getFilteredPrograms();
 
         return (
-            <div className="h-100 d-flex flex-column">
+            <div className="programs-page-pane d-flex flex-column">
                 <ProgramListHead year={ this.props.activeYear }
                                  activeTerm={ this.props.activeTerm }
                                  setActiveTerm={ this.props.setActiveTerm }/>

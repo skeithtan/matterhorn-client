@@ -43,7 +43,7 @@ class YearList extends Component {
         const years = this.getArrangedYears();
 
         return (
-            <div className="sidebar h-100"
+            <div className="programs-page-pane"
                  id="term-list">
                 <YearListHead toggleAddAcademicYear={this.toggleAddAcademicYear}/>
                 <YearListTable yearList={years}

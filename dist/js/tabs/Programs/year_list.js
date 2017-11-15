@@ -71,7 +71,7 @@ var YearList = function (_Component) {
 
             return _react2.default.createElement(
                 "div",
-                { className: "sidebar h-100",
+                { className: "programs-page-pane",
                     id: "term-list" },
                 _react2.default.createElement(YearListHead, { toggleAddAcademicYear: this.toggleAddAcademicYear }),
                 _react2.default.createElement(YearListTable, { yearList: years,

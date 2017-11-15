@@ -85,7 +85,7 @@ var ProgramList = function (_Component) {
 
             return _react2.default.createElement(
                 "div",
-                { className: "h-100 d-flex flex-column" },
+                { className: "programs-page-pane d-flex flex-column" },
                 _react2.default.createElement(ProgramListHead, { year: this.props.activeYear,
                     activeTerm: this.props.activeTerm,
                     setActiveTerm: this.props.setActiveTerm }),

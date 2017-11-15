@@ -396,6 +396,7 @@ li.nav-item.active .sidebar-image,
 .collapsible.collapsed {
     width      : 64px;
     background : var(--light);
+    transform  : rotate(0deg);
     box-shadow : 0 3px 5px 0px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
     cursor     : pointer;
     z-index    : 1; /* This sets the shadow above */
@@ -654,7 +655,7 @@ li.nav-item.active .sidebar-image,
 }
 
 /*Programs page*/
-#programs-page > div, #program-list {
+.programs-page-pane {
     border-right : 1px solid var(--gray);
     width        : 33.33%;
     min-width    : 320px;

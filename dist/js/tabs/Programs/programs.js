@@ -74,6 +74,8 @@ var Programs = function (_Component) {
         _this.refreshYears = _this.refreshYears.bind(_this);
         _this.setActiveYear = _this.setActiveYear.bind(_this);
         _this.setActiveTerm = _this.setActiveTerm.bind(_this);
+        _this.programsList = _this.programsList.bind(_this);
+        _this.studentList = _this.studentList.bind(_this);
         _this.refreshStudents = _this.refreshStudents.bind(_this);
         _this.setActiveProgram = _this.setActiveProgram.bind(_this);
         _this.setSidebarContent = _this.setSidebarContent.bind(_this);
@@ -162,36 +164,69 @@ var Programs = function (_Component) {
             });
         }
     }, {
-        key: "render",
-        value: function render() {
-            var sidebarClass = "sidebar-right ";
-            if (this.state.sidebarContent === null) {
-                sidebarClass += "dismissed";
+        key: "programsList",
+        value: function programsList() {
+            if (this.state.activeYear === null) {
+                return _react2.default.createElement(
+                    "div",
+                    { className: "programs-page-pane" },
+                    _react2.default.createElement(
+                        "div",
+                        { className: "loading-container" },
+                        _react2.default.createElement(
+                            "h4",
+                            null,
+                            "Select an academic year to see its programs"
+                        )
+                    )
+                );
             }
 
+            return _react2.default.createElement(_program_list2.default, { programList: this.state.programList,
+                activeYear: this.state.activeYear,
+                activeTerm: this.state.activeTerm,
+                activeProgram: this.state.activeProgram,
+                setActiveTerm: this.setActiveTerm,
+                setActiveProgram: this.setActiveProgram });
+        }
+    }, {
+        key: "studentList",
+        value: function studentList() {
+            if (this.state.activeProgram === null) {
+                return _react2.default.createElement(
+                    "div",
+                    { className: "programs-page-pane" },
+                    _react2.default.createElement(
+                        "div",
+                        { className: "loading-container" },
+                        _react2.default.createElement(
+                            "h4",
+                            null,
+                            "Select a program to see its students"
+                        )
+                    )
+                );
+            }
+
+            return _react2.default.createElement(_student_list2.default, { studyFieldList: this.state.studyFieldList,
+                activeProgram: this.state.activeProgram,
+                refreshStudents: this.refreshStudents });
+        }
+    }, {
+        key: "render",
+        value: function render() {
             return _react2.default.createElement(
                 "div",
-                { className: "d-flex flex-row h-100" },
+                { id: "programs-page",
+                    className: "container-fluid d-flex flex-row p-0 h-100 page-body" },
+                _react2.default.createElement(_year_list2.default, { yearList: this.state.yearList,
+                    setActiveYear: this.setActiveYear,
+                    activeYear: this.state.activeYear }),
+                this.programsList(),
+                this.studentList(),
                 _react2.default.createElement(
                     "div",
-                    { id: "programs-page",
-                        className: "container-fluid d-flex flex-row p-0 h-100 page-body" },
-                    _react2.default.createElement(_year_list2.default, { yearList: this.state.yearList,
-                        setActiveYear: this.setActiveYear,
-                        activeYear: this.state.activeYear }),
-                    this.state.activeYear !== null && _react2.default.createElement(_program_list2.default, { programList: this.state.programList,
-                        activeYear: this.state.activeYear,
-                        activeTerm: this.state.activeTerm,
-                        activeProgram: this.state.activeProgram,
-                        setActiveTerm: this.setActiveTerm,
-                        setActiveProgram: this.setActiveProgram }),
-                    this.state.activeProgram !== null && _react2.default.createElement(_student_list2.default, { studyFieldList: this.state.studyFieldList,
-                        activeProgram: this.state.activeProgram,
-                        refreshStudents: this.refreshStudents })
-                ),
-                _react2.default.createElement(
-                    "div",
-                    { className: sidebarClass },
+                    { className: "sidebar-right" },
                     this.state.sidebarContent
                 )
             );

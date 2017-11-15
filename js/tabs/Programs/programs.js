@@ -80,6 +80,8 @@ class Programs extends Component {
         this.refreshYears = this.refreshYears.bind(this);
         this.setActiveYear = this.setActiveYear.bind(this);
         this.setActiveTerm = this.setActiveTerm.bind(this);
+        this.programsList = this.programsList.bind(this);
+        this.studentList = this.studentList.bind(this);
         this.refreshStudents = this.refreshStudents.bind(this);
         this.setActiveProgram = this.setActiveProgram.bind(this);
         this.setSidebarContent = this.setSidebarContent.bind(this);
@@ -150,38 +152,63 @@ class Programs extends Component {
         });
     }
 
-    render() {
-        let sidebarClass = "sidebar-right ";
-        if (this.state.sidebarContent === null) {
-            sidebarClass += "dismissed";
+    programsList() {
+        if (this.state.activeYear === null) {
+            return (
+                <div className="programs-page-pane">
+                    <div className="loading-container">
+                        <h4>Select an academic year to see its programs</h4>
+                    </div>
+                </div>
+            );
         }
 
         return (
-            <div className="d-flex flex-row h-100">
-                <div id="programs-page"
-                     className="container-fluid d-flex flex-row p-0 h-100 page-body">
-                    <YearList yearList={this.state.yearList}
-                              setActiveYear={this.setActiveYear}
-                              activeYear={this.state.activeYear}/>
-                    {this.state.activeYear !== null &&
-                    <ProgramList programList={this.state.programList}
-                                 activeYear={this.state.activeYear}
-                                 activeTerm={this.state.activeTerm}
-                                 activeProgram={this.state.activeProgram}
-                                 setActiveTerm={this.setActiveTerm}
-                                 setActiveProgram={this.setActiveProgram}/>
-                    }
-                    {this.state.activeProgram !== null &&
-                    <StudentList studyFieldList={this.state.studyFieldList}
-                                 activeProgram={this.state.activeProgram}
-                                 refreshStudents={this.refreshStudents}/>
-                    }
+            <ProgramList programList={this.state.programList}
+                         activeYear={this.state.activeYear}
+                         activeTerm={this.state.activeTerm}
+                         activeProgram={this.state.activeProgram}
+                         setActiveTerm={this.setActiveTerm}
+                         setActiveProgram={this.setActiveProgram}/>
+        );
+    }
 
+    studentList() {
+        if (this.state.activeProgram === null) {
+            return (
+                <div className="programs-page-pane">
+                    <div className="loading-container">
+                        <h4>Select a program to see its students</h4>
+                    </div>
                 </div>
-                <div className={sidebarClass}>
+            );
+        }
+
+        return (
+            <StudentList studyFieldList={this.state.studyFieldList}
+                         activeProgram={this.state.activeProgram}
+                         refreshStudents={this.refreshStudents}/>
+        );
+    }
+
+    render() {
+        return (
+
+            <div id="programs-page"
+                 className="container-fluid d-flex flex-row p-0 h-100 page-body">
+                <YearList yearList={this.state.yearList}
+                          setActiveYear={this.setActiveYear}
+                          activeYear={this.state.activeYear}/>
+
+                {this.programsList()}
+                {this.studentList()}
+
+                <div className="sidebar-right">
                     {this.state.sidebarContent}
                 </div>
+
             </div>
+
         );
     }
 }

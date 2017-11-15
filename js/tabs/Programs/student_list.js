@@ -52,7 +52,7 @@ class StudentList extends Component {
         const studyFields = this.getSortedStudyFields();
 
         return (
-            <div className="h-100 d-flex flex-column">
+            <div className="programs-page-pane d-flex flex-column">
                 <StudentListHead activeProgram={ this.props.activeProgram }
                                  refreshStudents={ this.props.refreshStudents }/>
                 <StudentListTable studyFields={ studyFields }/>
