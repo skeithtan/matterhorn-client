@@ -105,12 +105,17 @@ class YearListTable extends Component {
             const setActiveYear = () => this.props.setActiveYear(year);
 
             const yearStart = Number(year.academic_year_start);
-            return <SectionRow selectable
-                               key={index}
-                               onClick={setActiveYear}
-                               active={isActive}>
-                <SectionRowContent>{yearStart} - {yearStart + 1}</SectionRowContent>
-            </SectionRow>;
+
+            return (
+                <SectionRow selectable
+                            key={index}
+                            onClick={setActiveYear}
+                            active={isActive}>
+
+                    <SectionRowContent>{yearStart} - {yearStart + 1}</SectionRowContent>
+
+                </SectionRow>
+            );
         });
 
         return (

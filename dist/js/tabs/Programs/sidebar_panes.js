@@ -25,6 +25,8 @@ var _moment = require("moment");
 
 var _moment2 = _interopRequireDefault(_moment);
 
+var _reactstrap = require("reactstrap");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -115,6 +117,7 @@ var AcademicYearSidebarPane = function (_Component) {
                         _react2.default.createElement(
                             "h5",
                             { className: "mb-0" },
+                            "Academic Year ",
                             academicYearFull
                         )
                     )
@@ -122,6 +125,51 @@ var AcademicYearSidebarPane = function (_Component) {
                 _react2.default.createElement(
                     "div",
                     { className: "page-body" },
+                    _react2.default.createElement(
+                        _section.Section,
+                        null,
+                        _react2.default.createElement(
+                            _section.SectionTitle,
+                            null,
+                            "Details"
+                        ),
+                        _react2.default.createElement(
+                            _section.SectionTable,
+                            null,
+                            _react2.default.createElement(
+                                _section.SectionRow,
+                                null,
+                                _react2.default.createElement(
+                                    _section.SectionRowTitle,
+                                    null,
+                                    "Academic Year"
+                                ),
+                                _react2.default.createElement(
+                                    _section.SectionRowContent,
+                                    null,
+                                    academicYearFull
+                                )
+                            ),
+                            _react2.default.createElement(
+                                _section.SectionRow,
+                                { className: "d-flex flex-row justify-content-between" },
+                                _react2.default.createElement(
+                                    _reactstrap.Button,
+                                    { outline: true,
+                                        color: "success",
+                                        size: "sm" },
+                                    "Edit Academic Year"
+                                ),
+                                _react2.default.createElement(
+                                    _reactstrap.Button,
+                                    { outline: true,
+                                        color: "danger",
+                                        size: "sm" },
+                                    "Delete"
+                                )
+                            )
+                        )
+                    ),
                     terms
                 )
             );

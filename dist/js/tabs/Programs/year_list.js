@@ -169,6 +169,7 @@ var YearListTable = function (_Component3) {
                 };
 
                 var yearStart = Number(year.academic_year_start);
+
                 return _react2.default.createElement(
                     _section.SectionRow,
                     { selectable: true,

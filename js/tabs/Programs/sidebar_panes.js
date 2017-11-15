@@ -10,6 +10,7 @@ import {
     SectionTitle,
 } from "../../components/section";
 import moment from "moment";
+import { Button } from "reactstrap";
 
 
 function fetchAcademicYear(id, onResult) {
@@ -85,11 +86,29 @@ class AcademicYearSidebarPane extends Component {
             <div className="p-0 h-100 d-flex flex-column">
                 <div className="page-head pt-5 d-flex flex-row align-items-end">
                     <div className="mr-auto">
-                        <h5 className="mb-0">{academicYearFull}</h5>
+                        <h5 className="mb-0">Academic Year {academicYearFull}</h5>
                     </div>
                 </div>
 
                 <div className="page-body">
+                    <Section>
+                        <SectionTitle>Details</SectionTitle>
+                        <SectionTable>
+                            <SectionRow>
+                                <SectionRowTitle>Academic Year</SectionRowTitle>
+                                <SectionRowContent>{academicYearFull}</SectionRowContent>
+                            </SectionRow>
+                            <SectionRow className="d-flex flex-row justify-content-between">
+                                <Button outline
+                                        color="success"
+                                        size="sm">Edit Academic Year</Button>
+                                <Button outline
+                                        color="danger"
+                                        size="sm">Delete</Button>
+                            </SectionRow>
+                        </SectionTable>
+                    </Section>
+
                     {terms}
                 </div>
             </div>
