@@ -10,13 +10,15 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _section = require("../../components/section");
-
 var _loading = require("../../components/loading");
 
 var _loading2 = _interopRequireDefault(_loading);
 
+var _modals = require("./modals");
+
 var _reactstrap = require("reactstrap");
+
+var _section = require("../../components/section");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -34,11 +36,23 @@ var YearList = function (_Component) {
 
         var _this = _possibleConstructorReturn(this, (YearList.__proto__ || Object.getPrototypeOf(YearList)).call(this, props));
 
+        _this.state = {
+            addAcademicYearIsShowing: false
+        };
+
         _this.getArrangedYears = _this.getArrangedYears.bind(_this);
+        _this.toggleAddAcademicYear = _this.toggleAddAcademicYear.bind(_this);
         return _this;
     }
 
     _createClass(YearList, [{
+        key: "toggleAddAcademicYear",
+        value: function toggleAddAcademicYear() {
+            this.setState({
+                addAcademicYearIsShowing: !this.state.addAcademicYearIsShowing
+            });
+        }
+    }, {
         key: "getArrangedYears",
         value: function getArrangedYears() {
             if (this.props.yearList === null) {
@@ -70,11 +84,14 @@ var YearList = function (_Component) {
 
             return _react2.default.createElement(
                 "div",
-                { className: "sidebar h-100", id: "term-list" },
-                _react2.default.createElement(YearListHead, null),
+                { className: "sidebar h-100",
+                    id: "term-list" },
+                _react2.default.createElement(YearListHead, { toggleAddAcademicYear: this.toggleAddAcademicYear }),
                 _react2.default.createElement(YearListTable, { yearList: years,
                     activeYear: this.props.activeYear,
-                    setActiveYear: this.props.setActiveYear })
+                    setActiveYear: this.props.setActiveYear }),
+                _react2.default.createElement(_modals.AcademicYearFormModal, { toggle: this.toggleAddAcademicYear,
+                    isOpen: this.state.addAcademicYearIsShowing })
             );
         }
     }]);
@@ -102,7 +119,11 @@ var YearListHead = function (_Component2) {
                     { className: "page-head-controls" },
                     _react2.default.createElement(
                         _reactstrap.Button,
-                        { outline: true, color: "success", size: "sm", className: "ml-auto" },
+                        { outline: true,
+                            color: "success",
+                            size: "sm",
+                            className: "ml-auto",
+                            onClick: this.props.toggleAddAcademicYear },
                         "Add"
                     )
                 ),
@@ -167,7 +188,10 @@ var YearListTable = function (_Component3) {
                 var yearStart = Number(year);
                 return _react2.default.createElement(
                     _section.SectionRow,
-                    { selectable: true, key: index, onClick: setActiveYear, active: isActive },
+                    { selectable: true,
+                        key: index,
+                        onClick: setActiveYear,
+                        active: isActive },
                     _react2.default.createElement(
                         _section.SectionRowContent,
                         null,

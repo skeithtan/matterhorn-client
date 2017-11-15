@@ -208,9 +208,9 @@ var InstitutionFormModal = function (_Component) {
     }, {
         key: "render",
         value: function render() {
-            var formErrors = this.getFormErrors();
-            var formHasErrors = formErrors.formHasErrors;
-            var fieldErrors = formErrors.fieldErrors;
+            var _getFormErrors = this.getFormErrors(),
+                formHasErrors = _getFormErrors.formHasErrors,
+                fieldErrors = _getFormErrors.fieldErrors;
 
             var countries = _settings2.default.countries.map(function (name, index) {
                 return _react2.default.createElement(
@@ -692,9 +692,9 @@ var MemorandumFormModal = function (_Component3) {
         value: function render() {
             var _this12 = this;
 
-            var _getFormErrors = this.getFormErrors(),
-                formHasErrors = _getFormErrors.formHasErrors,
-                fieldErrors = _getFormErrors.fieldErrors;
+            var _getFormErrors2 = this.getFormErrors(),
+                formHasErrors = _getFormErrors2.formHasErrors,
+                fieldErrors = _getFormErrors2.fieldErrors;
 
             var linkages = Object.entries(_settings2.default.linkages).map(function (linkage) {
                 var linkageCode = linkage[0];

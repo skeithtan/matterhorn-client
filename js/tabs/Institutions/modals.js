@@ -173,9 +173,7 @@ class InstitutionFormModal extends Component {
     }
 
     render() {
-        const formErrors = this.getFormErrors();
-        const formHasErrors = formErrors.formHasErrors;
-        const fieldErrors = formErrors.fieldErrors;
+        const { formHasErrors, fieldErrors } = this.getFormErrors();
 
         const countries = settings.countries.map((name, index) =>
             <option key={index}>{name}</option>,
