@@ -203,8 +203,8 @@ var StudentDetailHead = function (_Component2) {
                     ),
                     _react2.default.createElement(
                         _reactstrap.Button,
-                        { outline: true, size: "sm", color: "danger", onClick: this.toggleDeleteStudent },
-                        "Delete"
+                        { outline: true, size: "sm", color: "warning", onClick: this.toggleDeleteStudent },
+                        "Archive"
                     )
                 ),
                 _react2.default.createElement(_modals.DeleteStudentModal, { isOpen: this.state.deleteStudentIsShowing,

@@ -196,9 +196,9 @@ var OverviewHead = function (_Component2) {
                     ),
                     _react2.default.createElement(
                         _reactstrap.Button,
-                        { outline: true, size: "sm", color: "danger",
+                        { outline: true, size: "sm", color: "warning",
                             onClick: this.toggleDeleteInstitution },
-                        "Delete"
+                        "Archive"
                     )
                 ),
                 _react2.default.createElement(_modals.DeleteInstitutionModal, { isOpen: this.state.deleteInstitutionIsShowing,

@@ -138,8 +138,8 @@ class MemorandumDetails extends Component {
                                     onClick={ viewMemorandum }>View</Button>
                             <Button outline color="success" size="sm" className="mr-auto"
                                     onClick={ this.props.toggleEditMemorandum }>Edit</Button>
-                            <Button outline color="danger" size="sm"
-                                    onClick={ this.props.toggleDeleteMemorandum }>Delete</Button>
+                            <Button outline color="warning" size="sm"
+                                    onClick={ this.props.toggleDeleteMemorandum }>Archive</Button>
                         </SectionRowContent>
                     </SectionRow>
                 </SectionTable>
@@ -270,8 +270,8 @@ class ProgramDetails extends Component {
                         <SectionRowContent className="d-flex">
                             <Button outline color="success" size="sm" className="mr-auto"
                                     onClick={ this.props.toggleEditMemorandum }>Edit</Button>
-                            <Button outline color="danger" size="sm"
-                                    onClick={ this.props.toggleDeleteMemorandum }>Delete</Button>
+                            <Button outline color="warning" size="sm"
+                                    onClick={ this.props.toggleDeleteMemorandum }>Archive</Button>
                         </SectionRowContent>
                     </SectionRow>
                 </SectionTable>

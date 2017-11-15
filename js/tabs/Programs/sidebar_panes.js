@@ -101,9 +101,6 @@ class AcademicYearSidebarPane extends Component {
                                 <Button outline
                                         color="success"
                                         size="sm">Edit Academic Year</Button>
-                                <Button outline
-                                        color="danger"
-                                        size="sm">Delete</Button>
                             </SectionRow>
                         </SectionTable>
                     </Section>

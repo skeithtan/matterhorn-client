@@ -241,9 +241,9 @@ var MemorandumDetails = function (_Component2) {
                             ),
                             _react2.default.createElement(
                                 _reactstrap.Button,
-                                { outline: true, color: "danger", size: "sm",
+                                { outline: true, color: "warning", size: "sm",
                                     onClick: this.props.toggleDeleteMemorandum },
-                                "Delete"
+                                "Archive"
                             )
                         )
                     )
@@ -458,9 +458,9 @@ var ProgramDetails = function (_Component5) {
                             ),
                             _react2.default.createElement(
                                 _reactstrap.Button,
-                                { outline: true, color: "danger", size: "sm",
+                                { outline: true, color: "warning", size: "sm",
                                     onClick: this.props.toggleDeleteMemorandum },
-                                "Delete"
+                                "Archive"
                             )
                         )
                     )
