@@ -151,6 +151,8 @@ var Programs = function (_Component) {
                     studyFieldList: result.program.studyfield_set
                 });
             });
+
+            this.setSidebarContent(_react2.default.createElement(_sidebar_panes.ProgramsSidebarPane, { program: program }));
         }
     }, {
         key: "refreshStudents",

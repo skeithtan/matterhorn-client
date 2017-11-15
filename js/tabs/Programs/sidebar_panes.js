@@ -14,7 +14,6 @@ import { Button } from "reactstrap";
 
 
 function fetchAcademicYear(id, onResult) {
-    console.log(id);
     graphql.query(`
     {
         terms(year:${id}) {
@@ -145,4 +144,48 @@ class TermSection extends Component {
     }
 }
 
-export { AcademicYearSidebarPane };
+class ProgramsSidebarPane extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return (
+            <div className="p-0 h-100 d-flex flex-column">
+                <div className="page-head pt-5 d-flex flex-row align-items-end">
+                    <div className="mr-auto">
+                        <h5 className="mb-0">{this.props.program.name}</h5>
+                    </div>
+                </div>
+
+                <div className="page-body">
+                    <Section>
+                        <SectionTitle>Details</SectionTitle>
+                        <SectionTable>
+                            <SectionRow>
+                                <SectionRowTitle>Name</SectionRowTitle>
+                                <SectionRowContent>{this.props.program.name}</SectionRowContent>
+                            </SectionRow>
+                            <SectionRow>
+                                <SectionRowTitle>Institution Name</SectionRowTitle>
+                                <SectionRowContent>{this.props.program.memorandum.institution.name}</SectionRowContent>
+                            </SectionRow>
+                            <SectionRow className="d-flex flex-row justify-content-between">
+                                <Button outline
+                                        color="success"
+                                        size="sm">Edit Program</Button>
+                                <Button outline
+                                        color="danger"
+                                        size="sm">Delete</Button>
+                            </SectionRow>
+                        </SectionTable>
+                    </Section>
+
+                </div>
+            </div>
+
+        );
+    }
+}
+
+export { AcademicYearSidebarPane, ProgramsSidebarPane };

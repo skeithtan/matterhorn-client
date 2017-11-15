@@ -4,7 +4,10 @@ import ProgramList from "./program_list";
 import StudentList from "./student_list";
 import terms from "./terms_list";
 import graphql from "../../graphql";
-import { AcademicYearSidebarPane } from "./sidebar_panes";
+import {
+    AcademicYearSidebarPane,
+    ProgramsSidebarPane,
+} from "./sidebar_panes";
 
 
 function fetchYears(onResult) {
@@ -142,6 +145,8 @@ class Programs extends Component {
                 studyFieldList : result.program.studyfield_set,
             });
         });
+
+        this.setSidebarContent(<ProgramsSidebarPane program={program}/>);
     }
 
     refreshStudents() {
