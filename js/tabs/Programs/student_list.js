@@ -145,6 +145,12 @@ class StudentSection extends Component {
     }
 
     render() {
+        let body = (
+            <div className="p-4 pt-5 pb-5 bg-light text-center">
+                <h5 className="text-secondary">There are no students for this study field.</h5>
+            </div>
+        );
+
         const rows = this.props.students.map((student, index) => {
             return (
                 <SectionRow key={ index }>
@@ -154,12 +160,18 @@ class StudentSection extends Component {
             );
         });
 
-        return (
-            <Section>
-                <SectionTitle>{ this.props.title }</SectionTitle>
+        if (this.props.students.length > 0) {
+            body = (
                 <SectionTable>
                     { rows }
                 </SectionTable>
+            );
+        }
+
+        return (
+            <Section>
+                <SectionTitle>{ this.props.title }</SectionTitle>
+                { body }
             </Section>
         );
     }
