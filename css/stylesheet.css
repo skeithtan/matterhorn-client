@@ -159,6 +159,12 @@ input[type="search"]::-webkit-search-cancel-button {
     line-height : 48px;
 }
 
+.tab-content {
+    flex       : 1;
+    min-height : 0;
+    overflow-y : scroll;
+}
+
 /*Draggable region on top*/
 #window-handle-bar {
     height             : 50px;
@@ -620,13 +626,6 @@ li.nav-item.active .sidebar-image,
     100% {
         transform : translateX(0px);
     }
-}
-
-/*Institution Navigation*/
-#tab-content {
-    flex       : 1;
-    min-height : 0;
-    overflow-y : scroll;
 }
 
 /*UploadCare Widget*/

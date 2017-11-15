@@ -10,6 +10,14 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _archives_tabs_list = require("./tabs/archives_tabs_list");
+
+var _archives_tabs_list2 = _interopRequireDefault(_archives_tabs_list);
+
+var _tab_bar = require("../../components/tab_bar");
+
+var _tab_bar2 = _interopRequireDefault(_tab_bar);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -24,12 +32,41 @@ var Archives = function (_Component) {
     function Archives(props) {
         _classCallCheck(this, Archives);
 
-        return _possibleConstructorReturn(this, (Archives.__proto__ || Object.getPrototypeOf(Archives)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (Archives.__proto__ || Object.getPrototypeOf(Archives)).call(this, props));
+
+        _this.state = {
+            activeTab: _archives_tabs_list2.default[0],
+            sidebarContent: null
+        };
+
+        _this.setActiveTab = _this.setActiveTab.bind(_this);
+        return _this;
     }
 
     _createClass(Archives, [{
+        key: "setActiveTab",
+        value: function setActiveTab(tab) {
+            this.setState({
+                activeTab: tab
+            });
+        }
+    }, {
         key: "render",
-        value: function render() {}
+        value: function render() {
+            return _react2.default.createElement(
+                "div",
+                { id: "archives",
+                    className: "container-fluid d-flex flex-column p-0 h-100 w-100" },
+                _react2.default.createElement(
+                    "div",
+                    { className: "tab-content" },
+                    this.state.activeTab.tab
+                ),
+                _react2.default.createElement(_tab_bar2.default, { setActiveTab: this.setActiveTab,
+                    activeTab: this.state.activeTab,
+                    tabs: _archives_tabs_list2.default })
+            );
+        }
     }]);
 
     return Archives;

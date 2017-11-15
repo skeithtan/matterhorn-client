@@ -25,7 +25,7 @@ class Home extends Component {
         return (
             <div id="home"
                  className="d-flex flex-column p-0 h-100 w-100">
-                <div id="tab-content">{this.state.activeTab.tab}</div>
+                <div className="tab-content">{this.state.activeTab.tab}</div>
                 <TabBar setActiveTab={this.setActiveTab}
                         activeTab={this.state.activeTab}
                         tabs={tabs}/>

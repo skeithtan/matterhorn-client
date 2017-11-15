@@ -59,7 +59,7 @@ var Home = function (_Component) {
                     className: "d-flex flex-column p-0 h-100 w-100" },
                 _react2.default.createElement(
                     "div",
-                    { id: "tab-content" },
+                    { className: "tab-content" },
                     this.state.activeTab.tab
                 ),
                 _react2.default.createElement(_tab_bar2.default, { setActiveTab: this.setActiveTab,

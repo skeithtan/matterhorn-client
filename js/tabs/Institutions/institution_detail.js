@@ -53,7 +53,7 @@ class InstitutionDetail extends Component {
             <div id="institution-detail"
                  className="w-100 d-flex flex-row">
                 <div className="container-fluid d-flex flex-column p-0 h-100">
-                    <div id="tab-content">{currentTab}</div>
+                    <div className="tab-content">{currentTab}</div>
                     <TabBar setActiveTab={this.setActiveTab}
                             activeTab={this.state.activeTab}
                             tabs={tabs}/>
