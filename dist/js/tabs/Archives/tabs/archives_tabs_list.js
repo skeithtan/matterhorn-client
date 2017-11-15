@@ -29,6 +29,11 @@ var tabs = [{
     tab: undefined,
     image: "./images/studentgrey.png",
     activeImage: "./images/studentgreen.png"
+}, {
+    name: "Institutions",
+    tab: undefined,
+    image: "./images/institutiongrey.png",
+    activeImage: "./images/institutiongreen.png"
 }];
 
 exports.default = tabs;

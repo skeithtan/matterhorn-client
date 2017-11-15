@@ -21,6 +21,12 @@ const tabs = [
         image : "./images/studentgrey.png",
         activeImage : "./images/studentgreen.png",
     },
+    {
+        name : "Institutions",
+        tab : undefined,
+        image : "./images/institutiongrey.png",
+        activeImage : "./images/institutiongreen.png",
+    },
 ];
 
 export default tabs;
