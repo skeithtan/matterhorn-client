@@ -218,7 +218,7 @@ var Programs = function (_Component) {
             return _react2.default.createElement(
                 "div",
                 { id: "programs-page",
-                    className: "container-fluid d-flex flex-row p-0 h-100 page-body" },
+                    className: "d-flex flex-row p-0 h-100" },
                 _react2.default.createElement(_year_list2.default, { yearList: this.state.yearList,
                     setActiveYear: this.setActiveYear,
                     activeYear: this.state.activeYear }),

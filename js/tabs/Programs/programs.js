@@ -195,7 +195,7 @@ class Programs extends Component {
         return (
 
             <div id="programs-page"
-                 className="container-fluid d-flex flex-row p-0 h-100 page-body">
+                 className="d-flex flex-row p-0 h-100">
                 <YearList yearList={this.state.yearList}
                           setActiveYear={this.setActiveYear}
                           activeYear={this.state.activeYear}/>
