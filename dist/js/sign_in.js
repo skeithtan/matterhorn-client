@@ -203,7 +203,7 @@ var SignIn = function (_Component) {
             }
 
             var handleEnterKeypress = function handleEnterKeypress(event) {
-                if (event.key === "Enter" && !formHasErrors) {
+                if (event.key === "Enter" && !formHasErrors && !_this5.state.invalidCredentials) {
                     _this5.attemptSignIn();
                 }
             };
@@ -218,11 +218,14 @@ var SignIn = function (_Component) {
                         className: "d-flex flex-column justify-content-center align-items-center " + (this.state.showing ? "signed-out" : "signed-in") },
                     _react2.default.createElement(
                         "div",
-                        { id: "logo-set", className: "d-flex flex-row align-items-center mb-3" },
-                        _react2.default.createElement("img", { src: "./images/dlsu_white.png", className: "mr-5 dlsu-logo" }),
+                        { id: "logo-set",
+                            className: "d-flex flex-row align-items-center mb-3" },
+                        _react2.default.createElement("img", { src: "./images/dlsu_white.png",
+                            className: "mr-5 dlsu-logo" }),
                         _react2.default.createElement(
                             "h1",
-                            { id: "erio-logo", className: "text-white" },
+                            { id: "erio-logo",
+                                className: "text-white" },
                             "External Relations and Internationalization Office"
                         )
                     ),
@@ -232,23 +235,30 @@ var SignIn = function (_Component) {
                         _react2.default.createElement(SignInSpinner, { className: this.state.loading ? "showing" : "hidden" }),
                         _react2.default.createElement(
                             "div",
-                            { id: "sign-in-box", className: "flex-column\n                                " + (this.state.loading || this.state.isSignedIn ? "hidden" : "showing") + "\n                                " + (this.state.invalidCredentials ? "shaking" : "") },
+                            { id: "sign-in-box",
+                                className: "flex-column\n                                " + (this.state.loading || this.state.isSignedIn ? "hidden" : "showing") + "\n                                " + (this.state.invalidCredentials ? "shaking" : "") },
                             complaint !== null && _react2.default.createElement(
                                 "p",
                                 { className: "mb-3 text-center text-white" },
                                 complaint
                             ),
                             _react2.default.createElement(_reactstrap.Input, { className: "bg-dlsu-lighter text-white border-0 mb-3",
-                                placeholder: "Username", onChange: this.getChangeHandler("username"),
+                                placeholder: "Username",
+                                onChange: this.getChangeHandler("username"),
                                 onKeyPress: handleEnterKeypress,
                                 defaultValue: this.state.form.username }),
-                            _react2.default.createElement(_reactstrap.Input, { type: "password", className: "bg-dlsu-lighter text-white border-0 mb-3",
-                                placeholder: "Password", onChange: this.getChangeHandler("password"),
+                            _react2.default.createElement(_reactstrap.Input, { type: "password",
+                                className: "bg-dlsu-lighter text-white border-0 mb-3",
+                                placeholder: "Password",
+                                onChange: this.getChangeHandler("password"),
                                 onKeyPress: handleEnterKeypress,
                                 defaultValue: this.state.form.password }),
                             _react2.default.createElement(
                                 _reactstrap.Button,
-                                { outline: true, color: "light", disabled: formHasErrors, onClick: this.attemptSignIn },
+                                { outline: true,
+                                    color: "light",
+                                    disabled: formHasErrors || this.state.invalidCredentials,
+                                    onClick: this.attemptSignIn },
                                 "Sign in"
                             )
                         )
@@ -285,7 +295,8 @@ var SignInSpinner = function (_Component2) {
         value: function render() {
             return _react2.default.createElement(
                 "div",
-                { id: "sign-in-spinner", className: this.props.className },
+                { id: "sign-in-spinner",
+                    className: this.props.className },
                 _react2.default.createElement(
                     "div",
                     { className: "spinner spinner-white spinner-lg" },

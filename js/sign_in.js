@@ -155,7 +155,7 @@ class SignIn extends Component {
         }
 
         const handleEnterKeypress = (event) => {
-            if (event.key === "Enter" && !formHasErrors) {
+            if (event.key === "Enter" && !formHasErrors && !this.state.invalidCredentials) {
                 this.attemptSignIn();
             }
         };
@@ -167,9 +167,12 @@ class SignIn extends Component {
                 <div id="sign-in-contents"
                      className={`d-flex flex-column justify-content-center align-items-center ${this.state.showing ? "signed-out" : "signed-in"}`}>
 
-                    <div id="logo-set" className="d-flex flex-row align-items-center mb-3">
-                        <img src="./images/dlsu_white.png" className="mr-5 dlsu-logo"/>
-                        <h1 id="erio-logo" className="text-white">
+                    <div id="logo-set"
+                         className="d-flex flex-row align-items-center mb-3">
+                        <img src="./images/dlsu_white.png"
+                             className="mr-5 dlsu-logo"/>
+                        <h1 id="erio-logo"
+                            className="text-white">
                             External Relations and Internationalization Office
                         </h1>
                     </div>
@@ -178,7 +181,8 @@ class SignIn extends Component {
 
                         <SignInSpinner className={this.state.loading ? "showing" : "hidden"}/>
 
-                        <div id="sign-in-box" className={`flex-column
+                        <div id="sign-in-box"
+                             className={`flex-column
                                 ${this.state.loading || this.state.isSignedIn ? "hidden" : "showing"}
                                 ${this.state.invalidCredentials ? "shaking" : ""}`}>
 
@@ -187,16 +191,22 @@ class SignIn extends Component {
                             </p>}
 
                             <Input className="bg-dlsu-lighter text-white border-0 mb-3"
-                                   placeholder="Username" onChange={this.getChangeHandler("username")}
+                                   placeholder="Username"
+                                   onChange={this.getChangeHandler("username")}
                                    onKeyPress={handleEnterKeypress}
                                    defaultValue={this.state.form.username}/>
 
-                            <Input type="password" className="bg-dlsu-lighter text-white border-0 mb-3"
-                                   placeholder="Password" onChange={this.getChangeHandler("password")}
+                            <Input type="password"
+                                   className="bg-dlsu-lighter text-white border-0 mb-3"
+                                   placeholder="Password"
+                                   onChange={this.getChangeHandler("password")}
                                    onKeyPress={handleEnterKeypress}
                                    defaultValue={this.state.form.password}/>
 
-                            <Button outline color="light" disabled={formHasErrors} onClick={this.attemptSignIn}>
+                            <Button outline
+                                    color="light"
+                                    disabled={formHasErrors || this.state.invalidCredentials}
+                                    onClick={this.attemptSignIn}>
                                 Sign in
                             </Button>
                         </div>
@@ -224,7 +234,8 @@ class SignInSpinner extends Component {
 
     render() {
         return (
-            <div id="sign-in-spinner" className={this.props.className}>
+            <div id="sign-in-spinner"
+                 className={this.props.className}>
                 <div className="spinner spinner-white spinner-lg">
                     <div className="bounce1">
 
