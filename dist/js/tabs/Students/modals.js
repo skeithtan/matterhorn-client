@@ -806,8 +806,8 @@ var DeleteStudentModal = function (_Component2) {
             var _this6 = this;
 
             var dismissToast = (0, _dismissable_toast_maker2.default)({
-                title: "Deleting",
-                message: "Deleting student..."
+                title: "Archiving",
+                message: "Archiving student..."
             });
 
             _jquery2.default.ajax({
@@ -819,7 +819,7 @@ var DeleteStudentModal = function (_Component2) {
                     _this6.props.refresh();
                     _izitoast2.default.success({
                         title: "Success",
-                        message: "Student deleted",
+                        message: "Student archived",
                         progressBar: false
                     });
                 },
@@ -828,7 +828,7 @@ var DeleteStudentModal = function (_Component2) {
                     console.log(response);
                     _izitoast2.default.error({
                         title: "Error",
-                        message: "Unable to delete student",
+                        message: "Unable to archive student",
                         progressBar: false
                     });
                 }
@@ -845,26 +845,21 @@ var DeleteStudentModal = function (_Component2) {
 
             return _react2.default.createElement(
                 _reactstrap.Modal,
-                { isOpen: this.props.isOpen, toggle: this.props.toggle, backdrop: true, id: "delete-student-modal" },
+                { isOpen: this.props.isOpen, toggle: this.props.toggle, backdrop: true, id: "archive-student-modal" },
                 _react2.default.createElement(
                     _reactstrap.ModalHeader,
-                    { className: "text-danger" },
-                    "Are you sure you want to delete ",
+                    null,
+                    "Are you sure you want to archive ",
                     name,
                     "?"
-                ),
-                _react2.default.createElement(
-                    _reactstrap.ModalBody,
-                    null,
-                    "This cannot be undone."
                 ),
                 _react2.default.createElement(
                     _reactstrap.ModalFooter,
                     null,
                     _react2.default.createElement(
                         _reactstrap.Button,
-                        { color: "danger", onClick: this.confirmDelete },
-                        "Confirm Delete"
+                        { outline: true, color: "warning", onClick: this.confirmDelete },
+                        "Confirm Archive"
                     )
                 )
             );

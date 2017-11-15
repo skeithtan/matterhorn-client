@@ -516,8 +516,8 @@ class DeleteStudentModal extends Component {
 
     confirmDelete() {
         const dismissToast = makeInfoToast({
-            title : "Deleting",
-            message : "Deleting student...",
+            title : "Archiving",
+            message : "Archiving student...",
         });
 
         $.ajax({
@@ -529,7 +529,7 @@ class DeleteStudentModal extends Component {
                 this.props.refresh();
                 iziToast.success({
                     title : "Success",
-                    message : "Student deleted",
+                    message : "Student archived",
                     progressBar : false,
                 });
             },
@@ -538,7 +538,7 @@ class DeleteStudentModal extends Component {
                 console.log(response);
                 iziToast.error({
                     title : "Error",
-                    message : "Unable to delete student",
+                    message : "Unable to archive student",
                     progressBar : false,
                 });
             },
@@ -553,12 +553,11 @@ class DeleteStudentModal extends Component {
         const name = first + " " + middle + " " + last;
 
         return (
-            <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} backdrop={true} id="delete-student-modal">
-                <ModalHeader className="text-danger">Are you sure you want to
-                    delete {name}?</ModalHeader>
-                <ModalBody>This cannot be undone.</ModalBody>
+            <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} backdrop={true} id="archive-student-modal">
+                <ModalHeader>Are you sure you want to
+                    archive {name}?</ModalHeader>
                 <ModalFooter>
-                    <Button color="danger" onClick={this.confirmDelete}>Confirm Delete</Button>
+                    <Button outline color="warning" onClick={this.confirmDelete}>Confirm Archive</Button>
                 </ModalFooter>
             </Modal>
         );

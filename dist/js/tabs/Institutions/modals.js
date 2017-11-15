@@ -466,8 +466,9 @@ var DeleteInstitutionModal = function (_Component2) {
                     dismissToast();
                     _this6.props.refresh();
                     _izitoast2.default.success({
+                        icon: '',
                         title: "Success",
-                        message: "Institution deleted",
+                        message: "Institution archived",
                         progressBar: false
                     });
                 },
@@ -476,7 +477,7 @@ var DeleteInstitutionModal = function (_Component2) {
                     console.log(response);
                     _izitoast2.default.error({
                         title: "Error",
-                        message: "Unable to delete institution",
+                        message: "Unable to archive institution",
                         progressBar: false
                     });
                 }
@@ -488,26 +489,21 @@ var DeleteInstitutionModal = function (_Component2) {
         value: function render() {
             return _react2.default.createElement(
                 _reactstrap.Modal,
-                { isOpen: this.props.isOpen, toggle: this.props.toggle, backdrop: true, id: "delete-institution-modal" },
+                { isOpen: this.props.isOpen, toggle: this.props.toggle, backdrop: true, id: "archive-institution-modal" },
                 _react2.default.createElement(
                     _reactstrap.ModalHeader,
-                    { className: "text-danger" },
-                    "Are you sure you want to delete ",
+                    null,
+                    "Are you sure you want to archive ",
                     this.props.institution.name,
                     "?"
-                ),
-                _react2.default.createElement(
-                    _reactstrap.ModalBody,
-                    null,
-                    "This cannot be undone."
                 ),
                 _react2.default.createElement(
                     _reactstrap.ModalFooter,
                     null,
                     _react2.default.createElement(
                         _reactstrap.Button,
-                        { color: "danger", onClick: this.confirmDelete },
-                        "Confirm Delete"
+                        { outline: true, color: "warning", onClick: this.confirmDelete },
+                        "Confirm Archive"
                     )
                 )
             );
@@ -926,8 +922,8 @@ var DeleteMemorandumModal = function (_Component4) {
             var _this14 = this;
 
             var dismissToast = (0, _dismissable_toast_maker2.default)({
-                title: "Deleting",
-                message: "Deleting memorandum..."
+                title: "Archiving",
+                message: "Archiving memorandum..."
             });
 
             _jquery2.default.ajax({
@@ -940,7 +936,7 @@ var DeleteMemorandumModal = function (_Component4) {
                     _this14.props.refresh();
                     _izitoast2.default.success({
                         title: "Success",
-                        message: "Memorandum deleted",
+                        message: "Memorandum archived",
                         progressBar: false
                     });
                 },
@@ -949,7 +945,7 @@ var DeleteMemorandumModal = function (_Component4) {
                     console.log(response);
                     _izitoast2.default.error({
                         title: "Error",
-                        message: "Unable to delete memorandum",
+                        message: "Unable to archive memorandum",
                         progressBar: false
                     });
                 }
@@ -961,25 +957,20 @@ var DeleteMemorandumModal = function (_Component4) {
         value: function render() {
             return _react2.default.createElement(
                 _reactstrap.Modal,
-                { isOpen: this.props.isOpen, toggle: this.props.toggle, backdrop: true, id: "delete-memorandum-modal" },
+                { isOpen: this.props.isOpen, toggle: this.props.toggle, backdrop: true, id: "archive-memorandum-modal" },
                 _react2.default.createElement(
                     _reactstrap.ModalHeader,
-                    { className: "text-danger", toggle: this.props.toggle },
-                    "Delete Memorandum"
-                ),
-                _react2.default.createElement(
-                    _reactstrap.ModalBody,
-                    null,
-                    "This cannot be undone."
+                    { toggle: this.props.toggle },
+                    "Archive Memorandum"
                 ),
                 _react2.default.createElement(
                     _reactstrap.ModalFooter,
                     null,
                     _react2.default.createElement(
                         _reactstrap.Button,
-                        { color: "danger", id: "delete-memorandum-modal-submit",
+                        { outline: true, color: "warning", id: "archive-memorandum-modal-submit",
                             onClick: this.confirmDelete },
-                        "Delete"
+                        "Archive"
                     )
                 )
             );

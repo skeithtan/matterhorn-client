@@ -311,8 +311,9 @@ class DeleteInstitutionModal extends Component {
                 dismissToast();
                 this.props.refresh();
                 iziToast.success({
+                    icon: '',
                     title : "Success",
-                    message : "Institution deleted",
+                    message : "Institution archived",
                     progressBar : false,
                 });
             },
@@ -321,7 +322,7 @@ class DeleteInstitutionModal extends Component {
                 console.log(response);
                 iziToast.error({
                     title : "Error",
-                    message : "Unable to delete institution",
+                    message : "Unable to archive institution",
                     progressBar : false,
                 });
             },
@@ -331,12 +332,11 @@ class DeleteInstitutionModal extends Component {
 
     render() {
         return (
-            <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} backdrop={true} id="delete-institution-modal">
-                <ModalHeader className="text-danger">Are you sure you want to
-                    delete {this.props.institution.name}?</ModalHeader>
-                <ModalBody>This cannot be undone.</ModalBody>
+            <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} backdrop={true} id="archive-institution-modal">
+                <ModalHeader>Are you sure you want to
+                    archive {this.props.institution.name}?</ModalHeader>
                 <ModalFooter>
-                    <Button color="danger" onClick={this.confirmDelete}>Confirm Delete</Button>
+                    <Button outline color="warning" onClick={this.confirmDelete}>Confirm Archive</Button>
                 </ModalFooter>
             </Modal>
         );
@@ -630,8 +630,8 @@ class DeleteMemorandumModal extends Component {
 
     confirmDelete() {
         const dismissToast = makeInfoToast({
-            title : "Deleting",
-            message : "Deleting memorandum...",
+            title : "Archiving",
+            message : "Archiving memorandum...",
         });
 
         $.ajax({
@@ -644,7 +644,7 @@ class DeleteMemorandumModal extends Component {
                 this.props.refresh();
                 iziToast.success({
                     title : "Success",
-                    message : "Memorandum deleted",
+                    message : "Memorandum archived",
                     progressBar : false,
                 });
             },
@@ -653,7 +653,7 @@ class DeleteMemorandumModal extends Component {
                 console.log(response);
                 iziToast.error({
                     title : "Error",
-                    message : "Unable to delete memorandum",
+                    message : "Unable to archive memorandum",
                     progressBar : false,
                 });
             },
@@ -663,12 +663,11 @@ class DeleteMemorandumModal extends Component {
 
     render() {
         return (
-            <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} backdrop={true} id="delete-memorandum-modal">
-                <ModalHeader className="text-danger" toggle={this.props.toggle}>Delete Memorandum</ModalHeader>
-                <ModalBody>This cannot be undone.</ModalBody>
+            <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} backdrop={true} id="archive-memorandum-modal">
+                <ModalHeader toggle={this.props.toggle}>Archive Memorandum</ModalHeader>
                 <ModalFooter>
-                    <Button color="danger" id="delete-memorandum-modal-submit"
-                            onClick={this.confirmDelete}>Delete</Button>
+                    <Button outline color="warning" id="archive-memorandum-modal-submit"
+                            onClick={this.confirmDelete}>Archive</Button>
                 </ModalFooter>
             </Modal>
         );
