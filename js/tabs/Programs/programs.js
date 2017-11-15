@@ -203,7 +203,7 @@ class Programs extends Component {
                 {this.programsList()}
                 {this.studentList()}
 
-                <div className="sidebar-right">
+                <div className="programs-page-pane">
                     {this.state.sidebarContent}
                 </div>
 

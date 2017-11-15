@@ -226,7 +226,7 @@ var Programs = function (_Component) {
                 this.studentList(),
                 _react2.default.createElement(
                     "div",
-                    { className: "sidebar-right" },
+                    { className: "programs-page-pane" },
                     this.state.sidebarContent
                 )
             );
