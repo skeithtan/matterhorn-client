@@ -396,8 +396,6 @@ li.nav-item.active .sidebar-image,
 .collapsible.collapsed {
     width      : 64px;
     background : var(--light);
-    transform  : rotate(0deg);
-    float      : left;
     box-shadow : 0 3px 5px 0px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
     cursor     : pointer;
     z-index    : 1; /* This sets the shadow above */
