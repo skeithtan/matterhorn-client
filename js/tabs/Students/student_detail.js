@@ -168,7 +168,7 @@ class StudentDetailHead extends Component {
                         Edit Student
                     </Button>
 
-                    <Button outline size="sm" color="danger" onClick={this.toggleDeleteStudent}>Delete</Button>
+                    <Button outline size="sm" color="warning" onClick={this.toggleDeleteStudent}>Archive</Button>
                 </div>
 
                 <DeleteStudentModal isOpen={this.state.deleteStudentIsShowing}

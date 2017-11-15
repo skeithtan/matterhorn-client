@@ -158,13 +158,6 @@ var AcademicYearSidebarPane = function (_Component) {
                                         color: "success",
                                         size: "sm" },
                                     "Edit Academic Year"
-                                ),
-                                _react2.default.createElement(
-                                    _reactstrap.Button,
-                                    { outline: true,
-                                        color: "danger",
-                                        size: "sm" },
-                                    "Delete"
                                 )
                             )
                         )

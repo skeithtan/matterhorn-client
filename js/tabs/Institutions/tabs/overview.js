@@ -154,8 +154,8 @@ class OverviewHead extends Component {
                 <div className="page-head-actions">
                     <Button outline size="sm" color="success" className="mr-2"
                             onClick={this.toggleEditInstitution}>Edit Institution</Button>
-                    <Button outline size="sm" color="danger"
-                            onClick={this.toggleDeleteInstitution}>Delete</Button>
+                    <Button outline size="sm" color="warning"
+                            onClick={this.toggleDeleteInstitution}>Archive</Button>
                 </div>
 
                 <DeleteInstitutionModal isOpen={this.state.deleteInstitutionIsShowing}
