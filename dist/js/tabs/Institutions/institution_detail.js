@@ -82,7 +82,7 @@ var InstitutionDetail = function (_Component) {
                     { className: "container-fluid d-flex flex-column p-0 h-100" },
                     _react2.default.createElement(
                         "div",
-                        { id: "tab-content" },
+                        { className: "tab-content" },
                         currentTab
                     ),
                     _react2.default.createElement(_tab_bar2.default, { setActiveTab: this.setActiveTab,

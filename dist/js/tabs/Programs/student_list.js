@@ -223,6 +223,16 @@ var StudentSection = function (_Component4) {
     _createClass(StudentSection, [{
         key: "render",
         value: function render() {
+            var body = _react2.default.createElement(
+                "div",
+                { className: "p-4 pt-5 pb-5 bg-light text-center" },
+                _react2.default.createElement(
+                    "h5",
+                    { className: "text-secondary" },
+                    "There are no students for this study field."
+                )
+            );
+
             var rows = this.props.students.map(function (student, index) {
                 return _react2.default.createElement(
                     _section.SectionRow,
@@ -244,6 +254,14 @@ var StudentSection = function (_Component4) {
                 );
             });
 
+            if (this.props.students.length > 0) {
+                body = _react2.default.createElement(
+                    _section.SectionTable,
+                    null,
+                    rows
+                );
+            }
+
             return _react2.default.createElement(
                 _section.Section,
                 null,
@@ -252,11 +270,7 @@ var StudentSection = function (_Component4) {
                     null,
                     this.props.title
                 ),
-                _react2.default.createElement(
-                    _section.SectionTable,
-                    null,
-                    rows
-                )
+                body
             );
         }
     }]);
