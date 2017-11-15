@@ -109,13 +109,14 @@ var InstitutionList = function (_Component) {
             var showingInstitutions = isSearching ? this.getFilteredInstitutions() : this.props.institutions;
 
             var className = "sidebar h-100 collapsible ";
-            if (this.state.isOpen) {
-                className += "isOpen";
+            if (this.state.collapsed) {
+                className += "collapsed";
             }
 
             return _react2.default.createElement(
                 "div",
-                { className: className, id: "institution-list" },
+                { className: className,
+                    id: "institution-list" },
                 _react2.default.createElement(
                     _collapse_content.ExpandContent,
                     { className: "d-flex flex-column h-100" },
@@ -128,7 +129,8 @@ var InstitutionList = function (_Component) {
                         activeInstitution: this.props.activeInstitution,
                         setActiveInstitution: this.props.setActiveInstitution })
                 ),
-                _react2.default.createElement(_collapse_content.CollapseContent, { title: "Institutions", expand: this.expand })
+                _react2.default.createElement(_collapse_content.CollapseContent, { title: "Institutions",
+                    expand: this.expand })
             );
         }
     }]);
@@ -163,10 +165,15 @@ var InstitutionListHead = function (_Component2) {
                 _react2.default.createElement(
                     "div",
                     { className: "page-head-controls" },
-                    _react2.default.createElement("img", { src: "./images/collapse.png", className: "collapse-image", onClick: this.props.collapse }),
+                    _react2.default.createElement("img", { src: "./images/collapse.png",
+                        className: "collapse-image",
+                        onClick: this.props.collapse }),
                     _react2.default.createElement(
                         _reactstrap.Button,
-                        { outline: true, color: "success", size: "sm", className: "ml-auto",
+                        { outline: true,
+                            color: "success",
+                            size: "sm",
+                            className: "ml-auto",
                             onClick: this.props.toggleAddInstitution },
                         "Add"
                     )
@@ -176,7 +183,10 @@ var InstitutionListHead = function (_Component2) {
                     { className: "page-head-title" },
                     "Institutions"
                 ),
-                _react2.default.createElement(_reactstrap.Input, { type: "search", placeholder: "Search", className: "search-input", onChange: this.onSearchInputChange })
+                _react2.default.createElement(_reactstrap.Input, { type: "search",
+                    placeholder: "Search",
+                    className: "search-input",
+                    onChange: this.onSearchInputChange })
             );
         }
     }]);
@@ -214,7 +224,9 @@ var InstitutionListTable = function (_Component3) {
                 ),
                 _react2.default.createElement(
                     _reactstrap.Button,
-                    { outline: true, color: "success", onClick: this.props.toggleAddInstitution },
+                    { outline: true,
+                        color: "success",
+                        onClick: this.props.toggleAddInstitution },
                     "Add an Institution"
                 )
             );
@@ -235,7 +247,9 @@ var InstitutionListTable = function (_Component3) {
             }
 
             var sections = this.props.countries.map(function (country, index) {
-                return _react2.default.createElement(InstitutionSection, { title: country.name, institutions: country.institution_set, key: index,
+                return _react2.default.createElement(InstitutionSection, { title: country.name,
+                    institutions: country.institution_set,
+                    key: index,
                     activeInstitution: _this4.props.activeInstitution,
                     setActiveInstitution: _this4.props.setActiveInstitution });
             });
@@ -291,7 +305,10 @@ var InstitutionSection = function (_Component4) {
 
                 return _react2.default.createElement(
                     _section.SectionRow,
-                    { selectable: true, onClick: setActiveInstitution, active: isActive, key: institution.id },
+                    { selectable: true,
+                        onClick: setActiveInstitution,
+                        active: isActive,
+                        key: institution.id },
                     _react2.default.createElement(
                         _section.SectionRowContent,
                         null,

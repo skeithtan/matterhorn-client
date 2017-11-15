@@ -90,12 +90,13 @@ class InstitutionList extends Component {
         const showingInstitutions = isSearching ? this.getFilteredInstitutions() : this.props.institutions;
 
         let className = "sidebar h-100 collapsible ";
-        if (this.state.isOpen) {
-            className += "isOpen";
+        if (this.state.collapsed) {
+            className += "collapsed";
         }
 
         return (
-            <div className={className} id="institution-list">
+            <div className={className}
+                 id="institution-list">
                 <ExpandContent className="d-flex flex-column h-100">
                     <InstitutionListHead setSearchKeyword={this.setSearchKeyword}
                                          toggleAddInstitution={this.props.toggleAddInstitution}
@@ -107,7 +108,8 @@ class InstitutionList extends Component {
                                           setActiveInstitution={this.props.setActiveInstitution}/>
                 </ExpandContent>
 
-                <CollapseContent title="Institutions" expand={this.expand}/>
+                <CollapseContent title="Institutions"
+                                 expand={this.expand}/>
             </div>
         );
     }
@@ -128,13 +130,21 @@ class InstitutionListHead extends Component {
         return (
             <div className="page-head">
                 <div className="page-head-controls">
-                    <img src="./images/collapse.png" className="collapse-image" onClick={this.props.collapse}/>
+                    <img src="./images/collapse.png"
+                         className="collapse-image"
+                         onClick={this.props.collapse}/>
 
-                    <Button outline color="success" size="sm" className="ml-auto"
+                    <Button outline
+                            color="success"
+                            size="sm"
+                            className="ml-auto"
                             onClick={this.props.toggleAddInstitution}>Add</Button>
                 </div>
                 <h4 className="page-head-title">Institutions</h4>
-                <Input type="search" placeholder="Search" className="search-input" onChange={this.onSearchInputChange}/>
+                <Input type="search"
+                       placeholder="Search"
+                       className="search-input"
+                       onChange={this.onSearchInputChange}/>
             </div>
         );
     }
@@ -151,7 +161,9 @@ class InstitutionListTable extends Component {
             <div className="loading-container">
                 <h4>There's nothing here.</h4>
                 <p>When added, Institutions will show up here.</p>
-                <Button outline color="success" onClick={this.props.toggleAddInstitution}>Add an Institution</Button>
+                <Button outline
+                        color="success"
+                        onClick={this.props.toggleAddInstitution}>Add an Institution</Button>
             </div>
         );
     }
@@ -178,7 +190,9 @@ class InstitutionListTable extends Component {
 
 
         const sections = this.props.countries.map((country, index) => {
-            return <InstitutionSection title={country.name} institutions={country.institution_set} key={index}
+            return <InstitutionSection title={country.name}
+                                       institutions={country.institution_set}
+                                       key={index}
                                        activeInstitution={this.props.activeInstitution}
                                        setActiveInstitution={this.props.setActiveInstitution}/>;
         });
@@ -207,7 +221,10 @@ class InstitutionSection extends Component {
             const setActiveInstitution = () => this.props.setActiveInstitution(institution);
 
             return (
-                <SectionRow selectable onClick={setActiveInstitution} active={isActive} key={institution.id}>
+                <SectionRow selectable
+                            onClick={setActiveInstitution}
+                            active={isActive}
+                            key={institution.id}>
                     <SectionRowContent>{institution.name}</SectionRowContent>
                 </SectionRow>
             );
