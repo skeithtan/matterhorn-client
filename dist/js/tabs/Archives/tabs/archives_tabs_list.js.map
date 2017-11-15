@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../../../js/tabs/Archives/tabs/archives_tabs_list.js"],"names":["tabs"],"mappings":";;;;;AAAA,IAAMA,OAAO,EAAb;;kBAEeA,I","file":"archives_tabs_list.js","sourcesContent":["const tabs = [];\n\nexport default tabs;"]}

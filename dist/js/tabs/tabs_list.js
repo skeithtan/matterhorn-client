@@ -24,6 +24,10 @@ var _programs = require("./Programs/programs");
 
 var _programs2 = _interopRequireDefault(_programs);
 
+var _archives = require("./Archives/archives");
+
+var _archives2 = _interopRequireDefault(_archives);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var tabs = [{
@@ -44,7 +48,7 @@ var tabs = [{
     image: "./images/airplane.png"
 }, {
     name: "Archives",
-    tab: null,
+    tab: _react2.default.createElement(_archives2.default, null),
     image: "./images/archive.png"
 }];
 

@@ -3,6 +3,7 @@ import Home from "./Home/home";
 import Institutions from "./Institutions/institutions";
 import Students from "./Students/students";
 import Programs from "./Programs/programs";
+import Archives from "./Archives/archives";
 
 
 const tabs = [
@@ -28,7 +29,7 @@ const tabs = [
     },
     {
         name : "Archives",
-        tab : null,
+        tab : <Archives/>,
         image : "./images/archive.png",
     },
 ];
