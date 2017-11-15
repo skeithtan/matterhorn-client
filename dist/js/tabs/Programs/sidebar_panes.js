@@ -310,24 +310,6 @@ var ProgramsSidebarPane = function (_Component3) {
                                     null,
                                     this.props.program.memorandum.institution.name
                                 )
-                            ),
-                            _react2.default.createElement(
-                                _section.SectionRow,
-                                { className: "d-flex flex-row justify-content-between" },
-                                _react2.default.createElement(
-                                    _reactstrap.Button,
-                                    { outline: true,
-                                        color: "success",
-                                        size: "sm" },
-                                    "Edit Program"
-                                ),
-                                _react2.default.createElement(
-                                    _reactstrap.Button,
-                                    { outline: true,
-                                        color: "danger",
-                                        size: "sm" },
-                                    "Delete"
-                                )
                             )
                         )
                     )

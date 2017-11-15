@@ -170,14 +170,6 @@ class ProgramsSidebarPane extends Component {
                                 <SectionRowTitle>Institution Name</SectionRowTitle>
                                 <SectionRowContent>{this.props.program.memorandum.institution.name}</SectionRowContent>
                             </SectionRow>
-                            <SectionRow className="d-flex flex-row justify-content-between">
-                                <Button outline
-                                        color="success"
-                                        size="sm">Edit Program</Button>
-                                <Button outline
-                                        color="danger"
-                                        size="sm">Delete</Button>
-                            </SectionRow>
                         </SectionTable>
                     </Section>
 
