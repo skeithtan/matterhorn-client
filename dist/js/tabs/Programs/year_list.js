@@ -163,12 +163,7 @@ var YearListTable = function (_Component3) {
             }
 
             var rows = this.props.yearList.map(function (year, index) {
-                var isActive = false;
-
-                if (_this4.props.activeYear !== null) {
-                    isActive = _this4.props.activeYear.academic_year_start === year.academic_year_start;
-                }
-
+                var isActive = _this4.props.activeYear === year.academic_year_start;
                 var setActiveYear = function setActiveYear() {
                     return _this4.props.setActiveYear(year);
                 };

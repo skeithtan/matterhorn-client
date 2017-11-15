@@ -101,12 +101,7 @@ class YearListTable extends Component {
         }
 
         const rows = this.props.yearList.map((year, index) => {
-            let isActive = false;
-
-            if (this.props.activeYear !== null) {
-                isActive = this.props.activeYear.academic_year_start === year.academic_year_start;
-            }
-
+            const isActive = this.props.activeYear === year.academic_year_start;
             const setActiveYear = () => this.props.setActiveYear(year);
 
             const yearStart = Number(year.academic_year_start);
