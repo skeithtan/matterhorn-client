@@ -10,9 +10,12 @@ import {
     ModalBody,
     ModalFooter,
     ModalHeader,
+    ListGroup,
+    ListGroupItem,
 } from "reactstrap";
 import validateForm from "../../form_validator";
 import moment from "moment";
+import graphql from "../../graphql";
 
 
 class AcademicYearFormModal extends Component {
@@ -54,7 +57,7 @@ class AcademicYearFormModal extends Component {
     }
 
     static dateIsBetween(object) {
-        const { date, before, after } = object;
+        const {date, before, after} = object;
 
         if (!date) {
             return true;
@@ -236,7 +239,7 @@ class AcademicYearFormModal extends Component {
     }
 
     render() {
-        const { formHasErrors, fieldErrors } = this.getFormErrors();
+        const {formHasErrors, fieldErrors} = this.getFormErrors();
         const term1 = this.state.form.terms[0];
         const term2 = this.state.form.terms[1];
         const term3 = this.state.form.terms[2];
@@ -258,11 +261,11 @@ class AcademicYearFormModal extends Component {
         }
 
         return (
-            <Modal isOpen={this.props.isOpen}
-                   toggle={this.props.toggle}
-                   backdrop={true}>
-                <ModalHeader toggle={this.props.toggle}>
-                    {this.props.edit ? `Edit ${academicYearFull}` : "Add an Academic Year"}
+            <Modal isOpen={ this.props.isOpen }
+                   toggle={ this.props.toggle }
+                   backdrop={ true }>
+                <ModalHeader toggle={ this.props.toggle }>
+                    { this.props.edit ? `Edit ${academicYearFull}` : "Add an Academic Year" }
                 </ModalHeader>
 
                 <ModalBody className="form">
@@ -271,18 +274,18 @@ class AcademicYearFormModal extends Component {
                         <FormGroup>
                             <Label>Academic Year Start</Label>
                             <Input placeholder="Academic Year Start"
-                                   onChange={this.getYearChangeHandler()}
-                                   valid={isValid("Academic year start")}
-                                   defaultValue={this.state.form.academic_year_start}/>
-                            <FormFeedback>{fieldError("Academic year start")}</FormFeedback>
+                                   onChange={ this.getYearChangeHandler() }
+                                   valid={ isValid("Academic year start") }
+                                   defaultValue={ this.state.form.academic_year_start }/>
+                            <FormFeedback>{ fieldError("Academic year start") }</FormFeedback>
                         </FormGroup>
 
                         <FormGroup>
                             <Label>Academic Year End</Label>
                             <Input placeholder="Academic Year End"
-                                   value={academicYearEnd}
+                                   value={ academicYearEnd }
                                    disabled/>
-                            <FormFeedback>{fieldError("Academic year start")}</FormFeedback>
+                            <FormFeedback>{ fieldError("Academic year start") }</FormFeedback>
                         </FormGroup>
 
                         <br/>
@@ -291,19 +294,19 @@ class AcademicYearFormModal extends Component {
                         <FormGroup>
                             <Label>Term 1 Start</Label>
                             <Input type="date"
-                                   onChange={this.getTermChangeHandler(term1, "start_date")}
-                                   valid={isValid("Term 1 start date")}
-                                   defaultValue={term1.start_date}/>
-                            <FormFeedback>{fieldError("Term 1 start date")}</FormFeedback>
+                                   onChange={ this.getTermChangeHandler(term1, "start_date") }
+                                   valid={ isValid("Term 1 start date") }
+                                   defaultValue={ term1.start_date }/>
+                            <FormFeedback>{ fieldError("Term 1 start date") }</FormFeedback>
                         </FormGroup>
 
                         <FormGroup>
                             <Label>Term 1 End</Label>
                             <Input type="date"
-                                   onChange={this.getTermChangeHandler(term1, "end_date")}
-                                   valid={isValid("Term 1 end date")}
-                                   defaultValue={term1.end_date}/>
-                            <FormFeedback>{fieldError("Term 1 end date")}</FormFeedback>
+                                   onChange={ this.getTermChangeHandler(term1, "end_date") }
+                                   valid={ isValid("Term 1 end date") }
+                                   defaultValue={ term1.end_date }/>
+                            <FormFeedback>{ fieldError("Term 1 end date") }</FormFeedback>
                         </FormGroup>
 
                         <br/>
@@ -311,19 +314,19 @@ class AcademicYearFormModal extends Component {
                         <FormGroup>
                             <Label>Term 2 Start</Label>
                             <Input type="date"
-                                   onChange={this.getTermChangeHandler(term2, "start_date")}
-                                   valid={isValid("Term 2 start date")}
-                                   defaultValue={term2.start_date}/>
-                            <FormFeedback>{fieldError("Term 2 start date")}</FormFeedback>
+                                   onChange={ this.getTermChangeHandler(term2, "start_date") }
+                                   valid={ isValid("Term 2 start date") }
+                                   defaultValue={ term2.start_date }/>
+                            <FormFeedback>{ fieldError("Term 2 start date") }</FormFeedback>
                         </FormGroup>
 
                         <FormGroup>
                             <Label>Term 2 End</Label>
                             <Input type="date"
-                                   onChange={this.getTermChangeHandler(term2, "end_date")}
-                                   valid={isValid("Term 2 end date")}
-                                   defaultValue={term2.end_date}/>
-                            <FormFeedback>{fieldError("Term 2 end date")}</FormFeedback>
+                                   onChange={ this.getTermChangeHandler(term2, "end_date") }
+                                   valid={ isValid("Term 2 end date") }
+                                   defaultValue={ term2.end_date }/>
+                            <FormFeedback>{ fieldError("Term 2 end date") }</FormFeedback>
                         </FormGroup>
 
                         <br/>
@@ -331,19 +334,19 @@ class AcademicYearFormModal extends Component {
                         <FormGroup>
                             <Label>Term 3 Start</Label>
                             <Input type="date"
-                                   onChange={this.getTermChangeHandler(term3, "start_date")}
-                                   valid={isValid("Term 3 start date")}
-                                   defaultValue={term3.start_date}/>
-                            <FormFeedback>{fieldError("Term 3 start date")}</FormFeedback>
+                                   onChange={ this.getTermChangeHandler(term3, "start_date") }
+                                   valid={ isValid("Term 3 start date") }
+                                   defaultValue={ term3.start_date }/>
+                            <FormFeedback>{ fieldError("Term 3 start date") }</FormFeedback>
                         </FormGroup>
 
                         <FormGroup>
                             <Label>Term 3 End</Label>
                             <Input type="date"
-                                   onChange={this.getTermChangeHandler(term3, "end_date")}
-                                   valid={isValid("Term 3 end date")}
-                                   defaultValue={term3.end_date}/>
-                            <FormFeedback>{fieldError("Term 3 end date")}</FormFeedback>
+                                   onChange={ this.getTermChangeHandler(term3, "end_date") }
+                                   valid={ isValid("Term 3 end date") }
+                                   defaultValue={ term3.end_date }/>
+                            <FormFeedback>{ fieldError("Term 3 end date") }</FormFeedback>
                         </FormGroup>
 
                     </Form>
@@ -353,8 +356,8 @@ class AcademicYearFormModal extends Component {
                 <ModalFooter>
                     <Button outline
                             color="success"
-                            disabled={formHasErrors}>
-                        {this.props.edit ? "Save changes" : "Add"}
+                            disabled={ formHasErrors }>
+                        { this.props.edit ? "Save changes" : "Add" }
                     </Button>
                 </ModalFooter>
             </Modal>
@@ -362,4 +365,104 @@ class AcademicYearFormModal extends Component {
     }
 }
 
-export { AcademicYearFormModal };
+function fetchAllStudents(onResult) {
+    graphql.query(`
+    {
+        students {
+            id
+            first_name
+            middle_name
+            family_name
+        }
+    }
+    `).then(onResult);
+}
+
+class StudentFormModal extends Component {
+    constructor(props) {
+        super(props);
+        this.componentWillReceiveProps(props);
+    }
+
+    componentWillReceiveProps(newProps) {
+        this.state = {
+            studentList : null,
+            form : {
+                study_field : "",
+                students : [],
+            },
+        };
+
+        fetchAllStudents(result => {
+            this.setState({
+                studentList : result.students,
+            });
+        });
+
+        if (newProps.program !== undefined) {
+            Object.assign(this.state.form, newProps.program);
+            this.state.form.students = [];
+        }
+    }
+
+    getChangeHandler(fieldName) {
+        const form = this.state.form;
+
+        return event => {
+            const value = event.target.value;
+
+            form[fieldName] = value;
+
+            this.setState({
+                form : form,
+            });
+        };
+    }
+
+    render() {
+        if (this.props.studyFields === null) {
+
+        }
+
+        if (this.props.studyFields.length === 0) {
+
+        }
+
+        const studyFields = this.props.studyFields.map((studyField, index) => {
+            return <option key={ index } value={ studyField.id }>{ studyField.studyField }</option>;
+        });
+
+        return (
+            <Modal isOpen={ this.props.isOpen } toggle={ this.props.toggle } backdrop={ true }
+                   id="add-students-modal">
+                <ModalHeader>Add Students to { this.props.activeProgram.name }</ModalHeader>
+                <ModalBody>
+                    <Form>
+                        <FormGroup>
+                            <Label>Study Field</Label>
+                            <Input type="select" defaultValue={ this.state.form.category }
+                                   onChange={ this.getChangeHandler("study_field") }>
+                                { studyFields }
+                            </Input>
+                        </FormGroup>
+                        <br/>
+                        { this.state.studentList !== null && <div>
+                            <h5>Students</h5>
+                            <small className="text-secondary mb-3 d-block">Select all students that apply to this
+                                study field.
+                            </small>
+                            <ListGroup>
+                                { /* Students */ }
+                            </ListGroup>
+                        </div> }
+                    </Form>
+                </ModalBody>
+            </Modal>
+        );
+    }
+}
+
+export {
+    AcademicYearFormModal,
+    StudentFormModal,
+};

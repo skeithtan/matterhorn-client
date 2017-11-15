@@ -18,6 +18,8 @@ var _loading = require("../../components/loading");
 
 var _loading2 = _interopRequireDefault(_loading);
 
+var _modals = require("./modals");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -34,11 +36,23 @@ var StudentList = function (_Component) {
 
         var _this = _possibleConstructorReturn(this, (StudentList.__proto__ || Object.getPrototypeOf(StudentList)).call(this, props));
 
+        _this.state = {
+            addStudentsIsShowing: false
+        };
+
+        _this.toggleAddStudents = _this.toggleAddStudents.bind(_this);
         _this.getSortedStudyFields = _this.getSortedStudyFields.bind(_this);
         return _this;
     }
 
     _createClass(StudentList, [{
+        key: "toggleAddStudents",
+        value: function toggleAddStudents() {
+            this.setState({
+                addStudentsIsShowing: !this.state.addStudentsIsShowing
+            });
+        }
+    }, {
         key: "getSortedStudyFields",
         value: function getSortedStudyFields() {
             if (this.props.studyFieldList === null) {
@@ -78,8 +92,13 @@ var StudentList = function (_Component) {
                 "div",
                 { className: "programs-page-pane d-flex flex-column" },
                 _react2.default.createElement(StudentListHead, { activeProgram: this.props.activeProgram,
-                    refreshStudents: this.props.refreshStudents }),
-                _react2.default.createElement(StudentListTable, { studyFields: studyFields })
+                    toggleAddStudents: this.toggleAddStudents }),
+                _react2.default.createElement(StudentListTable, { studyFields: studyFields }),
+                _react2.default.createElement(_modals.StudentFormModal, { activeProgram: this.props.activeProgram,
+                    studyFields: studyFields,
+                    refreshStudents: this.props.refreshStudents,
+                    toggle: this.toggleAddStudents,
+                    isOpen: this.state.addStudentsIsShowing })
             );
         }
     }]);
@@ -107,7 +126,8 @@ var StudentListHead = function (_Component2) {
                     { className: "page-head-controls ml-auto" },
                     _react2.default.createElement(
                         _reactstrap.Button,
-                        { outline: true, color: "success", size: "sm", className: "ml-auto" },
+                        { outline: true, color: "success", size: "sm", className: "ml-auto",
+                            onClick: this.props.toggleAddStudents },
                         "Add"
                     )
                 ),
