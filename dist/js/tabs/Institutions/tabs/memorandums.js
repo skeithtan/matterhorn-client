@@ -77,21 +77,17 @@ var Memorandums = function (_Component) {
                 this.props.setSidebarContent(null);
             }
 
-            var refreshMemorandums = function refreshMemorandums() {
-                _this2.refreshMemorandums();
-            };
-
             var onDeleteMemorandum = function onDeleteMemorandum() {
                 _this2.setState({
                     activeMemorandumId: null
                 });
                 _this2.refreshMemorandums();
-                _this2.setActiveMemorandum(null);
+                _this2.props.setSidebarContent(null);
             };
 
             this.props.setSidebarContent(_react2.default.createElement(_sidebar_panes.MemorandumSidebarPane, { memorandum: memorandum,
                 removeActiveMemorandum: onDeleteMemorandum,
-                refreshMemorandums: refreshMemorandums }));
+                refreshMemorandums: this.refreshMemorandums }));
 
             this.setState({
                 activeMemorandumId: memorandum.id

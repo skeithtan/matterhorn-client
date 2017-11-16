@@ -76,23 +76,19 @@ class Memorandums extends Component {
         }
 
 
-        const refreshMemorandums = () => {
-            this.refreshMemorandums();
-        };
-
         const onDeleteMemorandum = () => {
             this.setState({
                 activeMemorandumId : null,
             });
             this.refreshMemorandums();
-            this.setActiveMemorandum(null);
+            this.props.setSidebarContent(null);
         };
 
 
         this.props.setSidebarContent(
             <MemorandumSidebarPane memorandum={memorandum}
                                    removeActiveMemorandum={onDeleteMemorandum}
-                                   refreshMemorandums={refreshMemorandums}/>,
+                                   refreshMemorandums={this.refreshMemorandums}/>,
         );
 
         this.setState({
