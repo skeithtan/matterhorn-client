@@ -245,7 +245,7 @@ class ProgramsTable extends Component {
         }
 
         return (
-            <div className="w-100">
+            <div className="w-100 h-100 d-flex flex-column">
                 <ProgramsListSection programs={ this.props.programs }
                                      currentProgram={ this.props.currentProgram }
                                      setCurrentProgram={ this.props.setCurrentProgram }/>

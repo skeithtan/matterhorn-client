@@ -310,7 +310,7 @@ var ProgramsTable = function (_Component3) {
 
             return _react2.default.createElement(
                 "div",
-                { className: "w-100" },
+                { className: "w-100 h-100 d-flex flex-column" },
                 _react2.default.createElement(ProgramsListSection, { programs: this.props.programs,
                     currentProgram: this.props.currentProgram,
                     setCurrentProgram: this.props.setCurrentProgram })
