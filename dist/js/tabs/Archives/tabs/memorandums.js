@@ -53,6 +53,7 @@ var MemorandumArchives = function (_Component) {
         };
 
         _this.setCurrentYear = _this.setCurrentYear.bind(_this);
+        _this.refreshMemorandums = _this.refreshMemorandums.bind(_this);
         _this.setActiveMemorandum = _this.setActiveMemorandum.bind(_this);
 
         fetchMemorandums(_this.state.activeYear, function (result) {
@@ -71,6 +72,7 @@ var MemorandumArchives = function (_Component) {
             });
 
             this.props.setSidebarContent(_react2.default.createElement(_sidebar_panes.MemorandumSidebarPane, { archived: true,
+                onRestoreSuccess: this.refreshMemorandums,
                 memorandum: memorandum }));
         }
     }, {
@@ -91,6 +93,11 @@ var MemorandumArchives = function (_Component) {
                     memorandums: result.memorandums
                 });
             });
+        }
+    }, {
+        key: "refreshMemorandums",
+        value: function refreshMemorandums() {
+            this.setCurrentYear(this.state.activeYear);
         }
     }, {
         key: "render",

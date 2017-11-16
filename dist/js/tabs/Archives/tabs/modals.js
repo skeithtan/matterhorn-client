@@ -13,6 +13,22 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactstrap = require("reactstrap");
 
+var _jquery = require("jquery");
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+var _authorization = require("../../../authorization");
+
+var _authorization2 = _interopRequireDefault(_authorization);
+
+var _dismissable_toast_maker = require("../../../dismissable_toast_maker");
+
+var _dismissable_toast_maker2 = _interopRequireDefault(_dismissable_toast_maker);
+
+var _settings = require("../../../settings");
+
+var _settings2 = _interopRequireDefault(_settings);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -36,9 +52,35 @@ var RestoreMemorandumModal = function (_Component) {
     _createClass(RestoreMemorandumModal, [{
         key: "confirmRestore",
         value: function confirmRestore() {
-            alert("Restored!");
-            //TODO: Actual restoration
+            var _this2 = this;
+
             this.props.toggle();
+            var dismissToast = (0, _dismissable_toast_maker2.default)({
+                title: "Adding",
+                message: "Adding new institution..."
+            });
+
+            _jquery2.default.ajax({
+                url: _settings2.default.serverURL + "/archives/memorandums/" + this.props.memorandum.id + "/restore/",
+                method: "PUT",
+                beforeSend: _authorization2.default
+            }).done(function () {
+
+                dismissToast();
+                iziToast.success({
+                    title: "Success",
+                    message: "Successfully restored memorandum"
+                });
+                _this2.props.onRestoreSuccess();
+            }).fail(function (response) {
+
+                dismissToast();
+                console.log(response);
+                iziToast.error({
+                    title: "Error",
+                    message: "Unable to restore memorandum"
+                });
+            });
         }
     }, {
         key: "render",

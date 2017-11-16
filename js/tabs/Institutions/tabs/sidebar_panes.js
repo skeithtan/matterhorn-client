@@ -99,8 +99,8 @@ class MemorandumSidebarPane extends Component {
                                          refresh={this.props.refreshMemorandums}/>}
 
                     {this.state.activeMemorandum !== null &&
-                        //TODO: OnRestoreSuccess
                     <RestoreMemorandumModal memorandum={memorandum}
+                                            onRestoreSuccess={this.props.onRestoreSuccess}
                                             isOpen={this.state.restoreMemorandumIsShowing}
                                             toggle={this.toggleRestoreMemorandum}/>
                     }

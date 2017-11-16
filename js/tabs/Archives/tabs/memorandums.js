@@ -41,6 +41,7 @@ class MemorandumArchives extends Component {
         };
 
         this.setCurrentYear = this.setCurrentYear.bind(this);
+        this.refreshMemorandums = this.refreshMemorandums.bind(this);
         this.setActiveMemorandum = this.setActiveMemorandum.bind(this);
 
         fetchMemorandums(this.state.activeYear, result => {
@@ -56,6 +57,7 @@ class MemorandumArchives extends Component {
         });
 
         this.props.setSidebarContent(<MemorandumSidebarPane archived
+                                                            onRestoreSuccess={this.refreshMemorandums}
                                                             memorandum={memorandum}/>);
     }
 
@@ -74,6 +76,10 @@ class MemorandumArchives extends Component {
                 memorandums : result.memorandums,
             });
         });
+    }
+
+    refreshMemorandums() {
+        this.setCurrentYear(this.state.activeYear);
     }
 
     render() {
