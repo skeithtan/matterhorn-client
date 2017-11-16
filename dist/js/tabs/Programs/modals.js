@@ -592,7 +592,7 @@ var StudentFormModal = function (_Component2) {
                 ),
                 _react2.default.createElement(
                     _reactstrap.ModalBody,
-                    null,
+                    { className: "form" },
                     _react2.default.createElement(
                         _reactstrap.Form,
                         null,

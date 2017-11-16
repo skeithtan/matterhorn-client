@@ -69,7 +69,7 @@ var InstitutionList = function (_Component) {
 
             this.props.institutions.forEach(function (country) {
                 // Array of institutions from this country that conforms to search
-                var countryFiltered = country.institution_set.filter(function (institution) {
+                var countryFiltered = country.institutions.filter(function (institution) {
                     var institutionName = institution.name.toLowerCase();
                     return institutionName.includes(searchKeyword);
                 });
@@ -80,7 +80,7 @@ var InstitutionList = function (_Component) {
                     // Create new country object so as not to affect actual country object
                     filtered.push({
                         name: country.name,
-                        institution_set: countryFiltered
+                        institutions: countryFiltered
                     });
                 }
             });
@@ -248,7 +248,7 @@ var InstitutionListTable = function (_Component3) {
 
             var sections = this.props.countries.map(function (country, index) {
                 return _react2.default.createElement(InstitutionSection, { title: country.name,
-                    institutions: country.institution_set,
+                    institutions: country.institutions,
                     key: index,
                     activeInstitution: _this4.props.activeInstitution,
                     setActiveInstitution: _this4.props.setActiveInstitution });

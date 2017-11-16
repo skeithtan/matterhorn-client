@@ -12,7 +12,7 @@ function fetchInstitutions(onResult) {
         {
             countries {
                 name
-                institution_set {
+                institutions {
                     id
                     name
                 }

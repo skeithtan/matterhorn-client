@@ -164,6 +164,8 @@ var Programs = function (_Component) {
                 return;
             }
 
+            this.props.setSidebarContent(null);
+
             this.setState({
                 institutionID: nextProps.institution.id,
                 yearList: null,
