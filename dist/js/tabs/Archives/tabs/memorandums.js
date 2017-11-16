@@ -26,6 +26,10 @@ var _loading2 = _interopRequireDefault(_loading);
 
 var _sidebar_panes = require("../../Institutions/tabs/sidebar_panes");
 
+var _archive_head = require("../archive_head");
+
+var _archive_head2 = _interopRequireDefault(_archive_head);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -105,8 +109,12 @@ var MemorandumArchives = function (_Component) {
             return _react2.default.createElement(
                 "div",
                 { className: "d-flex flex-column h-100" },
-                _react2.default.createElement(MemorandumArchivesHead, { setActiveYear: this.setActiveYear,
-                    activeYear: this.state.activeYear }),
+                _react2.default.createElement(
+                    _archive_head2.default,
+                    { setActiveYear: this.setActiveYear,
+                        activeYear: this.state.activeYear },
+                    "Memorandum Archives"
+                ),
                 _react2.default.createElement(MemorandumArchivesTable, { memorandums: this.state.memorandums,
                     setSidebarContent: this.props.setSidebarContent,
                     activeMemorandumId: this.state.activeMemorandumId,
@@ -118,82 +126,8 @@ var MemorandumArchives = function (_Component) {
     return MemorandumArchives;
 }(_react.Component);
 
-var MemorandumArchivesHead = function (_Component2) {
-    _inherits(MemorandumArchivesHead, _Component2);
-
-    function MemorandumArchivesHead(props) {
-        _classCallCheck(this, MemorandumArchivesHead);
-
-        var _this3 = _possibleConstructorReturn(this, (MemorandumArchivesHead.__proto__ || Object.getPrototypeOf(MemorandumArchivesHead)).call(this, props));
-
-        _this3.onActiveYearChange = _this3.onActiveYearChange.bind(_this3);
-        return _this3;
-    }
-
-    _createClass(MemorandumArchivesHead, [{
-        key: "onActiveYearChange",
-        value: function onActiveYearChange(event) {
-            this.props.setActiveYear(event.target.value);
-        }
-    }, {
-        key: "render",
-        value: function render() {
-            var years = [];
-            var currentYear = (0, _moment2.default)().year();
-
-            //Create options for years 100 years from current year
-            for (var i = 0; i <= 100; i++) {
-                var year = currentYear - i;
-                years.push(_react2.default.createElement(
-                    "option",
-                    { value: year,
-                        key: i },
-                    year
-                ));
-            }
-
-            return _react2.default.createElement(
-                "div",
-                { className: "page-head pt-5 d-flex flex-row align-items-end" },
-                _react2.default.createElement(
-                    "div",
-                    { className: "mr-auto" },
-                    _react2.default.createElement(
-                        "h4",
-                        { className: "page-head-title justify-content-left d-inline-block mb-0 mr-2" },
-                        "Memorandum Archives"
-                    )
-                ),
-                _react2.default.createElement(
-                    "div",
-                    { className: "page-head-actions" },
-                    _react2.default.createElement(
-                        "div",
-                        { className: "d-flex flex-row align-items-center" },
-                        _react2.default.createElement(
-                            "b",
-                            { className: "mr-3" },
-                            "Year"
-                        ),
-                        _react2.default.createElement(
-                            _reactstrap.Input,
-                            { type: "select",
-                                className: "btn-outline-success",
-                                defaultValue: this.props.activeYear,
-                                onChange: this.onActiveYearChange },
-                            years
-                        )
-                    )
-                )
-            );
-        }
-    }]);
-
-    return MemorandumArchivesHead;
-}(_react.Component);
-
-var MemorandumArchivesTable = function (_Component3) {
-    _inherits(MemorandumArchivesTable, _Component3);
+var MemorandumArchivesTable = function (_Component2) {
+    _inherits(MemorandumArchivesTable, _Component2);
 
     function MemorandumArchivesTable(props) {
         _classCallCheck(this, MemorandumArchivesTable);
@@ -204,7 +138,7 @@ var MemorandumArchivesTable = function (_Component3) {
     _createClass(MemorandumArchivesTable, [{
         key: "render",
         value: function render() {
-            var _this5 = this;
+            var _this4 = this;
 
             if (this.props.memorandums === null) {
                 return _react2.default.createElement(_loading2.default, null);
@@ -217,9 +151,9 @@ var MemorandumArchivesTable = function (_Component3) {
             var rows = this.props.memorandums.map(function (memorandum, index) {
                 return _react2.default.createElement(MemorandumArchivesRow, { memorandum: memorandum,
                     key: index,
-                    isActive: _this5.props.activeMemorandumId === memorandum.id,
+                    isActive: _this4.props.activeMemorandumId === memorandum.id,
                     onClick: function onClick() {
-                        return _this5.props.setActiveMemorandum(memorandum);
+                        return _this4.props.setActiveMemorandum(memorandum);
                     } });
             });
 
@@ -280,8 +214,8 @@ var MemorandumArchivesTable = function (_Component3) {
     return MemorandumArchivesTable;
 }(_react.Component);
 
-var MemorandumArchivesRow = function (_Component4) {
-    _inherits(MemorandumArchivesRow, _Component4);
+var MemorandumArchivesRow = function (_Component3) {
+    _inherits(MemorandumArchivesRow, _Component3);
 
     function MemorandumArchivesRow(props) {
         _classCallCheck(this, MemorandumArchivesRow);
