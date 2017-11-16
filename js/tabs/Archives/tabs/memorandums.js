@@ -151,7 +151,7 @@ class MemorandumArchivesTable extends Component {
     static emptyState() {
         return (
             <div className="loading-container">
-                <h3>There's nothing here</h3>
+                <h3>There are no archived memorandums for this year</h3>
             </div>
         );
     }

@@ -276,7 +276,7 @@ var MemorandumArchivesTable = function (_Component3) {
                 _react2.default.createElement(
                     "h3",
                     null,
-                    "There's nothing here"
+                    "There are no archived memorandums for this year"
                 )
             );
         }
