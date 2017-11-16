@@ -13,6 +13,7 @@ class Archives extends Component {
         };
 
         this.setActiveTab = this.setActiveTab.bind(this);
+        this.setSidebarContent = this.setSidebarContent.bind(this);
     }
 
     setActiveTab(tab) {
@@ -21,14 +22,33 @@ class Archives extends Component {
         });
     }
 
+    setSidebarContent(content) {
+        this.setState({
+            sidebarContent : content,
+        });
+    }
+
     render() {
+        let sidebarClass = "sidebar-right ";
+        if (this.state.sidebarContent === null) {
+            sidebarClass += "dismissed";
+        }
+
+        const tab = this.state.activeTab.tab(this.setSidebarContent);
+
         return (
             <div id="archives"
-                 className="container-fluid d-flex flex-column p-0 h-100 w-100">
-                <div className="tab-content">{this.state.activeTab.tab}</div>
-                <TabBar setActiveTab={this.setActiveTab}
-                        activeTab={this.state.activeTab}
-                        tabs={tabs}/>
+                 className="d-flex flex-row h-100 w-100">
+                <div className="d-flex flex-column p-0 h-100 w-100">
+                    <div className="tab-content">{tab}</div>
+                    <TabBar setActiveTab={this.setActiveTab}
+                            activeTab={this.state.activeTab}
+                            tabs={tabs}/>
+                </div>
+
+                <div className={sidebarClass}>
+                    {this.state.sidebarContent}
+                </div>
             </div>
         );
     }

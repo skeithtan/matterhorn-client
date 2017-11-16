@@ -25,6 +25,8 @@ var _modals = require("../modals");
 
 var _section = require("../../../components/section");
 
+var _modals2 = require("../../Archives/tabs/modals");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -44,16 +46,25 @@ var MemorandumSidebarPane = function (_Component) {
         _this.state = {
             deleteMemorandumIsShowing: false,
             editMemorandumIsShowing: false,
+            restoreMemorandumIsShowing: false,
             memorandum: props.memorandum
         };
 
         _this.onEditMemorandum = _this.onEditMemorandum.bind(_this);
-        _this.toggleDeleteMemorandum = _this.toggleDeleteMemorandum.bind(_this);
         _this.toggleEditMemorandum = _this.toggleEditMemorandum.bind(_this);
+        _this.toggleDeleteMemorandum = _this.toggleDeleteMemorandum.bind(_this);
+        _this.toggleRestoreMemorandum = _this.toggleRestoreMemorandum.bind(_this);
         return _this;
     }
 
     _createClass(MemorandumSidebarPane, [{
+        key: "toggleRestoreMemorandum",
+        value: function toggleRestoreMemorandum() {
+            this.setState({
+                restoreMemorandumIsShowing: !this.state.restoreMemorandumIsShowing
+            });
+        }
+    }, {
         key: "toggleDeleteMemorandum",
         value: function toggleDeleteMemorandum() {
             this.setState({
@@ -104,7 +115,9 @@ var MemorandumSidebarPane = function (_Component) {
                 _react2.default.createElement(
                     "div",
                     { className: "page-body" },
-                    _react2.default.createElement(MemorandumDetails, { memorandum: memorandum,
+                    _react2.default.createElement(MemorandumDetails, { archived: this.props.archived,
+                        memorandum: memorandum,
+                        toggleRestoreMemorandum: this.toggleRestoreMemorandum,
                         toggleDeleteMemorandum: this.toggleDeleteMemorandum,
                         toggleEditMemorandum: this.toggleEditMemorandum }),
                     _react2.default.createElement(MemorandumLinkages, { linkages: memorandum.linkages }),
@@ -118,7 +131,12 @@ var MemorandumSidebarPane = function (_Component) {
                         memorandum: memorandum,
                         toggle: this.toggleEditMemorandum,
                         onEditSuccess: this.onEditMemorandum,
-                        refresh: this.props.refreshMemorandums })
+                        refresh: this.props.refreshMemorandums }),
+                    this.state.activeMemorandum !== null &&
+                    //TODO: OnRestoreSuccess
+                    _react2.default.createElement(_modals2.RestoreMemorandumModal, { memorandum: memorandum,
+                        isOpen: this.state.restoreMemorandumIsShowing,
+                        toggle: this.toggleRestoreMemorandum })
                 )
             );
         }
@@ -229,21 +247,38 @@ var MemorandumDetails = function (_Component2) {
                             { className: "d-flex" },
                             _react2.default.createElement(
                                 _reactstrap.Button,
-                                { outline: true, color: "success", size: "sm", className: "mr-2",
+                                { outline: true,
+                                    color: "success",
+                                    size: "sm",
+                                    className: "mr-2",
                                     onClick: viewMemorandum },
                                 "View"
                             ),
-                            _react2.default.createElement(
+                            !this.props.archived && _react2.default.createElement(
                                 _reactstrap.Button,
-                                { outline: true, color: "success", size: "sm", className: "mr-auto",
+                                { outline: true,
+                                    color: "success",
+                                    size: "sm",
+                                    className: "mr-auto",
                                     onClick: this.props.toggleEditMemorandum },
                                 "Edit"
                             ),
-                            _react2.default.createElement(
+                            !this.props.archived && _react2.default.createElement(
                                 _reactstrap.Button,
-                                { outline: true, color: "warning", size: "sm",
+                                { outline: true,
+                                    color: "warning",
+                                    size: "sm",
                                     onClick: this.props.toggleDeleteMemorandum },
                                 "Archive"
+                            ),
+                            this.props.archived && _react2.default.createElement(
+                                _reactstrap.Button,
+                                { outline: true,
+                                    color: "primary",
+                                    size: "sm",
+                                    className: "ml-auto",
+                                    onClick: this.props.toggleRestoreMemorandum },
+                                "Restore"
                             )
                         )
                     )
@@ -452,13 +487,18 @@ var ProgramDetails = function (_Component5) {
                             { className: "d-flex" },
                             _react2.default.createElement(
                                 _reactstrap.Button,
-                                { outline: true, color: "success", size: "sm", className: "mr-auto",
+                                { outline: true,
+                                    color: "success",
+                                    size: "sm",
+                                    className: "mr-auto",
                                     onClick: this.props.toggleEditMemorandum },
                                 "Edit"
                             ),
                             _react2.default.createElement(
                                 _reactstrap.Button,
-                                { outline: true, color: "warning", size: "sm",
+                                { outline: true,
+                                    color: "warning",
+                                    size: "sm",
                                     onClick: this.props.toggleDeleteMemorandum },
                                 "Archive"
                             )

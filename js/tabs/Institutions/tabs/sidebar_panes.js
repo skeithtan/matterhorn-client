@@ -15,6 +15,7 @@ import {
     SectionTable,
     SectionTitle,
 } from "../../../components/section";
+import { RestoreMemorandumModal } from "../../Archives/tabs/modals";
 
 
 class MemorandumSidebarPane extends Component {
@@ -24,12 +25,20 @@ class MemorandumSidebarPane extends Component {
         this.state = {
             deleteMemorandumIsShowing : false,
             editMemorandumIsShowing : false,
+            restoreMemorandumIsShowing : false,
             memorandum : props.memorandum,
         };
 
         this.onEditMemorandum = this.onEditMemorandum.bind(this);
-        this.toggleDeleteMemorandum = this.toggleDeleteMemorandum.bind(this);
         this.toggleEditMemorandum = this.toggleEditMemorandum.bind(this);
+        this.toggleDeleteMemorandum = this.toggleDeleteMemorandum.bind(this);
+        this.toggleRestoreMemorandum = this.toggleRestoreMemorandum.bind(this);
+    }
+
+    toggleRestoreMemorandum() {
+        this.setState({
+            restoreMemorandumIsShowing : !this.state.restoreMemorandumIsShowing,
+        });
     }
 
     toggleDeleteMemorandum() {
@@ -66,27 +75,35 @@ class MemorandumSidebarPane extends Component {
                     </div>
                 </div>
 
-
                 <div className="page-body">
-                    <MemorandumDetails memorandum={ memorandum }
-                                       toggleDeleteMemorandum={ this.toggleDeleteMemorandum }
-                                       toggleEditMemorandum={ this.toggleEditMemorandum }/>
-                    <MemorandumLinkages linkages={ memorandum.linkages }/>
+                    <MemorandumDetails archived={this.props.archived}
+                                       memorandum={memorandum}
+                                       toggleRestoreMemorandum={this.toggleRestoreMemorandum}
+                                       toggleDeleteMemorandum={this.toggleDeleteMemorandum}
+                                       toggleEditMemorandum={this.toggleEditMemorandum}/>
+                    <MemorandumLinkages linkages={memorandum.linkages}/>
 
-                    { this.state.activeMemorandum !== null &&
-                    <ArchiveMemorandumModal isOpen={ this.state.deleteMemorandumIsShowing }
-                                            memorandum={ memorandum }
-                                            toggle={ this.toggleDeleteMemorandum }
-                                            onDeleteSuccess={ this.props.removeActiveMemorandum }
-                                            refresh={ this.props.refreshMemorandums }/> }
+                    {this.state.activeMemorandum !== null &&
+                    <ArchiveMemorandumModal isOpen={this.state.deleteMemorandumIsShowing}
+                                            memorandum={memorandum}
+                                            toggle={this.toggleDeleteMemorandum}
+                                            onDeleteSuccess={this.props.removeActiveMemorandum}
+                                            refresh={this.props.refreshMemorandums}/>}
 
-                    { this.state.activeMemorandum !== null &&
+                    {this.state.activeMemorandum !== null &&
                     <MemorandumFormModal edit
-                                         isOpen={ this.state.editMemorandumIsShowing }
-                                         memorandum={ memorandum }
-                                         toggle={ this.toggleEditMemorandum }
-                                         onEditSuccess={ this.onEditMemorandum }
-                                         refresh={ this.props.refreshMemorandums }/> }
+                                         isOpen={this.state.editMemorandumIsShowing}
+                                         memorandum={memorandum}
+                                         toggle={this.toggleEditMemorandum}
+                                         onEditSuccess={this.onEditMemorandum}
+                                         refresh={this.props.refreshMemorandums}/>}
+
+                    {this.state.activeMemorandum !== null &&
+                        //TODO: OnRestoreSuccess
+                    <RestoreMemorandumModal memorandum={memorandum}
+                                            isOpen={this.state.restoreMemorandumIsShowing}
+                                            toggle={this.toggleRestoreMemorandum}/>
+                    }
                 </div>
             </div>
         );
@@ -118,28 +135,49 @@ class MemorandumDetails extends Component {
                 <SectionTable>
                     <SectionRow>
                         <SectionRowTitle>Memorandum Type</SectionRowTitle>
-                        <SectionRowContent>{ type }</SectionRowContent>
+                        <SectionRowContent>{type}</SectionRowContent>
                     </SectionRow>
                     <SectionRow>
                         <SectionRowTitle>Date Effective</SectionRowTitle>
-                        <SectionRowContent>{ dateEffective }</SectionRowContent>
+                        <SectionRowContent>{dateEffective}</SectionRowContent>
                     </SectionRow>
                     <SectionRow>
                         <SectionRowTitle>Expiration Date</SectionRowTitle>
-                        <SectionRowContent>{ expiryDate }</SectionRowContent>
+                        <SectionRowContent>{expiryDate}</SectionRowContent>
                     </SectionRow>
                     <SectionRow>
                         <SectionRowTitle>College Initiator</SectionRowTitle>
-                        <SectionRowContent>{ college }</SectionRowContent>
+                        <SectionRowContent>{college}</SectionRowContent>
                     </SectionRow>
                     <SectionRow>
                         <SectionRowContent className="d-flex">
-                            <Button outline color="success" size="sm" className="mr-2"
-                                    onClick={ viewMemorandum }>View</Button>
-                            <Button outline color="success" size="sm" className="mr-auto"
-                                    onClick={ this.props.toggleEditMemorandum }>Edit</Button>
-                            <Button outline color="warning" size="sm"
-                                    onClick={ this.props.toggleDeleteMemorandum }>Archive</Button>
+                            <Button outline
+                                    color="success"
+                                    size="sm"
+                                    className="mr-2"
+                                    onClick={viewMemorandum}>View</Button>
+
+                            {!this.props.archived &&
+                            <Button outline
+                                    color="success"
+                                    size="sm"
+                                    className="mr-auto"
+                                    onClick={this.props.toggleEditMemorandum}>Edit</Button>
+                            }
+                            {!this.props.archived &&
+                            < Button outline
+                                     color="warning"
+                                     size="sm"
+                                     onClick={this.props.toggleDeleteMemorandum}>Archive</Button>
+                            }
+
+                            {this.props.archived &&
+                            <Button outline
+                                    color="primary"
+                                    size="sm"
+                                    className="ml-auto"
+                                    onClick={this.props.toggleRestoreMemorandum}>Restore</Button>
+                            }
                         </SectionRowContent>
                     </SectionRow>
                 </SectionTable>
@@ -163,14 +201,14 @@ class MemorandumLinkages extends Component {
 
         const rows = this.props.linkages.map((linkage, index) => {
             return (
-                <SectionRow key={ index }>{ settings.linkages[linkage] }</SectionRow>
+                <SectionRow key={index}>{settings.linkages[linkage]}</SectionRow>
             );
         });
 
         if (this.props.linkages.length > 0) {
             body = (
                 <SectionTable>
-                    { rows }
+                    {rows}
                 </SectionTable>
             );
         }
@@ -178,7 +216,7 @@ class MemorandumLinkages extends Component {
         return (
             <Section>
                 <SectionTitle>Linkages</SectionTitle>
-                { body }
+                {body}
             </Section>
         );
     }
@@ -235,12 +273,12 @@ class ProgramSidebarPane extends Component {
 
 
                 <div className="page-body">
-                    <ProgramDetails program={ program }
-                                    toggleDeleteProgram={ this.toggleDeleteProgram }
-                                    toggleEditProgram={ this.toggleEditProgram }/>
-                    <ProgramStudyFields studyFields={ program.studyfield_set }/>
+                    <ProgramDetails program={program}
+                                    toggleDeleteProgram={this.toggleDeleteProgram}
+                                    toggleEditProgram={this.toggleEditProgram}/>
+                    <ProgramStudyFields studyFields={program.studyfield_set}/>
 
-                    { /* Delete and Edit Modals */ }
+                    {/* Delete and Edit Modals */}
                 </div>
             </div>
         );
@@ -260,18 +298,23 @@ class ProgramDetails extends Component {
                 <SectionTable>
                     <SectionRow>
                         <SectionRowTitle>Program Name</SectionRowTitle>
-                        <SectionRowContent>{ program.name }</SectionRowContent>
+                        <SectionRowContent>{program.name}</SectionRowContent>
                     </SectionRow>
                     <SectionRow>
                         <SectionRowTitle>Linkage</SectionRowTitle>
-                        <SectionRowContent>{ program.linkage.name }</SectionRowContent>
+                        <SectionRowContent>{program.linkage.name}</SectionRowContent>
                     </SectionRow>
                     <SectionRow>
                         <SectionRowContent className="d-flex">
-                            <Button outline color="success" size="sm" className="mr-auto"
-                                    onClick={ this.props.toggleEditMemorandum }>Edit</Button>
-                            <Button outline color="warning" size="sm"
-                                    onClick={ this.props.toggleDeleteMemorandum }>Archive</Button>
+                            <Button outline
+                                    color="success"
+                                    size="sm"
+                                    className="mr-auto"
+                                    onClick={this.props.toggleEditMemorandum}>Edit</Button>
+                            <Button outline
+                                    color="warning"
+                                    size="sm"
+                                    onClick={this.props.toggleDeleteMemorandum}>Archive</Button>
                         </SectionRowContent>
                     </SectionRow>
                 </SectionTable>
@@ -294,14 +337,14 @@ class ProgramStudyFields extends Component {
 
         const rows = this.props.studyFields.map((studyField, index) => {
             return (
-                <SectionRow key={ index }>{ studyField.name }</SectionRow>
+                <SectionRow key={index}>{studyField.name}</SectionRow>
             );
         });
 
         if (this.props.studyFields.length > 0) {
             body = (
                 <SectionTable>
-                    { rows }
+                    {rows}
                 </SectionTable>
             );
         }
@@ -309,7 +352,7 @@ class ProgramStudyFields extends Component {
         return (
             <Section>
                 <SectionTitle>Study Fields</SectionTitle>
-                { body }
+                {body}
             </Section>
         );
     }

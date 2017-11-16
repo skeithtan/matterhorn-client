@@ -6,6 +6,7 @@ import {
     Table,
 } from "reactstrap";
 import LoadingSpinner from "../../../components/loading";
+import { MemorandumSidebarPane } from "../../Institutions/tabs/sidebar_panes";
 
 
 function fetchMemorandums(year, onResult) {
@@ -16,6 +17,10 @@ function fetchMemorandums(year, onResult) {
 		category
 		archived_at
 		archiver
+		memorandum_file
+        date_expiration
+        college_initiator
+        linkages
 		date_effective
             institution {
                 name
@@ -32,9 +37,11 @@ class MemorandumArchives extends Component {
         this.state = {
             activeYear : moment().year(),
             memorandums : null,
+            activeMemorandumId : null,
         };
 
         this.setCurrentYear = this.setCurrentYear.bind(this);
+        this.setActiveMemorandum = this.setActiveMemorandum.bind(this);
 
         fetchMemorandums(this.state.activeYear, result => {
             this.setState({
@@ -43,11 +50,24 @@ class MemorandumArchives extends Component {
         });
     }
 
+    setActiveMemorandum(memorandum) {
+        this.setState({
+            activeMemorandumId : memorandum.id,
+        });
+
+        this.props.setSidebarContent(<MemorandumSidebarPane archived
+                                                            memorandum={memorandum}/>);
+    }
+
+
     setCurrentYear(year) {
         this.setState({
             activeYear : year,
+            activeMemorandumId : null,
             memorandums : null, //Loading
         });
+
+        this.props.setSidebarContent(null);
 
         fetchMemorandums(year, result => {
             this.setState({
@@ -61,7 +81,10 @@ class MemorandumArchives extends Component {
             <div className="d-flex flex-column h-100">
                 <MemorandumArchivesHead setCurrentYear={this.setCurrentYear}
                                         activeYear={this.state.activeYear}/>
-                <MemorandumArchivesTable memorandums={this.state.memorandums}/>
+                <MemorandumArchivesTable memorandums={this.state.memorandums}
+                                         setSidebarContent={this.props.setSidebarContent}
+                                         activeMemorandumId={this.state.activeMemorandumId}
+                                         setActiveMemorandum={this.setActiveMemorandum}/>
             </div>
         );
     }
@@ -137,12 +160,16 @@ class MemorandumArchivesTable extends Component {
         }
 
         const rows = this.props.memorandums.map((memorandum, index) => {
-            return <MemorandumArchivesRow memorandum={memorandum} key={index}/>;
+            return <MemorandumArchivesRow memorandum={memorandum}
+                                          key={index}
+                                          isActive={this.props.activeMemorandumId === memorandum.id}
+                                          onClick={() => this.props.setActiveMemorandum(memorandum)}/>;
         });
 
 
         return (
-            <Table striped>
+            <Table striped
+                   hover>
                 <thead>
                 <tr>
                     <th>Institution Name</th>
@@ -170,8 +197,11 @@ class MemorandumArchivesRow extends Component {
         const dateEffective = moment(this.props.memorandum.date_effective).format("LL");
         const archiveDate = moment(this.props.memorandum.archived_at).format("LLL");
 
+        const className = this.props.isActive ? "bg-dlsu-lighter text-white" : null;
+
         return (
-            <tr>
+            <tr className={className}
+                onClick={this.props.onClick}>
                 <td>{this.props.memorandum.institution.name}</td>
                 <td>{memorandumType}</td>
                 <td>{dateEffective}</td>

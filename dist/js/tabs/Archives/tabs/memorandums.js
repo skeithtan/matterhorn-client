@@ -24,6 +24,8 @@ var _loading = require("../../../components/loading");
 
 var _loading2 = _interopRequireDefault(_loading);
 
+var _sidebar_panes = require("../../Institutions/tabs/sidebar_panes");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -33,7 +35,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 function fetchMemorandums(year, onResult) {
-    _graphql2.default.query("\n    {\n        memorandums(archived:true, year_archived:" + year + ") {\n\t\tid\n\t\tcategory\n\t\tarchived_at\n\t\tarchiver\n\t\tdate_effective\n            institution {\n                name\n            }\n\t\t}\n\t}\n\t").then(onResult);
+    _graphql2.default.query("\n    {\n        memorandums(archived:true, year_archived:" + year + ") {\n\t\tid\n\t\tcategory\n\t\tarchived_at\n\t\tarchiver\n\t\tmemorandum_file\n        date_expiration\n        college_initiator\n        linkages\n\t\tdate_effective\n            institution {\n                name\n            }\n\t\t}\n\t}\n\t").then(onResult);
 }
 
 var MemorandumArchives = function (_Component) {
@@ -46,10 +48,12 @@ var MemorandumArchives = function (_Component) {
 
         _this.state = {
             activeYear: (0, _moment2.default)().year(),
-            memorandums: null
+            memorandums: null,
+            activeMemorandumId: null
         };
 
         _this.setCurrentYear = _this.setCurrentYear.bind(_this);
+        _this.setActiveMemorandum = _this.setActiveMemorandum.bind(_this);
 
         fetchMemorandums(_this.state.activeYear, function (result) {
             _this.setState({
@@ -60,14 +64,27 @@ var MemorandumArchives = function (_Component) {
     }
 
     _createClass(MemorandumArchives, [{
+        key: "setActiveMemorandum",
+        value: function setActiveMemorandum(memorandum) {
+            this.setState({
+                activeMemorandumId: memorandum.id
+            });
+
+            this.props.setSidebarContent(_react2.default.createElement(_sidebar_panes.MemorandumSidebarPane, { archived: true,
+                memorandum: memorandum }));
+        }
+    }, {
         key: "setCurrentYear",
         value: function setCurrentYear(year) {
             var _this2 = this;
 
             this.setState({
                 activeYear: year,
+                activeMemorandumId: null,
                 memorandums: null //Loading
             });
+
+            this.props.setSidebarContent(null);
 
             fetchMemorandums(year, function (result) {
                 _this2.setState({
@@ -83,7 +100,10 @@ var MemorandumArchives = function (_Component) {
                 { className: "d-flex flex-column h-100" },
                 _react2.default.createElement(MemorandumArchivesHead, { setCurrentYear: this.setCurrentYear,
                     activeYear: this.state.activeYear }),
-                _react2.default.createElement(MemorandumArchivesTable, { memorandums: this.state.memorandums })
+                _react2.default.createElement(MemorandumArchivesTable, { memorandums: this.state.memorandums,
+                    setSidebarContent: this.props.setSidebarContent,
+                    activeMemorandumId: this.state.activeMemorandumId,
+                    setActiveMemorandum: this.setActiveMemorandum })
             );
         }
     }]);
@@ -177,6 +197,8 @@ var MemorandumArchivesTable = function (_Component3) {
     _createClass(MemorandumArchivesTable, [{
         key: "render",
         value: function render() {
+            var _this5 = this;
+
             if (this.props.memorandums === null) {
                 return _react2.default.createElement(_loading2.default, null);
             }
@@ -186,12 +208,18 @@ var MemorandumArchivesTable = function (_Component3) {
             }
 
             var rows = this.props.memorandums.map(function (memorandum, index) {
-                return _react2.default.createElement(MemorandumArchivesRow, { memorandum: memorandum, key: index });
+                return _react2.default.createElement(MemorandumArchivesRow, { memorandum: memorandum,
+                    key: index,
+                    isActive: _this5.props.activeMemorandumId === memorandum.id,
+                    onClick: function onClick() {
+                        return _this5.props.setActiveMemorandum(memorandum);
+                    } });
             });
 
             return _react2.default.createElement(
                 _reactstrap.Table,
-                { striped: true },
+                { striped: true,
+                    hover: true },
                 _react2.default.createElement(
                     "thead",
                     null,
@@ -266,9 +294,12 @@ var MemorandumArchivesRow = function (_Component4) {
             var dateEffective = (0, _moment2.default)(this.props.memorandum.date_effective).format("LL");
             var archiveDate = (0, _moment2.default)(this.props.memorandum.archived_at).format("LLL");
 
+            var className = this.props.isActive ? "bg-dlsu-lighter text-white" : null;
+
             return _react2.default.createElement(
                 "tr",
-                null,
+                { className: className,
+                    onClick: this.props.onClick },
                 _react2.default.createElement(
                     "td",
                     null,

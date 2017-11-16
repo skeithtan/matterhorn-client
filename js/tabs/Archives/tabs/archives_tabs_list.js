@@ -5,7 +5,7 @@ import React from "react";
 const tabs = [
     {
         name : "Memorandums",
-        tab : <MemorandumArchives/>,
+        tab : setSidebarContent => <MemorandumArchives setSidebarContent={setSidebarContent}/>,
         image : "./images/memorandumgrey.png",
         activeImage : "./images/memorandumgreen.png",
     },
