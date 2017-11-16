@@ -180,7 +180,6 @@ class MemorandumArchivesTable extends Component {
                 <tr>
                     <th>Institution Name</th>
                     <th>Memorandum Type</th>
-                    <th>Date Effective</th>
                     <th>Archive Date</th>
                     <th>Archived By</th>
                 </tr>
@@ -200,7 +199,6 @@ class MemorandumArchivesRow extends Component {
 
     render() {
         const memorandumType = this.props.memorandum.category === "MOA" ? "Agreement" : "Understanding";
-        const dateEffective = moment(this.props.memorandum.date_effective).format("LL");
         const archiveDate = moment(this.props.memorandum.archived_at).format("LLL");
 
         const className = this.props.isActive ? "bg-dlsu-lighter text-white" : null;
@@ -210,7 +208,6 @@ class MemorandumArchivesRow extends Component {
                 onClick={this.props.onClick}>
                 <td>{this.props.memorandum.institution.name}</td>
                 <td>{memorandumType}</td>
-                <td>{dateEffective}</td>
                 <td>{archiveDate}</td>
                 <td>{this.props.memorandum.archiver}</td>
             </tr>

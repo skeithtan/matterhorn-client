@@ -246,11 +246,6 @@ var MemorandumArchivesTable = function (_Component3) {
                         _react2.default.createElement(
                             "th",
                             null,
-                            "Date Effective"
-                        ),
-                        _react2.default.createElement(
-                            "th",
-                            null,
                             "Archive Date"
                         ),
                         _react2.default.createElement(
@@ -298,7 +293,6 @@ var MemorandumArchivesRow = function (_Component4) {
         key: "render",
         value: function render() {
             var memorandumType = this.props.memorandum.category === "MOA" ? "Agreement" : "Understanding";
-            var dateEffective = (0, _moment2.default)(this.props.memorandum.date_effective).format("LL");
             var archiveDate = (0, _moment2.default)(this.props.memorandum.archived_at).format("LLL");
 
             var className = this.props.isActive ? "bg-dlsu-lighter text-white" : null;
@@ -316,11 +310,6 @@ var MemorandumArchivesRow = function (_Component4) {
                     "td",
                     null,
                     memorandumType
-                ),
-                _react2.default.createElement(
-                    "td",
-                    null,
-                    dateEffective
                 ),
                 _react2.default.createElement(
                     "td",
