@@ -1,5 +1,6 @@
 import MemorandumArchives from "./memorandums";
 import React from "react";
+import StudentArchives from "./students";
 
 
 const tabs = [
@@ -17,7 +18,7 @@ const tabs = [
     },
     {
         name : "Students",
-        tab : undefined,
+        tab : setSidebarContent => <StudentArchives setSidebarContent={setSidebarContent}/>,
         image : "./images/studentgrey.png",
         activeImage : "./images/studentgreen.png",
     },

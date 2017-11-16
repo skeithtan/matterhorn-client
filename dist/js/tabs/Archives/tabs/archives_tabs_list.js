@@ -12,6 +12,10 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _students = require("./students");
+
+var _students2 = _interopRequireDefault(_students);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var tabs = [{
@@ -28,7 +32,9 @@ var tabs = [{
     activeImage: "./images/programsgreen.png"
 }, {
     name: "Students",
-    tab: undefined,
+    tab: function tab(setSidebarContent) {
+        return _react2.default.createElement(_students2.default, { setSidebarContent: setSidebarContent });
+    },
     image: "./images/studentgrey.png",
     activeImage: "./images/studentgreen.png"
 }, {

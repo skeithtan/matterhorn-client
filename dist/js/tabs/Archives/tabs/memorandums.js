@@ -116,6 +116,7 @@ var MemorandumArchives = function (_Component) {
                     "Memorandum Archives"
                 ),
                 _react2.default.createElement(MemorandumArchivesTable, { memorandums: this.state.memorandums,
+                    activeYear: this.state.activeYear,
                     setSidebarContent: this.props.setSidebarContent,
                     activeMemorandumId: this.state.activeMemorandumId,
                     setActiveMemorandum: this.setActiveMemorandum })
@@ -132,10 +133,28 @@ var MemorandumArchivesTable = function (_Component2) {
     function MemorandumArchivesTable(props) {
         _classCallCheck(this, MemorandumArchivesTable);
 
-        return _possibleConstructorReturn(this, (MemorandumArchivesTable.__proto__ || Object.getPrototypeOf(MemorandumArchivesTable)).call(this, props));
+        var _this3 = _possibleConstructorReturn(this, (MemorandumArchivesTable.__proto__ || Object.getPrototypeOf(MemorandumArchivesTable)).call(this, props));
+
+        _this3.emptyState = _this3.emptyState.bind(_this3);
+        return _this3;
     }
 
     _createClass(MemorandumArchivesTable, [{
+        key: "emptyState",
+        value: function emptyState() {
+            return _react2.default.createElement(
+                "div",
+                { className: "loading-container" },
+                _react2.default.createElement(
+                    "h3",
+                    null,
+                    "There were no archived memorandums in ",
+                    this.props.activeYear,
+                    "."
+                )
+            );
+        }
+    }, {
         key: "render",
         value: function render() {
             var _this4 = this;
@@ -145,7 +164,7 @@ var MemorandumArchivesTable = function (_Component2) {
             }
 
             if (this.props.memorandums.length === 0) {
-                return MemorandumArchivesTable.emptyState();
+                return this.emptyState();
             }
 
             var rows = this.props.memorandums.map(function (memorandum, index) {
@@ -196,19 +215,6 @@ var MemorandumArchivesTable = function (_Component2) {
                 )
             );
         }
-    }], [{
-        key: "emptyState",
-        value: function emptyState() {
-            return _react2.default.createElement(
-                "div",
-                { className: "loading-container" },
-                _react2.default.createElement(
-                    "h3",
-                    null,
-                    "There are no archived memorandums for this year"
-                )
-            );
-        }
     }]);
 
     return MemorandumArchivesTable;
@@ -226,8 +232,9 @@ var MemorandumArchivesRow = function (_Component3) {
     _createClass(MemorandumArchivesRow, [{
         key: "render",
         value: function render() {
-            var memorandumType = this.props.memorandum.category === "MOA" ? "Agreement" : "Understanding";
-            var archiveDate = (0, _moment2.default)(this.props.memorandum.archived_at).format("LLL");
+            var memorandum = this.props.memorandum;
+            var memorandumType = memorandum.category === "MOA" ? "Agreement" : "Understanding";
+            var archiveDate = (0, _moment2.default)(memorandum.archived_at).format("LLL");
 
             var className = this.props.isActive ? "bg-dlsu-lighter text-white" : null;
 
@@ -238,7 +245,7 @@ var MemorandumArchivesRow = function (_Component3) {
                 _react2.default.createElement(
                     "td",
                     null,
-                    this.props.memorandum.institution.name
+                    memorandum.institution.name
                 ),
                 _react2.default.createElement(
                     "td",
@@ -253,7 +260,7 @@ var MemorandumArchivesRow = function (_Component3) {
                 _react2.default.createElement(
                     "td",
                     null,
-                    this.props.memorandum.archiver
+                    memorandum.archiver
                 )
             );
         }

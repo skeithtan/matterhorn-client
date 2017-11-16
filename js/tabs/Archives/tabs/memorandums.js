@@ -89,6 +89,7 @@ class MemorandumArchives extends Component {
                 <ArchivesHead setActiveYear={this.setActiveYear}
                               activeYear={this.state.activeYear}>Memorandum Archives</ArchivesHead>
                 <MemorandumArchivesTable memorandums={this.state.memorandums}
+                                         activeYear={this.state.activeYear}
                                          setSidebarContent={this.props.setSidebarContent}
                                          activeMemorandumId={this.state.activeMemorandumId}
                                          setActiveMemorandum={this.setActiveMemorandum}/>
@@ -100,12 +101,14 @@ class MemorandumArchives extends Component {
 class MemorandumArchivesTable extends Component {
     constructor(props) {
         super(props);
+
+        this.emptyState = this.emptyState.bind(this);
     }
 
-    static emptyState() {
+    emptyState() {
         return (
             <div className="loading-container">
-                <h3>There are no archived memorandums for this year</h3>
+                <h3>There were no archived memorandums in {this.props.activeYear}.</h3>
             </div>
         );
     }
@@ -116,7 +119,7 @@ class MemorandumArchivesTable extends Component {
         }
 
         if (this.props.memorandums.length === 0) {
-            return MemorandumArchivesTable.emptyState();
+            return this.emptyState();
         }
 
         const rows = this.props.memorandums.map((memorandum, index) => {
@@ -152,18 +155,19 @@ class MemorandumArchivesRow extends Component {
     }
 
     render() {
-        const memorandumType = this.props.memorandum.category === "MOA" ? "Agreement" : "Understanding";
-        const archiveDate = moment(this.props.memorandum.archived_at).format("LLL");
+        const memorandum = this.props.memorandum;
+        const memorandumType = memorandum.category === "MOA" ? "Agreement" : "Understanding";
+        const archiveDate = moment(memorandum.archived_at).format("LLL");
 
         const className = this.props.isActive ? "bg-dlsu-lighter text-white" : null;
 
         return (
             <tr className={className}
                 onClick={this.props.onClick}>
-                <td>{this.props.memorandum.institution.name}</td>
+                <td>{memorandum.institution.name}</td>
                 <td>{memorandumType}</td>
                 <td>{archiveDate}</td>
-                <td>{this.props.memorandum.archiver}</td>
+                <td>{memorandum.archiver}</td>
             </tr>
         );
     }
