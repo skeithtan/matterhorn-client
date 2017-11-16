@@ -554,8 +554,9 @@ class ArchiveStudentModal extends Component {
 
         return (
             <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} backdrop={true} id="archive-student-modal">
-                <ModalHeader>Are you sure you want to
-                    archive {name}?</ModalHeader>
+                <ModalHeader className="text-yellow">
+                    Are you sure you want to archive {name}?
+                </ModalHeader>
                 <ModalFooter>
                     <Button outline color="warning" onClick={this.confirmArchive}>Confirm Archive</Button>
                 </ModalFooter>

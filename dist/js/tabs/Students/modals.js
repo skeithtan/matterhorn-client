@@ -848,7 +848,7 @@ var ArchiveStudentModal = function (_Component2) {
                 { isOpen: this.props.isOpen, toggle: this.props.toggle, backdrop: true, id: "archive-student-modal" },
                 _react2.default.createElement(
                     _reactstrap.ModalHeader,
-                    null,
+                    { className: "text-yellow" },
                     "Are you sure you want to archive ",
                     name,
                     "?"

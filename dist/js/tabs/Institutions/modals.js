@@ -230,7 +230,9 @@ var InstitutionFormModal = function (_Component) {
 
             return _react2.default.createElement(
                 _reactstrap.Modal,
-                { isOpen: this.props.isOpen, toggle: this.props.toggle, backdrop: true },
+                { isOpen: this.props.isOpen,
+                    toggle: this.props.toggle,
+                    backdrop: true },
                 _react2.default.createElement(
                     _reactstrap.ModalHeader,
                     { toggle: this.props.toggle },
@@ -289,7 +291,8 @@ var InstitutionFormModal = function (_Component) {
                                 null,
                                 "Address"
                             ),
-                            _react2.default.createElement(_reactstrap.Input, { type: "textarea", placeholder: "Address",
+                            _react2.default.createElement(_reactstrap.Input, { type: "textarea",
+                                placeholder: "Address",
                                 onChange: this.getChangeHandler("address"),
                                 valid: isValid("Address"),
                                 defaultValue: this.state.form.address }),
@@ -320,7 +323,8 @@ var InstitutionFormModal = function (_Component) {
                                     valid: isValid("Website"),
                                     defaultValue: this.state.form.website })
                             ),
-                            _react2.default.createElement(_reactstrap.Input, { type: "hidden", value: this.state.form.website,
+                            _react2.default.createElement(_reactstrap.Input, { type: "hidden",
+                                value: this.state.form.website,
                                 valid: isValid("Website") }),
                             _react2.default.createElement(
                                 _reactstrap.FormFeedback,
@@ -342,7 +346,8 @@ var InstitutionFormModal = function (_Component) {
                             ),
                             _react2.default.createElement(
                                 _reactstrap.Input,
-                                { type: "select", onChange: this.getChangeHandler("agreement"),
+                                { type: "select",
+                                    onChange: this.getChangeHandler("agreement"),
                                     defaultValue: this.state.form.agreement },
                                 _react2.default.createElement(
                                     "option",
@@ -388,7 +393,8 @@ var InstitutionFormModal = function (_Component) {
                                 null,
                                 "Contact Email"
                             ),
-                            _react2.default.createElement(_reactstrap.Input, { type: "email", placeholder: "Email",
+                            _react2.default.createElement(_reactstrap.Input, { type: "email",
+                                placeholder: "Email",
                                 onChange: this.getChangeHandler("contact_person_email"),
                                 valid: isValid("Contact person email"),
                                 defaultValue: this.state.form.contact_person_email }),
@@ -423,7 +429,8 @@ var InstitutionFormModal = function (_Component) {
                     null,
                     _react2.default.createElement(
                         _reactstrap.Button,
-                        { outline: true, color: "success",
+                        { outline: true,
+                            color: "success",
                             onClick: this.props.edit ? this.submitEditInstitutionForm : this.submitAddInstitutionForm,
                             disabled: formHasErrors },
                         this.props.edit ? "Save changes" : "Add"
@@ -466,7 +473,7 @@ var ArchiveInstitutionModal = function (_Component2) {
                     dismissToast();
                     _this6.props.refresh();
                     _izitoast2.default.success({
-                        icon: '',
+                        icon: "",
                         title: "Success",
                         message: "Institution archived",
                         progressBar: false
@@ -489,10 +496,13 @@ var ArchiveInstitutionModal = function (_Component2) {
         value: function render() {
             return _react2.default.createElement(
                 _reactstrap.Modal,
-                { isOpen: this.props.isOpen, toggle: this.props.toggle, backdrop: true, id: "archive-institution-modal" },
+                { isOpen: this.props.isOpen,
+                    toggle: this.props.toggle,
+                    backdrop: true,
+                    id: "archive-institution-modal" },
                 _react2.default.createElement(
                     _reactstrap.ModalHeader,
-                    null,
+                    { className: "text-yellow" },
                     "Are you sure you want to archive ",
                     this.props.institution.name,
                     "?"
@@ -502,7 +512,9 @@ var ArchiveInstitutionModal = function (_Component2) {
                     null,
                     _react2.default.createElement(
                         _reactstrap.Button,
-                        { outline: true, color: "warning", onClick: this.confirmArchive },
+                        { outline: true,
+                            color: "warning",
+                            onClick: this.confirmArchive },
                         "Confirm Archive"
                     )
                 )
@@ -717,7 +729,8 @@ var MemorandumFormModal = function (_Component3) {
 
                 return _react2.default.createElement(
                     _reactstrap.ListGroupItem,
-                    { key: linkageCode, onClick: onClick,
+                    { key: linkageCode,
+                        onClick: onClick,
                         className: className },
                     _react2.default.createElement(
                         "span",
@@ -735,14 +748,16 @@ var MemorandumFormModal = function (_Component3) {
             var collegeInitiators = Object.entries(_settings2.default.colleges).map(function (college) {
                 return _react2.default.createElement(
                     "option",
-                    { key: college[0], value: college[0] },
+                    { key: college[0],
+                        value: college[0] },
                     college[1]
                 );
             });
 
             collegeInitiators.unshift(_react2.default.createElement(
                 "option",
-                { key: "null", value: "" },
+                { key: "null",
+                    value: "" },
                 "No college initiator"
             ));
 
@@ -756,7 +771,9 @@ var MemorandumFormModal = function (_Component3) {
 
             return _react2.default.createElement(
                 _reactstrap.Modal,
-                { isOpen: this.props.isOpen, toggle: this.props.toggle, backdrop: true,
+                { isOpen: this.props.isOpen,
+                    toggle: this.props.toggle,
+                    backdrop: true,
                     onOpened: this.setupUploadCare },
                 _react2.default.createElement(
                     _reactstrap.ModalHeader,
@@ -784,7 +801,8 @@ var MemorandumFormModal = function (_Component3) {
                             ),
                             _react2.default.createElement(
                                 _reactstrap.Input,
-                                { type: "select", defaultValue: this.state.form.category,
+                                { type: "select",
+                                    defaultValue: this.state.form.category,
                                     onChange: this.getChangeHandler("category") },
                                 _react2.default.createElement(
                                     "option",
@@ -806,7 +824,9 @@ var MemorandumFormModal = function (_Component3) {
                                 null,
                                 "File Link"
                             ),
-                            _react2.default.createElement(_reactstrap.Input, { type: "hidden", role: "uploadcare-uploader", name: "content",
+                            _react2.default.createElement(_reactstrap.Input, { type: "hidden",
+                                role: "uploadcare-uploader",
+                                name: "content",
                                 "data-public-key": _settings2.default.uploadcarePublicKey,
                                 valid: isValid("File") }),
                             _react2.default.createElement(
@@ -828,7 +848,8 @@ var MemorandumFormModal = function (_Component3) {
                                 null,
                                 "Date Effective"
                             ),
-                            _react2.default.createElement(_reactstrap.Input, { type: "date", defaultValue: this.state.form.date_effective,
+                            _react2.default.createElement(_reactstrap.Input, { type: "date",
+                                defaultValue: this.state.form.date_effective,
                                 onChange: this.getChangeHandler("date_effective"),
                                 valid: isValid("Date effective") }),
                             _react2.default.createElement(
@@ -845,7 +866,8 @@ var MemorandumFormModal = function (_Component3) {
                                 null,
                                 "Expiration Date"
                             ),
-                            _react2.default.createElement(_reactstrap.Input, { type: "date", defaultValue: this.state.form.date_expiration,
+                            _react2.default.createElement(_reactstrap.Input, { type: "date",
+                                defaultValue: this.state.form.date_expiration,
                                 onChange: this.getChangeHandler("date_expiration") }),
                             _react2.default.createElement(
                                 "small",
@@ -863,7 +885,8 @@ var MemorandumFormModal = function (_Component3) {
                             ),
                             _react2.default.createElement(
                                 _reactstrap.Input,
-                                { type: "select", defaultValue: this.state.form.college_initiator,
+                                { type: "select",
+                                    defaultValue: this.state.form.college_initiator,
                                     onChange: this.getChangeHandler("college_initiator") },
                                 collegeInitiators
                             )
@@ -891,7 +914,8 @@ var MemorandumFormModal = function (_Component3) {
                     null,
                     _react2.default.createElement(
                         _reactstrap.Button,
-                        { outline: true, color: "success",
+                        { outline: true,
+                            color: "success",
                             disabled: formHasErrors,
                             onClick: this.props.edit ? this.submitEditMemorandumForm : this.submitAddMemorandumForm },
                         this.props.edit ? "Save changes" : "Add"
@@ -957,18 +981,24 @@ var ArchiveMemorandumModal = function (_Component4) {
         value: function render() {
             return _react2.default.createElement(
                 _reactstrap.Modal,
-                { isOpen: this.props.isOpen, toggle: this.props.toggle, backdrop: true, id: "archive-memorandum-modal" },
+                { isOpen: this.props.isOpen,
+                    toggle: this.props.toggle,
+                    backdrop: true,
+                    id: "archive-memorandum-modal" },
                 _react2.default.createElement(
                     _reactstrap.ModalHeader,
-                    { toggle: this.props.toggle },
-                    "Archive Memorandum"
+                    { toggle: this.props.toggle,
+                        className: "text-yellow" },
+                    "Are you sure you want to archive this memorandum?"
                 ),
                 _react2.default.createElement(
                     _reactstrap.ModalFooter,
                     null,
                     _react2.default.createElement(
                         _reactstrap.Button,
-                        { outline: true, color: "warning", id: "archive-memorandum-modal-submit",
+                        { outline: true,
+                            color: "warning",
+                            id: "archive-memorandum-modal-submit",
                             onClick: this.confirmArchive },
                         "Archive"
                     )

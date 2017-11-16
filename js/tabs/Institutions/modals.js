@@ -188,7 +188,9 @@ class InstitutionFormModal extends Component {
         }
 
         return (
-            <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} backdrop={true}>
+            <Modal isOpen={this.props.isOpen}
+                   toggle={this.props.toggle}
+                   backdrop={true}>
                 <ModalHeader toggle={this.props.toggle}>
                     {this.props.edit ? `Edit ${this.state.form.name}` : "Add an Institution"}
                 </ModalHeader>
@@ -216,7 +218,8 @@ class InstitutionFormModal extends Component {
 
                         <FormGroup>
                             <Label>Address</Label>
-                            <Input type="textarea" placeholder="Address"
+                            <Input type="textarea"
+                                   placeholder="Address"
                                    onChange={this.getChangeHandler("address")}
                                    valid={isValid("Address")}
                                    defaultValue={this.state.form.address}/>
@@ -232,14 +235,16 @@ class InstitutionFormModal extends Component {
                                        valid={isValid("Website")}
                                        defaultValue={this.state.form.website}/>
                             </InputGroup>
-                            <Input type="hidden" value={this.state.form.website}
+                            <Input type="hidden"
+                                   value={this.state.form.website}
                                    valid={isValid("Website")}/>
                             <FormFeedback><p>{fieldError("Website")}</p></FormFeedback>
                         </FormGroup>
 
                         <FormGroup>
                             <Label>Agreement Type</Label>
-                            <Input type="select" onChange={this.getChangeHandler("agreement")}
+                            <Input type="select"
+                                   onChange={this.getChangeHandler("agreement")}
                                    defaultValue={this.state.form.agreement}>
                                 <option value="B">Bilateral</option>
                                 <option value="M">Multilateral</option>
@@ -261,7 +266,8 @@ class InstitutionFormModal extends Component {
 
                         <FormGroup>
                             <Label>Contact Email</Label>
-                            <Input type="email" placeholder="Email"
+                            <Input type="email"
+                                   placeholder="Email"
                                    onChange={this.getChangeHandler("contact_person_email")}
                                    valid={isValid("Contact person email")}
                                    defaultValue={this.state.form.contact_person_email}/>
@@ -280,7 +286,8 @@ class InstitutionFormModal extends Component {
                     </Form>
                 </ModalBody>
                 <ModalFooter>
-                    <Button outline color="success"
+                    <Button outline
+                            color="success"
                             onClick={this.props.edit ? this.submitEditInstitutionForm : this.submitAddInstitutionForm}
                             disabled={formHasErrors}>
                         {this.props.edit ? "Save changes" : "Add"}
@@ -311,7 +318,7 @@ class ArchiveInstitutionModal extends Component {
                 dismissToast();
                 this.props.refresh();
                 iziToast.success({
-                    icon: '',
+                    icon : "",
                     title : "Success",
                     message : "Institution archived",
                     progressBar : false,
@@ -332,11 +339,17 @@ class ArchiveInstitutionModal extends Component {
 
     render() {
         return (
-            <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} backdrop={true} id="archive-institution-modal">
-                <ModalHeader>Are you sure you want to
-                    archive {this.props.institution.name}?</ModalHeader>
+            <Modal isOpen={this.props.isOpen}
+                   toggle={this.props.toggle}
+                   backdrop={true}
+                   id="archive-institution-modal">
+                <ModalHeader className="text-yellow">
+                    Are you sure you want to archive {this.props.institution.name}?
+                </ModalHeader>
                 <ModalFooter>
-                    <Button outline color="warning" onClick={this.confirmArchive}>Confirm Archive</Button>
+                    <Button outline
+                            color="warning"
+                            onClick={this.confirmArchive}>Confirm Archive</Button>
                 </ModalFooter>
             </Modal>
         );
@@ -525,7 +538,8 @@ class MemorandumFormModal extends Component {
             };
 
 
-            return <ListGroupItem key={linkageCode} onClick={onClick}
+            return <ListGroupItem key={linkageCode}
+                                  onClick={onClick}
                                   className={className}>
                 <span className="mr-auto">{linkageString}</span>
                 {isSelected && <h5 className="mb-0">✓</h5>}
@@ -533,11 +547,13 @@ class MemorandumFormModal extends Component {
         });
 
         let collegeInitiators = Object.entries(settings.colleges).map(college => {
-            return <option key={college[0]} value={college[0]}>{college[1]}</option>;
+            return <option key={college[0]}
+                           value={college[0]}>{college[1]}</option>;
         });
 
         collegeInitiators.unshift(
-            <option key="null" value={""}>No college initiator</option>,
+            <option key="null"
+                    value={""}>No college initiator</option>,
         );
 
         function isValid(fieldName) {
@@ -549,7 +565,9 @@ class MemorandumFormModal extends Component {
         }
 
         return (
-            <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} backdrop={true}
+            <Modal isOpen={this.props.isOpen}
+                   toggle={this.props.toggle}
+                   backdrop={true}
                    onOpened={this.setupUploadCare}>
                 <ModalHeader toggle={this.props.toggle}>
                     {this.props.edit ? "Edit memorandum" : `Add a memorandum to ${this.props.institution.name}`}
@@ -559,7 +577,8 @@ class MemorandumFormModal extends Component {
                         <h5>Memorandum details</h5>
                         <FormGroup>
                             <Label>Category</Label>
-                            <Input type="select" defaultValue={this.state.form.category}
+                            <Input type="select"
+                                   defaultValue={this.state.form.category}
                                    onChange={this.getChangeHandler("category")}>
                                 <option value="MOA">Memorandum of Agreement</option>
                                 <option value="MOU">Memorandum of Understanding</option>
@@ -567,7 +586,9 @@ class MemorandumFormModal extends Component {
                         </FormGroup>
                         <FormGroup>
                             <Label>File Link</Label>
-                            <Input type="hidden" role="uploadcare-uploader" name="content"
+                            <Input type="hidden"
+                                   role="uploadcare-uploader"
+                                   name="content"
                                    data-public-key={settings.uploadcarePublicKey}
                                    valid={isValid("File")}/>
                             <FormFeedback>{fieldError("File")}</FormFeedback>
@@ -578,14 +599,16 @@ class MemorandumFormModal extends Component {
                         </FormGroup>
                         <FormGroup>
                             <Label>Date Effective</Label>
-                            <Input type="date" defaultValue={this.state.form.date_effective}
+                            <Input type="date"
+                                   defaultValue={this.state.form.date_effective}
                                    onChange={this.getChangeHandler("date_effective")}
                                    valid={isValid("Date effective")}/>
                             <FormFeedback>{fieldError("Date effective")}</FormFeedback>
                         </FormGroup>
                         <FormGroup>
                             <Label>Expiration Date</Label>
-                            <Input type="date" defaultValue={this.state.form.date_expiration}
+                            <Input type="date"
+                                   defaultValue={this.state.form.date_expiration}
                                    onChange={this.getChangeHandler("date_expiration")}/>
                             <small className="text-secondary">If the memorandum has no expiration date, leave this
                                 blank.
@@ -593,7 +616,8 @@ class MemorandumFormModal extends Component {
                         </FormGroup>
                         <FormGroup>
                             <Label>College Initiator</Label>
-                            <Input type="select" defaultValue={this.state.form.college_initiator}
+                            <Input type="select"
+                                   defaultValue={this.state.form.college_initiator}
                                    onChange={this.getChangeHandler("college_initiator")}>
                                 {collegeInitiators}
                             </Input>
@@ -609,7 +633,8 @@ class MemorandumFormModal extends Component {
                     </Form>
                 </ModalBody>
                 <ModalFooter>
-                    <Button outline color="success"
+                    <Button outline
+                            color="success"
                             disabled={formHasErrors}
                             onClick={this.props.edit ? this.submitEditMemorandumForm : this.submitAddMemorandumForm}>
                         {this.props.edit ? "Save changes" : "Add"}
@@ -663,10 +688,16 @@ class ArchiveMemorandumModal extends Component {
 
     render() {
         return (
-            <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} backdrop={true} id="archive-memorandum-modal">
-                <ModalHeader toggle={this.props.toggle}>Archive Memorandum</ModalHeader>
+            <Modal isOpen={this.props.isOpen}
+                   toggle={this.props.toggle}
+                   backdrop={true}
+                   id="archive-memorandum-modal">
+                <ModalHeader toggle={this.props.toggle}
+                             className="text-yellow">Are you sure you want to archive this memorandum?</ModalHeader>
                 <ModalFooter>
-                    <Button outline color="warning" id="archive-memorandum-modal-submit"
+                    <Button outline
+                            color="warning"
+                            id="archive-memorandum-modal-submit"
                             onClick={this.confirmArchive}>Archive</Button>
                 </ModalFooter>
             </Modal>
