@@ -52,7 +52,7 @@ var MemorandumArchives = function (_Component) {
             activeMemorandumId: null
         };
 
-        _this.setCurrentYear = _this.setCurrentYear.bind(_this);
+        _this.setActiveYear = _this.setActiveYear.bind(_this);
         _this.refreshMemorandums = _this.refreshMemorandums.bind(_this);
         _this.setActiveMemorandum = _this.setActiveMemorandum.bind(_this);
 
@@ -76,8 +76,8 @@ var MemorandumArchives = function (_Component) {
                 memorandum: memorandum }));
         }
     }, {
-        key: "setCurrentYear",
-        value: function setCurrentYear(year) {
+        key: "setActiveYear",
+        value: function setActiveYear(year) {
             var _this2 = this;
 
             this.setState({
@@ -97,7 +97,7 @@ var MemorandumArchives = function (_Component) {
     }, {
         key: "refreshMemorandums",
         value: function refreshMemorandums() {
-            this.setCurrentYear(this.state.activeYear);
+            this.setActiveYear(this.state.activeYear);
         }
     }, {
         key: "render",
@@ -105,7 +105,7 @@ var MemorandumArchives = function (_Component) {
             return _react2.default.createElement(
                 "div",
                 { className: "d-flex flex-column h-100" },
-                _react2.default.createElement(MemorandumArchivesHead, { setCurrentYear: this.setCurrentYear,
+                _react2.default.createElement(MemorandumArchivesHead, { setActiveYear: this.setActiveYear,
                     activeYear: this.state.activeYear }),
                 _react2.default.createElement(MemorandumArchivesTable, { memorandums: this.state.memorandums,
                     setSidebarContent: this.props.setSidebarContent,
@@ -126,14 +126,14 @@ var MemorandumArchivesHead = function (_Component2) {
 
         var _this3 = _possibleConstructorReturn(this, (MemorandumArchivesHead.__proto__ || Object.getPrototypeOf(MemorandumArchivesHead)).call(this, props));
 
-        _this3.onCurrentYearChange = _this3.onCurrentYearChange.bind(_this3);
+        _this3.onActiveYearChange = _this3.onActiveYearChange.bind(_this3);
         return _this3;
     }
 
     _createClass(MemorandumArchivesHead, [{
-        key: "onCurrentYearChange",
-        value: function onCurrentYearChange(event) {
-            this.props.setCurrentYear(event.target.value);
+        key: "onActiveYearChange",
+        value: function onActiveYearChange(event) {
+            this.props.setActiveYear(event.target.value);
         }
     }, {
         key: "render",
@@ -180,7 +180,7 @@ var MemorandumArchivesHead = function (_Component2) {
                             { type: "select",
                                 className: "btn-outline-success",
                                 defaultValue: this.props.activeYear,
-                                onChange: this.onCurrentYearChange },
+                                onChange: this.onActiveYearChange },
                             years
                         )
                     )

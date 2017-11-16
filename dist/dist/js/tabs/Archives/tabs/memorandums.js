@@ -84,7 +84,7 @@ var MemorandumArchives = function (_Component) {
     }
 
     _createClass(MemorandumArchives, [{
-        key: "setCurrentYear",
+        key: "setActiveYear",
         value: function setCurrentYear(year) {
             var _this2 = this;
 
@@ -123,9 +123,9 @@ var MemorandumArchivesHead = function (_Component2) {
     }
 
     _createClass(MemorandumArchivesHead, [{
-        key: "onCurrentYearChange",
+        key: "onActiveYearChange",
         value: function onCurrentYearChange(event) {
-            this.props.setCurrentYear(event.target.value);
+            this.props.setActiveYear(event.target.value);
         }
     }, {
         key: "render",
@@ -143,7 +143,7 @@ var MemorandumArchivesHead = function (_Component2) {
             return _react2.default.createElement("div", { className: "page-head pt-5 d-flex flex-row align-items-end" }, _react2.default.createElement("div", { className: "mr-auto" }, _react2.default.createElement("h4", { className: "page-head-title justify-content-left d-inline-block mb-0 mr-2" }, "Memorandum Archives")), _react2.default.createElement("div", { className: "page-head-actions" }, _react2.default.createElement("div", { className: "d-flex flex-row align-items-center" }, _react2.default.createElement("b", { className: "mr-3" }, "Year"), _react2.default.createElement(_reactstrap.Input, { type: "select",
                 className: "btn-outline-success",
                 defaultValue: this.props.activeYear,
-                onChange: this.onCurrentYearChange }, years))));
+                onChange: this.onActiveYearChange }, years))));
         }
     }]);
 

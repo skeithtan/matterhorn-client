@@ -40,7 +40,7 @@ class MemorandumArchives extends Component {
             activeMemorandumId : null,
         };
 
-        this.setCurrentYear = this.setCurrentYear.bind(this);
+        this.setActiveYear = this.setActiveYear.bind(this);
         this.refreshMemorandums = this.refreshMemorandums.bind(this);
         this.setActiveMemorandum = this.setActiveMemorandum.bind(this);
 
@@ -62,7 +62,7 @@ class MemorandumArchives extends Component {
     }
 
 
-    setCurrentYear(year) {
+    setActiveYear(year) {
         this.setState({
             activeYear : year,
             activeMemorandumId : null,
@@ -79,13 +79,13 @@ class MemorandumArchives extends Component {
     }
 
     refreshMemorandums() {
-        this.setCurrentYear(this.state.activeYear);
+        this.setActiveYear(this.state.activeYear);
     }
 
     render() {
         return (
             <div className="d-flex flex-column h-100">
-                <MemorandumArchivesHead setCurrentYear={this.setCurrentYear}
+                <MemorandumArchivesHead setActiveYear={this.setActiveYear}
                                         activeYear={this.state.activeYear}/>
                 <MemorandumArchivesTable memorandums={this.state.memorandums}
                                          setSidebarContent={this.props.setSidebarContent}
@@ -99,11 +99,11 @@ class MemorandumArchives extends Component {
 class MemorandumArchivesHead extends Component {
     constructor(props) {
         super(props);
-        this.onCurrentYearChange = this.onCurrentYearChange.bind(this);
+        this.onActiveYearChange = this.onActiveYearChange.bind(this);
     }
 
-    onCurrentYearChange(event) {
-        this.props.setCurrentYear(event.target.value);
+    onActiveYearChange(event) {
+        this.props.setActiveYear(event.target.value);
     }
 
     render() {
@@ -132,7 +132,7 @@ class MemorandumArchivesHead extends Component {
                         <Input type="select"
                                className="btn-outline-success"
                                defaultValue={this.props.activeYear}
-                               onChange={this.onCurrentYearChange}>
+                               onChange={this.onActiveYearChange}>
                             {years}
                         </Input>
                     </div>
