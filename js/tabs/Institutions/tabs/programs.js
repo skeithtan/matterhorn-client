@@ -146,6 +146,8 @@ class Programs extends Component {
         if (this.state.institutionID === nextProps.institution.id) {
             return;
         }
+        
+        this.props.setSidebarContent(null);
 
         this.setState({
             institutionID : nextProps.institution.id,
