@@ -4,6 +4,7 @@
     --header-white       : rgb(246, 246, 248);
     --search-white       : rgb(232, 232, 234);
     --body-white         : rgb(239, 238, 245);
+    --yellow             : #e1a34a;
     --dlsu-green         : #00703c;
     --dlsu-green-light   : #008a4a;
     --dlsu-green-lighter : #00a357;
@@ -33,8 +34,17 @@
     color : var(--dlsu-green) !important;
 }
 
+.text-yellow {
+    color : var(--yellow) !important;
+}
+
 body {
     overflow : hidden;
+}
+
+.btn-outline-warning {
+    border-color : var(--yellow);
+    color        : var(--yellow);
 }
 
 /*Content*/
