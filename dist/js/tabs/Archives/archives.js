@@ -48,7 +48,8 @@ var Archives = function (_Component) {
         key: "setActiveTab",
         value: function setActiveTab(tab) {
             this.setState({
-                activeTab: tab
+                activeTab: tab,
+                sidebarContent: null
             });
         }
     }, {
