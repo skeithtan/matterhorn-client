@@ -1,24 +1,25 @@
 import MemorandumArchives from "./memorandums";
 import React from "react";
 import StudentArchives from "./students";
+import ProgramArchives from "./programs";
 
 
 const tabs = [
     {
         name : "Memorandums",
-        tab : setSidebarContent => <MemorandumArchives setSidebarContent={setSidebarContent}/>,
+        tab : setSidebarContent => <MemorandumArchives setSidebarContent={ setSidebarContent }/>,
         image : "./images/memorandumgrey.png",
         activeImage : "./images/memorandumgreen.png",
     },
     {
         name : "Programs",
-        tab : undefined,
+        tab : setSidebarContent => <ProgramArchives setSidebarContent={ setSidebarContent }/>,
         image : "./images/programsgrey.png",
         activeImage : "./images/programsgreen.png",
     },
     {
         name : "Students",
-        tab : setSidebarContent => <StudentArchives setSidebarContent={setSidebarContent}/>,
+        tab : setSidebarContent => <StudentArchives setSidebarContent={ setSidebarContent }/>,
         image : "./images/studentgrey.png",
         activeImage : "./images/studentgreen.png",
     },
