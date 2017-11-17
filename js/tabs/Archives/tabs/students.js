@@ -130,6 +130,7 @@ class StudentArchivesTable extends Component {
                 <tr>
                     <th>ID Number</th>
                     <th>Name</th>
+                    <th>Category</th>
                     <th>Archive Date</th>
                     <th>Archived By</th>
                 </tr>
@@ -151,6 +152,7 @@ class StudentArchivesRow extends Component {
         const student = this.props.student;
         const archiveDate = moment(student.archived_at).format("LLL");
         const className = this.props.isActive ? "bg-dlsu-lighter text-white" : null;
+        const category = student.category === "IN" ? "Inbound" : "Outbound";
 
 
         return (
@@ -160,6 +162,7 @@ class StudentArchivesRow extends Component {
                 <td>
                     <b>{student.family_name}</b>, {student.first_name} {student.middle_name}
                 </td>
+                <td>{category}</td>
                 <td>{archiveDate}</td>
                 <td>{student.archiver}</td>
             </tr>

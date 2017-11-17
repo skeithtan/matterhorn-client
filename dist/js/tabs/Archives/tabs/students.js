@@ -191,6 +191,11 @@ var StudentArchivesTable = function (_Component2) {
                         _react2.default.createElement(
                             "th",
                             null,
+                            "Category"
+                        ),
+                        _react2.default.createElement(
+                            "th",
+                            null,
                             "Archive Date"
                         ),
                         _react2.default.createElement(
@@ -227,6 +232,7 @@ var StudentArchivesRow = function (_Component3) {
             var student = this.props.student;
             var archiveDate = (0, _moment2.default)(student.archived_at).format("LLL");
             var className = this.props.isActive ? "bg-dlsu-lighter text-white" : null;
+            var category = student.category === "IN" ? "Inbound" : "Outbound";
 
             return _react2.default.createElement(
                 "tr",
@@ -249,6 +255,11 @@ var StudentArchivesRow = function (_Component3) {
                     student.first_name,
                     " ",
                     student.middle_name
+                ),
+                _react2.default.createElement(
+                    "td",
+                    null,
+                    category
                 ),
                 _react2.default.createElement(
                     "td",
