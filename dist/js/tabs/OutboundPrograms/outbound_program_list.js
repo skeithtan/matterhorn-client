@@ -295,4 +295,4 @@ var ProgramSection = function (_Component4) {
 }(_react.Component);
 
 exports.default = ProgramList;
-//# sourceMappingURL=program_list.js.map
+//# sourceMappingURL=outbound_program_list.js.map

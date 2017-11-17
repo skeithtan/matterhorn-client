@@ -2,7 +2,7 @@ import React from "react";
 import Reminders from "./Reminders/reminders";
 import Institutions from "./Institutions/institutions";
 import Students from "./Students/students";
-import Programs from "./Programs/programs";
+import Programs from "./OutboundPrograms/outbound_programs";
 import Archives from "./Archives/archives";
 
 

@@ -31,7 +31,7 @@ const linkages = {
     "EMPI" : "Exchange of Materials, Publications and Information",
     "CE" : "Cultural Exchange",
     "SAMC" : "Seminars and Academic Meetings / Conferences",
-    "TAP" : "Technical or Administrative Programs",
+    "TAP" : "Technical or Administrative OutboundPrograms",
     "O" : "Established Office",
     "ASE" : "Administrative and Staff Exchange",
     "EM" : "Executive Meetings",
