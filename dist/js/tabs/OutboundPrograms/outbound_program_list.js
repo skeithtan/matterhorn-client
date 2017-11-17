@@ -48,7 +48,7 @@ var ProgramList = function (_Component) {
             }
 
             var institutions = this.props.programList.map(function (program) {
-                return program.memorandum.institution.name;
+                return program.institution.name;
             });
 
             // Get uniques only
@@ -69,7 +69,7 @@ var ProgramList = function (_Component) {
                 });
 
                 _this2.props.programList.forEach(function (program) {
-                    var programInstitution = program.memorandum.institution.name;
+                    var programInstitution = program.institution.name;
                     if (programInstitution === institution) {
                         programs.push(program);
                     }

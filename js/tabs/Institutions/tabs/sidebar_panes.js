@@ -315,12 +315,10 @@ class ProgramDetails extends Component {
                             <Button outline
                                     color="success"
                                     size="sm"
-                                    className="mr-auto"
-                                    onClick={this.props.toggleEditMemorandum}>Edit</Button>
+                                    className="mr-auto">Edit</Button>
                             <Button outline
                                     color="warning"
-                                    size="sm"
-                                    onClick={this.props.toggleDeleteMemorandum}>Archive</Button>
+                                    size="sm">Archive</Button>
                         </SectionRowContent>
                     </SectionRow>
                 </SectionTable>

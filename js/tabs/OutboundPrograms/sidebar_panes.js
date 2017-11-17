@@ -165,7 +165,7 @@ class ProgramsSidebarPane extends Component {
                             </SectionRow>
                             <SectionRow>
                                 <SectionRowTitle>Institution Name</SectionRowTitle>
-                                <SectionRowContent>{this.props.program.memorandum.institution.name}</SectionRowContent>
+                                <SectionRowContent>{this.props.program.institution.name}</SectionRowContent>
                             </SectionRow>
                         </SectionTable>
                     </Section>

@@ -25,7 +25,7 @@ class ProgramList extends Component {
         }
 
         let institutions = this.props.programList.map(program => {
-            return program.memorandum.institution.name;
+            return program.institution.name;
         });
 
         // Get uniques only
@@ -46,7 +46,7 @@ class ProgramList extends Component {
             });
 
             this.props.programList.forEach(program => {
-                const programInstitution = program.memorandum.institution.name;
+                const programInstitution = program.institution.name;
                 if (programInstitution === institution) {
                     programs.push(program);
                 }

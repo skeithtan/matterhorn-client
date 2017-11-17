@@ -25,10 +25,8 @@ function fetchPrograms(year, term, onResult) {
         programs(year:${year}, term:${term}) {
             id
             name
-            memorandum {
-                institution {
-                    name
-                }
+            institution {
+               name
             }
             terms {
                 number
@@ -40,13 +38,14 @@ function fetchPrograms(year, term, onResult) {
 
 function fetchStudents(id, onResult) {
     graphql.query(`
+   
     {
         program(id:${id}) {
             id
             studyfield_set {
                 id
                 name
-                studentprogram_set {
+                studentstudyfield_set {
                     study_field {
                         name
                     }

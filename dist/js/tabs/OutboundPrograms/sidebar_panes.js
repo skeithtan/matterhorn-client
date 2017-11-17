@@ -301,7 +301,7 @@ var ProgramsSidebarPane = function (_Component3) {
                                 _react2.default.createElement(
                                     _section.SectionRowContent,
                                     null,
-                                    this.props.program.memorandum.institution.name
+                                    this.props.program.institution.name
                                 )
                             )
                         )

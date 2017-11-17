@@ -21,10 +21,8 @@ function fetchPrograms(year, onResult) {
             studyfield_set {
                 name
             }
-            memorandum {
-                institution {
-                    name
-                }
+            institution {
+                name
             }
             archiver
             archived_at
@@ -161,7 +159,7 @@ class ProgramArchivesRow extends Component {
         return (
             <tr className={ className }
                 onClick={ this.props.onClick }>
-                <td>{ program.memorandum.institution.name }</td>
+                <td>{ program.institution.name }</td>
                 <td>{ program.name }</td>
                 <td>{ program.linkage.name }</td>
                 <td>{ archiveDate }</td>

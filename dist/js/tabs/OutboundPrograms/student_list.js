@@ -70,7 +70,7 @@ var StudentList = function (_Component) {
             var categorizedByStudyField = [];
             studyFields.forEach(function (studyField) {
                 var students = [];
-                studyField.studentprogram_set.forEach(function (studentProgram) {
+                studyField.studentstudyfield_set.forEach(function (studentProgram) {
                     if (studentProgram.study_field.name === studyField.name) {
                         students.push(studentProgram.student);
                     }

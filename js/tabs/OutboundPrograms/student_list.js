@@ -46,7 +46,7 @@ class StudentList extends Component {
         let categorizedByStudyField = [];
         studyFields.forEach(studyField => {
             let students = [];
-            studyField.studentprogram_set.forEach(studentProgram => {
+            studyField.studentstudyfield_set.forEach(studentProgram => {
                 if (studentProgram.study_field.name === studyField.name) {
                     students.push(studentProgram.student);
                 }

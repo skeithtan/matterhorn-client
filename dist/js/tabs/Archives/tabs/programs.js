@@ -39,7 +39,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 function fetchPrograms(year, onResult) {
-    _graphql2.default.query("\n    {\n        programs(archived:true, year_archived:" + year + ") {\n            id\n            name\n            linkage {\n                name\n            }\n            studyfield_set {\n                name\n            }\n            memorandum {\n                institution {\n                    name\n                }\n            }\n            archiver\n            archived_at\n        }\n\t}\n\t").then(onResult);
+    _graphql2.default.query("\n    {\n        programs(archived:true, year_archived:" + year + ") {\n            id\n            name\n            linkage {\n                name\n            }\n            studyfield_set {\n                name\n            }\n            institution {\n                name\n            }\n            archiver\n            archived_at\n        }\n\t}\n\t").then(onResult);
 }
 
 var ProgramArchives = function (_Component) {
@@ -245,7 +245,7 @@ var ProgramArchivesRow = function (_Component3) {
                 _react2.default.createElement(
                     "td",
                     null,
-                    program.memorandum.institution.name
+                    program.institution.name
                 ),
                 _react2.default.createElement(
                     "td",
@@ -275,4 +275,4 @@ var ProgramArchivesRow = function (_Component3) {
 }(_react.Component);
 
 exports.default = ProgramArchives;
-//# sourceMappingURL=outbound_programs.js.map
+//# sourceMappingURL=programs.js.map

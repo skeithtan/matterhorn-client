@@ -505,16 +505,14 @@ var ProgramDetails = function (_Component5) {
                                 { outline: true,
                                     color: "success",
                                     size: "sm",
-                                    className: "mr-auto",
-                                    onClick: this.props.toggleEditMemorandum },
+                                    className: "mr-auto" },
                                 "Edit"
                             ),
                             _react2.default.createElement(
                                 _reactstrap.Button,
                                 { outline: true,
                                     color: "warning",
-                                    size: "sm",
-                                    onClick: this.props.toggleDeleteMemorandum },
+                                    size: "sm" },
                                 "Archive"
                             )
                         )
