@@ -234,7 +234,8 @@ class ProgramsTable extends Component {
         return (
             <div className="loading-container">
                 <h3>There's nothing here.</h3>
-                <p>When added, Students will show up here.</p>
+                <p>When added, Programs will show up here.</p>
+                <Button outline color="success">Add a program</Button>
             </div>
         );
     }

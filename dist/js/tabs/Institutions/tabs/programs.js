@@ -297,7 +297,12 @@ var ProgramsTable = function (_Component3) {
                 _react2.default.createElement(
                     "p",
                     null,
-                    "When added, Students will show up here."
+                    "When added, Programs will show up here."
+                ),
+                _react2.default.createElement(
+                    _reactstrap.Button,
+                    { outline: true, color: "success" },
+                    "Add a program"
                 )
             );
         }
