@@ -47,6 +47,11 @@ body {
     color        : var(--yellow);
 }
 
+/*A little margin to the left of tables*/
+th:first-child, td:first-child {
+    padding-left: 24px;
+}
+
 /*Content*/
 #content {
     overflow-x : scroll;
@@ -64,9 +69,6 @@ body {
 }
 
 /*Home*/
-#home .tab-content > .page-body {
-}
-
 .home-card {
     min-width   : 640px;
     max-width   : 640px;
