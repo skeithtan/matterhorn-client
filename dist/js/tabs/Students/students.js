@@ -38,8 +38,8 @@ var tabs = [{
     activeImage: "./images/inboundgreen.png"
 }, {
     name: "Outbound",
-    image: "./images/outboundgrey.png",
-    activeImage: "./images/outboundgreen.png"
+    image: "./images/airplanegrey.png",
+    activeImage: "./images/airplanegreen.png"
 }];
 
 function fetchStudents(category, onResult) {

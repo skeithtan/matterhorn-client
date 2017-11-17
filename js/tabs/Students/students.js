@@ -13,8 +13,8 @@ const tabs = [
     },
     {
         name : "Outbound",
-        image : "./images/outboundgrey.png",
-        activeImage : "./images/outboundgreen.png",
+        image : "./images/airplanegrey.png",
+        activeImage : "./images/airplanegreen.png",
     },
 ];
 

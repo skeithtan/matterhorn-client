@@ -46,8 +46,8 @@ var tabs = [{
         return _react2.default.createElement(_programs2.default, { institution: institution, setSidebarContent: setSidebarContent
         });
     },
-    image: "./images/programsgrey.png",
-    activeImage: "./images/programsgreen.png"
+    image: "./images/airplanegrey.png",
+    activeImage: "./images/airplanegreen.png"
 }];
 
 exports.default = tabs;

@@ -31,8 +31,8 @@ const tabs = [
             return <Programs institution={institution} setSidebarContent={setSidebarContent}
             />;
         },
-        image : "./images/programsgrey.png",
-        activeImage : "./images/programsgreen.png",
+        image : "./images/airplanegrey.png",
+        activeImage : "./images/airplanegreen.png",
     },
 ];
 
