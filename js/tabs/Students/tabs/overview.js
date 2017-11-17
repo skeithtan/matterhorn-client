@@ -245,6 +245,18 @@ class StudentDetails extends Component {
                         <SectionRowContent large={!this.props.sidebar}>{civilStatus}</SectionRowContent>
                     </SectionRow>
 
+                    {this.props.archived &&
+                    <SectionRow>
+                        <SectionRowContent className="d-flex">
+                            <Button outline
+                                    color="primary"
+                                    size="sm"
+                                    className="ml-auto"
+                                    onClick={this.props.toggleRestoreStudent}>Restore</Button>
+                        </SectionRowContent>
+                    </SectionRow>
+                    }
+
                 </SectionTable>
             </Section>
         );

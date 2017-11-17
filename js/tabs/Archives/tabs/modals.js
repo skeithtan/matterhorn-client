@@ -14,15 +14,14 @@ import settings from "../../../settings";
 class RestoreMemorandumModal extends Component {
     constructor(props) {
         super(props);
-
         this.confirmRestore = this.confirmRestore.bind(this);
     }
 
     confirmRestore() {
         this.props.toggle();
         const dismissToast = makeInfoToast({
-            title : "Adding",
-            message : "Adding new institution...",
+            title : "Restoring",
+            message : "Restoring memorandum...",
         });
 
         $.ajax({
@@ -64,6 +63,59 @@ class RestoreMemorandumModal extends Component {
     }
 }
 
+class RestoreStudentModal extends Component {
+    constructor(props) {
+        super(props);
+        this.confirmRestore = this.confirmRestore.bind(this);
+    }
+
+    confirmRestore() {
+        this.props.toggle();
+        const dismissToast = makeInfoToast({
+            title : "Restoring",
+            message : "Restoring student...",
+        });
+
+        $.ajax({
+            url : `${settings.serverURL}/archives/students/${this.props.student.id}/restore/`,
+            method : "PUT",
+            beforeSend : authorizeXHR,
+        }).done(() => {
+
+            dismissToast();
+            iziToast.success({
+                title : "Success",
+                message : "Successfully restored student",
+            });
+            this.props.onRestoreSuccess();
+
+        }).fail(response => {
+
+            dismissToast();
+            console.log(response);
+            iziToast.error({
+                title : "Error",
+                message : "Unable to restore student",
+            });
+
+        });
+    }
+
+    render() {
+        const student = this.props.student;
+        const fullName = `${student.first_name} ${student.middle_name} ${student.family_name}`;
+
+        return (
+            <RestoreModal confirmRestore={this.confirmRestore}
+                          isOpen={this.props.isOpen}
+                          toggle={this.props.toggle}>
+                <ModalHeader className="text-primary">
+                    Would you like to restore {fullName}?
+                </ModalHeader>
+            </RestoreModal>
+        );
+    }
+}
 
 class RestoreModal extends Component {
     constructor(props) {
@@ -88,4 +140,7 @@ class RestoreModal extends Component {
     }
 }
 
-export { RestoreMemorandumModal };
+export {
+    RestoreMemorandumModal,
+    RestoreStudentModal,
+};

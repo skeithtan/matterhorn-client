@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.RestoreMemorandumModal = undefined;
+exports.RestoreStudentModal = exports.RestoreMemorandumModal = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -56,8 +56,8 @@ var RestoreMemorandumModal = function (_Component) {
 
             this.props.toggle();
             var dismissToast = (0, _dismissable_toast_maker2.default)({
-                title: "Adding",
-                message: "Adding new institution..."
+                title: "Restoring",
+                message: "Restoring memorandum..."
             });
 
             _jquery2.default.ajax({
@@ -102,8 +102,78 @@ var RestoreMemorandumModal = function (_Component) {
     return RestoreMemorandumModal;
 }(_react.Component);
 
-var RestoreModal = function (_Component2) {
-    _inherits(RestoreModal, _Component2);
+var RestoreStudentModal = function (_Component2) {
+    _inherits(RestoreStudentModal, _Component2);
+
+    function RestoreStudentModal(props) {
+        _classCallCheck(this, RestoreStudentModal);
+
+        var _this3 = _possibleConstructorReturn(this, (RestoreStudentModal.__proto__ || Object.getPrototypeOf(RestoreStudentModal)).call(this, props));
+
+        _this3.confirmRestore = _this3.confirmRestore.bind(_this3);
+        return _this3;
+    }
+
+    _createClass(RestoreStudentModal, [{
+        key: "confirmRestore",
+        value: function confirmRestore() {
+            var _this4 = this;
+
+            this.props.toggle();
+            var dismissToast = (0, _dismissable_toast_maker2.default)({
+                title: "Restoring",
+                message: "Restoring student..."
+            });
+
+            _jquery2.default.ajax({
+                url: _settings2.default.serverURL + "/archives/students/" + this.props.student.id + "/restore/",
+                method: "PUT",
+                beforeSend: _authorization2.default
+            }).done(function () {
+
+                dismissToast();
+                iziToast.success({
+                    title: "Success",
+                    message: "Successfully restored student"
+                });
+                _this4.props.onRestoreSuccess();
+            }).fail(function (response) {
+
+                dismissToast();
+                console.log(response);
+                iziToast.error({
+                    title: "Error",
+                    message: "Unable to restore student"
+                });
+            });
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            var student = this.props.student;
+            var fullName = student.first_name + " " + student.middle_name + " " + student.family_name;
+
+            return _react2.default.createElement(
+                RestoreModal,
+                { confirmRestore: this.confirmRestore,
+                    isOpen: this.props.isOpen,
+                    toggle: this.props.toggle },
+                _react2.default.createElement(
+                    _reactstrap.ModalHeader,
+                    { className: "text-primary" },
+                    "Would you like to restore ",
+                    fullName,
+                    "?"
+                )
+            );
+        }
+    }]);
+
+    return RestoreStudentModal;
+}(_react.Component);
+
+var RestoreModal = function (_Component3) {
+    _inherits(RestoreModal, _Component3);
 
     function RestoreModal(props) {
         _classCallCheck(this, RestoreModal);
@@ -139,4 +209,5 @@ var RestoreModal = function (_Component2) {
 }(_react.Component);
 
 exports.RestoreMemorandumModal = RestoreMemorandumModal;
+exports.RestoreStudentModal = RestoreStudentModal;
 //# sourceMappingURL=modals.js.map

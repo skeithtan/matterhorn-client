@@ -43,6 +43,7 @@ class StudentArchives extends Component {
         };
 
         this.setActiveYear = this.setActiveYear.bind(this);
+        this.refreshStudents = this.refreshStudents.bind(this);
         this.setActiveStudent = this.setActiveStudent.bind(this);
 
         fetchStudents(this.state.activeYear, result => {
@@ -58,7 +59,12 @@ class StudentArchives extends Component {
         });
 
 
-        this.props.setSidebarContent(<StudentSidebarPane student={student}/>);
+        this.props.setSidebarContent(<StudentSidebarPane student={student}
+                                                         onRestoreSuccess={this.refreshStudents}/>);
+    }
+
+    refreshStudents() {
+        this.setActiveYear(this.state.activeYear);
     }
 
     setActiveYear(year) {

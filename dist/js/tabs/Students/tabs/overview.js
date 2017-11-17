@@ -307,7 +307,7 @@ var StudentDetails = function (_Component4) {
                         _react2.default.createElement(
                             _section.SectionRowTitle,
                             null,
-                            "Reminders Address"
+                            "Home Address"
                         ),
                         _react2.default.createElement(
                             _section.SectionRowContent,
@@ -355,6 +355,23 @@ var StudentDetails = function (_Component4) {
                             _section.SectionRowContent,
                             { large: !this.props.sidebar },
                             civilStatus
+                        )
+                    ),
+                    this.props.archived && _react2.default.createElement(
+                        _section.SectionRow,
+                        null,
+                        _react2.default.createElement(
+                            _section.SectionRowContent,
+                            { className: "d-flex" },
+                            _react2.default.createElement(
+                                _reactstrap.Button,
+                                { outline: true,
+                                    color: "primary",
+                                    size: "sm",
+                                    className: "ml-auto",
+                                    onClick: this.props.toggleRestoreStudent },
+                                "Restore"
+                            )
                         )
                     )
                 )

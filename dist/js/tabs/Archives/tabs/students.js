@@ -57,6 +57,7 @@ var StudentArchives = function (_Component) {
         };
 
         _this.setActiveYear = _this.setActiveYear.bind(_this);
+        _this.refreshStudents = _this.refreshStudents.bind(_this);
         _this.setActiveStudent = _this.setActiveStudent.bind(_this);
 
         fetchStudents(_this.state.activeYear, function (result) {
@@ -74,7 +75,13 @@ var StudentArchives = function (_Component) {
                 activeStudentId: student.id
             });
 
-            this.props.setSidebarContent(_react2.default.createElement(_sidebar_panes.StudentSidebarPane, { student: student }));
+            this.props.setSidebarContent(_react2.default.createElement(_sidebar_panes.StudentSidebarPane, { student: student,
+                onRestoreSuccess: this.refreshStudents }));
+        }
+    }, {
+        key: "refreshStudents",
+        value: function refreshStudents() {
+            this.setActiveYear(this.state.activeYear);
         }
     }, {
         key: "setActiveYear",

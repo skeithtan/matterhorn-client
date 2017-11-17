@@ -13,6 +13,7 @@ import {
     StudentDetailOverview,
     StudentUniversity,
 } from "../../Students/student_detail_overview";
+import { RestoreStudentModal } from "./modals";
 
 
 function studentIsFetched(student) {
@@ -70,11 +71,17 @@ class StudentSidebarPane extends Component {
             pageBody = (
                 <div className="page-body">
                     <StudentDetails sidebar
+                                    archived
+                                    toggleRestoreStudent={this.toggleRestoreStudent}
                                     student={student}/>
                     <ContactDetails sidebar
                                     student={student}/>
                     <UniversityDetails sidebar
                                        student={student}/>
+                    <RestoreStudentModal student={student}
+                                         toggle={this.toggleRestoreStudent}
+                                         onRestoreSuccess={this.props.onRestoreSuccess}
+                                         isOpen={this.state.restoreStudentIsShowing}/>
                 </div>
             );
         } else {

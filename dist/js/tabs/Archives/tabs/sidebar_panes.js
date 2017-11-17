@@ -19,6 +19,8 @@ var _overview = require("../../Students/tabs/overview");
 
 var _student_detail_overview = require("../../Students/student_detail_overview");
 
+var _modals = require("./modals");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -94,11 +96,17 @@ var StudentSidebarPane = function (_Component) {
                     "div",
                     { className: "page-body" },
                     _react2.default.createElement(_overview.StudentDetails, { sidebar: true,
+                        archived: true,
+                        toggleRestoreStudent: this.toggleRestoreStudent,
                         student: student }),
                     _react2.default.createElement(_overview.ContactDetails, { sidebar: true,
                         student: student }),
                     _react2.default.createElement(_overview.UniversityDetails, { sidebar: true,
-                        student: student })
+                        student: student }),
+                    _react2.default.createElement(_modals.RestoreStudentModal, { student: student,
+                        toggle: this.toggleRestoreStudent,
+                        onRestoreSuccess: this.props.onRestoreSuccess,
+                        isOpen: this.state.restoreStudentIsShowing })
                 );
             } else {
                 pageBody = _react2.default.createElement(_loading2.default, null);
