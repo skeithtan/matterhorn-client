@@ -26,6 +26,8 @@ var _reactstrap = require("reactstrap");
 
 var _section = require("../../../components/section");
 
+var _sidebar_panes = require("./sidebar_panes");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -35,7 +37,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 // TODO: import modals for editing and adding
-// TODO: import sidebarpane for residency details
+
 
 function fetchHistory(id, onResult) {
     _graphql2.default.query("\n    {\n        student(id:" + id + ") {\n            id\n            id_number\n            first_name\n            middle_name\n            family_name\n            residencies {\n                id\n                date_effective\n                contact_person_name\n                contact_person_number\n                address\n                residence\n            }\n        }\n\t}\n\t").then(onResult);
@@ -70,11 +72,12 @@ var ResidentAddressHistory = function (_Component) {
     _createClass(ResidentAddressHistory, [{
         key: "setActiveResidence",
         value: function setActiveResidence(residence) {
+            console.log(residence);
             if (residence === null) {
                 this.props.setSidebarContent(null);
             }
 
-            // TODO: set sidebar content with props
+            this.props.setSidebarContent(_react2.default.createElement(_sidebar_panes.ResidenceSidebarPane, { residence: residence }));
 
             this.setState({
                 activeResidenceId: residence.id

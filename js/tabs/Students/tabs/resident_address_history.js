@@ -15,7 +15,7 @@ import {
 } from "../../../components/section";
 
 // TODO: import modals for editing and adding
-// TODO: import sidebarpane for residency details
+import { ResidenceSidebarPane } from "./sidebar_panes";
 
 function fetchHistory(id, onResult) {
     graphql.query(`
@@ -61,11 +61,14 @@ class ResidentAddressHistory extends Component {
     }
 
     setActiveResidence(residence) {
+        console.log(residence);
         if (residence === null) {
             this.props.setSidebarContent(null);
         }
 
-        // TODO: set sidebar content with props
+        this.props.setSidebarContent(
+            <ResidenceSidebarPane residence={ residence }/>,
+        );
 
         this.setState({
             activeResidenceId : residence.id,
