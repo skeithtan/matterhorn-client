@@ -31,35 +31,35 @@ class StudentDetailOverview extends Component {
                     {student.nickname.length > 0 && //Only show if student nickname exists
                     <SectionRow>
                         <SectionRowTitle>Nickname</SectionRowTitle>
-                        <SectionRowContent large>{student.nickname}</SectionRowContent>
+                        <SectionRowContent large={!this.props.sidebar}>{student.nickname}</SectionRowContent>
                     </SectionRow>
                     }
 
                     <SectionRow>
                         <SectionRowTitle>Sex</SectionRowTitle>
-                        <SectionRowContent large>{sex}</SectionRowContent>
+                        <SectionRowContent large={!this.props.sidebar}>{sex}</SectionRowContent>
                     </SectionRow>
 
                     <SectionRow>
                         <SectionRowTitle>Home Address</SectionRowTitle>
-                        <SectionRowContent large>{student.home_address}</SectionRowContent>
+                        <SectionRowContent large={!this.props.sidebar}>{student.home_address}</SectionRowContent>
                     </SectionRow>
 
                     <SectionRow>
                         <SectionRowTitle>Date of Birth</SectionRowTitle>
-                        <SectionRowContent large>{birthDate}</SectionRowContent>
+                        <SectionRowContent large={!this.props.sidebar}>{birthDate}</SectionRowContent>
                     </SectionRow>
 
                     {student.nationality.length > 0 &&
                     <SectionRow>
                         <SectionRowTitle>Nationality</SectionRowTitle>
-                        <SectionRowContent large>{student.nationality}</SectionRowContent>
+                        <SectionRowContent large={!this.props.sidebar}>{student.nationality}</SectionRowContent>
                     </SectionRow>
                     }
 
                     <SectionRow>
                         <SectionRowTitle>Civil Status</SectionRowTitle>
-                        <SectionRowContent large>{civilStatus}</SectionRowContent>
+                        <SectionRowContent large={!this.props.sidebar}>{civilStatus}</SectionRowContent>
                     </SectionRow>
 
                 </SectionTable>
@@ -83,23 +83,23 @@ class StudentContact extends Component {
 
                     <SectionRow>
                         <SectionRowTitle>Phone Number</SectionRowTitle>
-                        <SectionRowContent large>{student.phone_number}</SectionRowContent>
+                        <SectionRowContent large={!this.props.sidebar}>{student.phone_number}</SectionRowContent>
                     </SectionRow>
 
                     <SectionRow>
                         <SectionRowTitle>Email</SectionRowTitle>
-                        <SectionRowContent large>{student.email}</SectionRowContent>
+                        <SectionRowContent large={!this.props.sidebar}>{student.email}</SectionRowContent>
                     </SectionRow>
 
                     <SectionRow>
                         <SectionRowTitle>Emergency Contact</SectionRowTitle>
                         <SectionRowContent
-                            large>{`${student.emergency_contact_name} (${student.emergency_contact_relationship})`}</SectionRowContent>
+                            large={!this.props.sidebar}>{`${student.emergency_contact_name} (${student.emergency_contact_relationship})`}</SectionRowContent>
                     </SectionRow>
 
                     <SectionRow>
                         <SectionRowTitle>Emergency Contact Number</SectionRowTitle>
-                        <SectionRowContent large>{student.emergency_contact_number}</SectionRowContent>
+                        <SectionRowContent large={!this.props.sidebar}>{student.emergency_contact_number}</SectionRowContent>
                     </SectionRow>
 
                 </SectionTable>
@@ -126,19 +126,19 @@ class StudentUniversity extends Component {
 
                     <SectionRow>
                         <SectionRowTitle>Student Type</SectionRowTitle>
-                        <SectionRowContent large>{type}</SectionRowContent>
+                        <SectionRowContent large={!this.props.sidebar}>{type}</SectionRowContent>
                     </SectionRow>
 
                     {student.category === "IN" &&
                     <SectionRow>
                         <SectionRowTitle>Institution</SectionRowTitle>
-                        <SectionRowContent large>{student.institution.name}</SectionRowContent>
+                        <SectionRowContent large={!this.props.sidebar}>{student.institution.name}</SectionRowContent>
                     </SectionRow>
                     }
 
                     <SectionRow>
                         <SectionRowTitle>College</SectionRowTitle>
-                        <SectionRowContent large>{college}</SectionRowContent>
+                        <SectionRowContent large={!this.props.sidebar}>{college}</SectionRowContent>
                     </SectionRow>
 
                 </SectionTable>

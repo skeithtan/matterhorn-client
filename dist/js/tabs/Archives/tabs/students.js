@@ -28,6 +28,8 @@ var _loading2 = _interopRequireDefault(_loading);
 
 var _reactstrap = require("reactstrap");
 
+var _sidebar_panes = require("./sidebar_panes");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -72,7 +74,7 @@ var StudentArchives = function (_Component) {
                 activeStudentId: student.id
             });
 
-            //TODO: setSidebarContent
+            this.props.setSidebarContent(_react2.default.createElement(_sidebar_panes.StudentSidebarPane, { student: student }));
         }
     }, {
         key: "setActiveYear",

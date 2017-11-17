@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.fetchStudent = exports.default = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -110,7 +111,8 @@ var StudentDetail = function (_Component) {
 
             return _react2.default.createElement(
                 "div",
-                { id: "student-detail", className: "container-fluid d-flex flex-column p-0" },
+                { id: "student-detail",
+                    className: "container-fluid d-flex flex-column p-0" },
                 _react2.default.createElement(StudentDetailHead, { student: this.state.student,
                     onEditStudent: this.onEditStudent,
                     onDeleteStudent: this.props.onDeleteActiveStudent }),
@@ -196,14 +198,19 @@ var StudentDetailHead = function (_Component2) {
                     { className: "page-head-actions" },
                     _react2.default.createElement(
                         _reactstrap.Button,
-                        { outline: true, size: "sm",
+                        { outline: true,
+                            size: "sm",
                             color: "success",
-                            className: "mr-2", onClick: this.toggleEditStudent },
+                            className: "mr-2",
+                            onClick: this.toggleEditStudent },
                         "Edit Student"
                     ),
                     _react2.default.createElement(
                         _reactstrap.Button,
-                        { outline: true, size: "sm", color: "warning", onClick: this.toggleDeleteStudent },
+                        { outline: true,
+                            size: "sm",
+                            color: "warning",
+                            onClick: this.toggleDeleteStudent },
                         "Archive"
                     )
                 ),
@@ -249,4 +256,5 @@ var StudentDetailBody = function (_Component3) {
 }(_react.Component);
 
 exports.default = StudentDetail;
+exports.fetchStudent = fetchStudent;
 //# sourceMappingURL=student_detail.js.map

@@ -116,7 +116,8 @@ class StudentDetail extends Component {
         }
 
         return (
-            <div id="student-detail" className="container-fluid d-flex flex-column p-0">
+            <div id="student-detail"
+                 className="container-fluid d-flex flex-column p-0">
                 <StudentDetailHead student={this.state.student}
                                    onEditStudent={this.onEditStudent}
                                    onDeleteStudent={this.props.onDeleteActiveStudent}/>
@@ -162,13 +163,18 @@ class StudentDetailHead extends Component {
                 </div>
 
                 <div className="page-head-actions">
-                    <Button outline size="sm"
+                    <Button outline
+                            size="sm"
                             color="success"
-                            className="mr-2" onClick={this.toggleEditStudent}>
+                            className="mr-2"
+                            onClick={this.toggleEditStudent}>
                         Edit Student
                     </Button>
 
-                    <Button outline size="sm" color="warning" onClick={this.toggleDeleteStudent}>Archive</Button>
+                    <Button outline
+                            size="sm"
+                            color="warning"
+                            onClick={this.toggleDeleteStudent}>Archive</Button>
                 </div>
 
                 <ArchiveStudentModal isOpen={this.state.deleteStudentIsShowing}
@@ -202,4 +208,7 @@ class StudentDetailBody extends Component {
     }
 }
 
-export default StudentDetail;
+export {
+    StudentDetail as default,
+    fetchStudent,
+};

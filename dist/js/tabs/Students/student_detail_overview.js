@@ -68,7 +68,7 @@ var StudentDetailOverview = function (_Component) {
                         ),
                         _react2.default.createElement(
                             _section.SectionRowContent,
-                            { large: true },
+                            { large: !this.props.sidebar },
                             student.nickname
                         )
                     ),
@@ -82,7 +82,7 @@ var StudentDetailOverview = function (_Component) {
                         ),
                         _react2.default.createElement(
                             _section.SectionRowContent,
-                            { large: true },
+                            { large: !this.props.sidebar },
                             sex
                         )
                     ),
@@ -96,7 +96,7 @@ var StudentDetailOverview = function (_Component) {
                         ),
                         _react2.default.createElement(
                             _section.SectionRowContent,
-                            { large: true },
+                            { large: !this.props.sidebar },
                             student.home_address
                         )
                     ),
@@ -110,7 +110,7 @@ var StudentDetailOverview = function (_Component) {
                         ),
                         _react2.default.createElement(
                             _section.SectionRowContent,
-                            { large: true },
+                            { large: !this.props.sidebar },
                             birthDate
                         )
                     ),
@@ -124,7 +124,7 @@ var StudentDetailOverview = function (_Component) {
                         ),
                         _react2.default.createElement(
                             _section.SectionRowContent,
-                            { large: true },
+                            { large: !this.props.sidebar },
                             student.nationality
                         )
                     ),
@@ -138,7 +138,7 @@ var StudentDetailOverview = function (_Component) {
                         ),
                         _react2.default.createElement(
                             _section.SectionRowContent,
-                            { large: true },
+                            { large: !this.props.sidebar },
                             civilStatus
                         )
                     )
@@ -185,7 +185,7 @@ var StudentContact = function (_Component2) {
                         ),
                         _react2.default.createElement(
                             _section.SectionRowContent,
-                            { large: true },
+                            { large: !this.props.sidebar },
                             student.phone_number
                         )
                     ),
@@ -199,7 +199,7 @@ var StudentContact = function (_Component2) {
                         ),
                         _react2.default.createElement(
                             _section.SectionRowContent,
-                            { large: true },
+                            { large: !this.props.sidebar },
                             student.email
                         )
                     ),
@@ -214,7 +214,7 @@ var StudentContact = function (_Component2) {
                         _react2.default.createElement(
                             _section.SectionRowContent,
                             {
-                                large: true },
+                                large: !this.props.sidebar },
                             student.emergency_contact_name + " (" + student.emergency_contact_relationship + ")"
                         )
                     ),
@@ -228,7 +228,7 @@ var StudentContact = function (_Component2) {
                         ),
                         _react2.default.createElement(
                             _section.SectionRowContent,
-                            { large: true },
+                            { large: !this.props.sidebar },
                             student.emergency_contact_number
                         )
                     )
@@ -277,7 +277,7 @@ var StudentUniversity = function (_Component3) {
                         ),
                         _react2.default.createElement(
                             _section.SectionRowContent,
-                            { large: true },
+                            { large: !this.props.sidebar },
                             type
                         )
                     ),
@@ -291,7 +291,7 @@ var StudentUniversity = function (_Component3) {
                         ),
                         _react2.default.createElement(
                             _section.SectionRowContent,
-                            { large: true },
+                            { large: !this.props.sidebar },
                             student.institution.name
                         )
                     ),
@@ -305,7 +305,7 @@ var StudentUniversity = function (_Component3) {
                         ),
                         _react2.default.createElement(
                             _section.SectionRowContent,
-                            { large: true },
+                            { large: !this.props.sidebar },
                             college
                         )
                     )

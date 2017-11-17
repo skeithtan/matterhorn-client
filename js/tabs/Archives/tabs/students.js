@@ -4,6 +4,7 @@ import graphql from "../../../graphql";
 import ArchivesHead from "../archive_head";
 import LoadingSpinner from "../../../components/loading";
 import { Table } from "reactstrap";
+import { StudentSidebarPane } from "./sidebar_panes";
 
 
 function fetchStudents(year, onResult) {
@@ -57,7 +58,7 @@ class StudentArchives extends Component {
         });
 
 
-        //TODO: setSidebarContent
+        this.props.setSidebarContent(<StudentSidebarPane student={student}/>);
     }
 
     setActiveYear(year) {
