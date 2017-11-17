@@ -439,6 +439,8 @@ var ProgramDetails = function (_Component5) {
         key: "render",
         value: function render() {
             var program = this.props.program;
+            var academicYear = program.academic_year.academic_year_start + " - " + (program.academic_year.academic_year_start + 1);
+
             return _react2.default.createElement(
                 _section.Section,
                 null,
@@ -476,6 +478,20 @@ var ProgramDetails = function (_Component5) {
                             _section.SectionRowContent,
                             null,
                             program.linkage.name
+                        )
+                    ),
+                    _react2.default.createElement(
+                        _section.SectionRow,
+                        null,
+                        _react2.default.createElement(
+                            _section.SectionRowTitle,
+                            null,
+                            "Academic Year"
+                        ),
+                        _react2.default.createElement(
+                            _section.SectionRowContent,
+                            null,
+                            academicYear
                         )
                     ),
                     _react2.default.createElement(

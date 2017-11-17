@@ -37,7 +37,7 @@ function fetchYears(institutionID, onResult) {
 }
 
 function fetchPrograms(institutionID, year, onResult) {
-    _graphql2.default.query("\n    {\n        programs(institution:" + institutionID + ", year:" + year + ") {\n            id\n            name\n            linkage {\n                name\n            }\n            studyfield_set {\n                name\n            }\n        }\n    }\n    ").then(onResult);
+    _graphql2.default.query("\n    {\n        programs(institution:" + institutionID + ", year:" + year + ") {\n            id\n            name\n            linkage {\n                name\n            }\n            academic_year {\n                academic_year_start\n            }\n            studyfield_set {\n                name\n            }\n        }\n    }\n    ").then(onResult);
 }
 
 var Programs = function (_Component) {

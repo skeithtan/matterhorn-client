@@ -292,6 +292,8 @@ class ProgramDetails extends Component {
 
     render() {
         const program = this.props.program;
+        const academicYear = `${program.academic_year.academic_year_start} - ${program.academic_year.academic_year_start + 1}`;
+
         return (
             <Section>
                 <SectionTitle>Details</SectionTitle>
@@ -303,6 +305,10 @@ class ProgramDetails extends Component {
                     <SectionRow>
                         <SectionRowTitle>Linkage</SectionRowTitle>
                         <SectionRowContent>{program.linkage.name}</SectionRowContent>
+                    </SectionRow>
+                    <SectionRow>
+                        <SectionRowTitle>Academic Year</SectionRowTitle>
+                        <SectionRowContent>{academicYear}</SectionRowContent>
                     </SectionRow>
                     <SectionRow>
                         <SectionRowContent className="d-flex">

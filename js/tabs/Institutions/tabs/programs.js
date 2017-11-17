@@ -33,6 +33,9 @@ function fetchPrograms(institutionID, year, onResult) {
             linkage {
                 name
             }
+            academic_year {
+                academic_year_start
+            }
             studyfield_set {
                 name
             }
