@@ -15,10 +15,6 @@ var _moment = require("moment");
 
 var _moment2 = _interopRequireDefault(_moment);
 
-var _settings = require("../../../settings");
-
-var _settings2 = _interopRequireDefault(_settings);
-
 var _reactstrap = require("reactstrap");
 
 var _section = require("../../../components/section");
@@ -48,8 +44,46 @@ var ResidenceSidebarPane = function (_Component) {
     }
 
     _createClass(ResidenceSidebarPane, [{
+        key: "componentWillReceiveProps",
+        value: function componentWillReceiveProps(nextProps) {
+            this.setState({
+                residence: nextProps.residence
+            });
+        }
+    }, {
         key: "render",
-        value: function render() {}
+        value: function render() {
+            var residence = this.state.residence;
+
+            function formatDate(date) {
+                return (0, _moment2.default)(date).format("LL");
+            }
+
+            var dateEffective = formatDate(residence.date_effective);
+            return _react2.default.createElement(
+                "div",
+                { className: "p-0 h-100 d-flex flex-column" },
+                _react2.default.createElement(
+                    "div",
+                    { className: "page-head pt-5 d-flex flex-row align-items-end" },
+                    _react2.default.createElement(
+                        "div",
+                        { className: "mr-auto" },
+                        _react2.default.createElement(
+                            "h5",
+                            { className: "mb-0" },
+                            "Effective ",
+                            dateEffective
+                        )
+                    )
+                ),
+                _react2.default.createElement(
+                    "div",
+                    { className: "page-body" },
+                    _react2.default.createElement(ResidenceDetails, { residence: residence })
+                )
+            );
+        }
     }]);
 
     return ResidenceSidebarPane;
@@ -66,7 +100,122 @@ var ResidenceDetails = function (_Component2) {
 
     _createClass(ResidenceDetails, [{
         key: "render",
-        value: function render() {}
+        value: function render() {
+            var residence = this.props.residence;
+
+            function formatDate(date) {
+                return (0, _moment2.default)(date).format("LL");
+            }
+
+            var dateEffective = formatDate(residence.date_effective);
+
+            return _react2.default.createElement(
+                _section.Section,
+                null,
+                _react2.default.createElement(
+                    _section.SectionTitle,
+                    null,
+                    "Details"
+                ),
+                _react2.default.createElement(
+                    _section.SectionTable,
+                    null,
+                    _react2.default.createElement(
+                        _section.SectionRow,
+                        null,
+                        _react2.default.createElement(
+                            _section.SectionRowTitle,
+                            null,
+                            "Date Effective"
+                        ),
+                        _react2.default.createElement(
+                            _section.SectionRowContent,
+                            null,
+                            dateEffective
+                        )
+                    ),
+                    _react2.default.createElement(
+                        _section.SectionRow,
+                        null,
+                        _react2.default.createElement(
+                            _section.SectionRowTitle,
+                            null,
+                            "Contact Person"
+                        ),
+                        _react2.default.createElement(
+                            _section.SectionRowContent,
+                            null,
+                            residence.contact_person_name
+                        )
+                    ),
+                    _react2.default.createElement(
+                        _section.SectionRow,
+                        null,
+                        _react2.default.createElement(
+                            _section.SectionRowTitle,
+                            null,
+                            "Contact Number"
+                        ),
+                        _react2.default.createElement(
+                            _section.SectionRowContent,
+                            null,
+                            residence.contact_person_number
+                        )
+                    ),
+                    _react2.default.createElement(
+                        _section.SectionRow,
+                        null,
+                        _react2.default.createElement(
+                            _section.SectionRowTitle,
+                            null,
+                            "Residence Type"
+                        ),
+                        _react2.default.createElement(
+                            _section.SectionRowContent,
+                            null,
+                            residence.residence
+                        )
+                    ),
+                    _react2.default.createElement(
+                        _section.SectionRow,
+                        null,
+                        _react2.default.createElement(
+                            _section.SectionRowTitle,
+                            null,
+                            "Address"
+                        ),
+                        _react2.default.createElement(
+                            _section.SectionRowContent,
+                            null,
+                            residence.address
+                        )
+                    ),
+                    _react2.default.createElement(
+                        _section.SectionRow,
+                        null,
+                        _react2.default.createElement(
+                            _section.SectionRowContent,
+                            { className: "d-flex" },
+                            _react2.default.createElement(
+                                _reactstrap.Button,
+                                { outline: true,
+                                    color: "success",
+                                    size: "sm",
+                                    className: "mr-auto" },
+                                "Edit"
+                            ),
+                            _react2.default.createElement(
+                                _reactstrap.Button,
+                                { outline: true,
+                                    color: "warning",
+                                    size: "sm" },
+                                "Archive"
+                            )
+                        )
+                    )
+                )
+            );
+        }
     }]);
 
     return ResidenceDetails;
