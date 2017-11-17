@@ -255,11 +255,20 @@ var ProgramsHead = function (_Component2) {
                 ),
                 _react2.default.createElement(
                     "div",
-                    { className: "page-head-actions" },
+                    { className: "page-head-actions d-flex flex-row align-items-end" },
                     this.props.years.length !== 0 && _react2.default.createElement(
-                        "select",
-                        { className: "form-control mr-3 btn btn-outline-success" },
-                        years
+                        "div",
+                        { className: "d-flex flex-column mr-2" },
+                        _react2.default.createElement(
+                            "labl",
+                            { className: "mr-3 text-dark mb-1" },
+                            "Academic Year"
+                        ),
+                        _react2.default.createElement(
+                            _reactstrap.Input,
+                            { type: "select", className: "mr-3 btn btn-outline-success select-sm" },
+                            years
+                        )
                     ),
                     _react2.default.createElement(
                         _reactstrap.Button,

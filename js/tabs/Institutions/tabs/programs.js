@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import graphql from "../../../graphql";
 import LoadingSpinner from "../../../components/loading";
-import { Button } from "reactstrap";
+import {
+    Button,
+    Input,
+} from "reactstrap";
 import {
     Section,
     SectionRow,
@@ -214,11 +217,14 @@ class ProgramsHead extends Component {
                     <h4 className="page-head-title mb-0">{this.props.institution.name}</h4>
                 </div>
 
-                <div className="page-head-actions">
+                <div className="page-head-actions d-flex flex-row align-items-end">
                     {this.props.years.length !== 0 &&
-                    <select className="form-control mr-3 btn btn-outline-success">
-                        {years}
-                    </select>
+                    <div className="d-flex flex-column mr-2">
+                        <labl className="mr-3 text-dark mb-1">Academic Year</labl>
+                        <Input type="select" className="mr-3 btn btn-outline-success select-sm">
+                            {years}
+                        </Input>
+                    </div>
                     }
                     <Button outline
                             size="sm"

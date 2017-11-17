@@ -47,6 +47,11 @@ body {
     color        : var(--yellow);
 }
 
+/*Small select*/
+.select-sm {
+    height : 31px !important;
+}
+
 /*A little margin to the left of tables*/
 th:first-child, td:first-child {
     padding-left: 24px;
@@ -676,8 +681,4 @@ li.nav-item.active .sidebar-image,
     min-width      : 320px;
     display        : flex;
     flex-direction : column;
-}
-
-#term-select {
-    height : 31px !important;
 }
