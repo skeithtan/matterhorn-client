@@ -163,7 +163,7 @@ var ProgramCard = function (_Component2) {
         value: function render() {
             // TODO: dates
 
-            var cardClass = "home-card rounded ";
+            var cardClass = "reminders-card rounded ";
             if (this.props.active) {
                 cardClass += "active";
             }

@@ -241,7 +241,7 @@ var MemorandumCard = function (_Component2) {
                 expirationClass += "bg-dlsu-lighter";
             }
 
-            var cardClass = "home-card rounded ";
+            var cardClass = "reminders-card rounded ";
             if (this.props.active) {
                 cardClass += "active";
             }

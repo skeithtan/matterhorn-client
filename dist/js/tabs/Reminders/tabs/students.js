@@ -39,7 +39,7 @@ var Students = function (_Component) {
                 { className: "d-flex flex-column align-items-center page-body" },
                 _react2.default.createElement(
                     _reactstrap.Card,
-                    { className: "home-card mt-4" },
+                    { className: "reminders-card mt-4" },
                     _react2.default.createElement(
                         _reactstrap.CardBody,
                         { className: "p-0" },

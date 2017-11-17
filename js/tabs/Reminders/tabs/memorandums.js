@@ -210,7 +210,7 @@ class MemorandumCard extends Component {
             expirationClass += "bg-dlsu-lighter";
         }
 
-        let cardClass = "home-card rounded ";
+        let cardClass = "reminders-card rounded ";
         if (this.props.active) {
             cardClass += "active";
         }

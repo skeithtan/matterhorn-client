@@ -137,7 +137,7 @@ class ProgramCard extends Component {
     render() {
         // TODO: dates
 
-        let cardClass = "home-card rounded ";
+        let cardClass = "reminders-card rounded ";
         if (this.props.active) {
             cardClass += "active";
         }

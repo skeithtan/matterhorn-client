@@ -18,7 +18,7 @@ class Students extends Component {
     render() {
         return (
             <div className="d-flex flex-column align-items-center page-body">
-                <Card className="home-card mt-4">
+                <Card className="reminders-card mt-4">
                     <CardBody className="p-0">
                         <div className="d-flex flex-row p-3 justify-content-between align-items-center">
                             <div>

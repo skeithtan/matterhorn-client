@@ -307,7 +307,7 @@ var StudentDetails = function (_Component4) {
                         _react2.default.createElement(
                             _section.SectionRowTitle,
                             null,
-                            "Home Address"
+                            "Reminders Address"
                         ),
                         _react2.default.createElement(
                             _section.SectionRowContent,

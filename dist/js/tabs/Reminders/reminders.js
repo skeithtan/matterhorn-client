@@ -10,9 +10,9 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _home_tabs_list = require("./tabs/home_tabs_list");
+var _reminders_tabs_list = require("./tabs/reminders_tabs_list");
 
-var _home_tabs_list2 = _interopRequireDefault(_home_tabs_list);
+var _reminders_tabs_list2 = _interopRequireDefault(_reminders_tabs_list);
 
 var _tab_bar = require("../../components/tab_bar");
 
@@ -26,16 +26,16 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Home = function (_Component) {
-    _inherits(Home, _Component);
+var Reminders = function (_Component) {
+    _inherits(Reminders, _Component);
 
-    function Home(props) {
-        _classCallCheck(this, Home);
+    function Reminders(props) {
+        _classCallCheck(this, Reminders);
 
-        var _this = _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (Reminders.__proto__ || Object.getPrototypeOf(Reminders)).call(this, props));
 
         _this.state = {
-            activeTab: _home_tabs_list2.default[0],
+            activeTab: _reminders_tabs_list2.default[0],
             sidebarContent: null
         };
 
@@ -43,7 +43,7 @@ var Home = function (_Component) {
         return _this;
     }
 
-    _createClass(Home, [{
+    _createClass(Reminders, [{
         key: "setActiveTab",
         value: function setActiveTab(tab) {
             this.setState({
@@ -55,7 +55,7 @@ var Home = function (_Component) {
         value: function render() {
             return _react2.default.createElement(
                 "div",
-                { id: "home",
+                { id: "reminders",
                     className: "d-flex flex-column p-0 h-100 w-100" },
                 _react2.default.createElement(
                     "div",
@@ -64,13 +64,13 @@ var Home = function (_Component) {
                 ),
                 _react2.default.createElement(_tab_bar2.default, { setActiveTab: this.setActiveTab,
                     activeTab: this.state.activeTab,
-                    tabs: _home_tabs_list2.default })
+                    tabs: _reminders_tabs_list2.default })
             );
         }
     }]);
 
-    return Home;
+    return Reminders;
 }(_react.Component);
 
-exports.default = Home;
-//# sourceMappingURL=home.js.map
+exports.default = Reminders;
+//# sourceMappingURL=reminders.js.map

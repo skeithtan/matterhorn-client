@@ -1,5 +1,5 @@
 import React from "react";
-import Home from "./Home/home";
+import Reminders from "./Reminders/reminders";
 import Institutions from "./Institutions/institutions";
 import Students from "./Students/students";
 import Programs from "./Programs/programs";
@@ -8,9 +8,9 @@ import Archives from "./Archives/archives";
 
 const tabs = [
     {
-        name : "Home",
-        tab : <Home/>,
-        image : "./images/home.png",
+        name : "Reminders",
+        tab : <Reminders/>,
+        image : "./images/bell.png",
     },
     {
         name : "Institutions",

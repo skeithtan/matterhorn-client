@@ -73,8 +73,8 @@ th:first-child, td:first-child {
     pointer-events : all;
 }
 
-/*Home*/
-.home-card {
+/*Reminders*/
+.reminders-card {
     min-width   : 640px;
     max-width   : 640px;
     margin      : 16px;
@@ -85,21 +85,21 @@ th:first-child, td:first-child {
     box-shadow  : 0 3px 20px 0px rgba(0, 0, 0, 0.03), 0 0px 4px rgba(0, 0, 0, 0.13);
 }
 
-.home-card:last-child {
+.reminders-card:last-child {
     margin-bottom : 36px;
 }
 
-.home-card.active {
+.reminders-card.active {
     min-width  : 880px;
     box-shadow : 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
     margin     : 48px;
 }
 
-.home-card:hover {
+.reminders-card:hover {
     box-shadow : 0 10px 20px rgba(0, 0, 0, 0.06), 0 6px 6px rgba(0, 0, 0, 0.23);
 }
 
-.home-card .section-row:last-child {
+.reminders-card .section-row:last-child {
     border-bottom : none;
 }
 

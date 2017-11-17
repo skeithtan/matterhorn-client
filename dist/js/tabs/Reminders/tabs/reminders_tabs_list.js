@@ -40,4 +40,4 @@ var tabs = [{
 }];
 
 exports.default = tabs;
-//# sourceMappingURL=home_tabs_list.js.map
+//# sourceMappingURL=reminders_tabs_list.js.map

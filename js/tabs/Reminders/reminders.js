@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import tabs from "./tabs/home_tabs_list";
+import tabs from "./tabs/reminders_tabs_list";
 import TabBar from "../../components/tab_bar";
 
 
-class Home extends Component {
+class Reminders extends Component {
     constructor(props) {
         super(props);
 
@@ -23,7 +23,7 @@ class Home extends Component {
 
     render() {
         return (
-            <div id="home"
+            <div id="reminders"
                  className="d-flex flex-column p-0 h-100 w-100">
                 <div className="tab-content">{this.state.activeTab.tab}</div>
                 <TabBar setActiveTab={this.setActiveTab}
@@ -34,4 +34,4 @@ class Home extends Component {
     }
 }
 
-export default Home;
+export default Reminders;

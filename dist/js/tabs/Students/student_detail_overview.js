@@ -92,7 +92,7 @@ var StudentDetailOverview = function (_Component) {
                         _react2.default.createElement(
                             _section.SectionRowTitle,
                             null,
-                            "Home Address"
+                            "Reminders Address"
                         ),
                         _react2.default.createElement(
                             _section.SectionRowContent,

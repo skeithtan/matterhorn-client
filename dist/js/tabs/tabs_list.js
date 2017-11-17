@@ -8,9 +8,9 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _home = require("./Home/home");
+var _reminders = require("./Reminders/reminders");
 
-var _home2 = _interopRequireDefault(_home);
+var _reminders2 = _interopRequireDefault(_reminders);
 
 var _institutions = require("./Institutions/institutions");
 
@@ -31,9 +31,9 @@ var _archives2 = _interopRequireDefault(_archives);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var tabs = [{
-    name: "Home",
-    tab: _react2.default.createElement(_home2.default, null),
-    image: "./images/home.png"
+    name: "Reminders",
+    tab: _react2.default.createElement(_reminders2.default, null),
+    image: "./images/bell.png"
 }, {
     name: "Institutions",
     tab: _react2.default.createElement(_institutions2.default, null),

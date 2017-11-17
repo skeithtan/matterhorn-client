@@ -155,7 +155,7 @@ var StudentFormModal = function (_Component) {
                 characterLimit: null,
                 value: this.state.form.birth_date
             }, {
-                name: "Home address",
+                name: "Reminders address",
                 characterLimit: 256,
                 value: this.state.form.home_address
             }, {
@@ -512,17 +512,17 @@ var StudentFormModal = function (_Component) {
                             _react2.default.createElement(
                                 _reactstrap.Label,
                                 null,
-                                "Home Address"
+                                "Reminders Address"
                             ),
                             _react2.default.createElement(_reactstrap.Input, { type: "textarea",
-                                placeholder: "Home Address",
+                                placeholder: "Reminders Address",
                                 onChange: this.getChangeHandler("home_address"),
-                                valid: isValid("Home address"),
+                                valid: isValid("Reminders address"),
                                 defaultValue: this.state.form.home_address }),
                             _react2.default.createElement(
                                 _reactstrap.FormFeedback,
                                 null,
-                                fieldError("Home address")
+                                fieldError("Reminders address")
                             )
                         ),
                         _react2.default.createElement(
