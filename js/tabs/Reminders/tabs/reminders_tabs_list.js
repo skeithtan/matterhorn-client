@@ -13,8 +13,8 @@ const tabs = [
     {
         name : "Programs",
         tab : undefined,
-        image : "./images/programsgrey.png",
-        activeImage : "./images/programsgreen.png",
+        image : "./images/airplanegrey.png",
+        activeImage : "./images/airplanegreen.png",
     },
     {
         name : "Students",

@@ -14,8 +14,8 @@ const tabs = [
     {
         name : "Programs",
         tab : setSidebarContent => <ProgramArchives setSidebarContent={ setSidebarContent }/>,
-        image : "./images/programsgrey.png",
-        activeImage : "./images/programsgreen.png",
+        image : "./images/airplanegrey.png",
+        activeImage : "./images/airplanegreen.png",
     },
     {
         name : "Students",

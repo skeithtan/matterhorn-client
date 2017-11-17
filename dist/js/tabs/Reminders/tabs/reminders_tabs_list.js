@@ -30,8 +30,8 @@ var tabs = [{
 }, {
     name: "Programs",
     tab: undefined,
-    image: "./images/programsgrey.png",
-    activeImage: "./images/programsgreen.png"
+    image: "./images/airplanegrey.png",
+    activeImage: "./images/airplanegreen.png"
 }, {
     name: "Students",
     tab: _react2.default.createElement(_students2.default, null),
