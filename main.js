@@ -15,9 +15,9 @@ function createWindow() {
     // Create the browser window.
     mainWindow = new BrowserWindow({
         width : 1200,
-        height : 600,
+        height : 800,
         minWidth : 1100,
-        minHeight : 600,
+        minHeight : 800,
         frame: process.platform !== "darwin", // No frame on macs
         titleBarStyle : "hiddenInset",
     });
