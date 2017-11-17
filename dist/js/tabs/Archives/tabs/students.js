@@ -89,7 +89,7 @@ var StudentArchives = function (_Component) {
 
             this.props.setSidebarContent(null);
 
-            fetchStudents(this.state.activeYear, function (result) {
+            fetchStudents(year, function (result) {
                 _this2.setState({
                     students: result.students
                 });

@@ -70,7 +70,7 @@ class StudentArchives extends Component {
 
         this.props.setSidebarContent(null);
 
-        fetchStudents(this.state.activeYear, result => {
+        fetchStudents(year, result => {
             this.setState({
                 students : result.students,
             });
