@@ -37,6 +37,8 @@ var StudentDetail = function (_Component) {
         _this.state = {
             activeTab: _student_tabs_list2.default[0]
         };
+
+        _this.setActiveTab = _this.setActiveTab.bind(_this);
         return _this;
     }
 
@@ -54,7 +56,7 @@ var StudentDetail = function (_Component) {
                 return StudentDetail.unselectedState();
             }
 
-            var currentTab = this.state.activeTab.tab(this.props.institution, this.setSidebarContent, this.props.onDeleteActiveInstitution, this.props.refreshInstitutions);
+            var currentTab = this.state.activeTab.tab(this.props.student, this.props.onDeleteActiveStudent, this.props.refreshStudents);
 
             return _react2.default.createElement(
                 "div",

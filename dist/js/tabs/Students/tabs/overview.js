@@ -137,6 +137,9 @@ var OverviewHead = function (_Component2) {
             deleteStudentIsShowing: false,
             editStudentIsShowing: false
         };
+
+        _this4.toggleEditStudent = _this4.toggleEditStudent.bind(_this4);
+        _this4.toggleDeleteStudent = _this4.toggleDeleteStudent.bind(_this4);
         return _this4;
     }
 

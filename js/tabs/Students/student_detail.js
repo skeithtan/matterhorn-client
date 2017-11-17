@@ -9,6 +9,8 @@ class StudentDetail extends Component {
         this.state = {
             activeTab : tabs[0],
         };
+
+        this.setActiveTab = this.setActiveTab.bind(this);
     }
 
     static unselectedState() {
@@ -30,7 +32,7 @@ class StudentDetail extends Component {
             return StudentDetail.unselectedState();
         }
 
-        const currentTab = this.state.activeTab.tab(this.props.institution, this.setSidebarContent, this.props.onDeleteActiveInstitution, this.props.refreshInstitutions);
+        const currentTab = this.state.activeTab.tab(this.props.student, this.props.onDeleteActiveStudent, this.props.refreshStudents);
 
         return (
             <div id="student-detail"

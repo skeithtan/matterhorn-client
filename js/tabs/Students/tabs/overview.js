@@ -121,6 +121,9 @@ class OverviewHead extends Component {
             deleteStudentIsShowing : false,
             editStudentIsShowing : false,
         };
+
+        this.toggleEditStudent = this.toggleEditStudent.bind(this);
+        this.toggleDeleteStudent = this.toggleDeleteStudent.bind(this);
     }
 
     toggleEditStudent() {
