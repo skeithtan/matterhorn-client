@@ -61,7 +61,9 @@ class ResidentAddressHistory extends Component {
     }
 
     setActiveResidence(residence) {
-        // TODO: set sidebar content to null if residence is null
+        if (residence === null) {
+            this.props.setSidebarContent(null);
+        }
 
         // TODO: set sidebar content with props
 

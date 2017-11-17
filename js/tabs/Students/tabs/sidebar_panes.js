@@ -17,6 +17,10 @@ import {
 class ResidenceSidebarPane extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            residence : props.residence,
+        };
     }
 
     render() {

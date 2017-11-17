@@ -8,8 +8,10 @@ class StudentDetail extends Component {
 
         this.state = {
             activeTab : tabs[0],
+            sidebarContent : null,
         };
 
+        this.setSidebarContent = this.setSidebarContent.bind(this);
         this.setActiveTab = this.setActiveTab.bind(this);
     }
 
@@ -21,9 +23,16 @@ class StudentDetail extends Component {
         );
     }
 
+    setSidebarContent(sidebarContent) {
+        this.setState({
+            sidebarContent : sidebarContent,
+        });
+    }
+
     setActiveTab(tab) {
         this.setState({
             activeTab : tab,
+            sidebarContent : null,
         });
     }
 
@@ -34,6 +43,11 @@ class StudentDetail extends Component {
 
         const currentTab = this.state.activeTab.tab(this.props.student, this.props.onDeleteActiveStudent, this.props.refreshStudents);
 
+        let sidebarClass = "sidebar-right ";
+        if (this.state.sidebarContent === null) {
+            sidebarClass += "dismissed";
+        }
+
         return (
             <div id="student-detail"
                  className="w-100 d-flex flex-row">
@@ -42,6 +56,10 @@ class StudentDetail extends Component {
                     <TabBar setActiveTab={ this.setActiveTab }
                             activeTab={ this.state.activeTab }
                             tabs={ tabs }/>
+                </div>
+
+                <div className={ sidebarClass }>
+                    { this.state.sidebarContent }
                 </div>
             </div>
         );

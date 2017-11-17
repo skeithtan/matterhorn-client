@@ -15,8 +15,8 @@ const tabs = [
     },
     {
         name : "Residency",
-        tab : (student) => {
-            return <ResidentAddressHistory student={ student }/>;
+        tab : (student, setSidebarContent) => {
+            return <ResidentAddressHistory student={ student } setSidebarContent={ setSidebarContent }/>;
         },
         image : "./images/housegrey.png",
         activeImage : "./images/housegreen.png",

@@ -70,7 +70,9 @@ var ResidentAddressHistory = function (_Component) {
     _createClass(ResidentAddressHistory, [{
         key: "setActiveResidence",
         value: function setActiveResidence(residence) {
-            // TODO: set sidebar content to null if residence is null
+            if (residence === null) {
+                this.props.setSidebarContent(null);
+            }
 
             // TODO: set sidebar content with props
 

@@ -39,7 +39,12 @@ var ResidenceSidebarPane = function (_Component) {
     function ResidenceSidebarPane(props) {
         _classCallCheck(this, ResidenceSidebarPane);
 
-        return _possibleConstructorReturn(this, (ResidenceSidebarPane.__proto__ || Object.getPrototypeOf(ResidenceSidebarPane)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (ResidenceSidebarPane.__proto__ || Object.getPrototypeOf(ResidenceSidebarPane)).call(this, props));
+
+        _this.state = {
+            residence: props.residence
+        };
+        return _this;
     }
 
     _createClass(ResidenceSidebarPane, [{

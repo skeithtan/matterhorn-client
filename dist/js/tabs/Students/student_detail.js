@@ -35,18 +35,28 @@ var StudentDetail = function (_Component) {
         var _this = _possibleConstructorReturn(this, (StudentDetail.__proto__ || Object.getPrototypeOf(StudentDetail)).call(this, props));
 
         _this.state = {
-            activeTab: _student_tabs_list2.default[0]
+            activeTab: _student_tabs_list2.default[0],
+            sidebarContent: null
         };
 
+        _this.setSidebarContent = _this.setSidebarContent.bind(_this);
         _this.setActiveTab = _this.setActiveTab.bind(_this);
         return _this;
     }
 
     _createClass(StudentDetail, [{
+        key: "setSidebarContent",
+        value: function setSidebarContent(sidebarContent) {
+            this.setState({
+                sidebarContent: sidebarContent
+            });
+        }
+    }, {
         key: "setActiveTab",
         value: function setActiveTab(tab) {
             this.setState({
-                activeTab: tab
+                activeTab: tab,
+                sidebarContent: null
             });
         }
     }, {
@@ -57,6 +67,11 @@ var StudentDetail = function (_Component) {
             }
 
             var currentTab = this.state.activeTab.tab(this.props.student, this.props.onDeleteActiveStudent, this.props.refreshStudents);
+
+            var sidebarClass = "sidebar-right ";
+            if (this.state.sidebarContent === null) {
+                sidebarClass += "dismissed";
+            }
 
             return _react2.default.createElement(
                 "div",
@@ -73,6 +88,11 @@ var StudentDetail = function (_Component) {
                     _react2.default.createElement(_tab_bar2.default, { setActiveTab: this.setActiveTab,
                         activeTab: this.state.activeTab,
                         tabs: _student_tabs_list2.default })
+                ),
+                _react2.default.createElement(
+                    "div",
+                    { className: sidebarClass },
+                    this.state.sidebarContent
                 )
             );
         }
