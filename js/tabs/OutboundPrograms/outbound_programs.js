@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import YearList from "./year_list";
-import ProgramList from "./program_list";
+import ProgramList from "./outbound_program_list";
 import StudentList from "./student_list";
-import terms from "./terms_list";
 import graphql from "../../graphql";
 import {
     AcademicYearSidebarPane,

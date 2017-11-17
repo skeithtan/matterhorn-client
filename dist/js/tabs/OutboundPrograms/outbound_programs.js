@@ -14,17 +14,13 @@ var _year_list = require("./year_list");
 
 var _year_list2 = _interopRequireDefault(_year_list);
 
-var _program_list = require("./program_list");
+var _outbound_program_list = require("./outbound_program_list");
 
-var _program_list2 = _interopRequireDefault(_program_list);
+var _outbound_program_list2 = _interopRequireDefault(_outbound_program_list);
 
 var _student_list = require("./student_list");
 
 var _student_list2 = _interopRequireDefault(_student_list);
-
-var _terms_list = require("./terms_list");
-
-var _terms_list2 = _interopRequireDefault(_terms_list);
 
 var _graphql = require("../../graphql");
 
@@ -184,7 +180,7 @@ var Programs = function (_Component) {
                 );
             }
 
-            return _react2.default.createElement(_program_list2.default, { programList: this.state.programList,
+            return _react2.default.createElement(_outbound_program_list2.default, { programList: this.state.programList,
                 activeYear: this.state.activeYear,
                 activeTerm: this.state.activeTerm,
                 activeProgram: this.state.activeProgram,
@@ -239,4 +235,4 @@ var Programs = function (_Component) {
 }(_react.Component);
 
 exports.default = Programs;
-//# sourceMappingURL=programs.js.map
+//# sourceMappingURL=outbound_programs.js.map

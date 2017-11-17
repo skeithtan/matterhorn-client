@@ -20,9 +20,9 @@ var _students = require("./Students/students");
 
 var _students2 = _interopRequireDefault(_students);
 
-var _programs = require("./Programs/programs");
+var _outbound_programs = require("./OutboundPrograms/outbound_programs");
 
-var _programs2 = _interopRequireDefault(_programs);
+var _outbound_programs2 = _interopRequireDefault(_outbound_programs);
 
 var _archives = require("./Archives/archives");
 
@@ -44,7 +44,7 @@ var tabs = [{
     image: "./images/student.png"
 }, {
     name: "Programs",
-    tab: _react2.default.createElement(_programs2.default, null),
+    tab: _react2.default.createElement(_outbound_programs2.default, null),
     image: "./images/airplane.png"
 }, {
     name: "Archives",
