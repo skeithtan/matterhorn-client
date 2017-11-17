@@ -13,8 +13,6 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactstrap = require("reactstrap");
 
-var _student_detail_overview = require("./student_detail_overview");
-
 var _modals = require("./modals");
 
 var _loading = require("../../components/loading");
@@ -109,15 +107,8 @@ var StudentDetail = function (_Component) {
                 return _react2.default.createElement(_loading2.default, null);
             }
 
-            return _react2.default.createElement(
-                "div",
-                { id: "student-detail",
-                    className: "container-fluid d-flex flex-column p-0" },
-                _react2.default.createElement(StudentDetailHead, { student: this.state.student,
-                    onEditStudent: this.onEditStudent,
-                    onDeleteStudent: this.props.onDeleteActiveStudent }),
-                _react2.default.createElement(StudentDetailBody, { student: this.state.student })
-            );
+            return _react2.default.createElement("div", { id: "student-detail",
+                className: "container-fluid d-flex flex-column p-0" });
         }
     }], [{
         key: "unselectedState",
@@ -135,124 +126,6 @@ var StudentDetail = function (_Component) {
     }]);
 
     return StudentDetail;
-}(_react.Component);
-
-var StudentDetailHead = function (_Component2) {
-    _inherits(StudentDetailHead, _Component2);
-
-    function StudentDetailHead(props) {
-        _classCallCheck(this, StudentDetailHead);
-
-        var _this4 = _possibleConstructorReturn(this, (StudentDetailHead.__proto__ || Object.getPrototypeOf(StudentDetailHead)).call(this, props));
-
-        _this4.state = {
-            deleteStudentIsShowing: false,
-            editStudentIsShowing: false
-        };
-
-        _this4.toggleDeleteStudent = _this4.toggleDeleteStudent.bind(_this4);
-        _this4.toggleEditStudent = _this4.toggleEditStudent.bind(_this4);
-        return _this4;
-    }
-
-    _createClass(StudentDetailHead, [{
-        key: "toggleDeleteStudent",
-        value: function toggleDeleteStudent() {
-            this.setState({
-                deleteStudentIsShowing: !this.state.deleteStudentIsShowing
-            });
-        }
-    }, {
-        key: "toggleEditStudent",
-        value: function toggleEditStudent() {
-            this.setState({
-                editStudentIsShowing: !this.state.editStudentIsShowing
-            });
-        }
-    }, {
-        key: "render",
-        value: function render() {
-            return _react2.default.createElement(
-                "div",
-                { className: "page-head pt-5 d-flex flex-row align-items-center" },
-                _react2.default.createElement(
-                    "div",
-                    { className: "mr-auto" },
-                    _react2.default.createElement(
-                        "h4",
-                        { className: "page-head-title justify-content-left d-inline-block mb-0 mr-2" },
-                        this.props.student.first_name,
-                        " ",
-                        this.props.student.middle_name,
-                        " ",
-                        this.props.student.family_name,
-                        _react2.default.createElement(
-                            "small",
-                            { className: "text-muted ml-2" },
-                            this.props.student.id_number
-                        )
-                    )
-                ),
-                _react2.default.createElement(
-                    "div",
-                    { className: "page-head-actions" },
-                    _react2.default.createElement(
-                        _reactstrap.Button,
-                        { outline: true,
-                            size: "sm",
-                            color: "success",
-                            className: "mr-2",
-                            onClick: this.toggleEditStudent },
-                        "Edit Student"
-                    ),
-                    _react2.default.createElement(
-                        _reactstrap.Button,
-                        { outline: true,
-                            size: "sm",
-                            color: "warning",
-                            onClick: this.toggleDeleteStudent },
-                        "Archive"
-                    )
-                ),
-                _react2.default.createElement(_modals.ArchiveStudentModal, { isOpen: this.state.deleteStudentIsShowing,
-                    student: this.props.student,
-                    toggle: this.toggleDeleteStudent,
-                    refresh: this.props.onDeleteStudent }),
-                _react2.default.createElement(_modals.StudentFormModal, { edit: true,
-                    isOpen: this.state.editStudentIsShowing,
-                    student: this.props.student,
-                    refresh: this.props.onEditStudent,
-                    toggle: this.toggleEditStudent })
-            );
-        }
-    }]);
-
-    return StudentDetailHead;
-}(_react.Component);
-
-var StudentDetailBody = function (_Component3) {
-    _inherits(StudentDetailBody, _Component3);
-
-    function StudentDetailBody(props) {
-        _classCallCheck(this, StudentDetailBody);
-
-        return _possibleConstructorReturn(this, (StudentDetailBody.__proto__ || Object.getPrototypeOf(StudentDetailBody)).call(this, props));
-    }
-
-    _createClass(StudentDetailBody, [{
-        key: "render",
-        value: function render() {
-            return _react2.default.createElement(
-                "div",
-                { className: "page-body" },
-                _react2.default.createElement(_student_detail_overview.StudentDetailOverview, { student: this.props.student }),
-                _react2.default.createElement(_student_detail_overview.StudentContact, { student: this.props.student }),
-                _react2.default.createElement(_student_detail_overview.StudentUniversity, { student: this.props.student })
-            );
-        }
-    }]);
-
-    return StudentDetailBody;
 }(_react.Component);
 
 exports.default = StudentDetail;
