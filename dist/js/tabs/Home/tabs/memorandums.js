@@ -158,7 +158,10 @@ var Memorandums = function (_Component) {
                 var setActiveCard = function setActiveCard() {
                     return _this3.setActiveCard(id);
                 };
-                return _react2.default.createElement(MemorandumCard, { key: id, card: card, onClick: setActiveCard, active: isActive,
+                return _react2.default.createElement(MemorandumCard, { key: id,
+                    card: card,
+                    onClick: setActiveCard,
+                    active: isActive,
                     refreshCards: _this3.refreshCards });
             });
 
@@ -179,9 +182,13 @@ var Memorandums = function (_Component) {
         key: "emptyState",
         value: function emptyState() {
             return _react2.default.createElement(
-                "h5",
-                null,
-                "There are no memorandums found with an expiration date"
+                "div",
+                { className: "loading-container h-100" },
+                _react2.default.createElement(
+                    "h3",
+                    null,
+                    "There are no memorandums found with an expiration date"
+                )
             );
         }
     }]);
@@ -251,7 +258,8 @@ var MemorandumCard = function (_Component2) {
                         institution: this.props.card.institution,
                         toggleRenewModal: this.toggleRenewModal }),
                     _react2.default.createElement(_modals.MemorandumFormModal, {
-                        institution: this.props.card.institution, toggle: this.toggleRenewModal,
+                        institution: this.props.card.institution,
+                        toggle: this.toggleRenewModal,
                         isOpen: this.state.renewModalIsOpen,
                         refresh: this.props.refreshCards,
                         memorandum: {
@@ -268,7 +276,9 @@ var MemorandumCard = function (_Component2) {
 
             return _react2.default.createElement(
                 "div",
-                { className: cardClass, onClick: onCardClick, ref: function ref(card) {
+                { className: cardClass,
+                    onClick: onCardClick,
+                    ref: function ref(card) {
                         return _this5.card = card;
                     } },
                 _react2.default.createElement(
@@ -466,12 +476,19 @@ var MemorandumCardCollapseContent = function (_Component3) {
                     null,
                     _react2.default.createElement(
                         _reactstrap.Button,
-                        { outline: true, size: "sm", color: "success", className: "mr-2", onClick: viewMemorandum },
+                        { outline: true,
+                            size: "sm",
+                            color: "success",
+                            className: "mr-2",
+                            onClick: viewMemorandum },
                         "View memorandum document"
                     ),
                     _react2.default.createElement(
                         _reactstrap.Button,
-                        { outline: true, size: "sm", color: "success", onClick: this.props.toggleRenewModal },
+                        { outline: true,
+                            size: "sm",
+                            color: "success",
+                            onClick: this.props.toggleRenewModal },
                         "Renew Memorandum"
                     )
                 )

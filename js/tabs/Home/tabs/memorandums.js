@@ -115,7 +115,9 @@ class Memorandums extends Component {
 
     static emptyState() {
         return (
-            <h5>There are no memorandums found with an expiration date</h5>
+            <div className="loading-container h-100">
+                <h3>There are no memorandums found with an expiration date</h3>
+            </div>
         );
     }
 
@@ -151,7 +153,10 @@ class Memorandums extends Component {
             const id = card.memorandum.id;
             const isActive = this.state.activeCard === id;
             const setActiveCard = () => this.setActiveCard(id);
-            return <MemorandumCard key={id} card={card} onClick={setActiveCard} active={isActive}
+            return <MemorandumCard key={id}
+                                   card={card}
+                                   onClick={setActiveCard}
+                                   active={isActive}
                                    refreshCards={this.refreshCards}/>;
         });
 
@@ -221,7 +226,8 @@ class MemorandumCard extends Component {
                                                    institution={this.props.card.institution}
                                                    toggleRenewModal={this.toggleRenewModal}/>
                     <MemorandumFormModal
-                        institution={this.props.card.institution} toggle={this.toggleRenewModal}
+                        institution={this.props.card.institution}
+                        toggle={this.toggleRenewModal}
                         isOpen={this.state.renewModalIsOpen}
                         refresh={this.props.refreshCards}
                         memorandum={{
@@ -238,7 +244,9 @@ class MemorandumCard extends Component {
 
 
         return (
-            <div className={cardClass} onClick={onCardClick} ref={(card) => this.card = card}>
+            <div className={cardClass}
+                 onClick={onCardClick}
+                 ref={(card) => this.card = card}>
                 <SectionRow className={expirationClass}>
                     <SectionRowContent large>{hasExpired ? "Expired " : "Expires"} {expirationToNow}</SectionRowContent>
                 </SectionRow>
@@ -325,7 +333,7 @@ class MemorandumCardCollapseContent extends Component {
         };
 
         // Allows content to expand gracefully
-        if(!this.state.isOpen) {
+        if (!this.state.isOpen) {
             setTimeout(() => {
                 this.setState({
                     isOpen : true,
@@ -348,10 +356,17 @@ class MemorandumCardCollapseContent extends Component {
                     <SectionRowContent large>{linkages}</SectionRowContent>
                 </SectionRow>
                 <SectionRow>
-                    <Button outline size="sm" color="success" className="mr-2" onClick={viewMemorandum}>
+                    <Button outline
+                            size="sm"
+                            color="success"
+                            className="mr-2"
+                            onClick={viewMemorandum}>
                         View memorandum document
                     </Button>
-                    <Button outline size="sm" color="success" onClick={this.props.toggleRenewModal}>
+                    <Button outline
+                            size="sm"
+                            color="success"
+                            onClick={this.props.toggleRenewModal}>
                         Renew Memorandum
                     </Button>
                 </SectionRow>
