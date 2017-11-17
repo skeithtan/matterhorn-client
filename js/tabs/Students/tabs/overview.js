@@ -330,4 +330,4 @@ class UniversityDetails extends Component {
     }
 }
 
-export default StudentOverview;
+export {StudentOverview as default, fetchStudent};

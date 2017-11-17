@@ -15,7 +15,7 @@ var _loading = require("../../../components/loading");
 
 var _loading2 = _interopRequireDefault(_loading);
 
-var _student_detail = require("../../Students/student_detail");
+var _overview = require("../../Students/tabs/overview");
 
 var _student_detail_overview = require("../../Students/student_detail_overview");
 
@@ -45,7 +45,7 @@ var StudentSidebarPane = function (_Component) {
         };
 
         if (!studentIsFetched(props.student)) {
-            (0, _student_detail.fetchStudent)(props.student.id, function (result) {
+            (0, _overview.fetchStudent)(props.student.id, function (result) {
                 _this.setState({
                     student: result.student
                 });
@@ -73,7 +73,7 @@ var StudentSidebarPane = function (_Component) {
             });
 
             if (!studentIsFetched(props.student)) {
-                (0, _student_detail.fetchStudent)(props.student.id, function (result) {
+                (0, _overview.fetchStudent)(props.student.id, function (result) {
                     _this2.setState({
                         student: result.student
                     });
@@ -93,9 +93,12 @@ var StudentSidebarPane = function (_Component) {
                 pageBody = _react2.default.createElement(
                     "div",
                     { className: "page-body" },
-                    _react2.default.createElement(_student_detail_overview.StudentDetailOverview, { sidebar: true, student: student }),
-                    _react2.default.createElement(_student_detail_overview.StudentContact, { sidebar: true, student: student }),
-                    _react2.default.createElement(_student_detail_overview.StudentUniversity, { sidebar: true, student: student })
+                    _react2.default.createElement(_student_detail_overview.StudentDetailOverview, { sidebar: true,
+                        student: student }),
+                    _react2.default.createElement(_student_detail_overview.StudentContact, { sidebar: true,
+                        student: student }),
+                    _react2.default.createElement(_student_detail_overview.StudentUniversity, { sidebar: true,
+                        student: student })
                 );
             } else {
                 pageBody = _react2.default.createElement(_loading2.default, null);
