@@ -185,7 +185,7 @@ class InstitutionListTable extends Component {
         //If we're searching, that means there are simply no results if length == 0
         //If we're not searching, we really just don't have any data
         if (this.props.countries.length === 0) {
-            return this.props.isSearching ? InstitutionListTable.noResultsState() : InstitutionListTable.emptyState();
+            return this.props.isSearching ? InstitutionListTable.noResultsState() : this.emptyState();
         }
 
 
