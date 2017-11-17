@@ -13,7 +13,7 @@ const tabs = [
         activeImage : "./images/burgergreen.png",
     },
     {
-        name : "Residency History",
+        name : "Residency",
         tab : undefined,
         image : "./images/burgergrey.png",
         activeImage : "./images/burgergreen.png",
