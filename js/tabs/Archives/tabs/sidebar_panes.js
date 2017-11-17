@@ -1,11 +1,12 @@
 import React, { Component } from "react";
+import LoadingSpinner from "../../../components/loading";
+import { fetchStudent } from "../../Students/student_detail";
+
 import {
     StudentContact,
     StudentDetailOverview,
     StudentUniversity,
 } from "../../Students/student_detail_overview";
-import LoadingSpinner from "../../../components/loading";
-import { fetchStudent } from "../../Students/student_detail";
 
 
 function studentIsFetched(student) {

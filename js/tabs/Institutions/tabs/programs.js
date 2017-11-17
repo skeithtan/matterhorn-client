@@ -177,7 +177,7 @@ class Programs extends Component {
 
     render() {
         return (
-            <div className="w-100">
+            <div className="w-100 h-100 d-flex flex-column">
                 <ProgramsHead institution={ this.props.institution }
                               years={ this.state.yearList }
                               setCurrentYear={ this.setActiveYear }/>

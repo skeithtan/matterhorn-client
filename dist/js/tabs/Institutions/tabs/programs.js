@@ -196,7 +196,7 @@ var Programs = function (_Component) {
         value: function render() {
             return _react2.default.createElement(
                 "div",
-                { className: "w-100" },
+                { className: "w-100 h-100 d-flex flex-column" },
                 _react2.default.createElement(ProgramsHead, { institution: this.props.institution,
                     years: this.state.yearList,
                     setCurrentYear: this.setActiveYear }),

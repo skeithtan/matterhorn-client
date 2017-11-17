@@ -11,13 +11,13 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _student_detail_overview = require("../../Students/student_detail_overview");
-
 var _loading = require("../../../components/loading");
 
 var _loading2 = _interopRequireDefault(_loading);
 
 var _student_detail = require("../../Students/student_detail");
+
+var _student_detail_overview = require("../../Students/student_detail_overview");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
