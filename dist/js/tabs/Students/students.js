@@ -66,7 +66,9 @@ var Students = function (_Component) {
         _this.toggleAddStudent = _this.toggleAddStudent.bind(_this);
         _this.refreshStudents = _this.refreshStudents.bind(_this);
         _this.onDeleteActiveStudent = _this.onDeleteActiveStudent.bind(_this);
-        _this.refreshStudents();
+
+        var category = _this.state.activeTab.name === "Inbound" ? "IN" : "OUT";
+        _this.refreshStudents(category);
         return _this;
     }
 
@@ -77,16 +79,15 @@ var Students = function (_Component) {
                 activeTab: tab
             });
 
-            this.refreshStudents();
+            var category = tab.name === "Inbound" ? "IN" : "OUT";
+            this.refreshStudents(category);
         }
     }, {
         key: "refreshStudents",
-        value: function refreshStudents() {
+        value: function refreshStudents(category) {
             var _this2 = this;
 
-            var studentCategory = this.state.activeTab.name === "Inbound" ? "IN" : "OUT";
-
-            fetchStudents(studentCategory, function (result) {
+            fetchStudents(category, function (result) {
                 _this2.setState({
                     allStudents: result.students
                 });
