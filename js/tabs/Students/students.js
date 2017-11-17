@@ -62,7 +62,7 @@ class Students extends Component {
 
         this.setState({
             activeTab : tab,
-            activeStudent: null, //Student is no longer in the same category
+            activeStudent : null, //Student is no longer in the same category
         });
 
         const category = tab.name === "Inbound" ? "IN" : "OUT";
@@ -100,19 +100,19 @@ class Students extends Component {
     render() {
         return (
             <div className="container-fluid d-flex flex-row p-0 h-100">
-                <StudentList students={this.state.allStudents}
-                             activeStudent={this.state.activeStudent}
-                             setActiveStudent={this.setActiveStudent}
-                             toggleAddStudent={this.toggleAddStudent}
-                             setActiveTab={this.setActiveTab}
-                             activeTab={this.state.activeTab}
-                             tabs={tabs}/>
-                {this.state.activeStudent !== null && <StudentDetail student={this.state.activeStudent}
-                                                                     onDeleteActiveStudent={this.onDeleteActiveStudent}
-                                                                     refreshStudents={this.refreshStudents}/>}
-                <StudentFormModal isOpen={this.state.addStudentIsShowing}
-                                  toggle={this.toggleAddStudent}
-                                  refresh={this.refreshStudents}/>
+                <StudentList students={ this.state.allStudents }
+                             activeStudent={ this.state.activeStudent }
+                             setActiveStudent={ this.setActiveStudent }
+                             toggleAddStudent={ this.toggleAddStudent }
+                             setActiveTab={ this.setActiveTab }
+                             activeTab={ this.state.activeTab }
+                             tabs={ tabs }/>
+                <StudentDetail student={ this.state.activeStudent }
+                               onDeleteActiveStudent={ this.onDeleteActiveStudent }
+                               refreshStudents={ this.refreshStudents }/>
+                <StudentFormModal isOpen={ this.state.addStudentIsShowing }
+                                  toggle={ this.toggleAddStudent }
+                                  refresh={ this.refreshStudents }/>
             </div>
         );
     }

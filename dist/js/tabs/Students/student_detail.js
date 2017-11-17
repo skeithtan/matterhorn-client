@@ -52,7 +52,7 @@ var StudentDetail = function (_Component) {
     }, {
         key: "render",
         value: function render() {
-            if (this.props.institution === null) {
+            if (this.props.student === null) {
                 return StudentDetail.unselectedState();
             }
 
