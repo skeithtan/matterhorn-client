@@ -54,7 +54,7 @@ body {
 
 /*A little margin to the left of tables*/
 th:first-child, td:first-child {
-    padding-left: 24px;
+    padding-left : 24px;
 }
 
 /*Content*/
@@ -250,11 +250,6 @@ input[type="search"]::-webkit-search-cancel-button {
     font-weight : bold;
 }
 
-#main-navigation .nav-link {
-    padding : 0;
-    width   : 100%;
-}
-
 #main-navigation-tabs {
     margin-top : 40px;
 }
@@ -265,7 +260,6 @@ input[type="search"]::-webkit-search-cancel-button {
 }
 
 #main-navigation li.nav-item {
-    text-align : center;
     transition : 300ms background;
 }
 
@@ -299,7 +293,7 @@ input[type="search"]::-webkit-search-cancel-button {
 
 #main-navigation .sidebar-tab-description {
     opacity    : 0;
-    transition : 200ms opacity;
+    transition : 300ms opacity;
 }
 
 .sidebar-image,
@@ -309,10 +303,11 @@ input[type="search"]::-webkit-search-cancel-button {
 }
 
 .sidebar-image {
-    margin : 16px 24px 16px 24px;
-    width  : 32px;
-    height : 32px;
-    cursor : pointer;
+    margin      : 16px 24px 16px 24px;
+    width       : 32px;
+    height      : 32px;
+    flex-shrink : 0;
+    cursor      : pointer;
 }
 
 li.nav-item:hover .sidebar-image,

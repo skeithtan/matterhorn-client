@@ -32,13 +32,17 @@ class MainNavigation extends Component {
         }
 
         return (
-            <Navbar className={navbarClassName} id="main-navigation">
-                <img src="./images/dlsu_white.png" className="dlsu-logo"/>
+            <Navbar className={navbarClassName}
+                    id="main-navigation">
+                <img src="./images/dlsu_white.png"
+                     className="dlsu-logo"/>
 
-                <Nav className="d-flex flex-column w-100" id="main-navigation-tabs">
+                <Nav className="d-flex flex-column w-100"
+                     id="main-navigation-tabs">
                     {navItems}
                 </Nav>
-                <SwitchUserButton toggleNavigation={this.props.toggleNavigation} signOut={this.props.signOut}/>
+                <SwitchUserButton toggleNavigation={this.props.toggleNavigation}
+                                  signOut={this.props.signOut}/>
             </Navbar>
         );
     }
@@ -50,7 +54,11 @@ class TabItem extends Component {
     }
 
     render() {
-        const className = this.props.isActive ? "active" : "";
+        let className = "align-items-center ";
+        if (this.props.isActive) {
+            className += "active";
+        }
+
         const onNavItemClick = () => {
 
             if (this.props.navigationIsExpanded) {
@@ -61,11 +69,11 @@ class TabItem extends Component {
         };
 
         return (
-            <NavItem className={className} onClick={onNavItemClick}>
-                <div className="d-flex flex-row align-items-center tab-set">
-                    <h5 className="mb-0 text-white sidebar-tab-description">{this.props.name}</h5>
-                    <img src={this.props.image} className="sidebar-image"/>
-                </div>
+            <NavItem className={className}
+                     onClick={onNavItemClick}>
+                <h5 className="mb-0 text-white sidebar-tab-description">{this.props.name}</h5>
+                <img src={this.props.image}
+                     className="sidebar-image"/>
             </NavItem>
         );
     }
@@ -91,16 +99,22 @@ class SwitchUserButton extends Component {
     render() {
         return (
             <div className="w-100 p-3 d-flex justify-content-center align-content-center">
-                <div id="switch-user-button" onClick={this.togglePopover} className="p-3 d-flex align-items-center">
+                <div id="switch-user-button"
+                     onClick={this.togglePopover}
+                     className="p-3 d-flex align-items-center">
                     <div className="mr-auto text-left">
                         <h6 className="mb-0">Hello,</h6>
                         <h5 className="mb-0">{localStorage.username}</h5>
                     </div>
-                    <Button outline color="light" onClick={this.props.signOut} size="sm">Sign out</Button>
+                    <Button outline
+                            color="light"
+                            onClick={this.props.signOut}
+                            size="sm">Sign out</Button>
                 </div>
 
 
-                <button className="expand-button" onClick={this.props.toggleNavigation}>
+                <button className="expand-button"
+                        onClick={this.props.toggleNavigation}>
                     <img src="./images/hamburger.png"/>
                 </button>
             </div>

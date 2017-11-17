@@ -23,6 +23,11 @@ const tabs = [
         image : "./images/student.png",
     },
     {
+        name : "Inbound Programs",
+        tab : null,
+        image : "./images/inbound.png",
+    },
+    {
         name : "Programs",
         tab : <Programs/>,
         image : "./images/airplane.png",

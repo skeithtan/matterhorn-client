@@ -59,14 +59,18 @@ var MainNavigation = function (_Component) {
 
             return _react2.default.createElement(
                 _reactstrap.Navbar,
-                { className: navbarClassName, id: "main-navigation" },
-                _react2.default.createElement("img", { src: "./images/dlsu_white.png", className: "dlsu-logo" }),
+                { className: navbarClassName,
+                    id: "main-navigation" },
+                _react2.default.createElement("img", { src: "./images/dlsu_white.png",
+                    className: "dlsu-logo" }),
                 _react2.default.createElement(
                     _reactstrap.Nav,
-                    { className: "d-flex flex-column w-100", id: "main-navigation-tabs" },
+                    { className: "d-flex flex-column w-100",
+                        id: "main-navigation-tabs" },
                     navItems
                 ),
-                _react2.default.createElement(SwitchUserButton, { toggleNavigation: this.props.toggleNavigation, signOut: this.props.signOut })
+                _react2.default.createElement(SwitchUserButton, { toggleNavigation: this.props.toggleNavigation,
+                    signOut: this.props.signOut })
             );
         }
     }]);
@@ -88,7 +92,11 @@ var TabItem = function (_Component2) {
         value: function render() {
             var _this4 = this;
 
-            var className = this.props.isActive ? "active" : "";
+            var className = "align-items-center ";
+            if (this.props.isActive) {
+                className += "active";
+            }
+
             var onNavItemClick = function onNavItemClick() {
 
                 if (_this4.props.navigationIsExpanded) {
@@ -100,17 +108,15 @@ var TabItem = function (_Component2) {
 
             return _react2.default.createElement(
                 _reactstrap.NavItem,
-                { className: className, onClick: onNavItemClick },
+                { className: className,
+                    onClick: onNavItemClick },
                 _react2.default.createElement(
-                    "div",
-                    { className: "d-flex flex-row align-items-center tab-set" },
-                    _react2.default.createElement(
-                        "h5",
-                        { className: "mb-0 text-white sidebar-tab-description" },
-                        this.props.name
-                    ),
-                    _react2.default.createElement("img", { src: this.props.image, className: "sidebar-image" })
-                )
+                    "h5",
+                    { className: "mb-0 text-white sidebar-tab-description" },
+                    this.props.name
+                ),
+                _react2.default.createElement("img", { src: this.props.image,
+                    className: "sidebar-image" })
             );
         }
     }]);
@@ -149,7 +155,9 @@ var SwitchUserButton = function (_Component3) {
                 { className: "w-100 p-3 d-flex justify-content-center align-content-center" },
                 _react2.default.createElement(
                     "div",
-                    { id: "switch-user-button", onClick: this.togglePopover, className: "p-3 d-flex align-items-center" },
+                    { id: "switch-user-button",
+                        onClick: this.togglePopover,
+                        className: "p-3 d-flex align-items-center" },
                     _react2.default.createElement(
                         "div",
                         { className: "mr-auto text-left" },
@@ -166,13 +174,17 @@ var SwitchUserButton = function (_Component3) {
                     ),
                     _react2.default.createElement(
                         _reactstrap.Button,
-                        { outline: true, color: "light", onClick: this.props.signOut, size: "sm" },
+                        { outline: true,
+                            color: "light",
+                            onClick: this.props.signOut,
+                            size: "sm" },
                         "Sign out"
                     )
                 ),
                 _react2.default.createElement(
                     "button",
-                    { className: "expand-button", onClick: this.props.toggleNavigation },
+                    { className: "expand-button",
+                        onClick: this.props.toggleNavigation },
                     _react2.default.createElement("img", { src: "./images/hamburger.png" })
                 )
             );
