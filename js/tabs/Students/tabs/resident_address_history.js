@@ -27,6 +27,7 @@ function fetchHistory(id, onResult) {
             middle_name
             family_name
             residencies {
+                id
                 date_effective
                 contact_person_name
                 contact_person_number
