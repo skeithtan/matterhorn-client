@@ -5,6 +5,20 @@ import StudentDetail from "./student_detail";
 import { StudentFormModal, } from "./modals";
 
 
+const tabs = [
+    {
+        name : "Inbound",
+        image : "./images/inboundgrey.png",
+        activeImage : "./images/inboundgreen.png",
+    },
+    {
+        name : "Outbound",
+        image : "./images/outboundgrey.png",
+        activeImage : "./images/outboundgreen.png",
+    },
+];
+
+
 function fetchStudents(onResult) {
     graphql.query(`
     {
@@ -27,13 +41,21 @@ class Students extends Component {
             allStudents : null,
             activeStudent : null,
             addStudentIsShowing : false,
+            activeTab : tabs[0],
         };
 
+        this.setActiveTab = this.setActiveTab.bind(this);
         this.setActiveStudent = this.setActiveStudent.bind(this);
         this.toggleAddStudent = this.toggleAddStudent.bind(this);
         this.refreshStudents = this.refreshStudents.bind(this);
         this.onDeleteActiveStudent = this.onDeleteActiveStudent.bind(this);
         this.refreshStudents();
+    }
+
+    setActiveTab(tab) {
+        this.setState({
+            activeTab : tab,
+        });
     }
 
     refreshStudents() {
@@ -70,7 +92,10 @@ class Students extends Component {
                 <StudentList students={this.state.allStudents}
                              activeStudent={this.state.activeStudent}
                              setActiveStudent={this.setActiveStudent}
-                             toggleAddStudent={this.toggleAddStudent}/>
+                             toggleAddStudent={this.toggleAddStudent}
+                             setActiveTab={this.setActiveTab}
+                             activeTab={this.state.activeTab}
+                             tabs={tabs}/>
                 <StudentDetail student={this.state.activeStudent}
                                onDeleteActiveStudent={this.onDeleteActiveStudent}
                                refreshStudents={this.refreshStudents}/>

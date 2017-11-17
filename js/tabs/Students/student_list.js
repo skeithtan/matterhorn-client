@@ -12,6 +12,7 @@ import {
     SectionTable,
     SectionRow,
 } from "../../components/section";
+import TabBar from "../../components/tab_bar";
 
 
 class StudentList extends Component {
@@ -25,6 +26,7 @@ class StudentList extends Component {
         this.setSearchKeyword = this.setSearchKeyword.bind(this);
         this.getFilteredStudents = this.getFilteredStudents.bind(this);
     }
+
 
     setSearchKeyword(searchString) {
         //If the string is empty, that means the user isn't searching at all
@@ -52,14 +54,18 @@ class StudentList extends Component {
         const showingStudents = isSearching ? this.getFilteredStudents() : this.props.students;
 
         return (
-            <div className="sidebar h-100" id="student-list">
-                <StudentListHead setSearchKeyword={ this.setSearchKeyword }
-                                 toggleAddStudent={ this.props.toggleAddStudent }/>
-                <StudentListTable students={ showingStudents }
-                                  activeStudent={ this.props.activeStudent }
-                                  setActiveStudent={ this.props.setActiveStudent }
-                                  toggleAddStudent={ this.props.toggleAddStudent }
-                                  isSearching={ isSearching }/>
+            <div className="sidebar h-100"
+                 id="student-list">
+                <StudentListHead setSearchKeyword={this.setSearchKeyword}
+                                 toggleAddStudent={this.props.toggleAddStudent}/>
+                <StudentListTable students={showingStudents}
+                                  activeStudent={this.props.activeStudent}
+                                  setActiveStudent={this.props.setActiveStudent}
+                                  toggleAddStudent={this.props.toggleAddStudent}
+                                  isSearching={isSearching}/>
+                <TabBar tabs={this.props.tabs}
+                        activeTab={this.props.activeTab}
+                        setActiveTab={this.props.setActiveTab}/>
             </div>
         );
     }
@@ -80,12 +86,17 @@ class StudentListHead extends Component {
         return (
             <div className="page-head">
                 <div className="page-head-controls">
-                    <Button outline color="success" size="sm" className="ml-auto"
-                            onClick={ this.props.toggleAddStudent }>Add</Button>
+                    <Button outline
+                            color="success"
+                            size="sm"
+                            className="ml-auto"
+                            onClick={this.props.toggleAddStudent}>Add</Button>
                 </div>
                 <h4 className="page-head-title">Students</h4>
-                <Input type="search" placeholder="Search" className="search-input"
-                       onChange={ this.onSearchInputChange }/>
+                <Input type="search"
+                       placeholder="Search"
+                       className="search-input"
+                       onChange={this.onSearchInputChange}/>
             </div>
         );
     }
@@ -104,7 +115,9 @@ class StudentListTable extends Component {
             <div className="loading-container">
                 <h4>There's nothing here.</h4>
                 <p>When added, Students will show up here.</p>
-                <Button outline color="success" onClick={ this.props.toggleAddStudent }>Add a Student</Button>
+                <Button outline
+                        color="success"
+                        onClick={this.props.toggleAddStudent}>Add a Student</Button>
             </div>
         );
     }
@@ -172,17 +185,17 @@ class StudentListTable extends Component {
         const familyNameInitials = this.getStudentsByFamilyNameInitials();
 
         const sections = familyNameInitials.map((familyNameInitial, index) => {
-            return <StudentSection key={ index }
-                                   title={ familyNameInitial.initial }
-                                   activeStudent={ this.props.activeStudent }
-                                   students={ familyNameInitial.students }
-                                   setActiveStudent={ this.props.setActiveStudent }/>;
+            return <StudentSection key={index}
+                                   title={familyNameInitial.initial}
+                                   activeStudent={this.props.activeStudent}
+                                   students={familyNameInitial.students}
+                                   setActiveStudent={this.props.setActiveStudent}/>;
         });
 
 
         return (
             <div className="page-body">
-                { sections }
+                {sections}
             </div>
         );
     }
@@ -205,18 +218,21 @@ class StudentSection extends Component {
             const setActiveStudent = () => this.props.setActiveStudent(student);
 
             return (
-                <SectionRow selectable onClick={ setActiveStudent } active={ isActive } key={ student.id }>
-                    <small className="d-block">{ student.id_number }</small>
-                    <b>{ student.family_name }</b>, { student.first_name } { student.middle_name }
+                <SectionRow selectable
+                            onClick={setActiveStudent}
+                            active={isActive}
+                            key={student.id}>
+                    <small className="d-block">{student.id_number}</small>
+                    <b>{student.family_name}</b>, {student.first_name} {student.middle_name}
                 </SectionRow>
             );
         });
 
         return (
             <Section>
-                <SectionTitle>{ this.props.title }</SectionTitle>
+                <SectionTitle>{this.props.title}</SectionTitle>
                 <SectionTable>
-                    { rows }
+                    {rows}
                 </SectionTable>
             </Section>
         );

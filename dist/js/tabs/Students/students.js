@@ -32,6 +32,16 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var tabs = [{
+    name: "Inbound",
+    image: "./images/inboundgrey.png",
+    activeImage: "./images/inboundgreen.png"
+}, {
+    name: "Outbound",
+    image: "./images/outboundgrey.png",
+    activeImage: "./images/outboundgreen.png"
+}];
+
 function fetchStudents(onResult) {
     _graphql2.default.query("\n    {\n        students {\n            id\n            id_number\n            family_name\n            first_name\n            middle_name\n        }\n    }\n    ").then(onResult);
 }
@@ -47,9 +57,11 @@ var Students = function (_Component) {
         _this.state = {
             allStudents: null,
             activeStudent: null,
-            addStudentIsShowing: false
+            addStudentIsShowing: false,
+            activeTab: tabs[0]
         };
 
+        _this.setActiveTab = _this.setActiveTab.bind(_this);
         _this.setActiveStudent = _this.setActiveStudent.bind(_this);
         _this.toggleAddStudent = _this.toggleAddStudent.bind(_this);
         _this.refreshStudents = _this.refreshStudents.bind(_this);
@@ -59,6 +71,13 @@ var Students = function (_Component) {
     }
 
     _createClass(Students, [{
+        key: "setActiveTab",
+        value: function setActiveTab(tab) {
+            this.setState({
+                activeTab: tab
+            });
+        }
+    }, {
         key: "refreshStudents",
         value: function refreshStudents() {
             var _this2 = this;
@@ -101,7 +120,10 @@ var Students = function (_Component) {
                 _react2.default.createElement(_student_list2.default, { students: this.state.allStudents,
                     activeStudent: this.state.activeStudent,
                     setActiveStudent: this.setActiveStudent,
-                    toggleAddStudent: this.toggleAddStudent }),
+                    toggleAddStudent: this.toggleAddStudent,
+                    setActiveTab: this.setActiveTab,
+                    activeTab: this.state.activeTab,
+                    tabs: tabs }),
                 _react2.default.createElement(_student_detail2.default, { student: this.state.activeStudent,
                     onDeleteActiveStudent: this.onDeleteActiveStudent,
                     refreshStudents: this.refreshStudents }),

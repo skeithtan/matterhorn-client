@@ -18,6 +18,10 @@ var _reactstrap = require("reactstrap");
 
 var _section = require("../../components/section");
 
+var _tab_bar = require("../../components/tab_bar");
+
+var _tab_bar2 = _interopRequireDefault(_tab_bar);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -74,14 +78,18 @@ var StudentList = function (_Component) {
 
             return _react2.default.createElement(
                 "div",
-                { className: "sidebar h-100", id: "student-list" },
+                { className: "sidebar h-100",
+                    id: "student-list" },
                 _react2.default.createElement(StudentListHead, { setSearchKeyword: this.setSearchKeyword,
                     toggleAddStudent: this.props.toggleAddStudent }),
                 _react2.default.createElement(StudentListTable, { students: showingStudents,
                     activeStudent: this.props.activeStudent,
                     setActiveStudent: this.props.setActiveStudent,
                     toggleAddStudent: this.props.toggleAddStudent,
-                    isSearching: isSearching })
+                    isSearching: isSearching }),
+                _react2.default.createElement(_tab_bar2.default, { tabs: this.props.tabs,
+                    activeTab: this.props.activeTab,
+                    setActiveTab: this.props.setActiveTab })
             );
         }
     }]);
@@ -118,7 +126,10 @@ var StudentListHead = function (_Component2) {
                     { className: "page-head-controls" },
                     _react2.default.createElement(
                         _reactstrap.Button,
-                        { outline: true, color: "success", size: "sm", className: "ml-auto",
+                        { outline: true,
+                            color: "success",
+                            size: "sm",
+                            className: "ml-auto",
                             onClick: this.props.toggleAddStudent },
                         "Add"
                     )
@@ -128,7 +139,9 @@ var StudentListHead = function (_Component2) {
                     { className: "page-head-title" },
                     "Students"
                 ),
-                _react2.default.createElement(_reactstrap.Input, { type: "search", placeholder: "Search", className: "search-input",
+                _react2.default.createElement(_reactstrap.Input, { type: "search",
+                    placeholder: "Search",
+                    className: "search-input",
                     onChange: this.onSearchInputChange })
             );
         }
@@ -171,7 +184,9 @@ var StudentListTable = function (_Component3) {
                 ),
                 _react2.default.createElement(
                     _reactstrap.Button,
-                    { outline: true, color: "success", onClick: this.props.toggleAddStudent },
+                    { outline: true,
+                        color: "success",
+                        onClick: this.props.toggleAddStudent },
                     "Add a Student"
                 )
             );
@@ -297,7 +312,10 @@ var StudentSection = function (_Component4) {
 
                 return _react2.default.createElement(
                     _section.SectionRow,
-                    { selectable: true, onClick: setActiveStudent, active: isActive, key: student.id },
+                    { selectable: true,
+                        onClick: setActiveStudent,
+                        active: isActive,
+                        key: student.id },
                     _react2.default.createElement(
                         "small",
                         { className: "d-block" },
