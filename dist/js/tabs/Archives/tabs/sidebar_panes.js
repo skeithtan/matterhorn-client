@@ -93,11 +93,11 @@ var StudentSidebarPane = function (_Component) {
                 pageBody = _react2.default.createElement(
                     "div",
                     { className: "page-body" },
-                    _react2.default.createElement(_student_detail_overview.StudentDetailOverview, { sidebar: true,
+                    _react2.default.createElement(_overview.StudentDetails, { sidebar: true,
                         student: student }),
-                    _react2.default.createElement(_student_detail_overview.StudentContact, { sidebar: true,
+                    _react2.default.createElement(_overview.ContactDetails, { sidebar: true,
                         student: student }),
-                    _react2.default.createElement(_student_detail_overview.StudentUniversity, { sidebar: true,
+                    _react2.default.createElement(_overview.UniversityDetails, { sidebar: true,
                         student: student })
                 );
             } else {

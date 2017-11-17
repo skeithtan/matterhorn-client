@@ -1,6 +1,12 @@
 import React, { Component } from "react";
 import LoadingSpinner from "../../../components/loading";
-import { fetchStudent } from "../../Students/tabs/overview";
+
+import {
+    ContactDetails,
+    fetchStudent,
+    StudentDetails,
+    UniversityDetails,
+} from "../../Students/tabs/overview";
 
 import {
     StudentContact,
@@ -63,11 +69,11 @@ class StudentSidebarPane extends Component {
         if (isFetched) {
             pageBody = (
                 <div className="page-body">
-                    <StudentDetailOverview sidebar
-                                           student={student}/>
-                    <StudentContact sidebar
+                    <StudentDetails sidebar
                                     student={student}/>
-                    <StudentUniversity sidebar
+                    <ContactDetails sidebar
+                                    student={student}/>
+                    <UniversityDetails sidebar
                                        student={student}/>
                 </div>
             );
