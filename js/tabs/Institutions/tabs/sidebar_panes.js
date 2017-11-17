@@ -267,7 +267,7 @@ class ProgramSidebarPane extends Component {
             <div className="p-0 h-100 d-flex flex-column">
                 <div className="page-head pt-5 d-flex flex-row align-items-end">
                     <div className="mr-auto">
-                        <h5 className="mb-0">Program</h5>
+                        <h5 className="mb-0">{program.name}</h5>
                     </div>
                 </div>
 

@@ -263,7 +263,9 @@ var ProgramsHead = function (_Component2) {
                     ),
                     _react2.default.createElement(
                         _reactstrap.Button,
-                        { outline: true, size: "sm", color: "success" },
+                        { outline: true,
+                            size: "sm",
+                            color: "success" },
                         "Add a Program"
                     )
                 )
@@ -280,7 +282,10 @@ var ProgramsTable = function (_Component3) {
     function ProgramsTable(props) {
         _classCallCheck(this, ProgramsTable);
 
-        return _possibleConstructorReturn(this, (ProgramsTable.__proto__ || Object.getPrototypeOf(ProgramsTable)).call(this, props));
+        var _this6 = _possibleConstructorReturn(this, (ProgramsTable.__proto__ || Object.getPrototypeOf(ProgramsTable)).call(this, props));
+
+        _this6.emptyState = _this6.emptyState.bind(_this6);
+        return _this6;
     }
 
     _createClass(ProgramsTable, [{
@@ -301,7 +306,8 @@ var ProgramsTable = function (_Component3) {
                 ),
                 _react2.default.createElement(
                     _reactstrap.Button,
-                    { outline: true, color: "success" },
+                    { outline: true,
+                        color: "success" },
                     "Add a program"
                 )
             );
@@ -353,7 +359,9 @@ var ProgramsListSection = function (_Component4) {
 
                 return _react2.default.createElement(
                     _section.SectionRow,
-                    { key: index, onClick: setCurrentProgram, active: isActive },
+                    { key: index,
+                        onClick: setCurrentProgram,
+                        active: isActive },
                     _react2.default.createElement(
                         _section.SectionRowContent,
                         { large: true },

@@ -407,7 +407,7 @@ var ProgramSidebarPane = function (_Component4) {
                         _react2.default.createElement(
                             "h5",
                             { className: "mb-0" },
-                            "Program"
+                            program.name
                         )
                     )
                 ),

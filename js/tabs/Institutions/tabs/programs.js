@@ -11,6 +11,7 @@ import {
 } from "../../../components/section";
 import { ProgramSidebarPane } from "./sidebar_panes";
 
+
 function fetchYears(institutionID, onResult) {
     graphql.query(`
     {
@@ -101,7 +102,7 @@ class Programs extends Component {
         };
 
         this.props.setSidebarContent(
-            <ProgramSidebarPane program={ program }/>,
+            <ProgramSidebarPane program={program}/>,
         );
 
         this.setState({
@@ -146,7 +147,7 @@ class Programs extends Component {
         if (this.state.institutionID === nextProps.institution.id) {
             return;
         }
-        
+
         this.props.setSidebarContent(null);
 
         this.setState({
@@ -178,12 +179,12 @@ class Programs extends Component {
     render() {
         return (
             <div className="w-100 h-100 d-flex flex-column">
-                <ProgramsHead institution={ this.props.institution }
-                              years={ this.state.yearList }
-                              setCurrentYear={ this.setActiveYear }/>
-                <ProgramsTable programs={ this.state.programList }
-                               currentProgram={ this.state.activeProgram }
-                               setCurrentProgram={ this.setActiveProgram }/>
+                <ProgramsHead institution={this.props.institution}
+                              years={this.state.yearList}
+                              setCurrentYear={this.setActiveYear}/>
+                <ProgramsTable programs={this.state.programList}
+                               currentProgram={this.state.activeProgram}
+                               setCurrentProgram={this.setActiveProgram}/>
             </div>
         );
     }
@@ -200,23 +201,25 @@ class ProgramsHead extends Component {
         }
 
         const years = this.props.years.map((year, index) => {
-            return <option key={ index }>{ year } - { year + 1 }</option>;
+            return <option key={index}>{year} - {year + 1}</option>;
         });
 
         return (
             <div className="page-head pt-5 d-flex flex-row align-items-end">
                 <div className="mr-auto">
                     <h5 className="mb-0 text-secondary">Programs</h5>
-                    <h4 className="page-head-title mb-0">{ this.props.institution.name }</h4>
+                    <h4 className="page-head-title mb-0">{this.props.institution.name}</h4>
                 </div>
 
                 <div className="page-head-actions">
-                    { this.props.years.length !== 0 &&
+                    {this.props.years.length !== 0 &&
                     <select className="form-control mr-3 btn btn-outline-success">
-                        { years }
+                        {years}
                     </select>
                     }
-                    <Button outline size="sm" color="success">
+                    <Button outline
+                            size="sm"
+                            color="success">
                         Add a Program
                     </Button>
                 </div>
@@ -228,6 +231,8 @@ class ProgramsHead extends Component {
 class ProgramsTable extends Component {
     constructor(props) {
         super(props);
+
+        this.emptyState = this.emptyState.bind(this);
     }
 
     emptyState() {
@@ -235,7 +240,8 @@ class ProgramsTable extends Component {
             <div className="loading-container">
                 <h3>There's nothing here.</h3>
                 <p>When added, Programs will show up here.</p>
-                <Button outline color="success">Add a program</Button>
+                <Button outline
+                        color="success">Add a program</Button>
             </div>
         );
     }
@@ -247,9 +253,9 @@ class ProgramsTable extends Component {
 
         return (
             <div className="w-100 h-100 d-flex flex-column">
-                <ProgramsListSection programs={ this.props.programs }
-                                     currentProgram={ this.props.currentProgram }
-                                     setCurrentProgram={ this.props.setCurrentProgram }/>
+                <ProgramsListSection programs={this.props.programs}
+                                     currentProgram={this.props.currentProgram}
+                                     setCurrentProgram={this.props.setCurrentProgram}/>
             </div>
         );
     }
@@ -271,8 +277,10 @@ class ProgramsListSection extends Component {
             const setCurrentProgram = () => this.props.setCurrentProgram(program);
 
             return (
-                <SectionRow key={ index } onClick={ setCurrentProgram } active={ isActive }>
-                    <SectionRowContent large>{ program.name }</SectionRowContent>
+                <SectionRow key={index}
+                            onClick={setCurrentProgram}
+                            active={isActive}>
+                    <SectionRowContent large>{program.name}</SectionRowContent>
                 </SectionRow>
             );
         });
@@ -280,9 +288,9 @@ class ProgramsListSection extends Component {
         return (
             <div>
                 <Section>
-                    <SectionTitle>{ this.props.children }</SectionTitle>
+                    <SectionTitle>{this.props.children}</SectionTitle>
                     <SectionTable className="memorandums-accordion">
-                        { rows }
+                        {rows}
                     </SectionTable>
                 </Section>
             </div>
