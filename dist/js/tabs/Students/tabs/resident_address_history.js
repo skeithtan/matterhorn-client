@@ -38,7 +38,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 // TODO: import sidebarpane for residency details
 
 function fetchHistory(id, onResult) {
-    _graphql2.default.query("\n    {\n        student(id:" + id + ") {\n            id\n            id_number\n            first_name\n            middle_name\n            family_name\n            residencies {\n                student {\n                    id\n                    id_number\n                    first_name\n                    middle_name\n                    family_name\n                }\n                date_effective\n                contact_person_name\n                contact_person_number\n                address\n                residence\n            }\n        }\n\t}\n\t").then(onResult);
+    _graphql2.default.query("\n    {\n        student(id:" + id + ") {\n            id\n            id_number\n            first_name\n            middle_name\n            family_name\n            residencies {\n                date_effective\n                contact_person_name\n                contact_person_number\n                address\n                residence\n            }\n        }\n\t}\n\t").then(onResult);
 }
 
 var ResidentAddressHistory = function (_Component) {
@@ -63,6 +63,8 @@ var ResidentAddressHistory = function (_Component) {
         });
 
         _this.setActiveResidence = _this.setActiveResidence.bind(_this);
+        _this.refreshResidences = _this.refreshResidences.bind(_this);
+        _this.refreshResidences();
         return _this;
     }
 
@@ -84,7 +86,7 @@ var ResidentAddressHistory = function (_Component) {
 
             fetchHistory(this.state.studentId, function (result) {
                 _this2.setState({
-                    residenceList: result.residencies
+                    residenceList: result.student.residencies
                 });
             });
         }
@@ -108,7 +110,7 @@ var ResidentAddressHistory = function (_Component) {
 
             fetchHistory(this.state.studentId, function (result) {
                 _this3.setState({
-                    residenceList: result.residencies
+                    residenceList: result.student.residencies
                 });
             });
         }
@@ -122,7 +124,10 @@ var ResidentAddressHistory = function (_Component) {
             return _react2.default.createElement(
                 "div",
                 { className: "d-flex flex-column p-0 h-100" },
-                _react2.default.createElement(HistoryHead, { student: this.state.student })
+                _react2.default.createElement(HistoryHead, { student: this.state.student }),
+                _react2.default.createElement(HistoryBody, { residences: this.state.residenceList,
+                    activeResidenceId: this.state.activeResidenceId,
+                    setActiveResidence: this.setActiveResidence })
             );
         }
     }]);
@@ -206,49 +211,125 @@ var HistoryBody = function (_Component3) {
     function HistoryBody(props) {
         _classCallCheck(this, HistoryBody);
 
-        return _possibleConstructorReturn(this, (HistoryBody.__proto__ || Object.getPrototypeOf(HistoryBody)).call(this, props));
+        var _this5 = _possibleConstructorReturn(this, (HistoryBody.__proto__ || Object.getPrototypeOf(HistoryBody)).call(this, props));
+
+        _this5.emptyState = _this5.emptyState.bind(_this5);
+        return _this5;
     }
 
     _createClass(HistoryBody, [{
+        key: "emptyState",
+        value: function emptyState() {
+            return _react2.default.createElement(
+                "div",
+                { className: "loading-container" },
+                _react2.default.createElement(
+                    "h3",
+                    null,
+                    "There are no residences for this student"
+                )
+            );
+        }
+    }, {
         key: "render",
-        value: function render() {}
+        value: function render() {
+            var _this6 = this;
+
+            if (this.props.residences === null || this.props.residences === undefined) {
+                return _react2.default.createElement(_loading2.default, null);
+            }
+
+            if (this.props.residences.length === 0) {
+                return this.emptyState();
+            }
+
+            var rows = this.props.residences.map(function (residence, index) {
+                var onResidenceRowClick = function onResidenceRowClick() {
+                    return _this6.props.setActiveResidence(residence);
+                };
+
+                var isActive = false;
+
+                if (_this6.props.activeResidenceId !== null) {
+                    isActive = _this6.props.activeResidenceId === residence.id;
+                }
+
+                return _react2.default.createElement(ResidenceRow, { key: index,
+                    residence: residence,
+                    isActive: isActive,
+                    onClick: onResidenceRowClick,
+                    latest: index === 0 });
+            });
+
+            return _react2.default.createElement(
+                "div",
+                { className: "page-body w-100" },
+                _react2.default.createElement(
+                    "div",
+                    { className: "d-flex h-100 p-0 flex-row" },
+                    _react2.default.createElement(
+                        "div",
+                        { className: "w-100" },
+                        _react2.default.createElement(
+                            _section.SectionTitle,
+                            null,
+                            "Residences"
+                        ),
+                        _react2.default.createElement(
+                            _section.SectionTable,
+                            null,
+                            rows
+                        )
+                    )
+                )
+            );
+        }
     }]);
 
     return HistoryBody;
 }(_react.Component);
 
-var HistorySection = function (_Component4) {
-    _inherits(HistorySection, _Component4);
+var ResidenceRow = function (_Component4) {
+    _inherits(ResidenceRow, _Component4);
 
-    function HistorySection(props) {
-        _classCallCheck(this, HistorySection);
+    function ResidenceRow(props) {
+        _classCallCheck(this, ResidenceRow);
 
-        return _possibleConstructorReturn(this, (HistorySection.__proto__ || Object.getPrototypeOf(HistorySection)).call(this, props));
+        return _possibleConstructorReturn(this, (ResidenceRow.__proto__ || Object.getPrototypeOf(ResidenceRow)).call(this, props));
     }
 
-    _createClass(HistorySection, [{
+    _createClass(ResidenceRow, [{
         key: "render",
-        value: function render() {}
+        value: function render() {
+            var residence = this.props.residence;
+
+            function formatDate(date) {
+                return (0, _moment2.default)(date).format("LL");
+            }
+
+            var dateEffective = formatDate(residence.date_effective);
+
+            return _react2.default.createElement(
+                _section.SectionRow,
+                { selectable: true,
+                    onClick: this.props.onClick,
+                    active: this.props.isActive },
+                this.props.latest && _react2.default.createElement(
+                    _section.SectionRowTitle,
+                    null,
+                    "Latest Residence"
+                ),
+                _react2.default.createElement(
+                    _section.SectionRowContent,
+                    { large: true },
+                    "Effective ",
+                    dateEffective
+                )
+            );
+        }
     }]);
 
-    return HistorySection;
-}(_react.Component);
-
-var HistoryRow = function (_Component5) {
-    _inherits(HistoryRow, _Component5);
-
-    function HistoryRow(props) {
-        _classCallCheck(this, HistoryRow);
-
-        return _possibleConstructorReturn(this, (HistoryRow.__proto__ || Object.getPrototypeOf(HistoryRow)).call(this, props));
-    }
-
-    _createClass(HistoryRow, [{
-        key: "render",
-        value: function render() {}
-    }]);
-
-    return HistoryRow;
+    return ResidenceRow;
 }(_react.Component);
 
 exports.default = ResidentAddressHistory;

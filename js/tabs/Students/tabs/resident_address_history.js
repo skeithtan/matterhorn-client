@@ -27,13 +27,6 @@ function fetchHistory(id, onResult) {
             middle_name
             family_name
             residencies {
-                student {
-                    id
-                    id_number
-                    first_name
-                    middle_name
-                    family_name
-                }
                 date_effective
                 contact_person_name
                 contact_person_number
@@ -63,6 +56,8 @@ class ResidentAddressHistory extends Component {
         });
 
         this.setActiveResidence = this.setActiveResidence.bind(this);
+        this.refreshResidences = this.refreshResidences.bind(this);
+        this.refreshResidences();
     }
 
     setActiveResidence(residence) {
@@ -78,7 +73,7 @@ class ResidentAddressHistory extends Component {
     refreshResidences() {
         fetchHistory(this.state.studentId, result => {
             this.setState({
-                residenceList : result.residencies,
+                residenceList : result.student.residencies,
             });
         });
     }
@@ -99,7 +94,7 @@ class ResidentAddressHistory extends Component {
 
         fetchHistory(this.state.studentId, result => {
             this.setState({
-                residenceList : result.residencies,
+                residenceList : result.student.residencies,
             });
         });
     }
@@ -112,7 +107,9 @@ class ResidentAddressHistory extends Component {
         return (
             <div className="d-flex flex-column p-0 h-100">
                 <HistoryHead student={ this.state.student }/>
-
+                <HistoryBody residences={ this.state.residenceList }
+                             activeResidenceId={ this.state.activeResidenceId }
+                             setActiveResidence={ this.setActiveResidence }/>
             </div>
         );
     }
@@ -142,7 +139,8 @@ class HistoryHead extends Component {
             <div className="page-head pt-5 d-flex flex-row align-items-end">
                 <div className="mr-auto">
                     <h5 className="mb-0 text-secondary">Resident Address History</h5>
-                    <h4 className="page-head-title mb-0">{ student.first_name } { student.middle_name } { student.family_name }
+                    <h4 className="page-head-title mb-0">
+                        { student.first_name } { student.middle_name } { student.family_name }
                         <small className="text-muted ml-2">{ this.props.student.id_number }</small>
                     </h4>
                 </div>
@@ -161,30 +159,82 @@ class HistoryHead extends Component {
 class HistoryBody extends Component {
     constructor(props) {
         super(props);
+
+        this.emptyState = this.emptyState.bind(this);
+    }
+
+    emptyState() {
+        return (
+            <div className="loading-container">
+                <h3>There are no residences for this student</h3>
+            </div>
+        );
     }
 
     render() {
+        if (this.props.residences === null || this.props.residences === undefined) {
+            return <LoadingSpinner/>;
+        }
 
+        if (this.props.residences.length === 0) {
+            return this.emptyState();
+        }
+
+        const rows = this.props.residences.map((residence, index) => {
+            const onResidenceRowClick = () => this.props.setActiveResidence(residence);
+
+            let isActive = false;
+
+            if (this.props.activeResidenceId !== null) {
+                isActive = this.props.activeResidenceId === residence.id;
+            }
+
+            return <ResidenceRow key={ index }
+                                 residence={ residence }
+                                 isActive={ isActive }
+                                 onClick={ onResidenceRowClick }
+                                 latest={ index === 0 }/>;
+        });
+
+        return (
+            <div className="page-body w-100">
+                <div className="d-flex h-100 p-0 flex-row">
+                    <div className="w-100">
+                        <SectionTitle>Residences</SectionTitle>
+                        <SectionTable>
+                            { rows }
+                        </SectionTable>
+                    </div>
+                </div>
+            </div>
+        );
     }
 }
 
-class HistorySection extends Component {
+class ResidenceRow extends Component {
     constructor(props) {
         super(props);
     }
 
     render() {
+        const residence = this.props.residence;
 
-    }
-}
+        function formatDate(date) {
+            return moment(date).format("LL");
+        }
 
-class HistoryRow extends Component {
-    constructor(props) {
-        super(props);
-    }
+        const dateEffective = formatDate(residence.date_effective);
 
-    render() {
-
+        return (
+            <SectionRow selectable
+                        onClick={ this.props.onClick }
+                        active={ this.props.isActive }>
+                { this.props.latest &&
+                <SectionRowTitle>Latest Residence</SectionRowTitle>
+                }
+                <SectionRowContent large>Effective { dateEffective }</SectionRowContent>
+            </SectionRow>
+        );
     }
 }
 

@@ -168,6 +168,11 @@ var OverviewHead = function (_Component2) {
                     "div",
                     { className: "mr-auto" },
                     _react2.default.createElement(
+                        "h5",
+                        { className: "mb-0 text-secondary" },
+                        "Overview"
+                    ),
+                    _react2.default.createElement(
                         "h4",
                         { className: "page-head-title justify-content-left d-inline-block mb-0 mr-2" },
                         this.props.student.first_name,
