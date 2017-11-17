@@ -75,8 +75,13 @@ var Students = function (_Component) {
     _createClass(Students, [{
         key: "setActiveTab",
         value: function setActiveTab(tab) {
+            if (tab === this.state.activeTab) {
+                return; //Nothing to do here, activeTab is already the tab
+            }
+
             this.setState({
-                activeTab: tab
+                activeTab: tab,
+                activeStudent: null //Student is no longer in the same category
             });
 
             var category = tab.name === "Inbound" ? "IN" : "OUT";
