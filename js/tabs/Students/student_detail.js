@@ -28,7 +28,7 @@ class StudentDetail extends Component {
     }
 
     render() {
-        if (this.props.institution === null) {
+        if (this.props.student === null) {
             return StudentDetail.unselectedState();
         }
 
