@@ -75,11 +75,11 @@ var ArchivesHead = function (_Component) {
                     { className: "page-head-actions" },
                     _react2.default.createElement(
                         "div",
-                        { className: "d-flex flex-row align-items-center" },
+                        { className: "d-flex flex-column" },
                         _react2.default.createElement(
-                            "b",
-                            { className: "mr-3" },
-                            "Year"
+                            "label",
+                            { className: "mr-3 text-dark mb-1" },
+                            "Archives from year"
                         ),
                         _react2.default.createElement(
                             _reactstrap.Input,

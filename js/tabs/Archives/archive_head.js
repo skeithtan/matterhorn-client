@@ -34,8 +34,8 @@ class ArchivesHead extends Component {
                 </div>
 
                 <div className="page-head-actions">
-                    <div className="d-flex flex-row align-items-center">
-                        <b className="mr-3">Year</b>
+                    <div className="d-flex flex-column">
+                        <label className="mr-3 text-dark mb-1">Archives from year</label>
                         <Input type="select"
                                className="btn-outline-success"
                                defaultValue={this.props.activeYear}
