@@ -43,11 +43,11 @@ var tabs = [{
     tab: _react2.default.createElement(_students2.default, null),
     image: "./images/student.png"
 }, {
-    name: "Inbound Programs",
+    name: "Inbound OutboundPrograms",
     tab: null,
     image: "./images/inbound.png"
 }, {
-    name: "Programs",
+    name: "Outbound OutboundPrograms",
     tab: _react2.default.createElement(_outbound_programs2.default, null),
     image: "./images/airplane.png"
 }, {

@@ -245,7 +245,7 @@ var ProgramsHead = function (_Component2) {
                     _react2.default.createElement(
                         "h5",
                         { className: "mb-0 text-secondary" },
-                        "Programs"
+                        "OutboundPrograms"
                     ),
                     _react2.default.createElement(
                         "h4",
@@ -311,7 +311,7 @@ var ProgramsTable = function (_Component3) {
                 _react2.default.createElement(
                     "p",
                     null,
-                    "When added, Programs will show up here."
+                    "When added, OutboundPrograms will show up here."
                 ),
                 _react2.default.createElement(
                     _reactstrap.Button,

@@ -63,7 +63,7 @@ function fetchStudents(id, onResult) {
     `).then(onResult);
 }
 
-class Programs extends Component {
+class OutboundPrograms extends Component {
     constructor(props) {
         super(props);
 
@@ -216,4 +216,4 @@ class Programs extends Component {
     }
 }
 
-export default Programs;
+export default OutboundPrograms;

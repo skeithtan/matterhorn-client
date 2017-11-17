@@ -28,7 +28,7 @@ var tabs = [{
     image: "./images/memorandumgrey.png",
     activeImage: "./images/memorandumgreen.png"
 }, {
-    name: "Programs",
+    name: "OutboundPrograms",
     tab: undefined,
     image: "./images/airplanegrey.png",
     activeImage: "./images/airplanegreen.png"

@@ -41,7 +41,7 @@ var tabs = [{
     image: "./images/memorandumgrey.png",
     activeImage: "./images/memorandumgreen.png"
 }, {
-    name: "Programs",
+    name: "OutboundPrograms",
     tab: function tab(institution, setSidebarContent) {
         return _react2.default.createElement(_programs2.default, { institution: institution, setSidebarContent: setSidebarContent
         });

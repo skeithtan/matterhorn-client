@@ -48,13 +48,13 @@ function fetchStudents(id, onResult) {
     _graphql2.default.query("\n   \n    {\n        program(id:" + id + ") {\n            id\n            studyfield_set {\n                id\n                name\n                studentstudyfield_set {\n                    study_field {\n                        name\n                    }\n                    student {\n                        id\n                        id_number\n                        first_name\n                        middle_name\n                        family_name\n                    }\n                }\n            }\n        }\n    }\n    ").then(onResult);
 }
 
-var Programs = function (_Component) {
-    _inherits(Programs, _Component);
+var OutboundPrograms = function (_Component) {
+    _inherits(OutboundPrograms, _Component);
 
-    function Programs(props) {
-        _classCallCheck(this, Programs);
+    function OutboundPrograms(props) {
+        _classCallCheck(this, OutboundPrograms);
 
-        var _this = _possibleConstructorReturn(this, (Programs.__proto__ || Object.getPrototypeOf(Programs)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (OutboundPrograms.__proto__ || Object.getPrototypeOf(OutboundPrograms)).call(this, props));
 
         _this.state = {
             yearList: null,
@@ -79,7 +79,7 @@ var Programs = function (_Component) {
         return _this;
     }
 
-    _createClass(Programs, [{
+    _createClass(OutboundPrograms, [{
         key: "setSidebarContent",
         value: function setSidebarContent(sidebarContent) {
             this.setState({
@@ -231,8 +231,8 @@ var Programs = function (_Component) {
         }
     }]);
 
-    return Programs;
+    return OutboundPrograms;
 }(_react.Component);
 
-exports.default = Programs;
+exports.default = OutboundPrograms;
 //# sourceMappingURL=outbound_programs.js.map
