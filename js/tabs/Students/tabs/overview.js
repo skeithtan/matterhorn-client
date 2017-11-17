@@ -54,7 +54,7 @@ class StudentOverview extends Component {
 
         this.state = {
             student : null,
-            studentID : props.student.id,
+            studentId : props.student.id,
         };
 
         this.onEditStudent = this.onEditStudent.bind(this);
@@ -70,7 +70,7 @@ class StudentOverview extends Component {
 
     componentWillReceiveProps(nextProps) {
         this.setState({
-            studentID : nextProps.student.id,
+            studentId : nextProps.student.id,
             student : null,
         });
 
@@ -87,7 +87,7 @@ class StudentOverview extends Component {
             student : null,
         });
 
-        fetchStudent(this.state.studentID, result => {
+        fetchStudent(this.state.studentId, result => {
             const student = result.student;
             this.setState({
                 student : student,

@@ -54,7 +54,7 @@ var StudentOverview = function (_Component) {
 
         _this.state = {
             student: null,
-            studentID: props.student.id
+            studentId: props.student.id
         };
 
         _this.onEditStudent = _this.onEditStudent.bind(_this);
@@ -75,7 +75,7 @@ var StudentOverview = function (_Component) {
             var _this2 = this;
 
             this.setState({
-                studentID: nextProps.student.id,
+                studentId: nextProps.student.id,
                 student: null
             });
 
@@ -95,7 +95,7 @@ var StudentOverview = function (_Component) {
                 student: null
             });
 
-            fetchStudent(this.state.studentID, function (result) {
+            fetchStudent(this.state.studentId, function (result) {
                 var student = result.student;
                 _this3.setState({
                     student: student

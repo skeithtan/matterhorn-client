@@ -1,9 +1,14 @@
 import React from "react";
+import StudentOverview from "./overview";
 
 const tabs = [
     {
         name : "Overview",
-        tab : undefined,
+        tab : (student, onDeleteActiveStudent, refreshStudents) => {
+            return <StudentOverview student={ student }
+                                    onDeleteActiveStudent={ onDeleteActiveStudent }
+                                    refreshStudents={ refreshStudents }/>;
+        },
         image : "./images/burgergrey.png",
         activeImage : "./images/burgergreen.png",
     },
