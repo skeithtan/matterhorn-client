@@ -1,5 +1,6 @@
 import React from "react";
 import StudentOverview from "./overview";
+import ResidentAddressHistory from "./resident_address_history";
 
 const tabs = [
     {
@@ -14,7 +15,9 @@ const tabs = [
     },
     {
         name : "Residency",
-        tab : undefined,
+        tab : (student) => {
+            return <ResidentAddressHistory student={ student }/>;
+        },
         image : "./images/burgergrey.png",
         activeImage : "./images/burgergreen.png",
     },

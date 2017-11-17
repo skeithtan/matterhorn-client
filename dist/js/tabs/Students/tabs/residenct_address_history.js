@@ -228,4 +228,4 @@ var HistoryRow = function (_Component5) {
 }(_react.Component);
 
 exports.default = ResidentAddressHistory;
-//# sourceMappingURL=residenct_address_history.js.map
+//# sourceMappingURL=resident_address_history.js.map
