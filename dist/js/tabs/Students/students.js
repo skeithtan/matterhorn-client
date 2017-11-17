@@ -42,8 +42,8 @@ var tabs = [{
     activeImage: "./images/outboundgreen.png"
 }];
 
-function fetchStudents(onResult) {
-    _graphql2.default.query("\n    {\n        students {\n            id\n            id_number\n            family_name\n            first_name\n            middle_name\n        }\n    }\n    ").then(onResult);
+function fetchStudents(category, onResult) {
+    _graphql2.default.query("\n    {\n        students(category:\"" + category + "\") {\n            id\n            id_number\n            family_name\n            first_name\n            middle_name\n        }\n    }\n    ").then(onResult);
 }
 
 var Students = function (_Component) {
@@ -76,13 +76,17 @@ var Students = function (_Component) {
             this.setState({
                 activeTab: tab
             });
+
+            this.refreshStudents();
         }
     }, {
         key: "refreshStudents",
         value: function refreshStudents() {
             var _this2 = this;
 
-            fetchStudents(function (result) {
+            var studentCategory = this.state.activeTab.name === "Inbound" ? "IN" : "OUT";
+
+            fetchStudents(studentCategory, function (result) {
                 _this2.setState({
                     allStudents: result.students
                 });

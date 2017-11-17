@@ -19,10 +19,10 @@ const tabs = [
 ];
 
 
-function fetchStudents(onResult) {
+function fetchStudents(category, onResult) {
     graphql.query(`
     {
-        students {
+        students(category:"${category}") {
             id
             id_number
             family_name
@@ -56,10 +56,14 @@ class Students extends Component {
         this.setState({
             activeTab : tab,
         });
+
+        this.refreshStudents();
     }
 
     refreshStudents() {
-        fetchStudents(result => {
+        const studentCategory = this.state.activeTab.name === "Inbound" ? "IN" : "OUT";
+
+        fetchStudents(studentCategory, result => {
             this.setState({
                 allStudents : result.students,
             });
