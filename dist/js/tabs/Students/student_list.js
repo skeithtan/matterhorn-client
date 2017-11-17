@@ -86,6 +86,7 @@ var StudentList = function (_Component) {
                     activeStudent: this.props.activeStudent,
                     setActiveStudent: this.props.setActiveStudent,
                     toggleAddStudent: this.props.toggleAddStudent,
+                    currentStudentCategory: this.props.activeTab.name,
                     isSearching: isSearching }),
                 _react2.default.createElement(_tab_bar2.default, { tabs: this.props.tabs,
                     activeTab: this.props.activeTab,
@@ -175,12 +176,16 @@ var StudentListTable = function (_Component3) {
                 _react2.default.createElement(
                     "h4",
                     null,
-                    "There's nothing here."
+                    "There are no ",
+                    this.props.currentStudentCategory,
+                    " students."
                 ),
                 _react2.default.createElement(
                     "p",
                     null,
-                    "When added, Students will show up here."
+                    "When added, ",
+                    this.props.currentStudentCategory,
+                    " students will show up here."
                 ),
                 _react2.default.createElement(
                     _reactstrap.Button,

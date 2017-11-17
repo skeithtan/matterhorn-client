@@ -62,6 +62,7 @@ class StudentList extends Component {
                                   activeStudent={this.props.activeStudent}
                                   setActiveStudent={this.props.setActiveStudent}
                                   toggleAddStudent={this.props.toggleAddStudent}
+                                  currentStudentCategory={this.props.activeTab.name}
                                   isSearching={isSearching}/>
                 <TabBar tabs={this.props.tabs}
                         activeTab={this.props.activeTab}
@@ -113,8 +114,8 @@ class StudentListTable extends Component {
     emptyState() {
         return (
             <div className="loading-container">
-                <h4>There's nothing here.</h4>
-                <p>When added, Students will show up here.</p>
+                <h4>There are no {this.props.currentStudentCategory} students.</h4>
+                <p>When added, {this.props.currentStudentCategory} students will show up here.</p>
                 <Button outline
                         color="success"
                         onClick={this.props.toggleAddStudent}>Add a Student</Button>
