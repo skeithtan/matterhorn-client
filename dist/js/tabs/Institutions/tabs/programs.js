@@ -290,7 +290,7 @@ var ProgramsTable = function (_Component3) {
                 "div",
                 { className: "loading-container" },
                 _react2.default.createElement(
-                    "h4",
+                    "h3",
                     null,
                     "There's nothing here."
                 ),

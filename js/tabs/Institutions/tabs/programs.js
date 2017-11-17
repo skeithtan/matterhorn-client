@@ -233,7 +233,7 @@ class ProgramsTable extends Component {
     emptyState() {
         return (
             <div className="loading-container">
-                <h4>There's nothing here.</h4>
+                <h3>There's nothing here.</h3>
                 <p>When added, Students will show up here.</p>
             </div>
         );
