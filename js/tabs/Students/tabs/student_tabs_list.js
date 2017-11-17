@@ -18,8 +18,8 @@ const tabs = [
         tab : (student) => {
             return <ResidentAddressHistory student={ student }/>;
         },
-        image : "./images/burgergrey.png",
-        activeImage : "./images/burgergreen.png",
+        image : "./images/housegrey.png",
+        activeImage : "./images/housegreen.png",
     },
 ];
 

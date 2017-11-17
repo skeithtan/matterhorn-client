@@ -32,8 +32,8 @@ var tabs = [{
     tab: function tab(student) {
         return _react2.default.createElement(_resident_address_history2.default, { student: student });
     },
-    image: "./images/burgergrey.png",
-    activeImage: "./images/burgergreen.png"
+    image: "./images/housegrey.png",
+    activeImage: "./images/housegreen.png"
 }];
 
 exports.default = tabs;
