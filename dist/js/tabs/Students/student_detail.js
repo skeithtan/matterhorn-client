@@ -3,7 +3,6 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.fetchStudent = exports.default = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -11,17 +10,13 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactstrap = require("reactstrap");
+var _student_tabs_list = require("./tabs/student_tabs_list");
 
-var _modals = require("./modals");
+var _student_tabs_list2 = _interopRequireDefault(_student_tabs_list);
 
-var _loading = require("../../components/loading");
+var _tab_bar = require("../../components/tab_bar");
 
-var _loading2 = _interopRequireDefault(_loading);
-
-var _graphql = require("../../graphql");
-
-var _graphql2 = _interopRequireDefault(_graphql);
+var _tab_bar2 = _interopRequireDefault(_tab_bar);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -30,10 +25,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-function fetchStudent(id, onResult) {
-    _graphql2.default.query("\n    {\n        student(id:" + id + ") {\n            id\n            category\n            id_number\n            college\n            family_name\n            first_name\n            middle_name\n            nickname\n            nationality\n            home_address\n            phone_number\n            birth_date\n            sex\n            emergency_contact_name\n            emergency_contact_relationship\n            emergency_contact_number\n            email\n            civil_status\n            institution {\n                id\n                name\n            }\n        }\n    }\n    ").then(onResult);
-}
 
 var StudentDetail = function (_Component) {
     _inherits(StudentDetail, _Component);
@@ -44,71 +35,44 @@ var StudentDetail = function (_Component) {
         var _this = _possibleConstructorReturn(this, (StudentDetail.__proto__ || Object.getPrototypeOf(StudentDetail)).call(this, props));
 
         _this.state = {
-            student: null,
-            studentID: null
+            activeTab: _student_tabs_list2.default[0]
         };
-
-        _this.onEditStudent = _this.onEditStudent.bind(_this);
         return _this;
     }
 
     _createClass(StudentDetail, [{
-        key: "onEditStudent",
-        value: function onEditStudent() {
-            var _this2 = this;
-
+        key: "setActiveTab",
+        value: function setActiveTab(tab) {
             this.setState({
-                student: null
-            });
-
-            fetchStudent(this.state.studentID, function (result) {
-                var student = result.student;
-                _this2.setState({
-                    student: student
-                });
-                _this2.props.refreshStudents();
-            });
-        }
-    }, {
-        key: "componentWillReceiveProps",
-        value: function componentWillReceiveProps(nextProps) {
-            var _this3 = this;
-
-            var student = nextProps.student;
-
-            if (student === null) {
-                this.setState({
-                    student: null,
-                    studentID: null
-                });
-
-                return;
-            }
-
-            this.setState({
-                studentID: student.id,
-                student: null
-            });
-
-            fetchStudent(student.id, function (result) {
-                _this3.setState({
-                    student: result.student
-                });
+                activeTab: tab
             });
         }
     }, {
         key: "render",
         value: function render() {
-            if (this.state.studentID === null) {
+            if (this.props.institution === null) {
                 return StudentDetail.unselectedState();
             }
 
-            if (this.state.student === null) {
-                return _react2.default.createElement(_loading2.default, null);
-            }
+            var currentTab = this.state.activeTab.tab(this.props.institution, this.setSidebarContent, this.props.onDeleteActiveInstitution, this.props.refreshInstitutions);
 
-            return _react2.default.createElement("div", { id: "student-detail",
-                className: "container-fluid d-flex flex-column p-0" });
+            return _react2.default.createElement(
+                "div",
+                { id: "student-detail",
+                    className: "w-100 d-flex flex-row" },
+                _react2.default.createElement(
+                    "div",
+                    { className: "container-fluid d-flex flex-column p-0 h-100" },
+                    _react2.default.createElement(
+                        "div",
+                        { className: "tab-content" },
+                        currentTab
+                    ),
+                    _react2.default.createElement(_tab_bar2.default, { setActiveTab: this.setActiveTab,
+                        activeTab: this.state.activeTab,
+                        tabs: _student_tabs_list2.default })
+                )
+            );
         }
     }], [{
         key: "unselectedState",
@@ -129,5 +93,4 @@ var StudentDetail = function (_Component) {
 }(_react.Component);
 
 exports.default = StudentDetail;
-exports.fetchStudent = fetchStudent;
 //# sourceMappingURL=student_detail.js.map
