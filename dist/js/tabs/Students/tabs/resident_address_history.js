@@ -58,13 +58,12 @@ var ResidentAddressHistory = function (_Component) {
 
         fetchHistory(_this.state.studentId, function (result) {
             _this.setState({
-                residenceList: result.residencies
+                residenceList: result.student.residencies
             });
         });
 
         _this.setActiveResidence = _this.setActiveResidence.bind(_this);
         _this.refreshResidences = _this.refreshResidences.bind(_this);
-        _this.refreshResidences();
         return _this;
     }
 
@@ -104,7 +103,6 @@ var ResidentAddressHistory = function (_Component) {
             this.setState({
                 studentId: nextProps.student.id,
                 student: nextProps.student,
-                residenceList: null,
                 activeResidenceId: null
             });
 
@@ -235,7 +233,7 @@ var HistoryBody = function (_Component3) {
         value: function render() {
             var _this6 = this;
 
-            if (this.props.residences === null || this.props.residences === undefined) {
+            if (this.props.residences === null) {
                 return _react2.default.createElement(_loading2.default, null);
             }
 

@@ -51,13 +51,12 @@ class ResidentAddressHistory extends Component {
 
         fetchHistory(this.state.studentId, result => {
             this.setState({
-                residenceList : result.residencies,
+                residenceList : result.student.residencies,
             });
         });
 
         this.setActiveResidence = this.setActiveResidence.bind(this);
         this.refreshResidences = this.refreshResidences.bind(this);
-        this.refreshResidences();
     }
 
     setActiveResidence(residence) {
@@ -88,7 +87,6 @@ class ResidentAddressHistory extends Component {
         this.setState({
             studentId : nextProps.student.id,
             student : nextProps.student,
-            residenceList : null,
             activeResidenceId : null,
         });
 
@@ -172,7 +170,7 @@ class HistoryBody extends Component {
     }
 
     render() {
-        if (this.props.residences === null || this.props.residences === undefined) {
+        if (this.props.residences === null) {
             return <LoadingSpinner/>;
         }
 
