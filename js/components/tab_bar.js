@@ -35,7 +35,7 @@ class TabItem extends Component {
         textClass += this.props.isActive ? "text-dlsu" : "text-secondary";
 
         return (
-            <li className="col-lg-2 d-flex flex-row justify-content-center align-items-center selectable-tab"
+            <li className="ml-4 mr-4 d-flex flex-row justify-content-center align-items-center selectable-tab"
                 onClick={this.props.isActive ? null : this.props.onClick}>
                 <img className="tab-bar-image"
                      src={image}/>

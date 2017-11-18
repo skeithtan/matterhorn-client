@@ -74,7 +74,7 @@ var TabItem = function (_Component2) {
 
             return _react2.default.createElement(
                 "li",
-                { className: "col-lg-2 d-flex flex-row justify-content-center align-items-center selectable-tab",
+                { className: "ml-4 mr-4 d-flex flex-row justify-content-center align-items-center selectable-tab",
                     onClick: this.props.isActive ? null : this.props.onClick },
                 _react2.default.createElement("img", { className: "tab-bar-image",
                     src: image }),
