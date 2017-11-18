@@ -152,9 +152,14 @@ class OverviewHead extends Component {
                 </div>
 
                 <div className="page-head-actions">
-                    <Button outline size="sm" color="success" className="mr-2"
+                    <Button outline
+                            size="sm"
+                            color="success"
+                            className="mr-2"
                             onClick={this.toggleEditInstitution}>Edit Institution</Button>
-                    <Button outline size="sm" color="warning"
+                    <Button outline
+                            size="sm"
+                            color="warning"
                             onClick={this.toggleDeleteInstitution}>Archive</Button>
                 </div>
 
@@ -219,7 +224,8 @@ class InstitutionDetails extends Component {
 
                     <SectionRow>
                         <SectionRowTitle>Website</SectionRowTitle>
-                        <SectionRowContent large className="text-primary"
+                        <SectionRowContent large
+                                           className="text-primary"
                                            onClick={openWebsite}>{website}</SectionRowContent>
                     </SectionRow>
 
@@ -280,4 +286,9 @@ class ContactDetails extends Component {
 }
 
 
-export default InstitutionOverview;
+export {
+    InstitutionOverview as default,
+    fetchInstitution,
+    InstitutionDetails,
+    ContactDetails,
+};

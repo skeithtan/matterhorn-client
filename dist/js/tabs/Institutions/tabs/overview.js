@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.ContactDetails = exports.InstitutionDetails = exports.fetchInstitution = exports.default = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -190,13 +191,18 @@ var OverviewHead = function (_Component2) {
                     { className: "page-head-actions" },
                     _react2.default.createElement(
                         _reactstrap.Button,
-                        { outline: true, size: "sm", color: "success", className: "mr-2",
+                        { outline: true,
+                            size: "sm",
+                            color: "success",
+                            className: "mr-2",
                             onClick: this.toggleEditInstitution },
                         "Edit Institution"
                     ),
                     _react2.default.createElement(
                         _reactstrap.Button,
-                        { outline: true, size: "sm", color: "warning",
+                        { outline: true,
+                            size: "sm",
+                            color: "warning",
                             onClick: this.toggleDeleteInstitution },
                         "Archive"
                     )
@@ -313,7 +319,8 @@ var InstitutionDetails = function (_Component4) {
                         ),
                         _react2.default.createElement(
                             _section.SectionRowContent,
-                            { large: true, className: "text-primary",
+                            { large: true,
+                                className: "text-primary",
                                 onClick: openWebsite },
                             website
                         )
@@ -422,4 +429,7 @@ var ContactDetails = function (_Component5) {
 }(_react.Component);
 
 exports.default = InstitutionOverview;
+exports.fetchInstitution = fetchInstitution;
+exports.InstitutionDetails = InstitutionDetails;
+exports.ContactDetails = ContactDetails;
 //# sourceMappingURL=overview.js.map
