@@ -12,12 +12,6 @@ const tabs = [
         activeImage : "./images/memorandumgreen.png",
     },
     {
-        name : "OutboundPrograms",
-        tab : setSidebarContent => <ProgramArchives setSidebarContent={ setSidebarContent }/>,
-        image : "./images/airplanegrey.png",
-        activeImage : "./images/airplanegreen.png",
-    },
-    {
         name : "Students",
         tab : setSidebarContent => <StudentArchives setSidebarContent={ setSidebarContent }/>,
         image : "./images/studentgrey.png",

@@ -30,13 +30,6 @@ var tabs = [{
     image: "./images/memorandumgrey.png",
     activeImage: "./images/memorandumgreen.png"
 }, {
-    name: "OutboundPrograms",
-    tab: function tab(setSidebarContent) {
-        return _react2.default.createElement(_programs2.default, { setSidebarContent: setSidebarContent });
-    },
-    image: "./images/airplanegrey.png",
-    activeImage: "./images/airplanegreen.png"
-}, {
     name: "Students",
     tab: function tab(setSidebarContent) {
         return _react2.default.createElement(_students2.default, { setSidebarContent: setSidebarContent });
