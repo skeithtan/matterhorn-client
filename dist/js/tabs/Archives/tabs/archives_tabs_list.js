@@ -20,6 +20,10 @@ var _programs = require("./programs");
 
 var _programs2 = _interopRequireDefault(_programs);
 
+var _instititutions = require("./instititutions");
+
+var _instititutions2 = _interopRequireDefault(_instititutions);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var tabs = [{
@@ -38,7 +42,9 @@ var tabs = [{
     activeImage: "./images/studentgreen.png"
 }, {
     name: "Institutions",
-    tab: undefined,
+    tab: function tab(setSidebarContent) {
+        return _react2.default.createElement(_instititutions2.default, { setSidebarContent: setSidebarContent });
+    },
     image: "./images/institutiongrey.png",
     activeImage: "./images/institutiongreen.png"
 }];

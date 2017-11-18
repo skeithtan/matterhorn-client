@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import LoadingSpinner from "../../../components/loading";
+import { RestoreStudentModal } from "./modals";
 
 import {
-    ContactDetails,
+    ContactDetails as StudentContactDetails,
     fetchStudent,
     StudentDetails,
     UniversityDetails,
@@ -13,11 +14,20 @@ import {
     StudentDetailOverview,
     StudentUniversity,
 } from "../../Students/student_detail_overview";
-import { RestoreStudentModal } from "./modals";
+
+import {
+    ContactDetails as InstitutionContactDetails,
+    fetchInstitution,
+    InstitutionDetails,
+} from "../../Institutions/tabs/overview";
 
 
 function studentIsFetched(student) {
     return student.home_address !== undefined;
+}
+
+function institutionIsFetched(institution) {
+    return institution.address !== undefined;
 }
 
 class StudentSidebarPane extends Component {
@@ -31,6 +41,9 @@ class StudentSidebarPane extends Component {
 
         if (!studentIsFetched(props.student)) {
             fetchStudent(props.student.id, result => {
+
+                //Copy results to existing student object so we won't have to fetch next time
+                Object.assign(props.student, result.student);
                 this.setState({
                     student : result.student,
                 });
@@ -53,6 +66,9 @@ class StudentSidebarPane extends Component {
 
         if (!studentIsFetched(props.student)) {
             fetchStudent(props.student.id, result => {
+
+                //Copy results to existing student object so we won't have to fetch next time
+                Object.assign(props.student, result.student);
                 this.setState({
                     student : result.student,
                 });
@@ -74,8 +90,8 @@ class StudentSidebarPane extends Component {
                                     archived
                                     toggleRestoreStudent={this.toggleRestoreStudent}
                                     student={student}/>
-                    <ContactDetails sidebar
-                                    student={student}/>
+                    <StudentContactDetails sidebar
+                                           student={student}/>
                     <UniversityDetails sidebar
                                        student={student}/>
                     <RestoreStudentModal student={student}
@@ -102,5 +118,92 @@ class StudentSidebarPane extends Component {
     }
 }
 
+class InstitutionSidebarPane extends Component {
+    constructor(props) {
+        super(props);
 
-export { StudentSidebarPane };
+        this.state = {
+            restoreInstitutionIsShowing : false,
+            institution : props.institution,
+        };
+
+        if (!institutionIsFetched(props.institution)) {
+            fetchInstitution(props.institution.id, result => {
+                const institution = result.institution;
+
+                //Make country = country.name for simplicity
+                institution.country = institution.country.name;
+
+                //Copy results to existing institution object so we won't have to fetch next time
+                Object.assign(props.institution, institution);
+                this.setState({
+                    institution : institution,
+                });
+            });
+        }
+    }
+
+    componentWillReceiveProps(props) {
+        this.setState({
+            institution : props.institution,
+        });
+
+        if (!institutionIsFetched(props.institution)) {
+            fetchInstitution(props.institution.id, result => {
+                const institution = result.institution;
+
+                //Make country = country.name for simplicity
+                institution.country = institution.country.name;
+
+                //Copy results to existing institution object so we won't have to fetch next time
+                Object.assign(props.institution, institution);
+                this.setState({
+                    institution : institution,
+                });
+            });
+        }
+    }
+
+    toggleRestoreInstitution() {
+        this.setState({
+            restoreInstitutionIsShowing : !this.state.restoreInstitutionIsShowing,
+        });
+    }
+
+    render() {
+        const institution = this.state.institution;
+        const isFetched = institutionIsFetched(institution);
+
+        let pageBody;
+
+        if (isFetched) {
+            //TODO
+            pageBody = (
+                <div className="page-body">
+                    <InstitutionDetails sidebar archived institution={institution}/>
+                    <InstitutionContactDetails sidebar institution={institution}/>
+                </div>
+            );
+        } else {
+            pageBody = <LoadingSpinner/>;
+        }
+
+        return (
+            <div className="p-0 h-100 d-flex flex-column">
+                <div className="page-head pt-5 d-flex flex-row align-items-end">
+                    <div className="mr-auto">
+                        <h5 className="mb-0">{institution.name}</h5>
+                    </div>
+                </div>
+
+                {pageBody}
+            </div>
+        );
+    }
+}
+
+
+export {
+    StudentSidebarPane,
+    InstitutionSidebarPane,
+};

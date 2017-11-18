@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.StudentSidebarPane = undefined;
+exports.InstitutionSidebarPane = exports.StudentSidebarPane = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -15,11 +15,13 @@ var _loading = require("../../../components/loading");
 
 var _loading2 = _interopRequireDefault(_loading);
 
+var _modals = require("./modals");
+
 var _overview = require("../../Students/tabs/overview");
 
 var _student_detail_overview = require("../../Students/student_detail_overview");
 
-var _modals = require("./modals");
+var _overview2 = require("../../Institutions/tabs/overview");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -31,6 +33,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function studentIsFetched(student) {
     return student.home_address !== undefined;
+}
+
+function institutionIsFetched(institution) {
+    return institution.address !== undefined;
 }
 
 var StudentSidebarPane = function (_Component) {
@@ -48,6 +54,9 @@ var StudentSidebarPane = function (_Component) {
 
         if (!studentIsFetched(props.student)) {
             (0, _overview.fetchStudent)(props.student.id, function (result) {
+
+                //Copy results to existing student object so we won't have to fetch next time
+                Object.assign(props.student, result.student);
                 _this.setState({
                     student: result.student
                 });
@@ -76,6 +85,9 @@ var StudentSidebarPane = function (_Component) {
 
             if (!studentIsFetched(props.student)) {
                 (0, _overview.fetchStudent)(props.student.id, function (result) {
+
+                    //Copy results to existing student object so we won't have to fetch next time
+                    Object.assign(props.student, result.student);
                     _this2.setState({
                         student: result.student
                     });
@@ -136,5 +148,111 @@ var StudentSidebarPane = function (_Component) {
     return StudentSidebarPane;
 }(_react.Component);
 
+var InstitutionSidebarPane = function (_Component2) {
+    _inherits(InstitutionSidebarPane, _Component2);
+
+    function InstitutionSidebarPane(props) {
+        _classCallCheck(this, InstitutionSidebarPane);
+
+        var _this3 = _possibleConstructorReturn(this, (InstitutionSidebarPane.__proto__ || Object.getPrototypeOf(InstitutionSidebarPane)).call(this, props));
+
+        _this3.state = {
+            restoreInstitutionIsShowing: false,
+            institution: props.institution
+        };
+
+        if (!institutionIsFetched(props.institution)) {
+            (0, _overview2.fetchInstitution)(props.institution.id, function (result) {
+                var institution = result.institution;
+
+                //Make country = country.name for simplicity
+                institution.country = institution.country.name;
+
+                //Copy results to existing institution object so we won't have to fetch next time
+                Object.assign(props.institution, institution);
+                _this3.setState({
+                    institution: institution
+                });
+            });
+        }
+        return _this3;
+    }
+
+    _createClass(InstitutionSidebarPane, [{
+        key: "componentWillReceiveProps",
+        value: function componentWillReceiveProps(props) {
+            var _this4 = this;
+
+            this.setState({
+                institution: props.institution
+            });
+
+            if (!institutionIsFetched(props.institution)) {
+                (0, _overview2.fetchInstitution)(props.institution.id, function (result) {
+                    var institution = result.institution;
+
+                    //Make country = country.name for simplicity
+                    institution.country = institution.country.name;
+
+                    //Copy results to existing institution object so we won't have to fetch next time
+                    Object.assign(props.institution, institution);
+                    _this4.setState({
+                        institution: institution
+                    });
+                });
+            }
+        }
+    }, {
+        key: "toggleRestoreInstitution",
+        value: function toggleRestoreInstitution() {
+            this.setState({
+                restoreInstitutionIsShowing: !this.state.restoreInstitutionIsShowing
+            });
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            var institution = this.state.institution;
+            var isFetched = institutionIsFetched(institution);
+
+            var pageBody = void 0;
+
+            if (isFetched) {
+                //TODO
+                pageBody = _react2.default.createElement(
+                    "div",
+                    { className: "page-body" },
+                    _react2.default.createElement(_overview2.InstitutionDetails, { sidebar: true, archived: true, institution: institution }),
+                    _react2.default.createElement(_overview2.ContactDetails, { sidebar: true, institution: institution })
+                );
+            } else {
+                pageBody = _react2.default.createElement(_loading2.default, null);
+            }
+
+            return _react2.default.createElement(
+                "div",
+                { className: "p-0 h-100 d-flex flex-column" },
+                _react2.default.createElement(
+                    "div",
+                    { className: "page-head pt-5 d-flex flex-row align-items-end" },
+                    _react2.default.createElement(
+                        "div",
+                        { className: "mr-auto" },
+                        _react2.default.createElement(
+                            "h5",
+                            { className: "mb-0" },
+                            institution.name
+                        )
+                    )
+                ),
+                pageBody
+            );
+        }
+    }]);
+
+    return InstitutionSidebarPane;
+}(_react.Component);
+
 exports.StudentSidebarPane = StudentSidebarPane;
+exports.InstitutionSidebarPane = InstitutionSidebarPane;
 //# sourceMappingURL=sidebar_panes.js.map
