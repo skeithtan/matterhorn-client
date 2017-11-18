@@ -157,7 +157,7 @@ var ProgramListHead = function (_Component2) {
                         _react2.default.createElement(
                             "h5",
                             { className: "mb-0 text-secondary" },
-                            "OutboundPrograms"
+                            "Programs"
                         ),
                         _react2.default.createElement(
                             "div",
