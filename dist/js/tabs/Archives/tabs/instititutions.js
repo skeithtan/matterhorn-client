@@ -93,7 +93,7 @@ var InstitutionArchives = function (_Component) {
                 });
 
                 _this2.setState({
-                    institutions: resut.institutions
+                    institutions: result.institutions
                 });
             });
         }
@@ -104,7 +104,8 @@ var InstitutionArchives = function (_Component) {
                 activeInstitutionId: institution.id
             });
 
-            this.props.setSidebarContent(_react2.default.createElement(_sidebar_panes.InstitutionSidebarPane, { institution: institution }));
+            this.props.setSidebarContent(_react2.default.createElement(_sidebar_panes.InstitutionSidebarPane, { institution: institution,
+                onRestoreSuccess: this.refreshInstitutions }));
         }
     }, {
         key: "refreshInstitutions",

@@ -175,6 +175,8 @@ var InstitutionSidebarPane = function (_Component2) {
                 });
             });
         }
+
+        _this3.toggleRestoreInstitution = _this3.toggleRestoreInstitution.bind(_this3);
         return _this3;
     }
 
@@ -218,12 +220,19 @@ var InstitutionSidebarPane = function (_Component2) {
             var pageBody = void 0;
 
             if (isFetched) {
-                //TODO
                 pageBody = _react2.default.createElement(
                     "div",
                     { className: "page-body" },
-                    _react2.default.createElement(_overview2.InstitutionDetails, { sidebar: true, archived: true, institution: institution }),
-                    _react2.default.createElement(_overview2.ContactDetails, { sidebar: true, institution: institution })
+                    _react2.default.createElement(_overview2.InstitutionDetails, { sidebar: true,
+                        archived: true,
+                        toggleRestoreInstitution: this.toggleRestoreInstitution,
+                        institution: institution }),
+                    _react2.default.createElement(_overview2.ContactDetails, { sidebar: true,
+                        institution: institution }),
+                    _react2.default.createElement(_modals.RestoreInstitutionModal, { institution: institution,
+                        toggle: this.toggleRestoreInstitution,
+                        onRestoreSuccess: this.props.onRestoreSuccess,
+                        isOpen: this.state.restoreInstitutionIsShowing })
                 );
             } else {
                 pageBody = _react2.default.createElement(_loading2.default, null);

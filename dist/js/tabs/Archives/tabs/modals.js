@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.RestoreStudentModal = exports.RestoreMemorandumModal = undefined;
+exports.RestoreInstitutionModal = exports.RestoreStudentModal = exports.RestoreMemorandumModal = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -172,8 +172,76 @@ var RestoreStudentModal = function (_Component2) {
     return RestoreStudentModal;
 }(_react.Component);
 
-var RestoreModal = function (_Component3) {
-    _inherits(RestoreModal, _Component3);
+var RestoreInstitutionModal = function (_Component3) {
+    _inherits(RestoreInstitutionModal, _Component3);
+
+    function RestoreInstitutionModal(props) {
+        _classCallCheck(this, RestoreInstitutionModal);
+
+        var _this5 = _possibleConstructorReturn(this, (RestoreInstitutionModal.__proto__ || Object.getPrototypeOf(RestoreInstitutionModal)).call(this, props));
+
+        _this5.confirmRestore = _this5.confirmRestore.bind(_this5);
+        return _this5;
+    }
+
+    _createClass(RestoreInstitutionModal, [{
+        key: "confirmRestore",
+        value: function confirmRestore() {
+            var _this6 = this;
+
+            this.props.toggle();
+            var dismissToast = (0, _dismissable_toast_maker2.default)({
+                title: "Restoring",
+                message: "Restoring institution..."
+            });
+
+            _jquery2.default.ajax({
+                url: _settings2.default.serverURL + "/archives/institutions/" + this.props.institution.id + "/restore/",
+                method: "PUT",
+                beforeSend: _authorization2.default
+            }).done(function () {
+
+                dismissToast();
+                iziToast.success({
+                    title: "Success",
+                    message: "Successfully restored institution"
+                });
+
+                _this6.props.onRestoreSuccess();
+            }).fail(function (response) {
+
+                dismissToast();
+                console.log(response);
+                iziToast.error({
+                    title: "Error",
+                    message: "Unable to restore memorandum"
+                });
+            });
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            return _react2.default.createElement(
+                RestoreModal,
+                { confirmRestore: this.confirmRestore,
+                    isOpen: this.props.isOpen,
+                    toggle: this.props.toggle },
+                _react2.default.createElement(
+                    _reactstrap.ModalHeader,
+                    { className: "text-primary" },
+                    "Would you like to restore ",
+                    this.props.institution.name,
+                    "?"
+                )
+            );
+        }
+    }]);
+
+    return RestoreInstitutionModal;
+}(_react.Component);
+
+var RestoreModal = function (_Component4) {
+    _inherits(RestoreModal, _Component4);
 
     function RestoreModal(props) {
         _classCallCheck(this, RestoreModal);
@@ -210,4 +278,5 @@ var RestoreModal = function (_Component3) {
 
 exports.RestoreMemorandumModal = RestoreMemorandumModal;
 exports.RestoreStudentModal = RestoreStudentModal;
+exports.RestoreInstitutionModal = RestoreInstitutionModal;
 //# sourceMappingURL=modals.js.map

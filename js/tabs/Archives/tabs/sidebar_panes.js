@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import LoadingSpinner from "../../../components/loading";
-import { RestoreStudentModal } from "./modals";
+import {
+    RestoreInstitutionModal,
+    RestoreStudentModal,
+} from "./modals";
 
 import {
     ContactDetails as StudentContactDetails,
@@ -141,6 +144,8 @@ class InstitutionSidebarPane extends Component {
                 });
             });
         }
+
+        this.toggleRestoreInstitution = this.toggleRestoreInstitution.bind(this);
     }
 
     componentWillReceiveProps(props) {
@@ -177,11 +182,18 @@ class InstitutionSidebarPane extends Component {
         let pageBody;
 
         if (isFetched) {
-            //TODO
             pageBody = (
                 <div className="page-body">
-                    <InstitutionDetails sidebar archived institution={institution}/>
-                    <InstitutionContactDetails sidebar institution={institution}/>
+                    <InstitutionDetails sidebar
+                                        archived
+                                        toggleRestoreInstitution={this.toggleRestoreInstitution}
+                                        institution={institution}/>
+                    <InstitutionContactDetails sidebar
+                                               institution={institution}/>
+                    <RestoreInstitutionModal institution={institution}
+                                             toggle={this.toggleRestoreInstitution}
+                                             onRestoreSuccess={this.props.onRestoreSuccess}
+                                             isOpen={this.state.restoreInstitutionIsShowing}/>
                 </div>
             );
         } else {

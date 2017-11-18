@@ -65,7 +65,7 @@ class InstitutionArchives extends Component {
             });
 
             this.setState({
-                institutions : resut.institutions,
+                institutions : result.institutions,
             });
         });
     }
@@ -75,7 +75,8 @@ class InstitutionArchives extends Component {
             activeInstitutionId : institution.id,
         });
 
-        this.props.setSidebarContent(<InstitutionSidebarPane institution={institution}/>);
+        this.props.setSidebarContent(<InstitutionSidebarPane institution={institution}
+                                                             onRestoreSuccess={this.refreshInstitutions}/>);
     }
 
     refreshInstitutions() {

@@ -214,25 +214,37 @@ class InstitutionDetails extends Component {
                 <SectionTable>
                     <SectionRow>
                         <SectionRowTitle>Address</SectionRowTitle>
-                        <SectionRowContent large>{institution.address}</SectionRowContent>
+                        <SectionRowContent large={!this.props.sidebar}>{institution.address}</SectionRowContent>
                     </SectionRow>
 
                     <SectionRow>
                         <SectionRowTitle>Country</SectionRowTitle>
-                        <SectionRowContent large>{institution.country}</SectionRowContent>
+                        <SectionRowContent large={!this.props.sidebar}>{institution.country}</SectionRowContent>
                     </SectionRow>
 
                     <SectionRow>
                         <SectionRowTitle>Website</SectionRowTitle>
-                        <SectionRowContent large
+                        <SectionRowContent large={!this.props.sidebar}
                                            className="text-primary"
                                            onClick={openWebsite}>{website}</SectionRowContent>
                     </SectionRow>
 
                     <SectionRow>
                         <SectionRowTitle>Agreement Type</SectionRowTitle>
-                        <SectionRowContent large>{agreementType}</SectionRowContent>
+                        <SectionRowContent large={!this.props.sidebar}>{agreementType}</SectionRowContent>
                     </SectionRow>
+
+                    {this.props.archived &&
+                    <SectionRow>
+                        <SectionRowContent className="d-flex">
+                            <Button outline
+                                    color="primary"
+                                    size="sm"
+                                    className="ml-auto"
+                                    onClick={this.props.toggleRestoreInstitution}>Restore</Button>
+                        </SectionRowContent>
+                    </SectionRow>
+                    }
                 </SectionTable>
             </Section>
         );
@@ -262,21 +274,21 @@ class ContactDetails extends Component {
                     {institution.contact_person_name.length > 0 &&
                     <SectionRow>
                         <SectionRowTitle>Contact Person</SectionRowTitle>
-                        <SectionRowContent large>{institution.contact_person_name}</SectionRowContent>
+                        <SectionRowContent large={!this.props.sidebar}>{institution.contact_person_name}</SectionRowContent>
                     </SectionRow>
                     }
 
                     {institution.contact_person_email.length > 0 &&
                     <SectionRow>
                         <SectionRowTitle>Contact Person Email</SectionRowTitle>
-                        <SectionRowContent large>{institution.contact_person_email}</SectionRowContent>
+                        <SectionRowContent large={!this.props.sidebar}>{institution.contact_person_email}</SectionRowContent>
                     </SectionRow>
                     }
 
                     {institution.contact_person_number.length > 0 &&
                     <SectionRow>
                         <SectionRowTitle>Contact Person Number</SectionRowTitle>
-                        <SectionRowContent large>{institution.contact_person_number}</SectionRowContent>
+                        <SectionRowContent large={!this.props.sidebar}>{institution.contact_person_number}</SectionRowContent>
                     </SectionRow>
                     }
                 </SectionTable>

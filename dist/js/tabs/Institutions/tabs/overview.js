@@ -291,7 +291,7 @@ var InstitutionDetails = function (_Component4) {
                         ),
                         _react2.default.createElement(
                             _section.SectionRowContent,
-                            { large: true },
+                            { large: !this.props.sidebar },
                             institution.address
                         )
                     ),
@@ -305,7 +305,7 @@ var InstitutionDetails = function (_Component4) {
                         ),
                         _react2.default.createElement(
                             _section.SectionRowContent,
-                            { large: true },
+                            { large: !this.props.sidebar },
                             institution.country
                         )
                     ),
@@ -319,7 +319,7 @@ var InstitutionDetails = function (_Component4) {
                         ),
                         _react2.default.createElement(
                             _section.SectionRowContent,
-                            { large: true,
+                            { large: !this.props.sidebar,
                                 className: "text-primary",
                                 onClick: openWebsite },
                             website
@@ -335,8 +335,25 @@ var InstitutionDetails = function (_Component4) {
                         ),
                         _react2.default.createElement(
                             _section.SectionRowContent,
-                            { large: true },
+                            { large: !this.props.sidebar },
                             agreementType
+                        )
+                    ),
+                    this.props.archived && _react2.default.createElement(
+                        _section.SectionRow,
+                        null,
+                        _react2.default.createElement(
+                            _section.SectionRowContent,
+                            { className: "d-flex" },
+                            _react2.default.createElement(
+                                _reactstrap.Button,
+                                { outline: true,
+                                    color: "primary",
+                                    size: "sm",
+                                    className: "ml-auto",
+                                    onClick: this.props.toggleRestoreInstitution },
+                                "Restore"
+                            )
                         )
                     )
                 )
@@ -388,7 +405,7 @@ var ContactDetails = function (_Component5) {
                         ),
                         _react2.default.createElement(
                             _section.SectionRowContent,
-                            { large: true },
+                            { large: !this.props.sidebar },
                             institution.contact_person_name
                         )
                     ),
@@ -402,7 +419,7 @@ var ContactDetails = function (_Component5) {
                         ),
                         _react2.default.createElement(
                             _section.SectionRowContent,
-                            { large: true },
+                            { large: !this.props.sidebar },
                             institution.contact_person_email
                         )
                     ),
@@ -416,7 +433,7 @@ var ContactDetails = function (_Component5) {
                         ),
                         _react2.default.createElement(
                             _section.SectionRowContent,
-                            { large: true },
+                            { large: !this.props.sidebar },
                             institution.contact_person_number
                         )
                     )
