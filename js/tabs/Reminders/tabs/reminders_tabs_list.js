@@ -11,7 +11,7 @@ const tabs = [
         activeImage : "./images/memorandumgreen.png",
     },
     {
-        name : "Programs",
+        name : "Outbound Programs",
         tab : undefined,
         image : "./images/airplanegrey.png",
         activeImage : "./images/airplanegreen.png",
