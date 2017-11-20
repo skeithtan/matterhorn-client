@@ -61,7 +61,7 @@ var InstitutionList = function (_Component) {
         key: "getFilteredInstitutions",
         value: function getFilteredInstitutions() {
             if (this.props.institutions === null || this.state.searchKeyword === null) {
-                return [];
+                return null;
             }
 
             var filtered = [];
@@ -69,20 +69,12 @@ var InstitutionList = function (_Component) {
 
             this.props.institutions.forEach(function (country) {
                 // Array of institutions from this country that conforms to search
-                var countryFiltered = country.institutions.filter(function (institution) {
+                country.institutions.forEach(function (institution) {
                     var institutionName = institution.name.toLowerCase();
-                    return institutionName.includes(searchKeyword);
+                    if (institutionName.includes(searchKeyword)) {
+                        filtered.push(institution.id);
+                    }
                 });
-
-                // If country has no matching institutions, don't include in search results
-                if (countryFiltered.length > 0) {
-
-                    // Create new country object so as not to affect actual country object
-                    filtered.push({
-                        name: country.name,
-                        institutions: countryFiltered
-                    });
-                }
             });
 
             return filtered;
@@ -106,7 +98,7 @@ var InstitutionList = function (_Component) {
         value: function render() {
             var isSearching = this.state.searchKeyword !== null;
             //Show all institutions or, if it has a filter, show the filtered?
-            var showingInstitutions = isSearching ? this.getFilteredInstitutions() : this.props.institutions;
+            // const showingInstitutions = isSearching ? this.getFilteredInstitutions() : this.props.institutions;
 
             var className = "sidebar h-100 collapsible ";
             if (this.state.collapsed) {
@@ -123,7 +115,8 @@ var InstitutionList = function (_Component) {
                     _react2.default.createElement(InstitutionListHead, { setSearchKeyword: this.setSearchKeyword,
                         toggleAddInstitution: this.props.toggleAddInstitution,
                         collapse: this.collapse }),
-                    _react2.default.createElement(InstitutionListTable, { countries: showingInstitutions,
+                    _react2.default.createElement(InstitutionListTable, { countries: this.props.institutions,
+                        filtered: this.getFilteredInstitutions(),
                         isSearching: isSearching,
                         toggleAddInstitution: this.props.toggleAddInstitution,
                         activeInstitution: this.props.activeInstitution,
@@ -240,16 +233,37 @@ var InstitutionListTable = function (_Component3) {
                 return _react2.default.createElement(_loading2.default, null);
             }
 
+            var filtered = this.props.filtered;
+
+            if (this.props.isSearching && filtered.length === 0) {
+                return InstitutionListTable.noResultsState();
+            }
+
             //If we're searching, that means there are simply no results if length == 0
             //If we're not searching, we really just don't have any data
             if (this.props.countries.length === 0) {
-                return this.props.isSearching ? InstitutionListTable.noResultsState() : this.emptyState();
+                return this.emptyState();
             }
 
             var sections = this.props.countries.map(function (country, index) {
+
+                var collapsed = false;
+
+                if (filtered !== null) {
+                    collapsed = true;
+
+                    country.institutions.forEach(function (institution) {
+                        if (filtered.includes(institution.id)) {
+                            collapsed = false;
+                        }
+                    });
+                }
+
                 return _react2.default.createElement(InstitutionSection, { title: country.name,
                     institutions: country.institutions,
                     key: index,
+                    collapsed: collapsed,
+                    filtered: _this4.props.filtered,
                     activeInstitution: _this4.props.activeInstitution,
                     setActiveInstitution: _this4.props.setActiveInstitution });
             });
@@ -303,11 +317,17 @@ var InstitutionSection = function (_Component4) {
                     return _this6.props.setActiveInstitution(institution);
                 };
 
+                var collapsed = false;
+                if (_this6.props.filtered !== null) {
+                    collapsed = !_this6.props.filtered.includes(institution.id);
+                }
+
                 return _react2.default.createElement(
                     _section.SectionRow,
                     { selectable: true,
                         onClick: setActiveInstitution,
                         active: isActive,
+                        collapsed: collapsed,
                         key: institution.id },
                     _react2.default.createElement(
                         _section.SectionRowContent,
@@ -319,7 +339,7 @@ var InstitutionSection = function (_Component4) {
 
             return _react2.default.createElement(
                 _section.Section,
-                null,
+                { collapsed: this.props.collapsed },
                 _react2.default.createElement(
                     _section.SectionTitle,
                     null,

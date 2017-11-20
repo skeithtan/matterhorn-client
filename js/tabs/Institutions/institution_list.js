@@ -45,7 +45,7 @@ class InstitutionList extends Component {
 
     getFilteredInstitutions() {
         if (this.props.institutions === null || this.state.searchKeyword === null) {
-            return [];
+            return null;
         }
 
         let filtered = [];
@@ -53,20 +53,12 @@ class InstitutionList extends Component {
 
         this.props.institutions.forEach(country => {
             // Array of institutions from this country that conforms to search
-            const countryFiltered = country.institutions.filter(institution => {
+            country.institutions.forEach(institution => {
                 const institutionName = institution.name.toLowerCase();
-                return institutionName.includes(searchKeyword);
+                if (institutionName.includes(searchKeyword)) {
+                    filtered.push(institution.id);
+                }
             });
-
-            // If country has no matching institutions, don't include in search results
-            if (countryFiltered.length > 0) {
-
-                // Create new country object so as not to affect actual country object
-                filtered.push({
-                    name : country.name,
-                    institutions : countryFiltered,
-                });
-            }
         });
 
         return filtered;
@@ -87,7 +79,7 @@ class InstitutionList extends Component {
     render() {
         const isSearching = this.state.searchKeyword !== null;
         //Show all institutions or, if it has a filter, show the filtered?
-        const showingInstitutions = isSearching ? this.getFilteredInstitutions() : this.props.institutions;
+        // const showingInstitutions = isSearching ? this.getFilteredInstitutions() : this.props.institutions;
 
         let className = "sidebar h-100 collapsible ";
         if (this.state.collapsed) {
@@ -101,7 +93,8 @@ class InstitutionList extends Component {
                     <InstitutionListHead setSearchKeyword={this.setSearchKeyword}
                                          toggleAddInstitution={this.props.toggleAddInstitution}
                                          collapse={this.collapse}/>
-                    <InstitutionListTable countries={showingInstitutions}
+                    <InstitutionListTable countries={this.props.institutions}
+                                          filtered={this.getFilteredInstitutions()}
                                           isSearching={isSearching}
                                           toggleAddInstitution={this.props.toggleAddInstitution}
                                           activeInstitution={this.props.activeInstitution}
@@ -168,7 +161,6 @@ class InstitutionListTable extends Component {
         );
     }
 
-
     static noResultsState() {
         return (
             <div className="loading-container">
@@ -182,17 +174,38 @@ class InstitutionListTable extends Component {
             return <LoadingSpinner/>;
         }
 
+        const filtered = this.props.filtered;
+
+        if (this.props.isSearching && filtered.length === 0) {
+            return InstitutionListTable.noResultsState();
+        }
+
         //If we're searching, that means there are simply no results if length == 0
         //If we're not searching, we really just don't have any data
         if (this.props.countries.length === 0) {
-            return this.props.isSearching ? InstitutionListTable.noResultsState() : this.emptyState();
+            return this.emptyState();
         }
 
 
         const sections = this.props.countries.map((country, index) => {
+
+            let collapsed = false;
+
+            if (filtered !== null) {
+                collapsed = true;
+
+                country.institutions.forEach(institution => {
+                    if (filtered.includes(institution.id)) {
+                        collapsed = false;
+                    }
+                });
+            }
+
             return <InstitutionSection title={country.name}
                                        institutions={country.institutions}
                                        key={index}
+                                       collapsed={collapsed}
+                                       filtered={this.props.filtered}
                                        activeInstitution={this.props.activeInstitution}
                                        setActiveInstitution={this.props.setActiveInstitution}/>;
         });
@@ -220,10 +233,17 @@ class InstitutionSection extends Component {
 
             const setActiveInstitution = () => this.props.setActiveInstitution(institution);
 
+
+            let collapsed = false;
+            if (this.props.filtered !== null) {
+                collapsed = !this.props.filtered.includes(institution.id);
+            }
+
             return (
                 <SectionRow selectable
                             onClick={setActiveInstitution}
                             active={isActive}
+                            collapsed={collapsed}
                             key={institution.id}>
                     <SectionRowContent>{institution.name}</SectionRowContent>
                 </SectionRow>
@@ -231,7 +251,7 @@ class InstitutionSection extends Component {
         });
 
         return (
-            <Section>
+            <Section collapsed={this.props.collapsed}>
                 <SectionTitle>{this.props.title}</SectionTitle>
                 <SectionTable>
                     {rows}
