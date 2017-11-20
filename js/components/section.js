@@ -12,7 +12,7 @@ class Section extends Component {
 
     render() {
         return (
-            <div className="section">
+            <div className={`section ${this.props.collapsed && "collapsed"}`}>
                 {this.props.children}
             </div>
         );
@@ -56,8 +56,10 @@ class SectionRow extends Component {
 
     render() {
         return (
-            <ListGroupItem onClick={this.props.onClick} className={`section-row ${this.props.className || ""}`}
-                           active={this.props.active} action={this.props.selectable}>
+            <ListGroupItem onClick={this.props.onClick}
+                           className={`section-row ${this.props.className || ""} ${this.props.collapsed && "collapsed"}`}
+                           active={this.props.active}
+                           action={this.props.selectable}>
                 {this.props.children}
             </ListGroupItem>
         );

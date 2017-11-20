@@ -475,6 +475,25 @@ li.nav-item.active .sidebar-image,
 .list-group-item.section-row {
     border-right : 0;
     border-left  : 0;
+    transition   : 300ms;
+    max-height   : 80px;
+}
+
+.list-group-item.section-row.collapsed {
+    padding    : 0;
+    opacity    : 0;
+    max-height : 0;
+}
+
+/*Section*/
+div.section {
+    transition : 200ms;
+}
+
+div.section.collapsed {
+    padding : 0;
+    height  : 0;
+    opacity : 0;
 }
 
 /*Tab Bar*/

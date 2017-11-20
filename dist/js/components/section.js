@@ -35,7 +35,7 @@ var Section = function (_Component) {
         value: function render() {
             return _react2.default.createElement(
                 "div",
-                { className: "section" },
+                { className: "section " + (this.props.collapsed && "collapsed") },
                 this.props.children
             );
         }
@@ -127,8 +127,10 @@ var SectionRow = function (_Component5) {
         value: function render() {
             return _react2.default.createElement(
                 _reactstrap.ListGroupItem,
-                { onClick: this.props.onClick, className: "section-row " + (this.props.className || ""),
-                    active: this.props.active, action: this.props.selectable },
+                { onClick: this.props.onClick,
+                    className: "section-row " + (this.props.className || "") + " " + (this.props.collapsed && "collapsed"),
+                    active: this.props.active,
+                    action: this.props.selectable },
                 this.props.children
             );
         }
