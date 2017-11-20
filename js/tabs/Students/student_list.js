@@ -38,27 +38,29 @@ class StudentList extends Component {
 
     getFilteredStudents() {
         if (this.props.students === null || this.state.searchKeyword === null) {
-            return [];
+            return null;
         }
 
         const searchKeyword = this.state.searchKeyword.toLowerCase();
 
-        return this.props.students.filter(student => {
+        const filteredStudents = this.props.students.filter(student => {
             const fullName = `${student.first_name} ${student.middle_name} ${student.family_name}`.toLowerCase();
             return fullName.includes(searchKeyword) || student.id_number.includes(searchKeyword);
         });
+
+        return filteredStudents.map(student => student.id);
     }
 
     render() {
         const isSearching = this.state.searchKeyword !== null;
-        const showingStudents = isSearching ? this.getFilteredStudents() : this.props.students;
 
         return (
             <div className="sidebar h-100"
                  id="student-list">
                 <StudentListHead setSearchKeyword={this.setSearchKeyword}
                                  toggleAddStudent={this.props.toggleAddStudent}/>
-                <StudentListTable students={showingStudents}
+                <StudentListTable students={this.props.students}
+                                  filtered={this.getFilteredStudents()}
                                   activeStudent={this.props.activeStudent}
                                   setActiveStudent={this.props.setActiveStudent}
                                   toggleAddStudent={this.props.toggleAddStudent}
@@ -180,16 +182,38 @@ class StudentListTable extends Component {
         }
 
         if (this.props.students.length === 0) {
-            return this.props.isSearching ? StudentListTable.noResultsState() : this.emptyState();
+            return this.emptyState();
+        }
+
+        if (this.props.isSearching && this.props.filtered.length === 0) {
+            return StudentListTable.noResultsState();
         }
 
         const familyNameInitials = this.getStudentsByFamilyNameInitials();
 
         const sections = familyNameInitials.map((familyNameInitial, index) => {
+
+            const students = familyNameInitial.students;
+
+            let collapsed = false;
+
+            if (this.props.isSearching) {
+                collapsed = true;
+
+                students.forEach(student => {
+                    if (this.props.filtered.includes(student.id)) {
+                        collapsed = false;
+                    }
+                });
+            }
+
             return <StudentSection key={index}
+                                   collapsed={collapsed}
+                                   isSearching={this.props.isSearching}
                                    title={familyNameInitial.initial}
                                    activeStudent={this.props.activeStudent}
                                    students={familyNameInitial.students}
+                                   filtered={this.props.filtered}
                                    setActiveStudent={this.props.setActiveStudent}/>;
         });
 
@@ -218,8 +242,14 @@ class StudentSection extends Component {
 
             const setActiveStudent = () => this.props.setActiveStudent(student);
 
+            let collapsed = false;
+            if (this.props.isSearching) {
+                collapsed = !this.props.filtered.includes(student.id);
+            }
+            
             return (
                 <SectionRow selectable
+                            collapsed={collapsed}
                             onClick={setActiveStudent}
                             active={isActive}
                             key={student.id}>
@@ -230,7 +260,7 @@ class StudentSection extends Component {
         });
 
         return (
-            <Section>
+            <Section collapsed={this.props.collapsed}>
                 <SectionTitle>{this.props.title}</SectionTitle>
                 <SectionTable>
                     {rows}

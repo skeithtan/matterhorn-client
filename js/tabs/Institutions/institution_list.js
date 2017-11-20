@@ -191,7 +191,7 @@ class InstitutionListTable extends Component {
 
             let collapsed = false;
 
-            if (filtered !== null) {
+            if (this.props.isSearching) {
                 collapsed = true;
 
                 country.institutions.forEach(institution => {

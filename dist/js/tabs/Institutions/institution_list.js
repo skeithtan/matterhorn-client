@@ -249,7 +249,7 @@ var InstitutionListTable = function (_Component3) {
 
                 var collapsed = false;
 
-                if (filtered !== null) {
+                if (_this4.props.isSearching) {
                     collapsed = true;
 
                     country.institutions.forEach(function (institution) {

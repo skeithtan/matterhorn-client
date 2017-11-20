@@ -60,21 +60,24 @@ var StudentList = function (_Component) {
         key: "getFilteredStudents",
         value: function getFilteredStudents() {
             if (this.props.students === null || this.state.searchKeyword === null) {
-                return [];
+                return null;
             }
 
             var searchKeyword = this.state.searchKeyword.toLowerCase();
 
-            return this.props.students.filter(function (student) {
+            var filteredStudents = this.props.students.filter(function (student) {
                 var fullName = (student.first_name + " " + student.middle_name + " " + student.family_name).toLowerCase();
                 return fullName.includes(searchKeyword) || student.id_number.includes(searchKeyword);
+            });
+
+            return filteredStudents.map(function (student) {
+                return student.id;
             });
         }
     }, {
         key: "render",
         value: function render() {
             var isSearching = this.state.searchKeyword !== null;
-            var showingStudents = isSearching ? this.getFilteredStudents() : this.props.students;
 
             return _react2.default.createElement(
                 "div",
@@ -82,7 +85,8 @@ var StudentList = function (_Component) {
                     id: "student-list" },
                 _react2.default.createElement(StudentListHead, { setSearchKeyword: this.setSearchKeyword,
                     toggleAddStudent: this.props.toggleAddStudent }),
-                _react2.default.createElement(StudentListTable, { students: showingStudents,
+                _react2.default.createElement(StudentListTable, { students: this.props.students,
+                    filtered: this.getFilteredStudents(),
                     activeStudent: this.props.activeStudent,
                     setActiveStudent: this.props.setActiveStudent,
                     toggleAddStudent: this.props.toggleAddStudent,
@@ -253,16 +257,38 @@ var StudentListTable = function (_Component3) {
             }
 
             if (this.props.students.length === 0) {
-                return this.props.isSearching ? StudentListTable.noResultsState() : this.emptyState();
+                return this.emptyState();
+            }
+
+            if (this.props.isSearching && this.props.filtered.length === 0) {
+                return StudentListTable.noResultsState();
             }
 
             var familyNameInitials = this.getStudentsByFamilyNameInitials();
 
             var sections = familyNameInitials.map(function (familyNameInitial, index) {
+
+                var students = familyNameInitial.students;
+
+                var collapsed = false;
+
+                if (_this5.props.isSearching) {
+                    collapsed = true;
+
+                    students.forEach(function (student) {
+                        if (_this5.props.filtered.includes(student.id)) {
+                            collapsed = false;
+                        }
+                    });
+                }
+
                 return _react2.default.createElement(StudentSection, { key: index,
+                    collapsed: collapsed,
+                    isSearching: _this5.props.isSearching,
                     title: familyNameInitial.initial,
                     activeStudent: _this5.props.activeStudent,
                     students: familyNameInitial.students,
+                    filtered: _this5.props.filtered,
                     setActiveStudent: _this5.props.setActiveStudent });
             });
 
@@ -315,9 +341,15 @@ var StudentSection = function (_Component4) {
                     return _this7.props.setActiveStudent(student);
                 };
 
+                var collapsed = false;
+                if (_this7.props.isSearching) {
+                    collapsed = !_this7.props.filtered.includes(student.id);
+                }
+
                 return _react2.default.createElement(
                     _section.SectionRow,
                     { selectable: true,
+                        collapsed: collapsed,
                         onClick: setActiveStudent,
                         active: isActive,
                         key: student.id },
@@ -340,7 +372,7 @@ var StudentSection = function (_Component4) {
 
             return _react2.default.createElement(
                 _section.Section,
-                null,
+                { collapsed: this.props.collapsed },
                 _react2.default.createElement(
                     _section.SectionTitle,
                     null,
