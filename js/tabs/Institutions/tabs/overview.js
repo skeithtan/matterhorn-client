@@ -259,38 +259,24 @@ class ContactDetails extends Component {
     render() {
         const institution = this.props.institution;
 
-        const noContactDetails = institution.contact_person_number.length === 0
-            && institution.contact_person_name.length === 0
-            && institution.contact_person_email.length === 0;
-
-        if (noContactDetails) {
-            return null;
-        }
-
         return (
             <Section>
                 <SectionTitle>Contact Details</SectionTitle>
                 <SectionTable>
-                    {institution.contact_person_name.length > 0 &&
                     <SectionRow>
                         <SectionRowTitle>Contact Person</SectionRowTitle>
                         <SectionRowContent large={!this.props.sidebar}>{institution.contact_person_name}</SectionRowContent>
                     </SectionRow>
-                    }
 
-                    {institution.contact_person_email.length > 0 &&
                     <SectionRow>
                         <SectionRowTitle>Contact Person Email</SectionRowTitle>
                         <SectionRowContent large={!this.props.sidebar}>{institution.contact_person_email}</SectionRowContent>
                     </SectionRow>
-                    }
 
-                    {institution.contact_person_number.length > 0 &&
                     <SectionRow>
                         <SectionRowTitle>Contact Person Number</SectionRowTitle>
                         <SectionRowContent large={!this.props.sidebar}>{institution.contact_person_number}</SectionRowContent>
                     </SectionRow>
-                    }
                 </SectionTable>
             </Section>
         );
