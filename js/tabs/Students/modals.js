@@ -130,7 +130,7 @@ class StudentFormModal extends Component {
                 value : this.state.form.birth_date,
             },
             {
-                name : "Reminders address",
+                name : "Home address",
                 characterLimit : 256,
                 value : this.state.form.home_address,
             },
@@ -385,9 +385,9 @@ class StudentFormModal extends Component {
                             <Input type="textarea"
                                    placeholder="Home Address"
                                    onChange={this.getChangeHandler("home_address")}
-                                   valid={isValid("Reminders address")}
+                                   valid={isValid("Home address")}
                                    defaultValue={this.state.form.home_address}/>
-                            <FormFeedback>{fieldError("Reminders address")}</FormFeedback>
+                            <FormFeedback>{fieldError("Home address")}</FormFeedback>
                         </FormGroup>
 
                         <FormGroup>
