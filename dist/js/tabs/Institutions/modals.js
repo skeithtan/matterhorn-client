@@ -97,18 +97,15 @@ var InstitutionFormModal = function (_Component) {
             }, {
                 name: "Contact person name",
                 characterLimit: 256,
-                value: this.state.form.contact_person_name,
-                optional: true
+                value: this.state.form.contact_person_name
             }, {
                 name: "Contact person number",
                 characterLimit: 64,
-                value: this.state.form.contact_person_number,
-                optional: true
+                value: this.state.form.contact_person_number
             }, {
                 name: "Contact person email",
                 characterLimit: 256,
                 value: this.state.form.contact_person_email,
-                optional: true,
                 customValidators: [{
                     // isValid checks if the form value is a valid email through this messy regex.
                     // It also lets blank values pass because it's an optional field
