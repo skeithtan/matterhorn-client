@@ -211,6 +211,7 @@ input[type="search"]::-webkit-search-cancel-button {
     width              : 80px;
     padding            : 0;
     transition         : 250ms;
+    box-shadow         : 3px 20px 6px 1px rgba(0, 0, 0, 0.1), 0 3px 1px 1px rgba(0, 0, 0, 0.1);
 }
 
 #main-navigation.expanded {
@@ -652,7 +653,7 @@ div.section.collapsed {
 }
 
 .sign-in-feedback {
-    transition: 300ms;
+    transition : 300ms;
 }
 
 @keyframes shake {
