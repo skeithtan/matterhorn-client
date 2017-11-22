@@ -218,11 +218,6 @@ var StudentFormModal = function (_Component) {
                 message: "Adding new student..."
             });
 
-            if (this.state.form.category === "OUT") {
-                // Outbound students do not have an institution
-                this.state.form.institution = null;
-            }
-
             _jquery2.default.post({
                 url: _settings2.default.serverURL + "/students/",
                 data: this.state.form,
@@ -686,30 +681,6 @@ var StudentFormModal = function (_Component) {
                             _react2.default.createElement(
                                 _reactstrap.Label,
                                 null,
-                                "Student Type"
-                            ),
-                            _react2.default.createElement(
-                                _reactstrap.Input,
-                                { type: "select", onChange: this.getChangeHandler("category"),
-                                    defaultValue: this.state.form.category },
-                                _react2.default.createElement(
-                                    "option",
-                                    { value: "IN" },
-                                    "Inbound"
-                                ),
-                                _react2.default.createElement(
-                                    "option",
-                                    { value: "OUT" },
-                                    "Outbound"
-                                )
-                            )
-                        ),
-                        this.state.form.category === "IN" && _react2.default.createElement(
-                            _reactstrap.FormGroup,
-                            null,
-                            _react2.default.createElement(
-                                _reactstrap.Label,
-                                null,
                                 "Institution"
                             ),
                             _react2.default.createElement(
@@ -845,7 +816,8 @@ var ArchiveStudentModal = function (_Component2) {
 
             return _react2.default.createElement(
                 _reactstrap.Modal,
-                { isOpen: this.props.isOpen, toggle: this.props.toggle, backdrop: true, id: "archive-student-modal" },
+                { isOpen: this.props.isOpen, toggle: this.props.toggle, backdrop: true,
+                    id: "archive-student-modal" },
                 _react2.default.createElement(
                     _reactstrap.ModalHeader,
                     { className: "text-yellow" },
