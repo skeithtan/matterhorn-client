@@ -60,10 +60,6 @@ class Students extends Component {
     }
 
     setActiveTab(tab) {
-        if (tab === this.state.activeTab) {
-            return; //Nothing to do here, activeTab is already the tab
-        }
-
         this.setState({
             activeTab : tab,
             activeStudent : null, //Student is no longer in the same category
