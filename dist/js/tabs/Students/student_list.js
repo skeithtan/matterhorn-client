@@ -85,7 +85,8 @@ var StudentList = function (_Component) {
                     id: "student-list" },
                 _react2.default.createElement(StudentListHead, { setSearchKeyword: this.setSearchKeyword,
                     toggleAddStudent: this.props.toggleAddStudent,
-                    addButtonIsShowing: this.props.addButtonIsShowing }),
+                    addButtonIsShowing: this.props.addButtonIsShowing,
+                    activeTab: this.props.activeTab }),
                 _react2.default.createElement(StudentListTable, { students: this.props.students,
                     filtered: this.getFilteredStudents(),
                     activeStudent: this.props.activeStudent,
@@ -143,7 +144,8 @@ var StudentListHead = function (_Component2) {
                 _react2.default.createElement(
                     "h4",
                     { className: "page-head-title" },
-                    "Students"
+                    this.props.activeTab.name,
+                    " Students"
                 ),
                 _react2.default.createElement(_reactstrap.Input, { type: "search",
                     placeholder: "Search",

@@ -59,7 +59,8 @@ class StudentList extends Component {
                  id="student-list">
                 <StudentListHead setSearchKeyword={ this.setSearchKeyword }
                                  toggleAddStudent={ this.props.toggleAddStudent }
-                                 addButtonIsShowing={ this.props.addButtonIsShowing }/>
+                                 addButtonIsShowing={ this.props.addButtonIsShowing }
+                                 activeTab={ this.props.activeTab }/>
                 <StudentListTable students={ this.props.students }
                                   filtered={ this.getFilteredStudents() }
                                   activeStudent={ this.props.activeStudent }
@@ -93,10 +94,10 @@ class StudentListHead extends Component {
                     <Button outline
                             color="success"
                             size="sm"
-                            className={`ml-auto ${!this.props.addButtonIsShowing && "invisible"}`}
+                            className={ `ml-auto ${!this.props.addButtonIsShowing && "invisible"}` }
                             onClick={ this.props.toggleAddStudent }>Add Inbound</Button>
                 </div>
-                <h4 className="page-head-title">Students</h4>
+                <h4 className="page-head-title">{ this.props.activeTab.name } Students</h4>
                 <Input type="search"
                        placeholder="Search"
                        className="search-input"
