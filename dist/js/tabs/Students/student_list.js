@@ -84,7 +84,8 @@ var StudentList = function (_Component) {
                 { className: "sidebar h-100",
                     id: "student-list" },
                 _react2.default.createElement(StudentListHead, { setSearchKeyword: this.setSearchKeyword,
-                    toggleAddStudent: this.props.toggleAddStudent }),
+                    toggleAddStudent: this.props.toggleAddStudent,
+                    addButtonIsShowing: this.props.addButtonIsShowing }),
                 _react2.default.createElement(StudentListTable, { students: this.props.students,
                     filtered: this.getFilteredStudents(),
                     activeStudent: this.props.activeStudent,
@@ -134,9 +135,9 @@ var StudentListHead = function (_Component2) {
                         { outline: true,
                             color: "success",
                             size: "sm",
-                            className: "ml-auto",
+                            className: "ml-auto " + (!this.props.addButtonIsShowing && "invisible"),
                             onClick: this.props.toggleAddStudent },
-                        "Add"
+                        "Add Inbound"
                     )
                 ),
                 _react2.default.createElement(

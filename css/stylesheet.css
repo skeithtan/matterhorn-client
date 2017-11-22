@@ -47,6 +47,12 @@ body {
     color        : var(--yellow);
 }
 
+.invisible {
+    opacity        : 0;
+    visibility     : hidden;
+    pointer-events : none;
+}
+
 /*Small select*/
 .select-sm {
     height : 31px !important;

@@ -130,6 +130,8 @@ var Students = function (_Component) {
     }, {
         key: "render",
         value: function render() {
+            var addButtonIsShowing = this.state.activeTab.name === "Inbound";
+
             return _react2.default.createElement(
                 "div",
                 { className: "container-fluid d-flex flex-row p-0 h-100" },
@@ -139,6 +141,7 @@ var Students = function (_Component) {
                     toggleAddStudent: this.toggleAddStudent,
                     setActiveTab: this.setActiveTab,
                     activeTab: this.state.activeTab,
+                    addButtonIsShowing: addButtonIsShowing,
                     tabs: tabs }),
                 _react2.default.createElement(_student_detail2.default, { student: this.state.activeStudent,
                     onDeleteActiveStudent: this.onDeleteActiveStudent,

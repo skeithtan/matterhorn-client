@@ -103,21 +103,24 @@ class Students extends Component {
     }
 
     render() {
+        const addButtonIsShowing = this.state.activeTab.name === "Inbound";
+
         return (
             <div className="container-fluid d-flex flex-row p-0 h-100">
-                <StudentList students={this.state.allStudents}
-                             activeStudent={this.state.activeStudent}
-                             setActiveStudent={this.setActiveStudent}
-                             toggleAddStudent={this.toggleAddStudent}
-                             setActiveTab={this.setActiveTab}
-                             activeTab={this.state.activeTab}
-                             tabs={tabs}/>
-                <StudentDetail student={this.state.activeStudent}
-                               onDeleteActiveStudent={this.onDeleteActiveStudent}
-                               refreshStudents={this.refreshStudents}/>
-                <StudentFormModal isOpen={this.state.addStudentIsShowing}
-                                  toggle={this.toggleAddStudent}
-                                  refresh={this.refreshStudents}/>
+                <StudentList students={ this.state.allStudents }
+                             activeStudent={ this.state.activeStudent }
+                             setActiveStudent={ this.setActiveStudent }
+                             toggleAddStudent={ this.toggleAddStudent }
+                             setActiveTab={ this.setActiveTab }
+                             activeTab={ this.state.activeTab }
+                             addButtonIsShowing={ addButtonIsShowing }
+                             tabs={ tabs }/>
+                <StudentDetail student={ this.state.activeStudent }
+                               onDeleteActiveStudent={ this.onDeleteActiveStudent }
+                               refreshStudents={ this.refreshStudents }/>
+                <StudentFormModal isOpen={ this.state.addStudentIsShowing }
+                                  toggle={ this.toggleAddStudent }
+                                  refresh={ this.refreshStudents }/>
             </div>
         );
     }
