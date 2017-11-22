@@ -4,6 +4,7 @@ import Institutions from "./Institutions/institutions";
 import Students from "./Students/students";
 import Programs from "./OutboundPrograms/outbound_programs";
 import Archives from "./Archives/archives";
+import OutboundApplications from "./OutboundApplications/outbound_applications";
 
 
 const tabs = [
@@ -21,6 +22,11 @@ const tabs = [
         name : "Students",
         tab : <Students/>,
         image : "./images/student.png",
+    },
+    {
+        name : "Outbound Applications",
+        tab : <OutboundApplications/>,
+        image : "./images/checklist.png",
     },
     {
         name : "Inbound Programs",
