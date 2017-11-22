@@ -51,7 +51,7 @@ var MainNavigation = function (_Component) {
                     } });
             });
 
-            var navbarClassName = "bg-dlsu d-flex flex-column justify-content-center";
+            var navbarClassName = "bg-dlsu d-flex flex-column ";
 
             if (this.props.isExpanded) {
                 navbarClassName += " expanded";
@@ -111,7 +111,7 @@ var TabItem = function (_Component2) {
                 { className: className,
                     onClick: onNavItemClick },
                 _react2.default.createElement(
-                    "h5",
+                    "h6",
                     { className: "mb-0 text-white sidebar-tab-description" },
                     this.props.name
                 ),

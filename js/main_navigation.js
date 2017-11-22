@@ -25,7 +25,7 @@ class MainNavigation extends Component {
                             setActiveTab={() => this.props.setActiveTab(tab)}/>;
         });
 
-        let navbarClassName = "bg-dlsu d-flex flex-column justify-content-center";
+        let navbarClassName = "bg-dlsu d-flex flex-column ";
 
         if (this.props.isExpanded) {
             navbarClassName += " expanded";
@@ -71,7 +71,7 @@ class TabItem extends Component {
         return (
             <NavItem className={className}
                      onClick={onNavItemClick}>
-                <h5 className="mb-0 text-white sidebar-tab-description">{this.props.name}</h5>
+                <h6 className="mb-0 text-white sidebar-tab-description">{this.props.name}</h6>
                 <img src={this.props.image}
                      className="sidebar-image"/>
             </NavItem>
