@@ -237,10 +237,11 @@ var SignIn = function (_Component) {
                             "div",
                             { id: "sign-in-box",
                                 className: "flex-column\n                                " + (this.state.loading || this.state.isSignedIn ? "hidden" : "showing") + "\n                                " + (this.state.invalidCredentials ? "shaking" : "") },
-                            complaint !== null && _react2.default.createElement(
+                            _react2.default.createElement(
                                 "p",
-                                { className: "mb-3 text-center text-white" },
-                                complaint
+                                { className: "sign-in-feedback mb-3 text-center text-white " + (complaint === null ? "hidden" : "showing") },
+                                complaint,
+                                " \xA0"
                             ),
                             _react2.default.createElement(_reactstrap.Input, { className: "bg-dlsu-lighter text-white border-0 mb-3",
                                 placeholder: "Username",

@@ -186,9 +186,9 @@ class SignIn extends Component {
                                 ${this.state.loading || this.state.isSignedIn ? "hidden" : "showing"}
                                 ${this.state.invalidCredentials ? "shaking" : ""}`}>
 
-                            {complaint !== null && <p className={`mb-3 text-center text-white`}>
-                                {complaint}
-                            </p>}
+                            <p className={`sign-in-feedback mb-3 text-center text-white ${complaint === null ? "hidden" : "showing"}`}>
+                                {complaint} &nbsp;
+                            </p>
 
                             <Input className="bg-dlsu-lighter text-white border-0 mb-3"
                                    placeholder="Username"

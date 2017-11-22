@@ -210,7 +210,7 @@ input[type="search"]::-webkit-search-cancel-button {
     min-width          : 80px;
     width              : 80px;
     padding            : 0;
-    transition         : 350ms;
+    transition         : 250ms;
 }
 
 #main-navigation.expanded {
@@ -228,7 +228,7 @@ input[type="search"]::-webkit-search-cancel-button {
 #main-navigation #switch-user-button {
     opacity        : 0;
     pointer-events : none;
-    transition     : 300ms opacity;
+    transition     : 200ms opacity;
 }
 
 #main-navigation.expanded #switch-user-button {
@@ -247,7 +247,7 @@ input[type="search"]::-webkit-search-cancel-button {
 
 #main-navigation-tabs {
     margin-top : 112px;
-    transition : 300ms;
+    transition : 200ms;
 }
 
 #main-navigation .dlsu-logo {
@@ -255,7 +255,7 @@ input[type="search"]::-webkit-search-cancel-button {
     height     : 40px;
     position   : absolute;
     top        : 48px;
-    transition : 300ms;
+    transition : 250ms;
 }
 
 #main-navigation.expanded .dlsu-logo {
@@ -649,6 +649,10 @@ div.section.collapsed {
 #sign-in-box.shaking {
     animation-name     : shake;
     animation-duration : 500ms;
+}
+
+.sign-in-feedback {
+    transition: 300ms;
 }
 
 @keyframes shake {
