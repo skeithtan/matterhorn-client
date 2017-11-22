@@ -304,7 +304,7 @@ input[type="search"]::-webkit-search-cancel-button {
 
 #main-navigation .sidebar-tab-description {
     opacity    : 0;
-    transition : 300ms opacity;
+    transition : 200ms opacity;
 }
 
 .sidebar-image,
@@ -314,7 +314,7 @@ input[type="search"]::-webkit-search-cancel-button {
 }
 
 .sidebar-image {
-    margin      : 12px 25px 12px 25px;
+    margin      : 12px 26px;
     width       : 28px;
     height      : 28px;
     flex-shrink : 0;
