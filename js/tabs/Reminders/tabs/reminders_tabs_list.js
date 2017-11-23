@@ -1,5 +1,5 @@
 import React from "react";
-import Memorandums from "./memorandums";
+import Memorandums from "./memorandums-refactor";
 import Programs from "./programs";
 import Students from "./students";
 
