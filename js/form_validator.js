@@ -67,7 +67,7 @@ class CharLimitFieldValidator extends FieldValidator {
     }
 
     isValid(fieldValue) {
-        if (this.charLimit === null) {
+        if (this.charLimit === null || this.charLimit === undefined) {
             return true;
         }
 

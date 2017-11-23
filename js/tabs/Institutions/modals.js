@@ -31,7 +31,7 @@ class InstitutionFormModal extends Component {
         this.state = {
             form : {
                 name : "",
-                country : "Afghanistan",
+                country : "",
                 address : "",
                 website : "",
                 contact_person_email : "",
@@ -59,6 +59,10 @@ class InstitutionFormModal extends Component {
                 name : "Name",
                 characterLimit : 64,
                 value : this.state.form.name,
+            },
+            {
+                name : "Country",
+                value : this.state.form.country,
             },
             {
                 name : "Address",
@@ -176,6 +180,10 @@ class InstitutionFormModal extends Component {
             <option key={index}>{name}</option>,
         );
 
+        countries.unshift(<option value="">Select a country</option>);
+
+        console.log(countries);
+
         function isValid(fieldName) {
             return fieldErrors[fieldName].length === 0;
         }
@@ -208,9 +216,11 @@ class InstitutionFormModal extends Component {
                             <Label>Country</Label>
                             <Input type="select"
                                    onChange={this.getChangeHandler("country")}
+                                   valid={isValid("Country")}
                                    defaultValue={this.state.form.country}>
                                 {countries}
                             </Input>
+                            <FormFeedback>{fieldError("Country")}</FormFeedback>
                         </FormGroup>
 
                         <FormGroup>

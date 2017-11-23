@@ -56,7 +56,7 @@ var InstitutionFormModal = function (_Component) {
         _this.state = {
             form: {
                 name: "",
-                country: "Afghanistan",
+                country: "",
                 address: "",
                 website: "",
                 contact_person_email: "",
@@ -86,6 +86,9 @@ var InstitutionFormModal = function (_Component) {
                 name: "Name",
                 characterLimit: 64,
                 value: this.state.form.name
+            }, {
+                name: "Country",
+                value: this.state.form.country
             }, {
                 name: "Address",
                 characterLimit: 256,
@@ -217,6 +220,14 @@ var InstitutionFormModal = function (_Component) {
                 );
             });
 
+            countries.unshift(_react2.default.createElement(
+                "option",
+                { value: "" },
+                "Select a country"
+            ));
+
+            console.log(countries);
+
             function isValid(fieldName) {
                 return fieldErrors[fieldName].length === 0;
             }
@@ -276,8 +287,14 @@ var InstitutionFormModal = function (_Component) {
                                 _reactstrap.Input,
                                 { type: "select",
                                     onChange: this.getChangeHandler("country"),
+                                    valid: isValid("Country"),
                                     defaultValue: this.state.form.country },
                                 countries
+                            ),
+                            _react2.default.createElement(
+                                _reactstrap.FormFeedback,
+                                null,
+                                fieldError("Country")
                             )
                         ),
                         _react2.default.createElement(

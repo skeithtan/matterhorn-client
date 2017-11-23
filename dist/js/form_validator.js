@@ -98,7 +98,7 @@ var CharLimitFieldValidator = function (_FieldValidator) {
     _createClass(CharLimitFieldValidator, [{
         key: "isValid",
         value: function isValid(fieldValue) {
-            if (this.charLimit === null) {
+            if (this.charLimit === null || this.charLimit === undefined) {
                 return true;
             }
 
