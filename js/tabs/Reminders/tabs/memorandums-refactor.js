@@ -8,21 +8,16 @@ import {
     SectionRowContent,
 } from "../../../components/section";
 import {
-    Button,
+    Input,
 } from "reactstrap";
 import { MemorandumFormModal } from "../../Institutions/modals";
 
-function fetchInstitutions(onResult) {
+function fetchInstitutionAgreements(onResult) {
     graphql.query(`
     {
         institutions {
             id
             name
-            latest_mou {
-                id
-                date_effective
-                date_expiration
-            }
             latest_moa {
                 id
                 date_effective
@@ -33,16 +28,17 @@ function fetchInstitutions(onResult) {
     `).then(onResult);
 }
 
-function fetchMemorandumDetails(id, onResult) {
+function fetchInstitutionUnderstandings(onResult) {
     graphql.query(`
     {
-        memorandum(id:${id}) {
+        institutions {
             id
-            category
-            memorandum_file
-            date_effective
-            college_initiator
-            linkages
+            name
+            latest_mou {
+                id
+                date_effective
+                date_expiration
+            }
         }
     }
     `).then(onResult);
@@ -51,13 +47,48 @@ function fetchMemorandumDetails(id, onResult) {
 class Memorandums extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            memorandums : null,
+            activeMemorandum : null,
+        };
+
+        fetchInstitutionAgreements(result => {
+            this.setState({
+                memorandums : result.institutions,
+            });
+        });
+
+        this.setMemorandums = this.setMemorandums.bind(this);
+    }
+
+    setMemorandums(category) {
+        this.setState({
+            memorandums : null, // loading
+        });
+
+        if (category === "MOA") {
+            fetchInstitutionAgreements(result => {
+                this.setState({
+                    memorandums : result.institutions,
+                });
+            });
+        }
+
+        else {
+            fetchInstitutionUnderstandings(result => {
+                this.setState({
+                    memorandums : result.institutions,
+                });
+            });
+        }
     }
 
     render() {
         return (
             <div className="d-flex flex-column h-100">
-                <MemorandumsHead/>
-                {/* MemorandumsBody */}
+                <MemorandumsHead setMemorandums={ this.setMemorandums }/>
+                { /* MemorandumsBody */ }
             </div>
         );
     }
@@ -66,6 +97,12 @@ class Memorandums extends Component {
 class MemorandumsHead extends Component {
     constructor(props) {
         super(props);
+
+        this.onCategoryChange = this.onCategoryChange.bind(this);
+    }
+
+    onCategoryChange(event) {
+        this.props.setMemorandums(event.target.value);
     }
 
     render() {
@@ -77,7 +114,13 @@ class MemorandumsHead extends Component {
                     </h4>
                 </div>
                 <div className="page-head-actions">
-
+                    <Input type="select"
+                           className="btn-outline-success"
+                           defaultValue="MOA"
+                           onChange={ this.onCategoryChange }>
+                        <option value="MOA">Agreement</option>
+                        <option value="MOU">Understanding</option>
+                    </Input>
                 </div>
             </div>
         );

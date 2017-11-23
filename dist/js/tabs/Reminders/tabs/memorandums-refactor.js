@@ -40,12 +40,12 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-function fetchInstitutions(onResult) {
-    _graphql2.default.query("\n    {\n        institutions {\n            id\n            name\n            latest_mou {\n                id\n                date_effective\n                date_expiration\n            }\n            latest_moa {\n                id\n                date_effective\n                date_expiration\n            }\n        }\n    }\n    ").then(onResult);
+function fetchInstitutionAgreements(onResult) {
+    _graphql2.default.query("\n    {\n        institutions {\n            id\n            name\n            latest_moa {\n                id\n                date_effective\n                date_expiration\n            }\n        }\n    }\n    ").then(onResult);
 }
 
-function fetchMemorandumDetails(id, onResult) {
-    _graphql2.default.query("\n    {\n        memorandum(id:" + id + ") {\n            id\n            category\n            memorandum_file\n            date_effective\n            college_initiator\n            linkages\n        }\n    }\n    ").then(onResult);
+function fetchInstitutionUnderstandings(onResult) {
+    _graphql2.default.query("\n    {\n        institutions {\n            id\n            name\n            latest_mou {\n                id\n                date_effective\n                date_expiration\n            }\n        }\n    }\n    ").then(onResult);
 }
 
 var Memorandums = function (_Component) {
@@ -54,16 +54,53 @@ var Memorandums = function (_Component) {
     function Memorandums(props) {
         _classCallCheck(this, Memorandums);
 
-        return _possibleConstructorReturn(this, (Memorandums.__proto__ || Object.getPrototypeOf(Memorandums)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (Memorandums.__proto__ || Object.getPrototypeOf(Memorandums)).call(this, props));
+
+        _this.state = {
+            memorandums: null,
+            activeMemorandum: null
+        };
+
+        fetchInstitutionAgreements(function (result) {
+            _this.setState({
+                memorandums: result.institutions
+            });
+        });
+
+        _this.setMemorandums = _this.setMemorandums.bind(_this);
+        return _this;
     }
 
     _createClass(Memorandums, [{
+        key: "setMemorandums",
+        value: function setMemorandums(category) {
+            var _this2 = this;
+
+            this.setState({
+                memorandums: null // loading
+            });
+
+            if (category === "MOA") {
+                fetchInstitutionAgreements(function (result) {
+                    _this2.setState({
+                        memorandums: result.institutions
+                    });
+                });
+            } else {
+                fetchInstitutionUnderstandings(function (result) {
+                    _this2.setState({
+                        memorandums: result.institutions
+                    });
+                });
+            }
+        }
+    }, {
         key: "render",
         value: function render() {
             return _react2.default.createElement(
                 "div",
                 { className: "d-flex flex-column h-100" },
-                _react2.default.createElement(MemorandumsHead, null)
+                _react2.default.createElement(MemorandumsHead, { setMemorandums: this.setMemorandums })
             );
         }
     }]);
@@ -77,10 +114,18 @@ var MemorandumsHead = function (_Component2) {
     function MemorandumsHead(props) {
         _classCallCheck(this, MemorandumsHead);
 
-        return _possibleConstructorReturn(this, (MemorandumsHead.__proto__ || Object.getPrototypeOf(MemorandumsHead)).call(this, props));
+        var _this3 = _possibleConstructorReturn(this, (MemorandumsHead.__proto__ || Object.getPrototypeOf(MemorandumsHead)).call(this, props));
+
+        _this3.onCategoryChange = _this3.onCategoryChange.bind(_this3);
+        return _this3;
     }
 
     _createClass(MemorandumsHead, [{
+        key: "onCategoryChange",
+        value: function onCategoryChange(event) {
+            this.props.setMemorandums(event.target.value);
+        }
+    }, {
         key: "render",
         value: function render() {
             return _react2.default.createElement(
@@ -95,7 +140,27 @@ var MemorandumsHead = function (_Component2) {
                         "Memorandum Reminders"
                     )
                 ),
-                _react2.default.createElement("div", { className: "page-head-actions" })
+                _react2.default.createElement(
+                    "div",
+                    { className: "page-head-actions" },
+                    _react2.default.createElement(
+                        _reactstrap.Input,
+                        { type: "select",
+                            className: "btn-outline-success",
+                            defaultValue: "MOA",
+                            onChange: this.onCategoryChange },
+                        _react2.default.createElement(
+                            "option",
+                            { value: "MOA" },
+                            "Agreement"
+                        ),
+                        _react2.default.createElement(
+                            "option",
+                            { value: "MOU" },
+                            "Understanding"
+                        )
+                    )
+                )
             );
         }
     }]);
