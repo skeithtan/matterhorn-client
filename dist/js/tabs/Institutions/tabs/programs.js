@@ -33,11 +33,11 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 function fetchYears(institutionID, onResult) {
-    _graphql2.default.query("\n    {\n        programs(institution:" + institutionID + ") {\n            academic_year {\n                academic_year_start\n            }\n        }\n    }\n    ").then(onResult);
+    _graphql2.default.query("\n    {\n        outbound_programs(institution:" + institutionID + ") {\n            academic_year {\n                academic_year_start\n            }\n        }\n    }\n    ").then(onResult);
 }
 
 function fetchPrograms(institutionID, year, onResult) {
-    _graphql2.default.query("\n    {\n        programs(institution:" + institutionID + ", year:" + year + ") {\n            id\n            name\n            linkage {\n                name\n            }\n            academic_year {\n                academic_year_start\n            }\n            studyfield_set {\n                name\n            }\n        }\n    }\n    ").then(onResult);
+    _graphql2.default.query("\n    {\n        outbound_programs(institution:" + institutionID + ", year:" + year + ") {\n            id\n            name\n            linkage {\n                name\n            }\n            academic_year {\n                academic_year_start\n            }\n            studyfield_set {\n                name\n            }\n        }\n    }\n    ").then(onResult);
 }
 
 var Programs = function (_Component) {
@@ -63,17 +63,19 @@ var Programs = function (_Component) {
 
         fetchYears(_this.state.institutionID, function (result) {
             _this.setState({
-                yearList: _this.getOrderedYears(result.programs)
+                yearList: _this.getOrderedYears(result.outbound_programs)
             });
+
             if (_this.state.yearList !== null) {
                 _this.setState({
                     activeYear: _this.state.yearList[0]
                 });
             }
+
             if (_this.state.activeYear !== undefined) {
                 fetchPrograms(props.institution.id, _this.state.activeYear, function (result) {
                     _this.setState({
-                        programList: result.programs
+                        programList: result.outbound_programs
                     });
                 });
             }
@@ -151,7 +153,7 @@ var Programs = function (_Component) {
 
             fetchPrograms(this.state.institutionID, this.state.activeYear, function (result) {
                 _this3.setState({
-                    programList: result.programs
+                    programList: result.outbound_programs
                 });
             });
         }
@@ -175,7 +177,7 @@ var Programs = function (_Component) {
 
             fetchYears(nextProps.institution.id, function (result) {
                 _this4.setState({
-                    yearList: _this4.getOrderedYears(result.programs)
+                    yearList: _this4.getOrderedYears(result.outbound_programs)
                 });
                 if (_this4.state.yearList !== null) {
                     _this4.setState({
@@ -185,7 +187,7 @@ var Programs = function (_Component) {
                 if (_this4.state.activeYear !== undefined) {
                     fetchPrograms(nextProps.institution.id, _this4.state.activeYear, function (result) {
                         _this4.setState({
-                            programList: result.programs
+                            programList: result.outbound_programs
                         });
                     });
                 }

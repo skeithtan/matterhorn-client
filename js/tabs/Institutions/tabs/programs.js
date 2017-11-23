@@ -18,7 +18,7 @@ import { ProgramSidebarPane } from "./sidebar_panes";
 function fetchYears(institutionID, onResult) {
     graphql.query(`
     {
-        programs(institution:${institutionID}) {
+        outbound_programs(institution:${institutionID}) {
             academic_year {
                 academic_year_start
             }
@@ -30,7 +30,7 @@ function fetchYears(institutionID, onResult) {
 function fetchPrograms(institutionID, year, onResult) {
     graphql.query(`
     {
-        programs(institution:${institutionID}, year:${year}) {
+        outbound_programs(institution:${institutionID}, year:${year}) {
             id
             name
             linkage {
@@ -66,17 +66,19 @@ class Programs extends Component {
 
         fetchYears(this.state.institutionID, result => {
             this.setState({
-                yearList : this.getOrderedYears(result.programs),
+                yearList : this.getOrderedYears(result.outbound_programs),
             });
+
             if (this.state.yearList !== null) {
                 this.setState({
                     activeYear : this.state.yearList[0],
                 });
             }
+
             if (this.state.activeYear !== undefined) {
                 fetchPrograms(props.institution.id, this.state.activeYear, result => {
                     this.setState({
-                        programList : result.programs,
+                        programList : result.outbound_programs,
                     });
                 });
             }
@@ -144,7 +146,7 @@ class Programs extends Component {
     refreshPrograms() {
         fetchPrograms(this.state.institutionID, this.state.activeYear, result => {
             this.setState({
-                programList : result.programs,
+                programList : result.outbound_programs,
             });
         });
     }
@@ -165,7 +167,7 @@ class Programs extends Component {
 
         fetchYears(nextProps.institution.id, result => {
             this.setState({
-                yearList : this.getOrderedYears(result.programs),
+                yearList : this.getOrderedYears(result.outbound_programs),
             });
             if (this.state.yearList !== null) {
                 this.setState({
@@ -175,7 +177,7 @@ class Programs extends Component {
             if (this.state.activeYear !== undefined) {
                 fetchPrograms(nextProps.institution.id, this.state.activeYear, result => {
                     this.setState({
-                        programList : result.programs,
+                        programList : result.outbound_programs,
                     });
                 });
             }
