@@ -17,8 +17,8 @@ class ArchivesHead extends Component {
         const years = [];
         const currentYear = moment().year();
 
-        //Create options for years 100 years from current year
-        for (let i = 0; i <= 100; i++) {
+        //Create options for years 40 years from current year
+        for (let i = 0; i <= 40; i++) {
             const year = currentYear - i;
             years.push(<option value={year}
                                key={i}>{year}</option>);

@@ -47,8 +47,8 @@ var ArchivesHead = function (_Component) {
             var years = [];
             var currentYear = (0, _moment2.default)().year();
 
-            //Create options for years 100 years from current year
-            for (var i = 0; i <= 100; i++) {
+            //Create options for years 40 years from current year
+            for (var i = 0; i <= 40; i++) {
                 var year = currentYear - i;
                 years.push(_react2.default.createElement(
                     "option",
