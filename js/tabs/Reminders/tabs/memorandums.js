@@ -13,6 +13,7 @@ import {
 import {
     Button,
     Collapse,
+    Input,
 } from "reactstrap";
 import { MemorandumFormModal } from "../../Institutions/modals";
 
@@ -94,6 +95,52 @@ function makeCardsFromInstitution(institutions) {
 }
 
 class Memorandums extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return (
+            <div className="d-flex flex-column h-100">
+                <MemorandumsHead/>
+                <MemorandumsBody/>
+            </div>
+        );
+    }
+}
+
+class MemorandumsHead extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return (
+            <div className="page-head pt-5 d-flex flex-row align-items-end">
+                <div className="mr-auto">
+                    <h4 className="page-head-title justify-content-left d-inline-block mb-0 mr-2">
+                        Memorandum Reminders
+                    </h4>
+                </div>
+
+                <div className="page-head-actions">
+                    {/*<div className="d-flex flex-column">*/}
+                    {/*<label className="mr-3 text-dark mb-1">Archives from year</label>*/}
+                    {/*<Input type="select"*/}
+                    {/*className="btn-outline-success"*/}
+                    {/*defaultValue={this.props.activeYear}*/}
+                    {/*onChange={this.onActiveYearChange}>*/}
+                    {/*{years}*/}
+                    {/*</Input>*/}
+                    {/*</div>*/}
+                </div>
+
+            </div>
+        );
+    }
+}
+
+class MemorandumsBody extends Component {
     constructor(props) {
         super(props);
 
@@ -211,9 +258,7 @@ class MemorandumCard extends Component {
         }
 
         let cardClass = "reminders-card rounded ";
-        if (this.props.active) {
-            cardClass += "active";
-        }
+        cardClass += this.props.active ? "active" : "";
 
         let collapseContent = null;
 

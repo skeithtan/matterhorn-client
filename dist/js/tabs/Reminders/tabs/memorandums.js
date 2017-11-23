@@ -97,29 +97,85 @@ var Memorandums = function (_Component) {
     function Memorandums(props) {
         _classCallCheck(this, Memorandums);
 
-        var _this = _possibleConstructorReturn(this, (Memorandums.__proto__ || Object.getPrototypeOf(Memorandums)).call(this, props));
+        return _possibleConstructorReturn(this, (Memorandums.__proto__ || Object.getPrototypeOf(Memorandums)).call(this, props));
+    }
 
-        _this.state = {
+    _createClass(Memorandums, [{
+        key: "render",
+        value: function render() {
+            return _react2.default.createElement(
+                "div",
+                { className: "d-flex flex-column h-100" },
+                _react2.default.createElement(MemorandumsHead, null),
+                _react2.default.createElement(MemorandumsBody, null)
+            );
+        }
+    }]);
+
+    return Memorandums;
+}(_react.Component);
+
+var MemorandumsHead = function (_Component2) {
+    _inherits(MemorandumsHead, _Component2);
+
+    function MemorandumsHead(props) {
+        _classCallCheck(this, MemorandumsHead);
+
+        return _possibleConstructorReturn(this, (MemorandumsHead.__proto__ || Object.getPrototypeOf(MemorandumsHead)).call(this, props));
+    }
+
+    _createClass(MemorandumsHead, [{
+        key: "render",
+        value: function render() {
+            return _react2.default.createElement(
+                "div",
+                { className: "page-head pt-5 d-flex flex-row align-items-end" },
+                _react2.default.createElement(
+                    "div",
+                    { className: "mr-auto" },
+                    _react2.default.createElement(
+                        "h4",
+                        { className: "page-head-title justify-content-left d-inline-block mb-0 mr-2" },
+                        "Memorandum Reminders"
+                    )
+                ),
+                _react2.default.createElement("div", { className: "page-head-actions" })
+            );
+        }
+    }]);
+
+    return MemorandumsHead;
+}(_react.Component);
+
+var MemorandumsBody = function (_Component3) {
+    _inherits(MemorandumsBody, _Component3);
+
+    function MemorandumsBody(props) {
+        _classCallCheck(this, MemorandumsBody);
+
+        var _this3 = _possibleConstructorReturn(this, (MemorandumsBody.__proto__ || Object.getPrototypeOf(MemorandumsBody)).call(this, props));
+
+        _this3.state = {
             cards: null,
             activeCard: null
         };
 
-        _this.refreshCards = _this.refreshCards.bind(_this);
-        _this.setActiveCard = _this.setActiveCard.bind(_this);
+        _this3.refreshCards = _this3.refreshCards.bind(_this3);
+        _this3.setActiveCard = _this3.setActiveCard.bind(_this3);
 
         fetchInstitutions(function (result) {
             var institutions = result.institutions;
-            _this.setState({
+            _this3.setState({
                 cards: makeCardsFromInstitution(institutions)
             });
         });
-        return _this;
+        return _this3;
     }
 
-    _createClass(Memorandums, [{
+    _createClass(MemorandumsBody, [{
         key: "refreshCards",
         value: function refreshCards() {
-            var _this2 = this;
+            var _this4 = this;
 
             this.setState({
                 cards: null //clear first
@@ -127,7 +183,7 @@ var Memorandums = function (_Component) {
 
             fetchInstitutions(function (result) {
                 var institutions = result.institutions;
-                _this2.setState({
+                _this4.setState({
                     cards: makeCardsFromInstitution(institutions)
                 });
             });
@@ -142,7 +198,7 @@ var Memorandums = function (_Component) {
     }, {
         key: "render",
         value: function render() {
-            var _this3 = this;
+            var _this5 = this;
 
             if (this.state.cards === null) {
                 return _react2.default.createElement(_loading2.default, null);
@@ -154,20 +210,20 @@ var Memorandums = function (_Component) {
 
             var cards = this.state.cards.map(function (card) {
                 var id = card.memorandum.id;
-                var isActive = _this3.state.activeCard === id;
+                var isActive = _this5.state.activeCard === id;
                 var setActiveCard = function setActiveCard() {
-                    return _this3.setActiveCard(id);
+                    return _this5.setActiveCard(id);
                 };
                 return _react2.default.createElement(MemorandumCard, { key: id,
                     card: card,
                     onClick: setActiveCard,
                     active: isActive,
-                    refreshCards: _this3.refreshCards });
+                    refreshCards: _this5.refreshCards });
             });
 
             var onBackgroundClick = function onBackgroundClick(event) {
                 if (event.target === event.currentTarget) {
-                    _this3.setActiveCard(null);
+                    _this5.setActiveCard(null);
                 }
             };
 
@@ -193,23 +249,23 @@ var Memorandums = function (_Component) {
         }
     }]);
 
-    return Memorandums;
+    return MemorandumsBody;
 }(_react.Component);
 
-var MemorandumCard = function (_Component2) {
-    _inherits(MemorandumCard, _Component2);
+var MemorandumCard = function (_Component4) {
+    _inherits(MemorandumCard, _Component4);
 
     function MemorandumCard(props) {
         _classCallCheck(this, MemorandumCard);
 
-        var _this4 = _possibleConstructorReturn(this, (MemorandumCard.__proto__ || Object.getPrototypeOf(MemorandumCard)).call(this, props));
+        var _this6 = _possibleConstructorReturn(this, (MemorandumCard.__proto__ || Object.getPrototypeOf(MemorandumCard)).call(this, props));
 
-        _this4.state = {
+        _this6.state = {
             renewModalIsOpen: false
         };
 
-        _this4.toggleRenewModal = _this4.toggleRenewModal.bind(_this4);
-        return _this4;
+        _this6.toggleRenewModal = _this6.toggleRenewModal.bind(_this6);
+        return _this6;
     }
 
     _createClass(MemorandumCard, [{
@@ -222,7 +278,7 @@ var MemorandumCard = function (_Component2) {
     }, {
         key: "render",
         value: function render() {
-            var _this5 = this;
+            var _this7 = this;
 
             var dateExpiration = this.props.card.memorandum.dateExpiration.format("LL");
             var expirationToNow = this.props.card.memorandum.dateExpiration.fromNow();
@@ -242,9 +298,7 @@ var MemorandumCard = function (_Component2) {
             }
 
             var cardClass = "reminders-card rounded ";
-            if (this.props.active) {
-                cardClass += "active";
-            }
+            cardClass += this.props.active ? "active" : "";
 
             var collapseContent = null;
 
@@ -270,8 +324,8 @@ var MemorandumCard = function (_Component2) {
             }
 
             var onCardClick = function onCardClick() {
-                (0, _scrollIntoView2.default)(_this5.card);
-                _this5.props.onClick();
+                (0, _scrollIntoView2.default)(_this7.card);
+                _this7.props.onClick();
             };
 
             return _react2.default.createElement(
@@ -279,7 +333,7 @@ var MemorandumCard = function (_Component2) {
                 { className: cardClass,
                     onClick: onCardClick,
                     ref: function ref(card) {
-                        return _this5.card = card;
+                        return _this7.card = card;
                     } },
                 _react2.default.createElement(
                     _section.SectionRow,
@@ -346,22 +400,22 @@ var MemorandumCard = function (_Component2) {
     return MemorandumCard;
 }(_react.Component);
 
-var MemorandumCardCollapseContent = function (_Component3) {
-    _inherits(MemorandumCardCollapseContent, _Component3);
+var MemorandumCardCollapseContent = function (_Component5) {
+    _inherits(MemorandumCardCollapseContent, _Component5);
 
     function MemorandumCardCollapseContent(props) {
         _classCallCheck(this, MemorandumCardCollapseContent);
 
-        var _this6 = _possibleConstructorReturn(this, (MemorandumCardCollapseContent.__proto__ || Object.getPrototypeOf(MemorandumCardCollapseContent)).call(this, props));
+        var _this8 = _possibleConstructorReturn(this, (MemorandumCardCollapseContent.__proto__ || Object.getPrototypeOf(MemorandumCardCollapseContent)).call(this, props));
 
-        _this6.state = {
+        _this8.state = {
             memorandum: props.memorandum,
             isOpen: false
         };
 
         fetchMemorandumDetails(props.memorandum.id, function (result) {
             var memorandum = result.memorandum;
-            var stateMemorandum = _this6.state.memorandum;
+            var stateMemorandum = _this8.state.memorandum;
 
             // Store fetched information in the instance
             stateMemorandum.category = memorandum.category;
@@ -370,17 +424,17 @@ var MemorandumCardCollapseContent = function (_Component3) {
             stateMemorandum.college_initiator = memorandum.college_initiator;
             stateMemorandum.linkages = memorandum.linkages;
 
-            _this6.setState({
+            _this8.setState({
                 memorandum: memorandum
             });
         });
-        return _this6;
+        return _this8;
     }
 
     _createClass(MemorandumCardCollapseContent, [{
         key: "render",
         value: function render() {
-            var _this7 = this;
+            var _this9 = this;
 
             var memorandum = this.state.memorandum;
 
@@ -414,13 +468,13 @@ var MemorandumCardCollapseContent = function (_Component3) {
             }
 
             var viewMemorandum = function viewMemorandum() {
-                require("electron").shell.openExternal(_this7.props.memorandum.memorandum_file);
+                require("electron").shell.openExternal(_this9.props.memorandum.memorandum_file);
             };
 
             // Allows content to expand gracefully
             if (!this.state.isOpen) {
                 setTimeout(function () {
-                    _this7.setState({
+                    _this9.setState({
                         isOpen: true
                     });
                 }, 200);
