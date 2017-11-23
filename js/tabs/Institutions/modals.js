@@ -702,9 +702,44 @@ class ArchiveMemorandumModal extends Component {
     }
 }
 
+class ProgramFormModal extends Component {
+    constructor(props) {
+        super(props);
+
+        this.getFormErrors = this.getFormErrors.bind(this);
+    }
+
+    getFormErrors() {
+        //TODO
+    }
+
+    render() {
+        //TODO
+
+        return (
+            <Modal isOpen={this.props.isOpen}
+                   toggle={this.props.toggle}
+                   backdrop={true}>
+                <ModalHeader toggle={this.props.toggle}>
+                    Add a program
+                </ModalHeader>
+                <ModalBody className="form">
+                    <Form>
+
+                    </Form>
+                </ModalBody>
+                <ModalFooter>
+
+                </ModalFooter>
+            </Modal>
+        );
+    }
+}
+
 export {
     InstitutionFormModal,
     ArchiveInstitutionModal,
     MemorandumFormModal,
     ArchiveMemorandumModal,
+    ProgramFormModal,
 };

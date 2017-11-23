@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.ArchiveMemorandumModal = exports.MemorandumFormModal = exports.ArchiveInstitutionModal = exports.InstitutionFormModal = undefined;
+exports.ProgramFormModal = exports.ArchiveMemorandumModal = exports.MemorandumFormModal = exports.ArchiveInstitutionModal = exports.InstitutionFormModal = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -1007,8 +1007,54 @@ var ArchiveMemorandumModal = function (_Component4) {
     return ArchiveMemorandumModal;
 }(_react.Component);
 
+var ProgramFormModal = function (_Component5) {
+    _inherits(ProgramFormModal, _Component5);
+
+    function ProgramFormModal(props) {
+        _classCallCheck(this, ProgramFormModal);
+
+        var _this15 = _possibleConstructorReturn(this, (ProgramFormModal.__proto__ || Object.getPrototypeOf(ProgramFormModal)).call(this, props));
+
+        _this15.getFormErrors = _this15.getFormErrors.bind(_this15);
+        return _this15;
+    }
+
+    _createClass(ProgramFormModal, [{
+        key: "getFormErrors",
+        value: function getFormErrors() {
+            //TODO
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            //TODO
+
+            return _react2.default.createElement(
+                _reactstrap.Modal,
+                { isOpen: this.props.isOpen,
+                    toggle: this.props.toggle,
+                    backdrop: true },
+                _react2.default.createElement(
+                    _reactstrap.ModalHeader,
+                    { toggle: this.props.toggle },
+                    "Add a program"
+                ),
+                _react2.default.createElement(
+                    _reactstrap.ModalBody,
+                    { className: "form" },
+                    _react2.default.createElement(_reactstrap.Form, null)
+                ),
+                _react2.default.createElement(_reactstrap.ModalFooter, null)
+            );
+        }
+    }]);
+
+    return ProgramFormModal;
+}(_react.Component);
+
 exports.InstitutionFormModal = InstitutionFormModal;
 exports.ArchiveInstitutionModal = ArchiveInstitutionModal;
 exports.MemorandumFormModal = MemorandumFormModal;
 exports.ArchiveMemorandumModal = ArchiveMemorandumModal;
+exports.ProgramFormModal = ProgramFormModal;
 //# sourceMappingURL=modals.js.map
