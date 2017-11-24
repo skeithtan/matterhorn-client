@@ -26,8 +26,6 @@ var _loading = require("../../../components/loading");
 
 var _loading2 = _interopRequireDefault(_loading);
 
-var _section = require("../../../components/section");
-
 var _reactstrap = require("reactstrap");
 
 var _modals = require("../../Institutions/modals");
@@ -100,11 +98,19 @@ var Memorandums = function (_Component) {
         });
 
         _this.setMemorandums = _this.setMemorandums.bind(_this);
+        _this.setActiveCategory = _this.setActiveCategory.bind(_this);
         _this.setActiveMemorandum = _this.setActiveMemorandum.bind(_this);
         return _this;
     }
 
     _createClass(Memorandums, [{
+        key: "setActiveCategory",
+        value: function setActiveCategory(category) {
+            this.setState({
+                activeCategory: category
+            });
+        }
+    }, {
         key: "setMemorandums",
         value: function setMemorandums(category) {
             var filteredMemorandums = [];
@@ -126,7 +132,12 @@ var Memorandums = function (_Component) {
     }, {
         key: "setActiveMemorandum",
         value: function setActiveMemorandum(memorandum) {
-            // TODO
+            console.log(memorandum);
+            this.setState({
+                activeMemorandum: memorandum
+            });
+
+            // TODO: set sidebar content
         }
     }, {
         key: "render",
@@ -136,9 +147,12 @@ var Memorandums = function (_Component) {
             return _react2.default.createElement(
                 "div",
                 { className: "d-flex flex-column h-100" },
-                _react2.default.createElement(MemorandumsHead, { setMemorandums: this.setMemorandums }),
-                _react2.default.createElement(MemorandumsBody, { activeCategory: this.state.activeCategory,
-                    memorandums: memorandums })
+                _react2.default.createElement(MemorandumsHead, { setMemorandums: this.setMemorandums,
+                    setActiveCategory: this.setActiveCategory }),
+                _react2.default.createElement(MemorandumsTable, { activeCategory: this.state.activeCategory,
+                    memorandums: memorandums,
+                    activeMemorandum: this.state.activeMemorandum,
+                    setActiveMemorandum: this.setActiveMemorandum })
             );
         }
     }]);
@@ -161,6 +175,7 @@ var MemorandumsHead = function (_Component2) {
     _createClass(MemorandumsHead, [{
         key: "onCategoryChange",
         value: function onCategoryChange(event) {
+            this.props.setActiveCategory(event.target.value);
             this.props.setMemorandums(event.target.value);
         }
     }, {
@@ -206,19 +221,19 @@ var MemorandumsHead = function (_Component2) {
     return MemorandumsHead;
 }(_react.Component);
 
-var MemorandumsBody = function (_Component3) {
-    _inherits(MemorandumsBody, _Component3);
+var MemorandumsTable = function (_Component3) {
+    _inherits(MemorandumsTable, _Component3);
 
-    function MemorandumsBody(props) {
-        _classCallCheck(this, MemorandumsBody);
+    function MemorandumsTable(props) {
+        _classCallCheck(this, MemorandumsTable);
 
-        var _this3 = _possibleConstructorReturn(this, (MemorandumsBody.__proto__ || Object.getPrototypeOf(MemorandumsBody)).call(this, props));
+        var _this3 = _possibleConstructorReturn(this, (MemorandumsTable.__proto__ || Object.getPrototypeOf(MemorandumsTable)).call(this, props));
 
         _this3.emptyState = _this3.emptyState.bind(_this3);
         return _this3;
     }
 
-    _createClass(MemorandumsBody, [{
+    _createClass(MemorandumsTable, [{
         key: "emptyState",
         value: function emptyState() {
             return _react2.default.createElement(
@@ -235,13 +250,71 @@ var MemorandumsBody = function (_Component3) {
     }, {
         key: "render",
         value: function render() {
+            var _this4 = this;
+
             var memorandums = this.props.memorandums;
 
-            return _react2.default.createElement("div", null);
+            if (memorandums === null) {
+                return _react2.default.createElement(_loading2.default, null);
+            }
+
+            if (memorandums.length === 0) {
+                return this.emptyState();
+            }
+
+            var rows = memorandums.map(function (memorandum, index) {
+                var isActive = false;
+
+                if (_this4.props.activeMemorandum !== null) {
+                    isActive = _this4.props.activeMemorandum.memorandum.id === memorandum.memorandum.id;
+                }
+
+                var onMemorandumRowClick = function onMemorandumRowClick() {
+                    return _this4.props.setActiveMemorandum(memorandum);
+                };
+
+                return _react2.default.createElement(MemorandumRow, { key: index,
+                    memorandum: memorandum,
+                    isActive: isActive,
+                    onClick: onMemorandumRowClick });
+            });
+
+            return _react2.default.createElement(
+                _reactstrap.Table,
+                { hover: true },
+                _react2.default.createElement(
+                    "thead",
+                    null,
+                    _react2.default.createElement(
+                        "tr",
+                        null,
+                        _react2.default.createElement(
+                            "th",
+                            null,
+                            "Institution Name"
+                        ),
+                        _react2.default.createElement(
+                            "th",
+                            null,
+                            "Date Effective"
+                        ),
+                        _react2.default.createElement(
+                            "th",
+                            null,
+                            "Date of Expiration"
+                        )
+                    )
+                ),
+                _react2.default.createElement(
+                    "tbody",
+                    null,
+                    rows
+                )
+            );
         }
     }]);
 
-    return MemorandumsBody;
+    return MemorandumsTable;
 }(_react.Component);
 
 var MemorandumRow = function (_Component4) {
@@ -255,7 +328,52 @@ var MemorandumRow = function (_Component4) {
 
     _createClass(MemorandumRow, [{
         key: "render",
-        value: function render() {}
+        value: function render() {
+            var memorandum = this.props.memorandum;
+
+            var expirationToNow = memorandum.memorandum.dateExpiration.fromNow();
+
+            var now = (0, _moment2.default)();
+
+            var dateExpirationMoment = memorandum.memorandum.dateExpiration;
+            var monthsBeforeExpiration = dateExpirationMoment.diff(now, "months");
+            var hasExpired = dateExpirationMoment.diff(now, "days") <= 0;
+
+            var urgent = monthsBeforeExpiration <= 6;
+
+            var expirationClass = "";
+            if (urgent && !this.props.isActive) {
+                expirationClass += "table-danger";
+            } else if (!urgent && !this.props.isActive) {
+                expirationClass += "table-success";
+            } else if (urgent && this.props.isActive) {
+                expirationClass += "text-white bg-danger";
+            } else {
+                expirationClass += "text-white bg-success";
+            }
+
+            return _react2.default.createElement(
+                "tr",
+                { className: expirationClass },
+                _react2.default.createElement(
+                    "td",
+                    null,
+                    memorandum.institution.name
+                ),
+                _react2.default.createElement(
+                    "td",
+                    null,
+                    memorandum.memorandum.dateEffective.format("LL")
+                ),
+                _react2.default.createElement(
+                    "td",
+                    null,
+                    hasExpired ? "Expired" : "Expires",
+                    " ",
+                    expirationToNow
+                )
+            );
+        }
     }]);
 
     return MemorandumRow;

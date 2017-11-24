@@ -3,10 +3,7 @@ import graphql from "../../../graphql";
 import moment from "moment";
 import settings from "../../../settings";
 import LoadingSpinner from "../../../components/loading";
-import {
-    SectionRow,
-    SectionRowContent,
-} from "../../../components/section";
+import { Table } from "reactstrap";
 import {
     Input,
 } from "reactstrap";
@@ -86,7 +83,14 @@ class Memorandums extends Component {
         });
 
         this.setMemorandums = this.setMemorandums.bind(this);
+        this.setActiveCategory = this.setActiveCategory.bind(this);
         this.setActiveMemorandum = this.setActiveMemorandum.bind(this);
+    }
+
+    setActiveCategory(category) {
+        this.setState({
+            activeCategory : category,
+        });
     }
 
     setMemorandums(category) {
@@ -108,7 +112,12 @@ class Memorandums extends Component {
     }
 
     setActiveMemorandum(memorandum) {
-        // TODO
+        console.log(memorandum);
+        this.setState({
+            activeMemorandum : memorandum,
+        });
+
+        // TODO: set sidebar content
     }
 
     render() {
@@ -116,9 +125,12 @@ class Memorandums extends Component {
 
         return (
             <div className="d-flex flex-column h-100">
-                <MemorandumsHead setMemorandums={ this.setMemorandums }/>
-                <MemorandumsBody activeCategory={ this.state.activeCategory }
-                                 memorandums={ memorandums }/>
+                <MemorandumsHead setMemorandums={ this.setMemorandums }
+                                 setActiveCategory={ this.setActiveCategory }/>
+                <MemorandumsTable activeCategory={ this.state.activeCategory }
+                                  memorandums={ memorandums }
+                                  activeMemorandum={ this.state.activeMemorandum }
+                                  setActiveMemorandum={ this.setActiveMemorandum }/>
             </div>
         );
     }
@@ -132,6 +144,7 @@ class MemorandumsHead extends Component {
     }
 
     onCategoryChange(event) {
+        this.props.setActiveCategory(event.target.value);
         this.props.setMemorandums(event.target.value);
     }
 
@@ -157,7 +170,7 @@ class MemorandumsHead extends Component {
     }
 }
 
-class MemorandumsBody extends Component {
+class MemorandumsTable extends Component {
     constructor(props) {
         super(props);
 
@@ -175,10 +188,42 @@ class MemorandumsBody extends Component {
     render() {
         const memorandums = this.props.memorandums;
 
+        if (memorandums === null) {
+            return <LoadingSpinner/>;
+        }
+
+        if (memorandums.length === 0) {
+            return this.emptyState();
+        }
+
+        const rows = memorandums.map((memorandum, index) => {
+            let isActive = false;
+
+            if (this.props.activeMemorandum !== null) {
+                isActive = this.props.activeMemorandum.memorandum.id === memorandum.memorandum.id;
+            }
+
+            const onMemorandumRowClick = () => this.props.setActiveMemorandum(memorandum);
+
+            return <MemorandumRow key={ index }
+                                  memorandum={ memorandum }
+                                  isActive={ isActive }
+                                  onClick={ onMemorandumRowClick }/>;
+        });
+
         return (
-            <div>
-                
-            </div>
+            <Table hover>
+                <thead>
+                <tr>
+                    <th>Institution Name</th>
+                    <th>Date Effective</th>
+                    <th>Date of Expiration</th>
+                </tr>
+                </thead>
+                <tbody>
+                { rows }
+                </tbody>
+            </Table>
         );
     }
 }
@@ -189,7 +234,36 @@ class MemorandumRow extends Component {
     }
 
     render() {
+        const memorandum = this.props.memorandum;
 
+        const expirationToNow = memorandum.memorandum.dateExpiration.fromNow();
+
+        const now = moment();
+
+        const dateExpirationMoment = memorandum.memorandum.dateExpiration;
+        const monthsBeforeExpiration = dateExpirationMoment.diff(now, "months");
+        const hasExpired = dateExpirationMoment.diff(now, "days") <= 0;
+
+        const urgent = monthsBeforeExpiration <= 6;
+
+        let expirationClass = "";
+        if (urgent && !this.props.isActive) {
+            expirationClass += "table-danger";
+        } else if (!urgent && !this.props.isActive) {
+            expirationClass += "table-success";
+        } else if (urgent && this.props.isActive) {
+            expirationClass += "text-white bg-danger";
+        } else {
+            expirationClass += "text-white bg-success";
+        }
+
+        return (
+            <tr className={ expirationClass }>
+                <td>{ memorandum.institution.name }</td>
+                <td>{ memorandum.memorandum.dateEffective.format("LL") }</td>
+                <td>{ hasExpired ? "Expired" : "Expires" } { expirationToNow }</td>
+            </tr>
+        );
     }
 }
 
