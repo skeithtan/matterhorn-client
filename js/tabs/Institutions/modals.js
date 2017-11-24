@@ -182,8 +182,6 @@ class InstitutionFormModal extends Component {
 
         countries.unshift(<option value="">Select a country</option>);
 
-        console.log(countries);
-
         function isValid(fieldName) {
             return fieldErrors[fieldName].length === 0;
         }

@@ -226,8 +226,6 @@ var InstitutionFormModal = function (_Component) {
                 "Select a country"
             ));
 
-            console.log(countries);
-
             function isValid(fieldName) {
                 return fieldErrors[fieldName].length === 0;
             }
