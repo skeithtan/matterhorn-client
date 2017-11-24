@@ -354,7 +354,8 @@ var MemorandumRow = function (_Component4) {
 
             return _react2.default.createElement(
                 "tr",
-                { className: expirationClass },
+                { className: expirationClass,
+                    onClick: this.props.onClick },
                 _react2.default.createElement(
                     "td",
                     null,

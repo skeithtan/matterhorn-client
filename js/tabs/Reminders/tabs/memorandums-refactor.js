@@ -258,7 +258,8 @@ class MemorandumRow extends Component {
         }
 
         return (
-            <tr className={ expirationClass }>
+            <tr className={ expirationClass }
+                onClick={ this.props.onClick }>
                 <td>{ memorandum.institution.name }</td>
                 <td>{ memorandum.memorandum.dateEffective.format("LL") }</td>
                 <td>{ hasExpired ? "Expired" : "Expires" } { expirationToNow }</td>
