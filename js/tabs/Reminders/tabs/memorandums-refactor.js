@@ -6,7 +6,7 @@ import { Table } from "reactstrap";
 import {
     Input,
 } from "reactstrap";
-import MemorandumsSidebarPane from "./sidebar_panes";
+import { MemorandumsSidebarPane } from "./sidebar_panes";
 
 function fetchInstitutions(onResult) {
     graphql.query(`
@@ -95,6 +95,7 @@ class Memorandums extends Component {
         this.setMemorandums = this.setMemorandums.bind(this);
         this.setActiveCategory = this.setActiveCategory.bind(this);
         this.setActiveMemorandum = this.setActiveMemorandum.bind(this);
+        this.refreshMemorandums = this.refreshMemorandums.bind(this);
     }
 
     setActiveCategory(category) {
@@ -130,7 +131,18 @@ class Memorandums extends Component {
             activeMemorandum : memorandum,
         });
 
-        // TODO: set sidebar content
+        this.props.setSidebarContent(<MemorandumsSidebarPane memorandum={ memorandum.memorandum }
+                                                             refresh={ this.refreshMemorandums }/>);
+    }
+
+    refreshMemorandums() {
+        fetchInstitutions(result => {
+            this.setState({
+                institutions : result.institutions,
+            });
+        });
+
+        this.setMemorandums(this.state.activeCategory);
     }
 
     render() {

@@ -39,15 +39,244 @@ var MemorandumsSidebarPane = function (_Component) {
     function MemorandumsSidebarPane(props) {
         _classCallCheck(this, MemorandumsSidebarPane);
 
-        return _possibleConstructorReturn(this, (MemorandumsSidebarPane.__proto__ || Object.getPrototypeOf(MemorandumsSidebarPane)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (MemorandumsSidebarPane.__proto__ || Object.getPrototypeOf(MemorandumsSidebarPane)).call(this, props));
+
+        _this.state = {
+            memorandum: props.memorandum,
+            renewModalIsOpen: false
+        };
+
+        _this.toggleRenewModal = _this.toggleRenewModal.bind(_this);
+        return _this;
     }
 
     _createClass(MemorandumsSidebarPane, [{
+        key: "toggleRenewModal",
+        value: function toggleRenewModal() {
+            this.setState({
+                renewModalIsOpen: !this.state.renewModalIsOpen
+            });
+        }
+    }, {
+        key: "componentWillReceiveProps",
+        value: function componentWillReceiveProps(props) {
+            this.setState({
+                memorandum: props.memorandum
+            });
+        }
+    }, {
         key: "render",
-        value: function render() {}
+        value: function render() {
+            var memorandum = this.state.memorandum;
+            return _react2.default.createElement(
+                "div",
+                { className: "p-0 h-100 d-flex flex-column" },
+                _react2.default.createElement(
+                    "div",
+                    { className: "page-head pt-5 d-flex flex-row align-items-end" },
+                    _react2.default.createElement(
+                        "div",
+                        { className: "mr-auto" },
+                        _react2.default.createElement(
+                            "h5",
+                            { className: "mb-0" },
+                            "Memorandum"
+                        )
+                    )
+                ),
+                _react2.default.createElement(
+                    "div",
+                    { className: "page-body" },
+                    _react2.default.createElement(MemorandumDetails, { memorandum: memorandum }),
+                    _react2.default.createElement(MemorandumLinkages, { linkages: memorandum.linkages })
+                )
+            );
+        }
     }]);
 
     return MemorandumsSidebarPane;
+}(_react.Component);
+
+var MemorandumDetails = function (_Component2) {
+    _inherits(MemorandumDetails, _Component2);
+
+    function MemorandumDetails(props) {
+        _classCallCheck(this, MemorandumDetails);
+
+        return _possibleConstructorReturn(this, (MemorandumDetails.__proto__ || Object.getPrototypeOf(MemorandumDetails)).call(this, props));
+    }
+
+    _createClass(MemorandumDetails, [{
+        key: "render",
+        value: function render() {
+            var memorandum = this.props.memorandum;
+
+            var collegeInitiator = "None";
+
+            if (memorandum.collegeInitiator !== null) {
+                collegeInitiator = _settings2.default.colleges[memorandum.collegeInitiator];
+            }
+
+            function formatDate(date) {
+                return (0, _moment2.default)(date).format("LL");
+            }
+
+            var viewMemorandum = function viewMemorandum() {
+                var shell = require("electron").shell;
+                shell.openExternal(memorandum.file);
+            };
+
+            return _react2.default.createElement(
+                _section.Section,
+                null,
+                _react2.default.createElement(
+                    _section.SectionTitle,
+                    null,
+                    "Details"
+                ),
+                _react2.default.createElement(
+                    _section.SectionTable,
+                    null,
+                    _react2.default.createElement(
+                        _section.SectionRow,
+                        null,
+                        _react2.default.createElement(
+                            _section.SectionRowTitle,
+                            null,
+                            "Memorandum Type"
+                        ),
+                        _react2.default.createElement(
+                            _section.SectionRowContent,
+                            null,
+                            memorandum.type
+                        )
+                    ),
+                    _react2.default.createElement(
+                        _section.SectionRow,
+                        null,
+                        _react2.default.createElement(
+                            _section.SectionRowTitle,
+                            null,
+                            "Date Effective"
+                        ),
+                        _react2.default.createElement(
+                            _section.SectionRowContent,
+                            null,
+                            formatDate(memorandum.dateEffective)
+                        )
+                    ),
+                    _react2.default.createElement(
+                        _section.SectionRow,
+                        null,
+                        _react2.default.createElement(
+                            _section.SectionRowTitle,
+                            null,
+                            "Expiration Date"
+                        ),
+                        _react2.default.createElement(
+                            _section.SectionRowContent,
+                            null,
+                            formatDate(memorandum.dateExpiration)
+                        )
+                    ),
+                    _react2.default.createElement(
+                        _section.SectionRow,
+                        null,
+                        _react2.default.createElement(
+                            _section.SectionRowTitle,
+                            null,
+                            "College Initiator"
+                        ),
+                        _react2.default.createElement(
+                            _section.SectionRowContent,
+                            null,
+                            collegeInitiator
+                        )
+                    ),
+                    _react2.default.createElement(
+                        _section.SectionRow,
+                        null,
+                        _react2.default.createElement(
+                            _section.SectionRowContent,
+                            { className: "d-flex" },
+                            _react2.default.createElement(
+                                _reactstrap.Button,
+                                { outline: true,
+                                    color: "success",
+                                    size: "sm",
+                                    className: "mr-2",
+                                    onClick: viewMemorandum },
+                                "View"
+                            ),
+                            _react2.default.createElement(
+                                _reactstrap.Button,
+                                { outline: true,
+                                    color: "success",
+                                    size: "sm" },
+                                "Renew"
+                            )
+                        )
+                    )
+                )
+            );
+        }
+    }]);
+
+    return MemorandumDetails;
+}(_react.Component);
+
+var MemorandumLinkages = function (_Component3) {
+    _inherits(MemorandumLinkages, _Component3);
+
+    function MemorandumLinkages(props) {
+        _classCallCheck(this, MemorandumLinkages);
+
+        return _possibleConstructorReturn(this, (MemorandumLinkages.__proto__ || Object.getPrototypeOf(MemorandumLinkages)).call(this, props));
+    }
+
+    _createClass(MemorandumLinkages, [{
+        key: "render",
+        value: function render() {
+            var body = _react2.default.createElement(
+                "div",
+                { className: "p-4 pt-5 pb-5 bg-light text-center" },
+                _react2.default.createElement(
+                    "h5",
+                    { className: "text-secondary" },
+                    "There are no linkages for this memorandum."
+                )
+            );
+
+            var rows = this.props.linkages.map(function (linkage, index) {
+                return _react2.default.createElement(
+                    _section.SectionRow,
+                    { key: index },
+                    _settings2.default.linkages[linkage]
+                );
+            });
+
+            if (this.props.linkages.length > 0) {
+                body = _react2.default.createElement(
+                    _section.SectionTable,
+                    null,
+                    rows
+                );
+            }
+
+            return _react2.default.createElement(
+                _section.Section,
+                null,
+                _react2.default.createElement(
+                    _section.SectionTitle,
+                    null,
+                    "Linkages"
+                ),
+                body
+            );
+        }
+    }]);
+
+    return MemorandumLinkages;
 }(_react.Component);
 
 exports.MemorandumsSidebarPane = MemorandumsSidebarPane;

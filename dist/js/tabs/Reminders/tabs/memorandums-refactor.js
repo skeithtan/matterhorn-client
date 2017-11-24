@@ -26,8 +26,6 @@ var _reactstrap = require("reactstrap");
 
 var _sidebar_panes = require("./sidebar_panes");
 
-var _sidebar_panes2 = _interopRequireDefault(_sidebar_panes);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -101,6 +99,7 @@ var Memorandums = function (_Component) {
         _this.setMemorandums = _this.setMemorandums.bind(_this);
         _this.setActiveCategory = _this.setActiveCategory.bind(_this);
         _this.setActiveMemorandum = _this.setActiveMemorandum.bind(_this);
+        _this.refreshMemorandums = _this.refreshMemorandums.bind(_this);
         return _this;
     }
 
@@ -141,7 +140,21 @@ var Memorandums = function (_Component) {
                 activeMemorandum: memorandum
             });
 
-            // TODO: set sidebar content
+            this.props.setSidebarContent(_react2.default.createElement(_sidebar_panes.MemorandumsSidebarPane, { memorandum: memorandum.memorandum,
+                refresh: this.refreshMemorandums }));
+        }
+    }, {
+        key: "refreshMemorandums",
+        value: function refreshMemorandums() {
+            var _this2 = this;
+
+            fetchInstitutions(function (result) {
+                _this2.setState({
+                    institutions: result.institutions
+                });
+            });
+
+            this.setMemorandums(this.state.activeCategory);
         }
     }, {
         key: "render",
@@ -170,10 +183,10 @@ var MemorandumsHead = function (_Component2) {
     function MemorandumsHead(props) {
         _classCallCheck(this, MemorandumsHead);
 
-        var _this2 = _possibleConstructorReturn(this, (MemorandumsHead.__proto__ || Object.getPrototypeOf(MemorandumsHead)).call(this, props));
+        var _this3 = _possibleConstructorReturn(this, (MemorandumsHead.__proto__ || Object.getPrototypeOf(MemorandumsHead)).call(this, props));
 
-        _this2.onCategoryChange = _this2.onCategoryChange.bind(_this2);
-        return _this2;
+        _this3.onCategoryChange = _this3.onCategoryChange.bind(_this3);
+        return _this3;
     }
 
     _createClass(MemorandumsHead, [{
@@ -231,10 +244,10 @@ var MemorandumsTable = function (_Component3) {
     function MemorandumsTable(props) {
         _classCallCheck(this, MemorandumsTable);
 
-        var _this3 = _possibleConstructorReturn(this, (MemorandumsTable.__proto__ || Object.getPrototypeOf(MemorandumsTable)).call(this, props));
+        var _this4 = _possibleConstructorReturn(this, (MemorandumsTable.__proto__ || Object.getPrototypeOf(MemorandumsTable)).call(this, props));
 
-        _this3.emptyState = _this3.emptyState.bind(_this3);
-        return _this3;
+        _this4.emptyState = _this4.emptyState.bind(_this4);
+        return _this4;
     }
 
     _createClass(MemorandumsTable, [{
@@ -254,7 +267,7 @@ var MemorandumsTable = function (_Component3) {
     }, {
         key: "render",
         value: function render() {
-            var _this4 = this;
+            var _this5 = this;
 
             var memorandums = this.props.memorandums;
 
@@ -269,12 +282,12 @@ var MemorandumsTable = function (_Component3) {
             var rows = memorandums.map(function (memorandum, index) {
                 var isActive = false;
 
-                if (_this4.props.activeMemorandum !== null) {
-                    isActive = _this4.props.activeMemorandum.memorandum.id === memorandum.memorandum.id;
+                if (_this5.props.activeMemorandum !== null) {
+                    isActive = _this5.props.activeMemorandum.memorandum.id === memorandum.memorandum.id;
                 }
 
                 var onMemorandumRowClick = function onMemorandumRowClick() {
-                    return _this4.props.setActiveMemorandum(memorandum);
+                    return _this5.props.setActiveMemorandum(memorandum);
                 };
 
                 return _react2.default.createElement(MemorandumRow, { key: index,
