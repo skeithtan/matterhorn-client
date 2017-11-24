@@ -434,8 +434,6 @@ class MemorandumFormModal extends Component {
             this.setState({
                 form : form,
             });
-
-            console.log(this.state.form);
         };
 
         widget.onChange(file => {

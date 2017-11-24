@@ -139,7 +139,8 @@ var Memorandums = function (_Component) {
                 activeMemorandum: memorandum
             });
 
-            this.props.setSidebarContent(_react2.default.createElement(_sidebar_panes.MemorandumsSidebarPane, { memorandum: memorandum.memorandum,
+            this.props.setSidebarContent(_react2.default.createElement(_sidebar_panes.MemorandumsSidebarPane, { institution: memorandum.institution,
+                memorandum: memorandum.memorandum,
                 refresh: this.refreshMemorandums }));
         }
     }, {
@@ -147,9 +148,12 @@ var Memorandums = function (_Component) {
         value: function refreshMemorandums() {
             var _this2 = this;
 
+            this.props.setSidebarContent(null);
+
             fetchInstitutions(function (result) {
                 _this2.setState({
-                    institutions: result.institutions
+                    institutions: result.institutions,
+                    activeMemorandum: null
                 });
             });
 
@@ -397,4 +401,4 @@ var MemorandumRow = function (_Component4) {
 }(_react.Component);
 
 exports.default = Memorandums;
-//# sourceMappingURL=memorandums-refactor.js.map
+//# sourceMappingURL=memorandums.js.map

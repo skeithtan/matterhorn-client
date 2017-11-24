@@ -620,8 +620,6 @@ var MemorandumFormModal = function (_Component3) {
                 _this9.setState({
                     form: form
                 });
-
-                console.log(_this9.state.form);
             };
 
             widget.onChange(function (file) {

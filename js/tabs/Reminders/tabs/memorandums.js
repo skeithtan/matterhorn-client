@@ -1,63 +1,43 @@
 import React, { Component } from "react";
 import graphql from "../../../graphql";
 import moment from "moment";
-import scrollIntoView from "scroll-into-view";
-import settings from "../../../settings";
 import LoadingSpinner from "../../../components/loading";
-
+import { Table } from "reactstrap";
 import {
-    SectionRow,
-    SectionRowContent,
-    SectionRowTitle,
-} from "../../../components/section";
-import {
-    Button,
-    Collapse,
     Input,
 } from "reactstrap";
-import { MemorandumFormModal } from "../../Institutions/modals";
-
+import { MemorandumsSidebarPane } from "./sidebar_panes";
 
 function fetchInstitutions(onResult) {
     graphql.query(`
     {
-      institutions {
-        id
-        name
-            latest_mou {
-                id
-                date_expiration
-            }
+        institutions {
+            id
+            name
             latest_moa {
                 id
+                category
+                memorandum_file
+                college_initiator
+                linkages
+                date_effective
                 date_expiration
             }
-      }
+            latest_mou {
+                id
+                category
+                memorandum_file
+                college_initiator
+                linkages
+                date_effective
+                date_expiration
+            }
+        }
     }
     `).then(onResult);
 }
 
-function fetchMemorandumDetails(id, onResult) {
-    graphql.query(`
-    {
-      memorandum(id: ${id}) {
-        id
-        category
-        memorandum_file
-        date_effective
-        date_expiration
-        college_initiator
-        linkages
-      }
-    }
-    `).then(onResult);
-}
-
-function memorandumIsFetched(memorandum) {
-    return memorandum.category !== undefined;
-}
-
-function makeCardInfo(memorandumType, institution, memorandum) {
+function makeMemorandumInfo(memorandumType, institution, memorandum) {
     return {
         institution : {
             name : institution.name,
@@ -65,45 +45,120 @@ function makeCardInfo(memorandumType, institution, memorandum) {
         },
         memorandum : {
             id : memorandum.id,
-            type : memorandumType,
-            dateEffective : moment(memorandum.date_effective),
-            dateExpiration : moment(memorandum.date_expiration),
+            category : memorandumType,
+            memorandum_file : memorandum.memorandum_file,
+            college_initiator : memorandum.college_initiator,
+            linkages : memorandum.linkages,
+            date_effective : moment(memorandum.date_effective),
+            date_expiration : moment(memorandum.date_expiration),
         },
     };
 }
 
-function makeCardsFromInstitution(institutions) {
-    let cards = [];
+function makeMemorandumsFromInstitutions(institutions) {
+    let memorandums = [];
 
 
     institutions.forEach(institution => {
         if (institution.latest_mou !== null && institution.latest_mou.date_expiration !== null) {
-            cards.push(makeCardInfo("Understanding", institution, institution.latest_mou));
+            memorandums.push(makeMemorandumInfo("Understanding", institution, institution.latest_mou));
         }
 
         if (institution.latest_moa !== null && institution.latest_moa.date_expiration !== null) {
-            cards.push(makeCardInfo("Agreement", institution, institution.latest_moa));
+            memorandums.push(makeMemorandumInfo("Agreement", institution, institution.latest_moa));
         }
     });
 
-
-    cards.sort((a, b) => {
-        return a.memorandum.dateExpiration.diff(b.memorandum.dateExpiration);
+    memorandums.sort((a, b) => {
+        return a.memorandum.date_expiration.diff(b.memorandum.date_expiration);
     });
 
-    return cards;
+    return memorandums;
 }
 
 class Memorandums extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            activeCategory : "Agreement",
+            institutions : null,
+            activeMemorandum : null,
+        };
+
+        fetchInstitutions(result => {
+            this.setState({
+                institutions : result.institutions,
+            });
+        });
+
+        this.setMemorandums = this.setMemorandums.bind(this);
+        this.setActiveCategory = this.setActiveCategory.bind(this);
+        this.setActiveMemorandum = this.setActiveMemorandum.bind(this);
+        this.refreshMemorandums = this.refreshMemorandums.bind(this);
+    }
+
+    setActiveCategory(category) {
+        this.setState({
+            activeCategory : category,
+            activeMemorandum : null,
+        });
+
+        this.props.setSidebarContent(null);
+    }
+
+    setMemorandums(category) {
+        let filteredMemorandums = [];
+
+        const institutions = this.state.institutions;
+
+        if (institutions !== null) {
+            const memorandums = makeMemorandumsFromInstitutions(institutions);
+
+            memorandums.forEach(memorandum => {
+                if (memorandum.memorandum.category === category) {
+                    filteredMemorandums.push(memorandum);
+                }
+            });
+        }
+
+        return filteredMemorandums;
+    }
+
+    setActiveMemorandum(memorandum) {
+        this.setState({
+            activeMemorandum : memorandum,
+        });
+
+        this.props.setSidebarContent(<MemorandumsSidebarPane institution={ memorandum.institution }
+                                                             memorandum={ memorandum.memorandum }
+                                                             refresh={ this.refreshMemorandums }/>);
+    }
+
+    refreshMemorandums() {
+        this.props.setSidebarContent(null);
+
+        fetchInstitutions(result => {
+            this.setState({
+                institutions : result.institutions,
+                activeMemorandum : null,
+            });
+        });
+
+        this.setMemorandums(this.state.activeCategory);
     }
 
     render() {
+        const memorandums = this.setMemorandums(this.state.activeCategory);
+
         return (
             <div className="d-flex flex-column h-100">
-                <MemorandumsHead/>
-                <MemorandumsBody/>
+                <MemorandumsHead setMemorandums={ this.setMemorandums }
+                                 setActiveCategory={ this.setActiveCategory }/>
+                <MemorandumsTable activeCategory={ this.state.activeCategory }
+                                  memorandums={ memorandums }
+                                  activeMemorandum={ this.state.activeMemorandum }
+                                  setActiveMemorandum={ this.setActiveMemorandum }/>
             </div>
         );
     }
@@ -112,6 +167,13 @@ class Memorandums extends Component {
 class MemorandumsHead extends Component {
     constructor(props) {
         super(props);
+
+        this.onCategoryChange = this.onCategoryChange.bind(this);
+    }
+
+    onCategoryChange(event) {
+        this.props.setActiveCategory(event.target.value);
+        this.props.setMemorandums(event.target.value);
     }
 
     render() {
@@ -122,302 +184,115 @@ class MemorandumsHead extends Component {
                         Memorandum Reminders
                     </h4>
                 </div>
-
                 <div className="page-head-actions">
-                    {/*<div className="d-flex flex-column">*/}
-                    {/*<label className="mr-3 text-dark mb-1">Archives from year</label>*/}
-                    {/*<Input type="select"*/}
-                    {/*className="btn-outline-success"*/}
-                    {/*defaultValue={this.props.activeYear}*/}
-                    {/*onChange={this.onActiveYearChange}>*/}
-                    {/*{years}*/}
-                    {/*</Input>*/}
-                    {/*</div>*/}
+                    <Input type="select"
+                           className="btn-outline-success"
+                           defaultValue="MOA"
+                           onChange={ this.onCategoryChange }>
+                        <option value="Agreement">Agreement</option>
+                        <option value="Understanding">Understanding</option>
+                    </Input>
                 </div>
-
             </div>
         );
     }
 }
 
-class MemorandumsBody extends Component {
+class MemorandumsTable extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            cards : null,
-            activeCard : null,
-        };
-
-        this.refreshCards = this.refreshCards.bind(this);
-        this.setActiveCard = this.setActiveCard.bind(this);
-
-        fetchInstitutions(result => {
-            const institutions = result.institutions;
-            this.setState({
-                cards : makeCardsFromInstitution(institutions),
-            });
-        });
+        this.emptyState = this.emptyState.bind(this);
     }
 
-    static emptyState() {
+    emptyState() {
         return (
-            <div className="loading-container h-100">
-                <h3>There are no memorandums found with an expiration date</h3>
+            <div className="loading-container">
+                <h3>There are no expiring Memorandums of { this.props.activeCategory }</h3>
             </div>
         );
     }
 
-    refreshCards() {
-        this.setState({
-            cards : null //clear first
-        });
-
-        fetchInstitutions(result => {
-            const institutions = result.institutions;
-            this.setState({
-                cards : makeCardsFromInstitution(institutions),
-            });
-        });
-    }
-
-    setActiveCard(id) {
-        this.setState({
-            activeCard : id,
-        });
-    }
-
     render() {
-        if (this.state.cards === null) {
+        const memorandums = this.props.memorandums;
+
+        if (memorandums === null) {
             return <LoadingSpinner/>;
         }
 
-        if (this.state.cards.length === 0) {
-            return Memorandums.emptyState();
+        if (memorandums.length === 0) {
+            return this.emptyState();
         }
 
-        const cards = this.state.cards.map(card => {
-            const id = card.memorandum.id;
-            const isActive = this.state.activeCard === id;
-            const setActiveCard = () => this.setActiveCard(id);
-            return <MemorandumCard key={id}
-                                   card={card}
-                                   onClick={setActiveCard}
-                                   active={isActive}
-                                   refreshCards={this.refreshCards}/>;
+        const rows = memorandums.map((memorandum, index) => {
+            let isActive = false;
+
+            if (this.props.activeMemorandum !== null) {
+                isActive = this.props.activeMemorandum.memorandum.id === memorandum.memorandum.id;
+            }
+
+            const onMemorandumRowClick = () => this.props.setActiveMemorandum(memorandum);
+
+            return <MemorandumRow key={ index }
+                                  memorandum={ memorandum }
+                                  isActive={ isActive }
+                                  onClick={ onMemorandumRowClick }/>;
         });
 
-        const onBackgroundClick = event => {
-            if (event.target === event.currentTarget) {
-                this.setActiveCard(null);
-            }
-        };
-
         return (
-            <div className="d-flex flex-column align-items-center page-body p-4"
-                 onClick={onBackgroundClick}>
-                {cards}
-            </div>
+            <Table hover>
+                <thead>
+                <tr>
+                    <th>Institution Name</th>
+                    <th>Date Effective</th>
+                    <th>Date of Expiration</th>
+                </tr>
+                </thead>
+                <tbody>
+                { rows }
+                </tbody>
+            </Table>
         );
     }
 }
 
-class MemorandumCard extends Component {
+class MemorandumRow extends Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            renewModalIsOpen : false,
-        };
-
-        this.toggleRenewModal = this.toggleRenewModal.bind(this);
-    }
-
-    toggleRenewModal() {
-        this.setState({
-            renewModalIsOpen : !this.state.renewModalIsOpen,
-        });
     }
 
     render() {
-        const dateExpiration = this.props.card.memorandum.dateExpiration.format("LL");
-        const expirationToNow = this.props.card.memorandum.dateExpiration.fromNow();
+        const memorandum = this.props.memorandum;
+
+        const expirationToNow = memorandum.memorandum.date_expiration.fromNow();
 
         const now = moment();
-        const dateExpirationMoment = this.props.card.memorandum.dateExpiration;
+
+        const dateExpirationMoment = memorandum.memorandum.date_expiration;
         const monthsBeforeExpiration = dateExpirationMoment.diff(now, "months");
         const hasExpired = dateExpirationMoment.diff(now, "days") <= 0;
 
         const urgent = monthsBeforeExpiration <= 6;
 
-        let expirationClass = "text-white ";
-        if (urgent) {
-            expirationClass += "bg-danger";
+        let expirationClass = "";
+        if (urgent && !this.props.isActive) {
+            expirationClass += "table-danger";
+        } else if (!urgent && !this.props.isActive) {
+            expirationClass += "table-success";
+        } else if (urgent && this.props.isActive) {
+            expirationClass += "text-white bg-danger";
         } else {
-            expirationClass += "bg-dlsu-lighter";
-        }
-
-        let cardClass = "reminders-card rounded ";
-        cardClass += this.props.active ? "active" : "";
-
-        let collapseContent = null;
-
-        if (memorandumIsFetched(this.props.card.memorandum) || this.props.active) {
-            //Have we fetched it yet? This way we only mount those that have been fetched
-            //or if it hasn't been fetched but is active.
-            collapseContent =
-                <div>
-                    <MemorandumCardCollapseContent memorandum={this.props.card.memorandum}
-                                                   institution={this.props.card.institution}
-                                                   toggleRenewModal={this.toggleRenewModal}/>
-                    <MemorandumFormModal
-                        institution={this.props.card.institution}
-                        toggle={this.toggleRenewModal}
-                        isOpen={this.state.renewModalIsOpen}
-                        refresh={this.props.refreshCards}
-                        memorandum={{
-                            category : this.props.card.memorandum.category,
-                            linkages : this.props.card.memorandum.linkages,
-                        }}/>
-                </div>;
-        }
-
-        const onCardClick = () => {
-            scrollIntoView(this.card);
-            this.props.onClick();
-        };
-
-
-        return (
-            <div className={cardClass}
-                 onClick={onCardClick}
-                 ref={(card) => this.card = card}>
-                <SectionRow className={expirationClass}>
-                    <SectionRowContent large>{hasExpired ? "Expired " : "Expires"} {expirationToNow}</SectionRowContent>
-                </SectionRow>
-                <SectionRow>
-                    <SectionRowTitle>Institution Name</SectionRowTitle>
-                    <SectionRowContent large>{this.props.card.institution.name}</SectionRowContent>
-                </SectionRow>
-                <SectionRow>
-                    <SectionRowTitle>Memorandum Type</SectionRowTitle>
-                    <SectionRowContent large>{this.props.card.memorandum.type}</SectionRowContent>
-                </SectionRow>
-                <SectionRow>
-                    <SectionRowTitle>Date of Expiration</SectionRowTitle>
-                    <SectionRowContent large>{dateExpiration}</SectionRowContent>
-                </SectionRow>
-                <Collapse isOpen={this.props.active}>
-                    {collapseContent}
-                </Collapse>
-            </div>
-        );
-    }
-}
-
-class MemorandumCardCollapseContent extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            memorandum : props.memorandum,
-            isOpen : false,
-        };
-
-        fetchMemorandumDetails(props.memorandum.id, result => {
-            let memorandum = result.memorandum;
-            let stateMemorandum = this.state.memorandum;
-
-            // Store fetched information in the instance
-            stateMemorandum.category = memorandum.category;
-            stateMemorandum.memorandum_file = memorandum.memorandum_file;
-            stateMemorandum.date_effective = memorandum.date_effective;
-            stateMemorandum.college_initiator = memorandum.college_initiator;
-            stateMemorandum.linkages = memorandum.linkages;
-
-            this.setState({
-                memorandum : memorandum,
-            });
-        });
-    }
-
-    render() {
-        const memorandum = this.state.memorandum;
-
-        if (!memorandumIsFetched(memorandum)) {
-            return (
-                <div className="card-details">
-                    <LoadingSpinner noText/>
-                </div>
-            );
-        }
-
-        const dateEffective = moment(memorandum.date_effective).format("LL");
-
-        let collegeInitiator = "No college initiator";
-        if (memorandum.college_initiator !== null) {
-            collegeInitiator = settings.colleges[memorandum.college_initiator];
-        }
-
-        let linkages = "No linkages";
-        if (memorandum.linkages.length > 0) {
-            linkages = "";
-
-            memorandum.linkages.forEach((linkage, index) => {
-                const linkageString = settings.linkages[linkage];
-                if (index === memorandum.linkages.length - 1) {
-                    linkages += linkageString;
-                } else {
-                    linkages += linkageString + ", ";
-                }
-            });
-        }
-
-        const viewMemorandum = () => {
-            require("electron").shell.openExternal(this.props.memorandum.memorandum_file);
-        };
-
-        // Allows content to expand gracefully
-        if (!this.state.isOpen) {
-            setTimeout(() => {
-                this.setState({
-                    isOpen : true,
-                });
-            }, 200);
+            expirationClass += "text-white bg-success";
         }
 
         return (
-            <Collapse isOpen={this.state.isOpen}>
-                <SectionRow>
-                    <SectionRowTitle>Date Effective</SectionRowTitle>
-                    <SectionRowContent large>{dateEffective}</SectionRowContent>
-                </SectionRow>
-                <SectionRow>
-                    <SectionRowTitle>College Initiator</SectionRowTitle>
-                    <SectionRowContent large>{collegeInitiator}</SectionRowContent>
-                </SectionRow>
-                <SectionRow>
-                    <SectionRowTitle>Linkages</SectionRowTitle>
-                    <SectionRowContent large>{linkages}</SectionRowContent>
-                </SectionRow>
-                <SectionRow>
-                    <Button outline
-                            size="sm"
-                            color="success"
-                            className="mr-2"
-                            onClick={viewMemorandum}>
-                        View memorandum document
-                    </Button>
-                    <Button outline
-                            size="sm"
-                            color="success"
-                            onClick={this.props.toggleRenewModal}>
-                        Renew Memorandum
-                    </Button>
-                </SectionRow>
-            </Collapse>
+            <tr className={ expirationClass }
+                onClick={ this.props.onClick }>
+                <td>{ memorandum.institution.name }</td>
+                <td>{ memorandum.memorandum.date_effective.format("LL") }</td>
+                <td>{ hasExpired ? "Expired" : "Expires" } { expirationToNow }</td>
+            </tr>
         );
-
     }
 }
 

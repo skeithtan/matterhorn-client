@@ -68,6 +68,7 @@ var MemorandumsSidebarPane = function (_Component) {
         key: "render",
         value: function render() {
             var memorandum = this.state.memorandum;
+
             return _react2.default.createElement(
                 "div",
                 { className: "p-0 h-100 d-flex flex-column" },
@@ -90,9 +91,12 @@ var MemorandumsSidebarPane = function (_Component) {
                     _react2.default.createElement(MemorandumDetails, { memorandum: memorandum,
                         toggleRenewModal: this.toggleRenewModal }),
                     _react2.default.createElement(MemorandumLinkages, { linkages: memorandum.linkages }),
-                    memorandum !== null && _react2.default.createElement(_modals.MemorandumFormModal, { edit: true,
-                        isOpen: this.state.renewModalIsOpen,
-                        memorandum: memorandum,
+                    memorandum !== null && _react2.default.createElement(_modals.MemorandumFormModal, { isOpen: this.state.renewModalIsOpen,
+                        institution: this.props.institution,
+                        memorandum: {
+                            category: memorandum.category,
+                            linkages: memorandum.linkages
+                        },
                         toggle: this.toggleRenewModal,
                         refresh: this.props.refresh })
                 )

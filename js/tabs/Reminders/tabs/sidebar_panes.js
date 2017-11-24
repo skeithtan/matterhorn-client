@@ -38,6 +38,7 @@ class MemorandumsSidebarPane extends Component {
 
     render() {
         const memorandum = this.state.memorandum;
+
         return (
             <div className="p-0 h-100 d-flex flex-column">
                 <div className="page-head pt-5 d-flex flex-row align-items-end">
@@ -51,9 +52,12 @@ class MemorandumsSidebarPane extends Component {
                                        toggleRenewModal={ this.toggleRenewModal }/>
                     <MemorandumLinkages linkages={ memorandum.linkages }/>
 
-                    { memorandum !== null && <MemorandumFormModal edit
-                                                                  isOpen={ this.state.renewModalIsOpen }
-                                                                  memorandum={ memorandum }
+                    { memorandum !== null && <MemorandumFormModal isOpen={ this.state.renewModalIsOpen }
+                                                                  institution={ this.props.institution }
+                                                                  memorandum={ {
+                                                                      category : memorandum.category,
+                                                                      linkages : memorandum.linkages,
+                                                                  } }
                                                                   toggle={ this.toggleRenewModal }
                                                                   refresh={ this.props.refresh }/> }
                 </div>
