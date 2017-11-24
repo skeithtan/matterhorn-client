@@ -50,6 +50,8 @@ var Reminders = function (_Component) {
             this.setState({
                 activeTab: tab
             });
+
+            this.setSidebarContent(null);
         }
     }, {
         key: "setSidebarContent",

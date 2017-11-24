@@ -20,6 +20,8 @@ class Reminders extends Component {
         this.setState({
             activeTab : tab,
         });
+
+        this.setSidebarContent(null);
     }
 
     setSidebarContent(content) {
