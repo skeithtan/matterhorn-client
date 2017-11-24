@@ -364,12 +364,10 @@ var MemorandumRow = function (_Component4) {
             var expirationClass = "";
             if (urgent && !this.props.isActive) {
                 expirationClass += "table-danger";
-            } else if (!urgent && !this.props.isActive) {
-                expirationClass += "table-success";
+            } else if (!urgent && this.props.isActive) {
+                expirationClass += "text-white bg-dlsu-lighter";
             } else if (urgent && this.props.isActive) {
                 expirationClass += "text-white bg-danger";
-            } else {
-                expirationClass += "text-white bg-success";
             }
 
             return _react2.default.createElement(
