@@ -12,7 +12,7 @@ import {
 } from "reactstrap";
 import { MemorandumFormModal } from "../../Institutions/modals";
 
-function fetchInstitutionAgreements(onResult) {
+function fetchInstitutions(onResult) {
     graphql.query(`
     {
         institutions {
@@ -23,17 +23,6 @@ function fetchInstitutionAgreements(onResult) {
                 date_effective
                 date_expiration
             }
-        }
-    }
-    `).then(onResult);
-}
-
-function fetchInstitutionUnderstandings(onResult) {
-    graphql.query(`
-    {
-        institutions {
-            id
-            name
             latest_mou {
                 id
                 date_effective
@@ -44,51 +33,92 @@ function fetchInstitutionUnderstandings(onResult) {
     `).then(onResult);
 }
 
+function makeMemorandumInfo(memorandumType, institution, memorandum) {
+    return {
+        institution : {
+            name : institution.name,
+            id : institution.id,
+        },
+        memorandum : {
+            id : memorandum.id,
+            type : memorandumType,
+            dateEffective : moment(memorandum.date_effective),
+            dateExpiration : moment(memorandum.date_expiration),
+        },
+    };
+}
+
+function makeMemorandumsFromInstitutions(institutions) {
+    let memorandums = [];
+
+
+    institutions.forEach(institution => {
+        if (institution.latest_mou !== null && institution.latest_mou.date_expiration !== null) {
+            memorandums.push(makeMemorandumInfo("Understanding", institution, institution.latest_mou));
+        }
+
+        if (institution.latest_moa !== null && institution.latest_moa.date_expiration !== null) {
+            memorandums.push(makeMemorandumInfo("Agreement", institution, institution.latest_moa));
+        }
+    });
+
+    memorandums.sort((a, b) => {
+        return a.memorandum.dateExpiration.diff(b.memorandum.dateExpiration);
+    });
+
+    return memorandums;
+}
+
 class Memorandums extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            memorandums : null,
+            activeCategory : "Agreement",
+            institutions : null,
             activeMemorandum : null,
         };
 
-        fetchInstitutionAgreements(result => {
+        fetchInstitutions(result => {
             this.setState({
-                memorandums : result.institutions,
+                institutions : result.institutions,
             });
         });
 
         this.setMemorandums = this.setMemorandums.bind(this);
+        this.setActiveMemorandum = this.setActiveMemorandum.bind(this);
     }
 
     setMemorandums(category) {
-        this.setState({
-            memorandums : null, // loading
-        });
+        let filteredMemorandums = [];
 
-        if (category === "MOA") {
-            fetchInstitutionAgreements(result => {
-                this.setState({
-                    memorandums : result.institutions,
-                });
+        const institutions = this.state.institutions;
+
+        if (institutions !== null) {
+            const memorandums = makeMemorandumsFromInstitutions(institutions);
+
+            memorandums.forEach(memorandum => {
+                if (memorandum.memorandum.type === category) {
+                    filteredMemorandums.push(memorandum);
+                }
             });
         }
 
-        else {
-            fetchInstitutionUnderstandings(result => {
-                this.setState({
-                    memorandums : result.institutions,
-                });
-            });
-        }
+        return filteredMemorandums;
+    }
+
+    setActiveMemorandum(memorandum) {
+        // TODO
     }
 
     render() {
+        const memorandums = this.setMemorandums(this.state.activeCategory);
+
         return (
             <div className="d-flex flex-column h-100">
                 <MemorandumsHead setMemorandums={ this.setMemorandums }/>
-                { /* MemorandumsBody */ }
+                <MemorandumsBody activeCategory={ this.state.activeCategory }
+                                 memorandums={ memorandums }/>
             </div>
         );
     }
@@ -118,8 +148,8 @@ class MemorandumsHead extends Component {
                            className="btn-outline-success"
                            defaultValue="MOA"
                            onChange={ this.onCategoryChange }>
-                        <option value="MOA">Agreement</option>
-                        <option value="MOU">Understanding</option>
+                        <option value="Agreement">Agreement</option>
+                        <option value="Understanding">Understanding</option>
                     </Input>
                 </div>
             </div>
@@ -130,10 +160,26 @@ class MemorandumsHead extends Component {
 class MemorandumsBody extends Component {
     constructor(props) {
         super(props);
+
+        this.emptyState = this.emptyState.bind(this);
+    }
+
+    emptyState() {
+        return (
+            <div className="loading-container">
+                <h3>There are no expiring Memorandums of { this.props.activeCategory }</h3>
+            </div>
+        );
     }
 
     render() {
+        const memorandums = this.props.memorandums;
 
+        return (
+            <div>
+                
+            </div>
+        );
     }
 }
 
