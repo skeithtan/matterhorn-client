@@ -6,7 +6,7 @@ import Students from "./students";
 const tabs = [
     {
         name : "Memorandums",
-        tab : <Memorandums/>,
+        tab : setSidebarContent => <Memorandums setSidebarContent={ setSidebarContent }/>,
         image : "./images/memorandumgrey.png",
         activeImage : "./images/memorandumgreen.png",
     },
@@ -18,7 +18,7 @@ const tabs = [
     },
     {
         name : "Students",
-        tab : <Students/>,
+        tab : undefined,
         image : "./images/studentgrey.png",
         activeImage : "./images/studentgreen.png",
     },

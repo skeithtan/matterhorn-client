@@ -24,7 +24,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var tabs = [{
     name: "Memorandums",
-    tab: _react2.default.createElement(_memorandumsRefactor2.default, null),
+    tab: function tab(setSidebarContent) {
+        return _react2.default.createElement(_memorandumsRefactor2.default, { setSidebarContent: setSidebarContent });
+    },
     image: "./images/memorandumgrey.png",
     activeImage: "./images/memorandumgreen.png"
 }, {
@@ -34,7 +36,7 @@ var tabs = [{
     activeImage: "./images/airplanegreen.png"
 }, {
     name: "Students",
-    tab: _react2.default.createElement(_students2.default, null),
+    tab: undefined,
     image: "./images/studentgrey.png",
     activeImage: "./images/studentgreen.png"
 }];

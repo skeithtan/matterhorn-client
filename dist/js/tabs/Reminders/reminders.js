@@ -40,6 +40,7 @@ var Reminders = function (_Component) {
         };
 
         _this.setActiveTab = _this.setActiveTab.bind(_this);
+        _this.setSidebarContent = _this.setSidebarContent.bind(_this);
         return _this;
     }
 
@@ -51,20 +52,43 @@ var Reminders = function (_Component) {
             });
         }
     }, {
+        key: "setSidebarContent",
+        value: function setSidebarContent(content) {
+            this.setState({
+                sidebarContent: content
+            });
+        }
+    }, {
         key: "render",
         value: function render() {
+            var sidebarClass = "sidebar-right ";
+            if (this.state.sidebarContent === null) {
+                sidebarClass += "dismissed";
+            }
+
+            var tab = this.state.activeTab.tab(this.setSidebarContent);
+
             return _react2.default.createElement(
                 "div",
                 { id: "reminders",
-                    className: "d-flex flex-column p-0 h-100 w-100" },
+                    className: "d-flex flex-row h-100 w-100" },
                 _react2.default.createElement(
                     "div",
-                    { className: "tab-content" },
-                    this.state.activeTab.tab
+                    { className: "d-flex flex-column p-0 h-100 w-100" },
+                    _react2.default.createElement(
+                        "div",
+                        { className: "tab-content" },
+                        tab
+                    ),
+                    _react2.default.createElement(_tab_bar2.default, { setActiveTab: this.setActiveTab,
+                        activeTab: this.state.activeTab,
+                        tabs: _reminders_tabs_list2.default })
                 ),
-                _react2.default.createElement(_tab_bar2.default, { setActiveTab: this.setActiveTab,
-                    activeTab: this.state.activeTab,
-                    tabs: _reminders_tabs_list2.default })
+                _react2.default.createElement(
+                    "div",
+                    { className: sidebarClass },
+                    this.state.sidebarContent
+                )
             );
         }
     }]);

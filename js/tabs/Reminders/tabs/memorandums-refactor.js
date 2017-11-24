@@ -1,13 +1,12 @@
 import React, { Component } from "react";
 import graphql from "../../../graphql";
 import moment from "moment";
-import settings from "../../../settings";
 import LoadingSpinner from "../../../components/loading";
 import { Table } from "reactstrap";
 import {
     Input,
 } from "reactstrap";
-import { MemorandumFormModal } from "../../Institutions/modals";
+import MemorandumsSidebarPane from "./sidebar_panes";
 
 function fetchInstitutions(onResult) {
     graphql.query(`
@@ -17,11 +16,19 @@ function fetchInstitutions(onResult) {
             name
             latest_moa {
                 id
+                category
+                memorandum_file
+                college_initiator
+                linkages
                 date_effective
                 date_expiration
             }
             latest_mou {
                 id
+                category
+                memorandum_file
+                college_initiator
+                linkages
                 date_effective
                 date_expiration
             }
@@ -39,6 +46,9 @@ function makeMemorandumInfo(memorandumType, institution, memorandum) {
         memorandum : {
             id : memorandum.id,
             type : memorandumType,
+            file : memorandum.memorandum_file,
+            collegeInitiator : memorandum.college_initiator,
+            linkages : memorandum.linkages,
             dateEffective : moment(memorandum.date_effective),
             dateExpiration : moment(memorandum.date_expiration),
         },
@@ -90,7 +100,10 @@ class Memorandums extends Component {
     setActiveCategory(category) {
         this.setState({
             activeCategory : category,
+            activeMemorandum : null,
         });
+
+        this.props.setSidebarContent(null);
     }
 
     setMemorandums(category) {
@@ -112,7 +125,7 @@ class Memorandums extends Component {
     }
 
     setActiveMemorandum(memorandum) {
-        console.log(memorandum);
+        console.log(memorandum.memorandum);
         this.setState({
             activeMemorandum : memorandum,
         });
