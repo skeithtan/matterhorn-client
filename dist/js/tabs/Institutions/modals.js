@@ -573,6 +573,7 @@ var MemorandumFormModal = function (_Component3) {
 
             if (newProps.memorandum !== undefined) {
                 Object.assign(this.state.form, newProps.memorandum);
+                this.state.form.category = newProps.memorandum.category === "Agreement" ? "MOA" : "MOU";
                 this.state.form.linkages = []; //Do not use prop linkage = make a new one.
 
                 Object.assign(this.state.form.linkages, newProps.memorandum.linkages);

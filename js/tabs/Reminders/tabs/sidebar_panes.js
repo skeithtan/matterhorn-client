@@ -47,10 +47,15 @@ class MemorandumsSidebarPane extends Component {
                 </div>
 
                 <div className="page-body">
-                    <MemorandumDetails memorandum={ memorandum }/>
+                    <MemorandumDetails memorandum={ memorandum }
+                                       toggleRenewModal={ this.toggleRenewModal }/>
                     <MemorandumLinkages linkages={ memorandum.linkages }/>
 
-                    { /* MODALS */ }
+                    { memorandum !== null && <MemorandumFormModal edit
+                                                                  isOpen={ this.state.renewModalIsOpen }
+                                                                  memorandum={ memorandum }
+                                                                  toggle={ this.toggleRenewModal }
+                                                                  refresh={ this.props.refresh }/> }
                 </div>
             </div>
         );
@@ -67,8 +72,8 @@ class MemorandumDetails extends Component {
 
         let collegeInitiator = "None";
 
-        if (memorandum.collegeInitiator !== null) {
-            collegeInitiator = settings.colleges[memorandum.collegeInitiator];
+        if (memorandum.college_initiator !== null) {
+            collegeInitiator = settings.colleges[memorandum.college_initiator];
         }
 
         function formatDate(date) {
@@ -77,7 +82,7 @@ class MemorandumDetails extends Component {
 
         const viewMemorandum = () => {
             const shell = require("electron").shell;
-            shell.openExternal(memorandum.file);
+            shell.openExternal(memorandum.memorandum_file);
         };
 
         return (
@@ -86,15 +91,15 @@ class MemorandumDetails extends Component {
                 <SectionTable>
                     <SectionRow>
                         <SectionRowTitle>Memorandum Type</SectionRowTitle>
-                        <SectionRowContent>{ memorandum.type }</SectionRowContent>
+                        <SectionRowContent>{ memorandum.category }</SectionRowContent>
                     </SectionRow>
                     <SectionRow>
                         <SectionRowTitle>Date Effective</SectionRowTitle>
-                        <SectionRowContent>{ formatDate(memorandum.dateEffective) }</SectionRowContent>
+                        <SectionRowContent>{ formatDate(memorandum.date_effective) }</SectionRowContent>
                     </SectionRow>
                     <SectionRow>
                         <SectionRowTitle>Expiration Date</SectionRowTitle>
-                        <SectionRowContent>{ formatDate(memorandum.dateExpiration) }</SectionRowContent>
+                        <SectionRowContent>{ formatDate(memorandum.date_expiration) }</SectionRowContent>
                     </SectionRow>
                     <SectionRow>
                         <SectionRowTitle>College Initiator</SectionRowTitle>
@@ -110,7 +115,8 @@ class MemorandumDetails extends Component {
 
                             <Button outline
                                     color="success"
-                                    size="sm">Renew</Button>
+                                    size="sm"
+                                    onClick={ this.props.toggleRenewModal }>Renew</Button>
                         </SectionRowContent>
                     </SectionRow>
                 </SectionTable>

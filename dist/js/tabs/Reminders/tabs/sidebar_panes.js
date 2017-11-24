@@ -87,8 +87,14 @@ var MemorandumsSidebarPane = function (_Component) {
                 _react2.default.createElement(
                     "div",
                     { className: "page-body" },
-                    _react2.default.createElement(MemorandumDetails, { memorandum: memorandum }),
-                    _react2.default.createElement(MemorandumLinkages, { linkages: memorandum.linkages })
+                    _react2.default.createElement(MemorandumDetails, { memorandum: memorandum,
+                        toggleRenewModal: this.toggleRenewModal }),
+                    _react2.default.createElement(MemorandumLinkages, { linkages: memorandum.linkages }),
+                    memorandum !== null && _react2.default.createElement(_modals.MemorandumFormModal, { edit: true,
+                        isOpen: this.state.renewModalIsOpen,
+                        memorandum: memorandum,
+                        toggle: this.toggleRenewModal,
+                        refresh: this.props.refresh })
                 )
             );
         }
@@ -113,8 +119,8 @@ var MemorandumDetails = function (_Component2) {
 
             var collegeInitiator = "None";
 
-            if (memorandum.collegeInitiator !== null) {
-                collegeInitiator = _settings2.default.colleges[memorandum.collegeInitiator];
+            if (memorandum.college_initiator !== null) {
+                collegeInitiator = _settings2.default.colleges[memorandum.college_initiator];
             }
 
             function formatDate(date) {
@@ -123,7 +129,7 @@ var MemorandumDetails = function (_Component2) {
 
             var viewMemorandum = function viewMemorandum() {
                 var shell = require("electron").shell;
-                shell.openExternal(memorandum.file);
+                shell.openExternal(memorandum.memorandum_file);
             };
 
             return _react2.default.createElement(
@@ -148,7 +154,7 @@ var MemorandumDetails = function (_Component2) {
                         _react2.default.createElement(
                             _section.SectionRowContent,
                             null,
-                            memorandum.type
+                            memorandum.category
                         )
                     ),
                     _react2.default.createElement(
@@ -162,7 +168,7 @@ var MemorandumDetails = function (_Component2) {
                         _react2.default.createElement(
                             _section.SectionRowContent,
                             null,
-                            formatDate(memorandum.dateEffective)
+                            formatDate(memorandum.date_effective)
                         )
                     ),
                     _react2.default.createElement(
@@ -176,7 +182,7 @@ var MemorandumDetails = function (_Component2) {
                         _react2.default.createElement(
                             _section.SectionRowContent,
                             null,
-                            formatDate(memorandum.dateExpiration)
+                            formatDate(memorandum.date_expiration)
                         )
                     ),
                     _react2.default.createElement(
@@ -212,7 +218,8 @@ var MemorandumDetails = function (_Component2) {
                                 _reactstrap.Button,
                                 { outline: true,
                                     color: "success",
-                                    size: "sm" },
+                                    size: "sm",
+                                    onClick: this.props.toggleRenewModal },
                                 "Renew"
                             )
                         )

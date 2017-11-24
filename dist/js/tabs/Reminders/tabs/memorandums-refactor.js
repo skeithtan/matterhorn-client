@@ -46,12 +46,12 @@ function makeMemorandumInfo(memorandumType, institution, memorandum) {
         },
         memorandum: {
             id: memorandum.id,
-            type: memorandumType,
-            file: memorandum.memorandum_file,
-            collegeInitiator: memorandum.college_initiator,
+            category: memorandumType,
+            memorandum_file: memorandum.memorandum_file,
+            college_initiator: memorandum.college_initiator,
             linkages: memorandum.linkages,
-            dateEffective: (0, _moment2.default)(memorandum.date_effective),
-            dateExpiration: (0, _moment2.default)(memorandum.date_expiration)
+            date_effective: (0, _moment2.default)(memorandum.date_effective),
+            date_expiration: (0, _moment2.default)(memorandum.date_expiration)
         }
     };
 }
@@ -70,7 +70,7 @@ function makeMemorandumsFromInstitutions(institutions) {
     });
 
     memorandums.sort(function (a, b) {
-        return a.memorandum.dateExpiration.diff(b.memorandum.dateExpiration);
+        return a.memorandum.date_expiration.diff(b.memorandum.date_expiration);
     });
 
     return memorandums;
@@ -124,7 +124,7 @@ var Memorandums = function (_Component) {
                 var memorandums = makeMemorandumsFromInstitutions(institutions);
 
                 memorandums.forEach(function (memorandum) {
-                    if (memorandum.memorandum.type === category) {
+                    if (memorandum.memorandum.category === category) {
                         filteredMemorandums.push(memorandum);
                     }
                 });
@@ -135,7 +135,6 @@ var Memorandums = function (_Component) {
     }, {
         key: "setActiveMemorandum",
         value: function setActiveMemorandum(memorandum) {
-            console.log(memorandum.memorandum);
             this.setState({
                 activeMemorandum: memorandum
             });
@@ -348,11 +347,11 @@ var MemorandumRow = function (_Component4) {
         value: function render() {
             var memorandum = this.props.memorandum;
 
-            var expirationToNow = memorandum.memorandum.dateExpiration.fromNow();
+            var expirationToNow = memorandum.memorandum.date_expiration.fromNow();
 
             var now = (0, _moment2.default)();
 
-            var dateExpirationMoment = memorandum.memorandum.dateExpiration;
+            var dateExpirationMoment = memorandum.memorandum.date_expiration;
             var monthsBeforeExpiration = dateExpirationMoment.diff(now, "months");
             var hasExpired = dateExpirationMoment.diff(now, "days") <= 0;
 
@@ -381,7 +380,7 @@ var MemorandumRow = function (_Component4) {
                 _react2.default.createElement(
                     "td",
                     null,
-                    memorandum.memorandum.dateEffective.format("LL")
+                    memorandum.memorandum.date_effective.format("LL")
                 ),
                 _react2.default.createElement(
                     "td",

@@ -45,12 +45,12 @@ function makeMemorandumInfo(memorandumType, institution, memorandum) {
         },
         memorandum : {
             id : memorandum.id,
-            type : memorandumType,
-            file : memorandum.memorandum_file,
-            collegeInitiator : memorandum.college_initiator,
+            category : memorandumType,
+            memorandum_file : memorandum.memorandum_file,
+            college_initiator : memorandum.college_initiator,
             linkages : memorandum.linkages,
-            dateEffective : moment(memorandum.date_effective),
-            dateExpiration : moment(memorandum.date_expiration),
+            date_effective : moment(memorandum.date_effective),
+            date_expiration : moment(memorandum.date_expiration),
         },
     };
 }
@@ -70,7 +70,7 @@ function makeMemorandumsFromInstitutions(institutions) {
     });
 
     memorandums.sort((a, b) => {
-        return a.memorandum.dateExpiration.diff(b.memorandum.dateExpiration);
+        return a.memorandum.date_expiration.diff(b.memorandum.date_expiration);
     });
 
     return memorandums;
@@ -116,7 +116,7 @@ class Memorandums extends Component {
             const memorandums = makeMemorandumsFromInstitutions(institutions);
 
             memorandums.forEach(memorandum => {
-                if (memorandum.memorandum.type === category) {
+                if (memorandum.memorandum.category === category) {
                     filteredMemorandums.push(memorandum);
                 }
             });
@@ -126,7 +126,6 @@ class Memorandums extends Component {
     }
 
     setActiveMemorandum(memorandum) {
-        console.log(memorandum.memorandum);
         this.setState({
             activeMemorandum : memorandum,
         });
@@ -261,11 +260,11 @@ class MemorandumRow extends Component {
     render() {
         const memorandum = this.props.memorandum;
 
-        const expirationToNow = memorandum.memorandum.dateExpiration.fromNow();
+        const expirationToNow = memorandum.memorandum.date_expiration.fromNow();
 
         const now = moment();
 
-        const dateExpirationMoment = memorandum.memorandum.dateExpiration;
+        const dateExpirationMoment = memorandum.memorandum.date_expiration;
         const monthsBeforeExpiration = dateExpirationMoment.diff(now, "months");
         const hasExpired = dateExpirationMoment.diff(now, "days") <= 0;
 
@@ -286,7 +285,7 @@ class MemorandumRow extends Component {
             <tr className={ expirationClass }
                 onClick={ this.props.onClick }>
                 <td>{ memorandum.institution.name }</td>
-                <td>{ memorandum.memorandum.dateEffective.format("LL") }</td>
+                <td>{ memorandum.memorandum.date_effective.format("LL") }</td>
                 <td>{ hasExpired ? "Expired" : "Expires" } { expirationToNow }</td>
             </tr>
         );
