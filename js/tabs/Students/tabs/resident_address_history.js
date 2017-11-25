@@ -192,7 +192,7 @@ class HistoryBody extends Component {
             return this.emptyState();
         }
 
-        const rows = this.props.residences.map((residence, index) => {
+        const sections = this.props.residences.map((residence, index) => {
             const onResidenceRowClick = () => this.props.setActiveResidence(residence);
 
             let isActive = false;
@@ -212,9 +212,8 @@ class HistoryBody extends Component {
             <div className="page-body w-100">
                 <div className="d-flex h-100 p-0 flex-row">
                     <div className="w-100">
-                        <SectionTitle>Residences</SectionTitle>
                         <SectionTable>
-                            {rows}
+                            {sections}
                         </SectionTable>
                     </div>
                 </div>
@@ -238,14 +237,17 @@ class ResidenceRow extends Component {
         const dateEffective = formatDate(residence.date_effective);
 
         return (
-            <SectionRow selectable
-                        onClick={this.props.onClick}
-                        active={this.props.isActive}>
-                {this.props.latest &&
-                <SectionRowTitle>Latest Residence</SectionRowTitle>
-                }
-                <SectionRowContent large>Effective {dateEffective}</SectionRowContent>
-            </SectionRow>
+            <Section>
+                <SectionTitle>{dateEffective}</SectionTitle>
+                <SectionRow selectable
+                            onClick={this.props.onClick}
+                            active={this.props.isActive}>
+                    {this.props.latest &&
+                    <SectionRowTitle>Latest Residence</SectionRowTitle>
+                    }
+                    <SectionRowContent large>{residence.address}</SectionRowContent>
+                </SectionRow>
+            </Section>
         );
     }
 }

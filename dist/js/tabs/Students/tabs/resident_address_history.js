@@ -254,7 +254,7 @@ var HistoryBody = function (_Component3) {
                 return this.emptyState();
             }
 
-            var rows = this.props.residences.map(function (residence, index) {
+            var sections = this.props.residences.map(function (residence, index) {
                 var onResidenceRowClick = function onResidenceRowClick() {
                     return _this6.props.setActiveResidence(residence);
                 };
@@ -282,14 +282,9 @@ var HistoryBody = function (_Component3) {
                         "div",
                         { className: "w-100" },
                         _react2.default.createElement(
-                            _section.SectionTitle,
-                            null,
-                            "Residences"
-                        ),
-                        _react2.default.createElement(
                             _section.SectionTable,
                             null,
-                            rows
+                            sections
                         )
                     )
                 )
@@ -321,20 +316,28 @@ var ResidenceRow = function (_Component4) {
             var dateEffective = formatDate(residence.date_effective);
 
             return _react2.default.createElement(
-                _section.SectionRow,
-                { selectable: true,
-                    onClick: this.props.onClick,
-                    active: this.props.isActive },
-                this.props.latest && _react2.default.createElement(
-                    _section.SectionRowTitle,
+                _section.Section,
+                null,
+                _react2.default.createElement(
+                    _section.SectionTitle,
                     null,
-                    "Latest Residence"
+                    dateEffective
                 ),
                 _react2.default.createElement(
-                    _section.SectionRowContent,
-                    { large: true },
-                    "Effective ",
-                    dateEffective
+                    _section.SectionRow,
+                    { selectable: true,
+                        onClick: this.props.onClick,
+                        active: this.props.isActive },
+                    this.props.latest && _react2.default.createElement(
+                        _section.SectionRowTitle,
+                        null,
+                        "Latest Residence"
+                    ),
+                    _react2.default.createElement(
+                        _section.SectionRowContent,
+                        { large: true },
+                        residence.address
+                    )
                 )
             );
         }
