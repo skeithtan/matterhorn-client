@@ -221,23 +221,22 @@ var StudentFormModal = function (_Component) {
             _jquery2.default.post({
                 url: _settings2.default.serverURL + "/students/",
                 data: this.state.form,
-                beforeSend: _authorization2.default,
-                success: function success() {
-                    dismissToast();
-                    _this3.props.refresh();
-                    _izitoast2.default.success({
-                        title: "Success",
-                        message: "Successfully added student"
-                    });
-                },
-                error: function error(response) {
-                    dismissToast();
-                    console.log(response);
-                    _izitoast2.default.error({
-                        title: "Error",
-                        message: "Unable to add student"
-                    });
-                }
+                beforeSend: _authorization2.default
+            }).done(function (student) {
+                dismissToast();
+                _this3.props.refresh();
+                _this3.props.onAddStudent(student);
+                _izitoast2.default.success({
+                    title: "Added",
+                    message: "Successfully added student"
+                });
+            }).fail(function (response) {
+                dismissToast();
+                console.log(response);
+                _izitoast2.default.error({
+                    title: "Error",
+                    message: "Unable to add student"
+                });
             });
 
             this.props.toggle();

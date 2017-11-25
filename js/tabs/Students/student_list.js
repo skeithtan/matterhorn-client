@@ -265,7 +265,7 @@ class StudentSection extends Component {
             let isActive = false;
 
             if (this.props.activeStudent !== null) {
-                isActive = this.props.activeStudent.id === student.id;
+                isActive = this.props.activeStudent.id.toString() === student.id.toString();
             }
 
             const setActiveStudent = () => this.props.setActiveStudent(student);

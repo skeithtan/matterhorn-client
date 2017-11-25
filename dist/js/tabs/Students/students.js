@@ -61,6 +61,7 @@ var Students = function (_Component) {
             activeTab: tabs[0]
         };
 
+        _this.onAddStudent = _this.onAddStudent.bind(_this);
         _this.setActiveTab = _this.setActiveTab.bind(_this);
         _this.setActiveStudent = _this.setActiveStudent.bind(_this);
         _this.toggleAddStudent = _this.toggleAddStudent.bind(_this);
@@ -94,6 +95,17 @@ var Students = function (_Component) {
                     allStudents: result.students
                 });
             });
+        }
+    }, {
+        key: "onAddStudent",
+        value: function onAddStudent(student) {
+            // Only set new student as active if user is currently looking at inbounds
+            // Only inbound because the only type of student you can add here is inbound
+            if (this.state.tab.name === "Inbound") {
+                this.setState({
+                    activeStudent: student
+                });
+            }
         }
     }, {
         key: "refreshStudents",
@@ -144,6 +156,7 @@ var Students = function (_Component) {
                     refreshStudents: this.refreshStudents }),
                 _react2.default.createElement(_modals.StudentFormModal, { isOpen: this.state.addStudentIsShowing,
                     toggle: this.toggleAddStudent,
+                    onAddStudent: this.onAddStudent,
                     refresh: this.refreshStudents })
             );
         }

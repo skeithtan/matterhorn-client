@@ -193,22 +193,21 @@ class StudentFormModal extends Component {
             url : `${settings.serverURL}/students/`,
             data : this.state.form,
             beforeSend : authorizeXHR,
-            success : () => {
-                dismissToast();
-                this.props.refresh();
-                iziToast.success({
-                    title : "Success",
-                    message : "Successfully added student",
-                });
-            },
-            error : response => {
-                dismissToast();
-                console.log(response);
-                iziToast.error({
-                    title : "Error",
-                    message : "Unable to add student",
-                });
-            },
+        }).done(student => {
+            dismissToast();
+            this.props.refresh();
+            this.props.onAddStudent(student);
+            iziToast.success({
+                title : "Added",
+                message : "Successfully added student",
+            });
+        }).fail(response => {
+            dismissToast();
+            console.log(response);
+            iziToast.error({
+                title : "Error",
+                message : "Unable to add student",
+            });
         });
 
         this.props.toggle();

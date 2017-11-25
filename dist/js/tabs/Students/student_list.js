@@ -360,7 +360,7 @@ var StudentSection = function (_Component4) {
                 var isActive = false;
 
                 if (_this7.props.activeStudent !== null) {
-                    isActive = _this7.props.activeStudent.id === student.id;
+                    isActive = _this7.props.activeStudent.id.toString() === student.id.toString();
                 }
 
                 var setActiveStudent = function setActiveStudent() {
