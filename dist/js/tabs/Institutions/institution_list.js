@@ -41,8 +41,7 @@ var InstitutionList = function (_Component) {
             collapsed: false
         };
 
-        _this.expand = _this.expand.bind(_this);
-        _this.collapse = _this.collapse.bind(_this);
+        _this.toggleCollapse = _this.toggleCollapse.bind(_this);
         _this.setSearchKeyword = _this.setSearchKeyword.bind(_this);
         _this.getFilteredInstitutions = _this.getFilteredInstitutions.bind(_this);
         return _this;
@@ -80,17 +79,10 @@ var InstitutionList = function (_Component) {
             return filtered;
         }
     }, {
-        key: "collapse",
-        value: function collapse() {
+        key: "toggleCollapse",
+        value: function toggleCollapse() {
             this.setState({
-                collapsed: true
-            });
-        }
-    }, {
-        key: "expand",
-        value: function expand() {
-            this.setState({
-                collapsed: false
+                collapsed: !this.state.collapsed
             });
         }
     }, {
@@ -114,7 +106,7 @@ var InstitutionList = function (_Component) {
                     { className: "d-flex flex-column h-100" },
                     _react2.default.createElement(InstitutionListHead, { setSearchKeyword: this.setSearchKeyword,
                         toggleAddInstitution: this.props.toggleAddInstitution,
-                        collapse: this.collapse }),
+                        toggleCollapse: this.toggleCollapse }),
                     _react2.default.createElement(InstitutionListTable, { countries: this.props.institutions,
                         filtered: this.getFilteredInstitutions(),
                         isSearching: isSearching,
@@ -123,7 +115,7 @@ var InstitutionList = function (_Component) {
                         setActiveInstitution: this.props.setActiveInstitution })
                 ),
                 _react2.default.createElement(_collapse_content.CollapseContent, { title: "Institutions",
-                    expand: this.expand })
+                    toggle: this.toggleCollapse })
             );
         }
     }]);
@@ -158,9 +150,7 @@ var InstitutionListHead = function (_Component2) {
                 _react2.default.createElement(
                     "div",
                     { className: "page-head-controls" },
-                    _react2.default.createElement("img", { src: "./images/collapse.png",
-                        className: "collapse-image",
-                        onClick: this.props.collapse }),
+                    _react2.default.createElement(_collapse_content.CollapseButton, { toggleCollapse: this.props.toggleCollapse }),
                     _react2.default.createElement(
                         _reactstrap.Button,
                         { outline: true,

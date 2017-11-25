@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.ExpandContent = exports.CollapseContent = undefined;
+exports.CollapseButton = exports.ExpandContent = exports.CollapseContent = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -33,8 +33,10 @@ var CollapseContent = function (_Component) {
         value: function render() {
             return _react2.default.createElement(
                 "div",
-                { className: "collapse-content " + (this.props.className || ""), onClick: this.props.expand },
-                _react2.default.createElement("img", { src: "./images/expand.png", className: "expand-image" }),
+                { className: "collapse-content " + (this.props.className || ""),
+                    onClick: this.props.toggle },
+                _react2.default.createElement("img", { src: "./images/expand.png",
+                    className: "expand-image" }),
                 _react2.default.createElement(
                     "h4",
                     null,
@@ -70,6 +72,28 @@ var ExpandContent = function (_Component2) {
     return ExpandContent;
 }(_react.Component);
 
+var CollapseButton = function (_Component3) {
+    _inherits(CollapseButton, _Component3);
+
+    function CollapseButton(props) {
+        _classCallCheck(this, CollapseButton);
+
+        return _possibleConstructorReturn(this, (CollapseButton.__proto__ || Object.getPrototypeOf(CollapseButton)).call(this, props));
+    }
+
+    _createClass(CollapseButton, [{
+        key: "render",
+        value: function render() {
+            return _react2.default.createElement("img", { src: "./images/collapse.png",
+                className: "collapse-image",
+                onClick: this.props.toggleCollapse });
+        }
+    }]);
+
+    return CollapseButton;
+}(_react.Component);
+
 exports.CollapseContent = CollapseContent;
 exports.ExpandContent = ExpandContent;
+exports.CollapseButton = CollapseButton;
 //# sourceMappingURL=collapse_content.js.map

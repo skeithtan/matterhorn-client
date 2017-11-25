@@ -7,6 +7,7 @@ import {
 } from "reactstrap";
 
 import {
+    CollapseButton,
     CollapseContent,
     ExpandContent,
 } from "../../components/collapse_content";
@@ -29,8 +30,7 @@ class InstitutionList extends Component {
             collapsed : false,
         };
 
-        this.expand = this.expand.bind(this);
-        this.collapse = this.collapse.bind(this);
+        this.toggleCollapse = this.toggleCollapse.bind(this);
         this.setSearchKeyword = this.setSearchKeyword.bind(this);
         this.getFilteredInstitutions = this.getFilteredInstitutions.bind(this);
     }
@@ -64,17 +64,11 @@ class InstitutionList extends Component {
         return filtered;
     }
 
-    collapse() {
+    toggleCollapse() {
         this.setState({
-            collapsed : true,
+            collapsed : !this.state.collapsed,
         });
     };
-
-    expand() {
-        this.setState({
-            collapsed : false,
-        });
-    }
 
     render() {
         const isSearching = this.state.searchKeyword !== null;
@@ -92,7 +86,7 @@ class InstitutionList extends Component {
                 <ExpandContent className="d-flex flex-column h-100">
                     <InstitutionListHead setSearchKeyword={this.setSearchKeyword}
                                          toggleAddInstitution={this.props.toggleAddInstitution}
-                                         collapse={this.collapse}/>
+                                         toggleCollapse={this.toggleCollapse}/>
                     <InstitutionListTable countries={this.props.institutions}
                                           filtered={this.getFilteredInstitutions()}
                                           isSearching={isSearching}
@@ -102,7 +96,7 @@ class InstitutionList extends Component {
                 </ExpandContent>
 
                 <CollapseContent title="Institutions"
-                                 expand={this.expand}/>
+                                 toggle={this.toggleCollapse}/>
             </div>
         );
     }
@@ -123,9 +117,7 @@ class InstitutionListHead extends Component {
         return (
             <div className="page-head">
                 <div className="page-head-controls">
-                    <img src="./images/collapse.png"
-                         className="collapse-image"
-                         onClick={this.props.collapse}/>
+                    <CollapseButton toggleCollapse={this.props.toggleCollapse}/>
 
                     <Button outline
                             color="success"
