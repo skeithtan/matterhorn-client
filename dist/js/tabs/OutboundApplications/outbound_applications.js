@@ -25,8 +25,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 function fetchOutboundApplication(onResult) {
-    // TODO: fetchOutboundApplication
-    // graphql.query().then(onResult);
+    _graphql2.default.query("\n    {\n        outbound_student_programs {\n            id\n            student {\n                id\n                id_number\n                first_name\n                middle_name\n                family_name\n            }\n        }\n    }\n    ").then(onResult);
 }
 
 var OutboundApplications = function (_Component) {
@@ -95,12 +94,26 @@ var OutboundApplicationsListHead = function (_Component3) {
                     "div",
                     { className: "page-head-controls" },
                     _react2.default.createElement(
+                        "div",
+                        { className: "btn-group", role: "group" },
+                        _react2.default.createElement(
+                            _reactstrap.Button,
+                            { outline: true, color: "success", size: "sm" },
+                            "Incomplete"
+                        ),
+                        _react2.default.createElement(
+                            _reactstrap.Button,
+                            { outline: true, color: "success", size: "sm" },
+                            "Complete"
+                        )
+                    ),
+                    _react2.default.createElement(
                         _reactstrap.Button,
                         { outline: true,
                             color: "success",
                             className: "ml-auto",
                             size: "sm" },
-                        "Add"
+                        "Add Applicant"
                     )
                 ),
                 _react2.default.createElement(

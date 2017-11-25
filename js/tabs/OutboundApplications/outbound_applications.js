@@ -7,8 +7,20 @@ import {
 
 
 function fetchOutboundApplication(onResult) {
-    // TODO: fetchOutboundApplication
-    // graphql.query().then(onResult);
+    graphql.query(`
+    {
+        outbound_student_programs {
+            id
+            student {
+                id
+                id_number
+                first_name
+                middle_name
+                family_name
+            }
+        }
+    }
+    `).then(onResult);
 }
 
 
@@ -50,10 +62,14 @@ class OutboundApplicationsListHead extends Component {
         return (
             <div className="page-head">
                 <div className="page-head-controls">
+                    <div className="btn-group" role="group">
+                        <Button outline color="success" size="sm">Incomplete</Button>
+                        <Button outline color="success" size="sm">Complete</Button>
+                    </div>
                     <Button outline
                             color="success"
                             className="ml-auto"
-                            size="sm">Add</Button>
+                            size="sm">Add Applicant</Button>
                 </div>
                 <h4 className="page-head-title">Applications</h4>
                 <Input type="search"
