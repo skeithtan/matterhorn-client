@@ -49,7 +49,7 @@ class Students extends Component {
         this.setActiveStudent = this.setActiveStudent.bind(this);
         this.toggleAddStudent = this.toggleAddStudent.bind(this);
         this.refreshStudents = this.refreshStudents.bind(this);
-        this.onDeleteActiveStudent = this.onDeleteActiveStudent.bind(this);
+        this.onArchiveActiveStudent = this.onArchiveActiveStudent.bind(this);
 
         const category = this.state.activeTab.name === "Inbound" ? "IN" : "OUT";
 
@@ -89,7 +89,7 @@ class Students extends Component {
         this.setActiveTab(this.state.activeTab);
     }
 
-    onDeleteActiveStudent() {
+    onArchiveActiveStudent() {
         this.setState({
             activeStudent : null,
         });
@@ -123,7 +123,7 @@ class Students extends Component {
                              addButtonIsShowing={addButtonIsShowing}
                              tabs={tabs}/>
                 <StudentDetail student={this.state.activeStudent}
-                               onDeleteActiveStudent={this.onDeleteActiveStudent}
+                               onArchiveActiveStudent={this.onArchiveActiveStudent}
                                refreshStudents={this.refreshStudents}/>
                 <StudentFormModal isOpen={this.state.addStudentIsShowing}
                                   toggle={this.toggleAddStudent}

@@ -111,12 +111,12 @@ var StudentOverview = function (_Component) {
             if (this.state.student === null) {
                 return _react2.default.createElement(_loading2.default, null);
             }
-
+            console.log(this.props);
             return _react2.default.createElement(
                 "div",
                 { className: "d-flex flex-column p-0 h-100" },
                 _react2.default.createElement(OverviewHead, { student: this.state.student,
-                    onDeleteStudent: this.props.onDeleteActiveStudent,
+                    onArchiveStudent: this.props.onArchiveActiveStudent,
                     onEditStudent: this.onEditStudent }),
                 _react2.default.createElement(OverviewBody, { student: this.state.student })
             );
@@ -135,12 +135,12 @@ var OverviewHead = function (_Component2) {
         var _this4 = _possibleConstructorReturn(this, (OverviewHead.__proto__ || Object.getPrototypeOf(OverviewHead)).call(this, props));
 
         _this4.state = {
-            deleteStudentIsShowing: false,
+            archiveStudentIsShowing: false,
             editStudentIsShowing: false
         };
 
         _this4.toggleEditStudent = _this4.toggleEditStudent.bind(_this4);
-        _this4.toggleDeleteStudent = _this4.toggleDeleteStudent.bind(_this4);
+        _this4.toggleArchiveStudent = _this4.toggleArchiveStudent.bind(_this4);
         return _this4;
     }
 
@@ -152,10 +152,10 @@ var OverviewHead = function (_Component2) {
             });
         }
     }, {
-        key: "toggleDeleteStudent",
-        value: function toggleDeleteStudent() {
+        key: "toggleArchiveStudent",
+        value: function toggleArchiveStudent() {
             this.setState({
-                deleteStudentIsShowing: !this.state.deleteStudentIsShowing
+                archiveStudentIsShowing: !this.state.archiveStudentIsShowing
             });
         }
     }, {
@@ -204,14 +204,14 @@ var OverviewHead = function (_Component2) {
                         { outline: true,
                             size: "sm",
                             color: "warning",
-                            onClick: this.toggleDeleteStudent },
+                            onClick: this.toggleArchiveStudent },
                         "Archive"
                     )
                 ),
-                _react2.default.createElement(_modals.ArchiveStudentModal, { isOpen: this.state.deleteStudentIsShowing,
+                _react2.default.createElement(_modals.ArchiveStudentModal, { isOpen: this.state.archiveStudentIsShowing,
                     student: this.props.student,
-                    toggle: this.toggleDeleteStudent,
-                    refresh: this.props.onDeleteStudent }),
+                    toggle: this.toggleArchiveStudent,
+                    refresh: this.props.onArchiveStudent }),
                 _react2.default.createElement(_modals.StudentFormModal, { edit: true,
                     isOpen: this.state.editStudentIsShowing,
                     student: this.props.student,

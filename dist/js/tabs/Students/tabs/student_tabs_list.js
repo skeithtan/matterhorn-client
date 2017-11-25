@@ -20,9 +20,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var tabs = [{
     name: "Overview",
-    tab: function tab(student, onDeleteActiveStudent, refreshStudents) {
+    tab: function tab(student, onArchiveActiveStudent, refreshStudents) {
         return _react2.default.createElement(_overview2.default, { student: student,
-            onDeleteActiveStudent: onDeleteActiveStudent,
+            onArchiveActiveStudent: onArchiveActiveStudent,
             refreshStudents: refreshStudents });
     },
     image: "./images/burgergrey.png",

@@ -66,7 +66,7 @@ var Students = function (_Component) {
         _this.setActiveStudent = _this.setActiveStudent.bind(_this);
         _this.toggleAddStudent = _this.toggleAddStudent.bind(_this);
         _this.refreshStudents = _this.refreshStudents.bind(_this);
-        _this.onDeleteActiveStudent = _this.onDeleteActiveStudent.bind(_this);
+        _this.onArchiveActiveStudent = _this.onArchiveActiveStudent.bind(_this);
 
         var category = _this.state.activeTab.name === "Inbound" ? "IN" : "OUT";
 
@@ -113,8 +113,8 @@ var Students = function (_Component) {
             this.setActiveTab(this.state.activeTab);
         }
     }, {
-        key: "onDeleteActiveStudent",
-        value: function onDeleteActiveStudent() {
+        key: "onArchiveActiveStudent",
+        value: function onArchiveActiveStudent() {
             this.setState({
                 activeStudent: null
             });
@@ -152,7 +152,7 @@ var Students = function (_Component) {
                     addButtonIsShowing: addButtonIsShowing,
                     tabs: tabs }),
                 _react2.default.createElement(_student_detail2.default, { student: this.state.activeStudent,
-                    onDeleteActiveStudent: this.onDeleteActiveStudent,
+                    onArchiveActiveStudent: this.onArchiveActiveStudent,
                     refreshStudents: this.refreshStudents }),
                 _react2.default.createElement(_modals.StudentFormModal, { isOpen: this.state.addStudentIsShowing,
                     toggle: this.toggleAddStudent,

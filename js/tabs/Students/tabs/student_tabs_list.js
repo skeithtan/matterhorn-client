@@ -5,9 +5,9 @@ import ResidentAddressHistory from "./resident_address_history";
 const tabs = [
     {
         name : "Overview",
-        tab : (student, onDeleteActiveStudent, refreshStudents) => {
+        tab : (student, onArchiveActiveStudent, refreshStudents) => {
             return <StudentOverview student={ student }
-                                    onDeleteActiveStudent={ onDeleteActiveStudent }
+                                    onArchiveActiveStudent={ onArchiveActiveStudent }
                                     refreshStudents={ refreshStudents }/>;
         },
         image : "./images/burgergrey.png",

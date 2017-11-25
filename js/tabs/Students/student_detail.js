@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import tabs from "./tabs/student_tabs_list";
 import TabBar from "../../components/tab_bar";
 
+
 class StudentDetail extends Component {
     constructor(props) {
         super(props);
@@ -41,7 +42,7 @@ class StudentDetail extends Component {
             return StudentDetail.unselectedState();
         }
 
-        const currentTab = this.state.activeTab.tab(this.props.student, this.setSidebarContent, this.props.onDeleteActiveStudent, this.props.refreshStudents);
+        const currentTab = this.state.activeTab.tab(this.props.student, this.props.onArchiveActiveStudent, this.props.refreshStudents);
 
         let sidebarClass = "sidebar-right ";
         if (this.state.sidebarContent === null) {
@@ -52,14 +53,14 @@ class StudentDetail extends Component {
             <div id="student-detail"
                  className="w-100 d-flex flex-row">
                 <div className="container-fluid d-flex flex-column p-0 h-100">
-                    <div className="tab-content">{ currentTab }</div>
-                    <TabBar setActiveTab={ this.setActiveTab }
-                            activeTab={ this.state.activeTab }
-                            tabs={ tabs }/>
+                    <div className="tab-content">{currentTab}</div>
+                    <TabBar setActiveTab={this.setActiveTab}
+                            activeTab={this.state.activeTab}
+                            tabs={tabs}/>
                 </div>
 
-                <div className={ sidebarClass }>
-                    { this.state.sidebarContent }
+                <div className={sidebarClass}>
+                    {this.state.sidebarContent}
                 </div>
             </div>
         );
