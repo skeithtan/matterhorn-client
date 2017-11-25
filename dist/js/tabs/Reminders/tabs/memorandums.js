@@ -362,12 +362,15 @@ var MemorandumRow = function (_Component4) {
             var urgent = monthsBeforeExpiration <= 6;
 
             var expirationClass = "";
-            if (urgent && !this.props.isActive) {
-                expirationClass += "table-danger";
-            } else if (!urgent && this.props.isActive) {
-                expirationClass += "text-white bg-dlsu-lighter";
-            } else if (urgent && this.props.isActive) {
-                expirationClass += "text-white bg-danger";
+
+            if (this.props.isActive) {
+                expirationClass += "text-white ";
+            }
+
+            if (urgent) {
+                expirationClass += this.props.isActive ? "bg-danger" : "table-danger";
+            } else {
+                expirationClass += this.props.isActive ? "bg-dlsu-lighter" : "table-light";
             }
 
             return _react2.default.createElement(

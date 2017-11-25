@@ -8,6 +8,7 @@ import {
 } from "reactstrap";
 import { MemorandumsSidebarPane } from "./sidebar_panes";
 
+
 function fetchInstitutions(onResult) {
     graphql.query(`
     {
@@ -130,9 +131,9 @@ class Memorandums extends Component {
             activeMemorandum : memorandum,
         });
 
-        this.props.setSidebarContent(<MemorandumsSidebarPane institution={ memorandum.institution }
-                                                             memorandum={ memorandum.memorandum }
-                                                             refresh={ this.refreshMemorandums }/>);
+        this.props.setSidebarContent(<MemorandumsSidebarPane institution={memorandum.institution}
+                                                             memorandum={memorandum.memorandum}
+                                                             refresh={this.refreshMemorandums}/>);
     }
 
     refreshMemorandums() {
@@ -153,12 +154,12 @@ class Memorandums extends Component {
 
         return (
             <div className="d-flex flex-column h-100">
-                <MemorandumsHead setMemorandums={ this.setMemorandums }
-                                 setActiveCategory={ this.setActiveCategory }/>
-                <MemorandumsTable activeCategory={ this.state.activeCategory }
-                                  memorandums={ memorandums }
-                                  activeMemorandum={ this.state.activeMemorandum }
-                                  setActiveMemorandum={ this.setActiveMemorandum }/>
+                <MemorandumsHead setMemorandums={this.setMemorandums}
+                                 setActiveCategory={this.setActiveCategory}/>
+                <MemorandumsTable activeCategory={this.state.activeCategory}
+                                  memorandums={memorandums}
+                                  activeMemorandum={this.state.activeMemorandum}
+                                  setActiveMemorandum={this.setActiveMemorandum}/>
             </div>
         );
     }
@@ -188,7 +189,7 @@ class MemorandumsHead extends Component {
                     <Input type="select"
                            className="btn-outline-success"
                            defaultValue="MOA"
-                           onChange={ this.onCategoryChange }>
+                           onChange={this.onCategoryChange}>
                         <option value="Agreement">Agreement</option>
                         <option value="Understanding">Understanding</option>
                     </Input>
@@ -208,7 +209,7 @@ class MemorandumsTable extends Component {
     emptyState() {
         return (
             <div className="loading-container">
-                <h3>There are no expiring Memorandums of { this.props.activeCategory }</h3>
+                <h3>There are no expiring Memorandums of {this.props.activeCategory}</h3>
             </div>
         );
     }
@@ -233,10 +234,10 @@ class MemorandumsTable extends Component {
 
             const onMemorandumRowClick = () => this.props.setActiveMemorandum(memorandum);
 
-            return <MemorandumRow key={ index }
-                                  memorandum={ memorandum }
-                                  isActive={ isActive }
-                                  onClick={ onMemorandumRowClick }/>;
+            return <MemorandumRow key={index}
+                                  memorandum={memorandum}
+                                  isActive={isActive}
+                                  onClick={onMemorandumRowClick}/>;
         });
 
         return (
@@ -249,7 +250,7 @@ class MemorandumsTable extends Component {
                 </tr>
                 </thead>
                 <tbody>
-                { rows }
+                {rows}
                 </tbody>
             </Table>
         );
@@ -275,20 +276,23 @@ class MemorandumRow extends Component {
         const urgent = monthsBeforeExpiration <= 6;
 
         let expirationClass = "";
-        if (urgent && !this.props.isActive) {
-            expirationClass += "table-danger";
-        } else if (!urgent && this.props.isActive) {
-            expirationClass += "text-white bg-dlsu-lighter";
-        } else if (urgent && this.props.isActive) {
-            expirationClass += "text-white bg-danger";
+
+        if (this.props.isActive) {
+            expirationClass += "text-white ";
+        }
+
+        if (urgent) {
+            expirationClass += this.props.isActive ? "bg-danger" : "table-danger";
+        } else {
+            expirationClass += this.props.isActive ? "bg-dlsu-lighter" : "table-light";
         }
 
         return (
-            <tr className={ expirationClass }
-                onClick={ this.props.onClick }>
-                <td>{ memorandum.institution.name }</td>
-                <td>{ memorandum.memorandum.date_effective.format("LL") }</td>
-                <td>{ hasExpired ? "Expired" : "Expires" } { expirationToNow }</td>
+            <tr className={expirationClass}
+                onClick={this.props.onClick}>
+                <td>{memorandum.institution.name}</td>
+                <td>{memorandum.memorandum.date_effective.format("LL")}</td>
+                <td>{hasExpired ? "Expired" : "Expires"} {expirationToNow}</td>
             </tr>
         );
     }
