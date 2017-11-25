@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.ArchiveStudentModal = exports.StudentFormModal = undefined;
+exports.ResidenceAddressFormModal = exports.ArchiveStudentModal = exports.StudentFormModal = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -287,7 +287,9 @@ var StudentFormModal = function (_Component) {
         value: function fetchingInstitutions() {
             return _react2.default.createElement(
                 _reactstrap.Modal,
-                { isOpen: this.props.isOpen, toggle: this.props.toggle, backdrop: true },
+                { isOpen: this.props.isOpen,
+                    toggle: this.props.toggle,
+                    backdrop: true },
                 _react2.default.createElement(
                     _reactstrap.ModalHeader,
                     { toggle: this.props.toggle },
@@ -305,7 +307,9 @@ var StudentFormModal = function (_Component) {
         value: function noInstitutions() {
             return _react2.default.createElement(
                 _reactstrap.Modal,
-                { isOpen: this.props.isOpen, toggle: this.props.toggle, backdrop: true },
+                { isOpen: this.props.isOpen,
+                    toggle: this.props.toggle,
+                    backdrop: true },
                 _react2.default.createElement(
                     _reactstrap.ModalHeader,
                     { toggle: this.props.toggle },
@@ -336,7 +340,8 @@ var StudentFormModal = function (_Component) {
             var institutions = this.state.institutions.map(function (institution) {
                 return _react2.default.createElement(
                     "option",
-                    { value: institution.id, key: institution.id },
+                    { value: institution.id,
+                        key: institution.id },
                     institution.name
                 );
             });
@@ -351,7 +356,9 @@ var StudentFormModal = function (_Component) {
 
             return _react2.default.createElement(
                 _reactstrap.Modal,
-                { isOpen: this.props.isOpen, toggle: this.props.toggle, backdrop: true },
+                { isOpen: this.props.isOpen,
+                    toggle: this.props.toggle,
+                    backdrop: true },
                 _react2.default.createElement(
                     _reactstrap.ModalHeader,
                     { toggle: this.props.toggle },
@@ -487,7 +494,8 @@ var StudentFormModal = function (_Component) {
                             ),
                             _react2.default.createElement(
                                 _reactstrap.Input,
-                                { type: "select", onChange: this.getChangeHandler("sex"),
+                                { type: "select",
+                                    onChange: this.getChangeHandler("sex"),
                                     defaultValue: this.state.form.sex },
                                 _react2.default.createElement(
                                     "option",
@@ -685,7 +693,8 @@ var StudentFormModal = function (_Component) {
                             ),
                             _react2.default.createElement(
                                 _reactstrap.Input,
-                                { type: "select", onChange: this.getChangeHandler("institution"),
+                                { type: "select",
+                                    onChange: this.getChangeHandler("institution"),
                                     defaultValue: this.state.form.institution },
                                 institutions
                             )
@@ -700,7 +709,8 @@ var StudentFormModal = function (_Component) {
                             ),
                             _react2.default.createElement(
                                 _reactstrap.Input,
-                                { type: "select", onChange: this.getChangeHandler("college"),
+                                { type: "select",
+                                    onChange: this.getChangeHandler("college"),
                                     defaultValue: this.state.form.college },
                                 _react2.default.createElement(
                                     "option",
@@ -746,7 +756,8 @@ var StudentFormModal = function (_Component) {
                     null,
                     _react2.default.createElement(
                         _reactstrap.Button,
-                        { outline: true, color: "success",
+                        { outline: true,
+                            color: "success",
                             onClick: this.props.edit ? this.submitEditStudentForm : this.submitAddStudentForm,
                             disabled: formHasErrors },
                         this.props.edit ? "Save changes" : "Add"
@@ -816,7 +827,9 @@ var ArchiveStudentModal = function (_Component2) {
 
             return _react2.default.createElement(
                 _reactstrap.Modal,
-                { isOpen: this.props.isOpen, toggle: this.props.toggle, backdrop: true,
+                { isOpen: this.props.isOpen,
+                    toggle: this.props.toggle,
+                    backdrop: true,
                     id: "archive-student-modal" },
                 _react2.default.createElement(
                     _reactstrap.ModalHeader,
@@ -830,7 +843,9 @@ var ArchiveStudentModal = function (_Component2) {
                     null,
                     _react2.default.createElement(
                         _reactstrap.Button,
-                        { outline: true, color: "warning", onClick: this.confirmArchive },
+                        { outline: true,
+                            color: "warning",
+                            onClick: this.confirmArchive },
                         "Confirm Archive"
                     )
                 )
@@ -841,6 +856,248 @@ var ArchiveStudentModal = function (_Component2) {
     return ArchiveStudentModal;
 }(_react.Component);
 
+var ResidenceAddressFormModal = function (_Component3) {
+    _inherits(ResidenceAddressFormModal, _Component3);
+
+    function ResidenceAddressFormModal(props) {
+        _classCallCheck(this, ResidenceAddressFormModal);
+
+        var _this7 = _possibleConstructorReturn(this, (ResidenceAddressFormModal.__proto__ || Object.getPrototypeOf(ResidenceAddressFormModal)).call(this, props));
+
+        _this7.state = {
+            form: {
+                date_effective: "",
+                contact_person_name: "",
+                contact_person_number: "",
+                address: "",
+                residence: ""
+            }
+        };
+
+        _this7.getFormErrors = _this7.getFormErrors.bind(_this7);
+        _this7.getChangeHandler = _this7.getChangeHandler.bind(_this7);
+        _this7.submitAddResidenceAddressForm = _this7.submitAddResidenceAddressForm.bind(_this7);
+        return _this7;
+    }
+
+    _createClass(ResidenceAddressFormModal, [{
+        key: "getFormErrors",
+        value: function getFormErrors() {
+            return (0, _form_validator2.default)([{
+                name: "Date effective",
+                value: this.state.form.date_effective
+            }, {
+                name: "Contact person name",
+                characterLimit: 256,
+                value: this.state.form.contact_person_name
+            }, {
+                name: "Contact person number",
+                characterLimit: 64,
+                value: this.state.form.contact_person_number
+            }, {
+                name: "Address",
+                characterLimit: 256,
+                value: this.state.form.address
+            }, {
+                name: "Residence type",
+                characterLimit: 64,
+                value: this.state.form.residence
+            }]);
+        }
+
+        //TODO: Submit edit residence address
+
+    }, {
+        key: "submitAddResidenceAddressForm",
+        value: function submitAddResidenceAddressForm() {
+            var _this8 = this;
+
+            var dismissToast = (0, _dismissable_toast_maker2.default)({
+                title: "Adding",
+                message: "Adding new residence address..."
+            });
+
+            _jquery2.default.post({
+                url: _settings2.default.serverURL + "/students/" + this.props.student.id + "/residency/",
+                beforeSend: _authorization2.default,
+                data: this.state.form
+            }).done(function () {
+                dismissToast();
+                _izitoast2.default.success({
+                    title: "Added",
+                    message: "Successfully added residence address"
+                });
+
+                _this8.props.onAddSuccess();
+            }).fail(function (response) {
+                dismissToast();
+                console.log(response);
+                _izitoast2.default.error({
+                    title: "Error",
+                    message: "Unable to add residence address"
+                });
+            });
+        }
+    }, {
+        key: "getChangeHandler",
+        value: function getChangeHandler(fieldName) {
+            var _this9 = this;
+
+            var form = this.state.form;
+
+            return function (event) {
+                var value = event.target.value;
+
+                form[fieldName] = value;
+                _this9.setState({
+                    form: form
+                });
+            };
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            var _getFormErrors = this.getFormErrors(),
+                formHasErrors = _getFormErrors.formHasErrors,
+                fieldErrors = _getFormErrors.fieldErrors;
+
+            function isValid(fieldName) {
+                return fieldErrors[fieldName].length === 0;
+            }
+
+            function fieldError(fieldName) {
+                return fieldErrors[fieldName][0];
+            }
+
+            return _react2.default.createElement(
+                _reactstrap.Modal,
+                { isOpen: this.props.isOpen,
+                    toggle: this.props.toggle,
+                    backdrop: true },
+                _react2.default.createElement(
+                    _reactstrap.ModalHeader,
+                    null,
+                    this.props.edit ? "Edit Residence Address" : "Add a Residence Address"
+                ),
+                _react2.default.createElement(
+                    _reactstrap.ModalBody,
+                    { className: "form" },
+                    _react2.default.createElement(
+                        _reactstrap.Form,
+                        null,
+                        _react2.default.createElement(
+                            _reactstrap.FormGroup,
+                            null,
+                            _react2.default.createElement(
+                                _reactstrap.Label,
+                                null,
+                                "Address"
+                            ),
+                            _react2.default.createElement(_reactstrap.Input, { type: "textarea",
+                                placeholder: "Address",
+                                onChange: this.getChangeHandler("address"),
+                                valid: isValid("Address"),
+                                defaultValue: this.state.form.address }),
+                            _react2.default.createElement(
+                                _reactstrap.FormFeedback,
+                                null,
+                                fieldError("Address")
+                            )
+                        ),
+                        _react2.default.createElement(
+                            _reactstrap.FormGroup,
+                            null,
+                            _react2.default.createElement(
+                                _reactstrap.Label,
+                                null,
+                                "Contact Person"
+                            ),
+                            _react2.default.createElement(_reactstrap.Input, { placeholder: "Name",
+                                onChange: this.getChangeHandler("contact_person_name"),
+                                valid: isValid("Contact person name"),
+                                defaultValue: this.state.form.contact_person_name }),
+                            _react2.default.createElement(
+                                _reactstrap.FormFeedback,
+                                null,
+                                fieldError("Contact person name")
+                            )
+                        ),
+                        _react2.default.createElement(
+                            _reactstrap.FormGroup,
+                            null,
+                            _react2.default.createElement(
+                                _reactstrap.Label,
+                                null,
+                                "Contact Number"
+                            ),
+                            _react2.default.createElement(_reactstrap.Input, { placeholder: "Name",
+                                onChange: this.getChangeHandler("contact_person_number"),
+                                valid: isValid("Contact person number"),
+                                defaultValue: this.state.form.contact_person_number }),
+                            _react2.default.createElement(
+                                _reactstrap.FormFeedback,
+                                null,
+                                fieldError("Contact person number")
+                            )
+                        ),
+                        _react2.default.createElement(
+                            _reactstrap.FormGroup,
+                            null,
+                            _react2.default.createElement(
+                                _reactstrap.Label,
+                                null,
+                                "Residence Type"
+                            ),
+                            _react2.default.createElement(_reactstrap.Input, { placeholder: "Name",
+                                onChange: this.getChangeHandler("residence"),
+                                valid: isValid("Residence type"),
+                                defaultValue: this.state.form.residence }),
+                            _react2.default.createElement(
+                                _reactstrap.FormFeedback,
+                                null,
+                                fieldError("Residence type")
+                            )
+                        ),
+                        _react2.default.createElement(
+                            _reactstrap.FormGroup,
+                            null,
+                            _react2.default.createElement(
+                                _reactstrap.Label,
+                                null,
+                                "Date Effective"
+                            ),
+                            _react2.default.createElement(_reactstrap.Input, { type: "date",
+                                defaultValue: this.state.form.date_effective,
+                                onChange: this.getChangeHandler("date_effective"),
+                                valid: isValid("Date effective") }),
+                            _react2.default.createElement(
+                                _reactstrap.FormFeedback,
+                                null,
+                                fieldError("Date effective")
+                            )
+                        )
+                    )
+                ),
+                _react2.default.createElement(
+                    _reactstrap.ModalFooter,
+                    null,
+                    _react2.default.createElement(
+                        _reactstrap.Button,
+                        { outline: true,
+                            color: "success",
+                            disabled: formHasErrors,
+                            onClick: this.props.edit ? this.submitAddResidenceAddressForm : this.submitAddResidenceAddressForm },
+                        this.props.edit ? "Save changes" : "Add"
+                    )
+                )
+            );
+        }
+    }]);
+
+    return ResidenceAddressFormModal;
+}(_react.Component);
+
 exports.StudentFormModal = StudentFormModal;
 exports.ArchiveStudentModal = ArchiveStudentModal;
+exports.ResidenceAddressFormModal = ResidenceAddressFormModal;
 //# sourceMappingURL=modals.js.map

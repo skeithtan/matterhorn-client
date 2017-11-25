@@ -28,6 +28,8 @@ var _section = require("../../../components/section");
 
 var _sidebar_panes = require("./sidebar_panes");
 
+var _modals = require("../modals");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -197,10 +199,16 @@ var HistoryHead = function (_Component2) {
                     { className: "page-head-actions" },
                     _react2.default.createElement(
                         _reactstrap.Button,
-                        { outline: true, size: "sm", color: "success", onClick: this.toggleAddResidence },
+                        { outline: true,
+                            size: "sm",
+                            color: "success",
+                            onClick: this.toggleAddResidence },
                         "Add a Residence"
                     )
-                )
+                ),
+                _react2.default.createElement(_modals.ResidenceAddressFormModal, { isOpen: this.state.addResidenceIsShowing,
+                    student: student,
+                    toggle: this.toggleAddResidence })
             );
         }
     }]);

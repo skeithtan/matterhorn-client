@@ -16,6 +16,8 @@ import {
 
 // TODO: import modals for editing and adding
 import { ResidenceSidebarPane } from "./sidebar_panes";
+import { ResidenceAddressFormModal } from "../modals";
+
 
 function fetchHistory(id, onResult) {
     graphql.query(`
@@ -67,7 +69,7 @@ class ResidentAddressHistory extends Component {
         }
 
         this.props.setSidebarContent(
-            <ResidenceSidebarPane residence={ residence }/>,
+            <ResidenceSidebarPane residence={residence}/>,
         );
 
         this.setState({
@@ -110,10 +112,10 @@ class ResidentAddressHistory extends Component {
 
         return (
             <div className="d-flex flex-column p-0 h-100">
-                <HistoryHead student={ this.state.student }/>
-                <HistoryBody residences={ this.state.residenceList }
-                             activeResidenceId={ this.state.activeResidenceId }
-                             setActiveResidence={ this.setActiveResidence }/>
+                <HistoryHead student={this.state.student}/>
+                <HistoryBody residences={this.state.residenceList}
+                             activeResidenceId={this.state.activeResidenceId}
+                             setActiveResidence={this.setActiveResidence}/>
             </div>
         );
     }
@@ -144,17 +146,23 @@ class HistoryHead extends Component {
                 <div className="mr-auto">
                     <h5 className="mb-0 text-secondary">Resident Address History</h5>
                     <h4 className="page-head-title mb-0">
-                        { student.first_name } { student.middle_name } { student.family_name }
-                        <small className="text-muted ml-2">{ this.props.student.id_number }</small>
+                        {student.first_name} {student.middle_name} {student.family_name}
+                        <small className="text-muted ml-2">{this.props.student.id_number}</small>
                     </h4>
                 </div>
 
                 <div className="page-head-actions">
-                    <Button outline size="sm" color="success" onClick={ this.toggleAddResidence }>Add a
-                        Residence</Button>
+                    <Button outline
+                            size="sm"
+                            color="success"
+                            onClick={this.toggleAddResidence}>
+                        Add a Residence
+                    </Button>
                 </div>
 
-                { /* Residence Form Modal */ }
+                <ResidenceAddressFormModal isOpen={this.state.addResidenceIsShowing}
+                                           student={student}
+                                           toggle={this.toggleAddResidence}/>
             </div>
         );
     }
@@ -193,11 +201,11 @@ class HistoryBody extends Component {
                 isActive = this.props.activeResidenceId === residence.id;
             }
 
-            return <ResidenceRow key={ index }
-                                 residence={ residence }
-                                 isActive={ isActive }
-                                 onClick={ onResidenceRowClick }
-                                 latest={ index === 0 }/>;
+            return <ResidenceRow key={index}
+                                 residence={residence}
+                                 isActive={isActive}
+                                 onClick={onResidenceRowClick}
+                                 latest={index === 0}/>;
         });
 
         return (
@@ -206,7 +214,7 @@ class HistoryBody extends Component {
                     <div className="w-100">
                         <SectionTitle>Residences</SectionTitle>
                         <SectionTable>
-                            { rows }
+                            {rows}
                         </SectionTable>
                     </div>
                 </div>
@@ -231,12 +239,12 @@ class ResidenceRow extends Component {
 
         return (
             <SectionRow selectable
-                        onClick={ this.props.onClick }
-                        active={ this.props.isActive }>
-                { this.props.latest &&
+                        onClick={this.props.onClick}
+                        active={this.props.isActive}>
+                {this.props.latest &&
                 <SectionRowTitle>Latest Residence</SectionRowTitle>
                 }
-                <SectionRowContent large>Effective { dateEffective }</SectionRowContent>
+                <SectionRowContent large>Effective {dateEffective}</SectionRowContent>
             </SectionRow>
         );
     }
