@@ -56,6 +56,8 @@ var Institutions = function (_Component) {
         _this.toggleAddInstitution = _this.toggleAddInstitution.bind(_this);
 
         _this.onDeleteActiveInstitution = _this.onDeleteActiveInstitution.bind(_this);
+        _this.onAddInstitution = _this.onAddInstitution.bind(_this);
+
         _this.refreshInstitutions();
         return _this;
     }
@@ -95,6 +97,15 @@ var Institutions = function (_Component) {
             });
         }
     }, {
+        key: "onAddInstitution",
+        value: function onAddInstitution(institution) {
+            this.setState({
+                activeInstitution: institution
+            });
+
+            console.log(institution, this.state);
+        }
+    }, {
         key: "render",
         value: function render() {
             return _react2.default.createElement(
@@ -109,6 +120,7 @@ var Institutions = function (_Component) {
                     refreshInstitutions: this.refreshInstitutions }),
                 _react2.default.createElement(_modals.InstitutionFormModal, { isOpen: this.state.addInstitutionIsShowing,
                     toggle: this.toggleAddInstitution,
+                    onAddInstitution: this.onAddInstitution,
                     refresh: this.refreshInstitutions })
             );
         }

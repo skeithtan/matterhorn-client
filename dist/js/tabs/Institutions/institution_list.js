@@ -310,7 +310,8 @@ var InstitutionSection = function (_Component4) {
                 var isActive = false;
 
                 if (_this6.props.activeInstitution !== null) {
-                    isActive = _this6.props.activeInstitution.id === institution.id;
+                    var activeInstitutionId = _this6.props.activeInstitution.id.toString();
+                    isActive = activeInstitutionId === institution.id;
                 }
 
                 var setActiveInstitution = function setActiveInstitution() {

@@ -134,12 +134,13 @@ var InstitutionFormModal = function (_Component) {
                 url: _settings2.default.serverURL + "/institutions/",
                 data: this.state.form,
                 beforeSend: _authorization2.default,
-                success: function success() {
+                success: function success(institution) {
                     dismissToast();
                     _this2.props.refresh();
+                    _this2.props.onAddInstitution(institution);
                     _izitoast2.default.success({
                         title: "Success",
-                        message: "Successfully added institution"
+                        message: "Successfully added institution " + _this2.state.form.name + "."
                     });
                 },
                 error: function error(response) {

@@ -107,12 +107,13 @@ class InstitutionFormModal extends Component {
             url : `${settings.serverURL}/institutions/`,
             data : this.state.form,
             beforeSend : authorizeXHR,
-            success : () => {
+            success : institution => {
                 dismissToast();
                 this.props.refresh();
+                this.props.onAddInstitution(institution);
                 iziToast.success({
                     title : "Success",
-                    message : "Successfully added institution",
+                    message : `Successfully added institution ${this.state.form.name}.`,
                 });
             },
             error : response => {

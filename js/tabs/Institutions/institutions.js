@@ -37,6 +37,8 @@ class Institutions extends Component {
         this.toggleAddInstitution = this.toggleAddInstitution.bind(this);
 
         this.onDeleteActiveInstitution = this.onDeleteActiveInstitution.bind(this);
+        this.onAddInstitution = this.onAddInstitution.bind(this);
+
         this.refreshInstitutions();
     }
 
@@ -68,6 +70,14 @@ class Institutions extends Component {
         });
     }
 
+    onAddInstitution(institution) {
+        this.setState({
+            activeInstitution : institution,
+        });
+
+        console.log(institution, this.state);
+    }
+
     render() {
         return (
             <div className="container-fluid d-flex flex-row p-0 h-100">
@@ -81,6 +91,7 @@ class Institutions extends Component {
 
                 <InstitutionFormModal isOpen={this.state.addInstitutionIsShowing}
                                       toggle={this.toggleAddInstitution}
+                                      onAddInstitution={this.onAddInstitution}
                                       refresh={this.refreshInstitutions}/>
             </div>
         );

@@ -228,7 +228,8 @@ class InstitutionSection extends Component {
             let isActive = false;
 
             if (this.props.activeInstitution !== null) {
-                isActive = this.props.activeInstitution.id === institution.id;
+                const activeInstitutionId = this.props.activeInstitution.id.toString();
+                isActive = activeInstitutionId === institution.id;
             }
 
             const setActiveInstitution = () => this.props.setActiveInstitution(institution);
