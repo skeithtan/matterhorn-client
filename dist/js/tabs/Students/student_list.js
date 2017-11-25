@@ -22,6 +22,8 @@ var _tab_bar = require("../../components/tab_bar");
 
 var _tab_bar2 = _interopRequireDefault(_tab_bar);
 
+var _collapse_content = require("../../components/collapse_content");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -42,6 +44,7 @@ var StudentList = function (_Component) {
             searchKeyword: null
         };
 
+        _this.toggleCollapse = _this.toggleCollapse.bind(_this);
         _this.setSearchKeyword = _this.setSearchKeyword.bind(_this);
         _this.getFilteredStudents = _this.getFilteredStudents.bind(_this);
         return _this;
@@ -75,28 +78,47 @@ var StudentList = function (_Component) {
             });
         }
     }, {
+        key: "toggleCollapse",
+        value: function toggleCollapse() {
+            this.setState({
+                collapsed: !this.state.collapsed
+            });
+        }
+    }, {
         key: "render",
         value: function render() {
             var isSearching = this.state.searchKeyword !== null;
 
+            var className = "sidebar h-100 collapsible ";
+            if (this.state.collapsed) {
+                className += "collapsed";
+            }
+
             return _react2.default.createElement(
                 "div",
-                { className: "sidebar h-100",
+                { className: className,
                     id: "student-list" },
-                _react2.default.createElement(StudentListHead, { setSearchKeyword: this.setSearchKeyword,
-                    toggleAddStudent: this.props.toggleAddStudent,
-                    addButtonIsShowing: this.props.addButtonIsShowing,
-                    activeTab: this.props.activeTab }),
-                _react2.default.createElement(StudentListTable, { students: this.props.students,
-                    filtered: this.getFilteredStudents(),
-                    activeStudent: this.props.activeStudent,
-                    setActiveStudent: this.props.setActiveStudent,
-                    toggleAddStudent: this.props.toggleAddStudent,
-                    currentStudentCategory: this.props.activeTab.name,
-                    isSearching: isSearching }),
-                _react2.default.createElement(_tab_bar2.default, { tabs: this.props.tabs,
-                    activeTab: this.props.activeTab,
-                    setActiveTab: this.props.setActiveTab })
+                _react2.default.createElement(
+                    _collapse_content.ExpandContent,
+                    { className: "d-flex flex-column h-100" },
+                    _react2.default.createElement(StudentListHead, { setSearchKeyword: this.setSearchKeyword,
+                        toggleAddStudent: this.props.toggleAddStudent,
+                        toggleCollapse: this.toggleCollapse,
+                        addButtonIsShowing: this.props.addButtonIsShowing,
+                        activeTab: this.props.activeTab }),
+                    _react2.default.createElement(StudentListTable, { students: this.props.students,
+                        filtered: this.getFilteredStudents(),
+                        activeStudent: this.props.activeStudent,
+                        setActiveStudent: this.props.setActiveStudent,
+                        toggleAddStudent: this.props.toggleAddStudent,
+                        currentStudentCategory: this.props.activeTab.name,
+                        isSearching: isSearching }),
+                    _react2.default.createElement(_tab_bar2.default, { tabs: this.props.tabs,
+                        activeTab: this.props.activeTab,
+                        setActiveTab: this.props.setActiveTab })
+                ),
+                _react2.default.createElement(_collapse_content.CollapseContent, { title: "Students",
+                    toggle: this.toggleCollapse })
             );
         }
     }]);
@@ -131,6 +153,7 @@ var StudentListHead = function (_Component2) {
                 _react2.default.createElement(
                     "div",
                     { className: "page-head-controls" },
+                    _react2.default.createElement(_collapse_content.CollapseButton, { toggleCollapse: this.props.toggleCollapse }),
                     _react2.default.createElement(
                         _reactstrap.Button,
                         { outline: true,
