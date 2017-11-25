@@ -103,12 +103,6 @@ var ResidenceDetails = function (_Component2) {
         value: function render() {
             var residence = this.props.residence;
 
-            function formatDate(date) {
-                return (0, _moment2.default)(date).format("LL");
-            }
-
-            var dateEffective = formatDate(residence.date_effective);
-
             return _react2.default.createElement(
                 _section.Section,
                 null,
@@ -120,20 +114,6 @@ var ResidenceDetails = function (_Component2) {
                 _react2.default.createElement(
                     _section.SectionTable,
                     null,
-                    _react2.default.createElement(
-                        _section.SectionRow,
-                        null,
-                        _react2.default.createElement(
-                            _section.SectionRowTitle,
-                            null,
-                            "Date Effective"
-                        ),
-                        _react2.default.createElement(
-                            _section.SectionRowContent,
-                            null,
-                            dateEffective
-                        )
-                    ),
                     _react2.default.createElement(
                         _section.SectionRow,
                         null,
@@ -203,13 +183,6 @@ var ResidenceDetails = function (_Component2) {
                                     size: "sm",
                                     className: "mr-auto" },
                                 "Edit"
-                            ),
-                            _react2.default.createElement(
-                                _reactstrap.Button,
-                                { outline: true,
-                                    color: "warning",
-                                    size: "sm" },
-                                "Archive"
                             )
                         )
                     )

@@ -63,20 +63,10 @@ class ResidenceDetails extends Component {
     render() {
         const residence = this.props.residence;
 
-        function formatDate(date) {
-            return moment(date).format("LL");
-        }
-
-        const dateEffective = formatDate(residence.date_effective);
-
         return (
             <Section>
                 <SectionTitle>Details</SectionTitle>
                 <SectionTable>
-                    <SectionRow>
-                        <SectionRowTitle>Date Effective</SectionRowTitle>
-                        <SectionRowContent>{ dateEffective }</SectionRowContent>
-                    </SectionRow>
                     <SectionRow>
                         <SectionRowTitle>Contact Person</SectionRowTitle>
                         <SectionRowContent>{ residence.contact_person_name }</SectionRowContent>
@@ -99,9 +89,6 @@ class ResidenceDetails extends Component {
                                     color="success"
                                     size="sm"
                                     className="mr-auto">Edit</Button>
-                            <Button outline
-                                    color="warning"
-                                    size="sm">Archive</Button>
                         </SectionRowContent>
                     </SectionRow>
                 </SectionTable>
