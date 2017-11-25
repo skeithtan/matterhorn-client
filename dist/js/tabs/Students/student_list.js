@@ -217,7 +217,7 @@ var StudentListTable = function (_Component3) {
                     this.props.currentStudentCategory,
                     " students will show up here."
                 ),
-                _react2.default.createElement(
+                this.props.currentStudentCategory === "Inbound" && _react2.default.createElement(
                     _reactstrap.Button,
                     { outline: true,
                         color: "success",

@@ -146,9 +146,11 @@ class StudentListTable extends Component {
             <div className="loading-container">
                 <h4>There are no {this.props.currentStudentCategory} students.</h4>
                 <p>When added, {this.props.currentStudentCategory} students will show up here.</p>
+                {this.props.currentStudentCategory === "Inbound" &&
                 <Button outline
                         color="success"
                         onClick={this.props.toggleAddStudent}>Add a Student</Button>
+                }
             </div>
         );
     }
