@@ -223,7 +223,8 @@ var InstitutionFormModal = function (_Component) {
 
             countries.unshift(_react2.default.createElement(
                 "option",
-                { value: "" },
+                { key: "X",
+                    value: "" },
                 "Select a country"
             ));
 
