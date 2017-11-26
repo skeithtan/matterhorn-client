@@ -16,6 +16,10 @@ var _graphql2 = _interopRequireDefault(_graphql);
 
 var _reactstrap = require("reactstrap");
 
+var _loading = require("../../components/loading");
+
+var _loading2 = _interopRequireDefault(_loading);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -42,7 +46,7 @@ var OutboundApplications = function (_Component) {
         value: function render() {
             return _react2.default.createElement(
                 "div",
-                null,
+                { className: "container-fluid d-flex flex-row p-0 h-100" },
                 _react2.default.createElement(OutboundApplicationsList, null)
             );
         }
@@ -57,17 +61,56 @@ var OutboundApplicationsList = function (_Component2) {
     function OutboundApplicationsList(props) {
         _classCallCheck(this, OutboundApplicationsList);
 
-        return _possibleConstructorReturn(this, (OutboundApplicationsList.__proto__ || Object.getPrototypeOf(OutboundApplicationsList)).call(this, props));
+        var _this2 = _possibleConstructorReturn(this, (OutboundApplicationsList.__proto__ || Object.getPrototypeOf(OutboundApplicationsList)).call(this, props));
+
+        _this2.state = {
+            activeCategory: "Incomplete",
+            applicants: null,
+            activeApplicant: null
+        };
+
+        fetchOutboundApplication(function (result) {
+            _this2.setState({
+                applicants: result.outbound_student_programs
+            });
+        });
+
+        _this2.setActiveCategory = _this2.setActiveCategory.bind(_this2);
+        _this2.setActiveApplicant = _this2.setActiveApplicant.bind(_this2);
+        return _this2;
     }
 
     _createClass(OutboundApplicationsList, [{
+        key: "setActiveCategory",
+        value: function setActiveCategory(category) {
+            this.setState({
+                activeCategory: category
+            });
+
+            // TODO: fetch appropriate applicants under that category
+        }
+
+        // TODO: switching between applicant categories called setApplicants, category as the param
+        // TODO: refreshing the applicants and at the same time conforming to the activeCategory
+
+    }, {
+        key: "setActiveApplicant",
+        value: function setActiveApplicant(applicant) {
+            this.setState({
+                activeApplicant: applicant
+            });
+        }
+    }, {
         key: "render",
         value: function render() {
             return _react2.default.createElement(
                 "div",
                 { className: "sidebar h-100" },
-                _react2.default.createElement(OutboundApplicationsListHead, null),
-                _react2.default.createElement(OutboundApplicationsListTable, null)
+                _react2.default.createElement(OutboundApplicationsListHead, { activeCategory: this.state.activeCategory,
+                    setActiveCategory: this.setActiveCategory }),
+                _react2.default.createElement(OutboundApplicationsListTable, { activeCategory: this.state.activeCategory,
+                    applicants: this.state.applicants,
+                    setActiveApplicant: this.setActiveApplicant })
             );
         }
     }]);
@@ -87,6 +130,8 @@ var OutboundApplicationsListHead = function (_Component3) {
     _createClass(OutboundApplicationsListHead, [{
         key: "render",
         value: function render() {
+            var _this4 = this;
+
             return _react2.default.createElement(
                 "div",
                 { className: "page-head" },
@@ -98,12 +143,24 @@ var OutboundApplicationsListHead = function (_Component3) {
                         { className: "btn-group", role: "group" },
                         _react2.default.createElement(
                             _reactstrap.Button,
-                            { outline: true, color: "success", size: "sm" },
+                            { outline: true,
+                                color: "success",
+                                size: "sm",
+                                onClick: function onClick() {
+                                    return _this4.props.setActiveCategory("Incomplete");
+                                },
+                                active: this.props.activeCategory === "Incomplete" },
                             "Incomplete"
                         ),
                         _react2.default.createElement(
                             _reactstrap.Button,
-                            { outline: true, color: "success", size: "sm" },
+                            { outline: true,
+                                color: "success",
+                                size: "sm",
+                                onClick: function onClick() {
+                                    return _this4.props.setActiveCategory("Complete");
+                                },
+                                active: this.props.activeCategory === "Complete" },
                             "Complete"
                         )
                     ),
@@ -137,13 +194,105 @@ var OutboundApplicationsListTable = function (_Component4) {
     function OutboundApplicationsListTable(props) {
         _classCallCheck(this, OutboundApplicationsListTable);
 
-        return _possibleConstructorReturn(this, (OutboundApplicationsListTable.__proto__ || Object.getPrototypeOf(OutboundApplicationsListTable)).call(this, props));
+        var _this5 = _possibleConstructorReturn(this, (OutboundApplicationsListTable.__proto__ || Object.getPrototypeOf(OutboundApplicationsListTable)).call(this, props));
+
+        _this5.getStudentsByFamilyNameInitials = _this5.getStudentsByFamilyNameInitials.bind(_this5);
+        _this5.emptyState = _this5.emptyState.bind(_this5);
+        return _this5;
     }
 
     _createClass(OutboundApplicationsListTable, [{
+        key: "getStudentsByFamilyNameInitials",
+        value: function getStudentsByFamilyNameInitials() {
+            var students = [];
+
+            this.props.applicants.forEach(function (applicant) {
+                students.push(applicant.student);
+            });
+
+            //Get first letter
+            var familyNameInitials = students.map(function (student) {
+                return student.family_name[0];
+            });
+
+            //Get uniques only
+            familyNameInitials = familyNameInitials.filter(function (value, index, self) {
+                return self.indexOf(value) === index;
+            });
+
+            // Sort alphabetically
+            familyNameInitials = familyNameInitials.sort(function (a, b) {
+                if (a < b) {
+                    return -1;
+                }
+                if (a > b) {
+                    return 1;
+                }
+                return 0;
+            });
+
+            var categorizedByInitial = [];
+
+            // Categorize by family name initial
+            familyNameInitials.forEach(function (initial) {
+                var categorizedStudents = [];
+                categorizedByInitial.push({
+                    initial: initial,
+                    students: categorizedStudents
+                });
+
+                students.forEach(function (student) {
+                    var studentInitial = student.family_name[0];
+
+                    if (studentInitial === initial) {
+                        categorizedStudents.push(student);
+                    }
+                });
+            });
+
+            console.log(categorizedByInitial);
+            return categorizedByInitial;
+        }
+    }, {
+        key: "emptyState",
+        value: function emptyState() {
+            return _react2.default.createElement(
+                "div",
+                { className: "loading-container" },
+                _react2.default.createElement(
+                    "h4",
+                    null,
+                    "There are no ",
+                    this.props.activeCategory,
+                    " applicants."
+                )
+            );
+        }
+    }, {
         key: "render",
         value: function render() {
-            return null; //TODO
+            if (this.props.applicants === null) {
+                return _react2.default.createElement(_loading2.default, null);
+            }
+
+            if (this.props.applicants.length === 0) {
+                return this.emptyState();
+            }
+
+            var familyNameInitials = this.getStudentsByFamilyNameInitials();
+
+            var sections = familyNameInitials.map(function (familyNameInitial, index) {
+
+                var students = familyNameInitial.students;
+
+                // TODO: Return sections
+            });
+
+            return _react2.default.createElement(
+                "div",
+                { className: "page-body" },
+                sections
+            );
         }
     }]);
 
