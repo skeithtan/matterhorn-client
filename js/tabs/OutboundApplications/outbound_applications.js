@@ -25,6 +25,7 @@ function fetchOutboundApplication(onResult) {
                 middle_name
                 family_name
             }
+            is_requirements_complete
         }
     }
     `).then(onResult);
@@ -62,6 +63,7 @@ class OutboundApplicationsList extends Component {
         });
 
         this.setActiveCategory = this.setActiveCategory.bind(this);
+        this.setApplicants = this.setApplicants.bind(this);
         this.setActiveApplicant = this.setActiveApplicant.bind(this);
     }
 
@@ -70,10 +72,28 @@ class OutboundApplicationsList extends Component {
             activeCategory : category,
         });
 
-        // TODO: fetch appropriate applicants under that category
+        this.setApplicants(this.state.applicants);
     }
 
-    // TODO: switching between applicant categories called setApplicants, category as the param
+    setApplicants(applicants) {
+        let filteredApplicants = [];
+
+        if (applicants !== null && applicants.length !== 0) {
+            applicants.forEach(applicant => {
+                if (this.state.activeCategory === "Incomplete") {
+                    if (!applicant.is_requirements_complete) {
+                        filteredApplicants.push(applicant);
+                    }
+                } else {
+                    if (applicant.is_requirements_complete) {
+                        filteredApplicants.push(applicant);
+                    }
+                }
+            });
+        }
+        return filteredApplicants;
+    }
+
     // TODO: refreshing the applicants and at the same time conforming to the activeCategory
 
     setActiveApplicant(applicant) {
@@ -83,12 +103,14 @@ class OutboundApplicationsList extends Component {
     }
 
     render() {
+        const applicants = this.setApplicants(this.state.applicants);
+
         return (
             <div className="sidebar h-100">
                 <OutboundApplicationsListHead activeCategory={ this.state.activeCategory }
                                               setActiveCategory={ this.setActiveCategory }/>
                 <OutboundApplicationsListTable activeCategory={ this.state.activeCategory }
-                                               applicants={ this.state.applicants }
+                                               applicants={ applicants }
                                                activeApplicant={ this.state.activeApplicant }
                                                setActiveApplicant={ this.setActiveApplicant }/>
             </div>
@@ -184,8 +206,6 @@ class OutboundApplicationsListTable extends Component {
             });
 
         });
-
-        console.log(categorizedByInitial);
         return categorizedByInitial;
     }
 
