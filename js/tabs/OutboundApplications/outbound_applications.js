@@ -5,6 +5,12 @@ import {
     Input,
 } from "reactstrap";
 import LoadingSpinner from "../../components/loading";
+import {
+    Section,
+    SectionTitle,
+    SectionTable,
+    SectionRow,
+} from "../../components/section";
 
 
 function fetchOutboundApplication(onResult) {
@@ -83,6 +89,7 @@ class OutboundApplicationsList extends Component {
                                               setActiveCategory={ this.setActiveCategory }/>
                 <OutboundApplicationsListTable activeCategory={ this.state.activeCategory }
                                                applicants={ this.state.applicants }
+                                               activeApplicant={ this.state.activeApplicant }
                                                setActiveApplicant={ this.setActiveApplicant }/>
             </div>
         );
@@ -115,7 +122,7 @@ class OutboundApplicationsListHead extends Component {
                             className="ml-auto"
                             size="sm">Add Applicant</Button>
                 </div>
-                <h4 className="page-head-title">Applications</h4>
+                <h4 className="page-head-title">{ this.props.activeCategory } Applications</h4>
                 <Input type="search"
                        placeholder="search"
                        className="search-input"/>
@@ -133,14 +140,14 @@ class OutboundApplicationsListTable extends Component {
     }
 
     getStudentsByFamilyNameInitials() {
-        let students = [];
+        let applicants = [];
 
         this.props.applicants.forEach(applicant => {
-            students.push(applicant.student);
+            applicants.push(applicant.student);
         });
 
         //Get first letter
-        let familyNameInitials = students.map(student => student.family_name[0]);
+        let familyNameInitials = applicants.map(student => student.family_name[0]);
 
         //Get uniques only
         familyNameInitials = familyNameInitials.filter((value, index, self) => {
@@ -162,17 +169,17 @@ class OutboundApplicationsListTable extends Component {
 
         // Categorize by family name initial
         familyNameInitials.forEach(initial => {
-            let categorizedStudents = [];
+            let categorizedApplicants = [];
             categorizedByInitial.push({
                 initial : initial,
-                students : categorizedStudents,
+                applicants : categorizedApplicants,
             });
 
-            students.forEach(student => {
-                const studentInitial = student.family_name[0];
+            applicants.forEach(applicant => {
+                const studentInitial = applicant.family_name[0];
 
                 if (studentInitial === initial) {
-                    categorizedStudents.push(student);
+                    categorizedApplicants.push(applicant);
                 }
             });
 
@@ -202,16 +209,54 @@ class OutboundApplicationsListTable extends Component {
         const familyNameInitials = this.getStudentsByFamilyNameInitials();
 
         const sections = familyNameInitials.map((familyNameInitial, index) => {
-
-            const students = familyNameInitial.students;
-
-            // TODO: Return sections
+            return <OutboundApplicationsListSection key={ index }
+                                                    title={ familyNameInitial.initial }
+                                                    activeApplicant={ this.props.activeApplicant }
+                                                    applicants={ familyNameInitial.applicants }
+                                                    setActiveApplicant={ this.props.setActiveApplicant }/>;
         });
 
         return (
             <div className="page-body">
                 { sections }
             </div>
+        );
+    }
+}
+
+class OutboundApplicationsListSection extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        const rows = this.props.applicants.map((applicant, index) => {
+            let isActive = false;
+
+            if (this.props.activeApplicant !== null) {
+                isActive = this.props.activeApplicant.id.toString() === applicant.id.toString();
+            }
+
+            const setActiveApplicant = () => this.props.setActiveApplicant(applicant);
+
+            return (
+                <SectionRow selectable
+                            onClick={ setActiveApplicant }
+                            active={ isActive }
+                            key={ index }>
+                    <small className="d-block">{ applicant.id_number }</small>
+                    <b>{ applicant.family_name }</b>, { applicant.first_name } { applicant.middle_name }
+                </SectionRow>
+            );
+        });
+
+        return (
+            <Section>
+                <SectionTitle>{ this.props.title }</SectionTitle>
+                <SectionTable>
+                    { rows }
+                </SectionTable>
+            </Section>
         );
     }
 }
