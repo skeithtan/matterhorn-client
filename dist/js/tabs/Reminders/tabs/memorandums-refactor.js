@@ -114,7 +114,7 @@ var Memorandums = function (_Component) {
             this.props.setSidebarContent(null);
         }
     }, {
-        key: "setMemorandums",
+        key: "getMemorandumsFromCategory",
         value: function setMemorandums(category) {
             var filteredMemorandums = [];
 
@@ -157,12 +157,12 @@ var Memorandums = function (_Component) {
                 });
             });
 
-            this.setMemorandums(this.state.activeCategory);
+            this.getMemorandumsFromCategory(this.state.activeCategory);
         }
     }, {
         key: "render",
         value: function render() {
-            var memorandums = this.setMemorandums(this.state.activeCategory);
+            var memorandums = this.getMemorandumsFromCategory(this.state.activeCategory);
 
             return _react2.default.createElement(
                 "div",
@@ -196,7 +196,7 @@ var MemorandumsHead = function (_Component2) {
         key: "onCategoryChange",
         value: function onCategoryChange(event) {
             this.props.setActiveCategory(event.target.value);
-            this.props.setMemorandums(event.target.value);
+            this.props.getMemorandumsFromCategory(event.target.value);
         }
     }, {
         key: "render",

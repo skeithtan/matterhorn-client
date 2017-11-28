@@ -93,7 +93,7 @@ class Memorandums extends Component {
             });
         });
 
-        this.setMemorandums = this.setMemorandums.bind(this);
+        this.getMemorandumsFromCategory = this.getMemorandumsFromCategory.bind(this);
         this.setActiveCategory = this.setActiveCategory.bind(this);
         this.setActiveMemorandum = this.setActiveMemorandum.bind(this);
         this.refreshMemorandums = this.refreshMemorandums.bind(this);
@@ -108,21 +108,22 @@ class Memorandums extends Component {
         this.props.setSidebarContent(null);
     }
 
-    setMemorandums(category) {
-        let filteredMemorandums = [];
-
+    getMemorandumsFromCategory(category) {
         const institutions = this.state.institutions;
 
-        if (institutions !== null) {
-            const memorandums = makeMemorandumsFromInstitutions(institutions);
-
-            memorandums.forEach(memorandum => {
-                if (memorandum.memorandum.category === category) {
-                    filteredMemorandums.push(memorandum);
-                }
-            });
+        if (institutions === null) {
+            return null;
         }
 
+        let filteredMemorandums = [];
+
+        const memorandums = makeMemorandumsFromInstitutions(institutions);
+
+        memorandums.forEach(memorandum => {
+            if (memorandum.memorandum.category === category) {
+                filteredMemorandums.push(memorandum);
+            }
+        });
         return filteredMemorandums;
     }
 
@@ -146,15 +147,15 @@ class Memorandums extends Component {
             });
         });
 
-        this.setMemorandums(this.state.activeCategory);
+        this.getMemorandumsFromCategory(this.state.activeCategory);
     }
 
     render() {
-        const memorandums = this.setMemorandums(this.state.activeCategory);
+        const memorandums = this.getMemorandumsFromCategory(this.state.activeCategory);
 
         return (
             <div className="d-flex flex-column h-100">
-                <MemorandumsHead setMemorandums={this.setMemorandums}
+                <MemorandumsHead setMemorandums={this.getMemorandumsFromCategory}
                                  setActiveCategory={this.setActiveCategory}/>
                 <MemorandumsTable activeCategory={this.state.activeCategory}
                                   memorandums={memorandums}
@@ -174,7 +175,7 @@ class MemorandumsHead extends Component {
 
     onCategoryChange(event) {
         this.props.setActiveCategory(event.target.value);
-        this.props.setMemorandums(event.target.value);
+        this.props.getMemorandumsFromCategory(event.target.value);
     }
 
     render() {

@@ -96,7 +96,7 @@ var Memorandums = function (_Component) {
             });
         });
 
-        _this.setMemorandums = _this.setMemorandums.bind(_this);
+        _this.getMemorandumsFromCategory = _this.getMemorandumsFromCategory.bind(_this);
         _this.setActiveCategory = _this.setActiveCategory.bind(_this);
         _this.setActiveMemorandum = _this.setActiveMemorandum.bind(_this);
         _this.refreshMemorandums = _this.refreshMemorandums.bind(_this);
@@ -114,22 +114,23 @@ var Memorandums = function (_Component) {
             this.props.setSidebarContent(null);
         }
     }, {
-        key: "setMemorandums",
-        value: function setMemorandums(category) {
-            var filteredMemorandums = [];
-
+        key: "getMemorandumsFromCategory",
+        value: function getMemorandumsFromCategory(category) {
             var institutions = this.state.institutions;
 
-            if (institutions !== null) {
-                var memorandums = makeMemorandumsFromInstitutions(institutions);
-
-                memorandums.forEach(function (memorandum) {
-                    if (memorandum.memorandum.category === category) {
-                        filteredMemorandums.push(memorandum);
-                    }
-                });
+            if (institutions === null) {
+                return null;
             }
 
+            var filteredMemorandums = [];
+
+            var memorandums = makeMemorandumsFromInstitutions(institutions);
+
+            memorandums.forEach(function (memorandum) {
+                if (memorandum.memorandum.category === category) {
+                    filteredMemorandums.push(memorandum);
+                }
+            });
             return filteredMemorandums;
         }
     }, {
@@ -157,17 +158,17 @@ var Memorandums = function (_Component) {
                 });
             });
 
-            this.setMemorandums(this.state.activeCategory);
+            this.getMemorandumsFromCategory(this.state.activeCategory);
         }
     }, {
         key: "render",
         value: function render() {
-            var memorandums = this.setMemorandums(this.state.activeCategory);
+            var memorandums = this.getMemorandumsFromCategory(this.state.activeCategory);
 
             return _react2.default.createElement(
                 "div",
                 { className: "d-flex flex-column h-100" },
-                _react2.default.createElement(MemorandumsHead, { setMemorandums: this.setMemorandums,
+                _react2.default.createElement(MemorandumsHead, { setMemorandums: this.getMemorandumsFromCategory,
                     setActiveCategory: this.setActiveCategory }),
                 _react2.default.createElement(MemorandumsTable, { activeCategory: this.state.activeCategory,
                     memorandums: memorandums,
@@ -196,7 +197,7 @@ var MemorandumsHead = function (_Component2) {
         key: "onCategoryChange",
         value: function onCategoryChange(event) {
             this.props.setActiveCategory(event.target.value);
-            this.props.setMemorandums(event.target.value);
+            this.props.getMemorandumsFromCategory(event.target.value);
         }
     }, {
         key: "render",
