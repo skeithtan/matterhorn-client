@@ -20,6 +20,8 @@ var _loading = require("../../components/loading");
 
 var _loading2 = _interopRequireDefault(_loading);
 
+var _section = require("../../components/section");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -29,7 +31,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 function fetchOutboundApplication(onResult) {
-    _graphql2.default.query("\n    {\n        outbound_student_programs {\n            id\n            student {\n                id\n                id_number\n                first_name\n                middle_name\n                family_name\n            }\n        }\n    }\n    ").then(onResult);
+    _graphql2.default.query("\n    {\n        outbound_student_programs {\n            id\n            student {\n                id\n                id_number\n                first_name\n                middle_name\n                family_name\n            }\n            is_requirements_complete\n        }\n    }\n    ").then(onResult);
 }
 
 var OutboundApplications = function (_Component) {
@@ -76,6 +78,7 @@ var OutboundApplicationsList = function (_Component2) {
         });
 
         _this2.setActiveCategory = _this2.setActiveCategory.bind(_this2);
+        _this2.setApplicants = _this2.setApplicants.bind(_this2);
         _this2.setActiveApplicant = _this2.setActiveApplicant.bind(_this2);
         return _this2;
     }
@@ -87,10 +90,31 @@ var OutboundApplicationsList = function (_Component2) {
                 activeCategory: category
             });
 
-            // TODO: fetch appropriate applicants under that category
+            this.setApplicants(this.state.applicants);
+        }
+    }, {
+        key: "setApplicants",
+        value: function setApplicants(applicants) {
+            var _this3 = this;
+
+            var filteredApplicants = [];
+
+            if (applicants !== null && applicants.length !== 0) {
+                applicants.forEach(function (applicant) {
+                    if (_this3.state.activeCategory === "Incomplete") {
+                        if (!applicant.is_requirements_complete) {
+                            filteredApplicants.push(applicant);
+                        }
+                    } else {
+                        if (applicant.is_requirements_complete) {
+                            filteredApplicants.push(applicant);
+                        }
+                    }
+                });
+            }
+            return filteredApplicants;
         }
 
-        // TODO: switching between applicant categories called setApplicants, category as the param
         // TODO: refreshing the applicants and at the same time conforming to the activeCategory
 
     }, {
@@ -103,13 +127,16 @@ var OutboundApplicationsList = function (_Component2) {
     }, {
         key: "render",
         value: function render() {
+            var applicants = this.setApplicants(this.state.applicants);
+
             return _react2.default.createElement(
                 "div",
                 { className: "sidebar h-100" },
                 _react2.default.createElement(OutboundApplicationsListHead, { activeCategory: this.state.activeCategory,
                     setActiveCategory: this.setActiveCategory }),
                 _react2.default.createElement(OutboundApplicationsListTable, { activeCategory: this.state.activeCategory,
-                    applicants: this.state.applicants,
+                    applicants: applicants,
+                    activeApplicant: this.state.activeApplicant,
                     setActiveApplicant: this.setActiveApplicant })
             );
         }
@@ -130,7 +157,7 @@ var OutboundApplicationsListHead = function (_Component3) {
     _createClass(OutboundApplicationsListHead, [{
         key: "render",
         value: function render() {
-            var _this4 = this;
+            var _this5 = this;
 
             return _react2.default.createElement(
                 "div",
@@ -147,7 +174,7 @@ var OutboundApplicationsListHead = function (_Component3) {
                                 color: "success",
                                 size: "sm",
                                 onClick: function onClick() {
-                                    return _this4.props.setActiveCategory("Incomplete");
+                                    return _this5.props.setActiveCategory("Incomplete");
                                 },
                                 active: this.props.activeCategory === "Incomplete" },
                             "Incomplete"
@@ -158,7 +185,7 @@ var OutboundApplicationsListHead = function (_Component3) {
                                 color: "success",
                                 size: "sm",
                                 onClick: function onClick() {
-                                    return _this4.props.setActiveCategory("Complete");
+                                    return _this5.props.setActiveCategory("Complete");
                                 },
                                 active: this.props.activeCategory === "Complete" },
                             "Complete"
@@ -176,7 +203,8 @@ var OutboundApplicationsListHead = function (_Component3) {
                 _react2.default.createElement(
                     "h4",
                     { className: "page-head-title" },
-                    "Applications"
+                    this.props.activeCategory,
+                    " Applications"
                 ),
                 _react2.default.createElement(_reactstrap.Input, { type: "search",
                     placeholder: "search",
@@ -194,24 +222,24 @@ var OutboundApplicationsListTable = function (_Component4) {
     function OutboundApplicationsListTable(props) {
         _classCallCheck(this, OutboundApplicationsListTable);
 
-        var _this5 = _possibleConstructorReturn(this, (OutboundApplicationsListTable.__proto__ || Object.getPrototypeOf(OutboundApplicationsListTable)).call(this, props));
+        var _this6 = _possibleConstructorReturn(this, (OutboundApplicationsListTable.__proto__ || Object.getPrototypeOf(OutboundApplicationsListTable)).call(this, props));
 
-        _this5.getStudentsByFamilyNameInitials = _this5.getStudentsByFamilyNameInitials.bind(_this5);
-        _this5.emptyState = _this5.emptyState.bind(_this5);
-        return _this5;
+        _this6.getStudentsByFamilyNameInitials = _this6.getStudentsByFamilyNameInitials.bind(_this6);
+        _this6.emptyState = _this6.emptyState.bind(_this6);
+        return _this6;
     }
 
     _createClass(OutboundApplicationsListTable, [{
         key: "getStudentsByFamilyNameInitials",
         value: function getStudentsByFamilyNameInitials() {
-            var students = [];
+            var applicants = [];
 
             this.props.applicants.forEach(function (applicant) {
-                students.push(applicant.student);
+                applicants.push(applicant.student);
             });
 
             //Get first letter
-            var familyNameInitials = students.map(function (student) {
+            var familyNameInitials = applicants.map(function (student) {
                 return student.family_name[0];
             });
 
@@ -235,22 +263,20 @@ var OutboundApplicationsListTable = function (_Component4) {
 
             // Categorize by family name initial
             familyNameInitials.forEach(function (initial) {
-                var categorizedStudents = [];
+                var categorizedApplicants = [];
                 categorizedByInitial.push({
                     initial: initial,
-                    students: categorizedStudents
+                    applicants: categorizedApplicants
                 });
 
-                students.forEach(function (student) {
-                    var studentInitial = student.family_name[0];
+                applicants.forEach(function (applicant) {
+                    var studentInitial = applicant.family_name[0];
 
                     if (studentInitial === initial) {
-                        categorizedStudents.push(student);
+                        categorizedApplicants.push(applicant);
                     }
                 });
             });
-
-            console.log(categorizedByInitial);
             return categorizedByInitial;
         }
     }, {
@@ -271,6 +297,8 @@ var OutboundApplicationsListTable = function (_Component4) {
     }, {
         key: "render",
         value: function render() {
+            var _this7 = this;
+
             if (this.props.applicants === null) {
                 return _react2.default.createElement(_loading2.default, null);
             }
@@ -282,10 +310,11 @@ var OutboundApplicationsListTable = function (_Component4) {
             var familyNameInitials = this.getStudentsByFamilyNameInitials();
 
             var sections = familyNameInitials.map(function (familyNameInitial, index) {
-
-                var students = familyNameInitial.students;
-
-                // TODO: Return sections
+                return _react2.default.createElement(OutboundApplicationsListSection, { key: index,
+                    title: familyNameInitial.initial,
+                    activeApplicant: _this7.props.activeApplicant,
+                    applicants: familyNameInitial.applicants,
+                    setActiveApplicant: _this7.props.setActiveApplicant });
             });
 
             return _react2.default.createElement(
@@ -297,6 +326,74 @@ var OutboundApplicationsListTable = function (_Component4) {
     }]);
 
     return OutboundApplicationsListTable;
+}(_react.Component);
+
+var OutboundApplicationsListSection = function (_Component5) {
+    _inherits(OutboundApplicationsListSection, _Component5);
+
+    function OutboundApplicationsListSection(props) {
+        _classCallCheck(this, OutboundApplicationsListSection);
+
+        return _possibleConstructorReturn(this, (OutboundApplicationsListSection.__proto__ || Object.getPrototypeOf(OutboundApplicationsListSection)).call(this, props));
+    }
+
+    _createClass(OutboundApplicationsListSection, [{
+        key: "render",
+        value: function render() {
+            var _this9 = this;
+
+            var rows = this.props.applicants.map(function (applicant, index) {
+                var isActive = false;
+
+                if (_this9.props.activeApplicant !== null) {
+                    isActive = _this9.props.activeApplicant.id.toString() === applicant.id.toString();
+                }
+
+                var setActiveApplicant = function setActiveApplicant() {
+                    return _this9.props.setActiveApplicant(applicant);
+                };
+
+                return _react2.default.createElement(
+                    _section.SectionRow,
+                    { selectable: true,
+                        onClick: setActiveApplicant,
+                        active: isActive,
+                        key: index },
+                    _react2.default.createElement(
+                        "small",
+                        { className: "d-block" },
+                        applicant.id_number
+                    ),
+                    _react2.default.createElement(
+                        "b",
+                        null,
+                        applicant.family_name
+                    ),
+                    ", ",
+                    applicant.first_name,
+                    " ",
+                    applicant.middle_name
+                );
+            });
+
+            return _react2.default.createElement(
+                _section.Section,
+                null,
+                _react2.default.createElement(
+                    _section.SectionTitle,
+                    null,
+                    this.props.title
+                ),
+                _react2.default.createElement(
+                    _section.SectionTable,
+                    null,
+                    rows
+                )
+            );
+        }
+    }]);
+
+    return OutboundApplicationsListSection;
 }(_react.Component);
 
 exports.default = OutboundApplications;
