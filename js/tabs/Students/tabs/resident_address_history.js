@@ -93,20 +93,21 @@ class ResidentAddressHistory extends Component {
         });
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (this.state.studentId === nextProps.student.id) {
+    componentWillReceiveProps(props) {
+        if (this.state.studentId === props.student.id) {
             return;
         }
 
         // TODO: set sidebar content to null
 
         this.setState({
-            studentId : nextProps.student.id,
-            student : nextProps.student,
+            studentId : props.student.id,
+            student : props.student,
             activeResidenceId : null,
+            residenceList : null,
         });
 
-        fetchHistory(this.state.studentId, result => {
+        fetchHistory(props.student.id, result => {
             this.setState({
                 residenceList : result.student.residencies,
             });
@@ -126,7 +127,7 @@ class ResidentAddressHistory extends Component {
                 <HistoryBody residences={this.state.residenceList}
                              activeResidenceId={this.state.activeResidenceId}
                              setActiveResidence={this.setActiveResidence}/>
-                
+
                 <ResidenceAddressFormModal isOpen={this.state.addResidenceIsShowing}
                                            student={this.state.student}
                                            toggle={this.toggleAddResidence}/>

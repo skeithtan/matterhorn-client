@@ -107,22 +107,23 @@ var ResidentAddressHistory = function (_Component) {
         }
     }, {
         key: "componentWillReceiveProps",
-        value: function componentWillReceiveProps(nextProps) {
+        value: function componentWillReceiveProps(props) {
             var _this3 = this;
 
-            if (this.state.studentId === nextProps.student.id) {
+            if (this.state.studentId === props.student.id) {
                 return;
             }
 
             // TODO: set sidebar content to null
 
             this.setState({
-                studentId: nextProps.student.id,
-                student: nextProps.student,
-                activeResidenceId: null
+                studentId: props.student.id,
+                student: props.student,
+                activeResidenceId: null,
+                residenceList: null
             });
 
-            fetchHistory(this.state.studentId, function (result) {
+            fetchHistory(props.student.id, function (result) {
                 _this3.setState({
                     residenceList: result.student.residencies
                 });
