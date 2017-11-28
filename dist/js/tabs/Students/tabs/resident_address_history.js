@@ -57,7 +57,8 @@ var ResidentAddressHistory = function (_Component) {
             student: props.student,
             studentId: props.student.id,
             residenceList: null,
-            activeResidenceId: null
+            activeResidenceId: null,
+            addResidenceIsShowing: false
         };
 
         fetchHistory(_this.state.studentId, function (result) {
@@ -66,12 +67,20 @@ var ResidentAddressHistory = function (_Component) {
             });
         });
 
+        _this.toggleAddResidence = _this.toggleAddResidence.bind(_this);
         _this.setActiveResidence = _this.setActiveResidence.bind(_this);
         _this.refreshResidences = _this.refreshResidences.bind(_this);
         return _this;
     }
 
     _createClass(ResidentAddressHistory, [{
+        key: "toggleAddResidence",
+        value: function toggleAddResidence() {
+            this.setState({
+                addResidenceIsShowing: !this.state.addResidenceIsShowing
+            });
+        }
+    }, {
         key: "setActiveResidence",
         value: function setActiveResidence(residence) {
             console.log(residence);
@@ -129,10 +138,14 @@ var ResidentAddressHistory = function (_Component) {
             return _react2.default.createElement(
                 "div",
                 { className: "d-flex flex-column p-0 h-100" },
-                _react2.default.createElement(HistoryHead, { student: this.state.student }),
+                _react2.default.createElement(HistoryHead, { student: this.state.student,
+                    toggleAddResidence: this.toggleAddResidence }),
                 _react2.default.createElement(HistoryBody, { residences: this.state.residenceList,
                     activeResidenceId: this.state.activeResidenceId,
-                    setActiveResidence: this.setActiveResidence })
+                    setActiveResidence: this.setActiveResidence }),
+                _react2.default.createElement(_modals.ResidenceAddressFormModal, { isOpen: this.state.addResidenceIsShowing,
+                    student: this.state.student,
+                    toggle: this.toggleAddResidence })
             );
         }
     }]);
@@ -146,24 +159,10 @@ var HistoryHead = function (_Component2) {
     function HistoryHead(props) {
         _classCallCheck(this, HistoryHead);
 
-        var _this4 = _possibleConstructorReturn(this, (HistoryHead.__proto__ || Object.getPrototypeOf(HistoryHead)).call(this, props));
-
-        _this4.state = {
-            addResidenceIsShowing: false
-        };
-
-        _this4.toggleAddResidence = _this4.toggleAddResidence.bind(_this4);
-        return _this4;
+        return _possibleConstructorReturn(this, (HistoryHead.__proto__ || Object.getPrototypeOf(HistoryHead)).call(this, props));
     }
 
     _createClass(HistoryHead, [{
-        key: "toggleAddResidence",
-        value: function toggleAddResidence() {
-            this.setState({
-                addResidenceIsShowing: !this.state.addResidenceIsShowing
-            });
-        }
-    }, {
         key: "render",
         value: function render() {
             var student = this.props.student;
@@ -202,13 +201,10 @@ var HistoryHead = function (_Component2) {
                         { outline: true,
                             size: "sm",
                             color: "success",
-                            onClick: this.toggleAddResidence },
+                            onClick: this.props.toggleAddResidence },
                         "Add a Residence"
                     )
-                ),
-                _react2.default.createElement(_modals.ResidenceAddressFormModal, { isOpen: this.state.addResidenceIsShowing,
-                    student: student,
-                    toggle: this.toggleAddResidence })
+                )
             );
         }
     }]);

@@ -50,6 +50,7 @@ class ResidentAddressHistory extends Component {
             studentId : props.student.id,
             residenceList : null,
             activeResidenceId : null,
+            addResidenceIsShowing : false,
         };
 
         fetchHistory(this.state.studentId, result => {
@@ -58,8 +59,15 @@ class ResidentAddressHistory extends Component {
             });
         });
 
+        this.toggleAddResidence = this.toggleAddResidence.bind(this);
         this.setActiveResidence = this.setActiveResidence.bind(this);
         this.refreshResidences = this.refreshResidences.bind(this);
+    }
+
+    toggleAddResidence() {
+        this.setState({
+            addResidenceIsShowing : !this.state.addResidenceIsShowing,
+        });
     }
 
     setActiveResidence(residence) {
@@ -112,10 +120,16 @@ class ResidentAddressHistory extends Component {
 
         return (
             <div className="d-flex flex-column p-0 h-100">
-                <HistoryHead student={this.state.student}/>
+                <HistoryHead student={this.state.student}
+                             toggleAddResidence={this.toggleAddResidence}/>
+
                 <HistoryBody residences={this.state.residenceList}
                              activeResidenceId={this.state.activeResidenceId}
                              setActiveResidence={this.setActiveResidence}/>
+                
+                <ResidenceAddressFormModal isOpen={this.state.addResidenceIsShowing}
+                                           student={this.state.student}
+                                           toggle={this.toggleAddResidence}/>
             </div>
         );
     }
@@ -125,17 +139,6 @@ class HistoryHead extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            addResidenceIsShowing : false,
-        };
-
-        this.toggleAddResidence = this.toggleAddResidence.bind(this);
-    }
-
-    toggleAddResidence() {
-        this.setState({
-            addResidenceIsShowing : !this.state.addResidenceIsShowing,
-        });
     }
 
     render() {
@@ -155,14 +158,10 @@ class HistoryHead extends Component {
                     <Button outline
                             size="sm"
                             color="success"
-                            onClick={this.toggleAddResidence}>
+                            onClick={this.props.toggleAddResidence}>
                         Add a Residence
                     </Button>
                 </div>
-
-                <ResidenceAddressFormModal isOpen={this.state.addResidenceIsShowing}
-                                           student={student}
-                                           toggle={this.toggleAddResidence}/>
             </div>
         );
     }
