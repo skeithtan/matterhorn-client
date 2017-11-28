@@ -113,7 +113,8 @@ var ResidentAddressHistory = function (_Component) {
                 return;
             }
 
-            // TODO: set sidebar content to null
+            // If new student, clear sidebar
+            this.props.setSidebarContent(null);
 
             this.setState({
                 studentId: props.student.id,
