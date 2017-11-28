@@ -74,8 +74,6 @@ class Institutions extends Component {
         this.setState({
             activeInstitution : institution,
         });
-
-        console.log(institution, this.state);
     }
 
     render() {

@@ -111,7 +111,7 @@ var StudentOverview = function (_Component) {
             if (this.state.student === null) {
                 return _react2.default.createElement(_loading2.default, null);
             }
-            console.log(this.props);
+
             return _react2.default.createElement(
                 "div",
                 { className: "d-flex flex-column p-0 h-100" },

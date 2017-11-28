@@ -102,8 +102,6 @@ var Institutions = function (_Component) {
             this.setState({
                 activeInstitution: institution
             });
-
-            console.log(institution, this.state);
         }
     }, {
         key: "render",

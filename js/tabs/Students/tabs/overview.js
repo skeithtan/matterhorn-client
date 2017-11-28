@@ -102,7 +102,7 @@ class StudentOverview extends Component {
         if (this.state.student === null) {
             return <LoadingSpinner/>;
         }
-        console.log(this.props);
+
         return (
             <div className="d-flex flex-column p-0 h-100">
                 <OverviewHead student={this.state.student}
