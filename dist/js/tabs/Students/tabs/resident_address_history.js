@@ -83,7 +83,6 @@ var ResidentAddressHistory = function (_Component) {
     }, {
         key: "setActiveResidence",
         value: function setActiveResidence(residence) {
-            console.log(residence);
             if (residence === null) {
                 this.props.setSidebarContent(null);
             }

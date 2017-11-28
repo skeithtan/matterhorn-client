@@ -71,7 +71,6 @@ class ResidentAddressHistory extends Component {
     }
 
     setActiveResidence(residence) {
-        console.log(residence);
         if (residence === null) {
             this.props.setSidebarContent(null);
         }
