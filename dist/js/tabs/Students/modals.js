@@ -927,6 +927,7 @@ var ResidenceAddressFormModal = function (_Component3) {
                     message: "Successfully added residence address"
                 });
 
+                _this8.props.toggle();
                 _this8.props.onAddSuccess();
             }).fail(function (response) {
                 dismissToast();
@@ -935,6 +936,7 @@ var ResidenceAddressFormModal = function (_Component3) {
                     title: "Error",
                     message: "Unable to add residence address"
                 });
+                _this8.props.toggle();
             });
         }
     }, {

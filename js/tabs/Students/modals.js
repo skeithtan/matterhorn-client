@@ -631,6 +631,7 @@ class ResidenceAddressFormModal extends Component {
                 message : "Successfully added residence address",
             });
 
+            this.props.toggle();
             this.props.onAddSuccess();
         }).fail(response => {
             dismissToast();
@@ -639,6 +640,7 @@ class ResidenceAddressFormModal extends Component {
                 title : "Error",
                 message : "Unable to add residence address",
             });
+            this.props.toggle();
         });
     }
 
