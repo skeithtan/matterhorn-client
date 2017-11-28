@@ -42,7 +42,7 @@ class StudentDetail extends Component {
             return StudentDetail.unselectedState();
         }
 
-        const currentTab = this.state.activeTab.tab(this.props.student, this.props.onArchiveActiveStudent, this.props.refreshStudents);
+        const currentTab = this.state.activeTab.tab(this.props.student, this.props.onArchiveActiveStudent, this.props.refreshStudents, this.setSidebarContent);
 
         let sidebarClass = "sidebar-right ";
         if (this.state.sidebarContent === null) {

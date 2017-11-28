@@ -29,8 +29,9 @@ var tabs = [{
     activeImage: "./images/burgergreen.png"
 }, {
     name: "Residency",
-    tab: function tab(student, setSidebarContent) {
-        return _react2.default.createElement(_resident_address_history2.default, { student: student, setSidebarContent: setSidebarContent });
+    tab: function tab(student, onArchiveStudent, refreshStudents, setSidebarContent) {
+        return _react2.default.createElement(_resident_address_history2.default, { student: student,
+            setSidebarContent: setSidebarContent });
     },
     image: "./images/housegrey.png",
     activeImage: "./images/housegreen.png"

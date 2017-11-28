@@ -66,7 +66,7 @@ var StudentDetail = function (_Component) {
                 return StudentDetail.unselectedState();
             }
 
-            var currentTab = this.state.activeTab.tab(this.props.student, this.props.onArchiveActiveStudent, this.props.refreshStudents);
+            var currentTab = this.state.activeTab.tab(this.props.student, this.props.onArchiveActiveStudent, this.props.refreshStudents, this.setSidebarContent);
 
             var sidebarClass = "sidebar-right ";
             if (this.state.sidebarContent === null) {

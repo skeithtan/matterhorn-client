@@ -75,6 +75,7 @@ class ResidentAddressHistory extends Component {
             this.props.setSidebarContent(null);
         }
 
+
         this.props.setSidebarContent(
             <ResidenceSidebarPane residence={residence}/>,
         );
