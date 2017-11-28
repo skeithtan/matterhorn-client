@@ -38,7 +38,6 @@ function fetchPrograms(year, term, onResult) {
 
 function fetchStudents(id, onResult) {
     graphql.query(`
-   
     {
         program(id:${id}) {
             id

@@ -30,7 +30,7 @@ class YearList extends Component {
 
     getArrangedYears() {
         if (this.props.yearList === null) {
-            return [];
+            return null;
         }
 
         // Arrange in ascending order

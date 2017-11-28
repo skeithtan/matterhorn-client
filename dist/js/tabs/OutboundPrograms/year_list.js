@@ -56,7 +56,7 @@ var YearList = function (_Component) {
         key: "getArrangedYears",
         value: function getArrangedYears() {
             if (this.props.yearList === null) {
-                return [];
+                return null;
             }
 
             // Arrange in ascending order
