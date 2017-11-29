@@ -236,7 +236,7 @@ var ProgramArchivesRow = function (_Component3) {
         value: function render() {
             var program = this.props.program;
             var archiveDate = (0, _moment2.default)(program.archived_at).format("LLL");
-            var className = this.props.isActive ? "bg-dlsu-lighter text-white" : null;
+            var className = this.props.isActive ? "bg-dlsu-lighter text-white" : "table-light";
 
             return _react2.default.createElement(
                 "tr",

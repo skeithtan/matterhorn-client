@@ -236,7 +236,7 @@ var MemorandumArchivesRow = function (_Component3) {
             var memorandumType = memorandum.category === "MOA" ? "Agreement" : "Understanding";
             var archiveDate = (0, _moment2.default)(memorandum.archived_at).format("LLL");
 
-            var className = this.props.isActive ? "bg-dlsu-lighter text-white" : null;
+            var className = this.props.isActive ? "bg-dlsu-lighter text-white" : "table-light";
 
             return _react2.default.createElement(
                 "tr",

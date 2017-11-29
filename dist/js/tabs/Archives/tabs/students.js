@@ -238,7 +238,7 @@ var StudentArchivesRow = function (_Component3) {
         value: function render() {
             var student = this.props.student;
             var archiveDate = (0, _moment2.default)(student.archived_at).format("LLL");
-            var className = this.props.isActive ? "bg-dlsu-lighter text-white" : null;
+            var className = this.props.isActive ? "bg-dlsu-lighter text-white" : "table-light";
             var category = student.category === "IN" ? "Inbound" : "Outbound";
 
             return _react2.default.createElement(

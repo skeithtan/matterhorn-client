@@ -157,7 +157,7 @@ class StudentArchivesRow extends Component {
     render() {
         const student = this.props.student;
         const archiveDate = moment(student.archived_at).format("LLL");
-        const className = this.props.isActive ? "bg-dlsu-lighter text-white" : null;
+        const className = this.props.isActive ? "bg-dlsu-lighter text-white" : "table-light";
         const category = student.category === "IN" ? "Inbound" : "Outbound";
 
 

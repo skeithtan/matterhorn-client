@@ -154,7 +154,7 @@ class ProgramArchivesRow extends Component {
     render() {
         const program = this.props.program;
         const archiveDate = moment(program.archived_at).format("LLL");
-        const className = this.props.isActive ? "bg-dlsu-lighter text-white" : null;
+        const className = this.props.isActive ? "bg-dlsu-lighter text-white" : "table-light";
 
         return (
             <tr className={ className }

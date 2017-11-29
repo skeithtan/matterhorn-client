@@ -159,7 +159,7 @@ class MemorandumArchivesRow extends Component {
         const memorandumType = memorandum.category === "MOA" ? "Agreement" : "Understanding";
         const archiveDate = moment(memorandum.archived_at).format("LLL");
 
-        const className = this.props.isActive ? "bg-dlsu-lighter text-white" : null;
+        const className = this.props.isActive ? "bg-dlsu-lighter text-white" : "table-light";
 
         return (
             <tr className={className}
