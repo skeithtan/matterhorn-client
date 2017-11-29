@@ -34,6 +34,16 @@ function createWindow() {
     // Open the DevTools.
     // mainWindow.webContents.openDevTools()
 
+    var _require = require("electron-devtools-installer"),
+        installExtension = _require.default,
+        REACT_DEVELOPER_TOOLS = _require.REACT_DEVELOPER_TOOLS;
+
+    installExtension(REACT_DEVELOPER_TOOLS).then(function (name) {
+        console.log("Added Extension:  " + name);
+    }).catch(function (err) {
+        console.log("An error occurred: ", err);
+    });
+
     // Emitted when the window is closed.
     mainWindow.on("closed", function () {
         // Dereference the window object, usually you would store windows

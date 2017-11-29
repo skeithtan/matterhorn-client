@@ -24,6 +24,10 @@ var _outbound_programs = require("./OutboundPrograms/outbound_programs");
 
 var _outbound_programs2 = _interopRequireDefault(_outbound_programs);
 
+var _inbound_programs = require("./InboundPrograms/inbound_programs");
+
+var _inbound_programs2 = _interopRequireDefault(_inbound_programs);
+
 var _archives = require("./Archives/archives");
 
 var _archives2 = _interopRequireDefault(_archives);
@@ -52,7 +56,7 @@ var tabs = [{
     image: "./images/checklist.png"
 }, {
     name: "Inbound Programs",
-    tab: null,
+    tab: _react2.default.createElement(_inbound_programs2.default, null),
     image: "./images/inbound.png"
 }, {
     name: "Outbound Programs",

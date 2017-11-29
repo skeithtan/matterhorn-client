@@ -3,6 +3,7 @@ import Reminders from "./Reminders/reminders";
 import Institutions from "./Institutions/institutions";
 import Students from "./Students/students";
 import Programs from "./OutboundPrograms/outbound_programs";
+import InboundPrograms from "./InboundPrograms/inbound_programs";
 import Archives from "./Archives/archives";
 import OutboundApplications from "./OutboundApplications/outbound_applications";
 
@@ -30,7 +31,7 @@ const tabs = [
     },
     {
         name : "Inbound Programs",
-        tab : null,
+        tab : <InboundPrograms/>,
         image : "./images/inbound.png",
     },
     {
