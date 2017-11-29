@@ -18,7 +18,7 @@ function createWindow() {
         height : 800,
         minWidth : 1100,
         minHeight : 800,
-        frame: process.platform !== "darwin", // No frame on macs
+        frame : process.platform !== "darwin", // No frame on macs
         titleBarStyle : "hiddenInset",
     });
 
@@ -31,6 +31,14 @@ function createWindow() {
 
     // Open the DevTools.
     // mainWindow.webContents.openDevTools()
+    const { default : installExtension, REACT_DEVELOPER_TOOLS } = require("electron-devtools-installer");
+
+    installExtension(REACT_DEVELOPER_TOOLS).then((name) => {
+                                               console.log(`Added Extension:  ${name}`);
+                                           })
+                                           .catch((err) => {
+                                               console.log("An error occurred: ", err);
+                                           });
 
     // Emitted when the window is closed.
     mainWindow.on("closed", function () {
