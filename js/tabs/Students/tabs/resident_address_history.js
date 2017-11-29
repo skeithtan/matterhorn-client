@@ -49,8 +49,9 @@ class ResidentAddressHistory extends Component {
             student : props.student,
             studentId : props.student.id,
             residenceList : null,
-            activeResidenceId : null,
+            activeResidence : null,
             addResidenceIsShowing : false,
+            editResidenceIsShowing : false,
         };
 
         fetchHistory(this.state.studentId, result => {
@@ -59,9 +60,10 @@ class ResidentAddressHistory extends Component {
             });
         });
 
-        this.toggleAddResidence = this.toggleAddResidence.bind(this);
-        this.setActiveResidence = this.setActiveResidence.bind(this);
         this.refreshResidences = this.refreshResidences.bind(this);
+        this.setActiveResidence = this.setActiveResidence.bind(this);
+        this.toggleAddResidence = this.toggleAddResidence.bind(this);
+        this.toggleEditResidence = this.toggleEditResidence.bind(this);
     }
 
     toggleAddResidence() {
@@ -70,19 +72,27 @@ class ResidentAddressHistory extends Component {
         });
     }
 
+    toggleEditResidence() {
+        this.setState({
+            editResidenceIsShowing : !this.state.editResidenceIsShowing,
+        });
+    }
+
     setActiveResidence(residence) {
         if (residence === null) {
             this.props.setSidebarContent(null);
         }
 
-
         this.props.setSidebarContent(
-            <ResidenceSidebarPane residence={residence}/>,
+            <ResidenceSidebarPane toggleEditResidence={this.toggleEditResidence}
+                                  residence={residence}
+            />,
         );
 
         this.setState({
-            activeResidenceId : residence.id,
+            activeResidence : residence,
         });
+
     }
 
     refreshResidences() {
@@ -104,7 +114,7 @@ class ResidentAddressHistory extends Component {
         this.setState({
             studentId : props.student.id,
             student : props.student,
-            activeResidenceId : null,
+            activeResidence : null,
             residenceList : null,
         });
 
@@ -126,11 +136,24 @@ class ResidentAddressHistory extends Component {
                              toggleAddResidence={this.toggleAddResidence}/>
 
                 <HistoryBody residences={this.state.residenceList}
-                             activeResidenceId={this.state.activeResidenceId}
+                             activeResidence={this.state.activeResidence}
                              setActiveResidence={this.setActiveResidence}/>
+
+                {
+                    //Keep the key because otherwise the ResidenceAddressFormModal
+                    // won't change when there's a new activeResidence
+                }
+                <ResidenceAddressFormModal edit
+                                           key={this.state.activeResidence === null ? 0 : this.state.activeResidence.id}
+                                           isOpen={this.state.editResidenceIsShowing}
+                                           student={this.state.student}
+                                           residence={this.state.activeResidence}
+                                           refreshResidences={this.refreshResidences}
+                                           toggle={this.toggleEditResidence}/>
 
                 <ResidenceAddressFormModal isOpen={this.state.addResidenceIsShowing}
                                            student={this.state.student}
+                                           refreshResidences={this.refreshResidences}
                                            toggle={this.toggleAddResidence}/>
             </div>
         );
@@ -198,8 +221,8 @@ class HistoryBody extends Component {
 
             let isActive = false;
 
-            if (this.props.activeResidenceId !== null) {
-                isActive = this.props.activeResidenceId === residence.id;
+            if (this.props.activeResidence !== null) {
+                isActive = this.props.activeResidence.id === residence.id;
             }
 
             return <ResidenceRow key={index}

@@ -581,6 +581,10 @@ class ResidenceAddressFormModal extends Component {
         this.getFormErrors = this.getFormErrors.bind(this);
         this.getChangeHandler = this.getChangeHandler.bind(this);
         this.submitAddResidenceAddressForm = this.submitAddResidenceAddressForm.bind(this);
+
+        if (this.props.edit) {
+            Object.assign(this.state.form, props.residence);
+        }
     }
 
     getFormErrors() {
@@ -612,7 +616,36 @@ class ResidenceAddressFormModal extends Component {
         ]);
     }
 
-    //TODO: Submit edit residence address
+    submitEditResidenceAddressForm() {
+        const dismissToast = makeInfoToast({
+            title : "Editing",
+            message : "Editing residence address...",
+        });
+
+        $.ajax({
+            url : `${settings.serverURL}/students/${this.props.student.id}/residency/${this.props.residence.id}/`,
+            method : "PUT",
+            beforeSend : authorizeXHR,
+            data : this.state.form,
+        }).done(() => {
+            dismissToast();
+            iziToast.success({
+                title : "Edited",
+                message : "Successfully edited residence address",
+            });
+
+            this.props.refreshResidences();
+        }).error(response => {
+            dismissToast();
+            console.log(response);
+            iziToast.error({
+                title : "Error",
+                message : "Unable to edit residence address",
+            });
+        });
+
+        this.props.toggle();
+    }
 
     submitAddResidenceAddressForm() {
         const dismissToast = makeInfoToast({
@@ -631,8 +664,7 @@ class ResidenceAddressFormModal extends Component {
                 message : "Successfully added residence address",
             });
 
-            this.props.toggle();
-            this.props.onAddSuccess();
+            this.props.refreshResidences();
         }).fail(response => {
             dismissToast();
             console.log(response);
@@ -640,8 +672,9 @@ class ResidenceAddressFormModal extends Component {
                 title : "Error",
                 message : "Unable to add residence address",
             });
-            this.props.toggle();
         });
+
+        this.props.toggle();
     }
 
     getChangeHandler(fieldName) {

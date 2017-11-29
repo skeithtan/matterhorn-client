@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import moment from "moment";
 import { Button, } from "reactstrap";
 
-// TODO: import modals
-
 import {
     Section,
     SectionRow,
@@ -12,6 +10,8 @@ import {
     SectionTable,
     SectionTitle,
 } from "../../../components/section";
+import { ResidenceAddressFormModal } from "../modals";
+
 
 class ResidenceSidebarPane extends Component {
     constructor(props) {
@@ -40,15 +40,16 @@ class ResidenceSidebarPane extends Component {
             <div className="p-0 h-100 d-flex flex-column">
                 <div className="page-head pt-5 d-flex flex-row align-items-end">
                     <div className="mr-auto">
-                        <h5 className="mb-0">Effective { dateEffective }</h5>
+                        <h5 className="mb-0">Effective {dateEffective}</h5>
                     </div>
                 </div>
 
 
                 <div className="page-body">
-                    <ResidenceDetails residence={ residence }/>
+                    <ResidenceDetails residence={residence}
+                                      toggleEditResidence={this.props.toggleEditResidence}/>
 
-                    { /* Delete and Edit Modals */ }
+                    {/* Delete and Edit Modals */}
                 </div>
             </div>
         );
@@ -69,26 +70,27 @@ class ResidenceDetails extends Component {
                 <SectionTable>
                     <SectionRow>
                         <SectionRowTitle>Contact Person</SectionRowTitle>
-                        <SectionRowContent>{ residence.contact_person_name }</SectionRowContent>
+                        <SectionRowContent>{residence.contact_person_name}</SectionRowContent>
                     </SectionRow>
                     <SectionRow>
                         <SectionRowTitle>Contact Number</SectionRowTitle>
-                        <SectionRowContent>{ residence.contact_person_number }</SectionRowContent>
+                        <SectionRowContent>{residence.contact_person_number}</SectionRowContent>
                     </SectionRow>
                     <SectionRow>
                         <SectionRowTitle>Residence Type</SectionRowTitle>
-                        <SectionRowContent>{ residence.residence }</SectionRowContent>
+                        <SectionRowContent>{residence.residence}</SectionRowContent>
                     </SectionRow>
                     <SectionRow>
                         <SectionRowTitle>Address</SectionRowTitle>
-                        <SectionRowContent>{ residence.address }</SectionRowContent>
+                        <SectionRowContent>{residence.address}</SectionRowContent>
                     </SectionRow>
                     <SectionRow>
                         <SectionRowContent className="d-flex">
                             <Button outline
                                     color="success"
                                     size="sm"
-                                    className="mr-auto">Edit</Button>
+                                    className="mr-auto"
+                                    onClick={this.props.toggleEditResidence}>Edit</Button>
                         </SectionRowContent>
                     </SectionRow>
                 </SectionTable>

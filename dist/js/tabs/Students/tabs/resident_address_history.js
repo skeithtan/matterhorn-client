@@ -57,8 +57,9 @@ var ResidentAddressHistory = function (_Component) {
             student: props.student,
             studentId: props.student.id,
             residenceList: null,
-            activeResidenceId: null,
-            addResidenceIsShowing: false
+            activeResidence: null,
+            addResidenceIsShowing: false,
+            editResidenceIsShowing: false
         };
 
         fetchHistory(_this.state.studentId, function (result) {
@@ -67,9 +68,10 @@ var ResidentAddressHistory = function (_Component) {
             });
         });
 
-        _this.toggleAddResidence = _this.toggleAddResidence.bind(_this);
-        _this.setActiveResidence = _this.setActiveResidence.bind(_this);
         _this.refreshResidences = _this.refreshResidences.bind(_this);
+        _this.setActiveResidence = _this.setActiveResidence.bind(_this);
+        _this.toggleAddResidence = _this.toggleAddResidence.bind(_this);
+        _this.toggleEditResidence = _this.toggleEditResidence.bind(_this);
         return _this;
     }
 
@@ -81,16 +83,25 @@ var ResidentAddressHistory = function (_Component) {
             });
         }
     }, {
+        key: "toggleEditResidence",
+        value: function toggleEditResidence() {
+            this.setState({
+                editResidenceIsShowing: !this.state.editResidenceIsShowing
+            });
+        }
+    }, {
         key: "setActiveResidence",
         value: function setActiveResidence(residence) {
             if (residence === null) {
                 this.props.setSidebarContent(null);
             }
 
-            this.props.setSidebarContent(_react2.default.createElement(_sidebar_panes.ResidenceSidebarPane, { residence: residence }));
+            this.props.setSidebarContent(_react2.default.createElement(_sidebar_panes.ResidenceSidebarPane, { toggleEditResidence: this.toggleEditResidence,
+                residence: residence
+            }));
 
             this.setState({
-                activeResidenceId: residence.id
+                activeResidence: residence
             });
         }
     }, {
@@ -119,7 +130,7 @@ var ResidentAddressHistory = function (_Component) {
             this.setState({
                 studentId: props.student.id,
                 student: props.student,
-                activeResidenceId: null,
+                activeResidence: null,
                 residenceList: null
             });
 
@@ -142,10 +153,18 @@ var ResidentAddressHistory = function (_Component) {
                 _react2.default.createElement(HistoryHead, { student: this.state.student,
                     toggleAddResidence: this.toggleAddResidence }),
                 _react2.default.createElement(HistoryBody, { residences: this.state.residenceList,
-                    activeResidenceId: this.state.activeResidenceId,
+                    activeResidence: this.state.activeResidence,
                     setActiveResidence: this.setActiveResidence }),
+                _react2.default.createElement(_modals.ResidenceAddressFormModal, { edit: true,
+                    key: this.state.activeResidence === null ? 0 : this.state.activeResidence.id,
+                    isOpen: this.state.editResidenceIsShowing,
+                    student: this.state.student,
+                    residence: this.state.activeResidence,
+                    refreshResidences: this.refreshResidences,
+                    toggle: this.toggleEditResidence }),
                 _react2.default.createElement(_modals.ResidenceAddressFormModal, { isOpen: this.state.addResidenceIsShowing,
                     student: this.state.student,
+                    refreshResidences: this.refreshResidences,
                     toggle: this.toggleAddResidence })
             );
         }
@@ -258,8 +277,8 @@ var HistoryBody = function (_Component3) {
 
                 var isActive = false;
 
-                if (_this6.props.activeResidenceId !== null) {
-                    isActive = _this6.props.activeResidenceId === residence.id;
+                if (_this6.props.activeResidence !== null) {
+                    isActive = _this6.props.activeResidence.id === residence.id;
                 }
 
                 return _react2.default.createElement(ResidenceRow, { key: index,

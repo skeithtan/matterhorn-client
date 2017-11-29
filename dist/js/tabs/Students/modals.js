@@ -876,6 +876,10 @@ var ResidenceAddressFormModal = function (_Component3) {
         _this7.getFormErrors = _this7.getFormErrors.bind(_this7);
         _this7.getChangeHandler = _this7.getChangeHandler.bind(_this7);
         _this7.submitAddResidenceAddressForm = _this7.submitAddResidenceAddressForm.bind(_this7);
+
+        if (_this7.props.edit) {
+            Object.assign(_this7.state.form, props.residence);
+        }
         return _this7;
     }
 
@@ -903,13 +907,44 @@ var ResidenceAddressFormModal = function (_Component3) {
                 value: this.state.form.residence
             }]);
         }
+    }, {
+        key: "submitEditResidenceAddressForm",
+        value: function submitEditResidenceAddressForm() {
+            var _this8 = this;
 
-        //TODO: Submit edit residence address
+            var dismissToast = (0, _dismissable_toast_maker2.default)({
+                title: "Editing",
+                message: "Editing residence address..."
+            });
 
+            _jquery2.default.ajax({
+                url: _settings2.default.serverURL + "/students/" + this.props.student.id + "/residency/" + this.props.residence.id + "/",
+                method: "PUT",
+                beforeSend: _authorization2.default,
+                data: this.state.form
+            }).done(function () {
+                dismissToast();
+                _izitoast2.default.success({
+                    title: "Edited",
+                    message: "Successfully edited residence address"
+                });
+
+                _this8.props.refreshResidences();
+            }).error(function (response) {
+                dismissToast();
+                console.log(response);
+                _izitoast2.default.error({
+                    title: "Error",
+                    message: "Unable to edit residence address"
+                });
+            });
+
+            this.props.toggle();
+        }
     }, {
         key: "submitAddResidenceAddressForm",
         value: function submitAddResidenceAddressForm() {
-            var _this8 = this;
+            var _this9 = this;
 
             var dismissToast = (0, _dismissable_toast_maker2.default)({
                 title: "Adding",
@@ -927,8 +962,7 @@ var ResidenceAddressFormModal = function (_Component3) {
                     message: "Successfully added residence address"
                 });
 
-                _this8.props.toggle();
-                _this8.props.onAddSuccess();
+                _this9.props.refreshResidences();
             }).fail(function (response) {
                 dismissToast();
                 console.log(response);
@@ -936,13 +970,14 @@ var ResidenceAddressFormModal = function (_Component3) {
                     title: "Error",
                     message: "Unable to add residence address"
                 });
-                _this8.props.toggle();
             });
+
+            this.props.toggle();
         }
     }, {
         key: "getChangeHandler",
         value: function getChangeHandler(fieldName) {
-            var _this9 = this;
+            var _this10 = this;
 
             var form = this.state.form;
 
@@ -950,7 +985,7 @@ var ResidenceAddressFormModal = function (_Component3) {
                 var value = event.target.value;
 
                 form[fieldName] = value;
-                _this9.setState({
+                _this10.setState({
                     form: form
                 });
             };
