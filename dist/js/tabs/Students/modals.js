@@ -876,6 +876,7 @@ var ResidenceAddressFormModal = function (_Component3) {
         _this7.getFormErrors = _this7.getFormErrors.bind(_this7);
         _this7.getChangeHandler = _this7.getChangeHandler.bind(_this7);
         _this7.submitAddResidenceAddressForm = _this7.submitAddResidenceAddressForm.bind(_this7);
+        _this7.submitEditResidenceAddressForm = _this7.submitEditResidenceAddressForm.bind(_this7);
 
         if (_this7.props.edit) {
             Object.assign(_this7.state.form, props.residence);
@@ -930,7 +931,7 @@ var ResidenceAddressFormModal = function (_Component3) {
                 });
 
                 _this8.props.refreshResidences();
-            }).error(function (response) {
+            }).fail(function (response) {
                 dismissToast();
                 console.log(response);
                 _izitoast2.default.error({
@@ -945,6 +946,8 @@ var ResidenceAddressFormModal = function (_Component3) {
         key: "submitAddResidenceAddressForm",
         value: function submitAddResidenceAddressForm() {
             var _this9 = this;
+
+            this.props.toggle();
 
             var dismissToast = (0, _dismissable_toast_maker2.default)({
                 title: "Adding",
@@ -971,8 +974,6 @@ var ResidenceAddressFormModal = function (_Component3) {
                     message: "Unable to add residence address"
                 });
             });
-
-            this.props.toggle();
         }
     }, {
         key: "getChangeHandler",
@@ -1122,7 +1123,7 @@ var ResidenceAddressFormModal = function (_Component3) {
                         { outline: true,
                             color: "success",
                             disabled: formHasErrors,
-                            onClick: this.props.edit ? this.submitAddResidenceAddressForm : this.submitAddResidenceAddressForm },
+                            onClick: this.props.edit ? this.submitEditResidenceAddressForm : this.submitAddResidenceAddressForm },
                         this.props.edit ? "Save changes" : "Add"
                     )
                 )

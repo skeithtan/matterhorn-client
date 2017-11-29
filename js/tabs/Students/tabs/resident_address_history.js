@@ -129,7 +129,7 @@ class ResidentAddressHistory extends Component {
         if (this.state.student === null) {
             return <LoadingSpinner/>;
         }
-
+        
         return (
             <div className="d-flex flex-column p-0 h-100">
                 <HistoryHead student={this.state.student}

@@ -581,6 +581,7 @@ class ResidenceAddressFormModal extends Component {
         this.getFormErrors = this.getFormErrors.bind(this);
         this.getChangeHandler = this.getChangeHandler.bind(this);
         this.submitAddResidenceAddressForm = this.submitAddResidenceAddressForm.bind(this);
+        this.submitEditResidenceAddressForm = this.submitEditResidenceAddressForm.bind(this);
 
         if (this.props.edit) {
             Object.assign(this.state.form, props.residence);
@@ -635,7 +636,7 @@ class ResidenceAddressFormModal extends Component {
             });
 
             this.props.refreshResidences();
-        }).error(response => {
+        }).fail(response => {
             dismissToast();
             console.log(response);
             iziToast.error({
@@ -648,6 +649,8 @@ class ResidenceAddressFormModal extends Component {
     }
 
     submitAddResidenceAddressForm() {
+        this.props.toggle();
+
         const dismissToast = makeInfoToast({
             title : "Adding",
             message : "Adding new residence address...",
@@ -673,8 +676,6 @@ class ResidenceAddressFormModal extends Component {
                 message : "Unable to add residence address",
             });
         });
-
-        this.props.toggle();
     }
 
     getChangeHandler(fieldName) {
@@ -761,7 +762,7 @@ class ResidenceAddressFormModal extends Component {
                     <Button outline
                             color="success"
                             disabled={formHasErrors}
-                            onClick={this.props.edit ? this.submitAddResidenceAddressForm : this.submitAddResidenceAddressForm}>
+                            onClick={this.props.edit ? this.submitEditResidenceAddressForm : this.submitAddResidenceAddressForm}>
                         {this.props.edit ? "Save changes" : "Add"}
                     </Button>
                 </ModalFooter>
