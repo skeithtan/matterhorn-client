@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import graphql from "../../graphql";
 import YearList from "../OutboundPrograms/year_list";
 import ProgramList from "./inbound_program_list";
+import StudentList from "./student_list";
 
 function fetchYears(onResult) {
     graphql.query(`
@@ -52,15 +53,16 @@ class InboundPrograms extends Component {
             yearList : null,
             programList : null,
             activeYear : null,
-            activeTerm : 1,
             activeProgram : null,
-            sidebarContent : null,
+            studentList : null,
+            // sidebarContent : null,
         };
 
         this.refreshYears = this.refreshYears.bind(this);
         this.setActiveYear = this.setActiveYear.bind(this);
         this.programList = this.programList.bind(this);
         this.setActiveProgram = this.setActiveProgram.bind(this);
+        this.studentList = this.studentList.bind(this);
         this.refreshYears();
     }
 
@@ -68,6 +70,7 @@ class InboundPrograms extends Component {
         this.setState({
             activeYear : year.academic_year_start,
             activeProgram : null,
+            studentList : null,
         });
 
         fetchPrograms(year.academic_year_start, result => {
@@ -78,9 +81,14 @@ class InboundPrograms extends Component {
     }
 
     setActiveProgram(program) {
-        console.log(program);
         this.setState({
             activeProgram : program,
+        });
+
+        fetchStudents(program.id, result => {
+            this.setState({
+                studentList : result.inbound_program.inboundstudentprogram_set,
+            });
         });
     }
 
@@ -111,6 +119,23 @@ class InboundPrograms extends Component {
         );
     }
 
+    studentList() {
+        if (this.state.activeProgram === null) {
+            return (
+                <div className="programs-page-pane">
+                    <div className="loading-container">
+                        <h4>Select a program to see its students</h4>
+                    </div>
+                </div>
+            );
+        }
+
+        return (
+            <StudentList activeProgram={ this.state.activeProgram }
+                         students={ this.state.studentList }/>
+        );
+    }
+
     render() {
         return (
             <div id="programs-page"
@@ -120,7 +145,7 @@ class InboundPrograms extends Component {
                           activeYear={ this.state.activeYear }/>
 
                 { this.programList() }
-                { /*{ this.studentList() }*/ }
+                { this.studentList() }
 
                 { /*<div className="programs-page-pane">*/ }
                 { /*{ this.state.sidebarContent }*/ }
