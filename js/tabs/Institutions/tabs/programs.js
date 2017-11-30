@@ -77,7 +77,7 @@ class Programs extends Component {
                 activeYear : activeYear,
             });
 
-            this.refreshPrograms(activeYear);
+            this.refreshPrograms(this.state.institutionID, activeYear);
         });
 
     }
@@ -86,7 +86,10 @@ class Programs extends Component {
         this.setState({
             activeYear : year,
             activeProgram : null,
+            programList : null,
         });
+
+        this.refreshPrograms(this.state.institutionID, year);
     }
 
     setActiveProgram(program) {
@@ -104,8 +107,8 @@ class Programs extends Component {
     }
 
     // There might be a need to check for the activeYear
-    refreshPrograms(year) {
-        fetchPrograms(this.state.institutionID, year, result => {
+    refreshPrograms(institution, year) {
+        fetchPrograms(institution, year, result => {
             this.setState({
                 programList : result.outbound_programs,
             });
@@ -124,11 +127,11 @@ class Programs extends Component {
             programList : null,
         });
 
-        this.refreshPrograms(this.state.activeYear);
+        this.refreshPrograms(nextProps.institution.id, this.state.activeYear);
     }
 
     render() {
-        if (this.state.programList === null) {
+        if (this.state.yearList === null) {
             return <LoadingSpinner/>;
         }
 
@@ -137,7 +140,7 @@ class Programs extends Component {
             <div className="w-100 h-100 d-flex flex-column">
                 <ProgramsHead institution={this.props.institution}
                               years={this.state.yearList}
-                              setCurrentYear={this.setActiveYear}/>
+                              setActiveYear={this.setActiveYear}/>
                 <ProgramsTable programs={this.state.programList}
                                currentProgram={this.state.activeProgram}
                                setCurrentProgram={this.setActiveProgram}/>
@@ -157,8 +160,13 @@ class ProgramsHead extends Component {
         }
 
         const years = this.props.years.map((year, index) => {
-            return <option key={index}>{year} - {year + 1}</option>;
+            return <option key={index}
+                           value={year}>{year} - {year + 1}</option>;
         });
+
+        const onYearChange = event => {
+            this.props.setActiveYear(event.target.value);
+        };
 
         return (
             <div className="page-head pt-5 d-flex flex-row align-items-end">
@@ -172,6 +180,7 @@ class ProgramsHead extends Component {
                     <div className="d-flex flex-column mr-2">
                         <labl className="mr-3 text-dark mb-1">Academic Year</labl>
                         <Input type="select"
+                               onChange={onYearChange}
                                className="mr-3 btn btn-outline-success select-sm">
                             {years}
                         </Input>
@@ -207,6 +216,11 @@ class ProgramsTable extends Component {
     }
 
     render() {
+        if (this.props.programs === null) {
+            return <LoadingSpinner/>;
+        }
+
+
         if (this.props.programs.length === 0) {
             return this.emptyState();
         }
