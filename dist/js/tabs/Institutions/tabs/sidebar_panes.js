@@ -353,13 +353,11 @@ var ProgramSidebarPane = function (_Component4) {
 
         _this5.state = {
             deleteProgramIsShowing: false,
-            editProgramIsShowing: false,
-            program: props.program
+            editProgramIsShowing: false
         };
 
         _this5.toggleDeleteProgram = _this5.toggleDeleteProgram.bind(_this5);
         _this5.toggleEditProgram = _this5.toggleEditProgram.bind(_this5);
-        _this5.onEditProgram = _this5.onEditProgram.bind(_this5);
         return _this5;
     }
 
@@ -378,23 +376,10 @@ var ProgramSidebarPane = function (_Component4) {
             });
         }
     }, {
-        key: "componentWillReceiveProps",
-        value: function componentWillReceiveProps(props) {
-            this.setState({
-                program: props.program
-            });
-        }
-    }, {
-        key: "onEditProgram",
-        value: function onEditProgram(program) {
-            this.setState({
-                program: program
-            });
-        }
-    }, {
         key: "render",
         value: function render() {
-            var program = this.state.program;
+            var program = this.props.program;
+
             return _react2.default.createElement(
                 "div",
                 { className: "p-0 h-100 d-flex flex-column" },
@@ -417,7 +402,7 @@ var ProgramSidebarPane = function (_Component4) {
                     _react2.default.createElement(ProgramDetails, { program: program,
                         toggleDeleteProgram: this.toggleDeleteProgram,
                         toggleEditProgram: this.toggleEditProgram }),
-                    _react2.default.createElement(ProgramStudyFields, { studyFields: program.studyfield_set })
+                    _react2.default.createElement(ProgramStudyFields, { studyFields: program.study_fields })
                 )
             );
         }
@@ -551,7 +536,7 @@ var ProgramStudyFields = function (_Component6) {
                 return _react2.default.createElement(
                     _section.SectionRow,
                     { key: index },
-                    studyField.name
+                    studyField
                 );
             });
 

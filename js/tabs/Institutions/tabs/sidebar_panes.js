@@ -229,12 +229,10 @@ class ProgramSidebarPane extends Component {
         this.state = {
             deleteProgramIsShowing : false,
             editProgramIsShowing : false,
-            program : props.program,
         };
 
         this.toggleDeleteProgram = this.toggleDeleteProgram.bind(this);
         this.toggleEditProgram = this.toggleEditProgram.bind(this);
-        this.onEditProgram = this.onEditProgram.bind(this);
     }
 
     toggleDeleteProgram() {
@@ -249,20 +247,9 @@ class ProgramSidebarPane extends Component {
         });
     }
 
-    componentWillReceiveProps(props) {
-        this.setState({
-            program : props.program,
-        });
-    }
-
-    onEditProgram(program) {
-        this.setState({
-            program : program,
-        });
-    }
-
     render() {
-        const program = this.state.program;
+        const program = this.props.program;
+
         return (
             <div className="p-0 h-100 d-flex flex-column">
                 <div className="page-head pt-5 d-flex flex-row align-items-end">
@@ -276,7 +263,7 @@ class ProgramSidebarPane extends Component {
                     <ProgramDetails program={program}
                                     toggleDeleteProgram={this.toggleDeleteProgram}
                                     toggleEditProgram={this.toggleEditProgram}/>
-                    <ProgramStudyFields studyFields={program.studyfield_set}/>
+                    <ProgramStudyFields studyFields={program.study_fields}/>
 
                     {/* Delete and Edit Modals */}
                 </div>
@@ -341,7 +328,7 @@ class ProgramStudyFields extends Component {
 
         const rows = this.props.studyFields.map((studyField, index) => {
             return (
-                <SectionRow key={index}>{studyField.name}</SectionRow>
+                <SectionRow key={index}>{studyField}</SectionRow>
             );
         });
 
