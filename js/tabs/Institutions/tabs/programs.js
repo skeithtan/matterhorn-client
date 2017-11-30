@@ -37,9 +37,7 @@ function fetchPrograms(institutionID, year, onResult) {
             academic_year {
                 academic_year_start
             }
-            studyfield_set {
-                name
-            }
+            study_fields
         }
     }
     `).then(onResult);
