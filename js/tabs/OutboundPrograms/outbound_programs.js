@@ -22,13 +22,13 @@ function fetchYears(onResult) {
 function fetchPrograms(year, term, onResult) {
     graphql.query(`
     {
-        programs(year:${year}, term:${term}) {
+        outbound_programs(year:${year}, term:${term}) {
             id
             name
             institution {
                name
             }
-            terms {
+            terms_available {
                 number
             }
         }
@@ -39,22 +39,12 @@ function fetchPrograms(year, term, onResult) {
 function fetchStudents(id, onResult) {
     graphql.query(`
     {
-        program(id:${id}) {
-            id
-            studyfield_set {
-                id
-                name
-                studentstudyfield_set {
-                    study_field {
-                        name
-                    }
-                    student {
-                        id
-                        id_number
-                        first_name
-                        middle_name
-                        family_name
-                    }
+        outbound_program(id:${id}) {
+            outboundstudentprogram_set {
+                student {
+                    id_number
+                    first_name
+                    middle_name
                 }
             }
         }
@@ -111,11 +101,11 @@ class OutboundPrograms extends Component {
 
         fetchPrograms(year.academic_year_start, this.state.activeTerm, result => {
             this.setState({
-                programList : result.programs,
+                programList : result.outbound_programs,
             });
         });
 
-        this.setSidebarContent(<AcademicYearSidebarPane academicYear={year}/>);
+        this.setSidebarContent(<AcademicYearSidebarPane academicYear={ year }/>);
     }
 
     setActiveTerm(term) {
@@ -126,7 +116,7 @@ class OutboundPrograms extends Component {
 
         fetchPrograms(this.state.activeYear, term, result => {
             this.setState({
-                programList : result.programs,
+                programList : result.outbound_programs,
             });
         });
     }
@@ -139,17 +129,17 @@ class OutboundPrograms extends Component {
 
         fetchStudents(program.id, result => {
             this.setState({
-                studyFieldList : result.program.studyfield_set,
+                studyFieldList : result.outbound_program.outboundstudentprogram_set,
             });
         });
 
-        this.setSidebarContent(<ProgramsSidebarPane program={program}/>);
+        this.setSidebarContent(<ProgramsSidebarPane program={ program }/>);
     }
 
     refreshStudents() {
         fetchStudents(this.state.activeProgram.id, result => {
             this.setState({
-                studyFieldList : result.program.studyfield_set,
+                studyFieldList : result.outbound_program.outboundstudentprogram_set,
             });
         });
     }
@@ -166,12 +156,12 @@ class OutboundPrograms extends Component {
         }
 
         return (
-            <ProgramList programList={this.state.programList}
-                         activeYear={this.state.activeYear}
-                         activeTerm={this.state.activeTerm}
-                         activeProgram={this.state.activeProgram}
-                         setActiveTerm={this.setActiveTerm}
-                         setActiveProgram={this.setActiveProgram}/>
+            <ProgramList programList={ this.state.programList }
+                         activeYear={ this.state.activeYear }
+                         activeTerm={ this.state.activeTerm }
+                         activeProgram={ this.state.activeProgram }
+                         setActiveTerm={ this.setActiveTerm }
+                         setActiveProgram={ this.setActiveProgram }/>
         );
     }
 
@@ -187,9 +177,9 @@ class OutboundPrograms extends Component {
         }
 
         return (
-            <StudentList studyFieldList={this.state.studyFieldList}
-                         activeProgram={this.state.activeProgram}
-                         refreshStudents={this.refreshStudents}/>
+            <StudentList studyFieldList={ this.state.studyFieldList }
+                         activeProgram={ this.state.activeProgram }
+                         refreshStudents={ this.refreshStudents }/>
         );
     }
 
@@ -198,15 +188,15 @@ class OutboundPrograms extends Component {
 
             <div id="programs-page"
                  className="d-flex flex-row p-0 h-100">
-                <YearList yearList={this.state.yearList}
-                          setActiveYear={this.setActiveYear}
-                          activeYear={this.state.activeYear}/>
+                <YearList yearList={ this.state.yearList }
+                          setActiveYear={ this.setActiveYear }
+                          activeYear={ this.state.activeYear }/>
 
-                {this.programsList()}
-                {this.studentList()}
+                { this.programsList() }
+                { this.studentList() }
 
                 <div className="programs-page-pane">
-                    {this.state.sidebarContent}
+                    { this.state.sidebarContent }
                 </div>
 
             </div>
