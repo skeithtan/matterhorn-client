@@ -38,7 +38,9 @@ function fetchPrograms(year, onResult) {
     _graphql2.default.query("\n    {\n        inbound_programs(year:" + year + ") {\n            id\n            name\n        }\n    }\n    ").then(onResult);
 }
 
-function fetchStudents(onResult) {}
+function fetchStudents(id, onResult) {
+    _graphql2.default.query("\n    {\n        inbound_program(id:" + id + ") {\n            id\n            inboundstudentprogram_set {\n                id\n                student {\n                    id\n                    id_number\n                    first_name\n                    middle_name\n                    family_name\n                }\n            }\n        }\n    }\n    ").then(onResult);
+}
 
 var InboundPrograms = function (_Component) {
     _inherits(InboundPrograms, _Component);
@@ -84,6 +86,7 @@ var InboundPrograms = function (_Component) {
     }, {
         key: "setActiveProgram",
         value: function setActiveProgram(program) {
+            console.log(program);
             this.setState({
                 activeProgram: program
             });

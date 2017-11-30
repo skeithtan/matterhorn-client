@@ -24,8 +24,24 @@ function fetchPrograms(year, onResult) {
     `).then(onResult);
 }
 
-function fetchStudents(onResult) {
-
+function fetchStudents(id, onResult) {
+    graphql.query(`
+    {
+        inbound_program(id:${id}) {
+            id
+            inboundstudentprogram_set {
+                id
+                student {
+                    id
+                    id_number
+                    first_name
+                    middle_name
+                    family_name
+                }
+            }
+        }
+    }
+    `).then(onResult);
 }
 
 class InboundPrograms extends Component {
@@ -62,6 +78,7 @@ class InboundPrograms extends Component {
     }
 
     setActiveProgram(program) {
+        console.log(program);
         this.setState({
             activeProgram : program,
         });
