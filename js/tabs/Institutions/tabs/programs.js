@@ -125,6 +125,7 @@ class Programs extends Component {
         this.setState({
             institutionID : nextProps.institution.id,
             programList : null,
+            activeProgram : null,
         });
 
         this.refreshPrograms(nextProps.institution.id, this.state.activeYear);
