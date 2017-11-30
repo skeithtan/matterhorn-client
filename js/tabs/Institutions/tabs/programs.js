@@ -15,13 +15,11 @@ import {
 import { ProgramSidebarPane } from "./sidebar_panes";
 
 
-function fetchYears(institutionID, onResult) {
+function fetchYears(onResult) {
     graphql.query(`
     {
-        outbound_programs(institution:${institutionID}) {
-            academic_year {
-                academic_year_start
-            }
+        academic_years {
+            academic_year_start
         }
     }
     `).then(onResult);
@@ -59,30 +57,31 @@ class Programs extends Component {
             activeProgram : null,
         };
 
-        this.getOrderedYears = this.getOrderedYears.bind(this);
         this.setActiveYear = this.setActiveYear.bind(this);
         this.setActiveProgram = this.setActiveProgram.bind(this);
         this.refreshPrograms = this.refreshPrograms.bind(this);
 
-        fetchYears(this.state.institutionID, result => {
+        fetchYears(result => {
+            const yearList = result.academic_years.map(academicYear => academicYear.academic_year_start);
+
+            if (yearList.length === 0) {
+                this.setState({
+                    yearList : [],
+                });
+
+                return;
+            }
+
+            const activeYear = yearList[0];
+
             this.setState({
-                yearList : this.getOrderedYears(result.outbound_programs),
+                yearList : yearList,
+                activeYear : activeYear,
             });
 
-            if (this.state.yearList !== null) {
-                this.setState({
-                    activeYear : this.state.yearList[0],
-                });
-            }
-
-            if (this.state.activeYear !== undefined) {
-                fetchPrograms(props.institution.id, this.state.activeYear, result => {
-                    this.setState({
-                        programList : result.outbound_programs,
-                    });
-                });
-            }
+            this.refreshPrograms(activeYear);
         });
+
     }
 
     setActiveYear(year) {
@@ -97,18 +96,6 @@ class Programs extends Component {
             this.props.setSidebarContent(null);
         }
 
-        const refreshProgram = () => {
-            this.refreshPrograms();
-        };
-
-        const onDeleteProgram = () => {
-            this.setState({
-                activeProgram : null,
-            });
-            this.refreshPrograms();
-            this.setActiveProgram(null);
-        };
-
         this.props.setSidebarContent(
             <ProgramSidebarPane program={program}/>,
         );
@@ -118,33 +105,9 @@ class Programs extends Component {
         });
     }
 
-    getOrderedYears(programs) {
-        if (programs.length === 0) {
-            return [];
-        }
-
-        let years = [];
-
-        programs.forEach(year => {
-            years.push(year.academic_year.academic_year_start);
-        });
-
-        // Get uniques only
-        years = years.filter((value, index, self) => {
-            return self.indexOf(value) === index;
-        });
-
-        // Arrange in ascending order
-        years = years.sort(function (a, b) {
-            return a - b;
-        });
-
-        return years;
-    }
-
     // There might be a need to check for the activeYear
-    refreshPrograms() {
-        fetchPrograms(this.state.institutionID, this.state.activeYear, result => {
+    refreshPrograms(year) {
+        fetchPrograms(this.state.institutionID, year, result => {
             this.setState({
                 programList : result.outbound_programs,
             });
@@ -160,31 +123,18 @@ class Programs extends Component {
 
         this.setState({
             institutionID : nextProps.institution.id,
-            yearList : null,
             programList : null,
-            activeYear : null,
         });
 
-        fetchYears(nextProps.institution.id, result => {
-            this.setState({
-                yearList : this.getOrderedYears(result.outbound_programs),
-            });
-            if (this.state.yearList !== null) {
-                this.setState({
-                    activeYear : this.state.yearList[0],
-                });
-            }
-            if (this.state.activeYear !== undefined) {
-                fetchPrograms(nextProps.institution.id, this.state.activeYear, result => {
-                    this.setState({
-                        programList : result.outbound_programs,
-                    });
-                });
-            }
-        });
+        this.refreshPrograms(this.state.activeYear);
     }
 
     render() {
+        if (this.state.programList === null) {
+            return <LoadingSpinner/>;
+        }
+
+
         return (
             <div className="w-100 h-100 d-flex flex-column">
                 <ProgramsHead institution={this.props.institution}
@@ -223,7 +173,8 @@ class ProgramsHead extends Component {
                     {this.props.years.length !== 0 &&
                     <div className="d-flex flex-column mr-2">
                         <labl className="mr-3 text-dark mb-1">Academic Year</labl>
-                        <Input type="select" className="mr-3 btn btn-outline-success select-sm">
+                        <Input type="select"
+                               className="mr-3 btn btn-outline-success select-sm">
                             {years}
                         </Input>
                     </div>
@@ -258,7 +209,7 @@ class ProgramsTable extends Component {
     }
 
     render() {
-        if (this.props.programs === null || this.props.programs.length === 0) {
+        if (this.props.programs.length === 0) {
             return this.emptyState();
         }
 

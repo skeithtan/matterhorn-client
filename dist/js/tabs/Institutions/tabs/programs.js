@@ -32,8 +32,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-function fetchYears(institutionID, onResult) {
-    _graphql2.default.query("\n    {\n        outbound_programs(institution:" + institutionID + ") {\n            academic_year {\n                academic_year_start\n            }\n        }\n    }\n    ").then(onResult);
+function fetchYears(onResult) {
+    _graphql2.default.query("\n    {\n        academic_years {\n            academic_year_start\n        }\n    }\n    ").then(onResult);
 }
 
 function fetchPrograms(institutionID, year, onResult) {
@@ -56,30 +56,33 @@ var Programs = function (_Component) {
             activeProgram: null
         };
 
-        _this.getOrderedYears = _this.getOrderedYears.bind(_this);
         _this.setActiveYear = _this.setActiveYear.bind(_this);
         _this.setActiveProgram = _this.setActiveProgram.bind(_this);
         _this.refreshPrograms = _this.refreshPrograms.bind(_this);
 
-        fetchYears(_this.state.institutionID, function (result) {
-            _this.setState({
-                yearList: _this.getOrderedYears(result.outbound_programs)
+        fetchYears(function (result) {
+            var yearList = result.academic_years.map(function (academicYear) {
+                return academicYear.academic_year_start;
             });
 
-            if (_this.state.yearList !== null) {
+            if (yearList.length === 0) {
                 _this.setState({
-                    activeYear: _this.state.yearList[0]
+                    yearList: []
                 });
+
+                return;
             }
 
-            if (_this.state.activeYear !== undefined) {
-                fetchPrograms(props.institution.id, _this.state.activeYear, function (result) {
-                    _this.setState({
-                        programList: result.outbound_programs
-                    });
-                });
-            }
+            var activeYear = yearList[0];
+
+            _this.setState({
+                yearList: yearList,
+                activeYear: activeYear
+            });
+
+            _this.refreshPrograms(activeYear);
         });
+
         return _this;
     }
 
@@ -94,23 +97,9 @@ var Programs = function (_Component) {
     }, {
         key: "setActiveProgram",
         value: function setActiveProgram(program) {
-            var _this2 = this;
-
             if (program === null) {
                 this.props.setSidebarContent(null);
             }
-
-            var refreshProgram = function refreshProgram() {
-                _this2.refreshPrograms();
-            };
-
-            var onDeleteProgram = function onDeleteProgram() {
-                _this2.setState({
-                    activeProgram: null
-                });
-                _this2.refreshPrograms();
-                _this2.setActiveProgram(null);
-            };
 
             this.props.setSidebarContent(_react2.default.createElement(_sidebar_panes.ProgramSidebarPane, { program: program }));
 
@@ -118,41 +107,16 @@ var Programs = function (_Component) {
                 activeProgram: program
             });
         }
-    }, {
-        key: "getOrderedYears",
-        value: function getOrderedYears(programs) {
-            if (programs.length === 0) {
-                return [];
-            }
-
-            var years = [];
-
-            programs.forEach(function (year) {
-                years.push(year.academic_year.academic_year_start);
-            });
-
-            // Get uniques only
-            years = years.filter(function (value, index, self) {
-                return self.indexOf(value) === index;
-            });
-
-            // Arrange in ascending order
-            years = years.sort(function (a, b) {
-                return a - b;
-            });
-
-            return years;
-        }
 
         // There might be a need to check for the activeYear
 
     }, {
         key: "refreshPrograms",
-        value: function refreshPrograms() {
-            var _this3 = this;
+        value: function refreshPrograms(year) {
+            var _this2 = this;
 
-            fetchPrograms(this.state.institutionID, this.state.activeYear, function (result) {
-                _this3.setState({
+            fetchPrograms(this.state.institutionID, year, function (result) {
+                _this2.setState({
                     programList: result.outbound_programs
                 });
             });
@@ -160,8 +124,6 @@ var Programs = function (_Component) {
     }, {
         key: "componentWillReceiveProps",
         value: function componentWillReceiveProps(nextProps) {
-            var _this4 = this;
-
             if (this.state.institutionID === nextProps.institution.id) {
                 return;
             }
@@ -170,32 +132,18 @@ var Programs = function (_Component) {
 
             this.setState({
                 institutionID: nextProps.institution.id,
-                yearList: null,
-                programList: null,
-                activeYear: null
+                programList: null
             });
 
-            fetchYears(nextProps.institution.id, function (result) {
-                _this4.setState({
-                    yearList: _this4.getOrderedYears(result.outbound_programs)
-                });
-                if (_this4.state.yearList !== null) {
-                    _this4.setState({
-                        activeYear: _this4.state.yearList[0]
-                    });
-                }
-                if (_this4.state.activeYear !== undefined) {
-                    fetchPrograms(nextProps.institution.id, _this4.state.activeYear, function (result) {
-                        _this4.setState({
-                            programList: result.outbound_programs
-                        });
-                    });
-                }
-            });
+            this.refreshPrograms(this.state.activeYear);
         }
     }, {
         key: "render",
         value: function render() {
+            if (this.state.programList === null) {
+                return _react2.default.createElement(_loading2.default, null);
+            }
+
             return _react2.default.createElement(
                 "div",
                 { className: "w-100 h-100 d-flex flex-column" },
@@ -268,7 +216,8 @@ var ProgramsHead = function (_Component2) {
                         ),
                         _react2.default.createElement(
                             _reactstrap.Input,
-                            { type: "select", className: "mr-3 btn btn-outline-success select-sm" },
+                            { type: "select",
+                                className: "mr-3 btn btn-outline-success select-sm" },
                             years
                         )
                     ),
@@ -293,10 +242,10 @@ var ProgramsTable = function (_Component3) {
     function ProgramsTable(props) {
         _classCallCheck(this, ProgramsTable);
 
-        var _this6 = _possibleConstructorReturn(this, (ProgramsTable.__proto__ || Object.getPrototypeOf(ProgramsTable)).call(this, props));
+        var _this4 = _possibleConstructorReturn(this, (ProgramsTable.__proto__ || Object.getPrototypeOf(ProgramsTable)).call(this, props));
 
-        _this6.emptyState = _this6.emptyState.bind(_this6);
-        return _this6;
+        _this4.emptyState = _this4.emptyState.bind(_this4);
+        return _this4;
     }
 
     _createClass(ProgramsTable, [{
@@ -326,7 +275,7 @@ var ProgramsTable = function (_Component3) {
     }, {
         key: "render",
         value: function render() {
-            if (this.props.programs === null || this.props.programs.length === 0) {
+            if (this.props.programs.length === 0) {
                 return this.emptyState();
             }
 
@@ -355,17 +304,17 @@ var ProgramsListSection = function (_Component4) {
     _createClass(ProgramsListSection, [{
         key: "render",
         value: function render() {
-            var _this8 = this;
+            var _this6 = this;
 
             var rows = this.props.programs.map(function (program, index) {
                 var isActive = false;
 
-                if (_this8.props.currentProgram !== null) {
-                    isActive = _this8.props.currentProgram.id === program.id;
+                if (_this6.props.currentProgram !== null) {
+                    isActive = _this6.props.currentProgram.id === program.id;
                 }
 
                 var setCurrentProgram = function setCurrentProgram() {
-                    return _this8.props.setCurrentProgram(program);
+                    return _this6.props.setCurrentProgram(program);
                 };
 
                 return _react2.default.createElement(
