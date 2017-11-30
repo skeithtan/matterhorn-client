@@ -22,6 +22,10 @@ var _inbound_program_list = require("./inbound_program_list");
 
 var _inbound_program_list2 = _interopRequireDefault(_inbound_program_list);
 
+var _student_list = require("./student_list");
+
+var _student_list2 = _interopRequireDefault(_student_list);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -54,15 +58,16 @@ var InboundPrograms = function (_Component) {
             yearList: null,
             programList: null,
             activeYear: null,
-            activeTerm: 1,
             activeProgram: null,
-            sidebarContent: null
+            studentList: null
+            // sidebarContent : null,
         };
 
         _this.refreshYears = _this.refreshYears.bind(_this);
         _this.setActiveYear = _this.setActiveYear.bind(_this);
         _this.programList = _this.programList.bind(_this);
         _this.setActiveProgram = _this.setActiveProgram.bind(_this);
+        _this.studentList = _this.studentList.bind(_this);
         _this.refreshYears();
         return _this;
     }
@@ -74,7 +79,8 @@ var InboundPrograms = function (_Component) {
 
             this.setState({
                 activeYear: year.academic_year_start,
-                activeProgram: null
+                activeProgram: null,
+                studentList: null
             });
 
             fetchPrograms(year.academic_year_start, function (result) {
@@ -86,18 +92,25 @@ var InboundPrograms = function (_Component) {
     }, {
         key: "setActiveProgram",
         value: function setActiveProgram(program) {
-            console.log(program);
+            var _this3 = this;
+
             this.setState({
                 activeProgram: program
+            });
+
+            fetchStudents(program.id, function (result) {
+                _this3.setState({
+                    studentList: result.inbound_program.inboundstudentprogram_set
+                });
             });
         }
     }, {
         key: "refreshYears",
         value: function refreshYears() {
-            var _this3 = this;
+            var _this4 = this;
 
             fetchYears(function (result) {
-                _this3.setState({
+                _this4.setState({
                     yearList: result.academic_years
                 });
             });
@@ -127,6 +140,28 @@ var InboundPrograms = function (_Component) {
                 setActiveProgram: this.setActiveProgram });
         }
     }, {
+        key: "studentList",
+        value: function studentList() {
+            if (this.state.activeProgram === null) {
+                return _react2.default.createElement(
+                    "div",
+                    { className: "programs-page-pane" },
+                    _react2.default.createElement(
+                        "div",
+                        { className: "loading-container" },
+                        _react2.default.createElement(
+                            "h4",
+                            null,
+                            "Select a program to see its students"
+                        )
+                    )
+                );
+            }
+
+            return _react2.default.createElement(_student_list2.default, { activeProgram: this.state.activeProgram,
+                students: this.state.studentList });
+        }
+    }, {
         key: "render",
         value: function render() {
             return _react2.default.createElement(
@@ -136,7 +171,8 @@ var InboundPrograms = function (_Component) {
                 _react2.default.createElement(_year_list2.default, { yearList: this.state.yearList,
                     setActiveYear: this.setActiveYear,
                     activeYear: this.state.activeYear }),
-                this.programList()
+                this.programList(),
+                this.studentList()
             );
         }
     }]);

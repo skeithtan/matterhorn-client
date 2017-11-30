@@ -41,11 +41,11 @@ function fetchYears(onResult) {
 }
 
 function fetchPrograms(year, term, onResult) {
-    _graphql2.default.query("\n    {\n        programs(year:" + year + ", term:" + term + ") {\n            id\n            name\n            institution {\n               name\n            }\n            terms {\n                number\n            }\n        }\n    }\n    ").then(onResult);
+    _graphql2.default.query("\n    {\n        outbound_programs(year:" + year + ", term:" + term + ") {\n            id\n            name\n            institution {\n               name\n            }\n            terms_available {\n                number\n            }\n        }\n    }\n    ").then(onResult);
 }
 
 function fetchStudents(id, onResult) {
-    _graphql2.default.query("\n    {\n        program(id:" + id + ") {\n            id\n            studyfield_set {\n                id\n                name\n                studentstudyfield_set {\n                    study_field {\n                        name\n                    }\n                    student {\n                        id\n                        id_number\n                        first_name\n                        middle_name\n                        family_name\n                    }\n                }\n            }\n        }\n    }\n    ").then(onResult);
+    _graphql2.default.query("\n    {\n        outbound_program(id:" + id + ") {\n            outboundstudentprogram_set {\n                student {\n                    id_number\n                    first_name\n                    middle_name\n                }\n            }\n        }\n    }\n    ").then(onResult);
 }
 
 var OutboundPrograms = function (_Component) {
@@ -110,7 +110,7 @@ var OutboundPrograms = function (_Component) {
 
             fetchPrograms(year.academic_year_start, this.state.activeTerm, function (result) {
                 _this3.setState({
-                    programList: result.programs
+                    programList: result.outbound_programs
                 });
             });
 
@@ -128,7 +128,7 @@ var OutboundPrograms = function (_Component) {
 
             fetchPrograms(this.state.activeYear, term, function (result) {
                 _this4.setState({
-                    programList: result.programs
+                    programList: result.outbound_programs
                 });
             });
         }
@@ -144,7 +144,7 @@ var OutboundPrograms = function (_Component) {
 
             fetchStudents(program.id, function (result) {
                 _this5.setState({
-                    studyFieldList: result.program.studyfield_set
+                    studyFieldList: result.outbound_program.outboundstudentprogram_set
                 });
             });
 
@@ -157,7 +157,7 @@ var OutboundPrograms = function (_Component) {
 
             fetchStudents(this.state.activeProgram.id, function (result) {
                 _this6.setState({
-                    studyFieldList: result.program.studyfield_set
+                    studyFieldList: result.outbound_program.outboundstudentprogram_set
                 });
             });
         }
