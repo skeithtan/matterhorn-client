@@ -26,16 +26,16 @@
   },
   "dependencies": {
     "bootstrap": "^4.0.0-beta.2",
-    "izitoast": "^1.1.5",
+    "izitoast": "^1.2.0",
     "jquery": "^3.2.1",
     "lokka": "^1.7.0",
     "lokka-transport-http": "^1.6.1",
-    "moment": "^2.19.2",
-    "popper.js": "^1.12.7",
+    "moment": "^2.19.3",
+    "popper.js": "^1.13.0",
     "react": "^15.6.2",
     "react-dom": "^15.6.2",
-    "reactstrap": "^5.0.0-alpha.3",
+    "reactstrap": "^5.0.0-alpha.4",
     "scroll-into-view": "^1.9.1",
-    "uploadcare-widget": "^3.2.0"
+    "uploadcare-widget": "^3.2.1"
   }
 }

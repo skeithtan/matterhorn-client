@@ -18,6 +18,10 @@ var _year_list = require("../OutboundPrograms/year_list");
 
 var _year_list2 = _interopRequireDefault(_year_list);
 
+var _inbound_program_list = require("./inbound_program_list");
+
+var _inbound_program_list2 = _interopRequireDefault(_inbound_program_list);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -30,7 +34,9 @@ function fetchYears(onResult) {
     _graphql2.default.query("\n    {\n        academic_years {\n            academic_year_start\n        }\n    }\n    ").then(onResult);
 }
 
-function fetchPrograms(onResult) {}
+function fetchPrograms(year, onResult) {
+    _graphql2.default.query("\n    {\n        inbound_programs(year:" + year + ") {\n            id\n            name\n        }\n    }\n    ").then(onResult);
+}
 
 function fetchStudents(onResult) {}
 
@@ -53,6 +59,8 @@ var InboundPrograms = function (_Component) {
 
         _this.refreshYears = _this.refreshYears.bind(_this);
         _this.setActiveYear = _this.setActiveYear.bind(_this);
+        _this.programList = _this.programList.bind(_this);
+        _this.setActiveProgram = _this.setActiveProgram.bind(_this);
         _this.refreshYears();
         return _this;
     }
@@ -60,21 +68,60 @@ var InboundPrograms = function (_Component) {
     _createClass(InboundPrograms, [{
         key: "setActiveYear",
         value: function setActiveYear(year) {
+            var _this2 = this;
+
             this.setState({
                 activeYear: year.academic_year_start,
                 activeProgram: null
+            });
+
+            fetchPrograms(year.academic_year_start, function (result) {
+                _this2.setState({
+                    programList: result.inbound_programs
+                });
+            });
+        }
+    }, {
+        key: "setActiveProgram",
+        value: function setActiveProgram(program) {
+            this.setState({
+                activeProgram: program
             });
         }
     }, {
         key: "refreshYears",
         value: function refreshYears() {
-            var _this2 = this;
+            var _this3 = this;
 
             fetchYears(function (result) {
-                _this2.setState({
+                _this3.setState({
                     yearList: result.academic_years
                 });
             });
+        }
+    }, {
+        key: "programList",
+        value: function programList() {
+            if (this.state.activeYear === null) {
+                return _react2.default.createElement(
+                    "div",
+                    { className: "programs-page-pane" },
+                    _react2.default.createElement(
+                        "div",
+                        { className: "loading-container" },
+                        _react2.default.createElement(
+                            "h4",
+                            null,
+                            "Select an academic year to see its programs"
+                        )
+                    )
+                );
+            }
+
+            return _react2.default.createElement(_inbound_program_list2.default, { programList: this.state.programList,
+                activeYear: this.state.activeYear,
+                activeProgram: this.state.activeProgram,
+                setActiveProgram: this.setActiveProgram });
         }
     }, {
         key: "render",
@@ -85,7 +132,8 @@ var InboundPrograms = function (_Component) {
                     className: "d-flex flex-row p-0 h-100" },
                 _react2.default.createElement(_year_list2.default, { yearList: this.state.yearList,
                     setActiveYear: this.setActiveYear,
-                    activeYear: this.state.activeYear })
+                    activeYear: this.state.activeYear }),
+                this.programList()
             );
         }
     }]);
