@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import graphql from "../../graphql";
 import YearList from "../OutboundPrograms/year_list";
+import ProgramList from "./inbound_program_list";
 
 function fetchYears(onResult) {
     graphql.query(`
@@ -12,8 +13,15 @@ function fetchYears(onResult) {
     `).then(onResult);
 }
 
-function fetchPrograms(onResult) {
-
+function fetchPrograms(year, onResult) {
+    graphql.query(`
+    {
+        inbound_programs(year:${year}) {
+            id
+            name
+        }
+    }
+    `).then(onResult);
 }
 
 function fetchStudents(onResult) {
@@ -35,6 +43,8 @@ class InboundPrograms extends Component {
 
         this.refreshYears = this.refreshYears.bind(this);
         this.setActiveYear = this.setActiveYear.bind(this);
+        this.programList = this.programList.bind(this);
+        this.setActiveProgram = this.setActiveProgram.bind(this);
         this.refreshYears();
     }
 
@@ -42,6 +52,18 @@ class InboundPrograms extends Component {
         this.setState({
             activeYear : year.academic_year_start,
             activeProgram : null,
+        });
+
+        fetchPrograms(year.academic_year_start, result => {
+            this.setState({
+                programList : result.inbound_programs,
+            });
+        });
+    }
+
+    setActiveProgram(program) {
+        this.setState({
+            activeProgram : program,
         });
     }
 
@@ -53,6 +75,25 @@ class InboundPrograms extends Component {
         });
     }
 
+    programList() {
+        if (this.state.activeYear === null) {
+            return (
+                <div className="programs-page-pane">
+                    <div className="loading-container">
+                        <h4>Select an academic year to see its programs</h4>
+                    </div>
+                </div>
+            );
+        }
+
+        return (
+            <ProgramList programList={ this.state.programList }
+                         activeYear={ this.state.activeYear }
+                         activeProgram={ this.state.activeProgram }
+                         setActiveProgram={ this.setActiveProgram }/>
+        );
+    }
+
     render() {
         return (
             <div id="programs-page"
@@ -61,7 +102,7 @@ class InboundPrograms extends Component {
                           setActiveYear={ this.setActiveYear }
                           activeYear={ this.state.activeYear }/>
 
-                { /*{ this.programsList() }*/ }
+                { this.programList() }
                 { /*{ this.studentList() }*/ }
 
                 { /*<div className="programs-page-pane">*/ }
