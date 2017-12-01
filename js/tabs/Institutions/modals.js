@@ -143,7 +143,7 @@ class InstitutionFormModal extends Component {
             url : `${settings.serverURL}/institutions/${this.state.form.id}/`,
             data : this.state.form,
             beforeSend : authorizeXHR,
-        }).done(institution => {
+        }).done(() => {
             dismissToast();
             this.props.refresh();
             iziToast.success({

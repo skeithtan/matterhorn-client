@@ -176,7 +176,7 @@ var InstitutionFormModal = function (_Component) {
                 url: _settings2.default.serverURL + "/institutions/" + this.state.form.id + "/",
                 data: this.state.form,
                 beforeSend: _authorization2.default
-            }).done(function (institution) {
+            }).done(function () {
                 dismissToast();
                 _this3.props.refresh();
                 _izitoast2.default.success({

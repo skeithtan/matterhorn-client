@@ -78,7 +78,7 @@ var OutboundApplicationsList = function (_Component2) {
         });
 
         _this2.setActiveCategory = _this2.setActiveCategory.bind(_this2);
-        _this2.setApplicants = _this2.setApplicants.bind(_this2);
+        _this2.getApplicantsByCategory = _this2.getApplicantsByCategory.bind(_this2);
         _this2.setActiveApplicant = _this2.setActiveApplicant.bind(_this2);
         return _this2;
     }
@@ -90,28 +90,31 @@ var OutboundApplicationsList = function (_Component2) {
                 activeCategory: category
             });
 
-            this.setApplicants(this.state.applicants);
+            this.getApplicantsByCategory(this.state.applicants);
         }
     }, {
-        key: "setApplicants",
-        value: function setApplicants(applicants) {
+        key: "getApplicantsByCategory",
+        value: function getApplicantsByCategory(applicants) {
             var _this3 = this;
+
+            if (applicants === null) {
+                return null;
+            }
 
             var filteredApplicants = [];
 
-            if (applicants !== null && applicants.length !== 0) {
-                applicants.forEach(function (applicant) {
-                    if (_this3.state.activeCategory === "Incomplete") {
-                        if (!applicant.is_requirements_complete) {
-                            filteredApplicants.push(applicant);
-                        }
-                    } else {
-                        if (applicant.is_requirements_complete) {
-                            filteredApplicants.push(applicant);
-                        }
+            applicants.forEach(function (applicant) {
+                if (_this3.state.activeCategory === "Incomplete") {
+                    if (!applicant.is_requirements_complete) {
+                        filteredApplicants.push(applicant);
                     }
-                });
-            }
+                } else {
+                    if (applicant.is_requirements_complete) {
+                        filteredApplicants.push(applicant);
+                    }
+                }
+            });
+
             return filteredApplicants;
         }
 
@@ -127,7 +130,7 @@ var OutboundApplicationsList = function (_Component2) {
     }, {
         key: "render",
         value: function render() {
-            var applicants = this.setApplicants(this.state.applicants);
+            var applicants = this.getApplicantsByCategory(this.state.applicants);
 
             return _react2.default.createElement(
                 "div",
@@ -232,6 +235,10 @@ var OutboundApplicationsListTable = function (_Component4) {
     _createClass(OutboundApplicationsListTable, [{
         key: "getStudentsByFamilyNameInitials",
         value: function getStudentsByFamilyNameInitials() {
+            if (this.props.applicants === null) {
+                return null;
+            }
+
             var applicants = [];
 
             this.props.applicants.forEach(function (applicant) {
