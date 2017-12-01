@@ -718,6 +718,7 @@ class ProgramFormModal extends Component {
 
         this.state = {
             form : {
+                institution : this.props.institution,
                 name : "",
                 linkage : "SE",
                 academic_year : "",
