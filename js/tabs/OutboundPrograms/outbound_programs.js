@@ -45,6 +45,7 @@ function fetchStudents(id, onResult) {
                     id_number
                     first_name
                     middle_name
+                    family_name
                 }
             }
         }
