@@ -21,7 +21,10 @@ import {
     FormFeedback,
     ListGroup,
     ListGroupItem,
+    ButtonGroup,
 } from "reactstrap";
+import { fetchYears } from "../OutboundPrograms/outbound_programs";
+import LoadingSpinner from "../../components/loading";
 
 
 class InstitutionFormModal extends Component {
@@ -715,15 +718,216 @@ class ProgramFormModal extends Component {
     constructor(props) {
         super(props);
 
+        this.state = {
+            form : {
+                name : "",
+                linkage : "SE",
+                academic_year : "",
+                terms_available : [],
+                is_graduate : false,
+                requirement_deadline : "",
+            },
+            academic_years : null,
+        };
+
+        this.formBody = this.formBody.bind(this);
+        this.onTermClick = this.onTermClick.bind(this);
         this.getFormErrors = this.getFormErrors.bind(this);
+        this.getChangeHandler = this.getChangeHandler.bind(this);
+
+        fetchYears(result => {
+            this.setState({
+                academic_years : result.academic_years.map(academicYear => academicYear.academic_year_start),
+            });
+        });
     }
 
     getFormErrors() {
-        //TODO
+
+        return validateForm([
+            {
+                name : "Program name",
+                characterLimit : 64,
+                value : this.state.form.name,
+            },
+            {
+                name : "Academic year",
+                characterLimit : null,
+                value : this.state.form.academic_year,
+            },
+            {
+                name : "Terms available",
+                characterLimit : null,
+                value : this.state.form.terms_available.toString(),
+                customValidators : [{
+                    isValid : fieldValue => [1, 3].toString() !== fieldValue,
+                    errorMessage : fieldName => `${fieldName} must be consecutive`,
+                }],
+            },
+            {
+                name : "Requirements deadline",
+                characterLimit : null,
+                value : this.state.form.requirement_deadline,
+            },
+        ]);
+    }
+
+    getChangeHandler(fieldName) {
+        const form = this.state.form;
+
+        return event => {
+            const value = event.target.value;
+
+            form[fieldName] = value;
+            this.setState({
+                form : form,
+            });
+        };
+    }
+
+    onTermClick(term) {
+        const index = this.state.form.terms_available.indexOf(term);
+        if (index < 0) {
+            this.state.form.terms_available.push(term);
+        } else {
+            this.state.form.terms_available.splice(index, 1);
+        }
+
+        this.setState({
+            form : this.state.form,
+        });
+    }
+
+
+    setIsGraduate(isGraduate) {
+        this.state.form.is_graduate = isGraduate;
+        this.setState({
+            form : this.state.form,
+        });
+    }
+
+    static noAcademicYearsState() {
+        return (
+            <div className="loading-container p-5">
+                <h4>There are no academic years yet.</h4>
+                <p>Define the academic years in the outbound programs tab.</p>
+            </div>
+        );
+    }
+
+    formBody(fieldErrors) {
+
+        function isValid(fieldName) {
+            return fieldErrors[fieldName].length === 0;
+        }
+
+        function fieldError(fieldName) {
+            return fieldErrors[fieldName][0];
+        }
+
+        const termButtons = [1, 2, 3].map(term =>
+            <Button outline
+                    color="success"
+                    key={term}
+                    onClick={() => this.onTermClick(term)}
+                    active={this.state.form.terms_available.includes(term)}>
+                {term}
+            </Button>,
+        );
+
+        const academicYears = this.state.academic_years.map(academicYear =>
+            <option key={academicYear}
+                    onClick={this.getChangeHandler("academic_year")}
+                    value={academicYear}>{`${academicYear} - ${academicYear + 1}`}</option>,
+        );
+
+        academicYears.unshift(
+            <option key={0}
+                    onClick={this.getChangeHandler("academic_year")}
+                    value={""}>Select an academic year</option>,
+        );
+
+        return (
+            <ModalBody className="form">
+                <Form>
+                    <FormGroup>
+                        <Label>Program Name</Label>
+                        <Input placeholder="Program Name"
+                               onChange={this.getChangeHandler("name")}
+                               valid={isValid("Program name")}
+                               defaultValue={this.state.form.name}/>
+                        <FormFeedback>{fieldError("Program name")}</FormFeedback>
+                    </FormGroup>
+
+                    <FormGroup>
+                        <div className="d-block w-100">
+                            <ButtonGroup>
+                                <Button outline
+                                        color="success"
+                                        onClick={() => this.setIsGraduate(false)}
+                                        active={!this.state.form.is_graduate}>
+                                    Undergraduate program
+                                </Button>
+                                <Button outline
+                                        color="success"
+                                        onClick={() => this.setIsGraduate(true)}
+                                        active={this.state.form.is_graduate}>
+                                    Graduate program
+                                </Button>
+                            </ButtonGroup>
+                        </div>
+                    </FormGroup>
+
+                    <FormGroup>
+                        <Label>Academic Years</Label>
+                        <Input type="select"
+                               onChange={this.getChangeHandler("academic_year")}
+                               valid={isValid("Academic year")}
+                               defaultValue={this.state.form.academic_year}>
+                            {academicYears}
+                        </Input>
+                        <FormFeedback>{fieldError("Academic year")}</FormFeedback>
+                    </FormGroup>
+
+                    <FormGroup>
+                        <Label>Terms Available</Label>
+                        <div className="d-block w-100">
+                            <ButtonGroup>
+                                {termButtons}
+                            </ButtonGroup>
+                        </div>
+                        <div className="invalid-feedback d-block">{fieldError("Terms available")}</div>
+                    </FormGroup>
+
+                    <FormGroup>
+                        <Label>Requirements Deadline</Label>
+                        <Input type="date"
+                               defaultValue={this.state.form.requirement_deadline}
+                               onChange={this.getChangeHandler("requirement_deadline")}
+                               valid={isValid("Requirements deadline")}/>
+                        <FormFeedback>{fieldError("Requirements deadline")}</FormFeedback>
+                    </FormGroup>
+
+
+                </Form>
+            </ModalBody>
+        );
     }
 
     render() {
-        //TODO
+        const { formHasErrors, fieldErrors } = this.getFormErrors();
+
+        let formBody;
+        let shouldShowFormFooter = false;
+
+        if (this.state.academic_years === null) {
+            formBody = <LoadingSpinner/>;
+        } else if (this.state.academic_years.length === 0) {
+            formBody = ProgramFormModal.noAcademicYearsState();
+        } else {
+            formBody = this.formBody(fieldErrors);
+            shouldShowFormFooter = true;
+        }
 
         return (
             <Modal isOpen={this.props.isOpen}
@@ -732,15 +936,20 @@ class ProgramFormModal extends Component {
                 <ModalHeader toggle={this.props.toggle}>
                     Add a program
                 </ModalHeader>
-                <ModalBody className="form">
-                    <Form>
-
-                    </Form>
-                </ModalBody>
+                {formBody}
+                
+                {shouldShowFormFooter &&
                 <ModalFooter>
-
+                    <Button outline
+                            color="success"
+                            onClick={this.props.edit ? this.submitEditInstitutionForm : this.submitAddInstitutionForm}
+                            disabled={formHasErrors}>
+                        {this.props.edit ? "Save changes" : "Add"}
+                    </Button>
                 </ModalFooter>
+                }
             </Modal>
+
         );
     }
 }

@@ -24,6 +24,8 @@ var _section = require("../../../components/section");
 
 var _sidebar_panes = require("./sidebar_panes");
 
+var _modals = require("../modals");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -53,12 +55,14 @@ var Programs = function (_Component) {
             yearList: null,
             activeYear: null,
             programList: null,
-            activeProgram: null
+            activeProgram: null,
+            addProgramIsShowing: false
         };
 
         _this.setActiveYear = _this.setActiveYear.bind(_this);
         _this.setActiveProgram = _this.setActiveProgram.bind(_this);
         _this.refreshPrograms = _this.refreshPrograms.bind(_this);
+        _this.toggleAddProgram = _this.toggleAddProgram.bind(_this);
 
         fetchYears(function (result) {
             var yearList = result.academic_years.map(function (academicYear) {
@@ -82,11 +86,17 @@ var Programs = function (_Component) {
 
             _this.refreshPrograms(_this.state.institutionID, activeYear);
         });
-
         return _this;
     }
 
     _createClass(Programs, [{
+        key: "toggleAddProgram",
+        value: function toggleAddProgram() {
+            this.setState({
+                addProgramIsShowing: !this.state.addProgramIsShowing
+            });
+        }
+    }, {
         key: "setActiveYear",
         value: function setActiveYear(year) {
             this.setState({
@@ -153,10 +163,14 @@ var Programs = function (_Component) {
                 { className: "w-100 h-100 d-flex flex-column" },
                 _react2.default.createElement(ProgramsHead, { institution: this.props.institution,
                     years: this.state.yearList,
+                    toggleAddProgram: this.toggleAddProgram,
                     setActiveYear: this.setActiveYear }),
                 _react2.default.createElement(ProgramsTable, { programs: this.state.programList,
                     currentProgram: this.state.activeProgram,
-                    setCurrentProgram: this.setActiveProgram })
+                    toggleAddProgram: this.toggleAddProgram,
+                    setCurrentProgram: this.setActiveProgram }),
+                _react2.default.createElement(_modals.ProgramFormModal, { toggle: this.toggleAddProgram,
+                    isOpen: this.state.addProgramIsShowing })
             );
         }
     }]);
@@ -237,6 +251,7 @@ var ProgramsHead = function (_Component2) {
                         _reactstrap.Button,
                         { outline: true,
                             size: "sm",
+                            onClick: this.props.toggleAddProgram,
                             color: "success" },
                         "Add a Program"
                     )
@@ -279,6 +294,7 @@ var ProgramsTable = function (_Component3) {
                 _react2.default.createElement(
                     _reactstrap.Button,
                     { outline: true,
+                        onClick: this.props.toggleAddProgram,
                         color: "success" },
                     "Add a program"
                 )

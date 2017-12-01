@@ -105,7 +105,7 @@ class OutboundPrograms extends Component {
             });
         });
 
-        this.setSidebarContent(<AcademicYearSidebarPane academicYear={ year }/>);
+        this.setSidebarContent(<AcademicYearSidebarPane academicYear={year}/>);
     }
 
     setActiveTerm(term) {
@@ -133,7 +133,7 @@ class OutboundPrograms extends Component {
             });
         });
 
-        this.setSidebarContent(<ProgramsSidebarPane program={ program }/>);
+        this.setSidebarContent(<ProgramsSidebarPane program={program}/>);
     }
 
     refreshStudents() {
@@ -156,12 +156,12 @@ class OutboundPrograms extends Component {
         }
 
         return (
-            <ProgramList programList={ this.state.programList }
-                         activeYear={ this.state.activeYear }
-                         activeTerm={ this.state.activeTerm }
-                         activeProgram={ this.state.activeProgram }
-                         setActiveTerm={ this.setActiveTerm }
-                         setActiveProgram={ this.setActiveProgram }/>
+            <ProgramList programList={this.state.programList}
+                         activeYear={this.state.activeYear}
+                         activeTerm={this.state.activeTerm}
+                         activeProgram={this.state.activeProgram}
+                         setActiveTerm={this.setActiveTerm}
+                         setActiveProgram={this.setActiveProgram}/>
         );
     }
 
@@ -177,9 +177,9 @@ class OutboundPrograms extends Component {
         }
 
         return (
-            <StudentList studyFieldList={ this.state.studyFieldList }
-                         activeProgram={ this.state.activeProgram }
-                         refreshStudents={ this.refreshStudents }/>
+            <StudentList studyFieldList={this.state.studyFieldList}
+                         activeProgram={this.state.activeProgram}
+                         refreshStudents={this.refreshStudents}/>
         );
     }
 
@@ -188,15 +188,15 @@ class OutboundPrograms extends Component {
 
             <div id="programs-page"
                  className="d-flex flex-row p-0 h-100">
-                <YearList yearList={ this.state.yearList }
-                          setActiveYear={ this.setActiveYear }
-                          activeYear={ this.state.activeYear }/>
+                <YearList yearList={this.state.yearList}
+                          setActiveYear={this.setActiveYear}
+                          activeYear={this.state.activeYear}/>
 
-                { this.programsList() }
-                { this.studentList() }
+                {this.programsList()}
+                {this.studentList()}
 
                 <div className="programs-page-pane">
-                    { this.state.sidebarContent }
+                    {this.state.sidebarContent}
                 </div>
 
             </div>
@@ -205,4 +205,7 @@ class OutboundPrograms extends Component {
     }
 }
 
-export default OutboundPrograms;
+export {
+    OutboundPrograms as default,
+    fetchYears,
+};
