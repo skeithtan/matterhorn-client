@@ -1050,6 +1050,7 @@ var ProgramFormModal = function (_Component5) {
         _this15.formBody = _this15.formBody.bind(_this15);
         _this15.onTermClick = _this15.onTermClick.bind(_this15);
         _this15.getFormErrors = _this15.getFormErrors.bind(_this15);
+        _this15.submitAddProgramForm = _this15.submitAddProgramForm.bind(_this15);
         _this15.getChangeHandler = _this15.getChangeHandler.bind(_this15);
 
         (0, _outbound_programs.fetchYears)(function (result) {
@@ -1093,9 +1094,42 @@ var ProgramFormModal = function (_Component5) {
             }]);
         }
     }, {
+        key: "submitAddProgramForm",
+        value: function submitAddProgramForm() {
+            var _this16 = this;
+
+            var dismissToast = (0, _dismissable_toast_maker2.default)({
+                title: "Adding",
+                message: "Adding program..."
+            });
+
+            _jquery2.default.post({
+                url: _settings2.default.serverURL + "/programs/outbound/",
+                data: JSON.stringify(this.state.form),
+                contentType: "application/json",
+                beforeSend: _authorization2.default
+            }).done(function () {
+                dismissToast();
+                _this16.props.refresh();
+                _izitoast2.default.success({
+                    title: "Success",
+                    message: "Successfully added memorandum"
+                });
+            }).fail(function (response) {
+                dismissToast();
+                console.log(response);
+                _izitoast2.default.error({
+                    title: "Error",
+                    message: "Unable to add memorandum"
+                });
+            });
+
+            this.props.toggle();
+        }
+    }, {
         key: "getChangeHandler",
         value: function getChangeHandler(fieldName) {
-            var _this16 = this;
+            var _this17 = this;
 
             var form = this.state.form;
 
@@ -1103,7 +1137,7 @@ var ProgramFormModal = function (_Component5) {
                 var value = event.target.value;
 
                 form[fieldName] = value;
-                _this16.setState({
+                _this17.setState({
                     form: form
                 });
             };
@@ -1133,7 +1167,7 @@ var ProgramFormModal = function (_Component5) {
     }, {
         key: "formBody",
         value: function formBody(fieldErrors) {
-            var _this17 = this;
+            var _this18 = this;
 
             function isValid(fieldName) {
                 return fieldErrors[fieldName].length === 0;
@@ -1150,9 +1184,9 @@ var ProgramFormModal = function (_Component5) {
                         color: "success",
                         key: term,
                         onClick: function onClick() {
-                            return _this17.onTermClick(term);
+                            return _this18.onTermClick(term);
                         },
-                        active: _this17.state.form.terms_available.includes(term) },
+                        active: _this18.state.form.terms_available.includes(term) },
                     term
                 );
             });
@@ -1161,7 +1195,7 @@ var ProgramFormModal = function (_Component5) {
                 return _react2.default.createElement(
                     "option",
                     { key: academicYear,
-                        onClick: _this17.getChangeHandler("academic_year"),
+                        onClick: _this18.getChangeHandler("academic_year"),
                         value: academicYear },
                     academicYear + " - " + (academicYear + 1)
                 );
@@ -1213,7 +1247,7 @@ var ProgramFormModal = function (_Component5) {
                                     { outline: true,
                                         color: "success",
                                         onClick: function onClick() {
-                                            return _this17.setIsGraduate(false);
+                                            return _this18.setIsGraduate(false);
                                         },
                                         active: !this.state.form.is_graduate },
                                     "Undergraduate program"
@@ -1223,7 +1257,7 @@ var ProgramFormModal = function (_Component5) {
                                     { outline: true,
                                         color: "success",
                                         onClick: function onClick() {
-                                            return _this17.setIsGraduate(true);
+                                            return _this18.setIsGraduate(true);
                                         },
                                         active: this.state.form.is_graduate },
                                     "Graduate program"
@@ -1334,7 +1368,7 @@ var ProgramFormModal = function (_Component5) {
                         _reactstrap.Button,
                         { outline: true,
                             color: "success",
-                            onClick: this.props.edit ? this.submitEditInstitutionForm : this.submitAddInstitutionForm,
+                            onClick: this.props.edit ? this.submitEditInstitutionForm : this.submitAddProgramForm,
                             disabled: formHasErrors },
                         this.props.edit ? "Save changes" : "Add"
                     )

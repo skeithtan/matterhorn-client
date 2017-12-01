@@ -176,10 +176,10 @@ class InstitutionFormModal extends Component {
     }
 
     render() {
-        const { formHasErrors, fieldErrors } = this.getFormErrors();
+        const {formHasErrors, fieldErrors} = this.getFormErrors();
 
         const countries = settings.countries.map((name, index) =>
-            <option key={index}>{name}</option>,
+            <option key={ index }>{ name }</option>,
         );
 
         countries.unshift(<option key="X"
@@ -194,11 +194,11 @@ class InstitutionFormModal extends Component {
         }
 
         return (
-            <Modal isOpen={this.props.isOpen}
-                   toggle={this.props.toggle}
-                   backdrop={true}>
-                <ModalHeader toggle={this.props.toggle}>
-                    {this.props.edit ? `Edit ${this.state.form.name}` : "Add an Institution"}
+            <Modal isOpen={ this.props.isOpen }
+                   toggle={ this.props.toggle }
+                   backdrop={ true }>
+                <ModalHeader toggle={ this.props.toggle }>
+                    { this.props.edit ? `Edit ${this.state.form.name}` : "Add an Institution" }
                 </ModalHeader>
                 <ModalBody className="form">
                     <Form>
@@ -207,31 +207,31 @@ class InstitutionFormModal extends Component {
                         <FormGroup>
                             <Label>Name</Label>
                             <Input placeholder="Institution Name"
-                                   onChange={this.getChangeHandler("name")}
-                                   valid={isValid("Name")}
-                                   defaultValue={this.state.form.name}/>
-                            <FormFeedback>{fieldError("Name")}</FormFeedback>
+                                   onChange={ this.getChangeHandler("name") }
+                                   valid={ isValid("Name") }
+                                   defaultValue={ this.state.form.name }/>
+                            <FormFeedback>{ fieldError("Name") }</FormFeedback>
                         </FormGroup>
 
                         <FormGroup>
                             <Label>Country</Label>
                             <Input type="select"
-                                   onChange={this.getChangeHandler("country")}
-                                   valid={isValid("Country")}
-                                   defaultValue={this.state.form.country}>
-                                {countries}
+                                   onChange={ this.getChangeHandler("country") }
+                                   valid={ isValid("Country") }
+                                   defaultValue={ this.state.form.country }>
+                                { countries }
                             </Input>
-                            <FormFeedback>{fieldError("Country")}</FormFeedback>
+                            <FormFeedback>{ fieldError("Country") }</FormFeedback>
                         </FormGroup>
 
                         <FormGroup>
                             <Label>Address</Label>
                             <Input type="textarea"
                                    placeholder="Address"
-                                   onChange={this.getChangeHandler("address")}
-                                   valid={isValid("Address")}
-                                   defaultValue={this.state.form.address}/>
-                            <FormFeedback>{fieldError("Address")}</FormFeedback>
+                                   onChange={ this.getChangeHandler("address") }
+                                   valid={ isValid("Address") }
+                                   defaultValue={ this.state.form.address }/>
+                            <FormFeedback>{ fieldError("Address") }</FormFeedback>
                         </FormGroup>
 
                         <FormGroup>
@@ -239,21 +239,21 @@ class InstitutionFormModal extends Component {
                             <InputGroup>
                                 <InputGroupAddon>http://</InputGroupAddon>
                                 <Input placeholder="Website"
-                                       onChange={this.getChangeHandler("website")}
-                                       valid={isValid("Website")}
-                                       defaultValue={this.state.form.website}/>
+                                       onChange={ this.getChangeHandler("website") }
+                                       valid={ isValid("Website") }
+                                       defaultValue={ this.state.form.website }/>
                             </InputGroup>
                             <Input type="hidden"
-                                   value={this.state.form.website}
-                                   valid={isValid("Website")}/>
-                            <FormFeedback><p>{fieldError("Website")}</p></FormFeedback>
+                                   value={ this.state.form.website }
+                                   valid={ isValid("Website") }/>
+                            <FormFeedback><p>{ fieldError("Website") }</p></FormFeedback>
                         </FormGroup>
 
                         <FormGroup>
                             <Label>Agreement Type</Label>
                             <Input type="select"
-                                   onChange={this.getChangeHandler("agreement")}
-                                   defaultValue={this.state.form.agreement}>
+                                   onChange={ this.getChangeHandler("agreement") }
+                                   defaultValue={ this.state.form.agreement }>
                                 <option value="B">Bilateral</option>
                                 <option value="M">Multilateral</option>
                             </Input>
@@ -266,29 +266,29 @@ class InstitutionFormModal extends Component {
                         <FormGroup>
                             <Label>Contact Person</Label>
                             <Input placeholder="Name"
-                                   onChange={this.getChangeHandler("contact_person_name")}
-                                   valid={isValid("Contact person name")}
-                                   defaultValue={this.state.form.contact_person_name}/>
-                            <FormFeedback>{fieldError("Contact person name")}</FormFeedback>
+                                   onChange={ this.getChangeHandler("contact_person_name") }
+                                   valid={ isValid("Contact person name") }
+                                   defaultValue={ this.state.form.contact_person_name }/>
+                            <FormFeedback>{ fieldError("Contact person name") }</FormFeedback>
                         </FormGroup>
 
                         <FormGroup>
                             <Label>Contact Email</Label>
                             <Input type="email"
                                    placeholder="Email"
-                                   onChange={this.getChangeHandler("contact_person_email")}
-                                   valid={isValid("Contact person email")}
-                                   defaultValue={this.state.form.contact_person_email}/>
-                            <FormFeedback>{fieldError("Contact person email")}</FormFeedback>
+                                   onChange={ this.getChangeHandler("contact_person_email") }
+                                   valid={ isValid("Contact person email") }
+                                   defaultValue={ this.state.form.contact_person_email }/>
+                            <FormFeedback>{ fieldError("Contact person email") }</FormFeedback>
                         </FormGroup>
 
                         <FormGroup>
                             <Label>Contact Number</Label>
                             <Input placeholder="Number"
-                                   onChange={this.getChangeHandler("contact_person_number")}
-                                   valid={isValid("Contact person number")}
-                                   defaultValue={this.state.form.contact_person_number}/>
-                            <FormFeedback>{fieldError("Contact person number")}</FormFeedback>
+                                   onChange={ this.getChangeHandler("contact_person_number") }
+                                   valid={ isValid("Contact person number") }
+                                   defaultValue={ this.state.form.contact_person_number }/>
+                            <FormFeedback>{ fieldError("Contact person number") }</FormFeedback>
                         </FormGroup>
 
                     </Form>
@@ -296,9 +296,9 @@ class InstitutionFormModal extends Component {
                 <ModalFooter>
                     <Button outline
                             color="success"
-                            onClick={this.props.edit ? this.submitEditInstitutionForm : this.submitAddInstitutionForm}
-                            disabled={formHasErrors}>
-                        {this.props.edit ? "Save changes" : "Add"}
+                            onClick={ this.props.edit ? this.submitEditInstitutionForm : this.submitAddInstitutionForm }
+                            disabled={ formHasErrors }>
+                        { this.props.edit ? "Save changes" : "Add" }
                     </Button>
                 </ModalFooter>
             </Modal>
@@ -347,17 +347,17 @@ class ArchiveInstitutionModal extends Component {
 
     render() {
         return (
-            <Modal isOpen={this.props.isOpen}
-                   toggle={this.props.toggle}
-                   backdrop={true}
+            <Modal isOpen={ this.props.isOpen }
+                   toggle={ this.props.toggle }
+                   backdrop={ true }
                    id="archive-institution-modal">
                 <ModalHeader className="text-yellow">
-                    Are you sure you want to archive {this.props.institution.name}?
+                    Are you sure you want to archive { this.props.institution.name }?
                 </ModalHeader>
                 <ModalFooter>
                     <Button outline
                             color="warning"
-                            onClick={this.confirmArchive}>Confirm Archive</Button>
+                            onClick={ this.confirmArchive }>Confirm Archive</Button>
                 </ModalFooter>
             </Modal>
         );
@@ -519,7 +519,7 @@ class MemorandumFormModal extends Component {
     }
 
     render() {
-        const { formHasErrors, fieldErrors } = this.getFormErrors();
+        const {formHasErrors, fieldErrors} = this.getFormErrors();
 
         const linkages = Object.entries(settings.linkages).map(linkage => {
             const linkageCode = linkage[0];
@@ -545,22 +545,22 @@ class MemorandumFormModal extends Component {
             };
 
 
-            return <ListGroupItem key={linkageCode}
-                                  onClick={onClick}
-                                  className={className}>
-                <span className="mr-auto">{linkageString}</span>
-                {isSelected && <h5 className="mb-0">✓</h5>}
+            return <ListGroupItem key={ linkageCode }
+                                  onClick={ onClick }
+                                  className={ className }>
+                <span className="mr-auto">{ linkageString }</span>
+                { isSelected && <h5 className="mb-0">✓</h5> }
             </ListGroupItem>;
         });
 
         let collegeInitiators = Object.entries(settings.colleges).map(college => {
-            return <option key={college[0]}
-                           value={college[0]}>{college[1]}</option>;
+            return <option key={ college[0] }
+                           value={ college[0] }>{ college[1] }</option>;
         });
 
         collegeInitiators.unshift(
             <option key="null"
-                    value={""}>No college initiator</option>,
+                    value={ "" }>No college initiator</option>,
         );
 
         function isValid(fieldName) {
@@ -572,12 +572,12 @@ class MemorandumFormModal extends Component {
         }
 
         return (
-            <Modal isOpen={this.props.isOpen}
-                   toggle={this.props.toggle}
-                   backdrop={true}
-                   onOpened={this.setupUploadCare}>
-                <ModalHeader toggle={this.props.toggle}>
-                    {this.props.edit ? "Edit memorandum" : `Add a memorandum to ${this.props.institution.name}`}
+            <Modal isOpen={ this.props.isOpen }
+                   toggle={ this.props.toggle }
+                   backdrop={ true }
+                   onOpened={ this.setupUploadCare }>
+                <ModalHeader toggle={ this.props.toggle }>
+                    { this.props.edit ? "Edit memorandum" : `Add a memorandum to ${this.props.institution.name}` }
                 </ModalHeader>
                 <ModalBody className="form">
                     <Form>
@@ -585,8 +585,8 @@ class MemorandumFormModal extends Component {
                         <FormGroup>
                             <Label>Category</Label>
                             <Input type="select"
-                                   defaultValue={this.state.form.category}
-                                   onChange={this.getChangeHandler("category")}>
+                                   defaultValue={ this.state.form.category }
+                                   onChange={ this.getChangeHandler("category") }>
                                 <option value="MOA">Memorandum of Agreement</option>
                                 <option value="MOU">Memorandum of Understanding</option>
                             </Input>
@@ -596,10 +596,10 @@ class MemorandumFormModal extends Component {
                             <Input type="hidden"
                                    role="uploadcare-uploader"
                                    name="content"
-                                   data-public-key={settings.uploadcarePublicKey}
-                                   valid={isValid("File")}/>
-                            <FormFeedback>{fieldError("File")}</FormFeedback>
-                            {this.props.edit &&
+                                   data-public-key={ settings.uploadcarePublicKey }
+                                   valid={ isValid("File") }/>
+                            <FormFeedback>{ fieldError("File") }</FormFeedback>
+                            { this.props.edit &&
                             <small className="text-secondary">To change memorandum file, upload a new file. Otherwise,
                                 leave this blank.</small>
                             }
@@ -607,16 +607,16 @@ class MemorandumFormModal extends Component {
                         <FormGroup>
                             <Label>Date Effective</Label>
                             <Input type="date"
-                                   defaultValue={this.state.form.date_effective}
-                                   onChange={this.getChangeHandler("date_effective")}
-                                   valid={isValid("Date effective")}/>
-                            <FormFeedback>{fieldError("Date effective")}</FormFeedback>
+                                   defaultValue={ this.state.form.date_effective }
+                                   onChange={ this.getChangeHandler("date_effective") }
+                                   valid={ isValid("Date effective") }/>
+                            <FormFeedback>{ fieldError("Date effective") }</FormFeedback>
                         </FormGroup>
                         <FormGroup>
                             <Label>Expiration Date</Label>
                             <Input type="date"
-                                   defaultValue={this.state.form.date_expiration}
-                                   onChange={this.getChangeHandler("date_expiration")}/>
+                                   defaultValue={ this.state.form.date_expiration }
+                                   onChange={ this.getChangeHandler("date_expiration") }/>
                             <small className="text-secondary">If the memorandum has no expiration date, leave this
                                 blank.
                             </small>
@@ -624,9 +624,9 @@ class MemorandumFormModal extends Component {
                         <FormGroup>
                             <Label>College Initiator</Label>
                             <Input type="select"
-                                   defaultValue={this.state.form.college_initiator}
-                                   onChange={this.getChangeHandler("college_initiator")}>
-                                {collegeInitiators}
+                                   defaultValue={ this.state.form.college_initiator }
+                                   onChange={ this.getChangeHandler("college_initiator") }>
+                                { collegeInitiators }
                             </Input>
                         </FormGroup>
                         <br/>
@@ -635,16 +635,16 @@ class MemorandumFormModal extends Component {
                             memorandum.
                         </small>
                         <ListGroup>
-                            {linkages}
+                            { linkages }
                         </ListGroup>
                     </Form>
                 </ModalBody>
                 <ModalFooter>
                     <Button outline
                             color="success"
-                            disabled={formHasErrors}
-                            onClick={this.props.edit ? this.submitEditMemorandumForm : this.submitAddMemorandumForm}>
-                        {this.props.edit ? "Save changes" : "Add"}
+                            disabled={ formHasErrors }
+                            onClick={ this.props.edit ? this.submitEditMemorandumForm : this.submitAddMemorandumForm }>
+                        { this.props.edit ? "Save changes" : "Add" }
                     </Button>
                 </ModalFooter>
             </Modal>
@@ -695,17 +695,17 @@ class ArchiveMemorandumModal extends Component {
 
     render() {
         return (
-            <Modal isOpen={this.props.isOpen}
-                   toggle={this.props.toggle}
-                   backdrop={true}
+            <Modal isOpen={ this.props.isOpen }
+                   toggle={ this.props.toggle }
+                   backdrop={ true }
                    id="archive-memorandum-modal">
-                <ModalHeader toggle={this.props.toggle}
+                <ModalHeader toggle={ this.props.toggle }
                              className="text-yellow">Are you sure you want to archive this memorandum?</ModalHeader>
                 <ModalFooter>
                     <Button outline
                             color="warning"
                             id="archive-memorandum-modal-submit"
-                            onClick={this.confirmArchive}>Archive</Button>
+                            onClick={ this.confirmArchive }>Archive</Button>
                 </ModalFooter>
             </Modal>
         );
@@ -731,6 +731,7 @@ class ProgramFormModal extends Component {
         this.formBody = this.formBody.bind(this);
         this.onTermClick = this.onTermClick.bind(this);
         this.getFormErrors = this.getFormErrors.bind(this);
+        this.submitAddProgramForm = this.submitAddProgramForm.bind(this);
         this.getChangeHandler = this.getChangeHandler.bind(this);
 
         fetchYears(result => {
@@ -768,6 +769,36 @@ class ProgramFormModal extends Component {
                 value : this.state.form.requirement_deadline,
             },
         ]);
+    }
+
+    submitAddProgramForm() {
+        const dismissToast = makeInfoToast({
+            title : "Adding",
+            message : "Adding program...",
+        });
+
+        $.post({
+            url : `${settings.serverURL}/programs/outbound/`,
+            data : JSON.stringify(this.state.form),
+            contentType : "application/json",
+            beforeSend : authorizeXHR,
+        }).done(() => {
+            dismissToast();
+            this.props.refresh();
+            iziToast.success({
+                title : "Success",
+                message : "Successfully added memorandum",
+            });
+        }).fail(response => {
+            dismissToast();
+            console.log(response);
+            iziToast.error({
+                title : "Error",
+                message : "Unable to add memorandum",
+            });
+        });
+
+        this.props.toggle();
     }
 
     getChangeHandler(fieldName) {
@@ -826,23 +857,23 @@ class ProgramFormModal extends Component {
         const termButtons = [1, 2, 3].map(term =>
             <Button outline
                     color="success"
-                    key={term}
-                    onClick={() => this.onTermClick(term)}
-                    active={this.state.form.terms_available.includes(term)}>
-                {term}
+                    key={ term }
+                    onClick={ () => this.onTermClick(term) }
+                    active={ this.state.form.terms_available.includes(term) }>
+                { term }
             </Button>,
         );
 
         const academicYears = this.state.academic_years.map(academicYear =>
-            <option key={academicYear}
-                    onClick={this.getChangeHandler("academic_year")}
-                    value={academicYear}>{`${academicYear} - ${academicYear + 1}`}</option>,
+            <option key={ academicYear }
+                    onClick={ this.getChangeHandler("academic_year") }
+                    value={ academicYear }>{ `${academicYear} - ${academicYear + 1}` }</option>,
         );
 
         academicYears.unshift(
-            <option key={0}
-                    onClick={this.getChangeHandler("academic_year")}
-                    value={""}>Select an academic year</option>,
+            <option key={ 0 }
+                    onClick={ this.getChangeHandler("academic_year") }
+                    value={ "" }>Select an academic year</option>,
         );
 
         return (
@@ -851,10 +882,10 @@ class ProgramFormModal extends Component {
                     <FormGroup>
                         <Label>Program Name</Label>
                         <Input placeholder="Program Name"
-                               onChange={this.getChangeHandler("name")}
-                               valid={isValid("Program name")}
-                               defaultValue={this.state.form.name}/>
-                        <FormFeedback>{fieldError("Program name")}</FormFeedback>
+                               onChange={ this.getChangeHandler("name") }
+                               valid={ isValid("Program name") }
+                               defaultValue={ this.state.form.name }/>
+                        <FormFeedback>{ fieldError("Program name") }</FormFeedback>
                     </FormGroup>
 
                     <FormGroup>
@@ -862,14 +893,14 @@ class ProgramFormModal extends Component {
                             <ButtonGroup>
                                 <Button outline
                                         color="success"
-                                        onClick={() => this.setIsGraduate(false)}
-                                        active={!this.state.form.is_graduate}>
+                                        onClick={ () => this.setIsGraduate(false) }
+                                        active={ !this.state.form.is_graduate }>
                                     Undergraduate program
                                 </Button>
                                 <Button outline
                                         color="success"
-                                        onClick={() => this.setIsGraduate(true)}
-                                        active={this.state.form.is_graduate}>
+                                        onClick={ () => this.setIsGraduate(true) }
+                                        active={ this.state.form.is_graduate }>
                                     Graduate program
                                 </Button>
                             </ButtonGroup>
@@ -879,31 +910,31 @@ class ProgramFormModal extends Component {
                     <FormGroup>
                         <Label>Academic Years</Label>
                         <Input type="select"
-                               onChange={this.getChangeHandler("academic_year")}
-                               valid={isValid("Academic year")}
-                               defaultValue={this.state.form.academic_year}>
-                            {academicYears}
+                               onChange={ this.getChangeHandler("academic_year") }
+                               valid={ isValid("Academic year") }
+                               defaultValue={ this.state.form.academic_year }>
+                            { academicYears }
                         </Input>
-                        <FormFeedback>{fieldError("Academic year")}</FormFeedback>
+                        <FormFeedback>{ fieldError("Academic year") }</FormFeedback>
                     </FormGroup>
 
                     <FormGroup>
                         <Label>Terms Available</Label>
                         <div className="d-block w-100">
                             <ButtonGroup>
-                                {termButtons}
+                                { termButtons }
                             </ButtonGroup>
                         </div>
-                        <div className="invalid-feedback d-block">{fieldError("Terms available")}</div>
+                        <div className="invalid-feedback d-block">{ fieldError("Terms available") }</div>
                     </FormGroup>
 
                     <FormGroup>
                         <Label>Requirements Deadline</Label>
                         <Input type="date"
-                               defaultValue={this.state.form.requirement_deadline}
-                               onChange={this.getChangeHandler("requirement_deadline")}
-                               valid={isValid("Requirements deadline")}/>
-                        <FormFeedback>{fieldError("Requirements deadline")}</FormFeedback>
+                               defaultValue={ this.state.form.requirement_deadline }
+                               onChange={ this.getChangeHandler("requirement_deadline") }
+                               valid={ isValid("Requirements deadline") }/>
+                        <FormFeedback>{ fieldError("Requirements deadline") }</FormFeedback>
                     </FormGroup>
 
 
@@ -913,7 +944,7 @@ class ProgramFormModal extends Component {
     }
 
     render() {
-        const { formHasErrors, fieldErrors } = this.getFormErrors();
+        const {formHasErrors, fieldErrors} = this.getFormErrors();
 
         let formBody;
         let shouldShowFormFooter = false;
@@ -928,21 +959,20 @@ class ProgramFormModal extends Component {
         }
 
         return (
-            <Modal isOpen={this.props.isOpen}
-                   toggle={this.props.toggle}
-                   backdrop={true}>
-                <ModalHeader toggle={this.props.toggle}>
+            <Modal isOpen={ this.props.isOpen }
+                   toggle={ this.props.toggle }
+                   backdrop={ true }>
+                <ModalHeader toggle={ this.props.toggle }>
                     Add a program
                 </ModalHeader>
-                {formBody}
-
-                {shouldShowFormFooter &&
+                { formBody }
+                { shouldShowFormFooter &&
                 <ModalFooter>
                     <Button outline
                             color="success"
-                            onClick={this.props.edit ? this.submitEditInstitutionForm : this.submitAddInstitutionForm}
-                            disabled={formHasErrors}>
-                        {this.props.edit ? "Save changes" : "Add"}
+                            onClick={ this.props.edit ? this.submitEditInstitutionForm : this.submitAddProgramForm }
+                            disabled={ formHasErrors }>
+                        { this.props.edit ? "Save changes" : "Add" }
                     </Button>
                 </ModalFooter>
                 }
