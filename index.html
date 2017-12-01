@@ -55,6 +55,9 @@
         $("#barrier").addClass("showing");
     });
 
+    // Initial check when app launches
+    Offline.check();
+
     //Upload care
     UPLOADCARE_PUBLIC_KEY = settings.uploadcarePublicKey;
     UPLOADCARE_SYSTEM_DIALOG = true;

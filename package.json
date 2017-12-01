@@ -36,6 +36,6 @@
     "react": "^15.6.2",
     "react-dom": "^15.6.2",
     "reactstrap": "^5.0.0-alpha.4",
-    "uploadcare-widget": "^3.2.1"
+    "uploadcare-widget": "^3.2.1",
   }
 }

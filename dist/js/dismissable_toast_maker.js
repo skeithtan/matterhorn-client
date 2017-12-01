@@ -4,9 +4,9 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _iziToast = require("iziToast");
+var _izitoast = require("izitoast");
 
-var _iziToast2 = _interopRequireDefault(_iziToast);
+var _izitoast2 = _interopRequireDefault(_izitoast);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -15,11 +15,14 @@ function makeInfoToast(settings) {
     var uuid = makeUUID();
     settings.id = uuid;
     settings.timeout = false;
-    _iziToast2.default.info(settings);
+    _izitoast2.default.info(settings);
+
+    var toast = document.getElementById(uuid);
 
     return function () {
-        var toast = document.getElementById(uuid);
-        _iziToast2.default.hide({}, toast);
+        _izitoast2.default.hide(toast, {
+            transitionOut: "fadeOutUp"
+        });
     };
 }
 
