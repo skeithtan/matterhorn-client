@@ -10,12 +10,9 @@ import {
     ModalBody,
     ModalFooter,
     ModalHeader,
-    ListGroup,
-    ListGroupItem,
 } from "reactstrap";
 import validateForm from "../../form_validator";
 import moment from "moment";
-import graphql from "../../graphql";
 
 
 class AcademicYearFormModal extends Component {
@@ -365,104 +362,6 @@ class AcademicYearFormModal extends Component {
     }
 }
 
-function fetchAllStudents(onResult) {
-    graphql.query(`
-    {
-        students {
-            id
-            first_name
-            middle_name
-            family_name
-        }
-    }
-    `).then(onResult);
-}
-
-class StudentFormModal extends Component {
-    constructor(props) {
-        super(props);
-        this.componentWillReceiveProps(props);
-    }
-
-    componentWillReceiveProps(newProps) {
-        this.state = {
-            studentList : null,
-            form : {
-                study_field : "",
-                students : [],
-            },
-        };
-
-        fetchAllStudents(result => {
-            this.setState({
-                studentList : result.students,
-            });
-        });
-
-        if (newProps.program !== undefined) {
-            Object.assign(this.state.form, newProps.program);
-            this.state.form.students = [];
-        }
-    }
-
-    getChangeHandler(fieldName) {
-        const form = this.state.form;
-
-        return event => {
-            const value = event.target.value;
-
-            form[fieldName] = value;
-
-            this.setState({
-                form : form,
-            });
-        };
-    }
-
-    render() {
-        if (this.props.studyFields === null) {
-
-        }
-
-        if (this.props.studyFields.length === 0) {
-
-        }
-
-        const studyFields = this.props.studyFields.map((studyField, index) => {
-            return <option key={ index } value={ studyField.id }>{ studyField.studyField }</option>;
-        });
-
-        return (
-            <Modal isOpen={ this.props.isOpen } toggle={ this.props.toggle } backdrop={ true }
-                   id="add-students-modal">
-                <ModalHeader>Add Students to { this.props.activeProgram.name }</ModalHeader>
-                <ModalBody>
-                    <Form>
-                        <FormGroup>
-                            <Label>Study Field</Label>
-                            <Input type="select" defaultValue={ this.state.form.category }
-                                   onChange={ this.getChangeHandler("study_field") }>
-                                { studyFields }
-                            </Input>
-                        </FormGroup>
-                        <br/>
-                        { this.state.studentList !== null && <div>
-                            <h5>Students</h5>
-                            <small className="text-secondary mb-3 d-block">Select all students that apply to this
-                                study field.
-                            </small>
-                            <ListGroup>
-                                { /* Students */ }
-                            </ListGroup>
-                        </div> }
-                    </Form>
-                </ModalBody>
-            </Modal>
-        );
-    }
-}
-
 export {
     AcademicYearFormModal,
-    StudentFormModal,
 };

@@ -18,8 +18,6 @@ var _loading = require("../../components/loading");
 
 var _loading2 = _interopRequireDefault(_loading);
 
-var _modals = require("./modals");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -34,31 +32,16 @@ var StudentList = function (_Component) {
     function StudentList(props) {
         _classCallCheck(this, StudentList);
 
-        var _this = _possibleConstructorReturn(this, (StudentList.__proto__ || Object.getPrototypeOf(StudentList)).call(this, props));
-
-        _this.state = {
-            addStudentsIsShowing: false
-        };
-
-        _this.toggleAddStudents = _this.toggleAddStudents.bind(_this);
-        return _this;
+        return _possibleConstructorReturn(this, (StudentList.__proto__ || Object.getPrototypeOf(StudentList)).call(this, props));
     }
 
     _createClass(StudentList, [{
-        key: "toggleAddStudents",
-        value: function toggleAddStudents() {
-            this.setState({
-                addStudentsIsShowing: !this.state.addStudentsIsShowing
-            });
-        }
-    }, {
         key: "render",
         value: function render() {
             return _react2.default.createElement(
                 "div",
                 { className: "programs-page-pane d-flex flex-column" },
-                _react2.default.createElement(StudentListHead, { activeProgram: this.props.activeProgram,
-                    toggleAddStudents: this.toggleAddStudents }),
+                _react2.default.createElement(StudentListHead, { activeProgram: this.props.activeProgram }),
                 _react2.default.createElement(StudentListTable, { students: this.props.studentList })
             );
         }
@@ -82,16 +65,6 @@ var StudentListHead = function (_Component2) {
             return _react2.default.createElement(
                 "div",
                 { className: "page-head d-flex flex-column align-items-center" },
-                _react2.default.createElement(
-                    "div",
-                    { className: "page-head-controls ml-auto" },
-                    _react2.default.createElement(
-                        _reactstrap.Button,
-                        { outline: true, color: "success", size: "sm", className: "ml-auto",
-                            onClick: this.props.toggleAddStudents },
-                        "Add"
-                    )
-                ),
                 _react2.default.createElement(
                     "div",
                     { className: "w-100 mb-2" },

@@ -7,35 +7,17 @@ import {
     SectionRow,
 } from "../../components/section";
 import LoadingSpinner from "../../components/loading";
-import { StudentFormModal } from "./modals";
 
 class StudentList extends Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            addStudentsIsShowing : false,
-        };
-
-        this.toggleAddStudents = this.toggleAddStudents.bind(this);
-    }
-
-    toggleAddStudents() {
-        this.setState({
-            addStudentsIsShowing : !this.state.addStudentsIsShowing,
-        });
     }
 
     render() {
         return (
             <div className="programs-page-pane d-flex flex-column">
-                <StudentListHead activeProgram={ this.props.activeProgram }
-                                 toggleAddStudents={ this.toggleAddStudents }/>
+                <StudentListHead activeProgram={ this.props.activeProgram }/>
                 <StudentListTable students={ this.props.studentList }/>
-                {/*<StudentFormModal activeProgram={ this.props.activeProgram }*/}
-                                  {/*refreshStudents={ this.props.refreshStudents }*/}
-                                  {/*toggle={ this.toggleAddStudents }*/}
-                                  {/*isOpen={ this.state.addStudentsIsShowing }/>*/}
             </div>
         );
     }
@@ -49,10 +31,6 @@ class StudentListHead extends Component {
     render() {
         return (
             <div className="page-head d-flex flex-column align-items-center">
-                <div className="page-head-controls ml-auto">
-                    <Button outline color="success" size="sm" className="ml-auto"
-                            onClick={ this.props.toggleAddStudents }>Add</Button>
-                </div>
                 <div className="w-100 mb-2">
                     <h5 className="mb-0 text-secondary">Students</h5>
                     <h4 className="page-head-title mb-0">{ this.props.activeProgram.name }</h4>
