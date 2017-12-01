@@ -221,6 +221,7 @@ var MemorandumHead = function (_Component2) {
                     institution: this.props.institution,
                     toggle: this.toggleAddMemorandum,
                     refresh: this.props.refreshMemorandums,
+                    memorandumToBeAdded: this.props.memorandumToBeAdded,
                     toggleMemorandumToBeAdded: this.props.toggleMemorandumToBeAdded })
             );
         }

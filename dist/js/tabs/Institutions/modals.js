@@ -556,6 +556,7 @@ var MemorandumFormModal = function (_Component3) {
         _this7.getChangeHandler = _this7.getChangeHandler.bind(_this7);
         _this7.submitAddMemorandumForm = _this7.submitAddMemorandumForm.bind(_this7);
         _this7.submitEditMemorandumForm = _this7.submitEditMemorandumForm.bind(_this7);
+        _this7.memorandumToggle = _this7.memorandumToggle.bind(_this7);
 
         _this7.componentWillReceiveProps(props);
         return _this7;
@@ -651,7 +652,9 @@ var MemorandumFormModal = function (_Component3) {
                 success: function success() {
                     dismissToast();
                     _this10.props.refresh();
-                    _this10.props.toggleMemorandumToBeAdded();
+                    if (_this10.props.memorandumToBeAdded) {
+                        _this10.props.toggleMemorandumToBeAdded();
+                    }
                     _izitoast2.default.success({
                         title: "Success",
                         message: "Successfully added memorandum"
@@ -712,6 +715,14 @@ var MemorandumFormModal = function (_Component3) {
             });
 
             this.props.toggle();
+        }
+    }, {
+        key: "memorandumToggle",
+        value: function memorandumToggle() {
+            this.props.toggle();
+            if (this.props.memorandumToBeAdded) {
+                this.props.toggleMemorandumToBeAdded();
+            }
         }
     }, {
         key: "render",
@@ -790,13 +801,12 @@ var MemorandumFormModal = function (_Component3) {
             return _react2.default.createElement(
                 _reactstrap.Modal,
                 { isOpen: this.props.isOpen,
-                    toggle: this.props.toggle,
-                    backdrop: "static",
-                    keyboard: "false",
+                    toggle: this.memorandumToggle,
+                    backdrop: true,
                     onOpened: this.setupUploadCare },
                 _react2.default.createElement(
                     _reactstrap.ModalHeader,
-                    { toggle: this.props.toggle },
+                    { toggle: this.memorandumToggle },
                     this.props.edit ? "Edit memorandum" : "Add a memorandum to " + this.props.institution.name
                 ),
                 _react2.default.createElement(
