@@ -263,9 +263,6 @@ class ProgramSidebarPane extends Component {
                     <ProgramDetails program={program}
                                     toggleDeleteProgram={this.toggleDeleteProgram}
                                     toggleEditProgram={this.toggleEditProgram}/>
-                    <ProgramStudyFields studyFields={program.study_fields}/>
-
-                    {/* Delete and Edit Modals */}
                 </div>
             </div>
         );
@@ -313,42 +310,6 @@ class ProgramDetails extends Component {
         );
     }
 }
-
-class ProgramStudyFields extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        let body = (
-            <div className="p-4 pt-5 pb-5 bg-light text-center">
-                <h5 className="text-secondary">There are no study fields for this program.</h5>
-            </div>
-        );
-
-        const rows = this.props.studyFields.map((studyField, index) => {
-            return (
-                <SectionRow key={index}>{studyField}</SectionRow>
-            );
-        });
-
-        if (this.props.studyFields.length > 0) {
-            body = (
-                <SectionTable>
-                    {rows}
-                </SectionTable>
-            );
-        }
-
-        return (
-            <Section>
-                <SectionTitle>Study Fields</SectionTitle>
-                {body}
-            </Section>
-        );
-    }
-}
-
 
 export {
     MemorandumSidebarPane,

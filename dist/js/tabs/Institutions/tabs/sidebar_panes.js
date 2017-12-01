@@ -401,8 +401,7 @@ var ProgramSidebarPane = function (_Component4) {
                     { className: "page-body" },
                     _react2.default.createElement(ProgramDetails, { program: program,
                         toggleDeleteProgram: this.toggleDeleteProgram,
-                        toggleEditProgram: this.toggleEditProgram }),
-                    _react2.default.createElement(ProgramStudyFields, { studyFields: program.study_fields })
+                        toggleEditProgram: this.toggleEditProgram })
                 )
             );
         }
@@ -508,60 +507,6 @@ var ProgramDetails = function (_Component5) {
     }]);
 
     return ProgramDetails;
-}(_react.Component);
-
-var ProgramStudyFields = function (_Component6) {
-    _inherits(ProgramStudyFields, _Component6);
-
-    function ProgramStudyFields(props) {
-        _classCallCheck(this, ProgramStudyFields);
-
-        return _possibleConstructorReturn(this, (ProgramStudyFields.__proto__ || Object.getPrototypeOf(ProgramStudyFields)).call(this, props));
-    }
-
-    _createClass(ProgramStudyFields, [{
-        key: "render",
-        value: function render() {
-            var body = _react2.default.createElement(
-                "div",
-                { className: "p-4 pt-5 pb-5 bg-light text-center" },
-                _react2.default.createElement(
-                    "h5",
-                    { className: "text-secondary" },
-                    "There are no study fields for this program."
-                )
-            );
-
-            var rows = this.props.studyFields.map(function (studyField, index) {
-                return _react2.default.createElement(
-                    _section.SectionRow,
-                    { key: index },
-                    studyField
-                );
-            });
-
-            if (this.props.studyFields.length > 0) {
-                body = _react2.default.createElement(
-                    _section.SectionTable,
-                    null,
-                    rows
-                );
-            }
-
-            return _react2.default.createElement(
-                _section.Section,
-                null,
-                _react2.default.createElement(
-                    _section.SectionTitle,
-                    null,
-                    "Study Fields"
-                ),
-                body
-            );
-        }
-    }]);
-
-    return ProgramStudyFields;
 }(_react.Component);
 
 exports.MemorandumSidebarPane = MemorandumSidebarPane;
