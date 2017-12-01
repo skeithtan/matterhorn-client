@@ -203,6 +203,26 @@ input[type="search"]::-webkit-search-cancel-button {
     width  : 100vw;
 }
 
+#barrier {
+    position       : fixed;
+    opacity        : 0;
+    pointer-events : none;
+    background     : black;
+    z-index        : 8000;
+    width          : 100vw;
+    height         : 100vh;
+    transition     : 1000ms;
+}
+
+#barrier.showing {
+    opacity        : 0.5;
+    pointer-events : all;
+}
+
+.offline-ui {
+    z-index : 9000 !important;
+}
+
 /*Main Navigation*/
 #main-navigation {
     z-index            : 1040;

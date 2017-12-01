@@ -6,29 +6,57 @@
 
     <!--Stylesheet-->
     <!--Bootstrap-->
-    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet"
+          href="./node_modules/bootstrap/dist/css/bootstrap.css">
 
     <!--Eriosys Stylesheet-->
-    <link rel="stylesheet" href="css/stylesheet.css">
+    <link rel="stylesheet"
+          href="css/stylesheet.css">
 
     <!--Loading Spinner-->
-    <link rel="stylesheet" href="css/white_spinner.css">
+    <link rel="stylesheet"
+          href="css/white_spinner.css">
 
     <!--IziToast-->
-    <link rel="stylesheet" href="node_modules/izitoast/dist/css/iziToast.min.css">
+    <link rel="stylesheet"
+          href="node_modules/izitoast/dist/css/iziToast.min.css">
+
+    <!--Offline.js-->
+    <link rel="stylesheet"
+          href="node_modules/offline-js/themes/offline-language-english.css">
+    <link rel="stylesheet"
+          href="node_modules/offline-js/themes/offline-theme-default.css">
+
 
 </head>
 <body>
 
 <div id="window-handle-bar"></div>
+<div id="barrier"></div>
 <div id="root"></div>
+
 <script>
     // App requirements
     require("./renderer.js");
     require("./dist/js/index");
+    require("offline-js");
+
+    const settings = require("./dist/js/settings").default;
+
+
+    //    Offline.js
+    Offline.options = { checks : { xhr : { url : settings.serverURL } } };
+
+    Offline.on("up", () => {
+        $("#barrier").removeClass("showing");
+    });
+
+    Offline.on("down", () => {
+        $("#barrier").addClass("showing");
+    });
 
     //Upload care
-    UPLOADCARE_PUBLIC_KEY = require("./dist/js/settings").default.uploadcarePublicKey;
+    UPLOADCARE_PUBLIC_KEY = settings.uploadcarePublicKey;
     UPLOADCARE_SYSTEM_DIALOG = true;
     const uploadcare = require("uploadcare-widget");
 
