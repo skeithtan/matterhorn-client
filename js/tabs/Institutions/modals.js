@@ -143,22 +143,20 @@ class InstitutionFormModal extends Component {
             url : `${settings.serverURL}/institutions/${this.state.form.id}/`,
             data : this.state.form,
             beforeSend : authorizeXHR,
-            success : () => {
-                dismissToast();
-                this.props.refresh();
-                iziToast.success({
-                    title : "Success",
-                    message : "Successfully modified institution",
-                });
-            },
-            error : response => {
-                dismissToast();
-                console.log(response);
-                iziToast.error({
-                    title : "Error",
-                    message : "Unable to edit institution",
-                });
-            },
+        }).done(institution => {
+            dismissToast();
+            this.props.refresh();
+            iziToast.success({
+                title : "Success",
+                message : "Successfully modified institution",
+            });
+        }).fail(response => {
+            dismissToast();
+            console.log(response);
+            iziToast.error({
+                title : "Error",
+                message : "Unable to edit institution",
+            });
         });
 
         this.props.toggle();
@@ -937,7 +935,7 @@ class ProgramFormModal extends Component {
                     Add a program
                 </ModalHeader>
                 {formBody}
-                
+
                 {shouldShowFormFooter &&
                 <ModalFooter>
                     <Button outline
