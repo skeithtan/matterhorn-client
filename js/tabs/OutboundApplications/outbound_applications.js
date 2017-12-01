@@ -63,7 +63,7 @@ class OutboundApplicationsList extends Component {
         });
 
         this.setActiveCategory = this.setActiveCategory.bind(this);
-        this.setApplicants = this.setApplicants.bind(this);
+        this.getApplicantsByCategory = this.getApplicantsByCategory.bind(this);
         this.setActiveApplicant = this.setActiveApplicant.bind(this);
     }
 
@@ -72,25 +72,29 @@ class OutboundApplicationsList extends Component {
             activeCategory : category,
         });
 
-        this.setApplicants(this.state.applicants);
+        this.getApplicantsByCategory(this.state.applicants);
     }
 
-    setApplicants(applicants) {
-        let filteredApplicants = [];
-
-        if (applicants !== null && applicants.length !== 0) {
-            applicants.forEach(applicant => {
-                if (this.state.activeCategory === "Incomplete") {
-                    if (!applicant.is_requirements_complete) {
-                        filteredApplicants.push(applicant);
-                    }
-                } else {
-                    if (applicant.is_requirements_complete) {
-                        filteredApplicants.push(applicant);
-                    }
-                }
-            });
+    getApplicantsByCategory(applicants) {
+        if (applicants === null) {
+            return null;
         }
+
+        const filteredApplicants = [];
+
+        applicants.forEach(applicant => {
+            if (this.state.activeCategory === "Incomplete") {
+                if (!applicant.is_requirements_complete) {
+                    filteredApplicants.push(applicant);
+                }
+            } else {
+                if (applicant.is_requirements_complete) {
+                    filteredApplicants.push(applicant);
+                }
+            }
+        });
+
+
         return filteredApplicants;
     }
 
@@ -103,7 +107,7 @@ class OutboundApplicationsList extends Component {
     }
 
     render() {
-        const applicants = this.setApplicants(this.state.applicants);
+        const applicants = this.getApplicantsByCategory(this.state.applicants);
 
         return (
             <div className="sidebar h-100">
@@ -162,7 +166,11 @@ class OutboundApplicationsListTable extends Component {
     }
 
     getStudentsByFamilyNameInitials() {
-        let applicants = [];
+        if (this.props.applicants === null) {
+            return null;
+        }
+
+        const applicants = [];
 
         this.props.applicants.forEach(applicant => {
             applicants.push(applicant.student);
