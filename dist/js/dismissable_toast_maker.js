@@ -21,7 +21,7 @@ function makeInfoToast(settings) {
 
     return function () {
         _izitoast2.default.hide(toast, {
-            transitionOut: "fadeOutUp"
+            transitionOut: "fadeOut"
         });
     };
 }
