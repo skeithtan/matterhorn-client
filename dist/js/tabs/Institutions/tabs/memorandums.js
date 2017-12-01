@@ -148,7 +148,10 @@ var Memorandums = function (_Component) {
             return _react2.default.createElement(
                 "div",
                 { className: "d-flex flex-column p-0 h-100" },
-                _react2.default.createElement(MemorandumHead, { institution: this.state.institution, refreshMemorandums: this.refreshMemorandums }),
+                _react2.default.createElement(MemorandumHead, { institution: this.state.institution,
+                    refreshMemorandums: this.refreshMemorandums,
+                    memorandumToBeAdded: this.props.memorandumToBeAdded,
+                    toggleMemorandumToBeAdded: this.props.toggleMemorandumToBeAdded }),
                 _react2.default.createElement(MemorandumBody, { institution: this.state.institution,
                     memorandums: memorandums,
                     activeMemorandumId: this.state.activeMemorandumId,
@@ -170,9 +173,15 @@ var MemorandumHead = function (_Component2) {
 
         var _this5 = _possibleConstructorReturn(this, (MemorandumHead.__proto__ || Object.getPrototypeOf(MemorandumHead)).call(this, props));
 
-        _this5.state = {
-            addMemorandumIsShowing: false
-        };
+        if (_this5.props.memorandumToBeAdded) {
+            _this5.state = {
+                addMemorandumIsShowing: true
+            };
+        } else {
+            _this5.state = {
+                addMemorandumIsShowing: false
+            };
+        }
 
         _this5.toggleAddMemorandum = _this5.toggleAddMemorandum.bind(_this5);
         return _this5;
@@ -217,7 +226,8 @@ var MemorandumHead = function (_Component2) {
                 _react2.default.createElement(_modals.MemorandumFormModal, { isOpen: this.state.addMemorandumIsShowing,
                     institution: this.props.institution,
                     toggle: this.toggleAddMemorandum,
-                    refresh: this.props.refreshMemorandums })
+                    refresh: this.props.refreshMemorandums,
+                    toggleMemorandumToBeAdded: this.props.toggleMemorandumToBeAdded })
             );
         }
     }]);

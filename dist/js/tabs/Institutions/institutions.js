@@ -47,13 +47,15 @@ var Institutions = function (_Component) {
         _this.state = {
             institutionList: null,
             activeInstitution: null,
-            addInstitutionIsShowing: false
+            addInstitutionIsShowing: false,
+            memorandumToBeAdded: false
         };
 
         _this.refreshInstitutions = _this.refreshInstitutions.bind(_this);
         _this.setActiveInstitution = _this.setActiveInstitution.bind(_this);
 
         _this.toggleAddInstitution = _this.toggleAddInstitution.bind(_this);
+        _this.toggleMemorandumToBeAdded = _this.toggleMemorandumToBeAdded.bind(_this);
 
         _this.onDeleteActiveInstitution = _this.onDeleteActiveInstitution.bind(_this);
         _this.onAddInstitution = _this.onAddInstitution.bind(_this);
@@ -102,6 +104,14 @@ var Institutions = function (_Component) {
             this.setState({
                 activeInstitution: institution
             });
+            this.toggleMemorandumToBeAdded();
+        }
+    }, {
+        key: "toggleMemorandumToBeAdded",
+        value: function toggleMemorandumToBeAdded() {
+            this.setState({
+                memorandumToBeAdded: !this.state.memorandumToBeAdded
+            });
         }
     }, {
         key: "render",
@@ -115,7 +125,9 @@ var Institutions = function (_Component) {
                     toggleAddInstitution: this.toggleAddInstitution }),
                 _react2.default.createElement(_institution_detail2.default, { institution: this.state.activeInstitution,
                     onDeleteActiveInstitution: this.onDeleteActiveInstitution,
-                    refreshInstitutions: this.refreshInstitutions }),
+                    refreshInstitutions: this.refreshInstitutions,
+                    memorandumToBeAdded: this.state.memorandumToBeAdded,
+                    toggleMemorandumToBeAdded: this.toggleMemorandumToBeAdded }),
                 _react2.default.createElement(_modals.InstitutionFormModal, { isOpen: this.state.addInstitutionIsShowing,
                     toggle: this.toggleAddInstitution,
                     onAddInstitution: this.onAddInstitution,

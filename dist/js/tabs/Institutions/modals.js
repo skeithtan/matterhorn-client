@@ -651,6 +651,7 @@ var MemorandumFormModal = function (_Component3) {
                 success: function success() {
                     dismissToast();
                     _this10.props.refresh();
+                    _this10.props.toggleMemorandumToBeAdded();
                     _izitoast2.default.success({
                         title: "Success",
                         message: "Successfully added memorandum"
@@ -790,7 +791,8 @@ var MemorandumFormModal = function (_Component3) {
                 _reactstrap.Modal,
                 { isOpen: this.props.isOpen,
                     toggle: this.props.toggle,
-                    backdrop: true,
+                    backdrop: "static",
+                    keyboard: "false",
                     onOpened: this.setupUploadCare },
                 _react2.default.createElement(
                     _reactstrap.ModalHeader,

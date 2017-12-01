@@ -34,9 +34,11 @@ var tabs = [{
     activeImage: "./images/burgergreen.png"
 }, {
     name: "Memorandums",
-    tab: function tab(institution, setSidebarContent) {
-        return _react2.default.createElement(_memorandums2.default, { institution: institution, setSidebarContent: setSidebarContent
-        });
+    tab: function tab(institution, setSidebarContent, onDeleteActiveInstitution, refreshInstitutions, memorandumToBeAdded, toggleMemorandumToBeAdded) {
+        return _react2.default.createElement(_memorandums2.default, { institution: institution,
+            setSidebarContent: setSidebarContent,
+            memorandumToBeAdded: memorandumToBeAdded,
+            toggleMemorandumToBeAdded: toggleMemorandumToBeAdded });
     },
     image: "./images/memorandumgrey.png",
     activeImage: "./images/memorandumgreen.png"

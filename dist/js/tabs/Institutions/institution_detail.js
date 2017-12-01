@@ -35,7 +35,7 @@ var InstitutionDetail = function (_Component) {
         var _this = _possibleConstructorReturn(this, (InstitutionDetail.__proto__ || Object.getPrototypeOf(InstitutionDetail)).call(this, props));
 
         _this.state = {
-            activeTab: _institution_tabs_list2.default[0],
+            activeTab: _institution_tabs_list2.default[1],
             sidebarContent: null
         };
 
@@ -66,7 +66,7 @@ var InstitutionDetail = function (_Component) {
                 return InstitutionDetail.unselectedState();
             }
 
-            var currentTab = this.state.activeTab.tab(this.props.institution, this.setSidebarContent, this.props.onDeleteActiveInstitution, this.props.refreshInstitutions);
+            var currentTab = this.state.activeTab.tab(this.props.institution, this.setSidebarContent, this.props.onDeleteActiveInstitution, this.props.refreshInstitutions, this.props.memorandumToBeAdded, this.props.toggleMemorandumToBeAdded);
 
             var sidebarClass = "sidebar-right ";
             if (this.state.sidebarContent === null) {
