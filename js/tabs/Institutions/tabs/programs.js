@@ -13,6 +13,7 @@ import {
     SectionTitle,
 } from "../../../components/section";
 import { ProgramSidebarPane } from "./sidebar_panes";
+import { ProgramFormModal } from "../modals";
 
 
 function fetchYears(onResult) {
@@ -53,11 +54,13 @@ class Programs extends Component {
             activeYear : null,
             programList : null,
             activeProgram : null,
+            addProgramIsShowing : false,
         };
 
         this.setActiveYear = this.setActiveYear.bind(this);
         this.setActiveProgram = this.setActiveProgram.bind(this);
         this.refreshPrograms = this.refreshPrograms.bind(this);
+        this.toggleAddProgram = this.toggleAddProgram.bind(this);
 
         fetchYears(result => {
             const yearList = result.academic_years.map(academicYear => academicYear.academic_year_start);
@@ -79,7 +82,12 @@ class Programs extends Component {
 
             this.refreshPrograms(this.state.institutionID, activeYear);
         });
+    }
 
+    toggleAddProgram() {
+        this.setState({
+            addProgramIsShowing : !this.state.addProgramIsShowing,
+        });
     }
 
     setActiveYear(year) {
@@ -125,6 +133,7 @@ class Programs extends Component {
         this.setState({
             institutionID : nextProps.institution.id,
             programList : null,
+            activeProgram : null,
         });
 
         this.refreshPrograms(nextProps.institution.id, this.state.activeYear);
@@ -140,10 +149,14 @@ class Programs extends Component {
             <div className="w-100 h-100 d-flex flex-column">
                 <ProgramsHead institution={this.props.institution}
                               years={this.state.yearList}
+                              toggleAddProgram={this.toggleAddProgram}
                               setActiveYear={this.setActiveYear}/>
                 <ProgramsTable programs={this.state.programList}
                                currentProgram={this.state.activeProgram}
+                               toggleAddProgram={this.toggleAddProgram}
                                setCurrentProgram={this.setActiveProgram}/>
+                <ProgramFormModal toggle={this.toggleAddProgram}
+                                  isOpen={this.state.addProgramIsShowing}/>
             </div>
         );
     }
@@ -188,6 +201,7 @@ class ProgramsHead extends Component {
                     }
                     <Button outline
                             size="sm"
+                            onClick={this.props.toggleAddProgram}
                             color="success">
                         Add a Program
                     </Button>
@@ -210,6 +224,7 @@ class ProgramsTable extends Component {
                 <h3>There's nothing here.</h3>
                 <p>When added, Programs will show up here.</p>
                 <Button outline
+                        onClick={this.props.toggleAddProgram}
                         color="success">Add a program</Button>
             </div>
         );

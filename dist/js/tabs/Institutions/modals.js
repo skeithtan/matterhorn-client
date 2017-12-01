@@ -37,6 +37,12 @@ var _jquery2 = _interopRequireDefault(_jquery);
 
 var _reactstrap = require("reactstrap");
 
+var _outbound_programs = require("../OutboundPrograms/outbound_programs");
+
+var _loading = require("../../components/loading");
+
+var _loading2 = _interopRequireDefault(_loading);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1031,19 +1037,286 @@ var ProgramFormModal = function (_Component5) {
 
         var _this15 = _possibleConstructorReturn(this, (ProgramFormModal.__proto__ || Object.getPrototypeOf(ProgramFormModal)).call(this, props));
 
+        _this15.state = {
+            form: {
+                name: "",
+                linkage: "SE",
+                academic_year: "",
+                terms_available: [],
+                is_graduate: false,
+                requirement_deadline: ""
+            },
+            academic_years: null
+        };
+
+        _this15.formBody = _this15.formBody.bind(_this15);
+        _this15.onTermClick = _this15.onTermClick.bind(_this15);
         _this15.getFormErrors = _this15.getFormErrors.bind(_this15);
+        _this15.getChangeHandler = _this15.getChangeHandler.bind(_this15);
+
+        (0, _outbound_programs.fetchYears)(function (result) {
+            _this15.setState({
+                academic_years: result.academic_years.map(function (academicYear) {
+                    return academicYear.academic_year_start;
+                })
+            });
+        });
         return _this15;
     }
 
     _createClass(ProgramFormModal, [{
         key: "getFormErrors",
         value: function getFormErrors() {
-            //TODO
+
+            return (0, _form_validator2.default)([{
+                name: "Program name",
+                characterLimit: 64,
+                value: this.state.form.name
+            }, {
+                name: "Academic year",
+                characterLimit: null,
+                value: this.state.form.academic_year
+            }, {
+                name: "Terms available",
+                characterLimit: null,
+                value: this.state.form.terms_available.toString(),
+                customValidators: [{
+                    isValid: function isValid(fieldValue) {
+                        return [1, 3].toString() !== fieldValue;
+                    },
+                    errorMessage: function errorMessage(fieldName) {
+                        return fieldName + " must be consecutive";
+                    }
+                }]
+            }, {
+                name: "Requirements deadline",
+                characterLimit: null,
+                value: this.state.form.requirement_deadline
+            }]);
+        }
+    }, {
+        key: "getChangeHandler",
+        value: function getChangeHandler(fieldName) {
+            var _this16 = this;
+
+            var form = this.state.form;
+
+            return function (event) {
+                var value = event.target.value;
+
+                form[fieldName] = value;
+                _this16.setState({
+                    form: form
+                });
+            };
+        }
+    }, {
+        key: "onTermClick",
+        value: function onTermClick(term) {
+            var index = this.state.form.terms_available.indexOf(term);
+            if (index < 0) {
+                this.state.form.terms_available.push(term);
+            } else {
+                this.state.form.terms_available.splice(index, 1);
+            }
+
+            this.setState({
+                form: this.state.form
+            });
+        }
+    }, {
+        key: "setIsGraduate",
+        value: function setIsGraduate(isGraduate) {
+            this.state.form.is_graduate = isGraduate;
+            this.setState({
+                form: this.state.form
+            });
+        }
+    }, {
+        key: "formBody",
+        value: function formBody(fieldErrors) {
+            var _this17 = this;
+
+            function isValid(fieldName) {
+                return fieldErrors[fieldName].length === 0;
+            }
+
+            function fieldError(fieldName) {
+                return fieldErrors[fieldName][0];
+            }
+
+            var termButtons = [1, 2, 3].map(function (term) {
+                return _react2.default.createElement(
+                    _reactstrap.Button,
+                    { outline: true,
+                        color: "success",
+                        key: term,
+                        onClick: function onClick() {
+                            return _this17.onTermClick(term);
+                        },
+                        active: _this17.state.form.terms_available.includes(term) },
+                    term
+                );
+            });
+
+            var academicYears = this.state.academic_years.map(function (academicYear) {
+                return _react2.default.createElement(
+                    "option",
+                    { key: academicYear,
+                        onClick: _this17.getChangeHandler("academic_year"),
+                        value: academicYear },
+                    academicYear + " - " + (academicYear + 1)
+                );
+            });
+
+            academicYears.unshift(_react2.default.createElement(
+                "option",
+                { key: 0,
+                    onClick: this.getChangeHandler("academic_year"),
+                    value: "" },
+                "Select an academic year"
+            ));
+
+            return _react2.default.createElement(
+                _reactstrap.ModalBody,
+                { className: "form" },
+                _react2.default.createElement(
+                    _reactstrap.Form,
+                    null,
+                    _react2.default.createElement(
+                        _reactstrap.FormGroup,
+                        null,
+                        _react2.default.createElement(
+                            _reactstrap.Label,
+                            null,
+                            "Program Name"
+                        ),
+                        _react2.default.createElement(_reactstrap.Input, { placeholder: "Program Name",
+                            onChange: this.getChangeHandler("name"),
+                            valid: isValid("Program name"),
+                            defaultValue: this.state.form.name }),
+                        _react2.default.createElement(
+                            _reactstrap.FormFeedback,
+                            null,
+                            fieldError("Program name")
+                        )
+                    ),
+                    _react2.default.createElement(
+                        _reactstrap.FormGroup,
+                        null,
+                        _react2.default.createElement(
+                            "div",
+                            { className: "d-block w-100" },
+                            _react2.default.createElement(
+                                _reactstrap.ButtonGroup,
+                                null,
+                                _react2.default.createElement(
+                                    _reactstrap.Button,
+                                    { outline: true,
+                                        color: "success",
+                                        onClick: function onClick() {
+                                            return _this17.setIsGraduate(false);
+                                        },
+                                        active: !this.state.form.is_graduate },
+                                    "Undergraduate program"
+                                ),
+                                _react2.default.createElement(
+                                    _reactstrap.Button,
+                                    { outline: true,
+                                        color: "success",
+                                        onClick: function onClick() {
+                                            return _this17.setIsGraduate(true);
+                                        },
+                                        active: this.state.form.is_graduate },
+                                    "Graduate program"
+                                )
+                            )
+                        )
+                    ),
+                    _react2.default.createElement(
+                        _reactstrap.FormGroup,
+                        null,
+                        _react2.default.createElement(
+                            _reactstrap.Label,
+                            null,
+                            "Academic Years"
+                        ),
+                        _react2.default.createElement(
+                            _reactstrap.Input,
+                            { type: "select",
+                                onChange: this.getChangeHandler("academic_year"),
+                                valid: isValid("Academic year"),
+                                defaultValue: this.state.form.academic_year },
+                            academicYears
+                        ),
+                        _react2.default.createElement(
+                            _reactstrap.FormFeedback,
+                            null,
+                            fieldError("Academic year")
+                        )
+                    ),
+                    _react2.default.createElement(
+                        _reactstrap.FormGroup,
+                        null,
+                        _react2.default.createElement(
+                            _reactstrap.Label,
+                            null,
+                            "Terms Available"
+                        ),
+                        _react2.default.createElement(
+                            "div",
+                            { className: "d-block w-100" },
+                            _react2.default.createElement(
+                                _reactstrap.ButtonGroup,
+                                null,
+                                termButtons
+                            )
+                        ),
+                        _react2.default.createElement(
+                            "div",
+                            { className: "invalid-feedback d-block" },
+                            fieldError("Terms available")
+                        )
+                    ),
+                    _react2.default.createElement(
+                        _reactstrap.FormGroup,
+                        null,
+                        _react2.default.createElement(
+                            _reactstrap.Label,
+                            null,
+                            "Requirements Deadline"
+                        ),
+                        _react2.default.createElement(_reactstrap.Input, { type: "date",
+                            defaultValue: this.state.form.requirement_deadline,
+                            onChange: this.getChangeHandler("requirement_deadline"),
+                            valid: isValid("Requirements deadline") }),
+                        _react2.default.createElement(
+                            _reactstrap.FormFeedback,
+                            null,
+                            fieldError("Requirements deadline")
+                        )
+                    )
+                )
+            );
         }
     }, {
         key: "render",
         value: function render() {
-            //TODO
+            var _getFormErrors3 = this.getFormErrors(),
+                formHasErrors = _getFormErrors3.formHasErrors,
+                fieldErrors = _getFormErrors3.fieldErrors;
+
+            var formBody = void 0;
+            var shouldShowFormFooter = false;
+
+            if (this.state.academic_years === null) {
+                formBody = _react2.default.createElement(_loading2.default, null);
+            } else if (this.state.academic_years.length === 0) {
+                formBody = ProgramFormModal.noAcademicYearsState();
+            } else {
+                formBody = this.formBody(fieldErrors);
+                shouldShowFormFooter = true;
+            }
 
             return _react2.default.createElement(
                 _reactstrap.Modal,
@@ -1055,12 +1328,37 @@ var ProgramFormModal = function (_Component5) {
                     { toggle: this.props.toggle },
                     "Add a program"
                 ),
+                formBody,
+                shouldShowFormFooter && _react2.default.createElement(
+                    _reactstrap.ModalFooter,
+                    null,
+                    _react2.default.createElement(
+                        _reactstrap.Button,
+                        { outline: true,
+                            color: "success",
+                            onClick: this.props.edit ? this.submitEditInstitutionForm : this.submitAddInstitutionForm,
+                            disabled: formHasErrors },
+                        this.props.edit ? "Save changes" : "Add"
+                    )
+                )
+            );
+        }
+    }], [{
+        key: "noAcademicYearsState",
+        value: function noAcademicYearsState() {
+            return _react2.default.createElement(
+                "div",
+                { className: "loading-container p-5" },
                 _react2.default.createElement(
-                    _reactstrap.ModalBody,
-                    { className: "form" },
-                    _react2.default.createElement(_reactstrap.Form, null)
+                    "h4",
+                    null,
+                    "There are no academic years yet."
                 ),
-                _react2.default.createElement(_reactstrap.ModalFooter, null)
+                _react2.default.createElement(
+                    "p",
+                    null,
+                    "Define the academic years in the outbound programs tab."
+                )
             );
         }
     }]);
