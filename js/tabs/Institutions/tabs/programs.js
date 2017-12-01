@@ -106,7 +106,7 @@ class Programs extends Component {
         }
 
         this.props.setSidebarContent(
-            <ProgramSidebarPane program={program}/>,
+            <ProgramSidebarPane program={ program }/>,
         );
 
         this.setState({
@@ -147,16 +147,18 @@ class Programs extends Component {
 
         return (
             <div className="w-100 h-100 d-flex flex-column">
-                <ProgramsHead institution={this.props.institution}
-                              years={this.state.yearList}
-                              toggleAddProgram={this.toggleAddProgram}
-                              setActiveYear={this.setActiveYear}/>
-                <ProgramsTable programs={this.state.programList}
-                               currentProgram={this.state.activeProgram}
-                               toggleAddProgram={this.toggleAddProgram}
-                               setCurrentProgram={this.setActiveProgram}/>
-                <ProgramFormModal toggle={this.toggleAddProgram}
-                                  isOpen={this.state.addProgramIsShowing}/>
+                <ProgramsHead institution={ this.props.institution }
+                              years={ this.state.yearList }
+                              toggleAddProgram={ this.toggleAddProgram }
+                              setActiveYear={ this.setActiveYear }/>
+                <ProgramsTable programs={ this.state.programList }
+                               currentProgram={ this.state.activeProgram }
+                               toggleAddProgram={ this.toggleAddProgram }
+                               setCurrentProgram={ this.setActiveProgram }/>
+                <ProgramFormModal toggle={ this.toggleAddProgram }
+                                  refresh={ () => this.refreshPrograms(this.state.institutionID, this.state.activeYear) }
+                                  isOpen={ this.state.addProgramIsShowing }
+                                  institution={ this.state.institutionID }/>
             </div>
         );
     }
@@ -173,8 +175,8 @@ class ProgramsHead extends Component {
         }
 
         const years = this.props.years.map((year, index) => {
-            return <option key={index}
-                           value={year}>{year} - {year + 1}</option>;
+            return <option key={ index }
+                           value={ year }>{ year } - { year + 1 }</option>;
         });
 
         const onYearChange = event => {
@@ -185,23 +187,23 @@ class ProgramsHead extends Component {
             <div className="page-head pt-5 d-flex flex-row align-items-end">
                 <div className="mr-auto">
                     <h5 className="mb-0 text-secondary">Programs</h5>
-                    <h4 className="page-head-title mb-0">{this.props.institution.name}</h4>
+                    <h4 className="page-head-title mb-0">{ this.props.institution.name }</h4>
                 </div>
 
                 <div className="page-head-actions d-flex flex-row align-items-end">
-                    {this.props.years.length !== 0 &&
+                    { this.props.years.length !== 0 &&
                     <div className="d-flex flex-column mr-2">
                         <labl className="mr-3 text-dark mb-1">Academic Year</labl>
                         <Input type="select"
-                               onChange={onYearChange}
+                               onChange={ onYearChange }
                                className="mr-3 btn btn-outline-success select-sm">
-                            {years}
+                            { years }
                         </Input>
                     </div>
                     }
                     <Button outline
                             size="sm"
-                            onClick={this.props.toggleAddProgram}
+                            onClick={ this.props.toggleAddProgram }
                             color="success">
                         Add a Program
                     </Button>
@@ -224,7 +226,7 @@ class ProgramsTable extends Component {
                 <h3>There's nothing here.</h3>
                 <p>When added, Programs will show up here.</p>
                 <Button outline
-                        onClick={this.props.toggleAddProgram}
+                        onClick={ this.props.toggleAddProgram }
                         color="success">Add a program</Button>
             </div>
         );
@@ -242,9 +244,9 @@ class ProgramsTable extends Component {
 
         return (
             <div className="w-100 h-100 d-flex flex-column">
-                <ProgramsListSection programs={this.props.programs}
-                                     currentProgram={this.props.currentProgram}
-                                     setCurrentProgram={this.props.setCurrentProgram}/>
+                <ProgramsListSection programs={ this.props.programs }
+                                     currentProgram={ this.props.currentProgram }
+                                     setCurrentProgram={ this.props.setCurrentProgram }/>
             </div>
         );
     }
@@ -266,10 +268,10 @@ class ProgramsListSection extends Component {
             const setCurrentProgram = () => this.props.setCurrentProgram(program);
 
             return (
-                <SectionRow key={index}
-                            onClick={setCurrentProgram}
-                            active={isActive}>
-                    <SectionRowContent large>{program.name}</SectionRowContent>
+                <SectionRow key={ index }
+                            onClick={ setCurrentProgram }
+                            active={ isActive }>
+                    <SectionRowContent large>{ program.name }</SectionRowContent>
                 </SectionRow>
             );
         });
@@ -277,9 +279,9 @@ class ProgramsListSection extends Component {
         return (
             <div>
                 <Section>
-                    <SectionTitle>{this.props.children}</SectionTitle>
+                    <SectionTitle>{ this.props.children }</SectionTitle>
                     <SectionTable className="memorandums-accordion">
-                        {rows}
+                        { rows }
                     </SectionTable>
                 </Section>
             </div>

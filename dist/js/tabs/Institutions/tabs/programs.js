@@ -154,6 +154,8 @@ var Programs = function (_Component) {
     }, {
         key: "render",
         value: function render() {
+            var _this3 = this;
+
             if (this.state.yearList === null) {
                 return _react2.default.createElement(_loading2.default, null);
             }
@@ -170,7 +172,11 @@ var Programs = function (_Component) {
                     toggleAddProgram: this.toggleAddProgram,
                     setCurrentProgram: this.setActiveProgram }),
                 _react2.default.createElement(_modals.ProgramFormModal, { toggle: this.toggleAddProgram,
-                    isOpen: this.state.addProgramIsShowing })
+                    refresh: function refresh() {
+                        return _this3.refreshPrograms(_this3.state.institutionID, _this3.state.activeYear);
+                    },
+                    isOpen: this.state.addProgramIsShowing,
+                    institution: this.state.institutionID })
             );
         }
     }]);
@@ -190,7 +196,7 @@ var ProgramsHead = function (_Component2) {
     _createClass(ProgramsHead, [{
         key: "render",
         value: function render() {
-            var _this4 = this;
+            var _this5 = this;
 
             if (this.props.years === null) {
                 return _react2.default.createElement(_loading2.default, null);
@@ -208,7 +214,7 @@ var ProgramsHead = function (_Component2) {
             });
 
             var onYearChange = function onYearChange(event) {
-                _this4.props.setActiveYear(event.target.value);
+                _this5.props.setActiveYear(event.target.value);
             };
 
             return _react2.default.createElement(
@@ -269,10 +275,10 @@ var ProgramsTable = function (_Component3) {
     function ProgramsTable(props) {
         _classCallCheck(this, ProgramsTable);
 
-        var _this5 = _possibleConstructorReturn(this, (ProgramsTable.__proto__ || Object.getPrototypeOf(ProgramsTable)).call(this, props));
+        var _this6 = _possibleConstructorReturn(this, (ProgramsTable.__proto__ || Object.getPrototypeOf(ProgramsTable)).call(this, props));
 
-        _this5.emptyState = _this5.emptyState.bind(_this5);
-        return _this5;
+        _this6.emptyState = _this6.emptyState.bind(_this6);
+        return _this6;
     }
 
     _createClass(ProgramsTable, [{
@@ -336,17 +342,17 @@ var ProgramsListSection = function (_Component4) {
     _createClass(ProgramsListSection, [{
         key: "render",
         value: function render() {
-            var _this7 = this;
+            var _this8 = this;
 
             var rows = this.props.programs.map(function (program, index) {
                 var isActive = false;
 
-                if (_this7.props.currentProgram !== null) {
-                    isActive = _this7.props.currentProgram.id === program.id;
+                if (_this8.props.currentProgram !== null) {
+                    isActive = _this8.props.currentProgram.id === program.id;
                 }
 
                 var setCurrentProgram = function setCurrentProgram() {
-                    return _this7.props.setCurrentProgram(program);
+                    return _this8.props.setCurrentProgram(program);
                 };
 
                 return _react2.default.createElement(
