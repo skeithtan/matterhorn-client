@@ -8,19 +8,21 @@ const tabs = [
     {
         name : "Overview",
         tab : (institution, setSidebarContent, onDeleteActiveInstitution, refreshInstitutions) => {
-            return <InstitutionOverview institution={institution}
-                                        setSidebarContent={setSidebarContent}
-                                        onDeleteActiveInstitution={onDeleteActiveInstitution}
-                                        refreshInstitutions={refreshInstitutions}/>;
+            return <InstitutionOverview institution={ institution }
+                                        setSidebarContent={ setSidebarContent }
+                                        onDeleteActiveInstitution={ onDeleteActiveInstitution }
+                                        refreshInstitutions={ refreshInstitutions }/>;
         },
         image : "./images/burgergrey.png",
         activeImage : "./images/burgergreen.png",
     },
     {
         name : "Memorandums",
-        tab : (institution, setSidebarContent) => {
-            return <Memorandums institution={institution} setSidebarContent={setSidebarContent}
-            />;
+        tab : (institution, setSidebarContent, onDeleteActiveInstitution, refreshInstitutions, memorandumToBeAdded, toggleMemorandumToBeAdded) => {
+            return <Memorandums institution={ institution }
+                                setSidebarContent={ setSidebarContent }
+                                memorandumToBeAdded={ memorandumToBeAdded }
+                                toggleMemorandumToBeAdded={ toggleMemorandumToBeAdded }/>;
         },
         image : "./images/memorandumgrey.png",
         activeImage : "./images/memorandumgreen.png",
@@ -28,7 +30,7 @@ const tabs = [
     {
         name : "Programs",
         tab : (institution, setSidebarContent) => {
-            return <Programs institution={institution} setSidebarContent={setSidebarContent}
+            return <Programs institution={ institution } setSidebarContent={ setSidebarContent }
             />;
         },
         image : "./images/airplanegrey.png",

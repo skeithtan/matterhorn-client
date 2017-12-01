@@ -173,15 +173,9 @@ var MemorandumHead = function (_Component2) {
 
         var _this5 = _possibleConstructorReturn(this, (MemorandumHead.__proto__ || Object.getPrototypeOf(MemorandumHead)).call(this, props));
 
-        if (_this5.props.memorandumToBeAdded) {
-            _this5.state = {
-                addMemorandumIsShowing: true
-            };
-        } else {
-            _this5.state = {
-                addMemorandumIsShowing: false
-            };
-        }
+        _this5.state = {
+            addMemorandumIsShowing: _this5.props.memorandumToBeAdded
+        };
 
         _this5.toggleAddMemorandum = _this5.toggleAddMemorandum.bind(_this5);
         return _this5;
