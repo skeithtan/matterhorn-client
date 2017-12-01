@@ -4,9 +4,6 @@ import {
     Button,
 } from "reactstrap";
 import {
-    Section,
-    SectionTitle,
-    SectionTable,
     SectionRow,
 } from "../../components/section";
 import LoadingSpinner from "../../components/loading";
@@ -21,7 +18,6 @@ class StudentList extends Component {
         };
 
         this.toggleAddStudents = this.toggleAddStudents.bind(this);
-        this.getSortedStudyFields = this.getSortedStudyFields.bind(this);
     }
 
     toggleAddStudents() {
@@ -30,49 +26,16 @@ class StudentList extends Component {
         });
     }
 
-    getSortedStudyFields() {
-        if (this.props.studyFieldList === null) {
-            return [];
-        }
-
-        let studyFields = this.props.studyFieldList;
-
-        // Get uniques only
-        studyFields = studyFields.filter((value, index, self) => {
-            return self.indexOf(value) === index;
-        });
-
-        // A different approach
-        let categorizedByStudyField = [];
-        studyFields.forEach(studyField => {
-            let students = [];
-            studyField.studentstudyfield_set.forEach(studentProgram => {
-                if (studentProgram.study_field.name === studyField.name) {
-                    students.push(studentProgram.student);
-                }
-            });
-            categorizedByStudyField.push({
-                studyField : studyField.name,
-                students : students,
-            });
-        });
-
-        return categorizedByStudyField;
-    }
-
     render() {
-        const studyFields = this.getSortedStudyFields();
-
         return (
             <div className="programs-page-pane d-flex flex-column">
                 <StudentListHead activeProgram={ this.props.activeProgram }
                                  toggleAddStudents={ this.toggleAddStudents }/>
-                <StudentListTable studyFields={ studyFields }/>
-                <StudentFormModal activeProgram={ this.props.activeProgram }
-                                  studyFields={ studyFields }
-                                  refreshStudents={ this.props.refreshStudents }
-                                  toggle={ this.toggleAddStudents }
-                                  isOpen={ this.state.addStudentsIsShowing }/>
+                <StudentListTable students={ this.props.studentList }/>
+                {/*<StudentFormModal activeProgram={ this.props.activeProgram }*/}
+                                  {/*refreshStudents={ this.props.refreshStudents }*/}
+                                  {/*toggle={ this.toggleAddStudents }*/}
+                                  {/*isOpen={ this.state.addStudentsIsShowing }/>*/}
             </div>
         );
     }
@@ -117,62 +80,27 @@ class StudentListTable extends Component {
     }
 
     render() {
-        if (this.props.studyFields === null) {
+        if (this.props.students === null) {
             return <LoadingSpinner/>;
         }
 
-        if (this.props.studyFields.length === 0) {
+        if (this.props.students.length === 0) {
             return this.emptyState();
         }
-
-        const sections = this.props.studyFields.map((studyField, index) => {
-            return <StudentSection key={ index }
-                                   title={ studyField.studyField }
-                                   students={ studyField.students }/>;
-        });
-
-        return (
-            <div className="page-body">
-                { sections }
-            </div>
-        );
-    }
-}
-
-class StudentSection extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        let body = (
-            <div className="p-4 pt-5 pb-5 bg-light text-center">
-                <h5 className="text-secondary">There are no students for this study field.</h5>
-            </div>
-        );
 
         const rows = this.props.students.map((student, index) => {
             return (
                 <SectionRow key={ index }>
-                    <small className="d-block">{ student.id_number }</small>
-                    <b>{ student.family_name }</b>, { student.first_name } { student.middle_name }
+                    <small className="d-block">{ student.student.id_number }</small>
+                    <b>{ student.student.family_name }</b>, { student.student.first_name } { student.student.middle_name }
                 </SectionRow>
             );
         });
 
-        if (this.props.students.length > 0) {
-            body = (
-                <SectionTable>
-                    { rows }
-                </SectionTable>
-            );
-        }
-
         return (
-            <Section>
-                <SectionTitle>{ this.props.title }</SectionTitle>
-                { body }
-            </Section>
+            <div className="page-body">
+                { rows }
+            </div>
         );
     }
 }

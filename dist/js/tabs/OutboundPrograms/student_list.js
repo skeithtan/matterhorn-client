@@ -41,7 +41,6 @@ var StudentList = function (_Component) {
         };
 
         _this.toggleAddStudents = _this.toggleAddStudents.bind(_this);
-        _this.getSortedStudyFields = _this.getSortedStudyFields.bind(_this);
         return _this;
     }
 
@@ -53,52 +52,14 @@ var StudentList = function (_Component) {
             });
         }
     }, {
-        key: "getSortedStudyFields",
-        value: function getSortedStudyFields() {
-            if (this.props.studyFieldList === null) {
-                return [];
-            }
-
-            var studyFields = this.props.studyFieldList;
-
-            // Get uniques only
-            studyFields = studyFields.filter(function (value, index, self) {
-                return self.indexOf(value) === index;
-            });
-
-            // A different approach
-            var categorizedByStudyField = [];
-            studyFields.forEach(function (studyField) {
-                var students = [];
-                studyField.studentstudyfield_set.forEach(function (studentProgram) {
-                    if (studentProgram.study_field.name === studyField.name) {
-                        students.push(studentProgram.student);
-                    }
-                });
-                categorizedByStudyField.push({
-                    studyField: studyField.name,
-                    students: students
-                });
-            });
-
-            return categorizedByStudyField;
-        }
-    }, {
         key: "render",
         value: function render() {
-            var studyFields = this.getSortedStudyFields();
-
             return _react2.default.createElement(
                 "div",
                 { className: "programs-page-pane d-flex flex-column" },
                 _react2.default.createElement(StudentListHead, { activeProgram: this.props.activeProgram,
                     toggleAddStudents: this.toggleAddStudents }),
-                _react2.default.createElement(StudentListTable, { studyFields: studyFields }),
-                _react2.default.createElement(_modals.StudentFormModal, { activeProgram: this.props.activeProgram,
-                    studyFields: studyFields,
-                    refreshStudents: this.props.refreshStudents,
-                    toggle: this.toggleAddStudents,
-                    isOpen: this.state.addStudentsIsShowing })
+                _react2.default.createElement(StudentListTable, { students: this.props.studentList })
             );
         }
     }]);
@@ -186,52 +147,13 @@ var StudentListTable = function (_Component3) {
     }, {
         key: "render",
         value: function render() {
-            if (this.props.studyFields === null) {
+            if (this.props.students === null) {
                 return _react2.default.createElement(_loading2.default, null);
             }
 
-            if (this.props.studyFields.length === 0) {
+            if (this.props.students.length === 0) {
                 return this.emptyState();
             }
-
-            var sections = this.props.studyFields.map(function (studyField, index) {
-                return _react2.default.createElement(StudentSection, { key: index,
-                    title: studyField.studyField,
-                    students: studyField.students });
-            });
-
-            return _react2.default.createElement(
-                "div",
-                { className: "page-body" },
-                sections
-            );
-        }
-    }]);
-
-    return StudentListTable;
-}(_react.Component);
-
-var StudentSection = function (_Component4) {
-    _inherits(StudentSection, _Component4);
-
-    function StudentSection(props) {
-        _classCallCheck(this, StudentSection);
-
-        return _possibleConstructorReturn(this, (StudentSection.__proto__ || Object.getPrototypeOf(StudentSection)).call(this, props));
-    }
-
-    _createClass(StudentSection, [{
-        key: "render",
-        value: function render() {
-            var body = _react2.default.createElement(
-                "div",
-                { className: "p-4 pt-5 pb-5 bg-light text-center" },
-                _react2.default.createElement(
-                    "h5",
-                    { className: "text-secondary" },
-                    "There are no students for this study field."
-                )
-            );
 
             var rows = this.props.students.map(function (student, index) {
                 return _react2.default.createElement(
@@ -240,42 +162,29 @@ var StudentSection = function (_Component4) {
                     _react2.default.createElement(
                         "small",
                         { className: "d-block" },
-                        student.id_number
+                        student.student.id_number
                     ),
                     _react2.default.createElement(
                         "b",
                         null,
-                        student.family_name
+                        student.student.family_name
                     ),
                     ", ",
-                    student.first_name,
+                    student.student.first_name,
                     " ",
-                    student.middle_name
+                    student.student.middle_name
                 );
             });
 
-            if (this.props.students.length > 0) {
-                body = _react2.default.createElement(
-                    _section.SectionTable,
-                    null,
-                    rows
-                );
-            }
-
             return _react2.default.createElement(
-                _section.Section,
-                null,
-                _react2.default.createElement(
-                    _section.SectionTitle,
-                    null,
-                    this.props.title
-                ),
-                body
+                "div",
+                { className: "page-body" },
+                rows
             );
         }
     }]);
 
-    return StudentSection;
+    return StudentListTable;
 }(_react.Component);
 
 exports.default = StudentList;
