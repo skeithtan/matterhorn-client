@@ -52,8 +52,6 @@ var InstitutionOverview = function (_Component) {
 
         _this.props.setSidebarContent(null);
 
-        _this.onEditInstitution = _this.onEditInstitution.bind(_this);
-
         //Fetch active institution details
         fetchInstitution(props.institution.id, function (result) {
             var institution = result.institution;
@@ -90,29 +88,6 @@ var InstitutionOverview = function (_Component) {
             });
         }
     }, {
-        key: "onEditInstitution",
-        value: function onEditInstitution() {
-            var _this3 = this;
-
-            //Refresh and fetch new data from server
-            this.setState({
-                institution: null
-            });
-
-            fetchInstitution(this.state.institutionID, function (result) {
-                var institution = result.institution;
-
-                //Make country = country.name for simplicity
-                institution.country = institution.country.name;
-
-                _this3.setState({
-                    institution: institution
-                });
-
-                _this3.props.refreshInstitutions();
-            });
-        }
-    }, {
         key: "render",
         value: function render() {
             //User has already selected, but we haven't fetched it from the database yet
@@ -125,7 +100,7 @@ var InstitutionOverview = function (_Component) {
                 { className: "d-flex flex-column p-0 h-100" },
                 _react2.default.createElement(OverviewHead, { institution: this.state.institution,
                     onDeleteInstitution: this.props.onDeleteActiveInstitution,
-                    onEditInstitution: this.onEditInstitution }),
+                    onEditInstitution: this.props.refreshInstitutions }),
                 _react2.default.createElement(OverviewBody, { institution: this.state.institution })
             );
         }
@@ -140,16 +115,16 @@ var OverviewHead = function (_Component2) {
     function OverviewHead(props) {
         _classCallCheck(this, OverviewHead);
 
-        var _this4 = _possibleConstructorReturn(this, (OverviewHead.__proto__ || Object.getPrototypeOf(OverviewHead)).call(this, props));
+        var _this3 = _possibleConstructorReturn(this, (OverviewHead.__proto__ || Object.getPrototypeOf(OverviewHead)).call(this, props));
 
-        _this4.state = {
+        _this3.state = {
             deleteInstitutionIsShowing: false,
             editInstitutionIsShowing: false
         };
 
-        _this4.toggleEditInstitution = _this4.toggleEditInstitution.bind(_this4);
-        _this4.toggleDeleteInstitution = _this4.toggleDeleteInstitution.bind(_this4);
-        return _this4;
+        _this3.toggleEditInstitution = _this3.toggleEditInstitution.bind(_this3);
+        _this3.toggleDeleteInstitution = _this3.toggleDeleteInstitution.bind(_this3);
+        return _this3;
     }
 
     _createClass(OverviewHead, [{

@@ -48,8 +48,6 @@ class InstitutionOverview extends Component {
 
         this.props.setSidebarContent(null);
 
-        this.onEditInstitution = this.onEditInstitution.bind(this);
-
         //Fetch active institution details
         fetchInstitution(props.institution.id, result => {
             const institution = result.institution;
@@ -81,26 +79,6 @@ class InstitutionOverview extends Component {
         });
     }
 
-    onEditInstitution() {
-        //Refresh and fetch new data from server
-        this.setState({
-            institution : null,
-        });
-
-        fetchInstitution(this.state.institutionID, result => {
-            const institution = result.institution;
-
-            //Make country = country.name for simplicity
-            institution.country = institution.country.name;
-
-            this.setState({
-                institution : institution,
-            });
-
-            this.props.refreshInstitutions();
-        });
-    }
-
     render() {
         //User has already selected, but we haven't fetched it from the database yet
         if (this.state.institution === null) {
@@ -111,7 +89,7 @@ class InstitutionOverview extends Component {
             <div className="d-flex flex-column p-0 h-100">
                 <OverviewHead institution={this.state.institution}
                               onDeleteInstitution={this.props.onDeleteActiveInstitution}
-                              onEditInstitution={this.onEditInstitution}/>
+                              onEditInstitution={this.props.refreshInstitutions}/>
                 <OverviewBody institution={this.state.institution}/>
             </div>
         );
