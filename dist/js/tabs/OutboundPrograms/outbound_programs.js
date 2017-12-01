@@ -60,7 +60,7 @@ var OutboundPrograms = function (_Component) {
         _this.state = {
             yearList: null,
             programList: null,
-            studyFieldList: null, // TODO: change this to studentList
+            studentList: null,
             activeYear: null,
             activeTerm: 1,
             activeProgram: null,
@@ -106,7 +106,7 @@ var OutboundPrograms = function (_Component) {
             this.setState({
                 activeYear: year.academic_year_start,
                 activeProgram: null,
-                studyFieldList: null
+                studentList: null
             });
 
             fetchPrograms(year.academic_year_start, this.state.activeTerm, function (result) {
@@ -140,12 +140,12 @@ var OutboundPrograms = function (_Component) {
 
             this.setState({
                 activeProgram: program,
-                studyFieldList: null
+                studentList: null
             });
 
             fetchStudents(program.id, function (result) {
                 _this5.setState({
-                    studyFieldList: result.outbound_program.outboundstudentprogram_set
+                    studentList: result.outbound_program.outboundstudentprogram_set
                 });
             });
 
@@ -158,7 +158,7 @@ var OutboundPrograms = function (_Component) {
 
             fetchStudents(this.state.activeProgram.id, function (result) {
                 _this6.setState({
-                    studyFieldList: result.outbound_program.outboundstudentprogram_set
+                    studentList: result.outbound_program.outboundstudentprogram_set
                 });
             });
         }
@@ -207,7 +207,7 @@ var OutboundPrograms = function (_Component) {
                 );
             }
 
-            return _react2.default.createElement(_student_list2.default, { studyFieldList: this.state.studyFieldList,
+            return _react2.default.createElement(_student_list2.default, { studentList: this.state.studentList,
                 activeProgram: this.state.activeProgram,
                 refreshStudents: this.refreshStudents });
         }
