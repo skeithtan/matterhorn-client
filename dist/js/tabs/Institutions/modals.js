@@ -175,23 +175,21 @@ var InstitutionFormModal = function (_Component) {
                 method: "PUT",
                 url: _settings2.default.serverURL + "/institutions/" + this.state.form.id + "/",
                 data: this.state.form,
-                beforeSend: _authorization2.default,
-                success: function success() {
-                    dismissToast();
-                    _this3.props.refresh();
-                    _izitoast2.default.success({
-                        title: "Success",
-                        message: "Successfully modified institution"
-                    });
-                },
-                error: function error(response) {
-                    dismissToast();
-                    console.log(response);
-                    _izitoast2.default.error({
-                        title: "Error",
-                        message: "Unable to edit institution"
-                    });
-                }
+                beforeSend: _authorization2.default
+            }).done(function () {
+                dismissToast();
+                _this3.props.refresh();
+                _izitoast2.default.success({
+                    title: "Success",
+                    message: "Successfully modified institution"
+                });
+            }).fail(function (response) {
+                dismissToast();
+                console.log(response);
+                _izitoast2.default.error({
+                    title: "Error",
+                    message: "Unable to edit institution"
+                });
             });
 
             this.props.toggle();

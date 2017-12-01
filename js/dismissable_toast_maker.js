@@ -11,7 +11,7 @@ function makeInfoToast(settings) {
 
     return function () {
         iziToast.hide(toast, {
-            transitionOut : "fadeOutUp",
+            transitionOut : "fadeOut",
         });
     };
 }

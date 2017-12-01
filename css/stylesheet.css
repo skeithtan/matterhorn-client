@@ -211,7 +211,7 @@ input[type="search"]::-webkit-search-cancel-button {
     z-index        : 8000;
     width          : 100vw;
     height         : 100vh;
-    transition     : 1000ms opacity;
+    transition     : 500ms opacity;
 }
 
 #barrier.showing {
