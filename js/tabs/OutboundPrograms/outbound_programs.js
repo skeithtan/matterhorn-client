@@ -59,7 +59,7 @@ class OutboundPrograms extends Component {
         this.state = {
             yearList : null,
             programList : null,
-            studyFieldList : null,
+            studyFieldList : null, // TODO: change this to studentList
             activeYear : null,
             activeTerm : 1,
             activeProgram : null,
