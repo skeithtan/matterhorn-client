@@ -211,11 +211,11 @@ input[type="search"]::-webkit-search-cancel-button {
     z-index        : 8000;
     width          : 100vw;
     height         : 100vh;
-    transition     : 1000ms;
+    transition     : 1000ms opacity;
 }
 
 #barrier.showing {
-    opacity        : 0.5;
+    opacity        : 0.3;
     pointer-events : all;
 }
 
