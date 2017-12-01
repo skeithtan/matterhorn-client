@@ -372,6 +372,7 @@ class MemorandumFormModal extends Component {
         this.getChangeHandler = this.getChangeHandler.bind(this);
         this.submitAddMemorandumForm = this.submitAddMemorandumForm.bind(this);
         this.submitEditMemorandumForm = this.submitEditMemorandumForm.bind(this);
+        this.memorandumToggle = this.memorandumToggle.bind(this);
 
         this.componentWillReceiveProps(props);
     }
@@ -459,6 +460,9 @@ class MemorandumFormModal extends Component {
             success : () => {
                 dismissToast();
                 this.props.refresh();
+                if (this.props.memorandumToBeAdded) {
+                    this.props.toggleMemorandumToBeAdded();
+                }
                 iziToast.success({
                     title : "Success",
                     message : "Successfully added memorandum",
@@ -518,6 +522,13 @@ class MemorandumFormModal extends Component {
         this.props.toggle();
     }
 
+    memorandumToggle() {
+        this.props.toggle();
+        if (this.props.memorandumToBeAdded) {
+            this.props.toggleMemorandumToBeAdded();
+        }
+    }
+
     render() {
         const {formHasErrors, fieldErrors} = this.getFormErrors();
 
@@ -573,10 +584,10 @@ class MemorandumFormModal extends Component {
 
         return (
             <Modal isOpen={ this.props.isOpen }
-                   toggle={ this.props.toggle }
+                   toggle={ this.memorandumToggle }
                    backdrop={ true }
                    onOpened={ this.setupUploadCare }>
-                <ModalHeader toggle={ this.props.toggle }>
+                <ModalHeader toggle={ this.memorandumToggle }>
                     { this.props.edit ? "Edit memorandum" : `Add a memorandum to ${this.props.institution.name}` }
                 </ModalHeader>
                 <ModalBody className="form">
