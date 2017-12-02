@@ -178,8 +178,12 @@ class StudentApplications extends Component {
     // TODO: refreshing the applicants and at the same time conforming to the activeCategory
 
     render() {
-        if (this.state.errors !== null) {
-            return <ErrorState/>;
+        if (this.state.error) {
+            return (
+                <ErrorState onRefreshButtonClick={() => this.setApplicants(this.state.activeTab.name)}>
+                    {this.state.error.toString()}
+                </ErrorState>
+            );
         }
 
         const applicants = this.getApplicantsByCategory(this.state.applicants);

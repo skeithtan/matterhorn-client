@@ -194,8 +194,16 @@ var StudentApplications = function (_Component) {
     }, {
         key: "render",
         value: function render() {
-            if (this.state.errors !== null) {
-                return _react2.default.createElement(_error_state2.default, null);
+            var _this5 = this;
+
+            if (this.state.error) {
+                return _react2.default.createElement(
+                    _error_state2.default,
+                    { onRefreshButtonClick: function onRefreshButtonClick() {
+                            return _this5.setApplicants(_this5.state.activeTab.name);
+                        } },
+                    this.state.error.toString()
+                );
             }
 
             var applicants = this.getApplicantsByCategory(this.state.applicants);
@@ -261,7 +269,7 @@ var StudentApplicationsListHead = function (_Component3) {
     _createClass(StudentApplicationsListHead, [{
         key: "render",
         value: function render() {
-            var _this7 = this;
+            var _this8 = this;
 
             return _react2.default.createElement(
                 "div",
@@ -279,7 +287,7 @@ var StudentApplicationsListHead = function (_Component3) {
                                 color: "success",
                                 size: "sm",
                                 onClick: function onClick() {
-                                    return _this7.props.setActiveCategory("Incomplete");
+                                    return _this8.props.setActiveCategory("Incomplete");
                                 },
                                 active: this.props.activeCategory === "Incomplete" },
                             "Incomplete"
@@ -290,7 +298,7 @@ var StudentApplicationsListHead = function (_Component3) {
                                 color: "success",
                                 size: "sm",
                                 onClick: function onClick() {
-                                    return _this7.props.setActiveCategory("Complete");
+                                    return _this8.props.setActiveCategory("Complete");
                                 },
                                 active: this.props.activeCategory === "Complete" },
                             "Complete"
@@ -327,11 +335,11 @@ var StudentApplicationsListTable = function (_Component4) {
     function StudentApplicationsListTable(props) {
         _classCallCheck(this, StudentApplicationsListTable);
 
-        var _this8 = _possibleConstructorReturn(this, (StudentApplicationsListTable.__proto__ || Object.getPrototypeOf(StudentApplicationsListTable)).call(this, props));
+        var _this9 = _possibleConstructorReturn(this, (StudentApplicationsListTable.__proto__ || Object.getPrototypeOf(StudentApplicationsListTable)).call(this, props));
 
-        _this8.getStudentsByFamilyNameInitials = _this8.getStudentsByFamilyNameInitials.bind(_this8);
-        _this8.emptyState = _this8.emptyState.bind(_this8);
-        return _this8;
+        _this9.getStudentsByFamilyNameInitials = _this9.getStudentsByFamilyNameInitials.bind(_this9);
+        _this9.emptyState = _this9.emptyState.bind(_this9);
+        return _this9;
     }
 
     _createClass(StudentApplicationsListTable, [{
@@ -406,7 +414,7 @@ var StudentApplicationsListTable = function (_Component4) {
     }, {
         key: "render",
         value: function render() {
-            var _this9 = this;
+            var _this10 = this;
 
             if (this.props.applicants === null) {
                 return _react2.default.createElement(_loading2.default, null);
@@ -421,9 +429,9 @@ var StudentApplicationsListTable = function (_Component4) {
             var sections = familyNameInitials.map(function (familyNameInitial, index) {
                 return _react2.default.createElement(StudentApplicationsListSection, { key: index,
                     title: familyNameInitial.initial,
-                    activeApplicant: _this9.props.activeApplicant,
+                    activeApplicant: _this10.props.activeApplicant,
                     applicants: familyNameInitial.applicants,
-                    setActiveApplicant: _this9.props.setActiveApplicant });
+                    setActiveApplicant: _this10.props.setActiveApplicant });
             });
 
             return _react2.default.createElement(
@@ -449,17 +457,17 @@ var StudentApplicationsListSection = function (_Component5) {
     _createClass(StudentApplicationsListSection, [{
         key: "render",
         value: function render() {
-            var _this11 = this;
+            var _this12 = this;
 
             var rows = this.props.applicants.map(function (applicant, index) {
                 var isActive = false;
 
-                if (_this11.props.activeApplicant !== null) {
-                    isActive = _this11.props.activeApplicant.id.toString() === applicant.id.toString();
+                if (_this12.props.activeApplicant !== null) {
+                    isActive = _this12.props.activeApplicant.id.toString() === applicant.id.toString();
                 }
 
                 var setActiveApplicant = function setActiveApplicant() {
-                    return _this11.props.setActiveApplicant(applicant);
+                    return _this12.props.setActiveApplicant(applicant);
                 };
 
                 return _react2.default.createElement(
