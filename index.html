@@ -25,35 +25,29 @@
     <link rel="stylesheet"
           href="node_modules/offline-js/themes/offline-language-english.css">
     <link rel="stylesheet"
-          href="node_modules/offline-js/themes/offline-theme-slide.css">
+          href="node_modules/offline-js/themes/offline-theme-default.css">
 
 
 </head>
 <body>
 
 <div id="window-handle-bar"></div>
-<div id="barrier"></div>
 <div id="root"></div>
 
 <script>
     // App requirements
     require("./renderer.js");
     require("./dist/js/index");
-    require("offline-js");
 
     const settings = require("./dist/js/settings").default;
 
-
     //    Offline.js
-    Offline.options = { checks : { xhr : { url : settings.serverURL } } };
-
-    Offline.on("up", () => {
-        $("#barrier").removeClass("showing");
-    });
-
-    Offline.on("down", () => {
-        $("#barrier").addClass("showing");
-    });
+    require("offline-js");
+    Offline.options = {
+        checks : { xhr : { url : settings.serverURL } },
+        requests : false,
+        reconnect : false,
+    };
 
     // Initial check when app launches
     Offline.check();
