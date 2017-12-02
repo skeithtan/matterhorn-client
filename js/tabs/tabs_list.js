@@ -5,7 +5,7 @@ import Students from "./Students/students";
 import Programs from "./OutboundPrograms/outbound_programs";
 import InboundPrograms from "./InboundPrograms/inbound_programs";
 import Archives from "./Archives/archives";
-import OutboundApplications from "./OutboundApplications/outbound_applications";
+import StudentApplications from "./StudentApplications/student_applications";
 
 
 const tabs = [
@@ -25,8 +25,8 @@ const tabs = [
         image : "./images/student.png",
     },
     {
-        name : "Outbound Applications",
-        tab : <OutboundApplications/>,
+        name : "Student Applications",
+        tab : <StudentApplications/>,
         image : "./images/checklist.png",
     },
     {

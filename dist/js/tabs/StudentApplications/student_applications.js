@@ -34,36 +34,36 @@ function fetchOutboundApplication(onResult) {
     _graphql2.default.query("\n    {\n        outbound_student_programs {\n            id\n            student {\n                id\n                id_number\n                first_name\n                middle_name\n                family_name\n            }\n            is_requirements_complete\n        }\n    }\n    ").then(onResult);
 }
 
-var OutboundApplications = function (_Component) {
-    _inherits(OutboundApplications, _Component);
+var StudentApplications = function (_Component) {
+    _inherits(StudentApplications, _Component);
 
-    function OutboundApplications(props) {
-        _classCallCheck(this, OutboundApplications);
+    function StudentApplications(props) {
+        _classCallCheck(this, StudentApplications);
 
-        return _possibleConstructorReturn(this, (OutboundApplications.__proto__ || Object.getPrototypeOf(OutboundApplications)).call(this, props));
+        return _possibleConstructorReturn(this, (StudentApplications.__proto__ || Object.getPrototypeOf(StudentApplications)).call(this, props));
     }
 
-    _createClass(OutboundApplications, [{
+    _createClass(StudentApplications, [{
         key: "render",
         value: function render() {
             return _react2.default.createElement(
                 "div",
                 { className: "container-fluid d-flex flex-row p-0 h-100" },
-                _react2.default.createElement(OutboundApplicationsList, null)
+                _react2.default.createElement(StudentApplicationsList, null)
             );
         }
     }]);
 
-    return OutboundApplications;
+    return StudentApplications;
 }(_react.Component);
 
-var OutboundApplicationsList = function (_Component2) {
-    _inherits(OutboundApplicationsList, _Component2);
+var StudentApplicationsList = function (_Component2) {
+    _inherits(StudentApplicationsList, _Component2);
 
-    function OutboundApplicationsList(props) {
-        _classCallCheck(this, OutboundApplicationsList);
+    function StudentApplicationsList(props) {
+        _classCallCheck(this, StudentApplicationsList);
 
-        var _this2 = _possibleConstructorReturn(this, (OutboundApplicationsList.__proto__ || Object.getPrototypeOf(OutboundApplicationsList)).call(this, props));
+        var _this2 = _possibleConstructorReturn(this, (StudentApplicationsList.__proto__ || Object.getPrototypeOf(StudentApplicationsList)).call(this, props));
 
         _this2.state = {
             activeCategory: "Incomplete",
@@ -83,7 +83,7 @@ var OutboundApplicationsList = function (_Component2) {
         return _this2;
     }
 
-    _createClass(OutboundApplicationsList, [{
+    _createClass(StudentApplicationsList, [{
         key: "setActiveCategory",
         value: function setActiveCategory(category) {
             this.setState({
@@ -135,9 +135,9 @@ var OutboundApplicationsList = function (_Component2) {
             return _react2.default.createElement(
                 "div",
                 { className: "sidebar h-100" },
-                _react2.default.createElement(OutboundApplicationsListHead, { activeCategory: this.state.activeCategory,
+                _react2.default.createElement(StudentApplicationsListHead, { activeCategory: this.state.activeCategory,
                     setActiveCategory: this.setActiveCategory }),
-                _react2.default.createElement(OutboundApplicationsListTable, { activeCategory: this.state.activeCategory,
+                _react2.default.createElement(StudentApplicationsListTable, { activeCategory: this.state.activeCategory,
                     applicants: applicants,
                     activeApplicant: this.state.activeApplicant,
                     setActiveApplicant: this.setActiveApplicant })
@@ -145,19 +145,19 @@ var OutboundApplicationsList = function (_Component2) {
         }
     }]);
 
-    return OutboundApplicationsList;
+    return StudentApplicationsList;
 }(_react.Component);
 
-var OutboundApplicationsListHead = function (_Component3) {
-    _inherits(OutboundApplicationsListHead, _Component3);
+var StudentApplicationsListHead = function (_Component3) {
+    _inherits(StudentApplicationsListHead, _Component3);
 
-    function OutboundApplicationsListHead(props) {
-        _classCallCheck(this, OutboundApplicationsListHead);
+    function StudentApplicationsListHead(props) {
+        _classCallCheck(this, StudentApplicationsListHead);
 
-        return _possibleConstructorReturn(this, (OutboundApplicationsListHead.__proto__ || Object.getPrototypeOf(OutboundApplicationsListHead)).call(this, props));
+        return _possibleConstructorReturn(this, (StudentApplicationsListHead.__proto__ || Object.getPrototypeOf(StudentApplicationsListHead)).call(this, props));
     }
 
-    _createClass(OutboundApplicationsListHead, [{
+    _createClass(StudentApplicationsListHead, [{
         key: "render",
         value: function render() {
             var _this5 = this;
@@ -216,23 +216,23 @@ var OutboundApplicationsListHead = function (_Component3) {
         }
     }]);
 
-    return OutboundApplicationsListHead;
+    return StudentApplicationsListHead;
 }(_react.Component);
 
-var OutboundApplicationsListTable = function (_Component4) {
-    _inherits(OutboundApplicationsListTable, _Component4);
+var StudentApplicationsListTable = function (_Component4) {
+    _inherits(StudentApplicationsListTable, _Component4);
 
-    function OutboundApplicationsListTable(props) {
-        _classCallCheck(this, OutboundApplicationsListTable);
+    function StudentApplicationsListTable(props) {
+        _classCallCheck(this, StudentApplicationsListTable);
 
-        var _this6 = _possibleConstructorReturn(this, (OutboundApplicationsListTable.__proto__ || Object.getPrototypeOf(OutboundApplicationsListTable)).call(this, props));
+        var _this6 = _possibleConstructorReturn(this, (StudentApplicationsListTable.__proto__ || Object.getPrototypeOf(StudentApplicationsListTable)).call(this, props));
 
         _this6.getStudentsByFamilyNameInitials = _this6.getStudentsByFamilyNameInitials.bind(_this6);
         _this6.emptyState = _this6.emptyState.bind(_this6);
         return _this6;
     }
 
-    _createClass(OutboundApplicationsListTable, [{
+    _createClass(StudentApplicationsListTable, [{
         key: "getStudentsByFamilyNameInitials",
         value: function getStudentsByFamilyNameInitials() {
             if (this.props.applicants === null) {
@@ -317,7 +317,7 @@ var OutboundApplicationsListTable = function (_Component4) {
             var familyNameInitials = this.getStudentsByFamilyNameInitials();
 
             var sections = familyNameInitials.map(function (familyNameInitial, index) {
-                return _react2.default.createElement(OutboundApplicationsListSection, { key: index,
+                return _react2.default.createElement(StudentApplicationsListSection, { key: index,
                     title: familyNameInitial.initial,
                     activeApplicant: _this7.props.activeApplicant,
                     applicants: familyNameInitial.applicants,
@@ -332,19 +332,19 @@ var OutboundApplicationsListTable = function (_Component4) {
         }
     }]);
 
-    return OutboundApplicationsListTable;
+    return StudentApplicationsListTable;
 }(_react.Component);
 
-var OutboundApplicationsListSection = function (_Component5) {
-    _inherits(OutboundApplicationsListSection, _Component5);
+var StudentApplicationsListSection = function (_Component5) {
+    _inherits(StudentApplicationsListSection, _Component5);
 
-    function OutboundApplicationsListSection(props) {
-        _classCallCheck(this, OutboundApplicationsListSection);
+    function StudentApplicationsListSection(props) {
+        _classCallCheck(this, StudentApplicationsListSection);
 
-        return _possibleConstructorReturn(this, (OutboundApplicationsListSection.__proto__ || Object.getPrototypeOf(OutboundApplicationsListSection)).call(this, props));
+        return _possibleConstructorReturn(this, (StudentApplicationsListSection.__proto__ || Object.getPrototypeOf(StudentApplicationsListSection)).call(this, props));
     }
 
-    _createClass(OutboundApplicationsListSection, [{
+    _createClass(StudentApplicationsListSection, [{
         key: "render",
         value: function render() {
             var _this9 = this;
@@ -400,8 +400,8 @@ var OutboundApplicationsListSection = function (_Component5) {
         }
     }]);
 
-    return OutboundApplicationsListSection;
+    return StudentApplicationsListSection;
 }(_react.Component);
 
-exports.default = OutboundApplications;
+exports.default = StudentApplications;
 //# sourceMappingURL=student_applications.js.map

@@ -32,9 +32,9 @@ var _archives = require("./Archives/archives");
 
 var _archives2 = _interopRequireDefault(_archives);
 
-var _outbound_applications = require("./OutboundApplications/outbound_applications");
+var _student_applications = require("./StudentApplications/student_applications");
 
-var _outbound_applications2 = _interopRequireDefault(_outbound_applications);
+var _student_applications2 = _interopRequireDefault(_student_applications);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -51,8 +51,8 @@ var tabs = [{
     tab: _react2.default.createElement(_students2.default, null),
     image: "./images/student.png"
 }, {
-    name: "Outbound Applications",
-    tab: _react2.default.createElement(_outbound_applications2.default, null),
+    name: "Student Applications",
+    tab: _react2.default.createElement(_student_applications2.default, null),
     image: "./images/checklist.png"
 }, {
     name: "Inbound Programs",

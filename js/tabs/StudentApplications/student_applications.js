@@ -12,7 +12,6 @@ import {
     SectionRow,
 } from "../../components/section";
 
-
 function fetchOutboundApplication(onResult) {
     graphql.query(`
     {
@@ -32,7 +31,7 @@ function fetchOutboundApplication(onResult) {
 }
 
 
-class OutboundApplications extends Component {
+class StudentApplications extends Component {
     constructor(props) {
         super(props);
     }
@@ -40,13 +39,13 @@ class OutboundApplications extends Component {
     render() {
         return (
             <div className="container-fluid d-flex flex-row p-0 h-100">
-                <OutboundApplicationsList/>
+                <StudentApplicationsList/>
             </div>
         );
     }
 }
 
-class OutboundApplicationsList extends Component {
+class StudentApplicationsList extends Component {
     constructor(props) {
         super(props);
 
@@ -111,18 +110,18 @@ class OutboundApplicationsList extends Component {
 
         return (
             <div className="sidebar h-100">
-                <OutboundApplicationsListHead activeCategory={ this.state.activeCategory }
-                                              setActiveCategory={ this.setActiveCategory }/>
-                <OutboundApplicationsListTable activeCategory={ this.state.activeCategory }
-                                               applicants={ applicants }
-                                               activeApplicant={ this.state.activeApplicant }
-                                               setActiveApplicant={ this.setActiveApplicant }/>
+                <StudentApplicationsListHead activeCategory={ this.state.activeCategory }
+                                             setActiveCategory={ this.setActiveCategory }/>
+                <StudentApplicationsListTable activeCategory={ this.state.activeCategory }
+                                              applicants={ applicants }
+                                              activeApplicant={ this.state.activeApplicant }
+                                              setActiveApplicant={ this.setActiveApplicant }/>
             </div>
         );
     }
 }
 
-class OutboundApplicationsListHead extends Component {
+class StudentApplicationsListHead extends Component {
     constructor(props) {
         super(props);
     }
@@ -157,7 +156,7 @@ class OutboundApplicationsListHead extends Component {
     }
 }
 
-class OutboundApplicationsListTable extends Component {
+class StudentApplicationsListTable extends Component {
     constructor(props) {
         super(props);
 
@@ -237,11 +236,11 @@ class OutboundApplicationsListTable extends Component {
         const familyNameInitials = this.getStudentsByFamilyNameInitials();
 
         const sections = familyNameInitials.map((familyNameInitial, index) => {
-            return <OutboundApplicationsListSection key={ index }
-                                                    title={ familyNameInitial.initial }
-                                                    activeApplicant={ this.props.activeApplicant }
-                                                    applicants={ familyNameInitial.applicants }
-                                                    setActiveApplicant={ this.props.setActiveApplicant }/>;
+            return <StudentApplicationsListSection key={ index }
+                                                   title={ familyNameInitial.initial }
+                                                   activeApplicant={ this.props.activeApplicant }
+                                                   applicants={ familyNameInitial.applicants }
+                                                   setActiveApplicant={ this.props.setActiveApplicant }/>;
         });
 
         return (
@@ -252,7 +251,7 @@ class OutboundApplicationsListTable extends Component {
     }
 }
 
-class OutboundApplicationsListSection extends Component {
+class StudentApplicationsListSection extends Component {
     constructor(props) {
         super(props);
     }
@@ -289,4 +288,4 @@ class OutboundApplicationsListSection extends Component {
     }
 }
 
-export default OutboundApplications;
+export default StudentApplications;
