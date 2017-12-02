@@ -38,7 +38,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-function makeMemorandumQuery() {
+function makeMemorandumsQuery() {
     return _graphql2.default.query("\n    {\n        institutions {\n            id\n            name\n            latest_moa {\n                id\n                category\n                memorandum_file\n                college_initiator\n                linkages\n                date_effective\n                date_expiration\n            }\n            latest_mou {\n                id\n                category\n                memorandum_file\n                college_initiator\n                linkages\n                date_effective\n                date_expiration\n            }\n        }\n    }\n    ");
 }
 
@@ -99,7 +99,6 @@ var Memorandums = function (_Component) {
         _this.setActiveCategory = _this.setActiveCategory.bind(_this);
         _this.setActiveMemorandum = _this.setActiveMemorandum.bind(_this);
         _this.refreshMemorandums = _this.refreshMemorandums.bind(_this);
-        _this.onQueryError = _this.onQueryError.bind(_this);
         _this.performQuery = _this.performQuery.bind(_this);
 
         _this.performQuery();
@@ -107,16 +106,6 @@ var Memorandums = function (_Component) {
     }
 
     _createClass(Memorandums, [{
-        key: "onQueryError",
-        value: function onQueryError(error) {
-            console.log(error);
-
-            this.props.setSidebarContent(null);
-            this.setState({
-                error: error
-            });
-        }
-    }, {
         key: "performQuery",
         value: function performQuery() {
             var _this2 = this;
@@ -127,11 +116,18 @@ var Memorandums = function (_Component) {
                 });
             }
 
-            makeMemorandumQuery().then(function (result) {
+            makeMemorandumsQuery().then(function (result) {
                 return _this2.setState({
                     institutions: result.institutions
                 });
-            }).catch(this.onQueryError);
+            }).catch(function (error) {
+                console.log(error);
+
+                _this2.props.setSidebarContent(null);
+                _this2.setState({
+                    error: error
+                });
+            });
         }
     }, {
         key: "setActiveCategory",
@@ -181,7 +177,7 @@ var Memorandums = function (_Component) {
 
             this.props.setSidebarContent(null);
 
-            makeMemorandumQuery().then(function (result) {
+            makeMemorandumsQuery().then(function (result) {
                 return _this3.setState({
                     activeMemorandum: null,
                     institutions: result.institutions
@@ -193,7 +189,7 @@ var Memorandums = function (_Component) {
     }, {
         key: "render",
         value: function render() {
-            if (this.state.error !== null) {
+            if (this.state.error) {
                 return _react2.default.createElement(
                     _error_state2.default,
                     { onRetryButtonClick: this.performQuery },

@@ -10,7 +10,7 @@ import { MemorandumsSidebarPane } from "./sidebar_panes";
 import ErrorState from "../../../components/error_state";
 
 
-function makeMemorandumQuery() {
+function makeMemorandumsQuery() {
     return graphql.query(`
     {
         institutions {
@@ -94,20 +94,11 @@ class Memorandums extends Component {
         this.setActiveCategory = this.setActiveCategory.bind(this);
         this.setActiveMemorandum = this.setActiveMemorandum.bind(this);
         this.refreshMemorandums = this.refreshMemorandums.bind(this);
-        this.onQueryError = this.onQueryError.bind(this);
         this.performQuery = this.performQuery.bind(this);
 
         this.performQuery();
     }
 
-    onQueryError(error) {
-        console.log(error);
-
-        this.props.setSidebarContent(null);
-        this.setState({
-            error : error,
-        });
-    }
 
     performQuery() {
         if (this.state.error !== null) {
@@ -116,11 +107,18 @@ class Memorandums extends Component {
             });
         }
 
-        makeMemorandumQuery()
+        makeMemorandumsQuery()
             .then(result => this.setState({
                 institutions : result.institutions,
             }))
-            .catch(this.onQueryError);
+            .catch(error => {
+                console.log(error);
+
+                this.props.setSidebarContent(null);
+                this.setState({
+                    error : error,
+                });
+            });
     }
 
     setActiveCategory(category) {
@@ -164,7 +162,7 @@ class Memorandums extends Component {
     refreshMemorandums() {
         this.props.setSidebarContent(null);
 
-        makeMemorandumQuery()
+        makeMemorandumsQuery()
             .then(result => this.setState({
                 activeMemorandum : null,
                 institutions : result.institutions,
@@ -175,7 +173,7 @@ class Memorandums extends Component {
     }
 
     render() {
-        if (this.state.error !== null) {
+        if (this.state.error) {
             return <ErrorState onRetryButtonClick={this.performQuery}>{this.state.error.toString()}</ErrorState>;
         }
 
