@@ -8,10 +8,11 @@ import {
 import LoadingSpinner from "../../../components/loading";
 import { MemorandumSidebarPane } from "../../Institutions/tabs/sidebar_panes";
 import ArchivesHead from "../archive_head";
+import ErrorState from "../../../components/error_state";
 
 
-function fetchMemorandums(year, onResult) {
-    graphql.query(`
+function makeMemorandumQuery(year) {
+    return graphql.query(`
     {
         memorandums(archived:true, year_archived:${year}) {
 		id
@@ -28,7 +29,7 @@ function fetchMemorandums(year, onResult) {
             }
 		}
 	}
-	`).then(onResult);
+	`);
 }
 
 class MemorandumArchives extends Component {
@@ -41,15 +42,34 @@ class MemorandumArchives extends Component {
             activeMemorandumId : null,
         };
 
+        this.performQuery = this.performQuery.bind(this);
         this.setActiveYear = this.setActiveYear.bind(this);
         this.refreshMemorandums = this.refreshMemorandums.bind(this);
         this.setActiveMemorandum = this.setActiveMemorandum.bind(this);
 
-        fetchMemorandums(this.state.activeYear, result => {
+        this.performQuery();
+    }
+
+    performQuery() {
+        if (this.state.error) {
             this.setState({
-                memorandums : result.memorandums,
+                error : null,
             });
-        });
+        }
+
+        makeMemorandumQuery(this.state.activeYear)
+            .then(result => {
+                this.setState({
+                    memorandums : result.memorandums,
+                });
+            })
+            .catch(error => {
+                console.log(error);
+                this.props.setSidebarContent(null);
+                this.setState({
+                    error : error,
+                });
+            });
     }
 
     setActiveMemorandum(memorandum) {
@@ -71,12 +91,7 @@ class MemorandumArchives extends Component {
         });
 
         this.props.setSidebarContent(null);
-
-        fetchMemorandums(year, result => {
-            this.setState({
-                memorandums : result.memorandums,
-            });
-        });
+        this.performQuery();
     }
 
     refreshMemorandums() {
@@ -84,6 +99,14 @@ class MemorandumArchives extends Component {
     }
 
     render() {
+        if (this.state.error) {
+            return (
+                <ErrorState onRefreshButtonClick={() => this.performQuery(this.state.activeYear)}>
+                    {this.state.error.toString()}
+                </ErrorState>
+            );
+        }
+
         return (
             <div className="d-flex flex-column h-100">
                 <ArchivesHead setActiveYear={this.setActiveYear}

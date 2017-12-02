@@ -30,6 +30,10 @@ var _reactstrap = require("reactstrap");
 
 var _sidebar_panes = require("./sidebar_panes");
 
+var _error_state = require("../../../components/error_state");
+
+var _error_state2 = _interopRequireDefault(_error_state);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -38,8 +42,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-function fetchStudents(year, onResult) {
-    _graphql2.default.query("\n    {\n      students(archived: true, year_archived: " + year + ") {\n        id\n        category\n        id_number\n        college\n        family_name\n        first_name\n        middle_name\n        nickname\n        nationality\n        birth_date\n        sex\n        archived_at\n        archiver\n        institution {\n          name\n        }\n      }\n    }\n    ").then(onResult);
+function makeStudentsQuery(year) {
+    return _graphql2.default.query("\n    {\n      students(archived: true, year_archived: " + year + ") {\n        id\n        category\n        id_number\n        college\n        family_name\n        first_name\n        middle_name\n        nickname\n        nationality\n        birth_date\n        sex\n        archived_at\n        archiver\n        institution {\n          name\n        }\n      }\n    }\n    ");
 }
 
 var StudentArchives = function (_Component) {
@@ -56,19 +60,39 @@ var StudentArchives = function (_Component) {
             activeStudentId: null
         };
 
+        _this.performQuery = _this.performQuery.bind(_this);
         _this.setActiveYear = _this.setActiveYear.bind(_this);
         _this.refreshStudents = _this.refreshStudents.bind(_this);
         _this.setActiveStudent = _this.setActiveStudent.bind(_this);
 
-        fetchStudents(_this.state.activeYear, function (result) {
-            _this.setState({
-                students: result.students
-            });
-        });
+        _this.performQuery(_this.state.activeYear);
         return _this;
     }
 
     _createClass(StudentArchives, [{
+        key: "performQuery",
+        value: function performQuery(year) {
+            var _this2 = this;
+
+            if (this.state.error) {
+                this.setState({
+                    error: null
+                });
+            }
+
+            makeStudentsQuery(year).then(function (result) {
+                return _this2.setState({
+                    students: result.students
+                });
+            }).catch(function (error) {
+                console.log(error);
+                _this2.props.setSidebarContent(null);
+                _this2.setState({
+                    error: error
+                });
+            });
+        }
+    }, {
         key: "setActiveStudent",
         value: function setActiveStudent(student) {
             this.setState({
@@ -86,8 +110,6 @@ var StudentArchives = function (_Component) {
     }, {
         key: "setActiveYear",
         value: function setActiveYear(year) {
-            var _this2 = this;
-
             this.setState({
                 activeYear: year,
                 activeStudentId: null,
@@ -95,16 +117,23 @@ var StudentArchives = function (_Component) {
             });
 
             this.props.setSidebarContent(null);
-
-            fetchStudents(year, function (result) {
-                _this2.setState({
-                    students: result.students
-                });
-            });
+            this.performQuery(year);
         }
     }, {
         key: "render",
         value: function render() {
+            var _this3 = this;
+
+            if (this.state.error) {
+                return _react2.default.createElement(
+                    _error_state2.default,
+                    { onRetryButtonClick: function onRetryButtonClick() {
+                            return _this3.performQuery(_this3.state.activeYear);
+                        } },
+                    this.state.error.toString()
+                );
+            }
+
             return _react2.default.createElement(
                 "div",
                 { className: "d-flex flex-column h-100" },
@@ -132,10 +161,10 @@ var StudentArchivesTable = function (_Component2) {
     function StudentArchivesTable(props) {
         _classCallCheck(this, StudentArchivesTable);
 
-        var _this3 = _possibleConstructorReturn(this, (StudentArchivesTable.__proto__ || Object.getPrototypeOf(StudentArchivesTable)).call(this, props));
+        var _this4 = _possibleConstructorReturn(this, (StudentArchivesTable.__proto__ || Object.getPrototypeOf(StudentArchivesTable)).call(this, props));
 
-        _this3.emptyState = _this3.emptyState.bind(_this3);
-        return _this3;
+        _this4.emptyState = _this4.emptyState.bind(_this4);
+        return _this4;
     }
 
     _createClass(StudentArchivesTable, [{
@@ -156,7 +185,7 @@ var StudentArchivesTable = function (_Component2) {
     }, {
         key: "render",
         value: function render() {
-            var _this4 = this;
+            var _this5 = this;
 
             if (this.props.students === null) {
                 return _react2.default.createElement(_loading2.default, null);
@@ -169,9 +198,9 @@ var StudentArchivesTable = function (_Component2) {
             var rows = this.props.students.map(function (student) {
                 return _react2.default.createElement(StudentArchivesRow, { student: student,
                     key: student.id,
-                    isActive: _this4.props.activeStudentId === student.id,
+                    isActive: _this5.props.activeStudentId === student.id,
                     onClick: function onClick() {
-                        return _this4.props.setActiveStudent(student);
+                        return _this5.props.setActiveStudent(student);
                     } });
             });
 

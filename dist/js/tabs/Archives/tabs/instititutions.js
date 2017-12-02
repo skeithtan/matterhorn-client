@@ -30,6 +30,10 @@ var _reactstrap = require("reactstrap");
 
 var _sidebar_panes = require("./sidebar_panes");
 
+var _error_state = require("../../../components/error_state");
+
+var _error_state2 = _interopRequireDefault(_error_state);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -38,8 +42,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-function fetchInstitutions(year, onResult) {
-    _graphql2.default.query("\n    {\n        institutions(archived: true, year_archived: " + year + ") {\n            id\n            name\n            country {\n                name\n            }\n            archived_at\n            archiver\n        }\n    }\n    ").then(onResult);
+function makeInstitutionsQuery(year) {
+    return _graphql2.default.query("\n    {\n        institutions(archived: true, year_archived: " + year + ") {\n            id\n            name\n            country {\n                name\n            }\n            archived_at\n            archiver\n        }\n    }\n    ");
 }
 
 var InstitutionArchives = function (_Component) {
@@ -53,31 +57,53 @@ var InstitutionArchives = function (_Component) {
         _this.state = {
             activeYear: (0, _moment2.default)().year(),
             institutions: null,
-            activeInstitutionId: null
+            activeInstitutionId: null,
+            error: null
         };
 
+        _this.performQuery = _this.performQuery.bind(_this);
         _this.setActiveYear = _this.setActiveYear.bind(_this);
         _this.refreshInstitutions = _this.refreshInstitutions.bind(_this);
         _this.setActiveInstitution = _this.setActiveInstitution.bind(_this);
 
-        fetchInstitutions(_this.state.activeYear, function (result) {
-            result.institutions.forEach(function (institution) {
-                //Make country = country.name for simplicity
-                institution.country = institution.country.name;
-            });
-
-            _this.setState({
-                institutions: result.institutions
-            });
-        });
+        _this.performQuery(_this.state.activeYear);
         return _this;
     }
 
     _createClass(InstitutionArchives, [{
-        key: "setActiveYear",
-        value: function setActiveYear(year) {
+        key: "performQuery",
+        value: function performQuery(year) {
             var _this2 = this;
 
+            console.log(year, this.state);
+
+            if (this.state.error) {
+                this.setState({
+                    error: null
+                });
+            }
+
+            makeInstitutionsQuery(year).then(function (result) {
+                result.institutions.forEach(function (institution) {
+                    //Make country = country.name for simplicity
+                    institution.country = institution.country.name;
+                });
+
+                _this2.setState({
+                    institutions: result.institutions
+                });
+            }).catch(function (error) {
+                console.log(error);
+
+                _this2.props.setSidebarContent(null);
+                _this2.setState({
+                    error: error
+                });
+            });
+        }
+    }, {
+        key: "setActiveYear",
+        value: function setActiveYear(year) {
             this.setState({
                 activeYear: year,
                 institutions: null,
@@ -85,17 +111,7 @@ var InstitutionArchives = function (_Component) {
             });
 
             this.props.setSidebarContent(null);
-
-            fetchInstitutions(year, function (result) {
-                result.institutions.forEach(function (institution) {
-                    //Make country = country.name for simplicity
-                    return institution.country = institution.country.name;
-                });
-
-                _this2.setState({
-                    institutions: result.institutions
-                });
-            });
+            this.performQuery(year);
         }
     }, {
         key: "setActiveInstitution",
@@ -115,6 +131,18 @@ var InstitutionArchives = function (_Component) {
     }, {
         key: "render",
         value: function render() {
+            var _this3 = this;
+
+            if (this.state.error) {
+                return _react2.default.createElement(
+                    _error_state2.default,
+                    { onRetryButtonClick: function onRetryButtonClick() {
+                            return _this3.performQuery(_this3.state.activeYear);
+                        } },
+                    this.state.error.toString()
+                );
+            }
+
             return _react2.default.createElement(
                 "div",
                 { className: "d-flex flex-column h-100" },
@@ -142,10 +170,10 @@ var InstitutionArchivesTable = function (_Component2) {
     function InstitutionArchivesTable(props) {
         _classCallCheck(this, InstitutionArchivesTable);
 
-        var _this3 = _possibleConstructorReturn(this, (InstitutionArchivesTable.__proto__ || Object.getPrototypeOf(InstitutionArchivesTable)).call(this, props));
+        var _this4 = _possibleConstructorReturn(this, (InstitutionArchivesTable.__proto__ || Object.getPrototypeOf(InstitutionArchivesTable)).call(this, props));
 
-        _this3.emptyState = _this3.emptyState.bind(_this3);
-        return _this3;
+        _this4.emptyState = _this4.emptyState.bind(_this4);
+        return _this4;
     }
 
     _createClass(InstitutionArchivesTable, [{
@@ -165,7 +193,7 @@ var InstitutionArchivesTable = function (_Component2) {
     }, {
         key: "render",
         value: function render() {
-            var _this4 = this;
+            var _this5 = this;
 
             if (this.props.institutions === null) {
                 return _react2.default.createElement(_loading2.default, null);
@@ -178,9 +206,9 @@ var InstitutionArchivesTable = function (_Component2) {
             var rows = this.props.institutions.map(function (institution) {
                 return _react2.default.createElement(InstitutionArchivesRow, { institution: institution,
                     key: institution.id,
-                    isActive: _this4.props.activeInstitutionId === institution.id,
+                    isActive: _this5.props.activeInstitutionId === institution.id,
                     onClick: function onClick() {
-                        return _this4.props.setActiveInstitution(institution);
+                        return _this5.props.setActiveInstitution(institution);
                     } });
             });
 

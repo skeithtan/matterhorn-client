@@ -5,10 +5,11 @@ import ArchivesHead from "../archive_head";
 import LoadingSpinner from "../../../components/loading";
 import { Table } from "reactstrap";
 import { StudentSidebarPane } from "./sidebar_panes";
+import ErrorState from "../../../components/error_state";
 
 
-function fetchStudents(year, onResult) {
-    graphql.query(`
+function makeStudentsQuery(year) {
+    return graphql.query(`
     {
       students(archived: true, year_archived: ${year}) {
         id
@@ -29,7 +30,7 @@ function fetchStudents(year, onResult) {
         }
       }
     }
-    `).then(onResult);
+    `);
 }
 
 class StudentArchives extends Component {
@@ -42,15 +43,32 @@ class StudentArchives extends Component {
             activeStudentId : null,
         };
 
+        this.performQuery = this.performQuery.bind(this);
         this.setActiveYear = this.setActiveYear.bind(this);
         this.refreshStudents = this.refreshStudents.bind(this);
         this.setActiveStudent = this.setActiveStudent.bind(this);
 
-        fetchStudents(this.state.activeYear, result => {
+        this.performQuery(this.state.activeYear);
+    }
+
+    performQuery(year) {
+        if (this.state.error) {
             this.setState({
-                students : result.students,
+                error : null,
             });
-        });
+        }
+
+        makeStudentsQuery(year)
+            .then(result => this.setState({
+                students : result.students,
+            }))
+            .catch(error => {
+                console.log(error);
+                this.props.setSidebarContent(null);
+                this.setState({
+                    error : error,
+                });
+            });
     }
 
     setActiveStudent(student) {
@@ -75,15 +93,18 @@ class StudentArchives extends Component {
         });
 
         this.props.setSidebarContent(null);
-
-        fetchStudents(year, result => {
-            this.setState({
-                students : result.students,
-            });
-        });
+        this.performQuery(year);
     }
 
     render() {
+        if (this.state.error) {
+            return (
+                <ErrorState onRetryButtonClick={() => this.performQuery(this.state.activeYear)}>
+                    {this.state.error.toString()}
+                </ErrorState>
+            );
+        }
+
         return (
             <div className="d-flex flex-column h-100">
                 <ArchivesHead setActiveYear={this.setActiveYear}

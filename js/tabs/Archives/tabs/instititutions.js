@@ -5,10 +5,11 @@ import ArchivesHead from "../archive_head";
 import LoadingSpinner from "../../../components/loading";
 import { Table } from "reactstrap";
 import { InstitutionSidebarPane } from "./sidebar_panes";
+import ErrorState from "../../../components/error_state";
 
 
-function fetchInstitutions(year, onResult) {
-    graphql.query(`
+function makeInstitutionsQuery(year) {
+    return graphql.query(`
     {
         institutions(archived: true, year_archived: ${year}) {
             id
@@ -20,7 +21,7 @@ function fetchInstitutions(year, onResult) {
             archiver
         }
     }
-    `).then(onResult);
+    `);
 }
 
 class InstitutionArchives extends Component {
@@ -31,22 +32,45 @@ class InstitutionArchives extends Component {
             activeYear : moment().year(),
             institutions : null,
             activeInstitutionId : null,
+            error : null,
         };
 
+        this.performQuery = this.performQuery.bind(this);
         this.setActiveYear = this.setActiveYear.bind(this);
         this.refreshInstitutions = this.refreshInstitutions.bind(this);
         this.setActiveInstitution = this.setActiveInstitution.bind(this);
 
-        fetchInstitutions(this.state.activeYear, result => {
-            result.institutions.forEach(institution => {
-                //Make country = country.name for simplicity
-                institution.country = institution.country.name;
-            });
+        this.performQuery(this.state.activeYear);
+    }
 
+    performQuery(year) {
+        console.log(year, this.state);
+
+        if (this.state.error) {
             this.setState({
-                institutions : result.institutions,
+                error : null,
             });
-        });
+        }
+
+        makeInstitutionsQuery(year)
+            .then(result => {
+                result.institutions.forEach(institution => {
+                    //Make country = country.name for simplicity
+                    institution.country = institution.country.name;
+                });
+
+                this.setState({
+                    institutions : result.institutions,
+                });
+            })
+            .catch(error => {
+                console.log(error);
+
+                this.props.setSidebarContent(null);
+                this.setState({
+                    error : error,
+                });
+            });
     }
 
     setActiveYear(year) {
@@ -57,17 +81,7 @@ class InstitutionArchives extends Component {
         });
 
         this.props.setSidebarContent(null);
-
-        fetchInstitutions(year, result => {
-            result.institutions.forEach(institution => {
-                //Make country = country.name for simplicity
-                return institution.country = institution.country.name;
-            });
-
-            this.setState({
-                institutions : result.institutions,
-            });
-        });
+        this.performQuery(year);
     }
 
     setActiveInstitution(institution) {
@@ -84,6 +98,15 @@ class InstitutionArchives extends Component {
     }
 
     render() {
+        if (this.state.error) {
+            return (
+                <ErrorState onRetryButtonClick={() => this.performQuery(this.state.activeYear)}>
+                    {this.state.error.toString()}
+                </ErrorState>
+            );
+        }
+
+
         return (
             <div className="d-flex flex-column h-100">
                 <ArchivesHead setActiveYear={this.setActiveYear}
