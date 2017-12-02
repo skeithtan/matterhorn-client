@@ -30,8 +30,12 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-function fetchOutboundApplication(onResult) {
+function fetchOutboundApplications(onResult) {
     _graphql2.default.query("\n    {\n        outbound_student_programs {\n            id\n            student {\n                id\n                id_number\n                first_name\n                middle_name\n                family_name\n            }\n            is_requirements_complete\n        }\n    }\n    ").then(onResult);
+}
+
+function fetchInboundApplications(onResult) {
+    _graphql2.default.query("\n    {\n        inbound_student_programs {\n            id\n            student {\n                id\n                id_number\n                first_name\n                middle_name\n                family_name\n            }\n        }\n    }\n    ").then(onResult);
 }
 
 var StudentApplications = function (_Component) {
@@ -71,7 +75,7 @@ var StudentApplicationsList = function (_Component2) {
             activeApplicant: null
         };
 
-        fetchOutboundApplication(function (result) {
+        fetchOutboundApplications(function (result) {
             _this2.setState({
                 applicants: result.outbound_student_programs
             });

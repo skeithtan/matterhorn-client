@@ -12,7 +12,7 @@ import {
     SectionRow,
 } from "../../components/section";
 
-function fetchOutboundApplication(onResult) {
+function fetchOutboundApplications(onResult) {
     graphql.query(`
     {
         outbound_student_programs {
@@ -25,6 +25,23 @@ function fetchOutboundApplication(onResult) {
                 family_name
             }
             is_requirements_complete
+        }
+    }
+    `).then(onResult);
+}
+
+function fetchInboundApplications(onResult) {
+    graphql.query(`
+    {
+        inbound_student_programs {
+            id
+            student {
+                id
+                id_number
+                first_name
+                middle_name
+                family_name
+            }
         }
     }
     `).then(onResult);
@@ -55,7 +72,7 @@ class StudentApplicationsList extends Component {
             activeApplicant : null,
         };
 
-        fetchOutboundApplication(result => {
+        fetchOutboundApplications(result => {
             this.setState({
                 applicants : result.outbound_student_programs,
             });
