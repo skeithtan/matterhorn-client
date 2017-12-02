@@ -115,7 +115,7 @@ class StudentApplications extends Component {
             .then(result => this.setState({
                 applicants : result.outbound_student_programs,
             }))
-            .error(error => this.setState({
+            .catch(error => this.setState({
                 error : error,
             }));
     }

@@ -117,7 +117,7 @@ var StudentApplications = function (_Component) {
                 return _this3.setState({
                     applicants: result.outbound_student_programs
                 });
-            }).error(function (error) {
+            }).catch(function (error) {
                 return _this3.setState({
                     error: error
                 });
