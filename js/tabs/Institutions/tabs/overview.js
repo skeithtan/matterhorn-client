@@ -19,12 +19,10 @@ import {
 import ErrorState from "../../../components/error_state";
 
 
-function makeInstitutionQuery(id) {
+function makeInstitutionOverviewQuery(id) {
     return graphql.query(`
     {
         institution(id:${id}) {
-            id
-            name
             address
             website
             contact_person_email
@@ -67,7 +65,7 @@ class InstitutionOverview extends Component {
         }
 
         //Fetch active institution details
-        makeInstitutionQuery(id)
+        makeInstitutionOverviewQuery(id)
             .then(result => {
                 const institution = result.institution;
 
@@ -295,4 +293,5 @@ export {
     InstitutionOverview as default,
     InstitutionDetails,
     ContactDetails,
+    makeInstitutionOverviewQuery
 };

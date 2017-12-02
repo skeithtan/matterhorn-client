@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.ContactDetails = exports.InstitutionDetails = exports.default = undefined;
+exports.makeInstitutionOverviewQuery = exports.ContactDetails = exports.InstitutionDetails = exports.default = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -37,8 +37,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-function makeInstitutionQuery(id) {
-    return _graphql2.default.query("\n    {\n        institution(id:" + id + ") {\n            id\n            name\n            address\n            website\n            contact_person_email\n            contact_person_name\n            contact_person_number\n            country\n            agreement\n        }\n    }    \n    ");
+function makeInstitutionOverviewQuery(id) {
+    return _graphql2.default.query("\n    {\n        institution(id:" + id + ") {\n            address\n            website\n            contact_person_email\n            contact_person_name\n            contact_person_number\n            country\n            agreement\n        }\n    }    \n    ");
 }
 
 function institutionIsFetched(institution) {
@@ -81,7 +81,7 @@ var InstitutionOverview = function (_Component) {
             }
 
             //Fetch active institution details
-            makeInstitutionQuery(id).then(function (result) {
+            makeInstitutionOverviewQuery(id).then(function (result) {
                 var institution = result.institution;
 
                 // Carbon copy
@@ -454,4 +454,5 @@ var ContactDetails = function (_Component5) {
 exports.default = InstitutionOverview;
 exports.InstitutionDetails = InstitutionDetails;
 exports.ContactDetails = ContactDetails;
+exports.makeInstitutionOverviewQuery = makeInstitutionOverviewQuery;
 //# sourceMappingURL=overview.js.map
