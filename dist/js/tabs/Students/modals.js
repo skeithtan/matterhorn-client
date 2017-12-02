@@ -17,8 +17,6 @@ var _authorization2 = _interopRequireDefault(_authorization);
 
 var _dismissable_toast_maker = require("../../dismissable_toast_maker");
 
-var _dismissable_toast_maker2 = _interopRequireDefault(_dismissable_toast_maker);
-
 var _form_validator = require("../../form_validator");
 
 var _form_validator2 = _interopRequireDefault(_form_validator);
@@ -213,7 +211,7 @@ var StudentFormModal = function (_Component) {
         value: function submitAddStudentForm() {
             var _this3 = this;
 
-            var dismissToast = (0, _dismissable_toast_maker2.default)({
+            var dismissToast = (0, _dismissable_toast_maker.makeInfoToast)({
                 title: "Adding",
                 message: "Adding new student..."
             });
@@ -246,7 +244,7 @@ var StudentFormModal = function (_Component) {
         value: function submitEditStudentForm() {
             var _this4 = this;
 
-            var dismissToast = (0, _dismissable_toast_maker2.default)({
+            var dismissToast = (0, _dismissable_toast_maker.makeInfoToast)({
                 title: "Editing",
                 message: "Editing student..."
             });
@@ -786,7 +784,7 @@ var ArchiveStudentModal = function (_Component2) {
         value: function confirmArchive() {
             var _this6 = this;
 
-            var dismissToast = (0, _dismissable_toast_maker2.default)({
+            var dismissToast = (0, _dismissable_toast_maker.makeInfoToast)({
                 title: "Archiving",
                 message: "Archiving student..."
             });
@@ -913,7 +911,7 @@ var ResidenceAddressFormModal = function (_Component3) {
         value: function submitEditResidenceAddressForm() {
             var _this8 = this;
 
-            var dismissToast = (0, _dismissable_toast_maker2.default)({
+            var dismissToast = (0, _dismissable_toast_maker.makeInfoToast)({
                 title: "Editing",
                 message: "Editing residence address..."
             });
@@ -949,7 +947,7 @@ var ResidenceAddressFormModal = function (_Component3) {
 
             this.props.toggle();
 
-            var dismissToast = (0, _dismissable_toast_maker2.default)({
+            var dismissToast = (0, _dismissable_toast_maker.makeInfoToast)({
                 title: "Adding",
                 message: "Adding new residence address..."
             });

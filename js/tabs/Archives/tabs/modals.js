@@ -7,7 +7,7 @@ import {
 } from "reactstrap";
 import $ from "jquery";
 import authorizeXHR from "../../../authorization";
-import makeInfoToast from "../../../dismissable_toast_maker";
+import {makeInfoToast} from "../../../dismissable_toast_maker";
 import settings from "../../../settings";
 
 

@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.makeErrorToast = exports.makeInfoToast = undefined;
 
 var _izitoast = require("izitoast");
 
@@ -26,6 +27,21 @@ function makeInfoToast(settings) {
     };
 }
 
+function makeErrorToast(settings) {
+    var uuid = makeUUID();
+    settings.id = uuid;
+    settings.timeout = false;
+    _izitoast2.default.error(settings);
+
+    var toast = document.getElementById(uuid);
+
+    return function () {
+        _izitoast2.default.hide(toast, {
+            transitionOut: "fadeOut"
+        });
+    };
+}
+
 function makeUUID() {
     // Random string with very little collision possibility
     return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, function (c) {
@@ -33,5 +49,6 @@ function makeUUID() {
     });
 }
 
-exports.default = makeInfoToast;
+exports.makeInfoToast = makeInfoToast;
+exports.makeErrorToast = makeErrorToast;
 //# sourceMappingURL=dismissable_toast_maker.js.map

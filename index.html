@@ -21,39 +21,60 @@
     <link rel="stylesheet"
           href="node_modules/izitoast/dist/css/iziToast.min.css">
 
-    <!--Offline.js-->
-    <link rel="stylesheet"
-          href="node_modules/offline-js/themes/offline-language-english.css">
-    <link rel="stylesheet"
-          href="node_modules/offline-js/themes/offline-theme-slide.css">
-
-
 </head>
 <body>
 
 <div id="window-handle-bar"></div>
-<div id="barrier"></div>
 <div id="root"></div>
 
 <script>
     // App requirements
     require("./renderer.js");
     require("./dist/js/index");
-    require("offline-js");
 
     const settings = require("./dist/js/settings").default;
 
+    //iziToast
+    const iziToast = require("izitoast");
+    iziToast.settings({
+        progressBar : false,
+    });
 
     //    Offline.js
-    Offline.options = { checks : { xhr : { url : settings.serverURL } } };
+    require("offline-js");
+    Offline.options = {
+        checks : { xhr : { url : settings.serverURL } },
+        requests : false,
+        reconnect : false,
+    };
 
-    Offline.on("up", () => {
-        $("#barrier").removeClass("showing");
-    });
+    const { makeErrorToast } = require("./dist/js/dismissable_toast_maker");
 
-    Offline.on("down", () => {
-        $("#barrier").addClass("showing");
-    });
+    function bindOfflineHandlers() {
+        Offline.on("down", () => {
+            const dismissError = makeErrorToast({
+                title : "Offline",
+                message : "You are not connected to the server",
+            });
+
+            Offline.on("up", () => {
+                iziToast.success({
+                    title : "Connected",
+                    message : "Established connection with the server",
+                });
+
+                dismissError();
+                // Unbind everything to avoid duplicates
+                Offline.off("down");
+                Offline.off("up");
+
+                //Rebind everything
+                bindOfflineHandlers();
+            });
+        });
+    }
+
+    bindOfflineHandlers();
 
     // Initial check when app launches
     Offline.check();
@@ -67,13 +88,6 @@
     let $ = require("jquery");
     let Popper = require("popper.js");
     require("bootstrap");
-
-    //iziToast
-    const iziToast = require("izitoast");
-    iziToast.settings({
-        progressBar : false,
-    });
-
 </script>
 </body>
 </html>
