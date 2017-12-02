@@ -31,10 +31,14 @@
     // App requirements
     require("./renderer.js");
     require("./dist/js/index");
-    require("izitoast");
-    const { makeErrorToast } = require("./dist/js/dismissable_toast_maker");
 
     const settings = require("./dist/js/settings").default;
+
+    //iziToast
+    const iziToast = require("izitoast");
+    iziToast.settings({
+        progressBar : false,
+    });
 
     //    Offline.js
     require("offline-js");
@@ -43,6 +47,8 @@
         requests : false,
         reconnect : false,
     };
+
+    const { makeErrorToast } = require("./dist/js/dismissable_toast_maker");
 
     function bindOfflineHandlers() {
         Offline.on("down", () => {
@@ -82,13 +88,6 @@
     let $ = require("jquery");
     let Popper = require("popper.js");
     require("bootstrap");
-
-    //iziToast
-    const iziToast = require("izitoast");
-    iziToast.settings({
-        progressBar : false,
-    });
-
 </script>
 </body>
 </html>
