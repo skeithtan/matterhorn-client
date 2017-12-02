@@ -62,6 +62,11 @@ class InstitutionOverview extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        if (this.state.institutionID === nextProps.institution.id) {
+            // Institution is already showing, why reload?
+            return;
+        }
+
         this.setState({
             institutionID : nextProps.institution.id,
             institution : null,
