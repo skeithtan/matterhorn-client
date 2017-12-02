@@ -50,8 +50,12 @@
 
     const { makeErrorToast } = require("./dist/js/dismissable_toast_maker");
 
+    localStorage.isOnline = true;
+
     function bindOfflineHandlers() {
         Offline.on("down", () => {
+
+            localStorage.isOnline = false;
             const dismissError = makeErrorToast({
                 title : "Offline",
                 message : "You are not connected to the server",
@@ -62,6 +66,8 @@
                     title : "Connected",
                     message : "Established connection with the server",
                 });
+
+                localStorage.isOnline = true;
 
                 dismissError();
                 // Unbind everything to avoid duplicates

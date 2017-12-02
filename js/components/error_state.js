@@ -8,10 +8,20 @@ class ErrorState extends Component {
     }
 
     render() {
+        const isOnline = JSON.parse(localStorage.isOnline);
+
+        const errorTitle = isOnline ?
+            "An error occurred communicating with the server" :
+            "Could not connect to the server";
+
+        const errorMessage = isOnline ?
+            `${this.props.children}` :
+            `Make sure your computer is connected to the internet. ${this.props.children}`;
+
         return (
             <div className="loading-container">
-                <h3>Could not connect to the server</h3>
-                <p className="mb-3">Make sure your computer is connected to the internet. {this.props.children}</p>
+                <h3>{errorTitle}</h3>
+                <p className="mb-3">{errorMessage}</p>
 
                 <Button outline
                         color="success"

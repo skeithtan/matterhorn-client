@@ -32,19 +32,24 @@ var ErrorState = function (_Component) {
     _createClass(ErrorState, [{
         key: "render",
         value: function render() {
+            var isOnline = JSON.parse(localStorage.isOnline);
+
+            var errorTitle = isOnline ? "An error occurred communicating with the server" : "Could not connect to the server";
+
+            var errorMessage = isOnline ? "" + this.props.children : "Make sure your computer is connected to the internet. " + this.props.children;
+
             return _react2.default.createElement(
                 "div",
                 { className: "loading-container" },
                 _react2.default.createElement(
                     "h3",
                     null,
-                    "Could not connect to the server"
+                    errorTitle
                 ),
                 _react2.default.createElement(
                     "p",
                     { className: "mb-3" },
-                    "Make sure your computer is connected to the internet. ",
-                    this.props.children
+                    errorMessage
                 ),
                 _react2.default.createElement(
                     _reactstrap.Button,
