@@ -161,7 +161,7 @@ class ProgramSection extends Component {
             let isActive = false;
 
             if (this.props.activeProgram !== null) {
-                isActive = this.props.activeProgram.name === program.name;
+                isActive = this.props.activeProgram.id === program.id;
             }
 
             const setActiveProgram = () => this.props.setActiveProgram(program);

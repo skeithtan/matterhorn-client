@@ -256,7 +256,7 @@ var ProgramSection = function (_Component4) {
                 var isActive = false;
 
                 if (_this7.props.activeProgram !== null) {
-                    isActive = _this7.props.activeProgram.name === program.name;
+                    isActive = _this7.props.activeProgram.id === program.id;
                 }
 
                 var setActiveProgram = function setActiveProgram() {
