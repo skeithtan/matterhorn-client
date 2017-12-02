@@ -92,6 +92,7 @@ class Institutions extends Component {
                                  activeInstitution={ this.state.activeInstitution }
                                  setActiveInstitution={ this.setActiveInstitution }
                                  toggleAddInstitution={ this.toggleAddInstitution }/>
+
                 <InstitutionDetail institution={ this.state.activeInstitution }
                                    onDeleteActiveInstitution={ this.onDeleteActiveInstitution }
                                    refreshInstitutions={ this.refreshInstitutions }

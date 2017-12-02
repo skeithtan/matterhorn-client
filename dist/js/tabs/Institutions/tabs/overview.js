@@ -71,6 +71,11 @@ var InstitutionOverview = function (_Component) {
         value: function componentWillReceiveProps(nextProps) {
             var _this2 = this;
 
+            if (this.state.institutionID === nextProps.institution.id) {
+                // Institution is already showing, why reload?
+                return;
+            }
+
             this.setState({
                 institutionID: nextProps.institution.id,
                 institution: null
