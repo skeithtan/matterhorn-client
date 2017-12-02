@@ -37,12 +37,18 @@ class InstitutionDetail extends Component {
         });
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.memorandumToBeAdded) {
+            this.setActiveTab(tabs[1]);
+        }
+    }
+
     render() {
         if (this.props.institution === null) {
             return InstitutionDetail.unselectedState();
         }
 
-        const currentTab = this.state.activeTab.tab(this.props.institution, this.setSidebarContent, this.props.onDeleteActiveInstitution, this.props.refreshInstitutions);
+        const currentTab = this.state.activeTab.tab(this.props.institution, this.setSidebarContent, this.props.onDeleteActiveInstitution, this.props.refreshInstitutions, this.props.memorandumToBeAdded, this.props.toggleMemorandumToBeAdded);
 
         let sidebarClass = "sidebar-right ";
         if (this.state.sidebarContent === null) {
@@ -53,14 +59,14 @@ class InstitutionDetail extends Component {
             <div id="institution-detail"
                  className="w-100 d-flex flex-row">
                 <div className="container-fluid d-flex flex-column p-0 h-100">
-                    <div className="tab-content">{currentTab}</div>
-                    <TabBar setActiveTab={this.setActiveTab}
-                            activeTab={this.state.activeTab}
-                            tabs={tabs}/>
+                    <div className="tab-content">{ currentTab }</div>
+                    <TabBar setActiveTab={ this.setActiveTab }
+                            activeTab={ this.state.activeTab }
+                            tabs={ tabs }/>
                 </div>
 
-                <div className={sidebarClass}>
-                    {this.state.sidebarContent}
+                <div className={ sidebarClass }>
+                    { this.state.sidebarContent }
                 </div>
             </div>
 

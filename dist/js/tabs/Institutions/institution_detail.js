@@ -35,7 +35,7 @@ var InstitutionDetail = function (_Component) {
         var _this = _possibleConstructorReturn(this, (InstitutionDetail.__proto__ || Object.getPrototypeOf(InstitutionDetail)).call(this, props));
 
         _this.state = {
-            activeTab: _institution_tabs_list2.default[1],
+            activeTab: _institution_tabs_list2.default[0],
             sidebarContent: null
         };
 
@@ -58,6 +58,13 @@ var InstitutionDetail = function (_Component) {
                 activeTab: tab,
                 sidebarContent: null
             });
+        }
+    }, {
+        key: "componentWillReceiveProps",
+        value: function componentWillReceiveProps(nextProps) {
+            if (nextProps.memorandumToBeAdded) {
+                this.setActiveTab(_institution_tabs_list2.default[1]);
+            }
         }
     }, {
         key: "render",
