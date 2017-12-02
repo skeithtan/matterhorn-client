@@ -16,10 +16,6 @@ var _students = require("./students");
 
 var _students2 = _interopRequireDefault(_students);
 
-var _programs = require("./programs");
-
-var _programs2 = _interopRequireDefault(_programs);
-
 var _instititutions = require("./instititutions");
 
 var _instititutions2 = _interopRequireDefault(_instititutions);
