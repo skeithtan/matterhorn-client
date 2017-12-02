@@ -1,5 +1,5 @@
-import MemorandumArchives from "./memorandums";
 import React from "react";
+import MemorandumArchives from "./memorandums";
 import StudentArchives from "./students";
 import InstitutionArchives from "./instititutions";
 

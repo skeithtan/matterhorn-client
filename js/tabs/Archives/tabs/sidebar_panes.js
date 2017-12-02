@@ -20,8 +20,8 @@ import {
 
 import {
     ContactDetails as InstitutionContactDetails,
-    fetchInstitution,
     InstitutionDetails,
+    makeInstitutionOverviewQuery,
 } from "../../Institutions/tabs/overview";
 import ErrorState from "../../../components/error_state";
 
@@ -143,21 +143,35 @@ class InstitutionSidebarPane extends Component {
         this.state = {
             restoreInstitutionIsShowing : false,
             institution : props.institution,
+            error : null,
         };
 
-        if (!institutionIsFetched(props.institution)) {
-            fetchInstitution(props.institution.id, result => {
-                const institution = result.institution;
+        this.fetchInstitution = this.fetchInstitution.bind(this);
+        this.toggleRestoreInstitution = this.toggleRestoreInstitution.bind(this);
 
-                //Copy results to existing institution object so we won't have to fetch next time
-                Object.assign(props.institution, institution);
-                this.setState({
-                    institution : institution,
-                });
+        if (!institutionIsFetched(props.institution)) {
+            this.fetchInstitution(props.institution.id);
+        }
+    }
+
+    fetchInstitution(id) {
+        if (this.state.error) {
+            this.setState({
+                error : null,
             });
         }
 
-        this.toggleRestoreInstitution = this.toggleRestoreInstitution.bind(this);
+        makeInstitutionOverviewQuery(id)
+            .then(result => {
+                //Copy results to existing institution object so we won't have to fetch next time
+                Object.assign(this.state.institution, result.institution);
+                this.setState({
+                    institution : this.state.institution,
+                });
+            })
+            .catch(error => this.setState({
+                error : error,
+            }));
     }
 
     componentWillReceiveProps(props) {
@@ -166,15 +180,7 @@ class InstitutionSidebarPane extends Component {
         });
 
         if (!institutionIsFetched(props.institution)) {
-            fetchInstitution(props.institution.id, result => {
-                const institution = result.institution;
-
-                //Copy results to existing institution object so we won't have to fetch next time
-                Object.assign(props.institution, institution);
-                this.setState({
-                    institution : institution,
-                });
-            });
+            this.fetchInstitution(props.institution.id);
         }
     }
 
@@ -185,6 +191,14 @@ class InstitutionSidebarPane extends Component {
     }
 
     render() {
+        if (this.state.error) {
+            return (
+                <ErrorState onRetryButtonClick={() => this.fetchInstitution(this.state.institution.id)}>
+                    {this.state.error.toString()}
+                </ErrorState>
+            );
+        }
+
         const institution = this.state.institution;
         const isFetched = institutionIsFetched(institution);
 

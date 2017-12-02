@@ -181,44 +181,51 @@ var InstitutionSidebarPane = function (_Component2) {
 
         _this4.state = {
             restoreInstitutionIsShowing: false,
-            institution: props.institution
+            institution: props.institution,
+            error: null
         };
 
-        if (!institutionIsFetched(props.institution)) {
-            (0, _overview2.fetchInstitution)(props.institution.id, function (result) {
-                var institution = result.institution;
-
-                //Copy results to existing institution object so we won't have to fetch next time
-                Object.assign(props.institution, institution);
-                _this4.setState({
-                    institution: institution
-                });
-            });
-        }
-
+        _this4.fetchInstitution = _this4.fetchInstitution.bind(_this4);
         _this4.toggleRestoreInstitution = _this4.toggleRestoreInstitution.bind(_this4);
+
+        if (!institutionIsFetched(props.institution)) {
+            _this4.fetchInstitution(props.institution.id);
+        }
         return _this4;
     }
 
     _createClass(InstitutionSidebarPane, [{
-        key: "componentWillReceiveProps",
-        value: function componentWillReceiveProps(props) {
+        key: "fetchInstitution",
+        value: function fetchInstitution(id) {
             var _this5 = this;
 
+            if (this.state.error) {
+                this.setState({
+                    error: null
+                });
+            }
+
+            (0, _overview2.makeInstitutionOverviewQuery)(id).then(function (result) {
+                //Copy results to existing institution object so we won't have to fetch next time
+                Object.assign(_this5.state.institution, result.institution);
+                _this5.setState({
+                    institution: _this5.state.institution
+                });
+            }).catch(function (error) {
+                return _this5.setState({
+                    error: error
+                });
+            });
+        }
+    }, {
+        key: "componentWillReceiveProps",
+        value: function componentWillReceiveProps(props) {
             this.setState({
                 institution: props.institution
             });
 
             if (!institutionIsFetched(props.institution)) {
-                (0, _overview2.fetchInstitution)(props.institution.id, function (result) {
-                    var institution = result.institution;
-
-                    //Copy results to existing institution object so we won't have to fetch next time
-                    Object.assign(props.institution, institution);
-                    _this5.setState({
-                        institution: institution
-                    });
-                });
+                this.fetchInstitution(props.institution.id);
             }
         }
     }, {
@@ -231,6 +238,18 @@ var InstitutionSidebarPane = function (_Component2) {
     }, {
         key: "render",
         value: function render() {
+            var _this6 = this;
+
+            if (this.state.error) {
+                return _react2.default.createElement(
+                    _error_state2.default,
+                    { onRetryButtonClick: function onRetryButtonClick() {
+                            return _this6.fetchInstitution(_this6.state.institution.id);
+                        } },
+                    this.state.error.toString()
+                );
+            }
+
             var institution = this.state.institution;
             var isFetched = institutionIsFetched(institution);
 

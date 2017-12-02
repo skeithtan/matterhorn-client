@@ -4,13 +4,13 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _memorandums = require("./memorandums");
-
-var _memorandums2 = _interopRequireDefault(_memorandums);
-
 var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
+
+var _memorandums = require("./memorandums");
+
+var _memorandums2 = _interopRequireDefault(_memorandums);
 
 var _students = require("./students");
 
