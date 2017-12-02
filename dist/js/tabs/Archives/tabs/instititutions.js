@@ -43,7 +43,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 function makeInstitutionsQuery(year) {
-    return _graphql2.default.query("\n    {\n        institutions(archived: true, year_archived: " + year + ") {\n            id\n            name\n            country {\n                name\n            }\n            archived_at\n            archiver\n        }\n    }\n    ");
+    return _graphql2.default.query("\n    {\n        institutions(archived: true, year_archived: " + year + ") {\n            id\n            name\n            country\n            archived_at\n            archiver\n        }\n    }\n    ");
 }
 
 var InstitutionArchives = function (_Component) {
@@ -75,8 +75,6 @@ var InstitutionArchives = function (_Component) {
         value: function performQuery(year) {
             var _this2 = this;
 
-            console.log(year, this.state);
-
             if (this.state.error) {
                 this.setState({
                     error: null
@@ -84,17 +82,10 @@ var InstitutionArchives = function (_Component) {
             }
 
             makeInstitutionsQuery(year).then(function (result) {
-                result.institutions.forEach(function (institution) {
-                    //Make country = country.name for simplicity
-                    institution.country = institution.country.name;
-                });
-
                 _this2.setState({
                     institutions: result.institutions
                 });
             }).catch(function (error) {
-                console.log(error);
-
                 _this2.props.setSidebarContent(null);
                 _this2.setState({
                     error: error

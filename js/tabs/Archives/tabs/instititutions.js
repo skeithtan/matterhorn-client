@@ -14,9 +14,7 @@ function makeInstitutionsQuery(year) {
         institutions(archived: true, year_archived: ${year}) {
             id
             name
-            country {
-                name
-            }
+            country
             archived_at
             archiver
         }
@@ -44,8 +42,6 @@ class InstitutionArchives extends Component {
     }
 
     performQuery(year) {
-        console.log(year, this.state);
-
         if (this.state.error) {
             this.setState({
                 error : null,
@@ -54,18 +50,11 @@ class InstitutionArchives extends Component {
 
         makeInstitutionsQuery(year)
             .then(result => {
-                result.institutions.forEach(institution => {
-                    //Make country = country.name for simplicity
-                    institution.country = institution.country.name;
-                });
-
                 this.setState({
                     institutions : result.institutions,
                 });
             })
             .catch(error => {
-                console.log(error);
-
                 this.props.setSidebarContent(null);
                 this.setState({
                     error : error,

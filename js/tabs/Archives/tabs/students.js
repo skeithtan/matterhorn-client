@@ -63,7 +63,6 @@ class StudentArchives extends Component {
                 students : result.students,
             }))
             .catch(error => {
-                console.log(error);
                 this.props.setSidebarContent(null);
                 this.setState({
                     error : error,

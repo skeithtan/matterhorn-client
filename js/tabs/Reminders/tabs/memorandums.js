@@ -112,8 +112,6 @@ class Memorandums extends Component {
                 institutions : result.institutions,
             }))
             .catch(error => {
-                console.log(error);
-
                 this.props.setSidebarContent(null);
                 this.setState({
                     error : error,

@@ -64,7 +64,6 @@ class MemorandumArchives extends Component {
                 });
             })
             .catch(error => {
-                console.log(error);
                 this.props.setSidebarContent(null);
                 this.setState({
                     error : error,

@@ -85,7 +85,6 @@ var MemorandumArchives = function (_Component) {
                     memorandums: result.memorandums
                 });
             }).catch(function (error) {
-                console.log(error);
                 _this2.props.setSidebarContent(null);
                 _this2.setState({
                     error: error

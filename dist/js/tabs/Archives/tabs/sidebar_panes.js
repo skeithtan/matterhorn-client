@@ -165,9 +165,6 @@ var InstitutionSidebarPane = function (_Component2) {
             (0, _overview2.fetchInstitution)(props.institution.id, function (result) {
                 var institution = result.institution;
 
-                //Make country = country.name for simplicity
-                institution.country = institution.country.name;
-
                 //Copy results to existing institution object so we won't have to fetch next time
                 Object.assign(props.institution, institution);
                 _this3.setState({
@@ -192,9 +189,6 @@ var InstitutionSidebarPane = function (_Component2) {
             if (!institutionIsFetched(props.institution)) {
                 (0, _overview2.fetchInstitution)(props.institution.id, function (result) {
                     var institution = result.institution;
-
-                    //Make country = country.name for simplicity
-                    institution.country = institution.country.name;
 
                     //Copy results to existing institution object so we won't have to fetch next time
                     Object.assign(props.institution, institution);

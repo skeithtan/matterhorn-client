@@ -134,9 +134,6 @@ class InstitutionSidebarPane extends Component {
             fetchInstitution(props.institution.id, result => {
                 const institution = result.institution;
 
-                //Make country = country.name for simplicity
-                institution.country = institution.country.name;
-
                 //Copy results to existing institution object so we won't have to fetch next time
                 Object.assign(props.institution, institution);
                 this.setState({
@@ -156,9 +153,6 @@ class InstitutionSidebarPane extends Component {
         if (!institutionIsFetched(props.institution)) {
             fetchInstitution(props.institution.id, result => {
                 const institution = result.institution;
-
-                //Make country = country.name for simplicity
-                institution.country = institution.country.name;
 
                 //Copy results to existing institution object so we won't have to fetch next time
                 Object.assign(props.institution, institution);

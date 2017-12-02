@@ -121,8 +121,6 @@ var Memorandums = function (_Component) {
                     institutions: result.institutions
                 });
             }).catch(function (error) {
-                console.log(error);
-
                 _this2.props.setSidebarContent(null);
                 _this2.setState({
                     error: error

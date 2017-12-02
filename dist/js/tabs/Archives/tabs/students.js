@@ -85,7 +85,6 @@ var StudentArchives = function (_Component) {
                     students: result.students
                 });
             }).catch(function (error) {
-                console.log(error);
                 _this2.props.setSidebarContent(null);
                 _this2.setState({
                     error: error

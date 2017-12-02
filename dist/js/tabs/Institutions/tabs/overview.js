@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.ContactDetails = exports.InstitutionDetails = exports.fetchInstitution = exports.default = undefined;
+exports.ContactDetails = exports.InstitutionDetails = exports.default = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -25,6 +25,10 @@ var _modals = require("../modals");
 
 var _section = require("../../../components/section");
 
+var _error_state = require("../../../components/error_state");
+
+var _error_state2 = _interopRequireDefault(_error_state);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -33,8 +37,12 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-function fetchInstitution(id, onResult) {
-    _graphql2.default.query("\n    {\n        institution(id:" + id + ") {\n            id\n            name\n            address\n            website\n            contact_person_email\n            contact_person_name\n            contact_person_number\n            country {\n                name\n            }\n            agreement\n        }\n    }    \n    ").then(onResult);
+function makeInstitutionQuery(id) {
+    return _graphql2.default.query("\n    {\n        institution(id:" + id + ") {\n            id\n            name\n            address\n            website\n            contact_person_email\n            contact_person_name\n            contact_person_number\n            country\n            agreement\n        }\n    }    \n    ");
+}
+
+function institutionIsFetched(institution) {
+    return institution.website !== undefined;
 }
 
 var InstitutionOverview = function (_Component) {
@@ -46,57 +54,81 @@ var InstitutionOverview = function (_Component) {
         var _this = _possibleConstructorReturn(this, (InstitutionOverview.__proto__ || Object.getPrototypeOf(InstitutionOverview)).call(this, props));
 
         _this.state = {
-            institution: null,
-            institutionID: props.institution.id
+            institution: props.institution,
+            error: null
         };
 
         _this.props.setSidebarContent(null);
+        _this.performQuery = _this.performQuery.bind(_this);
 
-        //Fetch active institution details
-        fetchInstitution(props.institution.id, function (result) {
-            var institution = result.institution;
-
-            //Make country = country.name for simplicity
-            institution.country = institution.country.name;
-
-            _this.setState({
-                institution: institution
-            });
-        });
+        _this.performQuery();
         return _this;
     }
 
     _createClass(InstitutionOverview, [{
-        key: "componentWillReceiveProps",
-        value: function componentWillReceiveProps(nextProps) {
+        key: "performQuery",
+        value: function performQuery(id) {
             var _this2 = this;
 
-            if (this.state.institutionID === nextProps.institution.id) {
+            if (id === undefined) {
+                id = this.state.institution.id;
+            }
+
+            if (this.state.error) {
+                this.setState({
+                    error: null
+                });
+            }
+
+            //Fetch active institution details
+            makeInstitutionQuery(id).then(function (result) {
+                var institution = result.institution;
+
+                // Carbon copy
+                Object.assign(_this2.state.institution, institution);
+
+                _this2.setState({
+                    institution: _this2.state.institution
+                });
+            }).catch(function (error) {
+                return _this2.setState({
+                    error: error
+                });
+            });
+        }
+    }, {
+        key: "componentWillReceiveProps",
+        value: function componentWillReceiveProps(props) {
+            if (this.state.institution !== null && this.state.institution.id === props.institution.id) {
                 // Institution is already showing, why reload?
                 return;
             }
 
             this.setState({
-                institutionID: nextProps.institution.id,
-                institution: null
+                institution: props.institution
             });
 
-            fetchInstitution(nextProps.institution.id, function (result) {
-                var institution = result.institution;
-
-                //Make country = country.name for simplicity
-                institution.country = institution.country.name;
-
-                _this2.setState({
-                    institution: institution
-                });
-            });
+            if (!institutionIsFetched(props.institution)) {
+                this.performQuery(props.institution.id);
+            }
         }
     }, {
         key: "render",
         value: function render() {
+            var _this3 = this;
+
+            if (this.state.error) {
+                return _react2.default.createElement(
+                    _error_state2.default,
+                    { onRetryButtonClick: function onRetryButtonClick() {
+                            return _this3.performQuery(_this3.state.institution.id);
+                        } },
+                    this.state.error.toString()
+                );
+            }
+
             //User has already selected, but we haven't fetched it from the database yet
-            if (this.state.institution === null) {
+            if (!institutionIsFetched(this.state.institution)) {
                 return _react2.default.createElement(_loading2.default, null);
             }
 
@@ -105,7 +137,7 @@ var InstitutionOverview = function (_Component) {
                 { className: "d-flex flex-column p-0 h-100" },
                 _react2.default.createElement(OverviewHead, { institution: this.state.institution,
                     onDeleteInstitution: this.props.onDeleteActiveInstitution,
-                    onEditInstitution: this.props.refreshInstitutions }),
+                    onEditInstitution: this.performQuery }),
                 _react2.default.createElement(OverviewBody, { institution: this.state.institution })
             );
         }
@@ -120,16 +152,16 @@ var OverviewHead = function (_Component2) {
     function OverviewHead(props) {
         _classCallCheck(this, OverviewHead);
 
-        var _this3 = _possibleConstructorReturn(this, (OverviewHead.__proto__ || Object.getPrototypeOf(OverviewHead)).call(this, props));
+        var _this4 = _possibleConstructorReturn(this, (OverviewHead.__proto__ || Object.getPrototypeOf(OverviewHead)).call(this, props));
 
-        _this3.state = {
+        _this4.state = {
             deleteInstitutionIsShowing: false,
             editInstitutionIsShowing: false
         };
 
-        _this3.toggleEditInstitution = _this3.toggleEditInstitution.bind(_this3);
-        _this3.toggleDeleteInstitution = _this3.toggleDeleteInstitution.bind(_this3);
-        return _this3;
+        _this4.toggleEditInstitution = _this4.toggleEditInstitution.bind(_this4);
+        _this4.toggleDeleteInstitution = _this4.toggleDeleteInstitution.bind(_this4);
+        return _this4;
     }
 
     _createClass(OverviewHead, [{
@@ -420,7 +452,6 @@ var ContactDetails = function (_Component5) {
 }(_react.Component);
 
 exports.default = InstitutionOverview;
-exports.fetchInstitution = fetchInstitution;
 exports.InstitutionDetails = InstitutionDetails;
 exports.ContactDetails = ContactDetails;
 //# sourceMappingURL=overview.js.map

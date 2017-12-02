@@ -30,6 +30,10 @@ var _modals = require("../modals");
 
 var _sidebar_panes = require("./sidebar_panes");
 
+var _error_state = require("../../../components/error_state");
+
+var _error_state2 = _interopRequireDefault(_error_state);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -38,8 +42,12 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-function fetchInstitution(id, onResult) {
-    _graphql2.default.query("\n    {\n      institution(id:" + id + ") {\n        id\n        name\n        moas {\n          id\n          category\n          memorandum_file\n          date_effective\n          date_expiration\n          college_initiator\n          linkages\n        }\n        mous {\n          id\n          category\n          memorandum_file\n          date_effective\n          date_expiration\n          college_initiator\n          linkages\n        }\n        \n      }\n    }\n    ").then(onResult);
+function makeMemorandumsQuery(id) {
+    return _graphql2.default.query("\n    {\n      institution(id:" + id + ") {\n        id\n        name\n        moas {\n          id\n          category\n          memorandum_file\n          date_effective\n          date_expiration\n          college_initiator\n          linkages\n        }\n        mous {\n          id\n          category\n          memorandum_file\n          date_effective\n          date_expiration\n          college_initiator\n          linkages\n        }\n        \n      }\n    }\n    ");
+}
+
+function institutionIsFetched(institution) {
+    return institution.moas !== undefined;
 }
 
 var Memorandums = function (_Component) {
@@ -51,38 +59,61 @@ var Memorandums = function (_Component) {
         var _this = _possibleConstructorReturn(this, (Memorandums.__proto__ || Object.getPrototypeOf(Memorandums)).call(this, props));
 
         _this.state = {
-            institution: null,
-            institutionID: props.institution.id,
+            institution: props.institution,
             activeMemorandumId: null
         };
 
+        _this.performQuery = _this.performQuery.bind(_this);
         _this.refreshMemorandums = _this.refreshMemorandums.bind(_this);
         _this.setActiveMemorandum = _this.setActiveMemorandum.bind(_this);
 
-        //Fetch active institution details
-        fetchInstitution(_this.props.institution.id, function (result) {
-            _this.setState({
-                institution: result.institution
-            });
-        });
+        _this.performQuery();
         return _this;
     }
 
     _createClass(Memorandums, [{
+        key: "performQuery",
+        value: function performQuery(id) {
+            var _this2 = this;
+
+            if (id === undefined) {
+                id = this.props.institution.id;
+            }
+
+            if (this.state.error) {
+                this.setState({
+                    error: null
+                });
+            }
+
+            makeMemorandumsQuery(id).then(function (result) {
+                _this2.state.institution.moas = result.institution.moas;
+                _this2.state.institution.mous = result.institution.mous;
+
+                _this2.setState({
+                    institution: _this2.state.institution
+                });
+            }).catch(function (error) {
+                return _this2.setState({
+                    error: error
+                });
+            });
+        }
+    }, {
         key: "setActiveMemorandum",
         value: function setActiveMemorandum(memorandum) {
-            var _this2 = this;
+            var _this3 = this;
 
             if (memorandum === null) {
                 this.props.setSidebarContent(null);
             }
 
             var onDeleteMemorandum = function onDeleteMemorandum() {
-                _this2.setState({
+                _this3.setState({
                     activeMemorandumId: null
                 });
-                _this2.refreshMemorandums();
-                _this2.props.setSidebarContent(null);
+                _this3.refreshMemorandums();
+                _this3.props.setSidebarContent(null);
             };
 
             this.props.setSidebarContent(_react2.default.createElement(_sidebar_panes.MemorandumSidebarPane, { memorandum: memorandum,
@@ -96,45 +127,46 @@ var Memorandums = function (_Component) {
     }, {
         key: "refreshMemorandums",
         value: function refreshMemorandums() {
-            var _this3 = this;
-
             this.setState({
                 institution: null
             });
 
-            fetchInstitution(this.props.institution.id, function (result) {
-                _this3.setState({
-                    institution: result.institution
-                });
-            });
+            this.performQuery();
         }
     }, {
         key: "componentWillReceiveProps",
-        value: function componentWillReceiveProps(nextProps) {
-            var _this4 = this;
-
-            if (this.state.institutionID === nextProps.institution.id) {
+        value: function componentWillReceiveProps(props) {
+            if (this.state.institution !== null && this.state.institution.id === props.institution.id) {
                 return;
             }
 
             this.props.setSidebarContent(null);
 
             this.setState({
-                institutionID: nextProps.institution.id,
-                institution: null,
+                institution: props.institution,
                 activeMemorandumId: null //Remove current active memorandum ID
             });
 
-            fetchInstitution(nextProps.institution.id, function (result) {
-                _this4.setState({
-                    institution: result.institution
-                });
-            });
+            if (!institutionIsFetched(props.institution)) {
+                this.performQuery(props.institution.id);
+            }
         }
     }, {
         key: "render",
         value: function render() {
-            if (this.state.institution === null) {
+            var _this4 = this;
+
+            if (this.state.error) {
+                return _react2.default.createElement(
+                    _error_state2.default,
+                    { onRetryButtonClick: function onRetryButtonClick() {
+                            return _this4.performQuery(_this4.state.institution.id);
+                        } },
+                    this.state.error.toString()
+                );
+            }
+
+            if (!institutionIsFetched(this.state.institution)) {
                 return _react2.default.createElement(_loading2.default, null);
             }
 
@@ -213,7 +245,10 @@ var MemorandumHead = function (_Component2) {
                     { className: "page-head-actions" },
                     _react2.default.createElement(
                         _reactstrap.Button,
-                        { outline: true, size: "sm", color: "success", onClick: this.toggleAddMemorandum },
+                        { outline: true,
+                            size: "sm",
+                            color: "success",
+                            onClick: this.toggleAddMemorandum },
                         "Add a Memorandum"
                     )
                 ),

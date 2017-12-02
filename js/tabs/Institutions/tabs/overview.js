@@ -16,10 +16,11 @@ import {
     SectionRowTitle,
     SectionRowContent,
 } from "../../../components/section";
+import ErrorState from "../../../components/error_state";
 
 
-function fetchInstitution(id, onResult) {
-    graphql.query(`
+function makeInstitutionQuery(id) {
+    return graphql.query(`
     {
         institution(id:${id}) {
             id
@@ -29,64 +30,87 @@ function fetchInstitution(id, onResult) {
             contact_person_email
             contact_person_name
             contact_person_number
-            country {
-                name
-            }
+            country
             agreement
         }
     }    
-    `).then(onResult);
+    `);
+}
+
+function institutionIsFetched(institution) {
+    return institution.website !== undefined;
 }
 
 class InstitutionOverview extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            institution : null,
-            institutionID : props.institution.id,
+            institution : props.institution,
+            error : null,
         };
 
         this.props.setSidebarContent(null);
+        this.performQuery = this.performQuery.bind(this);
 
-        //Fetch active institution details
-        fetchInstitution(props.institution.id, result => {
-            const institution = result.institution;
-
-            //Make country = country.name for simplicity
-            institution.country = institution.country.name;
-
-            this.setState({
-                institution : institution,
-            });
-        });
+        this.performQuery();
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (this.state.institutionID === nextProps.institution.id) {
+    performQuery(id) {
+        if (id === undefined) {
+            id = this.state.institution.id;
+        }
+
+        if (this.state.error) {
+            this.setState({
+                error : null,
+            });
+        }
+
+        //Fetch active institution details
+        makeInstitutionQuery(id)
+            .then(result => {
+                const institution = result.institution;
+
+                // Carbon copy
+                Object.assign(this.state.institution, institution);
+
+                this.setState({
+                    institution : this.state.institution,
+                });
+            })
+            .catch(error => this.setState({
+                    error : error,
+                }),
+            );
+    }
+
+    componentWillReceiveProps(props) {
+        if (this.state.institution !== null &&
+            this.state.institution.id === props.institution.id) {
             // Institution is already showing, why reload?
             return;
         }
 
         this.setState({
-            institutionID : nextProps.institution.id,
-            institution : null,
+            institution : props.institution,
         });
 
-        fetchInstitution(nextProps.institution.id, result => {
-            const institution = result.institution;
-
-            //Make country = country.name for simplicity
-            institution.country = institution.country.name;
-
-            this.setState({
-                institution : institution,
-            });
-        });
+        if (!institutionIsFetched(props.institution)) {
+            this.performQuery(props.institution.id);
+        }
     }
 
     render() {
+        if (this.state.error) {
+            return (
+                <ErrorState onRetryButtonClick={() => this.performQuery(this.state.institution.id)}>
+                    {this.state.error.toString()}
+                </ErrorState>
+            );
+        }
+
         //User has already selected, but we haven't fetched it from the database yet
-        if (this.state.institution === null) {
+        if (!institutionIsFetched(this.state.institution)) {
             return <LoadingSpinner/>;
         }
 
@@ -94,7 +118,7 @@ class InstitutionOverview extends Component {
             <div className="d-flex flex-column p-0 h-100">
                 <OverviewHead institution={this.state.institution}
                               onDeleteInstitution={this.props.onDeleteActiveInstitution}
-                              onEditInstitution={this.props.refreshInstitutions}/>
+                              onEditInstitution={this.performQuery}/>
                 <OverviewBody institution={this.state.institution}/>
             </div>
         );
@@ -269,7 +293,6 @@ class ContactDetails extends Component {
 
 export {
     InstitutionOverview as default,
-    fetchInstitution,
     InstitutionDetails,
     ContactDetails,
 };
