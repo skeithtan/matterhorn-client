@@ -11,6 +11,20 @@ import {
     SectionTable,
     SectionRow,
 } from "../../components/section";
+import TabBar from "../../components/tab_bar";
+
+const tabs = [
+    {
+        name : "Inbound",
+        image : "./images/inboundgrey.png",
+        activeImage : "./images/inboundgreen.png",
+    },
+    {
+        name : "Outbound",
+        image : "./images/airplanegrey.png",
+        activeImage : "./images/airplanegreen.png",
+    },
+];
 
 function fetchOutboundApplications(onResult) {
     graphql.query(`
@@ -47,40 +61,51 @@ function fetchInboundApplications(onResult) {
     `).then(onResult);
 }
 
-
 class StudentApplications extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        return (
-            <div className="container-fluid d-flex flex-row p-0 h-100">
-                <StudentApplicationsList/>
-            </div>
-        );
-    }
-}
-
-class StudentApplicationsList extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
             activeCategory : "Incomplete",
+            activeTab : tabs[0],
             applicants : null,
             activeApplicant : null,
         };
 
-        fetchOutboundApplications(result => {
-            this.setState({
-                applicants : result.outbound_student_programs,
-            });
-        });
-
+        this.setApplicants = this.setApplicants.bind(this);
+        this.setActiveTab = this.setActiveTab.bind(this);
         this.setActiveCategory = this.setActiveCategory.bind(this);
         this.getApplicantsByCategory = this.getApplicantsByCategory.bind(this);
         this.setActiveApplicant = this.setActiveApplicant.bind(this);
+
+        this.setApplicants(this.state.activeTab.name);
+    }
+
+    setApplicants(tabName) {
+        if (tabName === "Inbound") {
+            fetchInboundApplications(result => {
+                console.log(result.inbound_student_programs);
+                this.setState({
+                    applicants : result.inbound_student_programs,
+                });
+            });
+        } else {
+            fetchOutboundApplications(result => {
+                this.setState({
+                    applicants : result.outbound_student_programs,
+                });
+            });
+        }
+    }
+
+    setActiveTab(tab) {
+        this.setState({
+            activeTab : tab,
+            activeApplicant : null,
+            applicants : null,
+        });
+
+        this.setApplicants(tab.name);
     }
 
     setActiveCategory(category) {
@@ -110,11 +135,8 @@ class StudentApplicationsList extends Component {
             }
         });
 
-
         return filteredApplicants;
     }
-
-    // TODO: refreshing the applicants and at the same time conforming to the activeCategory
 
     setActiveApplicant(applicant) {
         this.setState({
@@ -122,17 +144,43 @@ class StudentApplicationsList extends Component {
         });
     }
 
+    // TODO: refreshing the applicants and at the same time conforming to the activeCategory
+
     render() {
         const applicants = this.getApplicantsByCategory(this.state.applicants);
 
         return (
+            <div className="container-fluid d-flex flex-row p-0 h-100">
+                <StudentApplicationsList activeCategory={ this.state.activeCategory }
+                                         setActiveCategory={ this.setActiveCategory }
+                                         applicants={ applicants }
+                                         activeApplicant={ this.state.activeApplicant }
+                                         setActiveApplicant={ this.setActiveApplicant }
+                                         tabs={ tabs }
+                                         activeTab={ this.state.activeTab }
+                                         setActiveTab={ this.setActiveTab }/>
+            </div>
+        );
+    }
+}
+
+class StudentApplicationsList extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return (
             <div className="sidebar h-100">
-                <StudentApplicationsListHead activeCategory={ this.state.activeCategory }
-                                             setActiveCategory={ this.setActiveCategory }/>
-                <StudentApplicationsListTable activeCategory={ this.state.activeCategory }
-                                              applicants={ applicants }
-                                              activeApplicant={ this.state.activeApplicant }
-                                              setActiveApplicant={ this.setActiveApplicant }/>
+                <StudentApplicationsListHead activeCategory={ this.props.activeCategory }
+                                             setActiveCategory={ this.props.setActiveCategory }/>
+                <StudentApplicationsListTable activeCategory={ this.props.activeCategory }
+                                              applicants={ this.props.applicants }
+                                              activeApplicant={ this.props.activeApplicant }
+                                              setActiveApplicant={ this.props.setActiveApplicant }/>
+                <TabBar tabs={ this.props.tabs }
+                        activeTab={ this.props.activeTab }
+                        setActiveTab={ this.props.setActiveTab }/>
             </div>
         );
     }

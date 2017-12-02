@@ -22,6 +22,10 @@ var _loading2 = _interopRequireDefault(_loading);
 
 var _section = require("../../components/section");
 
+var _tab_bar = require("../../components/tab_bar");
+
+var _tab_bar2 = _interopRequireDefault(_tab_bar);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -29,6 +33,16 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var tabs = [{
+    name: "Inbound",
+    image: "./images/inboundgrey.png",
+    activeImage: "./images/inboundgreen.png"
+}, {
+    name: "Outbound",
+    image: "./images/airplanegrey.png",
+    activeImage: "./images/airplanegreen.png"
+}];
 
 function fetchOutboundApplications(onResult) {
     _graphql2.default.query("\n    {\n        outbound_student_programs {\n            id\n            student {\n                id\n                id_number\n                first_name\n                middle_name\n                family_name\n            }\n            is_requirements_complete\n        }\n    }\n    ").then(onResult);
@@ -44,50 +58,57 @@ var StudentApplications = function (_Component) {
     function StudentApplications(props) {
         _classCallCheck(this, StudentApplications);
 
-        return _possibleConstructorReturn(this, (StudentApplications.__proto__ || Object.getPrototypeOf(StudentApplications)).call(this, props));
-    }
+        var _this = _possibleConstructorReturn(this, (StudentApplications.__proto__ || Object.getPrototypeOf(StudentApplications)).call(this, props));
 
-    _createClass(StudentApplications, [{
-        key: "render",
-        value: function render() {
-            return _react2.default.createElement(
-                "div",
-                { className: "container-fluid d-flex flex-row p-0 h-100" },
-                _react2.default.createElement(StudentApplicationsList, null)
-            );
-        }
-    }]);
-
-    return StudentApplications;
-}(_react.Component);
-
-var StudentApplicationsList = function (_Component2) {
-    _inherits(StudentApplicationsList, _Component2);
-
-    function StudentApplicationsList(props) {
-        _classCallCheck(this, StudentApplicationsList);
-
-        var _this2 = _possibleConstructorReturn(this, (StudentApplicationsList.__proto__ || Object.getPrototypeOf(StudentApplicationsList)).call(this, props));
-
-        _this2.state = {
+        _this.state = {
             activeCategory: "Incomplete",
+            activeTab: tabs[0],
             applicants: null,
             activeApplicant: null
         };
 
-        fetchOutboundApplications(function (result) {
-            _this2.setState({
-                applicants: result.outbound_student_programs
-            });
-        });
+        _this.setApplicants = _this.setApplicants.bind(_this);
+        _this.setActiveTab = _this.setActiveTab.bind(_this);
+        _this.setActiveCategory = _this.setActiveCategory.bind(_this);
+        _this.getApplicantsByCategory = _this.getApplicantsByCategory.bind(_this);
+        _this.setActiveApplicant = _this.setActiveApplicant.bind(_this);
 
-        _this2.setActiveCategory = _this2.setActiveCategory.bind(_this2);
-        _this2.getApplicantsByCategory = _this2.getApplicantsByCategory.bind(_this2);
-        _this2.setActiveApplicant = _this2.setActiveApplicant.bind(_this2);
-        return _this2;
+        _this.setApplicants(_this.state.activeTab.name);
+        return _this;
     }
 
-    _createClass(StudentApplicationsList, [{
+    _createClass(StudentApplications, [{
+        key: "setApplicants",
+        value: function setApplicants(tabName) {
+            var _this2 = this;
+
+            if (tabName === "Inbound") {
+                fetchInboundApplications(function (result) {
+                    console.log(result.inbound_student_programs);
+                    _this2.setState({
+                        applicants: result.inbound_student_programs
+                    });
+                });
+            } else {
+                fetchOutboundApplications(function (result) {
+                    _this2.setState({
+                        applicants: result.outbound_student_programs
+                    });
+                });
+            }
+        }
+    }, {
+        key: "setActiveTab",
+        value: function setActiveTab(tab) {
+            this.setState({
+                activeTab: tab,
+                activeApplicant: null,
+                applicants: null
+            });
+
+            this.setApplicants(tab.name);
+        }
+    }, {
         key: "setActiveCategory",
         value: function setActiveCategory(category) {
             this.setState({
@@ -121,9 +142,6 @@ var StudentApplicationsList = function (_Component2) {
 
             return filteredApplicants;
         }
-
-        // TODO: refreshing the applicants and at the same time conforming to the activeCategory
-
     }, {
         key: "setActiveApplicant",
         value: function setActiveApplicant(applicant) {
@@ -131,6 +149,9 @@ var StudentApplicationsList = function (_Component2) {
                 activeApplicant: applicant
             });
         }
+
+        // TODO: refreshing the applicants and at the same time conforming to the activeCategory
+
     }, {
         key: "render",
         value: function render() {
@@ -138,13 +159,46 @@ var StudentApplicationsList = function (_Component2) {
 
             return _react2.default.createElement(
                 "div",
-                { className: "sidebar h-100" },
-                _react2.default.createElement(StudentApplicationsListHead, { activeCategory: this.state.activeCategory,
-                    setActiveCategory: this.setActiveCategory }),
-                _react2.default.createElement(StudentApplicationsListTable, { activeCategory: this.state.activeCategory,
+                { className: "container-fluid d-flex flex-row p-0 h-100" },
+                _react2.default.createElement(StudentApplicationsList, { activeCategory: this.state.activeCategory,
+                    setActiveCategory: this.setActiveCategory,
                     applicants: applicants,
                     activeApplicant: this.state.activeApplicant,
-                    setActiveApplicant: this.setActiveApplicant })
+                    setActiveApplicant: this.setActiveApplicant,
+                    tabs: tabs,
+                    activeTab: this.state.activeTab,
+                    setActiveTab: this.setActiveTab })
+            );
+        }
+    }]);
+
+    return StudentApplications;
+}(_react.Component);
+
+var StudentApplicationsList = function (_Component2) {
+    _inherits(StudentApplicationsList, _Component2);
+
+    function StudentApplicationsList(props) {
+        _classCallCheck(this, StudentApplicationsList);
+
+        return _possibleConstructorReturn(this, (StudentApplicationsList.__proto__ || Object.getPrototypeOf(StudentApplicationsList)).call(this, props));
+    }
+
+    _createClass(StudentApplicationsList, [{
+        key: "render",
+        value: function render() {
+            return _react2.default.createElement(
+                "div",
+                { className: "sidebar h-100" },
+                _react2.default.createElement(StudentApplicationsListHead, { activeCategory: this.props.activeCategory,
+                    setActiveCategory: this.props.setActiveCategory }),
+                _react2.default.createElement(StudentApplicationsListTable, { activeCategory: this.props.activeCategory,
+                    applicants: this.props.applicants,
+                    activeApplicant: this.props.activeApplicant,
+                    setActiveApplicant: this.props.setActiveApplicant }),
+                _react2.default.createElement(_tab_bar2.default, { tabs: this.props.tabs,
+                    activeTab: this.props.activeTab,
+                    setActiveTab: this.props.setActiveTab })
             );
         }
     }]);
@@ -164,7 +218,7 @@ var StudentApplicationsListHead = function (_Component3) {
     _createClass(StudentApplicationsListHead, [{
         key: "render",
         value: function render() {
-            var _this5 = this;
+            var _this6 = this;
 
             return _react2.default.createElement(
                 "div",
@@ -181,7 +235,7 @@ var StudentApplicationsListHead = function (_Component3) {
                                 color: "success",
                                 size: "sm",
                                 onClick: function onClick() {
-                                    return _this5.props.setActiveCategory("Incomplete");
+                                    return _this6.props.setActiveCategory("Incomplete");
                                 },
                                 active: this.props.activeCategory === "Incomplete" },
                             "Incomplete"
@@ -192,7 +246,7 @@ var StudentApplicationsListHead = function (_Component3) {
                                 color: "success",
                                 size: "sm",
                                 onClick: function onClick() {
-                                    return _this5.props.setActiveCategory("Complete");
+                                    return _this6.props.setActiveCategory("Complete");
                                 },
                                 active: this.props.activeCategory === "Complete" },
                             "Complete"
@@ -229,11 +283,11 @@ var StudentApplicationsListTable = function (_Component4) {
     function StudentApplicationsListTable(props) {
         _classCallCheck(this, StudentApplicationsListTable);
 
-        var _this6 = _possibleConstructorReturn(this, (StudentApplicationsListTable.__proto__ || Object.getPrototypeOf(StudentApplicationsListTable)).call(this, props));
+        var _this7 = _possibleConstructorReturn(this, (StudentApplicationsListTable.__proto__ || Object.getPrototypeOf(StudentApplicationsListTable)).call(this, props));
 
-        _this6.getStudentsByFamilyNameInitials = _this6.getStudentsByFamilyNameInitials.bind(_this6);
-        _this6.emptyState = _this6.emptyState.bind(_this6);
-        return _this6;
+        _this7.getStudentsByFamilyNameInitials = _this7.getStudentsByFamilyNameInitials.bind(_this7);
+        _this7.emptyState = _this7.emptyState.bind(_this7);
+        return _this7;
     }
 
     _createClass(StudentApplicationsListTable, [{
@@ -308,7 +362,7 @@ var StudentApplicationsListTable = function (_Component4) {
     }, {
         key: "render",
         value: function render() {
-            var _this7 = this;
+            var _this8 = this;
 
             if (this.props.applicants === null) {
                 return _react2.default.createElement(_loading2.default, null);
@@ -323,9 +377,9 @@ var StudentApplicationsListTable = function (_Component4) {
             var sections = familyNameInitials.map(function (familyNameInitial, index) {
                 return _react2.default.createElement(StudentApplicationsListSection, { key: index,
                     title: familyNameInitial.initial,
-                    activeApplicant: _this7.props.activeApplicant,
+                    activeApplicant: _this8.props.activeApplicant,
                     applicants: familyNameInitial.applicants,
-                    setActiveApplicant: _this7.props.setActiveApplicant });
+                    setActiveApplicant: _this8.props.setActiveApplicant });
             });
 
             return _react2.default.createElement(
@@ -351,17 +405,17 @@ var StudentApplicationsListSection = function (_Component5) {
     _createClass(StudentApplicationsListSection, [{
         key: "render",
         value: function render() {
-            var _this9 = this;
+            var _this10 = this;
 
             var rows = this.props.applicants.map(function (applicant, index) {
                 var isActive = false;
 
-                if (_this9.props.activeApplicant !== null) {
-                    isActive = _this9.props.activeApplicant.id.toString() === applicant.id.toString();
+                if (_this10.props.activeApplicant !== null) {
+                    isActive = _this10.props.activeApplicant.id.toString() === applicant.id.toString();
                 }
 
                 var setActiveApplicant = function setActiveApplicant() {
-                    return _this9.props.setActiveApplicant(applicant);
+                    return _this10.props.setActiveApplicant(applicant);
                 };
 
                 return _react2.default.createElement(
