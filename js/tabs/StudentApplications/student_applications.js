@@ -79,7 +79,7 @@ class StudentApplications extends Component {
         this.setActiveCategory = this.setActiveCategory.bind(this);
         this.getApplicantsByCategory = this.getApplicantsByCategory.bind(this);
         this.setActiveApplicant = this.setActiveApplicant.bind(this);
-        this.fetchInboundApplications = this.fetchInboundApplications();
+        this.fetchInboundApplications = this.fetchInboundApplications.bind(this);
         this.fetchOutboundApplications = this.fetchOutboundApplications.bind(this);
 
         this.setApplicants(this.state.activeTab.name);

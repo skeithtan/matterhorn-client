@@ -73,7 +73,7 @@ var StudentApplications = function (_Component) {
         _this.setActiveCategory = _this.setActiveCategory.bind(_this);
         _this.getApplicantsByCategory = _this.getApplicantsByCategory.bind(_this);
         _this.setActiveApplicant = _this.setActiveApplicant.bind(_this);
-        _this.fetchInboundApplications = _this.fetchInboundApplications();
+        _this.fetchInboundApplications = _this.fetchInboundApplications.bind(_this);
         _this.fetchOutboundApplications = _this.fetchOutboundApplications.bind(_this);
 
         _this.setApplicants(_this.state.activeTab.name);
