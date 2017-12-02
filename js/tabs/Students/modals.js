@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import authorizeXHR from "../../authorization";
-import makeInfoToast from "../../dismissable_toast_maker";
+import {makeInfoToast} from "../../dismissable_toast_maker";
 import validateForm from "../../form_validator";
 import graphql from "../../graphql";
 import settings from "../../settings";

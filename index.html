@@ -21,13 +21,6 @@
     <link rel="stylesheet"
           href="node_modules/izitoast/dist/css/iziToast.min.css">
 
-    <!--Offline.js-->
-    <link rel="stylesheet"
-          href="node_modules/offline-js/themes/offline-language-english.css">
-    <link rel="stylesheet"
-          href="node_modules/offline-js/themes/offline-theme-default.css">
-
-
 </head>
 <body>
 
@@ -38,6 +31,8 @@
     // App requirements
     require("./renderer.js");
     require("./dist/js/index");
+    require("izitoast");
+    const { makeErrorToast } = require("./dist/js/dismissable_toast_maker");
 
     const settings = require("./dist/js/settings").default;
 
@@ -48,6 +43,32 @@
         requests : false,
         reconnect : false,
     };
+
+    function bindOfflineHandlers() {
+        Offline.on("down", () => {
+            const dismissError = makeErrorToast({
+                title : "Offline",
+                message : "You are not connected to the server",
+            });
+
+            Offline.on("up", () => {
+                iziToast.success({
+                    title : "Connected",
+                    message : "Established connection with the server",
+                });
+
+                dismissError();
+                // Unbind everything to avoid duplicates
+                Offline.off("down");
+                Offline.off("up");
+
+                //Rebind everything
+                bindOfflineHandlers();
+            });
+        });
+    }
+
+    bindOfflineHandlers();
 
     // Initial check when app launches
     Offline.check();

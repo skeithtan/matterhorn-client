@@ -23,8 +23,6 @@ var _authorization2 = _interopRequireDefault(_authorization);
 
 var _dismissable_toast_maker = require("../../../dismissable_toast_maker");
 
-var _dismissable_toast_maker2 = _interopRequireDefault(_dismissable_toast_maker);
-
 var _settings = require("../../../settings");
 
 var _settings2 = _interopRequireDefault(_settings);
@@ -55,7 +53,7 @@ var RestoreMemorandumModal = function (_Component) {
             var _this2 = this;
 
             this.props.toggle();
-            var dismissToast = (0, _dismissable_toast_maker2.default)({
+            var dismissToast = (0, _dismissable_toast_maker.makeInfoToast)({
                 title: "Restoring",
                 message: "Restoring memorandum..."
             });
@@ -120,7 +118,7 @@ var RestoreStudentModal = function (_Component2) {
             var _this4 = this;
 
             this.props.toggle();
-            var dismissToast = (0, _dismissable_toast_maker2.default)({
+            var dismissToast = (0, _dismissable_toast_maker.makeInfoToast)({
                 title: "Restoring",
                 message: "Restoring student..."
             });
@@ -190,7 +188,7 @@ var RestoreInstitutionModal = function (_Component3) {
             var _this6 = this;
 
             this.props.toggle();
-            var dismissToast = (0, _dismissable_toast_maker2.default)({
+            var dismissToast = (0, _dismissable_toast_maker.makeInfoToast)({
                 title: "Restoring",
                 message: "Restoring institution..."
             });

@@ -16,6 +16,21 @@ function makeInfoToast(settings) {
     };
 }
 
+function makeErrorToast(settings) {
+    const uuid = makeUUID();
+    settings.id = uuid;
+    settings.timeout = false;
+    iziToast.error(settings);
+
+    const toast = document.getElementById(uuid);
+
+    return function () {
+        iziToast.hide(toast, {
+            transitionOut : "fadeOut",
+        });
+    };
+}
+
 
 function makeUUID() {
     // Random string with very little collision possibility
@@ -24,4 +39,7 @@ function makeUUID() {
     );
 }
 
-export default makeInfoToast;
+export {
+    makeInfoToast,
+    makeErrorToast,
+};

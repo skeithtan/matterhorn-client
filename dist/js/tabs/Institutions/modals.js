@@ -17,8 +17,6 @@ var _authorization2 = _interopRequireDefault(_authorization);
 
 var _dismissable_toast_maker = require("../../dismissable_toast_maker");
 
-var _dismissable_toast_maker2 = _interopRequireDefault(_dismissable_toast_maker);
-
 var _form_validator = require("../../form_validator");
 
 var _form_validator2 = _interopRequireDefault(_form_validator);
@@ -132,7 +130,7 @@ var InstitutionFormModal = function (_Component) {
         value: function submitAddInstitutionForm() {
             var _this2 = this;
 
-            var dismissToast = (0, _dismissable_toast_maker2.default)({
+            var dismissToast = (0, _dismissable_toast_maker.makeInfoToast)({
                 title: "Adding",
                 message: "Adding new institution..."
             });
@@ -166,7 +164,7 @@ var InstitutionFormModal = function (_Component) {
         value: function submitEditInstitutionForm() {
             var _this3 = this;
 
-            var dismissToast = (0, _dismissable_toast_maker2.default)({
+            var dismissToast = (0, _dismissable_toast_maker.makeInfoToast)({
                 title: "Editing",
                 message: "Editing institution..."
             });
@@ -478,7 +476,7 @@ var ArchiveInstitutionModal = function (_Component2) {
         value: function confirmArchive() {
             var _this6 = this;
 
-            var dismissToast = (0, _dismissable_toast_maker2.default)({
+            var dismissToast = (0, _dismissable_toast_maker.makeInfoToast)({
                 title: "Deleting",
                 message: "Deleting institution..."
             });
@@ -640,7 +638,7 @@ var MemorandumFormModal = function (_Component3) {
         value: function submitAddMemorandumForm() {
             var _this10 = this;
 
-            var dismissToast = (0, _dismissable_toast_maker2.default)({
+            var dismissToast = (0, _dismissable_toast_maker.makeInfoToast)({
                 title: "Adding",
                 message: "Adding new memorandum..."
             });
@@ -677,7 +675,7 @@ var MemorandumFormModal = function (_Component3) {
         value: function submitEditMemorandumForm() {
             var _this11 = this;
 
-            var dismissToast = (0, _dismissable_toast_maker2.default)({
+            var dismissToast = (0, _dismissable_toast_maker.makeInfoToast)({
                 title: "Editing",
                 message: "Editing memorandum..."
             });
@@ -974,7 +972,7 @@ var ArchiveMemorandumModal = function (_Component4) {
         value: function confirmArchive() {
             var _this14 = this;
 
-            var dismissToast = (0, _dismissable_toast_maker2.default)({
+            var dismissToast = (0, _dismissable_toast_maker.makeInfoToast)({
                 title: "Archiving",
                 message: "Archiving memorandum..."
             });
@@ -1111,7 +1109,7 @@ var ProgramFormModal = function (_Component5) {
         value: function submitAddProgramForm() {
             var _this16 = this;
 
-            var dismissToast = (0, _dismissable_toast_maker2.default)({
+            var dismissToast = (0, _dismissable_toast_maker.makeInfoToast)({
                 title: "Adding",
                 message: "Adding program..."
             });
