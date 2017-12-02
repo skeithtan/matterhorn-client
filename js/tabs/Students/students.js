@@ -3,6 +3,7 @@ import graphql from "../../graphql";
 import StudentList from "./student_list";
 import StudentDetail from "./student_detail";
 import { StudentFormModal, } from "./modals";
+import ErrorState from "../../components/error_state";
 
 
 const tabs = [
@@ -19,8 +20,8 @@ const tabs = [
 ];
 
 
-function fetchStudents(category, onResult) {
-    graphql.query(`
+function makeStudentsQuery(category) {
+    return graphql.query(`
     {
         students(category:"${category}") {
             id
@@ -30,7 +31,7 @@ function fetchStudents(category, onResult) {
             middle_name
         }
     }
-    `).then(onResult);
+    `);
 }
 
 class Students extends Component {
@@ -42,37 +43,45 @@ class Students extends Component {
             activeStudent : null,
             addStudentIsShowing : false,
             activeTab : tabs[0],
+            error : null,
         };
 
         this.onAddStudent = this.onAddStudent.bind(this);
         this.setActiveTab = this.setActiveTab.bind(this);
+        this.fetchStudents = this.fetchStudents.bind(this);
         this.setActiveStudent = this.setActiveStudent.bind(this);
         this.toggleAddStudent = this.toggleAddStudent.bind(this);
-        this.refreshStudents = this.refreshStudents.bind(this);
         this.onArchiveActiveStudent = this.onArchiveActiveStudent.bind(this);
 
-        const category = this.state.activeTab.name === "Inbound" ? "IN" : "OUT";
+        this.fetchStudents(this.state.activeTab.name);
+    }
 
-        fetchStudents(category, result => {
+    fetchStudents(tabName) {
+        const category = tabName === "Inbound" ? "IN" : "OUT";
+
+        if (this.state.error) {
             this.setState({
-                allStudents : result.students,
+                error : null,
             });
-        });
+        }
+
+        makeStudentsQuery(category)
+            .then(result => this.setState({
+                allStudents : result.students,
+            }))
+            .catch(error => this.setState({
+                error : error,
+            }));
     }
 
     setActiveTab(tab) {
         this.setState({
             activeTab : tab,
             activeStudent : null, //Student is no longer in the same category
+            allStudents : null,
         });
 
-        const category = tab.name === "Inbound" ? "IN" : "OUT";
-
-        fetchStudents(category, result => {
-            this.setState({
-                allStudents : result.students,
-            });
-        });
+        this.fetchStudents(tab.name);
     }
 
     onAddStudent(student) {
@@ -85,16 +94,13 @@ class Students extends Component {
         }
     }
 
-    refreshStudents() {
-        this.setActiveTab(this.state.activeTab);
-    }
-
     onArchiveActiveStudent() {
         this.setState({
             activeStudent : null,
         });
 
-        this.refreshStudents();
+        // Refresh students
+        this.fetchStudents(this.state.activeTab.name);
     }
 
     toggleAddStudent() {
@@ -110,7 +116,16 @@ class Students extends Component {
     }
 
     render() {
+        if (this.state.error) {
+            return (
+                <ErrorState onRetryButtonClick={() => this.fetchStudents(this.state.activeTab.name)}>
+                    {this.state.error.toString()}
+                </ErrorState>
+            );
+        }
+
         const addButtonIsShowing = this.state.activeTab.name === "Inbound";
+        const refresh = () => this.fetchStudents(this.state.activeTab.name);
 
         return (
             <div className="container-fluid d-flex flex-row p-0 h-100">
@@ -124,11 +139,11 @@ class Students extends Component {
                              tabs={tabs}/>
                 <StudentDetail student={this.state.activeStudent}
                                onArchiveActiveStudent={this.onArchiveActiveStudent}
-                               refreshStudents={this.refreshStudents}/>
+                               refreshStudents={refresh}/>
                 <StudentFormModal isOpen={this.state.addStudentIsShowing}
                                   toggle={this.toggleAddStudent}
                                   onAddStudent={this.onAddStudent}
-                                  refresh={this.refreshStudents}/>
+                                  refresh={refresh}/>
             </div>
         );
     }

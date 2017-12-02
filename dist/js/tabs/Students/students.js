@@ -24,6 +24,10 @@ var _student_detail2 = _interopRequireDefault(_student_detail);
 
 var _modals = require("./modals");
 
+var _error_state = require("../../components/error_state");
+
+var _error_state2 = _interopRequireDefault(_error_state);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -42,8 +46,8 @@ var tabs = [{
     activeImage: "./images/airplanegreen.png"
 }];
 
-function fetchStudents(category, onResult) {
-    _graphql2.default.query("\n    {\n        students(category:\"" + category + "\") {\n            id\n            id_number\n            family_name\n            first_name\n            middle_name\n        }\n    }\n    ").then(onResult);
+function makeStudentsQuery(category) {
+    return _graphql2.default.query("\n    {\n        students(category:\"" + category + "\") {\n            id\n            id_number\n            family_name\n            first_name\n            middle_name\n        }\n    }\n    ");
 }
 
 var Students = function (_Component) {
@@ -58,43 +62,54 @@ var Students = function (_Component) {
             allStudents: null,
             activeStudent: null,
             addStudentIsShowing: false,
-            activeTab: tabs[0]
+            activeTab: tabs[0],
+            error: null
         };
 
         _this.onAddStudent = _this.onAddStudent.bind(_this);
         _this.setActiveTab = _this.setActiveTab.bind(_this);
+        _this.fetchStudents = _this.fetchStudents.bind(_this);
         _this.setActiveStudent = _this.setActiveStudent.bind(_this);
         _this.toggleAddStudent = _this.toggleAddStudent.bind(_this);
-        _this.refreshStudents = _this.refreshStudents.bind(_this);
         _this.onArchiveActiveStudent = _this.onArchiveActiveStudent.bind(_this);
 
-        var category = _this.state.activeTab.name === "Inbound" ? "IN" : "OUT";
-
-        fetchStudents(category, function (result) {
-            _this.setState({
-                allStudents: result.students
-            });
-        });
+        _this.fetchStudents(_this.state.activeTab.name);
         return _this;
     }
 
     _createClass(Students, [{
-        key: "setActiveTab",
-        value: function setActiveTab(tab) {
+        key: "fetchStudents",
+        value: function fetchStudents(tabName) {
             var _this2 = this;
 
-            this.setState({
-                activeTab: tab,
-                activeStudent: null //Student is no longer in the same category
-            });
+            var category = tabName === "Inbound" ? "IN" : "OUT";
 
-            var category = tab.name === "Inbound" ? "IN" : "OUT";
+            if (this.state.error) {
+                this.setState({
+                    error: null
+                });
+            }
 
-            fetchStudents(category, function (result) {
-                _this2.setState({
+            makeStudentsQuery(category).then(function (result) {
+                return _this2.setState({
                     allStudents: result.students
                 });
+            }).catch(function (error) {
+                return _this2.setState({
+                    error: error
+                });
             });
+        }
+    }, {
+        key: "setActiveTab",
+        value: function setActiveTab(tab) {
+            this.setState({
+                activeTab: tab,
+                activeStudent: null, //Student is no longer in the same category
+                allStudents: null
+            });
+
+            this.fetchStudents(tab.name);
         }
     }, {
         key: "onAddStudent",
@@ -108,18 +123,14 @@ var Students = function (_Component) {
             }
         }
     }, {
-        key: "refreshStudents",
-        value: function refreshStudents() {
-            this.setActiveTab(this.state.activeTab);
-        }
-    }, {
         key: "onArchiveActiveStudent",
         value: function onArchiveActiveStudent() {
             this.setState({
                 activeStudent: null
             });
 
-            this.refreshStudents();
+            // Refresh students
+            this.fetchStudents(this.state.activeTab.name);
         }
     }, {
         key: "toggleAddStudent",
@@ -138,7 +149,22 @@ var Students = function (_Component) {
     }, {
         key: "render",
         value: function render() {
+            var _this3 = this;
+
+            if (this.state.error) {
+                return _react2.default.createElement(
+                    _error_state2.default,
+                    { onRetryButtonClick: function onRetryButtonClick() {
+                            return _this3.fetchStudents(_this3.state.activeTab.name);
+                        } },
+                    this.state.error.toString()
+                );
+            }
+
             var addButtonIsShowing = this.state.activeTab.name === "Inbound";
+            var refresh = function refresh() {
+                return _this3.fetchStudents(_this3.state.activeTab.name);
+            };
 
             return _react2.default.createElement(
                 "div",
@@ -153,11 +179,11 @@ var Students = function (_Component) {
                     tabs: tabs }),
                 _react2.default.createElement(_student_detail2.default, { student: this.state.activeStudent,
                     onArchiveActiveStudent: this.onArchiveActiveStudent,
-                    refreshStudents: this.refreshStudents }),
+                    refreshStudents: refresh }),
                 _react2.default.createElement(_modals.StudentFormModal, { isOpen: this.state.addStudentIsShowing,
                     toggle: this.toggleAddStudent,
                     onAddStudent: this.onAddStudent,
-                    refresh: this.refreshStudents })
+                    refresh: refresh })
             );
         }
     }]);
