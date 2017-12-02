@@ -7,10 +7,11 @@ import {
     Input,
 } from "reactstrap";
 import { MemorandumsSidebarPane } from "./sidebar_panes";
+import ErrorState from "../../../components/error_state";
 
 
-function fetchInstitutions(onResult) {
-    graphql.query(`
+function makeMemorandumQuery() {
+    return graphql.query(`
     {
         institutions {
             id
@@ -35,7 +36,7 @@ function fetchInstitutions(onResult) {
             }
         }
     }
-    `).then(onResult);
+    `);
 }
 
 function makeMemorandumInfo(memorandumType, institution, memorandum) {
@@ -85,18 +86,41 @@ class Memorandums extends Component {
             activeCategory : "Agreement",
             institutions : null,
             activeMemorandum : null,
+            error : null,
         };
 
-        fetchInstitutions(result => {
-            this.setState({
-                institutions : result.institutions,
-            });
-        });
 
         this.getMemorandumsFromCategory = this.getMemorandumsFromCategory.bind(this);
         this.setActiveCategory = this.setActiveCategory.bind(this);
         this.setActiveMemorandum = this.setActiveMemorandum.bind(this);
         this.refreshMemorandums = this.refreshMemorandums.bind(this);
+        this.onQueryError = this.onQueryError.bind(this);
+        this.performQuery = this.performQuery.bind(this);
+
+        this.performQuery();
+    }
+
+    onQueryError(error) {
+        console.log(error);
+
+        this.props.setSidebarContent(null);
+        this.setState({
+            error : error,
+        });
+    }
+
+    performQuery() {
+        if (this.state.error !== null) {
+            this.setState({
+                error : null,
+            });
+        }
+
+        makeMemorandumQuery()
+            .then(result => this.setState({
+                institutions : result.institutions,
+            }))
+            .catch(this.onQueryError);
     }
 
     setActiveCategory(category) {
@@ -140,17 +164,21 @@ class Memorandums extends Component {
     refreshMemorandums() {
         this.props.setSidebarContent(null);
 
-        fetchInstitutions(result => {
-            this.setState({
-                institutions : result.institutions,
+        makeMemorandumQuery()
+            .then(result => this.setState({
                 activeMemorandum : null,
-            });
-        });
+                institutions : result.institutions,
+            }))
+            .catch(onQueryError);
 
         this.getMemorandumsFromCategory(this.state.activeCategory);
     }
 
     render() {
+        if (this.state.error !== null) {
+            return <ErrorState onRetryButtonClick={this.performQuery}>{this.state.error.toString()}</ErrorState>;
+        }
+
         const memorandums = this.getMemorandumsFromCategory(this.state.activeCategory);
 
         return (
