@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.UniversityDetails = exports.ContactDetails = exports.StudentDetails = exports.default = undefined;
+exports.makeStudentOverviewQuery = exports.UniversityDetails = exports.ContactDetails = exports.StudentDetails = exports.default = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -45,7 +45,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-function makeStudentQuery(id) {
+function makeStudentOverviewQuery(id) {
     return _graphql2.default.query("\n    {\n        student(id:" + id + ") {\n            category\n            college\n            nickname\n            nationality\n            home_address\n            phone_number\n            birth_date\n            sex\n            emergency_contact_name\n            emergency_contact_relationship\n            emergency_contact_number\n            email\n            civil_status\n            institution {\n                name\n            }\n        }\n    }    \n    ");
 }
 
@@ -83,7 +83,7 @@ var StudentOverview = function (_Component) {
                 });
             }
 
-            makeStudentQuery(id).then(function (result) {
+            makeStudentOverviewQuery(id).then(function (result) {
                 Object.assign(_this2.state.student, result.student);
 
                 _this2.setState({
@@ -579,4 +579,5 @@ exports.default = StudentOverview;
 exports.StudentDetails = StudentDetails;
 exports.ContactDetails = ContactDetails;
 exports.UniversityDetails = UniversityDetails;
+exports.makeStudentOverviewQuery = makeStudentOverviewQuery;
 //# sourceMappingURL=overview.js.map

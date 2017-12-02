@@ -20,7 +20,7 @@ import settings from "../../../settings";
 import ErrorState from "../../../components/error_state";
 
 
-function makeStudentQuery(id) {
+function makeStudentOverviewQuery(id) {
     return graphql.query(`
     {
         student(id:${id}) {
@@ -70,7 +70,7 @@ class StudentOverview extends Component {
             });
         }
 
-        makeStudentQuery(id)
+        makeStudentOverviewQuery(id)
             .then(result => {
                 Object.assign(this.state.student, result.student);
 
@@ -357,4 +357,5 @@ export {
     StudentDetails,
     ContactDetails,
     UniversityDetails,
+    makeStudentOverviewQuery
 };
