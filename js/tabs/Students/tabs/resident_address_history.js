@@ -17,17 +17,13 @@ import {
 // TODO: import modals for editing and adding
 import { ResidenceSidebarPane } from "./sidebar_panes";
 import { ResidenceAddressFormModal } from "../modals";
+import ErrorState from "../../../components/error_state";
 
 
-function fetchHistory(id, onResult) {
-    graphql.query(`
+function makeResidencyQuery(studentId) {
+    return graphql.query(`
     {
-        student(id:${id}) {
-            id
-            id_number
-            first_name
-            middle_name
-            family_name
+        student(id:${studentId}) {
             residencies {
                 id
                 date_effective
@@ -38,7 +34,11 @@ function fetchHistory(id, onResult) {
             }
         }
 	}
-	`).then(onResult);
+	`);
+}
+
+function studentIsFetched(student) {
+    return student.residencies !== undefined;
 }
 
 class ResidentAddressHistory extends Component {
@@ -47,23 +47,37 @@ class ResidentAddressHistory extends Component {
 
         this.state = {
             student : props.student,
-            studentId : props.student.id,
-            residenceList : null,
             activeResidence : null,
             addResidenceIsShowing : false,
             editResidenceIsShowing : false,
+            error : null,
         };
 
-        fetchHistory(this.state.studentId, result => {
-            this.setState({
-                residenceList : result.student.residencies,
-            });
-        });
-
-        this.refreshResidences = this.refreshResidences.bind(this);
+        this.fetchHistory = this.fetchHistory.bind(this);
         this.setActiveResidence = this.setActiveResidence.bind(this);
         this.toggleAddResidence = this.toggleAddResidence.bind(this);
         this.toggleEditResidence = this.toggleEditResidence.bind(this);
+
+        this.fetchHistory(props.student.id);
+    }
+
+    fetchHistory(studentId) {
+        if (this.state.error) {
+            this.setState({
+                error : null,
+            });
+        }
+
+        makeResidencyQuery(studentId)
+            .then(result => {
+                this.state.student.residencies = result.student.residencies;
+                this.setState({
+                    student : this.state.student,
+                });
+            })
+            .catch(error => this.setState({
+                error : error,
+            }));
     }
 
     toggleAddResidence() {
@@ -95,16 +109,9 @@ class ResidentAddressHistory extends Component {
 
     }
 
-    refreshResidences() {
-        fetchHistory(this.state.studentId, result => {
-            this.setState({
-                residenceList : result.student.residencies,
-            });
-        });
-    }
-
     componentWillReceiveProps(props) {
-        if (this.state.studentId === props.student.id) {
+        if (this.state.student !== null &&
+            this.state.student.id === props.student.id) {
             return;
         }
 
@@ -112,30 +119,34 @@ class ResidentAddressHistory extends Component {
         this.props.setSidebarContent(null);
 
         this.setState({
-            studentId : props.student.id,
             student : props.student,
             activeResidence : null,
-            residenceList : null,
         });
 
-        fetchHistory(props.student.id, result => {
-            this.setState({
-                residenceList : result.student.residencies,
-            });
-        });
+        if (!studentIsFetched(props.student)) {
+            this.fetchHistory(props.student.id);
+        }
     }
 
     render() {
-        if (this.state.student === null) {
+        if (this.state.error) {
+            return (
+                <ErrorState onRetryButtonClick={() => this.fetchHistory(this.state.student.id)}>
+                    {this.state.error.toString()}
+                </ErrorState>
+            );
+        }
+
+        if (!studentIsFetched(this.state.student)) {
             return <LoadingSpinner/>;
         }
-        
+
         return (
             <div className="d-flex flex-column p-0 h-100">
                 <HistoryHead student={this.state.student}
                              toggleAddResidence={this.toggleAddResidence}/>
 
-                <HistoryBody residences={this.state.residenceList}
+                <HistoryBody residences={this.state.student.residencies}
                              activeResidence={this.state.activeResidence}
                              setActiveResidence={this.setActiveResidence}/>
 

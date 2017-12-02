@@ -30,6 +30,10 @@ var _sidebar_panes = require("./sidebar_panes");
 
 var _modals = require("../modals");
 
+var _error_state = require("../../../components/error_state");
+
+var _error_state2 = _interopRequireDefault(_error_state);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -41,8 +45,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 // TODO: import modals for editing and adding
 
 
-function fetchHistory(id, onResult) {
-    _graphql2.default.query("\n    {\n        student(id:" + id + ") {\n            id\n            id_number\n            first_name\n            middle_name\n            family_name\n            residencies {\n                id\n                date_effective\n                contact_person_name\n                contact_person_number\n                address\n                residence\n            }\n        }\n\t}\n\t").then(onResult);
+function makeResidencyQuery(studentId) {
+    return _graphql2.default.query("\n    {\n        student(id:" + studentId + ") {\n            residencies {\n                id\n                date_effective\n                contact_person_name\n                contact_person_number\n                address\n                residence\n            }\n        }\n\t}\n\t");
+}
+
+function studentIsFetched(student) {
+    return student.residencies !== undefined;
 }
 
 var ResidentAddressHistory = function (_Component) {
@@ -55,27 +63,44 @@ var ResidentAddressHistory = function (_Component) {
 
         _this.state = {
             student: props.student,
-            studentId: props.student.id,
-            residenceList: null,
             activeResidence: null,
             addResidenceIsShowing: false,
-            editResidenceIsShowing: false
+            editResidenceIsShowing: false,
+            error: null
         };
 
-        fetchHistory(_this.state.studentId, function (result) {
-            _this.setState({
-                residenceList: result.student.residencies
-            });
-        });
-
-        _this.refreshResidences = _this.refreshResidences.bind(_this);
+        _this.fetchHistory = _this.fetchHistory.bind(_this);
         _this.setActiveResidence = _this.setActiveResidence.bind(_this);
         _this.toggleAddResidence = _this.toggleAddResidence.bind(_this);
         _this.toggleEditResidence = _this.toggleEditResidence.bind(_this);
+
+        _this.fetchHistory(props.student.id);
         return _this;
     }
 
     _createClass(ResidentAddressHistory, [{
+        key: "fetchHistory",
+        value: function fetchHistory(studentId) {
+            var _this2 = this;
+
+            if (this.state.error) {
+                this.setState({
+                    error: null
+                });
+            }
+
+            makeResidencyQuery(studentId).then(function (result) {
+                _this2.state.student.residencies = result.student.residencies;
+                _this2.setState({
+                    student: _this2.state.student
+                });
+            }).catch(function (error) {
+                return _this2.setState({
+                    error: error
+                });
+            });
+        }
+    }, {
         key: "toggleAddResidence",
         value: function toggleAddResidence() {
             this.setState({
@@ -105,22 +130,9 @@ var ResidentAddressHistory = function (_Component) {
             });
         }
     }, {
-        key: "refreshResidences",
-        value: function refreshResidences() {
-            var _this2 = this;
-
-            fetchHistory(this.state.studentId, function (result) {
-                _this2.setState({
-                    residenceList: result.student.residencies
-                });
-            });
-        }
-    }, {
         key: "componentWillReceiveProps",
         value: function componentWillReceiveProps(props) {
-            var _this3 = this;
-
-            if (this.state.studentId === props.student.id) {
+            if (this.state.student !== null && this.state.student.id === props.student.id) {
                 return;
             }
 
@@ -128,22 +140,30 @@ var ResidentAddressHistory = function (_Component) {
             this.props.setSidebarContent(null);
 
             this.setState({
-                studentId: props.student.id,
                 student: props.student,
-                activeResidence: null,
-                residenceList: null
+                activeResidence: null
             });
 
-            fetchHistory(props.student.id, function (result) {
-                _this3.setState({
-                    residenceList: result.student.residencies
-                });
-            });
+            if (!studentIsFetched(props.student)) {
+                this.fetchHistory(props.student.id);
+            }
         }
     }, {
         key: "render",
         value: function render() {
-            if (this.state.student === null) {
+            var _this3 = this;
+
+            if (this.state.error) {
+                return _react2.default.createElement(
+                    _error_state2.default,
+                    { onRetryButtonClick: function onRetryButtonClick() {
+                            return _this3.fetchHistory(_this3.state.student.id);
+                        } },
+                    this.state.error.toString()
+                );
+            }
+
+            if (!studentIsFetched(this.state.student)) {
                 return _react2.default.createElement(_loading2.default, null);
             }
 
@@ -152,7 +172,7 @@ var ResidentAddressHistory = function (_Component) {
                 { className: "d-flex flex-column p-0 h-100" },
                 _react2.default.createElement(HistoryHead, { student: this.state.student,
                     toggleAddResidence: this.toggleAddResidence }),
-                _react2.default.createElement(HistoryBody, { residences: this.state.residenceList,
+                _react2.default.createElement(HistoryBody, { residences: this.state.student.residencies,
                     activeResidence: this.state.activeResidence,
                     setActiveResidence: this.setActiveResidence }),
                 _react2.default.createElement(_modals.ResidenceAddressFormModal, { edit: true,

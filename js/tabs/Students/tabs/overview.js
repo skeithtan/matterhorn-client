@@ -24,13 +24,8 @@ function makeStudentQuery(id) {
     return graphql.query(`
     {
         student(id:${id}) {
-            id
             category
-            id_number
             college
-            family_name
-            first_name
-            middle_name
             nickname
             nationality
             home_address
