@@ -60,18 +60,18 @@ var StudentArchives = function (_Component) {
             activeStudentId: null
         };
 
-        _this.performQuery = _this.performQuery.bind(_this);
+        _this.fetchStudents = _this.fetchStudents.bind(_this);
         _this.setActiveYear = _this.setActiveYear.bind(_this);
         _this.refreshStudents = _this.refreshStudents.bind(_this);
         _this.setActiveStudent = _this.setActiveStudent.bind(_this);
 
-        _this.performQuery(_this.state.activeYear);
+        _this.fetchStudents(_this.state.activeYear);
         return _this;
     }
 
     _createClass(StudentArchives, [{
-        key: "performQuery",
-        value: function performQuery(year) {
+        key: "fetchStudents",
+        value: function fetchStudents(year) {
             var _this2 = this;
 
             if (this.state.error) {
@@ -116,7 +116,7 @@ var StudentArchives = function (_Component) {
             });
 
             this.props.setSidebarContent(null);
-            this.performQuery(year);
+            this.fetchStudents(year);
         }
     }, {
         key: "render",
@@ -127,7 +127,7 @@ var StudentArchives = function (_Component) {
                 return _react2.default.createElement(
                     _error_state2.default,
                     { onRetryButtonClick: function onRetryButtonClick() {
-                            return _this3.performQuery(_this3.state.activeYear);
+                            return _this3.fetchStudents(_this3.state.activeYear);
                         } },
                     this.state.error.toString()
                 );

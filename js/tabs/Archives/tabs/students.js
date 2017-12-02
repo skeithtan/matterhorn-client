@@ -43,15 +43,15 @@ class StudentArchives extends Component {
             activeStudentId : null,
         };
 
-        this.performQuery = this.performQuery.bind(this);
+        this.fetchStudents = this.fetchStudents.bind(this);
         this.setActiveYear = this.setActiveYear.bind(this);
         this.refreshStudents = this.refreshStudents.bind(this);
         this.setActiveStudent = this.setActiveStudent.bind(this);
 
-        this.performQuery(this.state.activeYear);
+        this.fetchStudents(this.state.activeYear);
     }
 
-    performQuery(year) {
+    fetchStudents(year) {
         if (this.state.error) {
             this.setState({
                 error : null,
@@ -92,13 +92,13 @@ class StudentArchives extends Component {
         });
 
         this.props.setSidebarContent(null);
-        this.performQuery(year);
+        this.fetchStudents(year);
     }
 
     render() {
         if (this.state.error) {
             return (
-                <ErrorState onRetryButtonClick={() => this.performQuery(this.state.activeYear)}>
+                <ErrorState onRetryButtonClick={() => this.fetchStudents(this.state.activeYear)}>
                     {this.state.error.toString()}
                 </ErrorState>
             );

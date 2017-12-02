@@ -61,18 +61,18 @@ var InstitutionArchives = function (_Component) {
             error: null
         };
 
-        _this.performQuery = _this.performQuery.bind(_this);
         _this.setActiveYear = _this.setActiveYear.bind(_this);
+        _this.fetchInstitutions = _this.fetchInstitutions.bind(_this);
         _this.refreshInstitutions = _this.refreshInstitutions.bind(_this);
         _this.setActiveInstitution = _this.setActiveInstitution.bind(_this);
 
-        _this.performQuery(_this.state.activeYear);
+        _this.fetchInstitutions(_this.state.activeYear);
         return _this;
     }
 
     _createClass(InstitutionArchives, [{
-        key: "performQuery",
-        value: function performQuery(year) {
+        key: "fetchInstitutions",
+        value: function fetchInstitutions(year) {
             var _this2 = this;
 
             if (this.state.error) {
@@ -102,7 +102,7 @@ var InstitutionArchives = function (_Component) {
             });
 
             this.props.setSidebarContent(null);
-            this.performQuery(year);
+            this.fetchInstitutions(year);
         }
     }, {
         key: "setActiveInstitution",
@@ -128,7 +128,7 @@ var InstitutionArchives = function (_Component) {
                 return _react2.default.createElement(
                     _error_state2.default,
                     { onRetryButtonClick: function onRetryButtonClick() {
-                            return _this3.performQuery(_this3.state.activeYear);
+                            return _this3.fetchInstitutions(_this3.state.activeYear);
                         } },
                     this.state.error.toString()
                 );

@@ -63,17 +63,17 @@ var Memorandums = function (_Component) {
             activeMemorandumId: null
         };
 
-        _this.performQuery = _this.performQuery.bind(_this);
+        _this.fetchMemorandums = _this.fetchMemorandums.bind(_this);
         _this.refreshMemorandums = _this.refreshMemorandums.bind(_this);
         _this.setActiveMemorandum = _this.setActiveMemorandum.bind(_this);
 
-        _this.performQuery();
+        _this.fetchMemorandums();
         return _this;
     }
 
     _createClass(Memorandums, [{
-        key: "performQuery",
-        value: function performQuery(id) {
+        key: "fetchMemorandums",
+        value: function fetchMemorandums(id) {
             var _this2 = this;
 
             if (id === undefined) {
@@ -131,7 +131,7 @@ var Memorandums = function (_Component) {
                 institution: null
             });
 
-            this.performQuery();
+            this.fetchMemorandums();
         }
     }, {
         key: "componentWillReceiveProps",
@@ -148,7 +148,7 @@ var Memorandums = function (_Component) {
             });
 
             if (!institutionIsFetched(props.institution)) {
-                this.performQuery(props.institution.id);
+                this.fetchMemorandums(props.institution.id);
             }
         }
     }, {
@@ -160,7 +160,7 @@ var Memorandums = function (_Component) {
                 return _react2.default.createElement(
                     _error_state2.default,
                     { onRetryButtonClick: function onRetryButtonClick() {
-                            return _this4.performQuery(_this4.state.institution.id);
+                            return _this4.fetchMemorandums(_this4.state.institution.id);
                         } },
                     this.state.error.toString()
                 );

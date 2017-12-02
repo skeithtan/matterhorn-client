@@ -33,15 +33,15 @@ class InstitutionArchives extends Component {
             error : null,
         };
 
-        this.performQuery = this.performQuery.bind(this);
         this.setActiveYear = this.setActiveYear.bind(this);
+        this.fetchInstitutions = this.fetchInstitutions.bind(this);
         this.refreshInstitutions = this.refreshInstitutions.bind(this);
         this.setActiveInstitution = this.setActiveInstitution.bind(this);
 
-        this.performQuery(this.state.activeYear);
+        this.fetchInstitutions(this.state.activeYear);
     }
 
-    performQuery(year) {
+    fetchInstitutions(year) {
         if (this.state.error) {
             this.setState({
                 error : null,
@@ -70,7 +70,7 @@ class InstitutionArchives extends Component {
         });
 
         this.props.setSidebarContent(null);
-        this.performQuery(year);
+        this.fetchInstitutions(year);
     }
 
     setActiveInstitution(institution) {
@@ -89,7 +89,7 @@ class InstitutionArchives extends Component {
     render() {
         if (this.state.error) {
             return (
-                <ErrorState onRetryButtonClick={() => this.performQuery(this.state.activeYear)}>
+                <ErrorState onRetryButtonClick={() => this.fetchInstitutions(this.state.activeYear)}>
                     {this.state.error.toString()}
                 </ErrorState>
             );

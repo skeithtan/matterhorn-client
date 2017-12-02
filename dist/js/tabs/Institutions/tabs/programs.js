@@ -26,6 +26,10 @@ var _sidebar_panes = require("./sidebar_panes");
 
 var _modals = require("../modals");
 
+var _error_state = require("../../../components/error_state");
+
+var _error_state2 = _interopRequireDefault(_error_state);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -34,12 +38,12 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-function fetchYears(onResult) {
-    _graphql2.default.query("\n    {\n        academic_years {\n            academic_year_start\n        }\n    }\n    ").then(onResult);
+function makeYearsQuery() {
+    return _graphql2.default.query("\n    {\n        academic_years {\n            academic_year_start\n        }\n    }\n    ");
 }
 
-function fetchPrograms(institutionID, year, onResult) {
-    _graphql2.default.query("\n    {\n        outbound_programs(institution:" + institutionID + ", year:" + year + ") {\n            id\n            name\n            linkage {\n                name\n            }\n            academic_year {\n                academic_year_start\n            }\n            study_fields\n        }\n    }\n    ").then(onResult);
+function makeProgramsQuery(institutionID, year) {
+    return _graphql2.default.query("\n    {\n        outbound_programs(institution:" + institutionID + ", year:" + year + ") {\n            id\n            name\n            linkage {\n                name\n            }\n            academic_year {\n                academic_year_start\n            }\n        }\n    }\n    ");
 }
 
 var Programs = function (_Component) {
@@ -51,45 +55,87 @@ var Programs = function (_Component) {
         var _this = _possibleConstructorReturn(this, (Programs.__proto__ || Object.getPrototypeOf(Programs)).call(this, props));
 
         _this.state = {
-            institutionID: props.institution.id,
             yearList: null,
             activeYear: null,
             programList: null,
             activeProgram: null,
-            addProgramIsShowing: false
+            addProgramIsShowing: false,
+            error: null
         };
 
+        _this.fetchYears = _this.fetchYears.bind(_this);
+        _this.fetchPrograms = _this.fetchPrograms.bind(_this);
         _this.setActiveYear = _this.setActiveYear.bind(_this);
         _this.setActiveProgram = _this.setActiveProgram.bind(_this);
-        _this.refreshPrograms = _this.refreshPrograms.bind(_this);
         _this.toggleAddProgram = _this.toggleAddProgram.bind(_this);
 
-        fetchYears(function (result) {
-            var yearList = result.academic_years.map(function (academicYear) {
-                return academicYear.academic_year_start;
-            });
-
-            if (yearList.length === 0) {
-                _this.setState({
-                    yearList: []
-                });
-
-                return;
-            }
-
-            var activeYear = yearList[0];
-
-            _this.setState({
-                yearList: yearList,
-                activeYear: activeYear
-            });
-
-            _this.refreshPrograms(_this.state.institutionID, activeYear);
-        });
+        _this.fetchYears();
         return _this;
     }
 
     _createClass(Programs, [{
+        key: "fetchYears",
+        value: function fetchYears() {
+            var _this2 = this;
+
+            if (this.state.error) {
+                this.setState({
+                    error: null
+                });
+            }
+
+            makeYearsQuery().then(function (result) {
+                var yearList = result.academic_years.map(function (academicYear) {
+                    return academicYear.academic_year_start;
+                });
+
+                if (yearList.length === 0) {
+                    _this2.setState({
+                        yearList: []
+                    });
+
+                    return;
+                }
+
+                var activeYear = yearList[0];
+
+                _this2.setState({
+                    yearList: yearList,
+                    activeYear: activeYear
+                });
+
+                _this2.fetchPrograms(_this2.props.institution.id, activeYear);
+            }).catch(function (error) {
+                return _this2.setState({
+                    error: error
+                });
+            });
+        }
+
+        // There might be a need to check for the activeYear
+
+    }, {
+        key: "fetchPrograms",
+        value: function fetchPrograms(institution, year) {
+            var _this3 = this;
+
+            if (this.state.error) {
+                this.setState({
+                    error: null
+                });
+            }
+
+            makeProgramsQuery(institution, year).then(function (result) {
+                _this3.setState({
+                    programList: result.outbound_programs
+                });
+            }).catch(function (error) {
+                return _this3.setState({
+                    error: error
+                });
+            });
+        }
+    }, {
         key: "toggleAddProgram",
         value: function toggleAddProgram() {
             this.setState({
@@ -105,7 +151,7 @@ var Programs = function (_Component) {
                 programList: null
             });
 
-            this.refreshPrograms(this.state.institutionID, year);
+            this.fetchPrograms(this.props.institution.id, year);
         }
     }, {
         key: "setActiveProgram",
@@ -120,41 +166,40 @@ var Programs = function (_Component) {
                 activeProgram: program
             });
         }
-
-        // There might be a need to check for the activeYear
-
-    }, {
-        key: "refreshPrograms",
-        value: function refreshPrograms(institution, year) {
-            var _this2 = this;
-
-            fetchPrograms(institution, year, function (result) {
-                _this2.setState({
-                    programList: result.outbound_programs
-                });
-            });
-        }
     }, {
         key: "componentWillReceiveProps",
         value: function componentWillReceiveProps(nextProps) {
-            if (this.state.institutionID === nextProps.institution.id) {
+            if (this.props.institution.id === nextProps.institution.id) {
                 return;
             }
 
             this.props.setSidebarContent(null);
 
             this.setState({
-                institutionID: nextProps.institution.id,
                 programList: null,
                 activeProgram: null
             });
 
-            this.refreshPrograms(nextProps.institution.id, this.state.activeYear);
+            this.fetchPrograms(nextProps.institution.id, this.state.activeYear);
         }
     }, {
         key: "render",
         value: function render() {
-            var _this3 = this;
+            var _this4 = this;
+
+            if (this.state.error) {
+                var onRetryButtonClick = this.state.yearList === null ? function () {
+                    return _this4.fetchYears();
+                } : function () {
+                    return _this4.fetchPrograms(_this4.props.institution.id, _this4.state.activeYear);
+                };
+
+                return _react2.default.createElement(
+                    _error_state2.default,
+                    { onRetryButtonClick: onRetryButtonClick },
+                    this.state.error.toString()
+                );
+            }
 
             if (this.state.yearList === null) {
                 return _react2.default.createElement(_loading2.default, null);
@@ -173,10 +218,10 @@ var Programs = function (_Component) {
                     setCurrentProgram: this.setActiveProgram }),
                 _react2.default.createElement(_modals.ProgramFormModal, { toggle: this.toggleAddProgram,
                     refresh: function refresh() {
-                        return _this3.refreshPrograms(_this3.state.institutionID, _this3.state.activeYear);
+                        return _this4.fetchPrograms(_this4.props.institution.id, _this4.state.activeYear);
                     },
                     isOpen: this.state.addProgramIsShowing,
-                    institution: this.state.institutionID })
+                    institution: this.props.institution.id })
             );
         }
     }]);
@@ -196,7 +241,7 @@ var ProgramsHead = function (_Component2) {
     _createClass(ProgramsHead, [{
         key: "render",
         value: function render() {
-            var _this5 = this;
+            var _this6 = this;
 
             if (this.props.years === null) {
                 return _react2.default.createElement(_loading2.default, null);
@@ -214,7 +259,7 @@ var ProgramsHead = function (_Component2) {
             });
 
             var onYearChange = function onYearChange(event) {
-                _this5.props.setActiveYear(event.target.value);
+                _this6.props.setActiveYear(event.target.value);
             };
 
             return _react2.default.createElement(
@@ -275,10 +320,10 @@ var ProgramsTable = function (_Component3) {
     function ProgramsTable(props) {
         _classCallCheck(this, ProgramsTable);
 
-        var _this6 = _possibleConstructorReturn(this, (ProgramsTable.__proto__ || Object.getPrototypeOf(ProgramsTable)).call(this, props));
+        var _this7 = _possibleConstructorReturn(this, (ProgramsTable.__proto__ || Object.getPrototypeOf(ProgramsTable)).call(this, props));
 
-        _this6.emptyState = _this6.emptyState.bind(_this6);
-        return _this6;
+        _this7.emptyState = _this7.emptyState.bind(_this7);
+        return _this7;
     }
 
     _createClass(ProgramsTable, [{
@@ -342,17 +387,17 @@ var ProgramsListSection = function (_Component4) {
     _createClass(ProgramsListSection, [{
         key: "render",
         value: function render() {
-            var _this8 = this;
+            var _this9 = this;
 
             var rows = this.props.programs.map(function (program, index) {
                 var isActive = false;
 
-                if (_this8.props.currentProgram !== null) {
-                    isActive = _this8.props.currentProgram.id === program.id;
+                if (_this9.props.currentProgram !== null) {
+                    isActive = _this9.props.currentProgram.id === program.id;
                 }
 
                 var setCurrentProgram = function setCurrentProgram() {
-                    return _this8.props.setCurrentProgram(program);
+                    return _this9.props.setCurrentProgram(program);
                 };
 
                 return _react2.default.createElement(

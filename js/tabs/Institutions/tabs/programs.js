@@ -14,20 +14,21 @@ import {
 } from "../../../components/section";
 import { ProgramSidebarPane } from "./sidebar_panes";
 import { ProgramFormModal } from "../modals";
+import ErrorState from "../../../components/error_state";
 
 
-function fetchYears(onResult) {
-    graphql.query(`
+function makeYearsQuery() {
+    return graphql.query(`
     {
         academic_years {
             academic_year_start
         }
     }
-    `).then(onResult);
+    `);
 }
 
-function fetchPrograms(institutionID, year, onResult) {
-    graphql.query(`
+function makeProgramsQuery(institutionID, year) {
+    return graphql.query(`
     {
         outbound_programs(institution:${institutionID}, year:${year}) {
             id
@@ -38,10 +39,9 @@ function fetchPrograms(institutionID, year, onResult) {
             academic_year {
                 academic_year_start
             }
-            study_fields
         }
     }
-    `).then(onResult);
+    `);
 }
 
 class Programs extends Component {
@@ -49,39 +49,74 @@ class Programs extends Component {
         super(props);
 
         this.state = {
-            institutionID : props.institution.id,
             yearList : null,
             activeYear : null,
             programList : null,
             activeProgram : null,
             addProgramIsShowing : false,
+            error : null,
         };
 
+        this.fetchYears = this.fetchYears.bind(this);
+        this.fetchPrograms = this.fetchPrograms.bind(this);
         this.setActiveYear = this.setActiveYear.bind(this);
         this.setActiveProgram = this.setActiveProgram.bind(this);
-        this.refreshPrograms = this.refreshPrograms.bind(this);
         this.toggleAddProgram = this.toggleAddProgram.bind(this);
 
-        fetchYears(result => {
-            const yearList = result.academic_years.map(academicYear => academicYear.academic_year_start);
+        this.fetchYears();
+    }
 
-            if (yearList.length === 0) {
+    fetchYears() {
+        if (this.state.error) {
+            this.setState({
+                error : null,
+            });
+        }
+
+        makeYearsQuery()
+            .then(result => {
+                const yearList = result.academic_years.map(academicYear => academicYear.academic_year_start);
+
+                if (yearList.length === 0) {
+                    this.setState({
+                        yearList : [],
+                    });
+
+                    return;
+                }
+
+                const activeYear = yearList[0];
+
                 this.setState({
-                    yearList : [],
+                    yearList : yearList,
+                    activeYear : activeYear,
                 });
 
-                return;
-            }
+                this.fetchPrograms(this.props.institution.id, activeYear);
+            })
+            .catch(error => this.setState({
+                error : error,
+            }));
+    }
 
-            const activeYear = yearList[0];
-
+    // There might be a need to check for the activeYear
+    fetchPrograms(institution, year) {
+        if (this.state.error) {
             this.setState({
-                yearList : yearList,
-                activeYear : activeYear,
+                error : null,
             });
+        }
 
-            this.refreshPrograms(this.state.institutionID, activeYear);
-        });
+        makeProgramsQuery(institution, year)
+            .then(result => {
+                this.setState({
+                    programList : result.outbound_programs,
+                });
+            })
+            .catch(error => this.setState({
+                error : error,
+            }))
+        ;
     }
 
     toggleAddProgram() {
@@ -97,7 +132,7 @@ class Programs extends Component {
             programList : null,
         });
 
-        this.refreshPrograms(this.state.institutionID, year);
+        this.fetchPrograms(this.props.institution.id, year);
     }
 
     setActiveProgram(program) {
@@ -106,7 +141,7 @@ class Programs extends Component {
         }
 
         this.props.setSidebarContent(
-            <ProgramSidebarPane program={ program }/>,
+            <ProgramSidebarPane program={program}/>,
         );
 
         this.setState({
@@ -114,32 +149,34 @@ class Programs extends Component {
         });
     }
 
-    // There might be a need to check for the activeYear
-    refreshPrograms(institution, year) {
-        fetchPrograms(institution, year, result => {
-            this.setState({
-                programList : result.outbound_programs,
-            });
-        });
-    }
-
     componentWillReceiveProps(nextProps) {
-        if (this.state.institutionID === nextProps.institution.id) {
+        if (this.props.institution.id === nextProps.institution.id) {
             return;
         }
 
         this.props.setSidebarContent(null);
 
         this.setState({
-            institutionID : nextProps.institution.id,
             programList : null,
             activeProgram : null,
         });
 
-        this.refreshPrograms(nextProps.institution.id, this.state.activeYear);
+        this.fetchPrograms(nextProps.institution.id, this.state.activeYear);
     }
 
     render() {
+        if (this.state.error) {
+            const onRetryButtonClick = this.state.yearList === null ?
+                () => this.fetchYears() :
+                () => this.fetchPrograms(this.props.institution.id, this.state.activeYear);
+
+            return (
+                <ErrorState onRetryButtonClick={onRetryButtonClick}>
+                    {this.state.error.toString()}
+                </ErrorState>
+            );
+        }
+
         if (this.state.yearList === null) {
             return <LoadingSpinner/>;
         }
@@ -147,18 +184,18 @@ class Programs extends Component {
 
         return (
             <div className="w-100 h-100 d-flex flex-column">
-                <ProgramsHead institution={ this.props.institution }
-                              years={ this.state.yearList }
-                              toggleAddProgram={ this.toggleAddProgram }
-                              setActiveYear={ this.setActiveYear }/>
-                <ProgramsTable programs={ this.state.programList }
-                               currentProgram={ this.state.activeProgram }
-                               toggleAddProgram={ this.toggleAddProgram }
-                               setCurrentProgram={ this.setActiveProgram }/>
-                <ProgramFormModal toggle={ this.toggleAddProgram }
-                                  refresh={ () => this.refreshPrograms(this.state.institutionID, this.state.activeYear) }
-                                  isOpen={ this.state.addProgramIsShowing }
-                                  institution={ this.state.institutionID }/>
+                <ProgramsHead institution={this.props.institution}
+                              years={this.state.yearList}
+                              toggleAddProgram={this.toggleAddProgram}
+                              setActiveYear={this.setActiveYear}/>
+                <ProgramsTable programs={this.state.programList}
+                               currentProgram={this.state.activeProgram}
+                               toggleAddProgram={this.toggleAddProgram}
+                               setCurrentProgram={this.setActiveProgram}/>
+                <ProgramFormModal toggle={this.toggleAddProgram}
+                                  refresh={() => this.fetchPrograms(this.props.institution.id, this.state.activeYear)}
+                                  isOpen={this.state.addProgramIsShowing}
+                                  institution={this.props.institution.id}/>
             </div>
         );
     }
@@ -175,8 +212,8 @@ class ProgramsHead extends Component {
         }
 
         const years = this.props.years.map((year, index) => {
-            return <option key={ index }
-                           value={ year }>{ year } - { year + 1 }</option>;
+            return <option key={index}
+                           value={year}>{year} - {year + 1}</option>;
         });
 
         const onYearChange = event => {
@@ -187,23 +224,23 @@ class ProgramsHead extends Component {
             <div className="page-head pt-5 d-flex flex-row align-items-end">
                 <div className="mr-auto">
                     <h5 className="mb-0 text-secondary">Programs</h5>
-                    <h4 className="page-head-title mb-0">{ this.props.institution.name }</h4>
+                    <h4 className="page-head-title mb-0">{this.props.institution.name}</h4>
                 </div>
 
                 <div className="page-head-actions d-flex flex-row align-items-end">
-                    { this.props.years.length !== 0 &&
+                    {this.props.years.length !== 0 &&
                     <div className="d-flex flex-column mr-2">
                         <labl className="mr-3 text-dark mb-1">Academic Year</labl>
                         <Input type="select"
-                               onChange={ onYearChange }
+                               onChange={onYearChange}
                                className="mr-3 btn btn-outline-success select-sm">
-                            { years }
+                            {years}
                         </Input>
                     </div>
                     }
                     <Button outline
                             size="sm"
-                            onClick={ this.props.toggleAddProgram }
+                            onClick={this.props.toggleAddProgram}
                             color="success">
                         Add a Program
                     </Button>
@@ -226,7 +263,7 @@ class ProgramsTable extends Component {
                 <h3>There's nothing here.</h3>
                 <p>When added, Programs will show up here.</p>
                 <Button outline
-                        onClick={ this.props.toggleAddProgram }
+                        onClick={this.props.toggleAddProgram}
                         color="success">Add a program</Button>
             </div>
         );
@@ -244,9 +281,9 @@ class ProgramsTable extends Component {
 
         return (
             <div className="w-100 h-100 d-flex flex-column">
-                <ProgramsListSection programs={ this.props.programs }
-                                     currentProgram={ this.props.currentProgram }
-                                     setCurrentProgram={ this.props.setCurrentProgram }/>
+                <ProgramsListSection programs={this.props.programs}
+                                     currentProgram={this.props.currentProgram}
+                                     setCurrentProgram={this.props.setCurrentProgram}/>
             </div>
         );
     }
@@ -268,10 +305,10 @@ class ProgramsListSection extends Component {
             const setCurrentProgram = () => this.props.setCurrentProgram(program);
 
             return (
-                <SectionRow key={ index }
-                            onClick={ setCurrentProgram }
-                            active={ isActive }>
-                    <SectionRowContent large>{ program.name }</SectionRowContent>
+                <SectionRow key={index}
+                            onClick={setCurrentProgram}
+                            active={isActive}>
+                    <SectionRowContent large>{program.name}</SectionRowContent>
                 </SectionRow>
             );
         });
@@ -279,9 +316,9 @@ class ProgramsListSection extends Component {
         return (
             <div>
                 <Section>
-                    <SectionTitle>{ this.props.children }</SectionTitle>
+                    <SectionTitle>{this.props.children}</SectionTitle>
                     <SectionTable className="memorandums-accordion">
-                        { rows }
+                        {rows}
                     </SectionTable>
                 </Section>
             </div>

@@ -56,7 +56,7 @@ var Institutions = function (_Component) {
             error: null
         };
 
-        _this.performQuery = _this.performQuery.bind(_this);
+        _this.fetchInstitutions = _this.fetchInstitutions.bind(_this);
         _this.setActiveInstitution = _this.setActiveInstitution.bind(_this);
 
         _this.toggleAddInstitution = _this.toggleAddInstitution.bind(_this);
@@ -65,13 +65,13 @@ var Institutions = function (_Component) {
         _this.onDeleteActiveInstitution = _this.onDeleteActiveInstitution.bind(_this);
         _this.onAddInstitution = _this.onAddInstitution.bind(_this);
 
-        _this.performQuery();
+        _this.fetchInstitutions();
         return _this;
     }
 
     _createClass(Institutions, [{
-        key: "performQuery",
-        value: function performQuery() {
+        key: "fetchInstitutions",
+        value: function fetchInstitutions() {
             var _this2 = this;
 
             if (this.state.error) {
@@ -97,7 +97,7 @@ var Institutions = function (_Component) {
                 activeInstitution: null
             });
 
-            this.performQuery();
+            this.fetchInstitutions();
         }
     }, {
         key: "toggleAddInstitution",
@@ -137,7 +137,7 @@ var Institutions = function (_Component) {
                 return _react2.default.createElement(
                     _error_state2.default,
                     { onRetryButtonClick: function onRetryButtonClick() {
-                            return _this3.performQuery(_this3.state.activeYear);
+                            return _this3.fetchInstitutions(_this3.state.activeYear);
                         } },
                     this.state.error.toString()
                 );
@@ -152,13 +152,13 @@ var Institutions = function (_Component) {
                     toggleAddInstitution: this.toggleAddInstitution }),
                 _react2.default.createElement(_institution_detail2.default, { institution: this.state.activeInstitution,
                     onDeleteActiveInstitution: this.onDeleteActiveInstitution,
-                    refreshInstitutions: this.performQuery,
+                    refreshInstitutions: this.fetchInstitutions,
                     memorandumToBeAdded: this.state.memorandumToBeAdded,
                     toggleMemorandumToBeAdded: this.toggleMemorandumToBeAdded }),
                 _react2.default.createElement(_modals.InstitutionFormModal, { isOpen: this.state.addInstitutionIsShowing,
                     toggle: this.toggleAddInstitution,
                     onAddInstitution: this.onAddInstitution,
-                    refresh: this.performQuery })
+                    refresh: this.fetchInstitutions })
             );
         }
     }]);

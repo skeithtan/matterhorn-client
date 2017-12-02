@@ -42,15 +42,15 @@ class MemorandumArchives extends Component {
             activeMemorandumId : null,
         };
 
-        this.performQuery = this.performQuery.bind(this);
         this.setActiveYear = this.setActiveYear.bind(this);
+        this.fetchMemorandums = this.fetchMemorandums.bind(this);
         this.refreshMemorandums = this.refreshMemorandums.bind(this);
         this.setActiveMemorandum = this.setActiveMemorandum.bind(this);
 
-        this.performQuery();
+        this.fetchMemorandums();
     }
 
-    performQuery() {
+    fetchMemorandums() {
         if (this.state.error) {
             this.setState({
                 error : null,
@@ -90,7 +90,7 @@ class MemorandumArchives extends Component {
         });
 
         this.props.setSidebarContent(null);
-        this.performQuery();
+        this.fetchMemorandums();
     }
 
     refreshMemorandums() {
@@ -100,7 +100,7 @@ class MemorandumArchives extends Component {
     render() {
         if (this.state.error) {
             return (
-                <ErrorState onRefreshButtonClick={() => this.performQuery(this.state.activeYear)}>
+                <ErrorState onRefreshButtonClick={() => this.fetchMemorandums(this.state.activeYear)}>
                     {this.state.error.toString()}
                 </ErrorState>
             );

@@ -60,18 +60,18 @@ var MemorandumArchives = function (_Component) {
             activeMemorandumId: null
         };
 
-        _this.performQuery = _this.performQuery.bind(_this);
         _this.setActiveYear = _this.setActiveYear.bind(_this);
+        _this.fetchMemorandums = _this.fetchMemorandums.bind(_this);
         _this.refreshMemorandums = _this.refreshMemorandums.bind(_this);
         _this.setActiveMemorandum = _this.setActiveMemorandum.bind(_this);
 
-        _this.performQuery();
+        _this.fetchMemorandums();
         return _this;
     }
 
     _createClass(MemorandumArchives, [{
-        key: "performQuery",
-        value: function performQuery() {
+        key: "fetchMemorandums",
+        value: function fetchMemorandums() {
             var _this2 = this;
 
             if (this.state.error) {
@@ -112,7 +112,7 @@ var MemorandumArchives = function (_Component) {
             });
 
             this.props.setSidebarContent(null);
-            this.performQuery();
+            this.fetchMemorandums();
         }
     }, {
         key: "refreshMemorandums",
@@ -128,7 +128,7 @@ var MemorandumArchives = function (_Component) {
                 return _react2.default.createElement(
                     _error_state2.default,
                     { onRefreshButtonClick: function onRefreshButtonClick() {
-                            return _this3.performQuery(_this3.state.activeYear);
+                            return _this3.fetchMemorandums(_this3.state.activeYear);
                         } },
                     this.state.error.toString()
                 );

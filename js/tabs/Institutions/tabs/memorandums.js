@@ -63,14 +63,14 @@ class Memorandums extends Component {
             activeMemorandumId : null,
         };
 
-        this.performQuery = this.performQuery.bind(this);
+        this.fetchMemorandums = this.fetchMemorandums.bind(this);
         this.refreshMemorandums = this.refreshMemorandums.bind(this);
         this.setActiveMemorandum = this.setActiveMemorandum.bind(this);
 
-        this.performQuery();
+        this.fetchMemorandums();
     }
 
-    performQuery(id) {
+    fetchMemorandums(id) {
         if (id === undefined) {
             id = this.props.institution.id;
         }
@@ -126,7 +126,7 @@ class Memorandums extends Component {
             institution : null,
         });
 
-        this.performQuery();
+        this.fetchMemorandums();
     }
 
     componentWillReceiveProps(props) {
@@ -143,14 +143,14 @@ class Memorandums extends Component {
         });
 
         if (!institutionIsFetched(props.institution)) {
-            this.performQuery(props.institution.id);
+            this.fetchMemorandums(props.institution.id);
         }
     }
 
     render() {
         if (this.state.error) {
             return (
-                <ErrorState onRetryButtonClick={() => this.performQuery(this.state.institution.id)}>
+                <ErrorState onRetryButtonClick={() => this.fetchMemorandums(this.state.institution.id)}>
                     {this.state.error.toString()}
                 </ErrorState>
             );

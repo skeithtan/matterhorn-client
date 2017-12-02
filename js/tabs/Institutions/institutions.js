@@ -34,7 +34,7 @@ class Institutions extends Component {
             error : null,
         };
 
-        this.performQuery = this.performQuery.bind(this);
+        this.fetchInstitutions = this.fetchInstitutions.bind(this);
         this.setActiveInstitution = this.setActiveInstitution.bind(this);
 
         this.toggleAddInstitution = this.toggleAddInstitution.bind(this);
@@ -43,10 +43,10 @@ class Institutions extends Component {
         this.onDeleteActiveInstitution = this.onDeleteActiveInstitution.bind(this);
         this.onAddInstitution = this.onAddInstitution.bind(this);
 
-        this.performQuery();
+        this.fetchInstitutions();
     }
 
-    performQuery() {
+    fetchInstitutions() {
         if (this.state.error) {
             this.setState({
                 error : null,
@@ -70,7 +70,7 @@ class Institutions extends Component {
             activeInstitution : null,
         });
 
-        this.performQuery();
+        this.fetchInstitutions();
     }
 
     toggleAddInstitution() {
@@ -101,7 +101,7 @@ class Institutions extends Component {
     render() {
         if (this.state.error) {
             return (
-                <ErrorState onRetryButtonClick={() => this.performQuery(this.state.activeYear)}>
+                <ErrorState onRetryButtonClick={() => this.fetchInstitutions(this.state.activeYear)}>
                     {this.state.error.toString()}
                 </ErrorState>
             );
@@ -116,14 +116,14 @@ class Institutions extends Component {
 
                 <InstitutionDetail institution={this.state.activeInstitution}
                                    onDeleteActiveInstitution={this.onDeleteActiveInstitution}
-                                   refreshInstitutions={this.performQuery}
+                                   refreshInstitutions={this.fetchInstitutions}
                                    memorandumToBeAdded={this.state.memorandumToBeAdded}
                                    toggleMemorandumToBeAdded={this.toggleMemorandumToBeAdded}/>
 
                 <InstitutionFormModal isOpen={this.state.addInstitutionIsShowing}
                                       toggle={this.toggleAddInstitution}
                                       onAddInstitution={this.onAddInstitution}
-                                      refresh={this.performQuery}/>
+                                      refresh={this.fetchInstitutions}/>
             </div>
         );
     }

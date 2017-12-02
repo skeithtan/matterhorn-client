@@ -50,12 +50,12 @@ class InstitutionOverview extends Component {
         };
 
         this.props.setSidebarContent(null);
-        this.performQuery = this.performQuery.bind(this);
+        this.fetchInstitution = this.fetchInstitution.bind(this);
 
-        this.performQuery();
+        this.fetchInstitution();
     }
 
-    performQuery(id) {
+    fetchInstitution(id) {
         if (id === undefined) {
             id = this.state.institution.id;
         }
@@ -96,14 +96,14 @@ class InstitutionOverview extends Component {
         });
 
         if (!institutionIsFetched(props.institution)) {
-            this.performQuery(props.institution.id);
+            this.fetchInstitution(props.institution.id);
         }
     }
 
     render() {
         if (this.state.error) {
             return (
-                <ErrorState onRetryButtonClick={() => this.performQuery(this.state.institution.id)}>
+                <ErrorState onRetryButtonClick={() => this.fetchInstitution(this.state.institution.id)}>
                     {this.state.error.toString()}
                 </ErrorState>
             );
@@ -118,7 +118,7 @@ class InstitutionOverview extends Component {
             <div className="d-flex flex-column p-0 h-100">
                 <OverviewHead institution={this.state.institution}
                               onDeleteInstitution={this.props.onDeleteActiveInstitution}
-                              onEditInstitution={this.performQuery}/>
+                              onEditInstitution={this.fetchInstitution}/>
                 <OverviewBody institution={this.state.institution}/>
             </div>
         );

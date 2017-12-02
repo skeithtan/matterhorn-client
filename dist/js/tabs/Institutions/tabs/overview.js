@@ -59,15 +59,15 @@ var InstitutionOverview = function (_Component) {
         };
 
         _this.props.setSidebarContent(null);
-        _this.performQuery = _this.performQuery.bind(_this);
+        _this.fetchInstitution = _this.fetchInstitution.bind(_this);
 
-        _this.performQuery();
+        _this.fetchInstitution();
         return _this;
     }
 
     _createClass(InstitutionOverview, [{
-        key: "performQuery",
-        value: function performQuery(id) {
+        key: "fetchInstitution",
+        value: function fetchInstitution(id) {
             var _this2 = this;
 
             if (id === undefined) {
@@ -109,7 +109,7 @@ var InstitutionOverview = function (_Component) {
             });
 
             if (!institutionIsFetched(props.institution)) {
-                this.performQuery(props.institution.id);
+                this.fetchInstitution(props.institution.id);
             }
         }
     }, {
@@ -121,7 +121,7 @@ var InstitutionOverview = function (_Component) {
                 return _react2.default.createElement(
                     _error_state2.default,
                     { onRetryButtonClick: function onRetryButtonClick() {
-                            return _this3.performQuery(_this3.state.institution.id);
+                            return _this3.fetchInstitution(_this3.state.institution.id);
                         } },
                     this.state.error.toString()
                 );
@@ -137,7 +137,7 @@ var InstitutionOverview = function (_Component) {
                 { className: "d-flex flex-column p-0 h-100" },
                 _react2.default.createElement(OverviewHead, { institution: this.state.institution,
                     onDeleteInstitution: this.props.onDeleteActiveInstitution,
-                    onEditInstitution: this.performQuery }),
+                    onEditInstitution: this.fetchInstitution }),
                 _react2.default.createElement(OverviewBody, { institution: this.state.institution })
             );
         }

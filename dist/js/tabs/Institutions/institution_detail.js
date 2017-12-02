@@ -73,7 +73,7 @@ var InstitutionDetail = function (_Component) {
                 return InstitutionDetail.unselectedState();
             }
 
-            var currentTab = this.state.activeTab.tab(this.props.institution, this.setSidebarContent, this.props.onDeleteActiveInstitution, this.props.performQuery, this.props.memorandumToBeAdded, this.props.toggleMemorandumToBeAdded);
+            var currentTab = this.state.activeTab.tab(this.props.institution, this.setSidebarContent, this.props.onDeleteActiveInstitution, this.props.fetchMemorandums, this.props.memorandumToBeAdded, this.props.toggleMemorandumToBeAdded);
 
             var sidebarClass = "sidebar-right ";
             if (this.state.sidebarContent === null) {

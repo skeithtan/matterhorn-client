@@ -94,13 +94,13 @@ class Memorandums extends Component {
         this.setActiveCategory = this.setActiveCategory.bind(this);
         this.setActiveMemorandum = this.setActiveMemorandum.bind(this);
         this.refreshMemorandums = this.refreshMemorandums.bind(this);
-        this.performQuery = this.performQuery.bind(this);
+        this.fetchMemorandums = this.fetchMemorandums.bind(this);
 
-        this.performQuery();
+        this.fetchMemorandums();
     }
 
 
-    performQuery() {
+    fetchMemorandums() {
         if (this.state.error !== null) {
             this.setState({
                 error : null,
@@ -172,7 +172,7 @@ class Memorandums extends Component {
 
     render() {
         if (this.state.error) {
-            return <ErrorState onRetryButtonClick={this.performQuery}>{this.state.error.toString()}</ErrorState>;
+            return <ErrorState onRetryButtonClick={this.fetchMemorandums}>{this.state.error.toString()}</ErrorState>;
         }
 
         const memorandums = this.getMemorandumsFromCategory(this.state.activeCategory);

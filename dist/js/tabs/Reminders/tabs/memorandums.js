@@ -99,15 +99,15 @@ var Memorandums = function (_Component) {
         _this.setActiveCategory = _this.setActiveCategory.bind(_this);
         _this.setActiveMemorandum = _this.setActiveMemorandum.bind(_this);
         _this.refreshMemorandums = _this.refreshMemorandums.bind(_this);
-        _this.performQuery = _this.performQuery.bind(_this);
+        _this.fetchMemorandums = _this.fetchMemorandums.bind(_this);
 
-        _this.performQuery();
+        _this.fetchMemorandums();
         return _this;
     }
 
     _createClass(Memorandums, [{
-        key: "performQuery",
-        value: function performQuery() {
+        key: "fetchMemorandums",
+        value: function fetchMemorandums() {
             var _this2 = this;
 
             if (this.state.error !== null) {
@@ -190,7 +190,7 @@ var Memorandums = function (_Component) {
             if (this.state.error) {
                 return _react2.default.createElement(
                     _error_state2.default,
-                    { onRetryButtonClick: this.performQuery },
+                    { onRetryButtonClick: this.fetchMemorandums },
                     this.state.error.toString()
                 );
             }
