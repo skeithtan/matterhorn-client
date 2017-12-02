@@ -26,6 +26,10 @@ var _tab_bar = require("../../components/tab_bar");
 
 var _tab_bar2 = _interopRequireDefault(_tab_bar);
 
+var _error_state = require("../../components/error_state");
+
+var _error_state2 = _interopRequireDefault(_error_state);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -190,8 +194,9 @@ var StudentApplications = function (_Component) {
     }, {
         key: "render",
         value: function render() {
-            //TODO: Show ErrorState when error is not null
-
+            if (this.state.errors !== null) {
+                return _react2.default.createElement(_error_state2.default, null);
+            }
 
             var applicants = this.getApplicantsByCategory(this.state.applicants);
 

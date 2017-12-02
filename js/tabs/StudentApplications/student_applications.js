@@ -12,6 +12,7 @@ import {
     SectionRow,
 } from "../../components/section";
 import TabBar from "../../components/tab_bar";
+import ErrorState from "../../components/error_state";
 
 
 const tabs = [
@@ -177,8 +178,9 @@ class StudentApplications extends Component {
     // TODO: refreshing the applicants and at the same time conforming to the activeCategory
 
     render() {
-        //TODO: Show ErrorState when error is not null
-
+        if (this.state.errors !== null) {
+            return <ErrorState/>;
+        }
 
         const applicants = this.getApplicantsByCategory(this.state.applicants);
 
