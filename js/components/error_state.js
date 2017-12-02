@@ -10,11 +10,8 @@ class ErrorState extends Component {
     render() {
         return (
             <div className="loading-container">
-                <h3>An error occurred</h3>
-                <p style={{ maxWidth : "400px" }}>Make sure your computer is connected to the
-                    internet. {this.props.children}</p>
-
-                <br/>
+                <h3>Could not connect to the server</h3>
+                <p className="mb-3">Make sure your computer is connected to the internet. {this.props.children}</p>
 
                 <Button outline
                         color="success"

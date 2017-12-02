@@ -38,15 +38,14 @@ var ErrorState = function (_Component) {
                 _react2.default.createElement(
                     "h3",
                     null,
-                    "An error occurred"
+                    "Could not connect to the server"
                 ),
                 _react2.default.createElement(
                     "p",
-                    { style: { maxWidth: "400px" } },
+                    { className: "mb-3" },
                     "Make sure your computer is connected to the internet. ",
                     this.props.children
                 ),
-                _react2.default.createElement("br", null),
                 _react2.default.createElement(
                     _reactstrap.Button,
                     { outline: true,
