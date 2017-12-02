@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.UniversityDetails = exports.ContactDetails = exports.StudentDetails = exports.fetchStudent = exports.default = undefined;
+exports.UniversityDetails = exports.ContactDetails = exports.StudentDetails = exports.default = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -33,6 +33,10 @@ var _settings = require("../../../settings");
 
 var _settings2 = _interopRequireDefault(_settings);
 
+var _error_state = require("../../../components/error_state");
+
+var _error_state2 = _interopRequireDefault(_error_state);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -41,8 +45,12 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-function fetchStudent(id, onResult) {
-    _graphql2.default.query("\n    {\n        student(id:" + id + ") {\n            id\n            category\n            id_number\n            college\n            family_name\n            first_name\n            middle_name\n            nickname\n            nationality\n            home_address\n            phone_number\n            birth_date\n            sex\n            emergency_contact_name\n            emergency_contact_relationship\n            emergency_contact_number\n            email\n            civil_status\n            institution {\n                name\n            }\n        }\n    }    \n    ").then(onResult);
+function makeStudentQuery(id) {
+    return _graphql2.default.query("\n    {\n        student(id:" + id + ") {\n            id\n            category\n            id_number\n            college\n            family_name\n            first_name\n            middle_name\n            nickname\n            nationality\n            home_address\n            phone_number\n            birth_date\n            sex\n            emergency_contact_name\n            emergency_contact_relationship\n            emergency_contact_number\n            email\n            civil_status\n            institution {\n                name\n            }\n        }\n    }    \n    ");
+}
+
+function studentIsFetched(student) {
+    return student.nickname !== undefined;
 }
 
 var StudentOverview = function (_Component) {
@@ -54,61 +62,70 @@ var StudentOverview = function (_Component) {
         var _this = _possibleConstructorReturn(this, (StudentOverview.__proto__ || Object.getPrototypeOf(StudentOverview)).call(this, props));
 
         _this.state = {
-            student: null,
-            studentId: props.student.id
+            student: props.student,
+            error: null
         };
 
-        _this.onEditStudent = _this.onEditStudent.bind(_this);
+        _this.fetchStudent = _this.fetchStudent.bind(_this);
 
-        fetchStudent(props.student.id, function (result) {
-            var student = result.student;
-
-            _this.setState({
-                student: student
-            });
-        });
+        _this.fetchStudent(props.student.id);
         return _this;
     }
 
     _createClass(StudentOverview, [{
-        key: "componentWillReceiveProps",
-        value: function componentWillReceiveProps(nextProps) {
+        key: "fetchStudent",
+        value: function fetchStudent(id) {
             var _this2 = this;
 
-            this.setState({
-                studentId: nextProps.student.id,
-                student: null
-            });
+            if (this.state.error) {
+                this.setState({
+                    error: null
+                });
+            }
 
-            fetchStudent(nextProps.student.id, function (result) {
-                var student = result.student;
+            makeStudentQuery(id).then(function (result) {
+                Object.assign(_this2.state.student, result.student);
+
                 _this2.setState({
-                    student: student
+                    student: _this2.state.student
+                });
+            }).catch(function (error) {
+                return _this2.setState({
+                    error: error
                 });
             });
         }
     }, {
-        key: "onEditStudent",
-        value: function onEditStudent() {
-            var _this3 = this;
+        key: "componentWillReceiveProps",
+        value: function componentWillReceiveProps(nextProps) {
+            if (this.state.student !== null && this.state.student.id === nextProps.student.id) {
+                return;
+            }
 
             this.setState({
-                student: null
+                student: nextProps.student
             });
 
-            fetchStudent(this.state.studentId, function (result) {
-                var student = result.student;
-                _this3.setState({
-                    student: student
-                });
-
-                _this3.props.refreshStudents();
-            });
+            if (!studentIsFetched(nextProps.student)) {
+                this.fetchStudent(nextProps.student.id);
+            }
         }
     }, {
         key: "render",
         value: function render() {
-            if (this.state.student === null) {
+            var _this3 = this;
+
+            if (this.state.error) {
+                return _react2.default.createElement(
+                    _error_state2.default,
+                    { onRetryButtonClick: function onRetryButtonClick() {
+                            return _this3.fetchStudent(_this3.state.student.id);
+                        } },
+                    this.state.error.toString()
+                );
+            }
+
+            if (!studentIsFetched(this.state.student)) {
                 return _react2.default.createElement(_loading2.default, null);
             }
 
@@ -117,7 +134,9 @@ var StudentOverview = function (_Component) {
                 { className: "d-flex flex-column p-0 h-100" },
                 _react2.default.createElement(OverviewHead, { student: this.state.student,
                     onArchiveStudent: this.props.onArchiveActiveStudent,
-                    onEditStudent: this.onEditStudent }),
+                    onEditStudent: function onEditStudent() {
+                        return _this3.fetchStudent(_this3.state.student.id);
+                    } }),
                 _react2.default.createElement(OverviewBody, { student: this.state.student })
             );
         }
@@ -557,7 +576,6 @@ var UniversityDetails = function (_Component6) {
 }(_react.Component);
 
 exports.default = StudentOverview;
-exports.fetchStudent = fetchStudent;
 exports.StudentDetails = StudentDetails;
 exports.ContactDetails = ContactDetails;
 exports.UniversityDetails = UniversityDetails;

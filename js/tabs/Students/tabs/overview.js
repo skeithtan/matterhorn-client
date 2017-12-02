@@ -17,10 +17,11 @@ import {
 } from "../modals";
 import moment from "moment";
 import settings from "../../../settings";
+import ErrorState from "../../../components/error_state";
 
 
-function fetchStudent(id, onResult) {
-    graphql.query(`
+function makeStudentQuery(id) {
+    return graphql.query(`
     {
         student(id:${id}) {
             id
@@ -46,7 +47,11 @@ function fetchStudent(id, onResult) {
             }
         }
     }    
-    `).then(onResult);
+    `);
+}
+
+function studentIsFetched(student) {
+    return student.nickname !== undefined;
 }
 
 class StudentOverview extends Component {
@@ -54,52 +59,60 @@ class StudentOverview extends Component {
         super(props);
 
         this.state = {
-            student : null,
-            studentId : props.student.id,
+            student : props.student,
+            error : null,
         };
 
-        this.onEditStudent = this.onEditStudent.bind(this);
+        this.fetchStudent = this.fetchStudent.bind(this);
 
-        fetchStudent(props.student.id, result => {
-            const student = result.student;
+        this.fetchStudent(props.student.id);
+    }
 
+    fetchStudent(id) {
+        if (this.state.error) {
             this.setState({
-                student : student,
+                error : null,
             });
-        });
+        }
+
+        makeStudentQuery(id)
+            .then(result => {
+                Object.assign(this.state.student, result.student);
+
+                this.setState({
+                    student : this.state.student,
+                });
+            })
+            .catch(error => this.setState({
+                error : error,
+            }));
     }
 
     componentWillReceiveProps(nextProps) {
+        if (this.state.student !== null &&
+            this.state.student.id === nextProps.student.id) {
+            return;
+        }
+
         this.setState({
-            studentId : nextProps.student.id,
-            student : null,
+            student : nextProps.student,
         });
 
-        fetchStudent(nextProps.student.id, result => {
-            const student = result.student;
-            this.setState({
-                student : student,
-            });
-        });
-    }
-
-    onEditStudent() {
-        this.setState({
-            student : null,
-        });
-
-        fetchStudent(this.state.studentId, result => {
-            const student = result.student;
-            this.setState({
-                student : student,
-            });
-
-            this.props.refreshStudents();
-        });
+        if (!studentIsFetched(nextProps.student)) {
+            this.fetchStudent(nextProps.student.id);
+        }
     }
 
     render() {
-        if (this.state.student === null) {
+        if (this.state.error) {
+            return (
+                <ErrorState onRetryButtonClick={() => this.fetchStudent(this.state.student.id)}>
+                    {this.state.error.toString()}
+                </ErrorState>
+            );
+        }
+
+        if (!studentIsFetched(this.state.student)) {
             return <LoadingSpinner/>;
         }
 
@@ -107,7 +120,7 @@ class StudentOverview extends Component {
             <div className="d-flex flex-column p-0 h-100">
                 <OverviewHead student={this.state.student}
                               onArchiveStudent={this.props.onArchiveActiveStudent}
-                              onEditStudent={this.onEditStudent}/>
+                              onEditStudent={() =>  this.fetchStudent(this.state.student.id)}/>
                 <OverviewBody student={this.state.student}/>
             </div>
         );
@@ -346,7 +359,6 @@ class UniversityDetails extends Component {
 
 export {
     StudentOverview as default,
-    fetchStudent,
     StudentDetails,
     ContactDetails,
     UniversityDetails,
