@@ -15,14 +15,9 @@ function makeStudentsQuery(year) {
         id
         category
         id_number
-        college
         family_name
         first_name
         middle_name
-        nickname
-        nationality
-        birth_date
-        sex
         archived_at
         archiver
         institution {

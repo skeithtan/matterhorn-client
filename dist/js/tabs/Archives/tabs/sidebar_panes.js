@@ -23,6 +23,10 @@ var _student_detail_overview = require("../../Students/student_detail_overview")
 
 var _overview2 = require("../../Institutions/tabs/overview");
 
+var _error_state = require("../../../components/error_state");
+
+var _error_state2 = _interopRequireDefault(_error_state);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -52,22 +56,38 @@ var StudentSidebarPane = function (_Component) {
             student: props.student
         };
 
-        if (!studentIsFetched(props.student)) {
-            (0, _overview.fetchStudent)(props.student.id, function (result) {
-
-                //Copy results to existing student object so we won't have to fetch next time
-                Object.assign(props.student, result.student);
-                _this.setState({
-                    student: result.student
-                });
-            });
-        }
-
+        _this.fetchStudent = _this.fetchStudent.bind(_this);
         _this.toggleRestoreStudent = _this.toggleRestoreStudent.bind(_this);
+
+        if (!studentIsFetched(props.student)) {
+            _this.fetchStudent(props.student.id);
+        }
         return _this;
     }
 
     _createClass(StudentSidebarPane, [{
+        key: "fetchStudent",
+        value: function fetchStudent(studentId) {
+            var _this2 = this;
+
+            if (this.state.error) {
+                this.setState({
+                    error: null
+                });
+            }
+
+            (0, _overview.makeStudentOverviewQuery)(studentId).then(function (result) {
+                Object.assign(_this2.state.student, result.student);
+                _this2.setState({
+                    student: _this2.state.student
+                });
+            }).catch(function (error) {
+                return _this2.setState({
+                    error: error
+                });
+            });
+        }
+    }, {
         key: "toggleRestoreStudent",
         value: function toggleRestoreStudent() {
             this.setState({
@@ -77,26 +97,29 @@ var StudentSidebarPane = function (_Component) {
     }, {
         key: "componentWillReceiveProps",
         value: function componentWillReceiveProps(props) {
-            var _this2 = this;
-
             this.setState({
                 student: props.student
             });
 
             if (!studentIsFetched(props.student)) {
-                (0, _overview.fetchStudent)(props.student.id, function (result) {
-
-                    //Copy results to existing student object so we won't have to fetch next time
-                    Object.assign(props.student, result.student);
-                    _this2.setState({
-                        student: result.student
-                    });
-                });
+                this.fetchStudent(props.student.id);
             }
         }
     }, {
         key: "render",
         value: function render() {
+            var _this3 = this;
+
+            if (this.state.error) {
+                return _react2.default.createElement(
+                    _error_state2.default,
+                    { onRetryButtonClick: function onRetryButtonClick() {
+                            return _this3.fetchStudent(_this3.state.student.id);
+                        } },
+                    this.state.error.toString()
+                );
+            }
+
             var student = this.state.student;
             var fullName = student.first_name + " " + student.middle_name + " " + student.family_name;
             var isFetched = studentIsFetched(student);
@@ -154,9 +177,9 @@ var InstitutionSidebarPane = function (_Component2) {
     function InstitutionSidebarPane(props) {
         _classCallCheck(this, InstitutionSidebarPane);
 
-        var _this3 = _possibleConstructorReturn(this, (InstitutionSidebarPane.__proto__ || Object.getPrototypeOf(InstitutionSidebarPane)).call(this, props));
+        var _this4 = _possibleConstructorReturn(this, (InstitutionSidebarPane.__proto__ || Object.getPrototypeOf(InstitutionSidebarPane)).call(this, props));
 
-        _this3.state = {
+        _this4.state = {
             restoreInstitutionIsShowing: false,
             institution: props.institution
         };
@@ -167,20 +190,20 @@ var InstitutionSidebarPane = function (_Component2) {
 
                 //Copy results to existing institution object so we won't have to fetch next time
                 Object.assign(props.institution, institution);
-                _this3.setState({
+                _this4.setState({
                     institution: institution
                 });
             });
         }
 
-        _this3.toggleRestoreInstitution = _this3.toggleRestoreInstitution.bind(_this3);
-        return _this3;
+        _this4.toggleRestoreInstitution = _this4.toggleRestoreInstitution.bind(_this4);
+        return _this4;
     }
 
     _createClass(InstitutionSidebarPane, [{
         key: "componentWillReceiveProps",
         value: function componentWillReceiveProps(props) {
-            var _this4 = this;
+            var _this5 = this;
 
             this.setState({
                 institution: props.institution
@@ -192,7 +215,7 @@ var InstitutionSidebarPane = function (_Component2) {
 
                     //Copy results to existing institution object so we won't have to fetch next time
                     Object.assign(props.institution, institution);
-                    _this4.setState({
+                    _this5.setState({
                         institution: institution
                     });
                 });

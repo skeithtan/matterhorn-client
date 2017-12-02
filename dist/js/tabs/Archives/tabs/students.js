@@ -43,7 +43,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 function makeStudentsQuery(year) {
-    return _graphql2.default.query("\n    {\n      students(archived: true, year_archived: " + year + ") {\n        id\n        category\n        id_number\n        college\n        family_name\n        first_name\n        middle_name\n        nickname\n        nationality\n        birth_date\n        sex\n        archived_at\n        archiver\n        institution {\n          name\n        }\n      }\n    }\n    ");
+    return _graphql2.default.query("\n    {\n      students(archived: true, year_archived: " + year + ") {\n        id\n        category\n        id_number\n        family_name\n        first_name\n        middle_name\n        archived_at\n        archiver\n        institution {\n          name\n        }\n      }\n    }\n    ");
 }
 
 var StudentArchives = function (_Component) {

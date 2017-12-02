@@ -7,9 +7,9 @@ import {
 
 import {
     ContactDetails as StudentContactDetails,
-    fetchStudent,
     StudentDetails,
     UniversityDetails,
+    makeStudentOverviewQuery,
 } from "../../Students/tabs/overview";
 
 import {
@@ -23,6 +23,7 @@ import {
     fetchInstitution,
     InstitutionDetails,
 } from "../../Institutions/tabs/overview";
+import ErrorState from "../../../components/error_state";
 
 
 function studentIsFetched(student) {
@@ -42,18 +43,31 @@ class StudentSidebarPane extends Component {
             student : props.student,
         };
 
-        if (!studentIsFetched(props.student)) {
-            fetchStudent(props.student.id, result => {
+        this.fetchStudent = this.fetchStudent.bind(this);
+        this.toggleRestoreStudent = this.toggleRestoreStudent.bind(this);
 
-                //Copy results to existing student object so we won't have to fetch next time
-                Object.assign(props.student, result.student);
-                this.setState({
-                    student : result.student,
-                });
+        if (!studentIsFetched(props.student)) {
+            this.fetchStudent(props.student.id);
+        }
+    }
+
+    fetchStudent(studentId) {
+        if (this.state.error) {
+            this.setState({
+                error : null,
             });
         }
 
-        this.toggleRestoreStudent = this.toggleRestoreStudent.bind(this);
+        makeStudentOverviewQuery(studentId)
+            .then(result => {
+                Object.assign(this.state.student, result.student);
+                this.setState({
+                    student : this.state.student,
+                });
+            })
+            .catch(error => this.setState({
+                error : error,
+            }));
     }
 
     toggleRestoreStudent() {
@@ -68,18 +82,19 @@ class StudentSidebarPane extends Component {
         });
 
         if (!studentIsFetched(props.student)) {
-            fetchStudent(props.student.id, result => {
-
-                //Copy results to existing student object so we won't have to fetch next time
-                Object.assign(props.student, result.student);
-                this.setState({
-                    student : result.student,
-                });
-            });
+            this.fetchStudent(props.student.id);
         }
     }
 
     render() {
+        if (this.state.error) {
+            return (
+                <ErrorState onRetryButtonClick={() => this.fetchStudent(this.state.student.id)}>
+                    {this.state.error.toString()}
+                </ErrorState>
+            );
+        }
+
         const student = this.state.student;
         const fullName = `${student.first_name} ${student.middle_name} ${student.family_name}`;
         const isFetched = studentIsFetched(student);
