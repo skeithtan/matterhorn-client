@@ -10,7 +10,7 @@ const tabs = [
         tab : (institution, setSidebarContent, onDeleteActiveInstitution, refreshInstitutions) => {
             return <InstitutionOverview institution={ institution }
                                         setSidebarContent={ setSidebarContent }
-                                        onDeleteActiveInstitution={ onDeleteActiveInstitution }
+                                        onArchiveActiveInstitution={ onDeleteActiveInstitution }
                                         refreshInstitutions={ refreshInstitutions }/>;
         },
         image : "./images/burgergrey.png",

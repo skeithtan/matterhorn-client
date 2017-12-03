@@ -62,7 +62,7 @@ var Institutions = function (_Component) {
         _this.toggleAddInstitution = _this.toggleAddInstitution.bind(_this);
         _this.toggleMemorandumToBeAdded = _this.toggleMemorandumToBeAdded.bind(_this);
 
-        _this.onDeleteActiveInstitution = _this.onDeleteActiveInstitution.bind(_this);
+        _this.onArchiveActiveInstitution = _this.onArchiveActiveInstitution.bind(_this);
         _this.onAddInstitution = _this.onAddInstitution.bind(_this);
 
         _this.fetchInstitutions();
@@ -91,8 +91,8 @@ var Institutions = function (_Component) {
             });
         }
     }, {
-        key: "onDeleteActiveInstitution",
-        value: function onDeleteActiveInstitution() {
+        key: "onArchiveActiveInstitution",
+        value: function onArchiveActiveInstitution() {
             this.setState({
                 activeInstitution: null
             });
@@ -151,7 +151,7 @@ var Institutions = function (_Component) {
                     setActiveInstitution: this.setActiveInstitution,
                     toggleAddInstitution: this.toggleAddInstitution }),
                 _react2.default.createElement(_institution_detail2.default, { institution: this.state.activeInstitution,
-                    onDeleteActiveInstitution: this.onDeleteActiveInstitution,
+                    onArchiveActiveInstitution: this.onArchiveActiveInstitution,
                     refreshInstitutions: this.fetchInstitutions,
                     memorandumToBeAdded: this.state.memorandumToBeAdded,
                     toggleMemorandumToBeAdded: this.toggleMemorandumToBeAdded }),

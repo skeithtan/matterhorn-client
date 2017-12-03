@@ -2,11 +2,9 @@ import React, { Component } from "react";
 import LoadingSpinner from "../../../components/loading";
 import graphql from "../../../graphql";
 import { Button } from "reactstrap";
-
-import {
-    ArchiveInstitutionModal,
-    InstitutionFormModal,
-} from "../modals";
+import $ from "jquery";
+import { InstitutionFormModal, } from "../modals";
+import iziToast from "izitoast";
 
 import {
     Section,
@@ -17,6 +15,9 @@ import {
     SectionRowContent,
 } from "../../../components/section";
 import ErrorState from "../../../components/error_state";
+import { makeInfoToast } from "../../../dismissable_toast_maker";
+import authorizeXHR from "../../../authorization";
+import settings from "../../../settings";
 
 
 function makeInstitutionOverviewQuery(id) {
@@ -115,7 +116,7 @@ class InstitutionOverview extends Component {
         return (
             <div className="d-flex flex-column p-0 h-100">
                 <OverviewHead institution={this.state.institution}
-                              onDeleteInstitution={this.props.onDeleteActiveInstitution}
+                              onArchiveInstitution={this.props.onArchiveActiveInstitution}
                               onEditInstitution={this.fetchInstitution}/>
                 <OverviewBody institution={this.state.institution}/>
             </div>
@@ -128,12 +129,11 @@ class OverviewHead extends Component {
         super(props);
 
         this.state = {
-            deleteInstitutionIsShowing : false,
             editInstitutionIsShowing : false,
         };
 
+        this.confirmArchive = this.confirmArchive.bind(this);
         this.toggleEditInstitution = this.toggleEditInstitution.bind(this);
-        this.toggleDeleteInstitution = this.toggleDeleteInstitution.bind(this);
     }
 
     toggleEditInstitution() {
@@ -142,10 +142,41 @@ class OverviewHead extends Component {
         });
     }
 
-    toggleDeleteInstitution() {
-        this.setState({
-            deleteInstitutionIsShowing : !this.state.deleteInstitutionIsShowing,
+    confirmArchive() {
+        if (!confirm(`Are you sure you want to archive ${this.props.institution.name}?`)) {
+            return;
+        }
+
+        const dismissToast = makeInfoToast({
+            title : "Archiving",
+            message : "Archiving institution...",
         });
+
+        $.ajax({
+            url : `${settings.serverURL}/institutions/${this.props.institution.id}/`,
+            method : "DELETE",
+            beforeSend : authorizeXHR,
+            success : () => {
+                dismissToast();
+                this.props.onArchiveInstitution();
+                iziToast.success({
+                    icon : "",
+                    title : "Success",
+                    message : "Institution archived",
+                    progressBar : false,
+                });
+            },
+            error : response => {
+                dismissToast();
+                console.log(response);
+                iziToast.error({
+                    title : "Error",
+                    message : "Unable to archive institution",
+                    progressBar : false,
+                });
+            },
+        });
+
     }
 
     render() {
@@ -165,13 +196,8 @@ class OverviewHead extends Component {
                     <Button outline
                             size="sm"
                             color="warning"
-                            onClick={this.toggleDeleteInstitution}>Archive</Button>
+                            onClick={this.confirmArchive}>Archive</Button>
                 </div>
-
-                <ArchiveInstitutionModal isOpen={this.state.deleteInstitutionIsShowing}
-                                         institution={this.props.institution}
-                                         toggle={this.toggleDeleteInstitution}
-                                         refresh={this.props.onDeleteInstitution}/>
 
                 <InstitutionFormModal edit
                                       isOpen={this.state.editInstitutionIsShowing}
@@ -293,5 +319,5 @@ export {
     InstitutionOverview as default,
     InstitutionDetails,
     ContactDetails,
-    makeInstitutionOverviewQuery
+    makeInstitutionOverviewQuery,
 };

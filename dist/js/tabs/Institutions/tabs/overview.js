@@ -21,13 +21,31 @@ var _graphql2 = _interopRequireDefault(_graphql);
 
 var _reactstrap = require("reactstrap");
 
+var _jquery = require("jquery");
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
 var _modals = require("../modals");
+
+var _izitoast = require("izitoast");
+
+var _izitoast2 = _interopRequireDefault(_izitoast);
 
 var _section = require("../../../components/section");
 
 var _error_state = require("../../../components/error_state");
 
 var _error_state2 = _interopRequireDefault(_error_state);
+
+var _dismissable_toast_maker = require("../../../dismissable_toast_maker");
+
+var _authorization = require("../../../authorization");
+
+var _authorization2 = _interopRequireDefault(_authorization);
+
+var _settings = require("../../../settings");
+
+var _settings2 = _interopRequireDefault(_settings);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -136,7 +154,7 @@ var InstitutionOverview = function (_Component) {
                 "div",
                 { className: "d-flex flex-column p-0 h-100" },
                 _react2.default.createElement(OverviewHead, { institution: this.state.institution,
-                    onDeleteInstitution: this.props.onDeleteActiveInstitution,
+                    onArchiveInstitution: this.props.onArchiveActiveInstitution,
                     onEditInstitution: this.fetchInstitution }),
                 _react2.default.createElement(OverviewBody, { institution: this.state.institution })
             );
@@ -155,12 +173,11 @@ var OverviewHead = function (_Component2) {
         var _this4 = _possibleConstructorReturn(this, (OverviewHead.__proto__ || Object.getPrototypeOf(OverviewHead)).call(this, props));
 
         _this4.state = {
-            deleteInstitutionIsShowing: false,
             editInstitutionIsShowing: false
         };
 
+        _this4.confirmArchive = _this4.confirmArchive.bind(_this4);
         _this4.toggleEditInstitution = _this4.toggleEditInstitution.bind(_this4);
-        _this4.toggleDeleteInstitution = _this4.toggleDeleteInstitution.bind(_this4);
         return _this4;
     }
 
@@ -172,10 +189,42 @@ var OverviewHead = function (_Component2) {
             });
         }
     }, {
-        key: "toggleDeleteInstitution",
-        value: function toggleDeleteInstitution() {
-            this.setState({
-                deleteInstitutionIsShowing: !this.state.deleteInstitutionIsShowing
+        key: "confirmArchive",
+        value: function confirmArchive() {
+            var _this5 = this;
+
+            if (!confirm("Are you sure you want to archive " + this.props.institution.name + "?")) {
+                return;
+            }
+
+            var dismissToast = (0, _dismissable_toast_maker.makeInfoToast)({
+                title: "Archiving",
+                message: "Archiving institution..."
+            });
+
+            _jquery2.default.ajax({
+                url: _settings2.default.serverURL + "/institutions/" + this.props.institution.id + "/",
+                method: "DELETE",
+                beforeSend: _authorization2.default,
+                success: function success() {
+                    dismissToast();
+                    _this5.props.onArchiveInstitution();
+                    _izitoast2.default.success({
+                        icon: "",
+                        title: "Success",
+                        message: "Institution archived",
+                        progressBar: false
+                    });
+                },
+                error: function error(response) {
+                    dismissToast();
+                    console.log(response);
+                    _izitoast2.default.error({
+                        title: "Error",
+                        message: "Unable to archive institution",
+                        progressBar: false
+                    });
+                }
             });
         }
     }, {
@@ -215,14 +264,10 @@ var OverviewHead = function (_Component2) {
                         { outline: true,
                             size: "sm",
                             color: "warning",
-                            onClick: this.toggleDeleteInstitution },
+                            onClick: this.confirmArchive },
                         "Archive"
                     )
                 ),
-                _react2.default.createElement(_modals.ArchiveInstitutionModal, { isOpen: this.state.deleteInstitutionIsShowing,
-                    institution: this.props.institution,
-                    toggle: this.toggleDeleteInstitution,
-                    refresh: this.props.onDeleteInstitution }),
                 _react2.default.createElement(_modals.InstitutionFormModal, { edit: true,
                     isOpen: this.state.editInstitutionIsShowing,
                     institution: this.props.institution,

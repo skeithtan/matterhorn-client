@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.ProgramFormModal = exports.ArchiveMemorandumModal = exports.MemorandumFormModal = exports.ArchiveInstitutionModal = exports.InstitutionFormModal = undefined;
+exports.ProgramFormModal = exports.ArchiveMemorandumModal = exports.MemorandumFormModal = exports.InstitutionFormModal = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -478,106 +478,24 @@ var InstitutionFormModal = function (_Component) {
     return InstitutionFormModal;
 }(_react.Component);
 
-var ArchiveInstitutionModal = function (_Component2) {
-    _inherits(ArchiveInstitutionModal, _Component2);
-
-    function ArchiveInstitutionModal(props) {
-        _classCallCheck(this, ArchiveInstitutionModal);
-
-        var _this5 = _possibleConstructorReturn(this, (ArchiveInstitutionModal.__proto__ || Object.getPrototypeOf(ArchiveInstitutionModal)).call(this, props));
-
-        _this5.confirmArchive = _this5.confirmArchive.bind(_this5);
-        return _this5;
-    }
-
-    _createClass(ArchiveInstitutionModal, [{
-        key: "confirmArchive",
-        value: function confirmArchive() {
-            var _this6 = this;
-
-            var dismissToast = (0, _dismissable_toast_maker.makeInfoToast)({
-                title: "Deleting",
-                message: "Deleting institution..."
-            });
-
-            _jquery2.default.ajax({
-                url: _settings2.default.serverURL + "/institutions/" + this.props.institution.id + "/",
-                method: "DELETE",
-                beforeSend: _authorization2.default,
-                success: function success() {
-                    dismissToast();
-                    _this6.props.refresh();
-                    _izitoast2.default.success({
-                        icon: "",
-                        title: "Success",
-                        message: "Institution archived",
-                        progressBar: false
-                    });
-                },
-                error: function error(response) {
-                    dismissToast();
-                    console.log(response);
-                    _izitoast2.default.error({
-                        title: "Error",
-                        message: "Unable to archive institution",
-                        progressBar: false
-                    });
-                }
-            });
-            this.props.toggle();
-        }
-    }, {
-        key: "render",
-        value: function render() {
-            return _react2.default.createElement(
-                _reactstrap.Modal,
-                { isOpen: this.props.isOpen,
-                    toggle: this.props.toggle,
-                    backdrop: true,
-                    id: "archive-institution-modal" },
-                _react2.default.createElement(
-                    _reactstrap.ModalHeader,
-                    { className: "text-yellow" },
-                    "Are you sure you want to archive ",
-                    this.props.institution.name,
-                    "?"
-                ),
-                _react2.default.createElement(
-                    _reactstrap.ModalFooter,
-                    null,
-                    _react2.default.createElement(
-                        _reactstrap.Button,
-                        { outline: true,
-                            color: "warning",
-                            onClick: this.confirmArchive },
-                        "Confirm Archive"
-                    )
-                )
-            );
-        }
-    }]);
-
-    return ArchiveInstitutionModal;
-}(_react.Component);
-
-var MemorandumFormModal = function (_Component3) {
-    _inherits(MemorandumFormModal, _Component3);
+var MemorandumFormModal = function (_Component2) {
+    _inherits(MemorandumFormModal, _Component2);
 
     function MemorandumFormModal(props) {
         _classCallCheck(this, MemorandumFormModal);
 
-        var _this7 = _possibleConstructorReturn(this, (MemorandumFormModal.__proto__ || Object.getPrototypeOf(MemorandumFormModal)).call(this, props));
+        var _this5 = _possibleConstructorReturn(this, (MemorandumFormModal.__proto__ || Object.getPrototypeOf(MemorandumFormModal)).call(this, props));
 
-        _this7.resetForm = _this7.resetForm.bind(_this7);
-        _this7.getFormErrors = _this7.getFormErrors.bind(_this7);
-        _this7.setupUploadCare = _this7.setupUploadCare.bind(_this7);
-        _this7.getChangeHandler = _this7.getChangeHandler.bind(_this7);
-        _this7.submitAddMemorandumForm = _this7.submitAddMemorandumForm.bind(_this7);
-        _this7.submitEditMemorandumForm = _this7.submitEditMemorandumForm.bind(_this7);
-        _this7.memorandumToggle = _this7.memorandumToggle.bind(_this7);
+        _this5.resetForm = _this5.resetForm.bind(_this5);
+        _this5.getFormErrors = _this5.getFormErrors.bind(_this5);
+        _this5.setupUploadCare = _this5.setupUploadCare.bind(_this5);
+        _this5.getChangeHandler = _this5.getChangeHandler.bind(_this5);
+        _this5.submitAddMemorandumForm = _this5.submitAddMemorandumForm.bind(_this5);
+        _this5.submitEditMemorandumForm = _this5.submitEditMemorandumForm.bind(_this5);
+        _this5.memorandumToggle = _this5.memorandumToggle.bind(_this5);
 
-        _this7.componentWillReceiveProps(props);
-        return _this7;
+        _this5.componentWillReceiveProps(props);
+        return _this5;
     }
 
     _createClass(MemorandumFormModal, [{
@@ -632,7 +550,7 @@ var MemorandumFormModal = function (_Component3) {
     }, {
         key: "getChangeHandler",
         value: function getChangeHandler(fieldName) {
-            var _this8 = this;
+            var _this6 = this;
 
             var form = this.state.form;
 
@@ -640,7 +558,7 @@ var MemorandumFormModal = function (_Component3) {
                 var value = event.target.value;
 
                 form[fieldName] = value;
-                _this8.setState({
+                _this6.setState({
                     form: form
                 });
             };
@@ -648,13 +566,13 @@ var MemorandumFormModal = function (_Component3) {
     }, {
         key: "setupUploadCare",
         value: function setupUploadCare() {
-            var _this9 = this;
+            var _this7 = this;
 
             var widget = uploadcare.SingleWidget("[role=uploadcare-uploader]");
             var form = this.state.form;
             var setMemorandumFile = function setMemorandumFile(link) {
                 form.memorandum_file = link;
-                _this9.setState({
+                _this7.setState({
                     form: form
                 });
             };
@@ -670,7 +588,7 @@ var MemorandumFormModal = function (_Component3) {
     }, {
         key: "submitAddMemorandumForm",
         value: function submitAddMemorandumForm() {
-            var _this10 = this;
+            var _this8 = this;
 
             var dismissToast = (0, _dismissable_toast_maker.makeInfoToast)({
                 title: "Adding",
@@ -683,10 +601,10 @@ var MemorandumFormModal = function (_Component3) {
                 beforeSend: _authorization2.default,
                 success: function success() {
                     dismissToast();
-                    _this10.resetForm();
-                    _this10.props.refresh();
-                    if (_this10.props.memorandumToBeAdded) {
-                        _this10.props.toggleMemorandumToBeAdded();
+                    _this8.resetForm();
+                    _this8.props.refresh();
+                    if (_this8.props.memorandumToBeAdded) {
+                        _this8.props.toggleMemorandumToBeAdded();
                     }
                     _izitoast2.default.success({
                         title: "Success",
@@ -708,7 +626,7 @@ var MemorandumFormModal = function (_Component3) {
     }, {
         key: "submitEditMemorandumForm",
         value: function submitEditMemorandumForm() {
-            var _this11 = this;
+            var _this9 = this;
 
             var dismissToast = (0, _dismissable_toast_maker.makeInfoToast)({
                 title: "Editing",
@@ -728,10 +646,10 @@ var MemorandumFormModal = function (_Component3) {
                 beforeSend: _authorization2.default,
                 success: function success(response) {
                     dismissToast();
-                    _this11.resetForm();
+                    _this9.resetForm();
                     var memorandum = response;
-                    _this11.props.onEditSuccess(memorandum);
-                    _this11.props.refresh();
+                    _this9.props.onEditSuccess(memorandum);
+                    _this9.props.refresh();
 
                     _izitoast2.default.success({
                         title: "Success",
@@ -761,7 +679,7 @@ var MemorandumFormModal = function (_Component3) {
     }, {
         key: "render",
         value: function render() {
-            var _this12 = this;
+            var _this10 = this;
 
             var _getFormErrors2 = this.getFormErrors(),
                 formHasErrors = _getFormErrors2.formHasErrors,
@@ -771,11 +689,11 @@ var MemorandumFormModal = function (_Component3) {
                 var linkageCode = linkage[0];
                 var linkageString = linkage[1];
 
-                var isSelected = _this12.state.form.linkages.includes(linkageCode);
+                var isSelected = _this10.state.form.linkages.includes(linkageCode);
                 var className = isSelected ? "bg-dlsu-lighter text-white d-flex" : "d-flex";
 
                 var onClick = function onClick() {
-                    var form = _this12.state.form;
+                    var form = _this10.state.form;
 
                     if (isSelected) {
                         var _linkages = form.linkages;
@@ -785,7 +703,7 @@ var MemorandumFormModal = function (_Component3) {
                         form.linkages.push(linkageCode);
                     }
 
-                    _this12.setState({
+                    _this10.setState({
                         form: form
                     });
                 };
@@ -991,22 +909,22 @@ var MemorandumFormModal = function (_Component3) {
     return MemorandumFormModal;
 }(_react.Component);
 
-var ArchiveMemorandumModal = function (_Component4) {
-    _inherits(ArchiveMemorandumModal, _Component4);
+var ArchiveMemorandumModal = function (_Component3) {
+    _inherits(ArchiveMemorandumModal, _Component3);
 
     function ArchiveMemorandumModal(props) {
         _classCallCheck(this, ArchiveMemorandumModal);
 
-        var _this13 = _possibleConstructorReturn(this, (ArchiveMemorandumModal.__proto__ || Object.getPrototypeOf(ArchiveMemorandumModal)).call(this, props));
+        var _this11 = _possibleConstructorReturn(this, (ArchiveMemorandumModal.__proto__ || Object.getPrototypeOf(ArchiveMemorandumModal)).call(this, props));
 
-        _this13.confirmArchive = _this13.confirmArchive.bind(_this13);
-        return _this13;
+        _this11.confirmArchive = _this11.confirmArchive.bind(_this11);
+        return _this11;
     }
 
     _createClass(ArchiveMemorandumModal, [{
         key: "confirmArchive",
         value: function confirmArchive() {
-            var _this14 = this;
+            var _this12 = this;
 
             var dismissToast = (0, _dismissable_toast_maker.makeInfoToast)({
                 title: "Archiving",
@@ -1019,8 +937,8 @@ var ArchiveMemorandumModal = function (_Component4) {
                 beforeSend: _authorization2.default,
                 success: function success() {
                     dismissToast();
-                    _this14.props.onDeleteSuccess();
-                    _this14.props.refresh();
+                    _this12.props.onDeleteSuccess();
+                    _this12.props.refresh();
                     _izitoast2.default.success({
                         title: "Success",
                         message: "Memorandum archived",
@@ -1073,17 +991,17 @@ var ArchiveMemorandumModal = function (_Component4) {
     return ArchiveMemorandumModal;
 }(_react.Component);
 
-var ProgramFormModal = function (_Component5) {
-    _inherits(ProgramFormModal, _Component5);
+var ProgramFormModal = function (_Component4) {
+    _inherits(ProgramFormModal, _Component4);
 
     function ProgramFormModal(props) {
         _classCallCheck(this, ProgramFormModal);
 
-        var _this15 = _possibleConstructorReturn(this, (ProgramFormModal.__proto__ || Object.getPrototypeOf(ProgramFormModal)).call(this, props));
+        var _this13 = _possibleConstructorReturn(this, (ProgramFormModal.__proto__ || Object.getPrototypeOf(ProgramFormModal)).call(this, props));
 
-        _this15.state = {
+        _this13.state = {
             form: {
-                institution: _this15.props.institution,
+                institution: _this13.props.institution,
                 name: "",
                 linkage: "SE",
                 academic_year: "",
@@ -1095,22 +1013,22 @@ var ProgramFormModal = function (_Component5) {
             step: "Overview"
         };
 
-        _this15.overviewForm = _this15.overviewForm.bind(_this15);
-        _this15.requirementForm = _this15.requirementForm.bind(_this15);
-        _this15.onTermClick = _this15.onTermClick.bind(_this15);
-        _this15.getOverviewFormErrors = _this15.getOverviewFormErrors.bind(_this15);
-        _this15.getRequirementFormErrors = _this15.getRequirementFormErrors.bind(_this15);
-        _this15.submitAddProgramForm = _this15.submitAddProgramForm.bind(_this15);
-        _this15.getChangeHandler = _this15.getChangeHandler.bind(_this15);
+        _this13.overviewForm = _this13.overviewForm.bind(_this13);
+        _this13.requirementForm = _this13.requirementForm.bind(_this13);
+        _this13.onTermClick = _this13.onTermClick.bind(_this13);
+        _this13.getOverviewFormErrors = _this13.getOverviewFormErrors.bind(_this13);
+        _this13.getRequirementFormErrors = _this13.getRequirementFormErrors.bind(_this13);
+        _this13.submitAddProgramForm = _this13.submitAddProgramForm.bind(_this13);
+        _this13.getChangeHandler = _this13.getChangeHandler.bind(_this13);
 
         (0, _outbound_programs.fetchYears)(function (result) {
-            _this15.setState({
+            _this13.setState({
                 academic_years: result.academic_years.map(function (academicYear) {
                     return academicYear.academic_year_start;
                 })
             });
         });
-        return _this15;
+        return _this13;
     }
 
     _createClass(ProgramFormModal, [{
@@ -1151,7 +1069,7 @@ var ProgramFormModal = function (_Component5) {
     }, {
         key: "submitAddProgramForm",
         value: function submitAddProgramForm() {
-            var _this16 = this;
+            var _this14 = this;
 
             var dismissToast = (0, _dismissable_toast_maker.makeInfoToast)({
                 title: "Adding",
@@ -1165,7 +1083,7 @@ var ProgramFormModal = function (_Component5) {
                 beforeSend: _authorization2.default
             }).done(function () {
                 dismissToast();
-                _this16.props.refresh();
+                _this14.props.refresh();
                 _izitoast2.default.success({
                     title: "Success",
                     message: "Successfully added memorandum"
@@ -1184,7 +1102,7 @@ var ProgramFormModal = function (_Component5) {
     }, {
         key: "getChangeHandler",
         value: function getChangeHandler(fieldName) {
-            var _this17 = this;
+            var _this15 = this;
 
             var form = this.state.form;
 
@@ -1192,7 +1110,7 @@ var ProgramFormModal = function (_Component5) {
                 var value = event.target.value;
 
                 form[fieldName] = value;
-                _this17.setState({
+                _this15.setState({
                     form: form
                 });
             };
@@ -1222,7 +1140,7 @@ var ProgramFormModal = function (_Component5) {
     }, {
         key: "overviewForm",
         value: function overviewForm(fieldErrors) {
-            var _this18 = this;
+            var _this16 = this;
 
             function isValid(fieldName) {
                 return fieldErrors[fieldName].length === 0;
@@ -1239,9 +1157,9 @@ var ProgramFormModal = function (_Component5) {
                         color: "success",
                         key: term,
                         onClick: function onClick() {
-                            return _this18.onTermClick(term);
+                            return _this16.onTermClick(term);
                         },
-                        active: _this18.state.form.terms_available.includes(term) },
+                        active: _this16.state.form.terms_available.includes(term) },
                     term
                 );
             });
@@ -1250,7 +1168,7 @@ var ProgramFormModal = function (_Component5) {
                 return _react2.default.createElement(
                     "option",
                     { key: academicYear,
-                        onClick: _this18.getChangeHandler("academic_year"),
+                        onClick: _this16.getChangeHandler("academic_year"),
                         value: academicYear },
                     academicYear + " - " + (academicYear + 1)
                 );
@@ -1302,7 +1220,7 @@ var ProgramFormModal = function (_Component5) {
                                     { outline: true,
                                         color: "success",
                                         onClick: function onClick() {
-                                            return _this18.setIsGraduate(false);
+                                            return _this16.setIsGraduate(false);
                                         },
                                         active: !this.state.form.is_graduate },
                                     "Undergraduate program"
@@ -1312,7 +1230,7 @@ var ProgramFormModal = function (_Component5) {
                                     { outline: true,
                                         color: "success",
                                         onClick: function onClick() {
-                                            return _this18.setIsGraduate(true);
+                                            return _this16.setIsGraduate(true);
                                         },
                                         active: this.state.form.is_graduate },
                                     "Graduate program"
@@ -1410,7 +1328,7 @@ var ProgramFormModal = function (_Component5) {
     }, {
         key: "render",
         value: function render() {
-            var _this19 = this;
+            var _this17 = this;
 
             var _ref = this.state.step === "Overview" ? this.getOverviewFormErrors() : this.getRequirementFormErrors(),
                 formHasErrors = _ref.formHasErrors,
@@ -1454,7 +1372,7 @@ var ProgramFormModal = function (_Component5) {
                                 color: "success",
                                 className: "mr-auto",
                                 onClick: function onClick() {
-                                    return _this19.setState({ step: "Overview" });
+                                    return _this17.setState({ step: "Overview" });
                                 } },
                             "Back"
                         ),
@@ -1472,7 +1390,7 @@ var ProgramFormModal = function (_Component5) {
                         { outline: true,
                             color: "success",
                             onClick: function onClick() {
-                                return _this19.setState({ step: "Requirement" });
+                                return _this17.setState({ step: "Requirement" });
                             },
                             disabled: formHasErrors },
                         "Next"
@@ -1503,32 +1421,32 @@ var ProgramFormModal = function (_Component5) {
     return ProgramFormModal;
 }(_react.Component);
 
-var ProgramFormRequirements = function (_Component6) {
-    _inherits(ProgramFormRequirements, _Component6);
+var ProgramFormRequirements = function (_Component5) {
+    _inherits(ProgramFormRequirements, _Component5);
 
     function ProgramFormRequirements(props) {
         _classCallCheck(this, ProgramFormRequirements);
 
-        var _this20 = _possibleConstructorReturn(this, (ProgramFormRequirements.__proto__ || Object.getPrototypeOf(ProgramFormRequirements)).call(this, props));
+        var _this18 = _possibleConstructorReturn(this, (ProgramFormRequirements.__proto__ || Object.getPrototypeOf(ProgramFormRequirements)).call(this, props));
 
-        _this20.state = {
+        _this18.state = {
             requirements: [""]
         };
 
-        _this20.handleAddRequirement = _this20.handleAddRequirement.bind(_this20);
-        _this20.handleRemoveRequirement = _this20.handleRemoveRequirement.bind(_this20);
-        _this20.handleRequirementChange = _this20.handleRequirementChange.bind(_this20);
+        _this18.handleAddRequirement = _this18.handleAddRequirement.bind(_this18);
+        _this18.handleRemoveRequirement = _this18.handleRemoveRequirement.bind(_this18);
+        _this18.handleRequirementChange = _this18.handleRequirementChange.bind(_this18);
 
-        return _this20;
+        return _this18;
     }
 
     _createClass(ProgramFormRequirements, [{
         key: "handleRequirementChange",
         value: function handleRequirementChange(index) {
-            var _this21 = this;
+            var _this19 = this;
 
             return function (newValue) {
-                var requirements = _this21.state.requirements.map(function (requirement, candidateIndex) {
+                var requirements = _this19.state.requirements.map(function (requirement, candidateIndex) {
                     if (index !== candidateIndex) {
                         return requirement;
                     }
@@ -1536,7 +1454,7 @@ var ProgramFormRequirements = function (_Component6) {
                     return newValue;
                 });
 
-                _this21.setState({
+                _this19.setState({
                     requirements: requirements
                 });
             };
@@ -1551,11 +1469,11 @@ var ProgramFormRequirements = function (_Component6) {
     }, {
         key: "handleRemoveRequirement",
         value: function handleRemoveRequirement(index) {
-            var _this22 = this;
+            var _this20 = this;
 
             return function () {
-                _this22.setState({
-                    requirements: _this22.state.requirements.filter(function (requirement, candidateIndex) {
+                _this20.setState({
+                    requirements: _this20.state.requirements.filter(function (requirement, candidateIndex) {
                         return candidateIndex !== index;
                     })
                 });
@@ -1564,15 +1482,15 @@ var ProgramFormRequirements = function (_Component6) {
     }, {
         key: "render",
         value: function render() {
-            var _this23 = this;
+            var _this21 = this;
 
             var requirements = this.state.requirements.map(function (requirement, index) {
                 return _react2.default.createElement(ProgramFormRequirementRow, { key: index,
-                    isLastItem: index + 1 === _this23.state.requirements.length,
+                    isLastItem: index + 1 === _this21.state.requirements.length,
                     hasRemoveButton: index > 0,
-                    onRemoveButtonClick: _this23.handleRemoveRequirement(index),
-                    onAddButtonClick: _this23.handleAddRequirement,
-                    onValueChange: _this23.handleRequirementChange(index),
+                    onRemoveButtonClick: _this21.handleRemoveRequirement(index),
+                    onAddButtonClick: _this21.handleAddRequirement,
+                    onValueChange: _this21.handleRequirementChange(index),
                     value: requirement });
             });
 
@@ -1592,21 +1510,21 @@ var ProgramFormRequirements = function (_Component6) {
     return ProgramFormRequirements;
 }(_react.Component);
 
-var ProgramFormRequirementRow = function (_Component7) {
-    _inherits(ProgramFormRequirementRow, _Component7);
+var ProgramFormRequirementRow = function (_Component6) {
+    _inherits(ProgramFormRequirementRow, _Component6);
 
     function ProgramFormRequirementRow(props) {
         _classCallCheck(this, ProgramFormRequirementRow);
 
-        var _this24 = _possibleConstructorReturn(this, (ProgramFormRequirementRow.__proto__ || Object.getPrototypeOf(ProgramFormRequirementRow)).call(this, props));
+        var _this22 = _possibleConstructorReturn(this, (ProgramFormRequirementRow.__proto__ || Object.getPrototypeOf(ProgramFormRequirementRow)).call(this, props));
 
-        _this24.state = {
-            value: _this24.props.value
+        _this22.state = {
+            value: _this22.props.value
         };
 
-        _this24.onValueChange = _this24.onValueChange.bind(_this24);
-        _this24.validateInput = _this24.validateInput.bind(_this24);
-        return _this24;
+        _this22.onValueChange = _this22.onValueChange.bind(_this22);
+        _this22.validateInput = _this22.validateInput.bind(_this22);
+        return _this22;
     }
 
     _createClass(ProgramFormRequirementRow, [{
@@ -1683,7 +1601,6 @@ var ProgramFormRequirementRow = function (_Component7) {
 }(_react.Component);
 
 exports.InstitutionFormModal = InstitutionFormModal;
-exports.ArchiveInstitutionModal = ArchiveInstitutionModal;
 exports.MemorandumFormModal = MemorandumFormModal;
 exports.ArchiveMemorandumModal = ArchiveMemorandumModal;
 exports.ProgramFormModal = ProgramFormModal;

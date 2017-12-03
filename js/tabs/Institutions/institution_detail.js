@@ -48,7 +48,7 @@ class InstitutionDetail extends Component {
             return InstitutionDetail.unselectedState();
         }
 
-        const currentTab = this.state.activeTab.tab(this.props.institution, this.setSidebarContent, this.props.onDeleteActiveInstitution, this.props.fetchMemorandums, this.props.memorandumToBeAdded, this.props.toggleMemorandumToBeAdded);
+        const currentTab = this.state.activeTab.tab(this.props.institution, this.setSidebarContent, this.props.onArchiveActiveInstitution, this.props.fetchMemorandums, this.props.memorandumToBeAdded, this.props.toggleMemorandumToBeAdded);
 
         let sidebarClass = "sidebar-right ";
         if (this.state.sidebarContent === null) {

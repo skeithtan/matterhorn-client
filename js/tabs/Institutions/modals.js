@@ -324,64 +324,6 @@ class InstitutionFormModal extends Component {
     }
 }
 
-class ArchiveInstitutionModal extends Component {
-    constructor(props) {
-        super(props);
-        this.confirmArchive = this.confirmArchive.bind(this);
-    }
-
-    confirmArchive() {
-        const dismissToast = makeInfoToast({
-            title : "Deleting",
-            message : "Deleting institution...",
-        });
-
-        $.ajax({
-            url : `${settings.serverURL}/institutions/${this.props.institution.id}/`,
-            method : "DELETE",
-            beforeSend : authorizeXHR,
-            success : () => {
-                dismissToast();
-                this.props.refresh();
-                iziToast.success({
-                    icon : "",
-                    title : "Success",
-                    message : "Institution archived",
-                    progressBar : false,
-                });
-            },
-            error : response => {
-                dismissToast();
-                console.log(response);
-                iziToast.error({
-                    title : "Error",
-                    message : "Unable to archive institution",
-                    progressBar : false,
-                });
-            },
-        });
-        this.props.toggle();
-    }
-
-    render() {
-        return (
-            <Modal isOpen={this.props.isOpen}
-                   toggle={this.props.toggle}
-                   backdrop={true}
-                   id="archive-institution-modal">
-                <ModalHeader className="text-yellow">
-                    Are you sure you want to archive {this.props.institution.name}?
-                </ModalHeader>
-                <ModalFooter>
-                    <Button outline
-                            color="warning"
-                            onClick={this.confirmArchive}>Confirm Archive</Button>
-                </ModalFooter>
-            </Modal>
-        );
-    }
-}
-
 class MemorandumFormModal extends Component {
     constructor(props) {
         super(props);
@@ -1212,7 +1154,6 @@ class ProgramFormRequirementRow extends Component {
 
 export {
     InstitutionFormModal,
-    ArchiveInstitutionModal,
     MemorandumFormModal,
     ArchiveMemorandumModal,
     ProgramFormModal,

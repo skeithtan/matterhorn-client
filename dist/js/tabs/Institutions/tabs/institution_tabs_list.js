@@ -27,7 +27,7 @@ var tabs = [{
     tab: function tab(institution, setSidebarContent, onDeleteActiveInstitution, refreshInstitutions) {
         return _react2.default.createElement(_overview2.default, { institution: institution,
             setSidebarContent: setSidebarContent,
-            onDeleteActiveInstitution: onDeleteActiveInstitution,
+            onArchiveActiveInstitution: onDeleteActiveInstitution,
             refreshInstitutions: refreshInstitutions });
     },
     image: "./images/burgergrey.png",

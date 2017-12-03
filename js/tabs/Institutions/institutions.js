@@ -40,7 +40,7 @@ class Institutions extends Component {
         this.toggleAddInstitution = this.toggleAddInstitution.bind(this);
         this.toggleMemorandumToBeAdded = this.toggleMemorandumToBeAdded.bind(this);
 
-        this.onDeleteActiveInstitution = this.onDeleteActiveInstitution.bind(this);
+        this.onArchiveActiveInstitution = this.onArchiveActiveInstitution.bind(this);
         this.onAddInstitution = this.onAddInstitution.bind(this);
 
         this.fetchInstitutions();
@@ -65,7 +65,7 @@ class Institutions extends Component {
             );
     }
 
-    onDeleteActiveInstitution() {
+    onArchiveActiveInstitution() {
         this.setState({
             activeInstitution : null,
         });
@@ -115,7 +115,7 @@ class Institutions extends Component {
                                  toggleAddInstitution={this.toggleAddInstitution}/>
 
                 <InstitutionDetail institution={this.state.activeInstitution}
-                                   onDeleteActiveInstitution={this.onDeleteActiveInstitution}
+                                   onArchiveActiveInstitution={this.onArchiveActiveInstitution}
                                    refreshInstitutions={this.fetchInstitutions}
                                    memorandumToBeAdded={this.state.memorandumToBeAdded}
                                    toggleMemorandumToBeAdded={this.toggleMemorandumToBeAdded}/>
