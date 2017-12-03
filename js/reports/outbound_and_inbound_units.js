@@ -227,8 +227,8 @@ class UnitsReport extends Component {
             .done(institutions => this.setState({
                 institutions : institutions,
             }))
-            .fail(error => this.setState({
-                error : error,
+            .fail(() => this.setState({
+                error : "AJAX Error at fetchReport()",
             }));
     }
 
@@ -242,6 +242,7 @@ class UnitsReport extends Component {
 
     render() {
         if (this.state.error) {
+            console.log(this.state.error);
             return (
                 <ErrorState onRetryButtonClick={() => this.fetchReport(this.props.year, this.props.term)}>
                     {this.state.error.toString()}

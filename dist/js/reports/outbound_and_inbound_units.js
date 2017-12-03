@@ -329,9 +329,9 @@ var UnitsReport = function (_Component3) {
                 return _this6.setState({
                     institutions: institutions
                 });
-            }).fail(function (error) {
+            }).fail(function () {
                 return _this6.setState({
-                    error: error
+                    error: "AJAX Error at fetchReport()"
                 });
             });
         }
@@ -350,6 +350,7 @@ var UnitsReport = function (_Component3) {
             var _this7 = this;
 
             if (this.state.error) {
+                console.log(this.state.error);
                 return _react2.default.createElement(
                     _error_state2.default,
                     { onRetryButtonClick: function onRetryButtonClick() {
