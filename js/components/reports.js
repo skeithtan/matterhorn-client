@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Button } from "reactstrap";
+import moment from "moment";
 
 
 class ReportBar extends Component {
@@ -24,6 +25,8 @@ class ReportBar extends Component {
 
 class ReportHead extends Component {
     render() {
+        const dateGenerated = moment().format("LLL");
+
         return (
             <div className="d-flex flex-row align-items-center">
                 <div className="d-flex flex-row mr-auto align-items-center">
@@ -37,7 +40,7 @@ class ReportHead extends Component {
 
                 <div className="d-flex flex-column text-right">
                     <div>Report Generated</div>
-                    <div>{this.props.children}</div>
+                    <div>{dateGenerated}</div>
                 </div>
             </div>
         );

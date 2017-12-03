@@ -19,7 +19,6 @@ import LoadingSpinner from "../components/loading";
 import $ from "jquery";
 import settings from "../settings";
 import authorizeXHR from "../authorization";
-import moment from "moment";
 
 
 function makeYearsQuery() {
@@ -253,12 +252,11 @@ class UnitsReport extends Component {
             return <LoadingSpinner/>;
         }
 
-        const dateGenerated = moment().format("LLL");
         const year = parseInt(this.props.year);
 
         return (
             <div className="report-page">
-                <ReportHead>{dateGenerated}</ReportHead>
+                <ReportHead/>
                 <ReportTitleContainer>
                     <h4>Term End Outbound and Inbound Units Report</h4>
                     <h5>{`Academic Year ${year} - ${year + 1} Term ${this.props.term}`}</h5>

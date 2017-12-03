@@ -38,10 +38,6 @@ var _authorization = require("../authorization");
 
 var _authorization2 = _interopRequireDefault(_authorization);
 
-var _moment = require("moment");
-
-var _moment2 = _interopRequireDefault(_moment);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -367,17 +363,12 @@ var UnitsReport = function (_Component3) {
                 return _react2.default.createElement(_loading2.default, null);
             }
 
-            var dateGenerated = (0, _moment2.default)().format("LLL");
             var year = parseInt(this.props.year);
 
             return _react2.default.createElement(
                 "div",
                 { className: "report-page" },
-                _react2.default.createElement(
-                    _reports.ReportHead,
-                    null,
-                    dateGenerated
-                ),
+                _react2.default.createElement(_reports.ReportHead, null),
                 _react2.default.createElement(
                     _reports.ReportTitleContainer,
                     null,
