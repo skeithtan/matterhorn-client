@@ -1,0 +1,53 @@
+* {
+    font-family : -apple-system, "Helvetica Neue", "Segoe UI", Roboto, Arial, sans-serif !important;
+}
+
+.numeric {
+    font-family    : "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
+    letter-spacing : 0.05rem;
+}
+
+label {
+    margin : 0;
+}
+
+.report-bar {
+    /*height : 64px;*/
+    width    : 100vw;
+    position : fixed;
+    top      : 0;
+}
+
+.report-page {
+    padding : 120px 40px;
+}
+
+.report-dlsu-logo {
+    width  : 80px;
+    height : 80px;
+}
+
+@media print {
+
+    /*This makes the printout have the same size as the html rendering*/
+    body {
+        font-size : 0.8rem;
+    }
+
+    h4 {
+        font-size : 1.25rem;
+    }
+
+    h5 {
+        font-size : 1rem;
+    }
+
+    .report-page {
+        padding : 32px;
+    }
+
+    .report-bar,
+    .report-bar * {
+        display : none;
+    }
+}
