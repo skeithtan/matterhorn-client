@@ -4,7 +4,6 @@ import settings from "../../../settings";
 import { Button, } from "reactstrap";
 
 import {
-    ArchiveMemorandumModal,
     MemorandumFormModal,
 } from "../modals";
 import {
@@ -15,7 +14,6 @@ import {
     SectionTable,
     SectionTitle,
 } from "../../../components/section";
-import { RestoreMemorandumModal } from "../../Archives/tabs/modals";
 import { makeInfoToast } from "../../../dismissable_toast_maker";
 import * as $ from "jquery";
 import iziToast from "izitoast";
