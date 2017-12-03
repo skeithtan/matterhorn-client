@@ -64,10 +64,10 @@ var MemorandumSidebarPane = function (_Component) {
             memorandum: props.memorandum
         };
 
+        _this.confirmRestore = _this.confirmRestore.bind(_this);
         _this.confirmArchive = _this.confirmArchive.bind(_this);
         _this.onEditMemorandum = _this.onEditMemorandum.bind(_this);
         _this.toggleEditMemorandum = _this.toggleEditMemorandum.bind(_this);
-        _this.toggleRestoreMemorandum = _this.toggleRestoreMemorandum.bind(_this);
         return _this;
     }
 
@@ -109,10 +109,37 @@ var MemorandumSidebarPane = function (_Component) {
             });
         }
     }, {
-        key: "toggleRestoreMemorandum",
-        value: function toggleRestoreMemorandum() {
-            this.setState({
-                restoreMemorandumIsShowing: !this.state.restoreMemorandumIsShowing
+        key: "confirmRestore",
+        value: function confirmRestore() {
+            var _this3 = this;
+
+            if (!confirm("Are you sure you want to archive this memorandum?")) {
+                return;
+            }
+
+            var dismissToast = (0, _dismissable_toast_maker.makeInfoToast)({
+                title: "Restoring",
+                message: "Restoring memorandum..."
+            });
+
+            $.ajax({
+                url: _settings2.default.serverURL + "/archives/memorandums/" + this.props.memorandum.id + "/restore/",
+                method: "PUT",
+                beforeSend: _authorization2.default
+            }).done(function () {
+                dismissToast();
+                _izitoast2.default.success({
+                    title: "Success",
+                    message: "Successfully restored memorandum"
+                });
+                _this3.props.onRestoreSuccess();
+            }).fail(function (response) {
+                dismissToast();
+                console.log(response);
+                _izitoast2.default.error({
+                    title: "Error",
+                    message: "Unable to restore memorandum"
+                });
             });
         }
     }, {
@@ -161,7 +188,7 @@ var MemorandumSidebarPane = function (_Component) {
                     { className: "page-body" },
                     _react2.default.createElement(MemorandumDetails, { archived: this.props.archived,
                         memorandum: memorandum,
-                        toggleRestoreMemorandum: this.toggleRestoreMemorandum,
+                        confirmRestore: this.confirmRestore,
                         confirmArchive: this.confirmArchive,
                         toggleEditMemorandum: this.toggleEditMemorandum }),
                     _react2.default.createElement(MemorandumLinkages, { linkages: memorandum.linkages }),
@@ -195,7 +222,7 @@ var MemorandumDetails = function (_Component2) {
     _createClass(MemorandumDetails, [{
         key: "render",
         value: function render() {
-            var _this4 = this;
+            var _this5 = this;
 
             function formatDate(date) {
                 return (0, _moment2.default)(date).format("LL");
@@ -207,7 +234,7 @@ var MemorandumDetails = function (_Component2) {
             var college = this.props.memorandum.college_initiator === null ? "None" : this.props.memorandum.college_initiator;
             var viewMemorandum = function viewMemorandum() {
                 var shell = require("electron").shell;
-                shell.openExternal(_this4.props.memorandum.memorandum_file);
+                shell.openExternal(_this5.props.memorandum.memorandum_file);
             };
 
             return _react2.default.createElement(
@@ -315,7 +342,7 @@ var MemorandumDetails = function (_Component2) {
                                     color: "primary",
                                     size: "sm",
                                     className: "ml-auto",
-                                    onClick: this.props.toggleRestoreMemorandum },
+                                    onClick: this.props.confirmRestore },
                                 "Restore"
                             )
                         )
@@ -388,16 +415,16 @@ var ProgramSidebarPane = function (_Component4) {
     function ProgramSidebarPane(props) {
         _classCallCheck(this, ProgramSidebarPane);
 
-        var _this6 = _possibleConstructorReturn(this, (ProgramSidebarPane.__proto__ || Object.getPrototypeOf(ProgramSidebarPane)).call(this, props));
+        var _this7 = _possibleConstructorReturn(this, (ProgramSidebarPane.__proto__ || Object.getPrototypeOf(ProgramSidebarPane)).call(this, props));
 
-        _this6.state = {
+        _this7.state = {
             deleteProgramIsShowing: false,
             editProgramIsShowing: false
         };
 
-        _this6.toggleDeleteProgram = _this6.toggleDeleteProgram.bind(_this6);
-        _this6.toggleEditProgram = _this6.toggleEditProgram.bind(_this6);
-        return _this6;
+        _this7.toggleDeleteProgram = _this7.toggleDeleteProgram.bind(_this7);
+        _this7.toggleEditProgram = _this7.toggleEditProgram.bind(_this7);
+        return _this7;
     }
 
     _createClass(ProgramSidebarPane, [{

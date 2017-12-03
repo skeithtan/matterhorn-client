@@ -15,8 +15,6 @@ var _loading = require("../../../components/loading");
 
 var _loading2 = _interopRequireDefault(_loading);
 
-var _modals = require("./modals");
-
 var _jquery = require("jquery");
 
 var _jquery2 = _interopRequireDefault(_jquery);

@@ -31,10 +31,10 @@ class MemorandumSidebarPane extends Component {
             memorandum : props.memorandum,
         };
 
+        this.confirmRestore = this.confirmRestore.bind(this);
         this.confirmArchive = this.confirmArchive.bind(this);
         this.onEditMemorandum = this.onEditMemorandum.bind(this);
         this.toggleEditMemorandum = this.toggleEditMemorandum.bind(this);
-        this.toggleRestoreMemorandum = this.toggleRestoreMemorandum.bind(this);
     }
 
     confirmArchive() {
@@ -72,10 +72,36 @@ class MemorandumSidebarPane extends Component {
 
     }
 
-    toggleRestoreMemorandum() {
-        this.setState({
-            restoreMemorandumIsShowing : !this.state.restoreMemorandumIsShowing,
+    confirmRestore() {
+        if (!confirm("Are you sure you want to archive this memorandum?")) {
+            return;
+        }
+
+        const dismissToast = makeInfoToast({
+            title : "Restoring",
+            message : "Restoring memorandum...",
         });
+
+        $.ajax({
+            url : `${settings.serverURL}/archives/memorandums/${this.props.memorandum.id}/restore/`,
+            method : "PUT",
+            beforeSend : authorizeXHR,
+        }).done(() => {
+            dismissToast();
+            iziToast.success({
+                title : "Success",
+                message : "Successfully restored memorandum",
+            });
+            this.props.onRestoreSuccess();
+        }).fail(response => {
+            dismissToast();
+            console.log(response);
+            iziToast.error({
+                title : "Error",
+                message : "Unable to restore memorandum",
+            });
+        });
+
     }
 
     toggleEditMemorandum() {
@@ -109,7 +135,7 @@ class MemorandumSidebarPane extends Component {
                 <div className="page-body">
                     <MemorandumDetails archived={this.props.archived}
                                        memorandum={memorandum}
-                                       toggleRestoreMemorandum={this.toggleRestoreMemorandum}
+                                       confirmRestore={this.confirmRestore}
                                        confirmArchive={this.confirmArchive}
                                        toggleEditMemorandum={this.toggleEditMemorandum}/>
                     <MemorandumLinkages linkages={memorandum.linkages}/>
@@ -200,7 +226,7 @@ class MemorandumDetails extends Component {
                                     color="primary"
                                     size="sm"
                                     className="ml-auto"
-                                    onClick={this.props.toggleRestoreMemorandum}>Restore</Button>
+                                    onClick={this.props.confirmRestore}>Restore</Button>
                             }
                         </SectionRowContent>
                     </SectionRow>

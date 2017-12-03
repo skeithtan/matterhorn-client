@@ -1,9 +1,5 @@
 import React, { Component } from "react";
 import LoadingSpinner from "../../../components/loading";
-import {
-    RestoreInstitutionModal,
-    RestoreStudentModal,
-} from "./modals";
 import $ from "jquery";
 
 
@@ -291,7 +287,6 @@ class InstitutionSidebarPane extends Component {
         );
     }
 }
-
 
 export {
     StudentSidebarPane,
