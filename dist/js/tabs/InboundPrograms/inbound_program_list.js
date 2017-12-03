@@ -45,6 +45,7 @@ var ProgramList = function (_Component) {
                     activeTerm: this.props.activeTerm,
                     setActiveTerm: this.props.setActiveTerm }),
                 _react2.default.createElement(ProgramListTable, { programs: this.props.programList,
+                    activetTerm: this.props.activeTerm,
                     activeProgram: this.props.activeProgram,
                     setActiveProgram: this.props.setActiveProgram })
             );
@@ -155,7 +156,8 @@ var ProgramListTable = function (_Component3) {
                 _react2.default.createElement(
                     "h5",
                     null,
-                    "There are no programs for this academic year"
+                    "There are no programs for Term ",
+                    this.props.activeTerm
                 )
             );
         }

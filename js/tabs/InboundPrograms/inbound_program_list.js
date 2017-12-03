@@ -20,6 +20,7 @@ class ProgramList extends Component {
                                  activeTerm={ this.props.activeTerm }
                                  setActiveTerm={ this.props.setActiveTerm }/>
                 <ProgramListTable programs={ this.props.programList }
+                                  activetTerm={ this.props.activeTerm }
                                   activeProgram={ this.props.activeProgram }
                                   setActiveProgram={ this.props.setActiveProgram }/>
             </div>
@@ -76,7 +77,7 @@ class ProgramListTable extends Component {
     emptyState() {
         return (
             <div className="loading-container">
-                <h5>There are no programs for this academic year</h5>
+                <h5>There are no programs for Term { this.props.activeTerm }</h5>
             </div>
         );
     }
