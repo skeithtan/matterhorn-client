@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.EndOfReportIndicator = exports.ReportTitleContainer = exports.ReportHead = exports.ReportBar = undefined;
+exports.EndOfReportIndicator = exports.YearAndTermReportBar = exports.ReportTitleContainer = exports.ReportHead = exports.ReportBar = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -64,8 +64,115 @@ var ReportBar = function (_Component) {
     return ReportBar;
 }(_react.Component);
 
-var ReportHead = function (_Component2) {
-    _inherits(ReportHead, _Component2);
+var YearAndTermReportBar = function (_Component2) {
+    _inherits(YearAndTermReportBar, _Component2);
+
+    function YearAndTermReportBar(props) {
+        _classCallCheck(this, YearAndTermReportBar);
+
+        var _this2 = _possibleConstructorReturn(this, (YearAndTermReportBar.__proto__ || Object.getPrototypeOf(YearAndTermReportBar)).call(this, props));
+
+        _this2.onActiveYearChange = _this2.onActiveYearChange.bind(_this2);
+        return _this2;
+    }
+
+    _createClass(YearAndTermReportBar, [{
+        key: "onActiveYearChange",
+        value: function onActiveYearChange(event) {
+            this.props.setActiveYear(event.target.value);
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            var _this3 = this;
+
+            var academicYears = this.props.academicYears.map(function (year) {
+                return _react2.default.createElement(
+                    "option",
+                    { value: year,
+                        key: year },
+                    year + " - " + (year + 1)
+                );
+            });
+
+            return _react2.default.createElement(
+                ReportBar,
+                null,
+                _react2.default.createElement(
+                    _reactstrap.Form,
+                    { inline: true },
+                    _react2.default.createElement(
+                        _reactstrap.FormGroup,
+                        { className: "mr-4" },
+                        _react2.default.createElement(
+                            _reactstrap.Label,
+                            { "for": "academic-year",
+                                className: "text-white mr-3" },
+                            "Academic Year"
+                        ),
+                        _react2.default.createElement(
+                            _reactstrap.Input,
+                            { type: "select",
+                                className: "btn-outline-light",
+                                value: this.props.activeYear,
+                                onChange: this.onActiveYearChange },
+                            academicYears
+                        )
+                    ),
+                    _react2.default.createElement(
+                        _reactstrap.FormGroup,
+                        null,
+                        _react2.default.createElement(
+                            _reactstrap.Label,
+                            { "for": "term",
+                                className: "text-white mr-3" },
+                            "Term"
+                        ),
+                        _react2.default.createElement(
+                            _reactstrap.ButtonGroup,
+                            null,
+                            _react2.default.createElement(
+                                _reactstrap.Button,
+                                { outline: true,
+                                    color: "light",
+                                    onClick: function onClick() {
+                                        return _this3.props.setActiveTerm(1);
+                                    },
+                                    active: this.props.activeTerm === 1 },
+                                "1"
+                            ),
+                            _react2.default.createElement(
+                                _reactstrap.Button,
+                                { outline: true,
+                                    color: "light",
+                                    onClick: function onClick() {
+                                        return _this3.props.setActiveTerm(2);
+                                    },
+                                    active: this.props.activeTerm === 2 },
+                                "2"
+                            ),
+                            _react2.default.createElement(
+                                _reactstrap.Button,
+                                { outline: true,
+                                    color: "light",
+                                    onClick: function onClick() {
+                                        return _this3.props.setActiveTerm(3);
+                                    },
+                                    active: this.props.activeTerm === 3 },
+                                "3"
+                            )
+                        )
+                    )
+                )
+            );
+        }
+    }]);
+
+    return YearAndTermReportBar;
+}(_react.Component);
+
+var ReportHead = function (_Component3) {
+    _inherits(ReportHead, _Component3);
 
     function ReportHead() {
         _classCallCheck(this, ReportHead);
@@ -122,8 +229,8 @@ var ReportHead = function (_Component2) {
     return ReportHead;
 }(_react.Component);
 
-var ReportTitleContainer = function (_Component3) {
-    _inherits(ReportTitleContainer, _Component3);
+var ReportTitleContainer = function (_Component4) {
+    _inherits(ReportTitleContainer, _Component4);
 
     function ReportTitleContainer() {
         _classCallCheck(this, ReportTitleContainer);
@@ -145,8 +252,8 @@ var ReportTitleContainer = function (_Component3) {
     return ReportTitleContainer;
 }(_react.Component);
 
-var EndOfReportIndicator = function (_Component4) {
-    _inherits(EndOfReportIndicator, _Component4);
+var EndOfReportIndicator = function (_Component5) {
+    _inherits(EndOfReportIndicator, _Component5);
 
     function EndOfReportIndicator() {
         _classCallCheck(this, EndOfReportIndicator);
@@ -175,5 +282,6 @@ var EndOfReportIndicator = function (_Component4) {
 exports.ReportBar = ReportBar;
 exports.ReportHead = ReportHead;
 exports.ReportTitleContainer = ReportTitleContainer;
+exports.YearAndTermReportBar = YearAndTermReportBar;
 exports.EndOfReportIndicator = EndOfReportIndicator;
 //# sourceMappingURL=reports.js.map

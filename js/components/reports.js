@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { Button } from "reactstrap";
+import {
+    Button,
+    ButtonGroup,
+    Form,
+    FormGroup,
+    Input,
+    Label,
+} from "reactstrap";
 import moment from "moment";
 
 
@@ -22,6 +29,63 @@ class ReportBar extends Component {
         );
     }
 }
+
+class YearAndTermReportBar extends Component {
+    constructor(props) {
+        super(props);
+
+        this.onActiveYearChange = this.onActiveYearChange.bind(this);
+    }
+
+    onActiveYearChange(event) {
+        this.props.setActiveYear(event.target.value);
+    }
+
+    render() {
+        const academicYears = this.props.academicYears.map(year =>
+            <option value={year}
+                    key={year}>{`${year} - ${year + 1}`}</option>,
+        );
+
+        return (
+            <ReportBar>
+                <Form inline>
+                    <FormGroup className="mr-4">
+                        <Label for="academic-year"
+                               className="text-white mr-3">Academic Year</Label>
+                        <Input type="select"
+                               className="btn-outline-light"
+                               value={this.props.activeYear}
+                               onChange={this.onActiveYearChange}>
+                            {academicYears}
+                        </Input>
+                    </FormGroup>
+
+                    <FormGroup>
+                        <Label for="term"
+                               className="text-white mr-3">Term</Label>
+                        <ButtonGroup>
+                            <Button outline
+                                    color="light"
+                                    onClick={() => this.props.setActiveTerm(1)}
+                                    active={this.props.activeTerm === 1}>1</Button>
+                            <Button outline
+                                    color="light"
+                                    onClick={() => this.props.setActiveTerm(2)}
+                                    active={this.props.activeTerm === 2}>2</Button>
+                            <Button outline
+                                    color="light"
+                                    onClick={() => this.props.setActiveTerm(3)}
+                                    active={this.props.activeTerm === 3}>3</Button>
+                        </ButtonGroup>
+                    </FormGroup>
+                </Form>
+
+            </ReportBar>
+        );
+    }
+}
+
 
 class ReportHead extends Component {
     render() {
@@ -71,5 +135,6 @@ export {
     ReportBar,
     ReportHead,
     ReportTitleContainer,
+    YearAndTermReportBar,
     EndOfReportIndicator
 };

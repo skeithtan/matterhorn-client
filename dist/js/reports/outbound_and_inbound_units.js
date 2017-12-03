@@ -156,7 +156,7 @@ var OutboundAndInboundUnits = function (_Component) {
             return _react2.default.createElement(
                 "div",
                 null,
-                _react2.default.createElement(UnitsReportBar, {
+                _react2.default.createElement(_reports.YearAndTermReportBar, {
                     academicYears: this.state.academicYears,
                     activeYear: this.state.activeYear,
                     activeTerm: this.state.activeTerm,
@@ -190,134 +190,27 @@ var OutboundAndInboundUnits = function (_Component) {
     return OutboundAndInboundUnits;
 }(_react.Component);
 
-var UnitsReportBar = function (_Component2) {
-    _inherits(UnitsReportBar, _Component2);
-
-    function UnitsReportBar(props) {
-        _classCallCheck(this, UnitsReportBar);
-
-        var _this3 = _possibleConstructorReturn(this, (UnitsReportBar.__proto__ || Object.getPrototypeOf(UnitsReportBar)).call(this, props));
-
-        _this3.onActiveYearChange = _this3.onActiveYearChange.bind(_this3);
-        return _this3;
-    }
-
-    _createClass(UnitsReportBar, [{
-        key: "onActiveYearChange",
-        value: function onActiveYearChange(event) {
-            this.props.setActiveYear(event.target.value);
-        }
-    }, {
-        key: "render",
-        value: function render() {
-            var _this4 = this;
-
-            var academicYears = this.props.academicYears.map(function (year) {
-                return _react2.default.createElement(
-                    "option",
-                    { value: year,
-                        key: year },
-                    year + " - " + (year + 1)
-                );
-            });
-
-            return _react2.default.createElement(
-                _reports.ReportBar,
-                null,
-                _react2.default.createElement(
-                    _reactstrap.Form,
-                    { inline: true },
-                    _react2.default.createElement(
-                        _reactstrap.FormGroup,
-                        { className: "mr-4" },
-                        _react2.default.createElement(
-                            _reactstrap.Label,
-                            { "for": "academic-year",
-                                className: "text-white mr-3" },
-                            "Academic Year"
-                        ),
-                        _react2.default.createElement(
-                            _reactstrap.Input,
-                            { type: "select",
-                                className: "btn-outline-light",
-                                value: this.props.activeYear,
-                                onChange: this.onActiveYearChange },
-                            academicYears
-                        )
-                    ),
-                    _react2.default.createElement(
-                        _reactstrap.FormGroup,
-                        null,
-                        _react2.default.createElement(
-                            _reactstrap.Label,
-                            { "for": "term",
-                                className: "text-white mr-3" },
-                            "Term"
-                        ),
-                        _react2.default.createElement(
-                            _reactstrap.ButtonGroup,
-                            null,
-                            _react2.default.createElement(
-                                _reactstrap.Button,
-                                { outline: true,
-                                    color: "light",
-                                    onClick: function onClick() {
-                                        return _this4.props.setActiveTerm(1);
-                                    },
-                                    active: this.props.activeTerm === 1 },
-                                "1"
-                            ),
-                            _react2.default.createElement(
-                                _reactstrap.Button,
-                                { outline: true,
-                                    color: "light",
-                                    onClick: function onClick() {
-                                        return _this4.props.setActiveTerm(2);
-                                    },
-                                    active: this.props.activeTerm === 2 },
-                                "2"
-                            ),
-                            _react2.default.createElement(
-                                _reactstrap.Button,
-                                { outline: true,
-                                    color: "light",
-                                    onClick: function onClick() {
-                                        return _this4.props.setActiveTerm(3);
-                                    },
-                                    active: this.props.activeTerm === 3 },
-                                "3"
-                            )
-                        )
-                    )
-                )
-            );
-        }
-    }]);
-
-    return UnitsReportBar;
-}(_react.Component);
-
-var UnitsReport = function (_Component3) {
-    _inherits(UnitsReport, _Component3);
+var UnitsReport = function (_Component2) {
+    _inherits(UnitsReport, _Component2);
 
     function UnitsReport(props) {
         _classCallCheck(this, UnitsReport);
 
-        var _this5 = _possibleConstructorReturn(this, (UnitsReport.__proto__ || Object.getPrototypeOf(UnitsReport)).call(this, props));
+        var _this3 = _possibleConstructorReturn(this, (UnitsReport.__proto__ || Object.getPrototypeOf(UnitsReport)).call(this, props));
 
-        _this5.state = {
+        _this3.state = {
             institutions: null,
             error: null
         };
 
-        _this5.fetchReport(_this5.props.year, _this5.props.term);
-        return _this5;
+        _this3.fetchReport(_this3.props.year, _this3.props.term);
+        return _this3;
     }
 
     _createClass(UnitsReport, [{
         key: "fetchReport",
         value: function fetchReport(year, term) {
-            var _this6 = this;
+            var _this4 = this;
 
             if (this.state.error) {
                 this.setState({
@@ -326,11 +219,11 @@ var UnitsReport = function (_Component3) {
             }
 
             makeReportQuery(year, term).done(function (institutions) {
-                return _this6.setState({
+                return _this4.setState({
                     institutions: institutions
                 });
             }).fail(function () {
-                return _this6.setState({
+                return _this4.setState({
                     error: "AJAX Error at fetchReport()"
                 });
             });
@@ -347,14 +240,14 @@ var UnitsReport = function (_Component3) {
     }, {
         key: "render",
         value: function render() {
-            var _this7 = this;
+            var _this5 = this;
 
             if (this.state.error) {
                 console.log(this.state.error);
                 return _react2.default.createElement(
                     _error_state2.default,
                     { onRetryButtonClick: function onRetryButtonClick() {
-                            return _this7.fetchReport(_this7.props.year, _this7.props.term);
+                            return _this5.fetchReport(_this5.props.year, _this5.props.term);
                         } },
                     this.state.error.toString()
                 );
@@ -393,8 +286,8 @@ var UnitsReport = function (_Component3) {
     return UnitsReport;
 }(_react.Component);
 
-var UnitsReportTable = function (_Component4) {
-    _inherits(UnitsReportTable, _Component4);
+var UnitsReportTable = function (_Component3) {
+    _inherits(UnitsReportTable, _Component3);
 
     function UnitsReportTable() {
         _classCallCheck(this, UnitsReportTable);
@@ -496,8 +389,8 @@ var UnitsReportTable = function (_Component4) {
     return UnitsReportTable;
 }(_react.Component);
 
-var UnitsReportTableRow = function (_Component5) {
-    _inherits(UnitsReportTableRow, _Component5);
+var UnitsReportTableRow = function (_Component4) {
+    _inherits(UnitsReportTableRow, _Component4);
 
     function UnitsReportTableRow() {
         _classCallCheck(this, UnitsReportTableRow);

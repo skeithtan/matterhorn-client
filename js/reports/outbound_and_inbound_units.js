@@ -4,6 +4,7 @@ import {
     ReportBar,
     ReportHead,
     ReportTitleContainer,
+    YearAndTermReportBar,
 } from "../components/reports";
 import graphql from "../graphql";
 import {
@@ -133,7 +134,7 @@ class OutboundAndInboundUnits extends Component {
 
         return (
             <div>
-                <UnitsReportBar
+                <YearAndTermReportBar
                     academicYears={this.state.academicYears}
                     activeYear={this.state.activeYear}
                     activeTerm={this.state.activeTerm}
@@ -144,62 +145,6 @@ class OutboundAndInboundUnits extends Component {
                     year={this.state.activeYear}
                     term={this.state.activeTerm}/>
             </div>
-        );
-    }
-}
-
-class UnitsReportBar extends Component {
-    constructor(props) {
-        super(props);
-
-        this.onActiveYearChange = this.onActiveYearChange.bind(this);
-    }
-
-    onActiveYearChange(event) {
-        this.props.setActiveYear(event.target.value);
-    }
-
-    render() {
-        const academicYears = this.props.academicYears.map(year =>
-            <option value={year}
-                    key={year}>{`${year} - ${year + 1}`}</option>,
-        );
-
-        return (
-            <ReportBar>
-                <Form inline>
-                    <FormGroup className="mr-4">
-                        <Label for="academic-year"
-                               className="text-white mr-3">Academic Year</Label>
-                        <Input type="select"
-                               className="btn-outline-light"
-                               value={this.props.activeYear}
-                               onChange={this.onActiveYearChange}>
-                            {academicYears}
-                        </Input>
-                    </FormGroup>
-
-                    <FormGroup>
-                        <Label for="term"
-                               className="text-white mr-3">Term</Label>
-                        <ButtonGroup>
-                            <Button outline
-                                    color="light"
-                                    onClick={() => this.props.setActiveTerm(1)}
-                                    active={this.props.activeTerm === 1}>1</Button>
-                            <Button outline
-                                    color="light"
-                                    onClick={() => this.props.setActiveTerm(2)}
-                                    active={this.props.activeTerm === 2}>2</Button>
-                            <Button outline
-                                    color="light"
-                                    onClick={() => this.props.setActiveTerm(3)}
-                                    active={this.props.activeTerm === 3}>3</Button>
-                        </ButtonGroup>
-                    </FormGroup>
-                </Form>
-
-            </ReportBar>
         );
     }
 }
