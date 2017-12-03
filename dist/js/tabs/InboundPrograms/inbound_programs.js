@@ -206,7 +206,12 @@ var InboundPrograms = function (_Component) {
                     setActiveYear: this.setActiveYear,
                     activeYear: this.state.activeYear }),
                 this.programList(),
-                this.studentList()
+                this.studentList(),
+                _react2.default.createElement(
+                    "div",
+                    { className: "programs-page-pane" },
+                    this.state.sidebarContent
+                )
             );
         }
     }]);

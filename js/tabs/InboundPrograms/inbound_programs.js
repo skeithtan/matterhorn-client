@@ -179,9 +179,9 @@ class InboundPrograms extends Component {
                 { this.programList() }
                 { this.studentList() }
 
-                { /*<div className="programs-page-pane">*/ }
-                { /*{ this.state.sidebarContent }*/ }
-                { /*</div>*/ }
+                <div className="programs-page-pane">
+                    { this.state.sidebarContent }
+                </div>
             </div>
         );
     }
