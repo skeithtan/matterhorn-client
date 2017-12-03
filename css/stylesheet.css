@@ -500,6 +500,10 @@ li.nav-item.active .sidebar-image,
     max-height : 0;
 }
 
+.list-group-item-action.section-row {
+    cursor : pointer;
+}
+
 /*Section*/
 div.section {
     transition : 200ms;
