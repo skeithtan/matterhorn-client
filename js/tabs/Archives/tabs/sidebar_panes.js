@@ -4,6 +4,8 @@ import {
     RestoreInstitutionModal,
     RestoreStudentModal,
 } from "./modals";
+import $ from "jquery";
+
 
 import {
     ContactDetails as StudentContactDetails,
@@ -24,6 +26,10 @@ import {
     makeInstitutionOverviewQuery,
 } from "../../Institutions/tabs/overview";
 import ErrorState from "../../../components/error_state";
+import { makeInfoToast } from "../../../dismissable_toast_maker";
+import authorizeXHR from "../../../authorization";
+import settings from "../../../settings";
+import iziToast from "izitoast";
 
 
 function studentIsFetched(student) {
@@ -141,13 +147,12 @@ class InstitutionSidebarPane extends Component {
         super(props);
 
         this.state = {
-            restoreInstitutionIsShowing : false,
             institution : props.institution,
             error : null,
         };
 
+        this.confirmRestore = this.confirmRestore.bind(this);
         this.fetchInstitution = this.fetchInstitution.bind(this);
-        this.toggleRestoreInstitution = this.toggleRestoreInstitution.bind(this);
 
         if (!institutionIsFetched(props.institution)) {
             this.fetchInstitution(props.institution.id);
@@ -174,6 +179,38 @@ class InstitutionSidebarPane extends Component {
             }));
     }
 
+    confirmRestore() {
+        if (!confirm(`Would you like to restore ${this.props.institution.name}?`)) {
+            return;
+        }
+
+        const dismissToast = makeInfoToast({
+            title : "Restoring",
+            message : "Restoring institution...",
+        });
+
+        $.ajax({
+            url : `${settings.serverURL}/archives/institutions/${this.props.institution.id}/restore/`,
+            method : "PUT",
+            beforeSend : authorizeXHR,
+        }).done(() => {
+            dismissToast();
+            iziToast.success({
+                title : "Success",
+                message : "Successfully restored institution",
+            });
+
+            this.props.onRestoreSuccess();
+        }).fail(response => {
+            dismissToast();
+            console.log(response);
+            iziToast.error({
+                title : "Error",
+                message : "Unable to restore memorandum",
+            });
+        });
+    }
+
     componentWillReceiveProps(props) {
         this.setState({
             institution : props.institution,
@@ -182,12 +219,6 @@ class InstitutionSidebarPane extends Component {
         if (!institutionIsFetched(props.institution)) {
             this.fetchInstitution(props.institution.id);
         }
-    }
-
-    toggleRestoreInstitution() {
-        this.setState({
-            restoreInstitutionIsShowing : !this.state.restoreInstitutionIsShowing,
-        });
     }
 
     render() {
@@ -209,14 +240,10 @@ class InstitutionSidebarPane extends Component {
                 <div className="page-body">
                     <InstitutionDetails sidebar
                                         archived
-                                        toggleRestoreInstitution={this.toggleRestoreInstitution}
+                                        confirmRestore={this.confirmRestore}
                                         institution={institution}/>
                     <InstitutionContactDetails sidebar
                                                institution={institution}/>
-                    <RestoreInstitutionModal institution={institution}
-                                             toggle={this.toggleRestoreInstitution}
-                                             onRestoreSuccess={this.props.onRestoreSuccess}
-                                             isOpen={this.state.restoreInstitutionIsShowing}/>
                 </div>
             );
         } else {

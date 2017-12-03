@@ -408,7 +408,7 @@ var InstitutionDetails = function (_Component4) {
                                     color: "primary",
                                     size: "sm",
                                     className: "ml-auto",
-                                    onClick: this.props.toggleRestoreInstitution },
+                                    onClick: this.props.confirmRestore },
                                 "Restore"
                             )
                         )

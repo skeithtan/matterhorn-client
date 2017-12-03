@@ -272,7 +272,7 @@ class InstitutionDetails extends Component {
                                     color="primary"
                                     size="sm"
                                     className="ml-auto"
-                                    onClick={this.props.toggleRestoreInstitution}>Restore</Button>
+                                    onClick={this.props.confirmRestore}>Restore</Button>
                         </SectionRowContent>
                     </SectionRow>
                     }

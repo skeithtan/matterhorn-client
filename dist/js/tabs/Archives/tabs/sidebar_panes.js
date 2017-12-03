@@ -17,6 +17,10 @@ var _loading2 = _interopRequireDefault(_loading);
 
 var _modals = require("./modals");
 
+var _jquery = require("jquery");
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
 var _overview = require("../../Students/tabs/overview");
 
 var _student_detail_overview = require("../../Students/student_detail_overview");
@@ -26,6 +30,20 @@ var _overview2 = require("../../Institutions/tabs/overview");
 var _error_state = require("../../../components/error_state");
 
 var _error_state2 = _interopRequireDefault(_error_state);
+
+var _dismissable_toast_maker = require("../../../dismissable_toast_maker");
+
+var _authorization = require("../../../authorization");
+
+var _authorization2 = _interopRequireDefault(_authorization);
+
+var _settings = require("../../../settings");
+
+var _settings2 = _interopRequireDefault(_settings);
+
+var _izitoast = require("izitoast");
+
+var _izitoast2 = _interopRequireDefault(_izitoast);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -180,13 +198,12 @@ var InstitutionSidebarPane = function (_Component2) {
         var _this4 = _possibleConstructorReturn(this, (InstitutionSidebarPane.__proto__ || Object.getPrototypeOf(InstitutionSidebarPane)).call(this, props));
 
         _this4.state = {
-            restoreInstitutionIsShowing: false,
             institution: props.institution,
             error: null
         };
 
+        _this4.confirmRestore = _this4.confirmRestore.bind(_this4);
         _this4.fetchInstitution = _this4.fetchInstitution.bind(_this4);
-        _this4.toggleRestoreInstitution = _this4.toggleRestoreInstitution.bind(_this4);
 
         if (!institutionIsFetched(props.institution)) {
             _this4.fetchInstitution(props.institution.id);
@@ -218,6 +235,41 @@ var InstitutionSidebarPane = function (_Component2) {
             });
         }
     }, {
+        key: "confirmRestore",
+        value: function confirmRestore() {
+            var _this6 = this;
+
+            if (!confirm("Would you like to restore " + this.props.institution.name + "?")) {
+                return;
+            }
+
+            var dismissToast = (0, _dismissable_toast_maker.makeInfoToast)({
+                title: "Restoring",
+                message: "Restoring institution..."
+            });
+
+            _jquery2.default.ajax({
+                url: _settings2.default.serverURL + "/archives/institutions/" + this.props.institution.id + "/restore/",
+                method: "PUT",
+                beforeSend: _authorization2.default
+            }).done(function () {
+                dismissToast();
+                _izitoast2.default.success({
+                    title: "Success",
+                    message: "Successfully restored institution"
+                });
+
+                _this6.props.onRestoreSuccess();
+            }).fail(function (response) {
+                dismissToast();
+                console.log(response);
+                _izitoast2.default.error({
+                    title: "Error",
+                    message: "Unable to restore memorandum"
+                });
+            });
+        }
+    }, {
         key: "componentWillReceiveProps",
         value: function componentWillReceiveProps(props) {
             this.setState({
@@ -229,22 +281,15 @@ var InstitutionSidebarPane = function (_Component2) {
             }
         }
     }, {
-        key: "toggleRestoreInstitution",
-        value: function toggleRestoreInstitution() {
-            this.setState({
-                restoreInstitutionIsShowing: !this.state.restoreInstitutionIsShowing
-            });
-        }
-    }, {
         key: "render",
         value: function render() {
-            var _this6 = this;
+            var _this7 = this;
 
             if (this.state.error) {
                 return _react2.default.createElement(
                     _error_state2.default,
                     { onRetryButtonClick: function onRetryButtonClick() {
-                            return _this6.fetchInstitution(_this6.state.institution.id);
+                            return _this7.fetchInstitution(_this7.state.institution.id);
                         } },
                     this.state.error.toString()
                 );
@@ -261,14 +306,10 @@ var InstitutionSidebarPane = function (_Component2) {
                     { className: "page-body" },
                     _react2.default.createElement(_overview2.InstitutionDetails, { sidebar: true,
                         archived: true,
-                        toggleRestoreInstitution: this.toggleRestoreInstitution,
+                        confirmRestore: this.confirmRestore,
                         institution: institution }),
                     _react2.default.createElement(_overview2.ContactDetails, { sidebar: true,
-                        institution: institution }),
-                    _react2.default.createElement(_modals.RestoreInstitutionModal, { institution: institution,
-                        toggle: this.toggleRestoreInstitution,
-                        onRestoreSuccess: this.props.onRestoreSuccess,
-                        isOpen: this.state.restoreInstitutionIsShowing })
+                        institution: institution })
                 );
             } else {
                 pageBody = _react2.default.createElement(_loading2.default, null);
