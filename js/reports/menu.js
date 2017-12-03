@@ -1,40 +1,46 @@
+import { app } from "electron";
 import {
-    app,
-    Menu,
-} from "electron";
+    makeReportWindow,
+    reportFiles,
+} from "./windows";
 
 
 const menus = [
-    {
-        label : "Reports",
-        submenu : [
-            {
-                label : "Outbound Units",
-                click : () => {
-                    console.log("Hello, World");
+        {
+            label : "Generate Reports",
+            submenu : [
+                {
+                    label : "Units",
+                    submenu : [
+                        {
+                            label : "Outbound and Inbound",
+                            click : () => makeReportWindow(reportFiles.outboundAndInboundUnits),
+                        },
+                        {
+                            label : "Outbound Default Vs Total",
+                        },
+                    ],
                 },
-            },
-            {
-                label : "Units",
-                click : () => {
-                    console.log("Hello, World");
+                {
+                    label : "International Students Statistics",
+                    submenu : [
+                        {
+                            label : "By Country",
+                        },
+                        {
+                            label : "By College",
+                        },
+                    ],
                 },
-            },
-            {
-                label : "International Students Statistics",
-                click : () => {
-                    console.log("Hello, World");
+                {
+                    label : "Distribution of Students",
+                    click : () => {
+                        console.log("Hello, World");
+                    },
                 },
-            },
-            {
-                label : "Distribution of Students",
-                click : () => {
-                    console.log("Hello, World");
-                },
-            },
-        ],
-    },
-    {
+            ],
+        },
+        {
             label : "Edit",
             submenu : [
                 { role : "undo" },
@@ -92,20 +98,8 @@ if (process.platform === "darwin") {
         ],
     });
 
-    // Edit menu
-    menus[1].submenu.push(
-        { type : "separator" },
-        {
-            label : "Speech",
-            submenu : [
-                { role : "startspeaking" },
-                { role : "stopspeaking" },
-            ],
-        },
-    );
-
     // Window menu
-    menus[3].submenu = [
+    menus[4].submenu = [
         { role : "close" },
         { role : "minimize" },
         { role : "zoom" },

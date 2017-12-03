@@ -8,7 +8,9 @@ const Menu = electron.Menu;
 
 const path = require("path");
 const url = require("url");
-const menus = require("./dist/js/reports/reports").default;
+
+const menus = require("./dist/js/reports/menu").default;
+
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -32,17 +34,6 @@ function createWindow() {
         slashes : true,
     }));
 
-    // Open the DevTools.
-    // mainWindow.webContents.openDevTools()
-    const { default : installExtension, REACT_DEVELOPER_TOOLS } = require("electron-devtools-installer");
-
-    installExtension(REACT_DEVELOPER_TOOLS).then((name) => {
-                                               console.log(`Added Extension:  ${name}`);
-                                           })
-                                           .catch((err) => {
-                                               console.log("An error occurred: ", err);
-                                           });
-
     // Emitted when the window is closed.
     mainWindow.on("closed", function () {
         // Dereference the window object, usually you would store windows
@@ -51,9 +42,18 @@ function createWindow() {
         mainWindow = null;
     });
 
-    console.log(menus);
     const menu = Menu.buildFromTemplate(menus);
     Menu.setApplicationMenu(menu);
+
+    // React Developer Tools
+    const { default : installExtension, REACT_DEVELOPER_TOOLS } = require("electron-devtools-installer");
+
+    installExtension(REACT_DEVELOPER_TOOLS).then((name) => {
+                                               console.log(`Added Extension:  ${name}`);
+                                           })
+                                           .catch((err) => {
+                                               console.log("An error occurred: ", err);
+                                           });
 }
 
 // This method will be called when Electron has finished
