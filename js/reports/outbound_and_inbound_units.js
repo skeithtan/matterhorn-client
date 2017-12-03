@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import {
+    EndOfReportIndicator,
     ReportBar,
     ReportHead,
     ReportTitleContainer,
@@ -262,6 +263,7 @@ class UnitsReport extends Component {
                     <h5>{`Academic Year ${year} - ${year + 1} Term ${this.props.term}`}</h5>
                 </ReportTitleContainer>
                 <UnitsReportTable institutions={this.state.institutions}/>
+                <EndOfReportIndicator/>
             </div>
         );
     }

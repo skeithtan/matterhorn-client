@@ -383,7 +383,8 @@ var UnitsReport = function (_Component3) {
                         "Academic Year " + year + " - " + (year + 1) + " Term " + this.props.term
                     )
                 ),
-                _react2.default.createElement(UnitsReportTable, { institutions: this.state.institutions })
+                _react2.default.createElement(UnitsReportTable, { institutions: this.state.institutions }),
+                _react2.default.createElement(_reports.EndOfReportIndicator, null)
             );
         }
     }]);

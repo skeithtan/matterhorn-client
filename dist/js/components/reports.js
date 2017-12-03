@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.ReportTitleContainer = exports.ReportHead = exports.ReportBar = undefined;
+exports.EndOfReportIndicator = exports.ReportTitleContainer = exports.ReportHead = exports.ReportBar = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -145,7 +145,35 @@ var ReportTitleContainer = function (_Component3) {
     return ReportTitleContainer;
 }(_react.Component);
 
+var EndOfReportIndicator = function (_Component4) {
+    _inherits(EndOfReportIndicator, _Component4);
+
+    function EndOfReportIndicator() {
+        _classCallCheck(this, EndOfReportIndicator);
+
+        return _possibleConstructorReturn(this, (EndOfReportIndicator.__proto__ || Object.getPrototypeOf(EndOfReportIndicator)).apply(this, arguments));
+    }
+
+    _createClass(EndOfReportIndicator, [{
+        key: "render",
+        value: function render() {
+            return _react2.default.createElement(
+                "div",
+                { className: "w-100 text-center p-5" },
+                _react2.default.createElement(
+                    "small",
+                    { className: "font-weight-bold text-uppercase text-muted" },
+                    "End of Report"
+                )
+            );
+        }
+    }]);
+
+    return EndOfReportIndicator;
+}(_react.Component);
+
 exports.ReportBar = ReportBar;
 exports.ReportHead = ReportHead;
 exports.ReportTitleContainer = ReportTitleContainer;
+exports.EndOfReportIndicator = EndOfReportIndicator;
 //# sourceMappingURL=reports.js.map

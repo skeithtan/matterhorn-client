@@ -57,8 +57,19 @@ class ReportTitleContainer extends Component {
     }
 }
 
+class EndOfReportIndicator extends Component {
+    render() {
+        return (
+            <div className="w-100 text-center p-5">
+                <small className="font-weight-bold text-uppercase text-muted">End of Report</small>
+            </div>
+        )
+    }
+}
+
 export {
     ReportBar,
     ReportHead,
     ReportTitleContainer,
+    EndOfReportIndicator
 };
