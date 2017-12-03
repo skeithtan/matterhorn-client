@@ -38,7 +38,7 @@ function fetchYears(onResult) {
     _graphql2.default.query("\n    {\n        academic_years {\n            academic_year_start\n        }\n    }\n    ").then(onResult);
 }
 
-function fetchPrograms(year, onResult) {
+function fetchPrograms(year, term, onResult) {
     _graphql2.default.query("\n    {\n        inbound_programs(year:" + year + ") {\n            id\n            name\n        }\n    }\n    ").then(onResult);
 }
 
@@ -58,6 +58,7 @@ var InboundPrograms = function (_Component) {
             yearList: null,
             programList: null,
             activeYear: null,
+            activeTerm: 1,
             activeProgram: null,
             studentList: null
             // sidebarContent : null,
@@ -65,6 +66,7 @@ var InboundPrograms = function (_Component) {
 
         _this.refreshYears = _this.refreshYears.bind(_this);
         _this.setActiveYear = _this.setActiveYear.bind(_this);
+        _this.setActiveTerm = _this.setActiveTerm.bind(_this);
         _this.programList = _this.programList.bind(_this);
         _this.setActiveProgram = _this.setActiveProgram.bind(_this);
         _this.studentList = _this.studentList.bind(_this);
@@ -87,6 +89,14 @@ var InboundPrograms = function (_Component) {
                 _this2.setState({
                     programList: result.inbound_programs
                 });
+            });
+        }
+    }, {
+        key: "setActiveTerm",
+        value: function setActiveTerm(term) {
+            this.setState({
+                activeTerm: term,
+                activeProgram: null
             });
         }
     }, {

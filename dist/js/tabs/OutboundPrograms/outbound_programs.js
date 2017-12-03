@@ -42,7 +42,7 @@ function fetchYears(onResult) {
 }
 
 function fetchPrograms(year, term, onResult) {
-    _graphql2.default.query("\n    {\n        outbound_programs(year:" + year + ", term:" + term + ") {\n            id\n            name\n            institution {\n               name\n            }\n            terms_available {\n                number\n            }\n        }\n    }\n    ").then(onResult);
+    _graphql2.default.query("\n    {\n        outbound_programs(year:" + year + ", term:" + term + ") {\n            id\n            name\n            institution {\n               name\n            }\n        }\n    }\n    ").then(onResult);
 }
 
 function fetchStudents(id, onResult) {

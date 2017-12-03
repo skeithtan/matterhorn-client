@@ -28,9 +28,6 @@ function fetchPrograms(year, term, onResult) {
             institution {
                name
             }
-            terms_available {
-                number
-            }
         }
     }
     `).then(onResult);
