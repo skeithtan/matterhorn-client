@@ -1,7 +1,6 @@
 import React from "react";
 import Memorandums from "./memorandums";
 import Programs from "./programs";
-import Students from "./students";
 
 const tabs = [
     {
@@ -15,12 +14,6 @@ const tabs = [
         tab : undefined,
         image : "./images/airplanegrey.png",
         activeImage : "./images/airplanegreen.png",
-    },
-    {
-        name : "Students",
-        tab : undefined,
-        image : "./images/studentgrey.png",
-        activeImage : "./images/studentgreen.png",
     },
 ];
 
