@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.EndOfReportIndicator = exports.YearAndTermReportBar = exports.ReportTitleContainer = exports.ReportHead = exports.ReportBar = undefined;
+exports.EndOfReportIndicator = exports.YearAndTermReportBar = exports.GenericYearTermReport = exports.ReportTitleContainer = exports.ReportHead = exports.ReportBar = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -16,6 +16,18 @@ var _reactstrap = require("reactstrap");
 var _moment = require("moment");
 
 var _moment2 = _interopRequireDefault(_moment);
+
+var _error_state = require("./error_state");
+
+var _error_state2 = _interopRequireDefault(_error_state);
+
+var _loading = require("./loading");
+
+var _loading2 = _interopRequireDefault(_loading);
+
+var _academic_years_query = require("../reports/academic_years_query");
+
+var _academic_years_query2 = _interopRequireDefault(_academic_years_query);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -229,8 +241,141 @@ var ReportHead = function (_Component3) {
     return ReportHead;
 }(_react.Component);
 
-var ReportTitleContainer = function (_Component4) {
-    _inherits(ReportTitleContainer, _Component4);
+var GenericYearTermReport = function (_Component4) {
+    _inherits(GenericYearTermReport, _Component4);
+
+    function GenericYearTermReport(props) {
+        _classCallCheck(this, GenericYearTermReport);
+
+        var _this5 = _possibleConstructorReturn(this, (GenericYearTermReport.__proto__ || Object.getPrototypeOf(GenericYearTermReport)).call(this, props));
+
+        _this5.state = {
+            academicYears: null,
+            activeYear: null,
+            activeTerm: 1,
+            error: null
+        };
+
+        _this5.report = _this5.report.bind(_this5);
+        _this5.fetchYears = _this5.fetchYears.bind(_this5);
+        _this5.setActiveYear = _this5.setActiveYear.bind(_this5);
+        _this5.setActiveTerm = _this5.setActiveTerm.bind(_this5);
+
+        _this5.fetchYears();
+        return _this5;
+    }
+
+    _createClass(GenericYearTermReport, [{
+        key: "fetchYears",
+        value: function fetchYears() {
+            var _this6 = this;
+
+            if (this.state.error) {
+                this.setState({
+                    error: null
+                });
+            }
+
+            (0, _academic_years_query2.default)().then(function (result) {
+                if (result.academic_years.length === 0) {
+                    _this6.setState({
+                        academicYears: []
+                    });
+
+                    return;
+                }
+
+                var academicYears = result.academic_years.map(function (academicYear) {
+                    return parseInt(academicYear.academic_year_start);
+                });
+
+                var activeYear = academicYears[0];
+
+                _this6.setState({
+                    activeYear: activeYear,
+                    academicYears: academicYears
+                });
+            }).catch(function (error) {
+                return _this6.setState({
+                    error: error
+                });
+            });
+        }
+    }, {
+        key: "setActiveYear",
+        value: function setActiveYear(year) {
+            this.setState({
+                activeYear: year
+            });
+        }
+    }, {
+        key: "setActiveTerm",
+        value: function setActiveTerm(term) {
+            this.setState({
+                activeTerm: term
+            });
+        }
+    }, {
+        key: "report",
+        value: function report(year, term) {
+            return null;
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            if (this.state.error) {
+                return _react2.default.createElement(
+                    _error_state2.default,
+                    { onRetryButtonClick: this.fetchYears },
+                    this.state.error.toString()
+                );
+            }
+
+            if (this.state.academicYears === null) {
+                return _react2.default.createElement(_loading2.default, null);
+            }
+
+            if (this.state.academicYears.length === 0) {
+                return GenericYearTermReport.noAcademicYears();
+            }
+
+            return _react2.default.createElement(
+                "div",
+                null,
+                _react2.default.createElement(YearAndTermReportBar, {
+                    academicYears: this.state.academicYears,
+                    activeYear: this.state.activeYear,
+                    activeTerm: this.state.activeTerm,
+                    setActiveYear: this.setActiveYear,
+                    setActiveTerm: this.setActiveTerm }),
+                this.report(this.state.activeYear, this.state.activeTerm)
+            );
+        }
+    }], [{
+        key: "noAcademicYears",
+        value: function noAcademicYears() {
+            return _react2.default.createElement(
+                "div",
+                { className: "loading-container" },
+                _react2.default.createElement(
+                    "h3",
+                    null,
+                    "There are no academic years found."
+                ),
+                _react2.default.createElement(
+                    "p",
+                    null,
+                    "Reports are grouped by academic year terms. Add academic years to generate reports."
+                )
+            );
+        }
+    }]);
+
+    return GenericYearTermReport;
+}(_react.Component);
+
+var ReportTitleContainer = function (_Component5) {
+    _inherits(ReportTitleContainer, _Component5);
 
     function ReportTitleContainer() {
         _classCallCheck(this, ReportTitleContainer);
@@ -252,8 +397,8 @@ var ReportTitleContainer = function (_Component4) {
     return ReportTitleContainer;
 }(_react.Component);
 
-var EndOfReportIndicator = function (_Component5) {
-    _inherits(EndOfReportIndicator, _Component5);
+var EndOfReportIndicator = function (_Component6) {
+    _inherits(EndOfReportIndicator, _Component6);
 
     function EndOfReportIndicator() {
         _classCallCheck(this, EndOfReportIndicator);
@@ -282,6 +427,7 @@ var EndOfReportIndicator = function (_Component5) {
 exports.ReportBar = ReportBar;
 exports.ReportHead = ReportHead;
 exports.ReportTitleContainer = ReportTitleContainer;
+exports.GenericYearTermReport = GenericYearTermReport;
 exports.YearAndTermReportBar = YearAndTermReportBar;
 exports.EndOfReportIndicator = EndOfReportIndicator;
 //# sourceMappingURL=reports.js.map

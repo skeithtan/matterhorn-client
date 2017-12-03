@@ -8,6 +8,9 @@ import {
     Label,
 } from "reactstrap";
 import moment from "moment";
+import ErrorState from "./error_state";
+import LoadingSpinner from "./loading";
+import makeYearsQuery from "../reports/academic_years_query";
 
 
 class ReportBar extends Component {
@@ -86,7 +89,6 @@ class YearAndTermReportBar extends Component {
     }
 }
 
-
 class ReportHead extends Component {
     render() {
         const dateGenerated = moment().format("LLL");
@@ -111,6 +113,114 @@ class ReportHead extends Component {
     }
 }
 
+class GenericYearTermReport extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            academicYears : null,
+            activeYear : null,
+            activeTerm : 1,
+            error : null,
+        };
+
+        this.report = this.report.bind(this);
+        this.fetchYears = this.fetchYears.bind(this);
+        this.setActiveYear = this.setActiveYear.bind(this);
+        this.setActiveTerm = this.setActiveTerm.bind(this);
+
+        this.fetchYears();
+    }
+
+    fetchYears() {
+        if (this.state.error) {
+            this.setState({
+                error : null,
+            });
+        }
+
+        makeYearsQuery()
+            .then(result => {
+                if (result.academic_years.length === 0) {
+                    this.setState({
+                        academicYears : [],
+                    });
+
+                    return;
+                }
+
+                const academicYears = result.academic_years.map(academicYear =>
+                    parseInt(academicYear.academic_year_start),
+                );
+
+                const activeYear = academicYears[0];
+
+                this.setState({
+                    activeYear : activeYear,
+                    academicYears : academicYears,
+                });
+            })
+            .catch(error => this.setState({
+                error : error,
+            }));
+    }
+
+    setActiveYear(year) {
+        this.setState({
+            activeYear : year,
+        });
+    }
+
+    setActiveTerm(term) {
+        this.setState({
+            activeTerm : term,
+        });
+    }
+
+    static noAcademicYears() {
+        return (
+            <div className="loading-container">
+                <h3>There are no academic years found.</h3>
+                <p>Reports are grouped by academic year terms. Add academic years to generate reports.</p>
+            </div>
+        );
+    }
+
+    report(year, term) {
+        return null;
+    }
+
+    render() {
+        if (this.state.error) {
+            return (
+                <ErrorState onRetryButtonClick={this.fetchYears}>
+                    {this.state.error.toString()}
+                </ErrorState>
+            );
+        }
+
+        if (this.state.academicYears === null) {
+            return <LoadingSpinner/>;
+        }
+
+        if (this.state.academicYears.length === 0) {
+            return GenericYearTermReport.noAcademicYears();
+        }
+
+        return (
+            <div>
+                <YearAndTermReportBar
+                    academicYears={this.state.academicYears}
+                    activeYear={this.state.activeYear}
+                    activeTerm={this.state.activeTerm}
+                    setActiveYear={this.setActiveYear}
+                    setActiveTerm={this.setActiveTerm}/>
+
+                {this.report(this.state.activeYear, this.state.activeTerm)}
+            </div>
+        );
+    }
+}
+
 class ReportTitleContainer extends Component {
     render() {
         return (
@@ -127,7 +237,7 @@ class EndOfReportIndicator extends Component {
             <div className="w-100 text-center p-5">
                 <small className="font-weight-bold text-uppercase text-muted">End of Report</small>
             </div>
-        )
+        );
     }
 }
 
@@ -135,6 +245,7 @@ export {
     ReportBar,
     ReportHead,
     ReportTitleContainer,
+    GenericYearTermReport,
     YearAndTermReportBar,
-    EndOfReportIndicator
+    EndOfReportIndicator,
 };

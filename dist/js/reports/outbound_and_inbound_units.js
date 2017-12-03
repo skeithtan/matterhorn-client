@@ -12,10 +12,6 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reports = require("../components/reports");
 
-var _graphql = require("../graphql");
-
-var _graphql2 = _interopRequireDefault(_graphql);
-
 var _reactstrap = require("reactstrap");
 
 var _error_state = require("../components/error_state");
@@ -46,10 +42,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-function makeYearsQuery() {
-    return _graphql2.default.query("\n    {\n        academic_years {\n            academic_year_start\n        }\n    }\n    ");
-}
-
 function makeReportQuery(year, term) {
     return _jquery2.default.get({
         url: _settings2.default.serverURL + "/reports/unit-reports/",
@@ -61,156 +53,46 @@ function makeReportQuery(year, term) {
     });
 }
 
-var OutboundAndInboundUnits = function (_Component) {
-    _inherits(OutboundAndInboundUnits, _Component);
+var OutboundAndInboundUnits = function (_GenericYearTermRepor) {
+    _inherits(OutboundAndInboundUnits, _GenericYearTermRepor);
 
-    function OutboundAndInboundUnits(props) {
+    function OutboundAndInboundUnits() {
         _classCallCheck(this, OutboundAndInboundUnits);
 
-        var _this = _possibleConstructorReturn(this, (OutboundAndInboundUnits.__proto__ || Object.getPrototypeOf(OutboundAndInboundUnits)).call(this, props));
-
-        _this.state = {
-            academicYears: null,
-            activeYear: null,
-            activeTerm: 1,
-            error: null
-        };
-
-        _this.fetchYears = _this.fetchYears.bind(_this);
-        _this.setActiveYear = _this.setActiveYear.bind(_this);
-        _this.setActiveTerm = _this.setActiveTerm.bind(_this);
-
-        _this.fetchYears();
-        return _this;
+        return _possibleConstructorReturn(this, (OutboundAndInboundUnits.__proto__ || Object.getPrototypeOf(OutboundAndInboundUnits)).apply(this, arguments));
     }
 
     _createClass(OutboundAndInboundUnits, [{
-        key: "fetchYears",
-        value: function fetchYears() {
-            var _this2 = this;
-
-            if (this.state.error) {
-                this.setState({
-                    error: null
-                });
-            }
-
-            makeYearsQuery().then(function (result) {
-                if (result.academic_years.length === 0) {
-                    _this2.setState({
-                        academicYears: []
-                    });
-
-                    return;
-                }
-
-                var academicYears = result.academic_years.map(function (academicYear) {
-                    return parseInt(academicYear.academic_year_start);
-                });
-
-                var activeYear = academicYears[0];
-
-                _this2.setState({
-                    activeYear: activeYear,
-                    academicYears: academicYears
-                });
-            }).catch(function (error) {
-                return _this2.setState({
-                    error: error
-                });
-            });
-        }
-    }, {
-        key: "setActiveYear",
-        value: function setActiveYear(year) {
-            this.setState({
-                activeYear: year
-            });
-        }
-    }, {
-        key: "setActiveTerm",
-        value: function setActiveTerm(term) {
-            this.setState({
-                activeTerm: term
-            });
-        }
-    }, {
-        key: "render",
-        value: function render() {
-            if (this.state.error) {
-                return _react2.default.createElement(
-                    _error_state2.default,
-                    { onRetryButtonClick: this.fetchYears },
-                    this.state.error.toString()
-                );
-            }
-
-            if (this.state.academicYears === null) {
-                return _react2.default.createElement(_loading2.default, null);
-            }
-
-            if (this.state.academicYears.length === 0) {
-                return OutboundAndInboundUnits.noAcademicYears();
-            }
-
-            return _react2.default.createElement(
-                "div",
-                null,
-                _react2.default.createElement(_reports.YearAndTermReportBar, {
-                    academicYears: this.state.academicYears,
-                    activeYear: this.state.activeYear,
-                    activeTerm: this.state.activeTerm,
-                    setActiveYear: this.setActiveYear,
-                    setActiveTerm: this.setActiveTerm }),
-                _react2.default.createElement(UnitsReport, {
-                    year: this.state.activeYear,
-                    term: this.state.activeTerm })
-            );
-        }
-    }], [{
-        key: "noAcademicYears",
-        value: function noAcademicYears() {
-            return _react2.default.createElement(
-                "div",
-                { className: "loading-container" },
-                _react2.default.createElement(
-                    "h3",
-                    null,
-                    "There are no academic years found."
-                ),
-                _react2.default.createElement(
-                    "p",
-                    null,
-                    "Reports are grouped by academic year terms. Add academic years to generate reports."
-                )
-            );
+        key: "report",
+        value: function report(year, term) {
+            return _react2.default.createElement(UnitsReport, { year: year, term: term });
         }
     }]);
 
     return OutboundAndInboundUnits;
-}(_react.Component);
+}(_reports.GenericYearTermReport);
 
-var UnitsReport = function (_Component2) {
-    _inherits(UnitsReport, _Component2);
+var UnitsReport = function (_Component) {
+    _inherits(UnitsReport, _Component);
 
     function UnitsReport(props) {
         _classCallCheck(this, UnitsReport);
 
-        var _this3 = _possibleConstructorReturn(this, (UnitsReport.__proto__ || Object.getPrototypeOf(UnitsReport)).call(this, props));
+        var _this2 = _possibleConstructorReturn(this, (UnitsReport.__proto__ || Object.getPrototypeOf(UnitsReport)).call(this, props));
 
-        _this3.state = {
+        _this2.state = {
             institutions: null,
             error: null
         };
 
-        _this3.fetchReport(_this3.props.year, _this3.props.term);
-        return _this3;
+        _this2.fetchReport(_this2.props.year, _this2.props.term);
+        return _this2;
     }
 
     _createClass(UnitsReport, [{
         key: "fetchReport",
         value: function fetchReport(year, term) {
-            var _this4 = this;
+            var _this3 = this;
 
             if (this.state.error) {
                 this.setState({
@@ -219,11 +101,11 @@ var UnitsReport = function (_Component2) {
             }
 
             makeReportQuery(year, term).done(function (institutions) {
-                return _this4.setState({
+                return _this3.setState({
                     institutions: institutions
                 });
             }).fail(function () {
-                return _this4.setState({
+                return _this3.setState({
                     error: "AJAX Error at fetchReport()"
                 });
             });
@@ -240,14 +122,14 @@ var UnitsReport = function (_Component2) {
     }, {
         key: "render",
         value: function render() {
-            var _this5 = this;
+            var _this4 = this;
 
             if (this.state.error) {
                 console.log(this.state.error);
                 return _react2.default.createElement(
                     _error_state2.default,
                     { onRetryButtonClick: function onRetryButtonClick() {
-                            return _this5.fetchReport(_this5.props.year, _this5.props.term);
+                            return _this4.fetchReport(_this4.props.year, _this4.props.term);
                         } },
                     this.state.error.toString()
                 );
@@ -286,8 +168,8 @@ var UnitsReport = function (_Component2) {
     return UnitsReport;
 }(_react.Component);
 
-var UnitsReportTable = function (_Component3) {
-    _inherits(UnitsReportTable, _Component3);
+var UnitsReportTable = function (_Component2) {
+    _inherits(UnitsReportTable, _Component2);
 
     function UnitsReportTable() {
         _classCallCheck(this, UnitsReportTable);
@@ -389,8 +271,8 @@ var UnitsReportTable = function (_Component3) {
     return UnitsReportTable;
 }(_react.Component);
 
-var UnitsReportTableRow = function (_Component4) {
-    _inherits(UnitsReportTableRow, _Component4);
+var UnitsReportTableRow = function (_Component3) {
+    _inherits(UnitsReportTableRow, _Component3);
 
     function UnitsReportTableRow() {
         _classCallCheck(this, UnitsReportTableRow);
