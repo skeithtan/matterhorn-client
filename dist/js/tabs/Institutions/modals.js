@@ -1055,12 +1055,15 @@ var ProgramFormModal = function (_Component5) {
                 is_graduate: false,
                 requirement_deadline: ""
             },
-            academic_years: null
+            academic_years: null,
+            step: "Overview"
         };
 
-        _this15.formBody = _this15.formBody.bind(_this15);
+        _this15.overviewForm = _this15.overviewForm.bind(_this15);
+        _this15.requirementForm = _this15.requirementForm.bind(_this15);
         _this15.onTermClick = _this15.onTermClick.bind(_this15);
-        _this15.getFormErrors = _this15.getFormErrors.bind(_this15);
+        _this15.getOverviewFormErrors = _this15.getOverviewFormErrors.bind(_this15);
+        _this15.getRequirementFormErrors = _this15.getRequirementFormErrors.bind(_this15);
         _this15.submitAddProgramForm = _this15.submitAddProgramForm.bind(_this15);
         _this15.getChangeHandler = _this15.getChangeHandler.bind(_this15);
 
@@ -1075,8 +1078,8 @@ var ProgramFormModal = function (_Component5) {
     }
 
     _createClass(ProgramFormModal, [{
-        key: "getFormErrors",
-        value: function getFormErrors() {
+        key: "getOverviewFormErrors",
+        value: function getOverviewFormErrors() {
 
             return (0, _form_validator2.default)([{
                 name: "Program name",
@@ -1098,7 +1101,12 @@ var ProgramFormModal = function (_Component5) {
                         return fieldName + " must be consecutive";
                     }
                 }]
-            }, {
+            }]);
+        }
+    }, {
+        key: "getRequirementFormErrors",
+        value: function getRequirementFormErrors() {
+            return (0, _form_validator2.default)([{
                 name: "Requirements deadline",
                 characterLimit: null,
                 value: this.state.form.requirement_deadline
@@ -1176,8 +1184,8 @@ var ProgramFormModal = function (_Component5) {
             });
         }
     }, {
-        key: "formBody",
-        value: function formBody(fieldErrors) {
+        key: "overviewForm",
+        value: function overviewForm(fieldErrors) {
             var _this18 = this;
 
             function isValid(fieldName) {
@@ -1320,7 +1328,27 @@ var ProgramFormModal = function (_Component5) {
                             { className: "invalid-feedback d-block" },
                             fieldError("Terms available")
                         )
-                    ),
+                    )
+                )
+            );
+        }
+    }, {
+        key: "requirementForm",
+        value: function requirementForm(fieldErrors) {
+            function isValid(fieldName) {
+                return fieldErrors[fieldName].length === 0;
+            }
+
+            function fieldError(fieldName) {
+                return fieldErrors[fieldName][0];
+            }
+
+            return _react2.default.createElement(
+                _reactstrap.ModalBody,
+                { className: "form" },
+                _react2.default.createElement(
+                    _reactstrap.Form,
+                    null,
                     _react2.default.createElement(
                         _reactstrap.FormGroup,
                         null,
@@ -1338,16 +1366,19 @@ var ProgramFormModal = function (_Component5) {
                             null,
                             fieldError("Requirements deadline")
                         )
-                    )
+                    ),
+                    _react2.default.createElement(ProgramFormRequirements, null)
                 )
             );
         }
     }, {
         key: "render",
         value: function render() {
-            var _getFormErrors3 = this.getFormErrors(),
-                formHasErrors = _getFormErrors3.formHasErrors,
-                fieldErrors = _getFormErrors3.fieldErrors;
+            var _this19 = this;
+
+            var _ref = this.state.step === "Overview" ? this.getOverviewFormErrors() : this.getRequirementFormErrors(),
+                formHasErrors = _ref.formHasErrors,
+                fieldErrors = _ref.fieldErrors;
 
             var formBody = void 0;
             var shouldShowFormFooter = false;
@@ -1356,8 +1387,11 @@ var ProgramFormModal = function (_Component5) {
                 formBody = _react2.default.createElement(_loading2.default, null);
             } else if (this.state.academic_years.length === 0) {
                 formBody = ProgramFormModal.noAcademicYearsState();
+            } else if (this.state.step === "Overview") {
+                formBody = this.overviewForm(fieldErrors);
+                shouldShowFormFooter = true;
             } else {
-                formBody = this.formBody(fieldErrors);
+                formBody = this.requirementForm(fieldErrors);
                 shouldShowFormFooter = true;
             }
 
@@ -1375,13 +1409,37 @@ var ProgramFormModal = function (_Component5) {
                 shouldShowFormFooter && _react2.default.createElement(
                     _reactstrap.ModalFooter,
                     null,
-                    _react2.default.createElement(
+                    this.state.step === "Requirement" && _react2.default.createElement(
+                        "div",
+                        { className: "d-flex flex-row w-100" },
+                        _react2.default.createElement(
+                            _reactstrap.Button,
+                            { outline: true,
+                                color: "success",
+                                className: "mr-auto",
+                                onClick: function onClick() {
+                                    return _this19.setState({ step: "Overview" });
+                                } },
+                            "Back"
+                        ),
+                        _react2.default.createElement(
+                            _reactstrap.Button,
+                            { outline: true,
+                                color: "success",
+                                onClick: this.props.edit ? this.submitEditInstitutionForm : this.submitAddProgramForm,
+                                disabled: formHasErrors },
+                            this.props.edit ? "Save changes" : "Add"
+                        )
+                    ),
+                    this.state.step === "Overview" && _react2.default.createElement(
                         _reactstrap.Button,
                         { outline: true,
                             color: "success",
-                            onClick: this.props.edit ? this.submitEditInstitutionForm : this.submitAddProgramForm,
+                            onClick: function onClick() {
+                                return _this19.setState({ step: "Requirement" });
+                            },
                             disabled: formHasErrors },
-                        this.props.edit ? "Save changes" : "Add"
+                        "Next"
                     )
                 )
             );
@@ -1407,6 +1465,185 @@ var ProgramFormModal = function (_Component5) {
     }]);
 
     return ProgramFormModal;
+}(_react.Component);
+
+var ProgramFormRequirements = function (_Component6) {
+    _inherits(ProgramFormRequirements, _Component6);
+
+    function ProgramFormRequirements(props) {
+        _classCallCheck(this, ProgramFormRequirements);
+
+        var _this20 = _possibleConstructorReturn(this, (ProgramFormRequirements.__proto__ || Object.getPrototypeOf(ProgramFormRequirements)).call(this, props));
+
+        _this20.state = {
+            requirements: [""]
+        };
+
+        _this20.handleAddRequirement = _this20.handleAddRequirement.bind(_this20);
+        _this20.handleRemoveRequirement = _this20.handleRemoveRequirement.bind(_this20);
+        _this20.handleRequirementChange = _this20.handleRequirementChange.bind(_this20);
+
+        return _this20;
+    }
+
+    _createClass(ProgramFormRequirements, [{
+        key: "handleRequirementChange",
+        value: function handleRequirementChange(index) {
+            var _this21 = this;
+
+            return function (newValue) {
+                var requirements = _this21.state.requirements.map(function (requirement, candidateIndex) {
+                    if (index !== candidateIndex) {
+                        return requirement;
+                    }
+
+                    return newValue;
+                });
+
+                _this21.setState({
+                    requirements: requirements
+                });
+            };
+        }
+    }, {
+        key: "handleAddRequirement",
+        value: function handleAddRequirement() {
+            this.setState({
+                requirements: this.state.requirements.concat([""])
+            });
+        }
+    }, {
+        key: "handleRemoveRequirement",
+        value: function handleRemoveRequirement(index) {
+            var _this22 = this;
+
+            return function () {
+                _this22.setState({
+                    requirements: _this22.state.requirements.filter(function (requirement, candidateIndex) {
+                        return candidateIndex !== index;
+                    })
+                });
+            };
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            var _this23 = this;
+
+            var requirements = this.state.requirements.map(function (requirement, index) {
+                return _react2.default.createElement(ProgramFormRequirementRow, { key: index,
+                    isLastItem: index + 1 === _this23.state.requirements.length,
+                    hasRemoveButton: index > 0,
+                    onRemoveButtonClick: _this23.handleRemoveRequirement(index),
+                    onAddButtonClick: _this23.handleAddRequirement,
+                    onValueChange: _this23.handleRequirementChange(index),
+                    value: requirement });
+            });
+
+            return _react2.default.createElement(
+                "div",
+                null,
+                _react2.default.createElement(
+                    "p",
+                    null,
+                    "Applicant Requirements"
+                ),
+                requirements
+            );
+        }
+    }]);
+
+    return ProgramFormRequirements;
+}(_react.Component);
+
+var ProgramFormRequirementRow = function (_Component7) {
+    _inherits(ProgramFormRequirementRow, _Component7);
+
+    function ProgramFormRequirementRow(props) {
+        _classCallCheck(this, ProgramFormRequirementRow);
+
+        var _this24 = _possibleConstructorReturn(this, (ProgramFormRequirementRow.__proto__ || Object.getPrototypeOf(ProgramFormRequirementRow)).call(this, props));
+
+        _this24.state = {
+            value: _this24.props.value
+        };
+
+        _this24.onValueChange = _this24.onValueChange.bind(_this24);
+        _this24.validateInput = _this24.validateInput.bind(_this24);
+        return _this24;
+    }
+
+    _createClass(ProgramFormRequirementRow, [{
+        key: "onValueChange",
+        value: function onValueChange(event) {
+            var value = event.target.value;
+            this.props.onValueChange(value);
+            this.setState({
+                value: value
+            });
+        }
+    }, {
+        key: "validateInput",
+        value: function validateInput() {
+            return (0, _form_validator2.default)([{
+                name: "Requirement",
+                characterLimit: 64,
+                value: this.state.value
+            }]);
+        }
+    }, {
+        key: "componentWillReceiveProps",
+        value: function componentWillReceiveProps(props) {
+            this.setState({
+                value: props.value
+            });
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            var _validateInput = this.validateInput(),
+                formHasErrors = _validateInput.formHasErrors,
+                fieldErrors = _validateInput.fieldErrors;
+
+            return _react2.default.createElement(
+                _reactstrap.FormGroup,
+                null,
+                _react2.default.createElement(
+                    "div",
+                    { className: "d-flex flex-row" },
+                    _react2.default.createElement(_reactstrap.Input, { placeholder: "Requirement",
+                        value: this.state.value,
+                        onChange: this.onValueChange,
+                        className: "w-75 mr-2",
+                        valid: !formHasErrors }),
+                    this.props.hasRemoveButton && _react2.default.createElement(
+                        _reactstrap.Button,
+                        { outline: true,
+                            color: "danger",
+                            className: "mr-2",
+                            onClick: this.props.onRemoveButtonClick },
+                        "-"
+                    ),
+                    this.props.isLastItem && _react2.default.createElement(
+                        _reactstrap.Button,
+                        { outline: true,
+                            color: "success",
+                            onClick: this.props.onAddButtonClick },
+                        "+"
+                    )
+                ),
+                _react2.default.createElement(_reactstrap.Input, { type: "hidden",
+                    valid: !formHasErrors }),
+                _react2.default.createElement(
+                    _reactstrap.FormFeedback,
+                    null,
+                    fieldErrors["Requirement"][0]
+                )
+            );
+        }
+    }]);
+
+    return ProgramFormRequirementRow;
 }(_react.Component);
 
 exports.InstitutionFormModal = InstitutionFormModal;
