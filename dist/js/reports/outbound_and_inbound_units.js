@@ -85,6 +85,8 @@ var UnitsReport = function (_Component) {
             error: null
         };
 
+        _this2.fetchReport = _this2.fetchReport.bind(_this2);
+
         _this2.fetchReport(_this2.props.year, _this2.props.term);
         return _this2;
     }

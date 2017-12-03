@@ -41,6 +41,8 @@ class UnitsReport extends Component {
             error : null,
         };
 
+        this.fetchReport = this.fetchReport.bind(this);
+
         this.fetchReport(this.props.year, this.props.term);
     }
 
