@@ -1,18 +1,46 @@
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
 var _electron = require("electron");
 
 var menus = [{
     label: "Reports",
     submenu: [{
-        role: "Outbound Units"
+        label: "Outbound Units",
+        click: function click() {
+            console.log("Hello, World");
+        }
     }, {
-        role: "Units"
+        label: "Units",
+        click: function click() {
+            console.log("Hello, World");
+        }
     }, {
-        role: "International Students Statistics"
+        label: "International Students Statistics",
+        click: function click() {
+            console.log("Hello, World");
+        }
     }, {
-        role: "Distribution of Students"
+        label: "Distribution of Students",
+        click: function click() {
+            console.log("Hello, World");
+        }
     }]
+}, {
+    label: "Edit",
+    submenu: [{ role: "undo" }, { role: "redo" }, { type: "separator" }, { role: "cut" }, { role: "copy" }, { role: "paste" }, { role: "pasteandmatchstyle" }, { role: "delete" }, { role: "selectall" }]
+}, {
+    label: "View",
+    submenu: [{ role: "reload" }, { role: "forcereload" }, { role: "toggledevtools" }, { type: "separator" }, { role: "resetzoom" }, { role: "zoomin" }, { role: "zoomout" }, { type: "separator" }, { role: "togglefullscreen" }]
+}, {
+    role: "window",
+    submenu: [{ role: "minimize" }, { role: "close" }]
+}, {
+    role: "help",
+    submenu: []
 }];
 
 if (process.platform === "darwin") {
@@ -31,6 +59,5 @@ if (process.platform === "darwin") {
     menus[3].submenu = [{ role: "close" }, { role: "minimize" }, { role: "zoom" }, { type: "separator" }, { role: "front" }];
 }
 
-var menu = _electron.Menu.buildFrommenus(menus);
-_electron.Menu.setApplicationMenu(menu);
+exports.default = menus;
 //# sourceMappingURL=reports.js.map

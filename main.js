@@ -3,9 +3,12 @@ const electron = require("electron");
 const app = electron.app;
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow;
+// Menu
+const Menu = electron.Menu;
 
 const path = require("path");
 const url = require("url");
+const menus = require("./dist/js/reports/reports").default;
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -47,6 +50,10 @@ function createWindow() {
         // when you should delete the corresponding element.
         mainWindow = null;
     });
+
+    console.log(menus);
+    const menu = Menu.buildFromTemplate(menus);
+    Menu.setApplicationMenu(menu);
 }
 
 // This method will be called when Electron has finished

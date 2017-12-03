@@ -4,23 +4,77 @@ import {
 } from "electron";
 
 
-const menus = [{
-    label : "Reports",
-    submenu : [
-        {
-            role : "Outbound Units",
+const menus = [
+    {
+        label : "Reports",
+        submenu : [
+            {
+                label : "Outbound Units",
+                click : () => {
+                    console.log("Hello, World");
+                },
+            },
+            {
+                label : "Units",
+                click : () => {
+                    console.log("Hello, World");
+                },
+            },
+            {
+                label : "International Students Statistics",
+                click : () => {
+                    console.log("Hello, World");
+                },
+            },
+            {
+                label : "Distribution of Students",
+                click : () => {
+                    console.log("Hello, World");
+                },
+            },
+        ],
+    },
+    {
+            label : "Edit",
+            submenu : [
+                { role : "undo" },
+                { role : "redo" },
+                { type : "separator" },
+                { role : "cut" },
+                { role : "copy" },
+                { role : "paste" },
+                { role : "pasteandmatchstyle" },
+                { role : "delete" },
+                { role : "selectall" },
+            ],
         },
         {
-            role : "Units",
+            label : "View",
+            submenu : [
+                { role : "reload" },
+                { role : "forcereload" },
+                { role : "toggledevtools" },
+                { type : "separator" },
+                { role : "resetzoom" },
+                { role : "zoomin" },
+                { role : "zoomout" },
+                { type : "separator" },
+                { role : "togglefullscreen" },
+            ],
         },
         {
-            role : "International Students Statistics",
+            role : "window",
+            submenu : [
+                { role : "minimize" },
+                { role : "close" },
+            ],
         },
         {
-            role : "Distribution of Students",
+            role : "help",
+            submenu : [],
         },
-    ],
-}];
+    ]
+;
 
 if (process.platform === "darwin") {
     menus.unshift({
@@ -60,5 +114,4 @@ if (process.platform === "darwin") {
     ];
 }
 
-const menu = Menu.buildFrommenus(menus);
-Menu.setApplicationMenu(menu);
+export default menus;
