@@ -37,6 +37,20 @@ var _error_state = require("../../../components/error_state");
 
 var _error_state2 = _interopRequireDefault(_error_state);
 
+var _izitoast = require("izitoast");
+
+var _izitoast2 = _interopRequireDefault(_izitoast);
+
+var _jquery = require("jquery");
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+var _dismissable_toast_maker = require("../../../dismissable_toast_maker");
+
+var _authorization = require("../../../authorization");
+
+var _authorization2 = _interopRequireDefault(_authorization);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -154,12 +168,11 @@ var OverviewHead = function (_Component2) {
         var _this4 = _possibleConstructorReturn(this, (OverviewHead.__proto__ || Object.getPrototypeOf(OverviewHead)).call(this, props));
 
         _this4.state = {
-            archiveStudentIsShowing: false,
             editStudentIsShowing: false
         };
 
+        _this4.confirmArchive = _this4.confirmArchive.bind(_this4);
         _this4.toggleEditStudent = _this4.toggleEditStudent.bind(_this4);
-        _this4.toggleArchiveStudent = _this4.toggleArchiveStudent.bind(_this4);
         return _this4;
     }
 
@@ -171,10 +184,45 @@ var OverviewHead = function (_Component2) {
             });
         }
     }, {
-        key: "toggleArchiveStudent",
-        value: function toggleArchiveStudent() {
-            this.setState({
-                archiveStudentIsShowing: !this.state.archiveStudentIsShowing
+        key: "confirmArchive",
+        value: function confirmArchive() {
+            var _this5 = this;
+
+            var first = this.props.student.first_name;
+            var middle = this.props.student.middle_name;
+            var last = this.props.student.family_name;
+            var name = first + " " + middle + " " + last;
+
+            if (!confirm("Are you sure you want to archive " + name + "?")) {
+                return;
+            }
+            var dismissToast = (0, _dismissable_toast_maker.makeInfoToast)({
+                title: "Archiving",
+                message: "Archiving student..."
+            });
+
+            _jquery2.default.ajax({
+                url: _settings2.default.serverURL + "/students/" + this.props.student.id + "/",
+                method: "DELETE",
+                beforeSend: _authorization2.default,
+                success: function success() {
+                    dismissToast();
+                    _this5.props.onArchiveStudent();
+                    _izitoast2.default.success({
+                        title: "Success",
+                        message: "Student archived",
+                        progressBar: false
+                    });
+                },
+                error: function error(response) {
+                    dismissToast();
+                    console.log(response);
+                    _izitoast2.default.error({
+                        title: "Error",
+                        message: "Unable to archive student",
+                        progressBar: false
+                    });
+                }
             });
         }
     }, {
@@ -223,14 +271,10 @@ var OverviewHead = function (_Component2) {
                         { outline: true,
                             size: "sm",
                             color: "warning",
-                            onClick: this.toggleArchiveStudent },
+                            onClick: this.confirmArchive },
                         "Archive"
                     )
                 ),
-                _react2.default.createElement(_modals.ArchiveStudentModal, { isOpen: this.state.archiveStudentIsShowing,
-                    student: this.props.student,
-                    toggle: this.toggleArchiveStudent,
-                    refresh: this.props.onArchiveStudent }),
                 _react2.default.createElement(_modals.StudentFormModal, { edit: true,
                     isOpen: this.state.editStudentIsShowing,
                     student: this.props.student,

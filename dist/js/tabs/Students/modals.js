@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.ResidenceAddressFormModal = exports.ArchiveStudentModal = exports.StudentFormModal = undefined;
+exports.ResidenceAddressFormModal = exports.StudentFormModal = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -795,101 +795,15 @@ var StudentFormModal = function (_Component) {
     return StudentFormModal;
 }(_react.Component);
 
-var ArchiveStudentModal = function (_Component2) {
-    _inherits(ArchiveStudentModal, _Component2);
-
-    function ArchiveStudentModal(props) {
-        _classCallCheck(this, ArchiveStudentModal);
-
-        var _this5 = _possibleConstructorReturn(this, (ArchiveStudentModal.__proto__ || Object.getPrototypeOf(ArchiveStudentModal)).call(this, props));
-
-        _this5.confirmArchive = _this5.confirmArchive.bind(_this5);
-        return _this5;
-    }
-
-    _createClass(ArchiveStudentModal, [{
-        key: "confirmArchive",
-        value: function confirmArchive() {
-            var _this6 = this;
-
-            var dismissToast = (0, _dismissable_toast_maker.makeInfoToast)({
-                title: "Archiving",
-                message: "Archiving student..."
-            });
-
-            _jquery2.default.ajax({
-                url: _settings2.default.serverURL + "/students/" + this.props.student.id + "/",
-                method: "DELETE",
-                beforeSend: _authorization2.default,
-                success: function success() {
-                    dismissToast();
-                    _this6.props.refresh();
-                    _izitoast2.default.success({
-                        title: "Success",
-                        message: "Student archived",
-                        progressBar: false
-                    });
-                },
-                error: function error(response) {
-                    dismissToast();
-                    console.log(response);
-                    _izitoast2.default.error({
-                        title: "Error",
-                        message: "Unable to archive student",
-                        progressBar: false
-                    });
-                }
-            });
-            this.props.toggle();
-        }
-    }, {
-        key: "render",
-        value: function render() {
-            var first = this.props.student.first_name;
-            var middle = this.props.student.middle_name;
-            var last = this.props.student.family_name;
-            var name = first + " " + middle + " " + last;
-
-            return _react2.default.createElement(
-                _reactstrap.Modal,
-                { isOpen: this.props.isOpen,
-                    toggle: this.props.toggle,
-                    backdrop: true,
-                    id: "archive-student-modal" },
-                _react2.default.createElement(
-                    _reactstrap.ModalHeader,
-                    { className: "text-yellow" },
-                    "Are you sure you want to archive ",
-                    name,
-                    "?"
-                ),
-                _react2.default.createElement(
-                    _reactstrap.ModalFooter,
-                    null,
-                    _react2.default.createElement(
-                        _reactstrap.Button,
-                        { outline: true,
-                            color: "warning",
-                            onClick: this.confirmArchive },
-                        "Confirm Archive"
-                    )
-                )
-            );
-        }
-    }]);
-
-    return ArchiveStudentModal;
-}(_react.Component);
-
-var ResidenceAddressFormModal = function (_Component3) {
-    _inherits(ResidenceAddressFormModal, _Component3);
+var ResidenceAddressFormModal = function (_Component2) {
+    _inherits(ResidenceAddressFormModal, _Component2);
 
     function ResidenceAddressFormModal(props) {
         _classCallCheck(this, ResidenceAddressFormModal);
 
-        var _this7 = _possibleConstructorReturn(this, (ResidenceAddressFormModal.__proto__ || Object.getPrototypeOf(ResidenceAddressFormModal)).call(this, props));
+        var _this5 = _possibleConstructorReturn(this, (ResidenceAddressFormModal.__proto__ || Object.getPrototypeOf(ResidenceAddressFormModal)).call(this, props));
 
-        _this7.state = {
+        _this5.state = {
             form: {
                 date_effective: "",
                 contact_person_name: "",
@@ -899,16 +813,16 @@ var ResidenceAddressFormModal = function (_Component3) {
             }
         };
 
-        _this7.resetForm = _this7.resetForm.bind(_this7);
-        _this7.getFormErrors = _this7.getFormErrors.bind(_this7);
-        _this7.getChangeHandler = _this7.getChangeHandler.bind(_this7);
-        _this7.submitAddResidenceAddressForm = _this7.submitAddResidenceAddressForm.bind(_this7);
-        _this7.submitEditResidenceAddressForm = _this7.submitEditResidenceAddressForm.bind(_this7);
+        _this5.resetForm = _this5.resetForm.bind(_this5);
+        _this5.getFormErrors = _this5.getFormErrors.bind(_this5);
+        _this5.getChangeHandler = _this5.getChangeHandler.bind(_this5);
+        _this5.submitAddResidenceAddressForm = _this5.submitAddResidenceAddressForm.bind(_this5);
+        _this5.submitEditResidenceAddressForm = _this5.submitEditResidenceAddressForm.bind(_this5);
 
-        if (_this7.props.edit) {
-            Object.assign(_this7.state.form, props.residence);
+        if (_this5.props.edit) {
+            Object.assign(_this5.state.form, props.residence);
         }
-        return _this7;
+        return _this5;
     }
 
     _createClass(ResidenceAddressFormModal, [{
@@ -951,7 +865,7 @@ var ResidenceAddressFormModal = function (_Component3) {
     }, {
         key: "submitEditResidenceAddressForm",
         value: function submitEditResidenceAddressForm() {
-            var _this8 = this;
+            var _this6 = this;
 
             var dismissToast = (0, _dismissable_toast_maker.makeInfoToast)({
                 title: "Editing",
@@ -965,13 +879,13 @@ var ResidenceAddressFormModal = function (_Component3) {
                 data: this.state.form
             }).done(function () {
                 dismissToast();
-                _this8.resetForm();
+                _this6.resetForm();
                 _izitoast2.default.success({
                     title: "Edited",
                     message: "Successfully edited residence address"
                 });
 
-                _this8.props.refreshResidences();
+                _this6.props.refreshResidences();
             }).fail(function (response) {
                 dismissToast();
                 console.log(response);
@@ -986,7 +900,7 @@ var ResidenceAddressFormModal = function (_Component3) {
     }, {
         key: "submitAddResidenceAddressForm",
         value: function submitAddResidenceAddressForm() {
-            var _this9 = this;
+            var _this7 = this;
 
             this.props.toggle();
 
@@ -1001,13 +915,13 @@ var ResidenceAddressFormModal = function (_Component3) {
                 data: this.state.form
             }).done(function () {
                 dismissToast();
-                _this9.resetForm();
+                _this7.resetForm();
                 _izitoast2.default.success({
                     title: "Added",
                     message: "Successfully added residence address"
                 });
 
-                _this9.props.refreshResidences();
+                _this7.props.refreshResidences();
             }).fail(function (response) {
                 dismissToast();
                 console.log(response);
@@ -1020,7 +934,7 @@ var ResidenceAddressFormModal = function (_Component3) {
     }, {
         key: "getChangeHandler",
         value: function getChangeHandler(fieldName) {
-            var _this10 = this;
+            var _this8 = this;
 
             var form = this.state.form;
 
@@ -1028,7 +942,7 @@ var ResidenceAddressFormModal = function (_Component3) {
                 var value = event.target.value;
 
                 form[fieldName] = value;
-                _this10.setState({
+                _this8.setState({
                     form: form
                 });
             };
@@ -1177,6 +1091,5 @@ var ResidenceAddressFormModal = function (_Component3) {
 }(_react.Component);
 
 exports.StudentFormModal = StudentFormModal;
-exports.ArchiveStudentModal = ArchiveStudentModal;
 exports.ResidenceAddressFormModal = ResidenceAddressFormModal;
 //# sourceMappingURL=modals.js.map
