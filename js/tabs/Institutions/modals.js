@@ -640,65 +640,6 @@ class MemorandumFormModal extends Component {
 
 }
 
-class ArchiveMemorandumModal extends Component {
-    constructor(props) {
-        super(props);
-
-        this.confirmArchive = this.confirmArchive.bind(this);
-    }
-
-    confirmArchive() {
-        const dismissToast = makeInfoToast({
-            title : "Archiving",
-            message : "Archiving memorandum...",
-        });
-
-        $.ajax({
-            url : `${settings.serverURL}/memorandums/${this.props.memorandum.id}`,
-            method : "DELETE",
-            beforeSend : authorizeXHR,
-            success : () => {
-                dismissToast();
-                this.props.onDeleteSuccess();
-                this.props.refresh();
-                iziToast.success({
-                    title : "Success",
-                    message : "Memorandum archived",
-                    progressBar : false,
-                });
-            },
-            error : response => {
-                dismissToast();
-                console.log(response);
-                iziToast.error({
-                    title : "Error",
-                    message : "Unable to archive memorandum",
-                    progressBar : false,
-                });
-            },
-        });
-        this.props.toggle();
-    }
-
-    render() {
-        return (
-            <Modal isOpen={this.props.isOpen}
-                   toggle={this.props.toggle}
-                   backdrop={true}
-                   id="archive-memorandum-modal">
-                <ModalHeader toggle={this.props.toggle}
-                             className="text-yellow">Are you sure you want to archive this memorandum?</ModalHeader>
-                <ModalFooter>
-                    <Button outline
-                            color="warning"
-                            id="archive-memorandum-modal-submit"
-                            onClick={this.confirmArchive}>Archive</Button>
-                </ModalFooter>
-            </Modal>
-        );
-    }
-}
-
 class ProgramFormModal extends Component {
     constructor(props) {
         super(props);
@@ -1155,6 +1096,5 @@ class ProgramFormRequirementRow extends Component {
 export {
     InstitutionFormModal,
     MemorandumFormModal,
-    ArchiveMemorandumModal,
     ProgramFormModal,
 };

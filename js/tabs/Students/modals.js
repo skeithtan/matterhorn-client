@@ -528,69 +528,6 @@ class StudentFormModal extends Component {
 
 }
 
-class ArchiveStudentModal extends Component {
-    constructor(props) {
-        super(props);
-
-        this.confirmArchive = this.confirmArchive.bind(this);
-    }
-
-    confirmArchive() {
-        const dismissToast = makeInfoToast({
-            title : "Archiving",
-            message : "Archiving student...",
-        });
-
-        $.ajax({
-            url : `${settings.serverURL}/students/${this.props.student.id}/`,
-            method : "DELETE",
-            beforeSend : authorizeXHR,
-            success : () => {
-                dismissToast();
-                this.props.refresh();
-                iziToast.success({
-                    title : "Success",
-                    message : "Student archived",
-                    progressBar : false,
-                });
-            },
-            error : response => {
-                dismissToast();
-                console.log(response);
-                iziToast.error({
-                    title : "Error",
-                    message : "Unable to archive student",
-                    progressBar : false,
-                });
-            },
-        });
-        this.props.toggle();
-    }
-
-    render() {
-        const first = this.props.student.first_name;
-        const middle = this.props.student.middle_name;
-        const last = this.props.student.family_name;
-        const name = first + " " + middle + " " + last;
-
-        return (
-            <Modal isOpen={this.props.isOpen}
-                   toggle={this.props.toggle}
-                   backdrop={true}
-                   id="archive-student-modal">
-                <ModalHeader className="text-yellow">
-                    Are you sure you want to archive {name}?
-                </ModalHeader>
-                <ModalFooter>
-                    <Button outline
-                            color="warning"
-                            onClick={this.confirmArchive}>Confirm Archive</Button>
-                </ModalFooter>
-            </Modal>
-        );
-    }
-}
-
 class ResidenceAddressFormModal extends Component {
     constructor(props) {
         super(props);
@@ -815,6 +752,5 @@ class ResidenceAddressFormModal extends Component {
 
 export {
     StudentFormModal,
-    ArchiveStudentModal,
     ResidenceAddressFormModal,
 };

@@ -27,6 +27,22 @@ var _section = require("../../../components/section");
 
 var _modals2 = require("../../Archives/tabs/modals");
 
+var _dismissable_toast_maker = require("../../../dismissable_toast_maker");
+
+var _jquery = require("jquery");
+
+var $ = _interopRequireWildcard(_jquery);
+
+var _izitoast = require("izitoast");
+
+var _izitoast2 = _interopRequireDefault(_izitoast);
+
+var _authorization = require("../../../authorization");
+
+var _authorization2 = _interopRequireDefault(_authorization);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -44,31 +60,86 @@ var MemorandumSidebarPane = function (_Component) {
         var _this = _possibleConstructorReturn(this, (MemorandumSidebarPane.__proto__ || Object.getPrototypeOf(MemorandumSidebarPane)).call(this, props));
 
         _this.state = {
-            deleteMemorandumIsShowing: false,
             editMemorandumIsShowing: false,
-            restoreMemorandumIsShowing: false,
             memorandum: props.memorandum
         };
 
+        _this.confirmRestore = _this.confirmRestore.bind(_this);
+        _this.confirmArchive = _this.confirmArchive.bind(_this);
         _this.onEditMemorandum = _this.onEditMemorandum.bind(_this);
         _this.toggleEditMemorandum = _this.toggleEditMemorandum.bind(_this);
-        _this.toggleDeleteMemorandum = _this.toggleDeleteMemorandum.bind(_this);
-        _this.toggleRestoreMemorandum = _this.toggleRestoreMemorandum.bind(_this);
         return _this;
     }
 
     _createClass(MemorandumSidebarPane, [{
-        key: "toggleRestoreMemorandum",
-        value: function toggleRestoreMemorandum() {
-            this.setState({
-                restoreMemorandumIsShowing: !this.state.restoreMemorandumIsShowing
+        key: "confirmArchive",
+        value: function confirmArchive() {
+            var _this2 = this;
+
+            if (!confirm("Are you sure you want to archive this memorandum?")) {
+                return;
+            }
+
+            var dismissToast = (0, _dismissable_toast_maker.makeInfoToast)({
+                title: "Archiving",
+                message: "Archiving memorandum..."
+            });
+            $.ajax({
+                url: _settings2.default.serverURL + "/memorandums/" + this.props.memorandum.id,
+                method: "DELETE",
+                beforeSend: _authorization2.default,
+                success: function success() {
+                    dismissToast();
+                    _this2.props.removeActiveMemorandum();
+                    _izitoast2.default.success({
+                        title: "Success",
+                        message: "Memorandum archived",
+                        progressBar: false
+                    });
+                },
+                error: function error(response) {
+                    dismissToast();
+                    console.log(response);
+                    _izitoast2.default.error({
+                        title: "Error",
+                        message: "Unable to archive memorandum",
+                        progressBar: false
+                    });
+                }
             });
         }
     }, {
-        key: "toggleDeleteMemorandum",
-        value: function toggleDeleteMemorandum() {
-            this.setState({
-                deleteMemorandumIsShowing: !this.state.deleteMemorandumIsShowing
+        key: "confirmRestore",
+        value: function confirmRestore() {
+            var _this3 = this;
+
+            if (!confirm("Are you sure you want to archive this memorandum?")) {
+                return;
+            }
+
+            var dismissToast = (0, _dismissable_toast_maker.makeInfoToast)({
+                title: "Restoring",
+                message: "Restoring memorandum..."
+            });
+
+            $.ajax({
+                url: _settings2.default.serverURL + "/archives/memorandums/" + this.props.memorandum.id + "/restore/",
+                method: "PUT",
+                beforeSend: _authorization2.default
+            }).done(function () {
+                dismissToast();
+                _izitoast2.default.success({
+                    title: "Success",
+                    message: "Successfully restored memorandum"
+                });
+                _this3.props.onRestoreSuccess();
+            }).fail(function (response) {
+                dismissToast();
+                console.log(response);
+                _izitoast2.default.error({
+                    title: "Error",
+                    message: "Unable to restore memorandum"
+                });
             });
         }
     }, {
@@ -117,15 +188,10 @@ var MemorandumSidebarPane = function (_Component) {
                     { className: "page-body" },
                     _react2.default.createElement(MemorandumDetails, { archived: this.props.archived,
                         memorandum: memorandum,
-                        toggleRestoreMemorandum: this.toggleRestoreMemorandum,
-                        toggleDeleteMemorandum: this.toggleDeleteMemorandum,
+                        confirmRestore: this.confirmRestore,
+                        confirmArchive: this.confirmArchive,
                         toggleEditMemorandum: this.toggleEditMemorandum }),
                     _react2.default.createElement(MemorandumLinkages, { linkages: memorandum.linkages }),
-                    this.state.activeMemorandum !== null && _react2.default.createElement(_modals.ArchiveMemorandumModal, { isOpen: this.state.deleteMemorandumIsShowing,
-                        memorandum: memorandum,
-                        toggle: this.toggleDeleteMemorandum,
-                        onDeleteSuccess: this.props.removeActiveMemorandum,
-                        refresh: this.props.refreshMemorandums }),
                     this.state.activeMemorandum !== null && _react2.default.createElement(_modals.MemorandumFormModal, { edit: true,
                         isOpen: this.state.editMemorandumIsShowing,
                         memorandum: memorandum,
@@ -156,7 +222,7 @@ var MemorandumDetails = function (_Component2) {
     _createClass(MemorandumDetails, [{
         key: "render",
         value: function render() {
-            var _this3 = this;
+            var _this5 = this;
 
             function formatDate(date) {
                 return (0, _moment2.default)(date).format("LL");
@@ -168,7 +234,7 @@ var MemorandumDetails = function (_Component2) {
             var college = this.props.memorandum.college_initiator === null ? "None" : this.props.memorandum.college_initiator;
             var viewMemorandum = function viewMemorandum() {
                 var shell = require("electron").shell;
-                shell.openExternal(_this3.props.memorandum.memorandum_file);
+                shell.openExternal(_this5.props.memorandum.memorandum_file);
             };
 
             return _react2.default.createElement(
@@ -267,7 +333,7 @@ var MemorandumDetails = function (_Component2) {
                                 { outline: true,
                                     color: "warning",
                                     size: "sm",
-                                    onClick: this.props.toggleDeleteMemorandum },
+                                    onClick: this.props.confirmArchive },
                                 "Archive"
                             ),
                             this.props.archived && _react2.default.createElement(
@@ -276,7 +342,7 @@ var MemorandumDetails = function (_Component2) {
                                     color: "primary",
                                     size: "sm",
                                     className: "ml-auto",
-                                    onClick: this.props.toggleRestoreMemorandum },
+                                    onClick: this.props.confirmRestore },
                                 "Restore"
                             )
                         )
@@ -349,16 +415,16 @@ var ProgramSidebarPane = function (_Component4) {
     function ProgramSidebarPane(props) {
         _classCallCheck(this, ProgramSidebarPane);
 
-        var _this5 = _possibleConstructorReturn(this, (ProgramSidebarPane.__proto__ || Object.getPrototypeOf(ProgramSidebarPane)).call(this, props));
+        var _this7 = _possibleConstructorReturn(this, (ProgramSidebarPane.__proto__ || Object.getPrototypeOf(ProgramSidebarPane)).call(this, props));
 
-        _this5.state = {
+        _this7.state = {
             deleteProgramIsShowing: false,
             editProgramIsShowing: false
         };
 
-        _this5.toggleDeleteProgram = _this5.toggleDeleteProgram.bind(_this5);
-        _this5.toggleEditProgram = _this5.toggleEditProgram.bind(_this5);
-        return _this5;
+        _this7.toggleDeleteProgram = _this7.toggleDeleteProgram.bind(_this7);
+        _this7.toggleEditProgram = _this7.toggleEditProgram.bind(_this7);
+        return _this7;
     }
 
     _createClass(ProgramSidebarPane, [{

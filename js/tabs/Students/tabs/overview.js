@@ -10,14 +10,14 @@ import {
     SectionRowTitle,
     SectionRowContent,
 } from "../../../components/section";
-import {
-    ArchiveStudentModal,
-    StudentFormModal,
-
-} from "../modals";
+import { StudentFormModal, } from "../modals";
 import moment from "moment";
 import settings from "../../../settings";
 import ErrorState from "../../../components/error_state";
+import iziToast from "izitoast";
+import $ from "jquery";
+import { makeInfoToast } from "../../../dismissable_toast_maker";
+import authorizeXHR from "../../../authorization";
 
 
 function makeStudentOverviewQuery(id) {
@@ -115,7 +115,7 @@ class StudentOverview extends Component {
             <div className="d-flex flex-column p-0 h-100">
                 <OverviewHead student={this.state.student}
                               onArchiveStudent={this.props.onArchiveActiveStudent}
-                              onEditStudent={() =>  this.fetchStudent(this.state.student.id)}/>
+                              onEditStudent={() => this.fetchStudent(this.state.student.id)}/>
                 <OverviewBody student={this.state.student}/>
             </div>
         );
@@ -127,12 +127,11 @@ class OverviewHead extends Component {
         super(props);
 
         this.state = {
-            archiveStudentIsShowing : false,
             editStudentIsShowing : false,
         };
 
+        this.confirmArchive = this.confirmArchive.bind(this);
         this.toggleEditStudent = this.toggleEditStudent.bind(this);
-        this.toggleArchiveStudent = this.toggleArchiveStudent.bind(this);
     }
 
     toggleEditStudent() {
@@ -141,10 +140,44 @@ class OverviewHead extends Component {
         });
     }
 
-    toggleArchiveStudent() {
-        this.setState({
-            archiveStudentIsShowing : !this.state.archiveStudentIsShowing,
+    confirmArchive() {
+        const first = this.props.student.first_name;
+        const middle = this.props.student.middle_name;
+        const last = this.props.student.family_name;
+        const name = first + " " + middle + " " + last;
+
+        if (!confirm(`Are you sure you want to archive ${name}?`)) {
+            return;
+        }
+        const dismissToast = makeInfoToast({
+            title : "Archiving",
+            message : "Archiving student...",
         });
+
+        $.ajax({
+            url : `${settings.serverURL}/students/${this.props.student.id}/`,
+            method : "DELETE",
+            beforeSend : authorizeXHR,
+            success : () => {
+                dismissToast();
+                this.props.onArchiveStudent();
+                iziToast.success({
+                    title : "Success",
+                    message : "Student archived",
+                    progressBar : false,
+                });
+            },
+            error : response => {
+                dismissToast();
+                console.log(response);
+                iziToast.error({
+                    title : "Error",
+                    message : "Unable to archive student",
+                    progressBar : false,
+                });
+            },
+        });
+
     }
 
     render() {
@@ -170,13 +203,8 @@ class OverviewHead extends Component {
                     <Button outline
                             size="sm"
                             color="warning"
-                            onClick={this.toggleArchiveStudent}>Archive</Button>
+                            onClick={this.confirmArchive}>Archive</Button>
                 </div>
-
-                <ArchiveStudentModal isOpen={this.state.archiveStudentIsShowing}
-                                     student={this.props.student}
-                                     toggle={this.toggleArchiveStudent}
-                                     refresh={this.props.onArchiveStudent}/>
 
                 <StudentFormModal edit
                                   isOpen={this.state.editStudentIsShowing}
@@ -261,7 +289,7 @@ class StudentDetails extends Component {
                                     color="primary"
                                     size="sm"
                                     className="ml-auto"
-                                    onClick={this.props.toggleRestoreStudent}>Restore</Button>
+                                    onClick={this.props.confirmRestore}>Restore</Button>
                         </SectionRowContent>
                     </SectionRow>
                     }
@@ -357,5 +385,5 @@ export {
     StudentDetails,
     ContactDetails,
     UniversityDetails,
-    makeStudentOverviewQuery
+    makeStudentOverviewQuery,
 };
