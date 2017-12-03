@@ -41,10 +41,11 @@ var ProgramList = function (_Component) {
             return _react2.default.createElement(
                 "div",
                 { className: "programs-page-pane d-flex flex-column" },
-                _react2.default.createElement(ProgramListHead, { year: this.props.activeYear }),
-                _react2.default.createElement(ProgramListTable, { programs: this.props.programList
-                    // activeTerm={ this.props.activeTerm }
-                    , activeProgram: this.props.activeProgram,
+                _react2.default.createElement(ProgramListHead, { year: this.props.activeYear,
+                    activeTerm: this.props.activeTerm,
+                    setActiveTerm: this.props.setActiveTerm }),
+                _react2.default.createElement(ProgramListTable, { programs: this.props.programList,
+                    activeProgram: this.props.activeProgram,
                     setActiveProgram: this.props.setActiveProgram })
             );
         }
@@ -59,15 +60,48 @@ var ProgramListHead = function (_Component2) {
     function ProgramListHead(props) {
         _classCallCheck(this, ProgramListHead);
 
-        return _possibleConstructorReturn(this, (ProgramListHead.__proto__ || Object.getPrototypeOf(ProgramListHead)).call(this, props));
+        var _this2 = _possibleConstructorReturn(this, (ProgramListHead.__proto__ || Object.getPrototypeOf(ProgramListHead)).call(this, props));
+
+        _this2.onTermChange = _this2.onTermChange.bind(_this2);
+        return _this2;
     }
 
     _createClass(ProgramListHead, [{
+        key: "onTermChange",
+        value: function onTermChange(event) {
+            this.props.setActiveTerm(event.target.value);
+        }
+    }, {
         key: "render",
         value: function render() {
             return _react2.default.createElement(
                 "div",
                 { className: "page-head d-flex flex-column align-items-center" },
+                _react2.default.createElement(
+                    "div",
+                    { className: "page-head-controls mr-auto" },
+                    _react2.default.createElement(
+                        _reactstrap.Input,
+                        { type: "select", value: this.props.activeTerm,
+                            className: "ml-auto btn-sm btn-outline-success select-sm",
+                            onChange: this.onTermChange },
+                        _react2.default.createElement(
+                            "option",
+                            { value: "1" },
+                            "Term 1"
+                        ),
+                        _react2.default.createElement(
+                            "option",
+                            { value: "2" },
+                            "Term 2"
+                        ),
+                        _react2.default.createElement(
+                            "option",
+                            { value: "3" },
+                            "Term 3"
+                        )
+                    )
+                ),
                 _react2.default.createElement(
                     "div",
                     { className: "d-flex flex-row w-100 mb-2 align-items-center" },

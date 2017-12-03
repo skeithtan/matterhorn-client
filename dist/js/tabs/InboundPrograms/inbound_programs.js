@@ -39,7 +39,7 @@ function fetchYears(onResult) {
 }
 
 function fetchPrograms(year, term, onResult) {
-    _graphql2.default.query("\n    {\n        inbound_programs(year:" + year + ") {\n            id\n            name\n        }\n    }\n    ").then(onResult);
+    _graphql2.default.query("\n    {\n        inbound_programs(year:" + year + ", term:" + term + ") {\n            id\n            name\n        }\n    }\n    ").then(onResult);
 }
 
 function fetchStudents(id, onResult) {
@@ -85,42 +85,54 @@ var InboundPrograms = function (_Component) {
                 studentList: null
             });
 
-            fetchPrograms(year.academic_year_start, function (result) {
+            fetchPrograms(year.academic_year_start, this.state.activeTerm, function (result) {
                 _this2.setState({
+                    programList: result.inbound_programs
+                });
+            });
+
+            // TODO: Set sidebar content to academic year sidebar pane
+        }
+    }, {
+        key: "setActiveTerm",
+        value: function setActiveTerm(term) {
+            var _this3 = this;
+
+            this.setState({
+                activeTerm: term,
+                activeProgram: null
+            });
+
+            fetchPrograms(this.state.activeYear, term, function (result) {
+                _this3.setState({
                     programList: result.inbound_programs
                 });
             });
         }
     }, {
-        key: "setActiveTerm",
-        value: function setActiveTerm(term) {
-            this.setState({
-                activeTerm: term,
-                activeProgram: null
-            });
-        }
-    }, {
         key: "setActiveProgram",
         value: function setActiveProgram(program) {
-            var _this3 = this;
+            var _this4 = this;
 
             this.setState({
                 activeProgram: program
             });
 
             fetchStudents(program.id, function (result) {
-                _this3.setState({
+                _this4.setState({
                     studentList: result.inbound_program.inboundstudentprogram_set
                 });
             });
+
+            // TODO: Set sidebar content to programs sidebar pane
         }
     }, {
         key: "refreshYears",
         value: function refreshYears() {
-            var _this4 = this;
+            var _this5 = this;
 
             fetchYears(function (result) {
-                _this4.setState({
+                _this5.setState({
                     yearList: result.academic_years
                 });
             });
@@ -146,6 +158,8 @@ var InboundPrograms = function (_Component) {
 
             return _react2.default.createElement(_inbound_program_list2.default, { programList: this.state.programList,
                 activeYear: this.state.activeYear,
+                activeTerm: this.state.activeTerm,
+                setActiveTerm: this.setActiveTerm,
                 activeProgram: this.state.activeProgram,
                 setActiveProgram: this.setActiveProgram });
         }

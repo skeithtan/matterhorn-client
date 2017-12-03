@@ -14,10 +14,10 @@ function fetchYears(onResult) {
     `).then(onResult);
 }
 
-function fetchPrograms(year, onResult) {
+function fetchPrograms(year, term, onResult) {
     graphql.query(`
     {
-        inbound_programs(year:${year}) {
+        inbound_programs(year:${year}, term:${term}) {
             id
             name
         }
@@ -53,6 +53,7 @@ class InboundPrograms extends Component {
             yearList : null,
             programList : null,
             activeYear : null,
+            activeTerm : 1,
             activeProgram : null,
             studentList : null,
             // sidebarContent : null,
@@ -60,6 +61,7 @@ class InboundPrograms extends Component {
 
         this.refreshYears = this.refreshYears.bind(this);
         this.setActiveYear = this.setActiveYear.bind(this);
+        this.setActiveTerm = this.setActiveTerm.bind(this);
         this.programList = this.programList.bind(this);
         this.setActiveProgram = this.setActiveProgram.bind(this);
         this.studentList = this.studentList.bind(this);
@@ -73,7 +75,22 @@ class InboundPrograms extends Component {
             studentList : null,
         });
 
-        fetchPrograms(year.academic_year_start, result => {
+        fetchPrograms(year.academic_year_start, this.state.activeTerm, result => {
+            this.setState({
+                programList : result.inbound_programs,
+            });
+        });
+
+        // TODO: Set sidebar content to academic year sidebar pane
+    }
+
+    setActiveTerm(term) {
+        this.setState({
+            activeTerm : term,
+            activeProgram : null,
+        });
+
+        fetchPrograms(this.state.activeYear, term, result => {
             this.setState({
                 programList : result.inbound_programs,
             });
@@ -90,6 +107,8 @@ class InboundPrograms extends Component {
                 studentList : result.inbound_program.inboundstudentprogram_set,
             });
         });
+
+        // TODO: Set sidebar content to programs sidebar pane
     }
 
     refreshYears() {
@@ -114,6 +133,8 @@ class InboundPrograms extends Component {
         return (
             <ProgramList programList={ this.state.programList }
                          activeYear={ this.state.activeYear }
+                         activeTerm={ this.state.activeTerm }
+                         setActiveTerm={ this.setActiveTerm }
                          activeProgram={ this.state.activeProgram }
                          setActiveProgram={ this.setActiveProgram }/>
         );

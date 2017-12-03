@@ -25,8 +25,6 @@ var _modals = require("../modals");
 
 var _section = require("../../../components/section");
 
-var _modals2 = require("../../Archives/tabs/modals");
-
 var _dismissable_toast_maker = require("../../../dismissable_toast_maker");
 
 var _jquery = require("jquery");
@@ -198,7 +196,7 @@ var MemorandumSidebarPane = function (_Component) {
                         toggle: this.toggleEditMemorandum,
                         onEditSuccess: this.onEditMemorandum,
                         refresh: this.props.refreshMemorandums }),
-                    this.state.activeMemorandum !== null && _react2.default.createElement(_modals2.RestoreMemorandumModal, { memorandum: memorandum,
+                    this.state.activeMemorandum !== null && _react2.default.createElement(RestoreMemorandumModal, { memorandum: memorandum,
                         onRestoreSuccess: this.props.onRestoreSuccess,
                         isOpen: this.state.restoreMemorandumIsShowing,
                         toggle: this.toggleRestoreMemorandum })
