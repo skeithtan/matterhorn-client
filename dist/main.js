@@ -1,16 +1,22 @@
 "use strict";
 
-var electron = require("electron");
-// Module to control application life.
-var app = electron.app;
-// Module to create native browser window.
-var BrowserWindow = electron.BrowserWindow;
+var _require = require("electron"),
+    app = _require.app,
+    BrowserWindow = _require.BrowserWindow,
+    ipcMain = _require.ipcMain,
+    Menu = _require.Menu;
 
 var path = require("path");
 var url = require("url");
 
+var _require2 = require("./dist/js/reports/menu"),
+    menu = _require2.default,
+    toggleMenus = _require2.toggleMenus;
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
+
+
 var mainWindow = void 0;
 
 function createWindow() {
@@ -31,25 +37,31 @@ function createWindow() {
         slashes: true
     }));
 
-    // Open the DevTools.
-    // mainWindow.webContents.openDevTools()
-
-    var _require = require("electron-devtools-installer"),
-        installExtension = _require.default,
-        REACT_DEVELOPER_TOOLS = _require.REACT_DEVELOPER_TOOLS;
-
-    installExtension(REACT_DEVELOPER_TOOLS).then(function (name) {
-        console.log("Added Extension:  " + name);
-    }).catch(function (err) {
-        console.log("An error occurred: ", err);
-    });
-
     // Emitted when the window is closed.
     mainWindow.on("closed", function () {
         // Dereference the window object, usually you would store windows
         // in an array if your app supports multi windows, this is the time
         // when you should delete the corresponding element.
         mainWindow = null;
+    });
+
+    Menu.setApplicationMenu(menu);
+    toggleMenus(false);
+
+    ipcMain.on("signed-in", function (event, isSignedIn) {
+        toggleMenus(isSignedIn);
+    });
+
+    // React Developer Tools
+
+    var _require3 = require("electron-devtools-installer"),
+        installExtension = _require3.default,
+        REACT_DEVELOPER_TOOLS = _require3.REACT_DEVELOPER_TOOLS;
+
+    installExtension(REACT_DEVELOPER_TOOLS).then(function (name) {
+        console.log("Added Extension:  " + name);
+    }).catch(function (err) {
+        console.log("An error occurred: ", err);
     });
 }
 

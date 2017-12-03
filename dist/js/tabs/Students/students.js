@@ -61,7 +61,6 @@ var Students = function (_Component) {
         _this.state = {
             allStudents: null,
             activeStudent: null,
-            addStudentIsShowing: false,
             activeTab: tabs[0],
             error: null
         };
@@ -70,7 +69,6 @@ var Students = function (_Component) {
         _this.setActiveTab = _this.setActiveTab.bind(_this);
         _this.fetchStudents = _this.fetchStudents.bind(_this);
         _this.setActiveStudent = _this.setActiveStudent.bind(_this);
-        _this.toggleAddStudent = _this.toggleAddStudent.bind(_this);
         _this.onArchiveActiveStudent = _this.onArchiveActiveStudent.bind(_this);
 
         _this.fetchStudents(_this.state.activeTab.name);
@@ -133,13 +131,6 @@ var Students = function (_Component) {
             this.fetchStudents(this.state.activeTab.name);
         }
     }, {
-        key: "toggleAddStudent",
-        value: function toggleAddStudent() {
-            this.setState({
-                addStudentIsShowing: !this.state.addStudentIsShowing
-            });
-        }
-    }, {
         key: "setActiveStudent",
         value: function setActiveStudent(student) {
             this.setState({
@@ -161,7 +152,6 @@ var Students = function (_Component) {
                 );
             }
 
-            var addButtonIsShowing = this.state.activeTab.name === "Inbound";
             var refresh = function refresh() {
                 return _this3.fetchStudents(_this3.state.activeTab.name);
             };
@@ -172,18 +162,12 @@ var Students = function (_Component) {
                 _react2.default.createElement(_student_list2.default, { students: this.state.allStudents,
                     activeStudent: this.state.activeStudent,
                     setActiveStudent: this.setActiveStudent,
-                    toggleAddStudent: this.toggleAddStudent,
                     setActiveTab: this.setActiveTab,
                     activeTab: this.state.activeTab,
-                    addButtonIsShowing: addButtonIsShowing,
                     tabs: tabs }),
                 _react2.default.createElement(_student_detail2.default, { student: this.state.activeStudent,
                     onArchiveActiveStudent: this.onArchiveActiveStudent,
-                    refreshStudents: refresh }),
-                _react2.default.createElement(_modals.StudentFormModal, { isOpen: this.state.addStudentIsShowing,
-                    toggle: this.toggleAddStudent,
-                    onAddStudent: this.onAddStudent,
-                    refresh: refresh })
+                    refreshStudents: refresh })
             );
         }
     }]);

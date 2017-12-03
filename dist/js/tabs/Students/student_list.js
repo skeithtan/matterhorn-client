@@ -102,15 +102,12 @@ var StudentList = function (_Component) {
                     _collapse_content.ExpandContent,
                     { className: "d-flex flex-column h-100" },
                     _react2.default.createElement(StudentListHead, { setSearchKeyword: this.setSearchKeyword,
-                        toggleAddStudent: this.props.toggleAddStudent,
                         toggleCollapse: this.toggleCollapse,
-                        addButtonIsShowing: this.props.addButtonIsShowing,
                         activeTab: this.props.activeTab }),
                     _react2.default.createElement(StudentListTable, { students: this.props.students,
                         filtered: this.getFilteredStudents(),
                         activeStudent: this.props.activeStudent,
                         setActiveStudent: this.props.setActiveStudent,
-                        toggleAddStudent: this.props.toggleAddStudent,
                         currentStudentCategory: this.props.activeTab.name,
                         isSearching: isSearching }),
                     _react2.default.createElement(_tab_bar2.default, { tabs: this.props.tabs,
@@ -153,16 +150,7 @@ var StudentListHead = function (_Component2) {
                 _react2.default.createElement(
                     "div",
                     { className: "page-head-controls" },
-                    _react2.default.createElement(_collapse_content.CollapseButton, { toggleCollapse: this.props.toggleCollapse }),
-                    _react2.default.createElement(
-                        _reactstrap.Button,
-                        { outline: true,
-                            color: "success",
-                            size: "sm",
-                            className: "ml-auto " + (!this.props.addButtonIsShowing && "invisible"),
-                            onClick: this.props.toggleAddStudent },
-                        "Add Inbound"
-                    )
+                    _react2.default.createElement(_collapse_content.CollapseButton, { toggleCollapse: this.props.toggleCollapse })
                 ),
                 _react2.default.createElement(
                     "h4",

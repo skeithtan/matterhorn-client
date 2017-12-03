@@ -77,15 +77,12 @@ class StudentList extends Component {
                  id="student-list">
                 <ExpandContent className="d-flex flex-column h-100">
                     <StudentListHead setSearchKeyword={this.setSearchKeyword}
-                                     toggleAddStudent={this.props.toggleAddStudent}
                                      toggleCollapse={this.toggleCollapse}
-                                     addButtonIsShowing={this.props.addButtonIsShowing}
                                      activeTab={this.props.activeTab}/>
                     <StudentListTable students={this.props.students}
                                       filtered={this.getFilteredStudents()}
                                       activeStudent={this.props.activeStudent}
                                       setActiveStudent={this.props.setActiveStudent}
-                                      toggleAddStudent={this.props.toggleAddStudent}
                                       currentStudentCategory={this.props.activeTab.name}
                                       isSearching={isSearching}/>
                     <TabBar tabs={this.props.tabs}
@@ -116,12 +113,6 @@ class StudentListHead extends Component {
             <div className="page-head">
                 <div className="page-head-controls">
                     <CollapseButton toggleCollapse={this.props.toggleCollapse}/>
-
-                    <Button outline
-                            color="success"
-                            size="sm"
-                            className={`ml-auto ${!this.props.addButtonIsShowing && "invisible"}`}
-                            onClick={this.props.toggleAddStudent}>Add Inbound</Button>
                 </div>
                 <h4 className="page-head-title">{this.props.activeTab.name} Students</h4>
                 <Input type="search"

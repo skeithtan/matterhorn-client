@@ -41,7 +41,6 @@ class Students extends Component {
         this.state = {
             allStudents : null,
             activeStudent : null,
-            addStudentIsShowing : false,
             activeTab : tabs[0],
             error : null,
         };
@@ -50,7 +49,6 @@ class Students extends Component {
         this.setActiveTab = this.setActiveTab.bind(this);
         this.fetchStudents = this.fetchStudents.bind(this);
         this.setActiveStudent = this.setActiveStudent.bind(this);
-        this.toggleAddStudent = this.toggleAddStudent.bind(this);
         this.onArchiveActiveStudent = this.onArchiveActiveStudent.bind(this);
 
         this.fetchStudents(this.state.activeTab.name);
@@ -103,12 +101,6 @@ class Students extends Component {
         this.fetchStudents(this.state.activeTab.name);
     }
 
-    toggleAddStudent() {
-        this.setState({
-            addStudentIsShowing : !this.state.addStudentIsShowing,
-        });
-    }
-
     setActiveStudent(student) {
         this.setState({
             activeStudent : student,
@@ -124,7 +116,6 @@ class Students extends Component {
             );
         }
 
-        const addButtonIsShowing = this.state.activeTab.name === "Inbound";
         const refresh = () => this.fetchStudents(this.state.activeTab.name);
 
         return (
@@ -132,18 +123,12 @@ class Students extends Component {
                 <StudentList students={this.state.allStudents}
                              activeStudent={this.state.activeStudent}
                              setActiveStudent={this.setActiveStudent}
-                             toggleAddStudent={this.toggleAddStudent}
                              setActiveTab={this.setActiveTab}
                              activeTab={this.state.activeTab}
-                             addButtonIsShowing={addButtonIsShowing}
                              tabs={tabs}/>
                 <StudentDetail student={this.state.activeStudent}
                                onArchiveActiveStudent={this.onArchiveActiveStudent}
                                refreshStudents={refresh}/>
-                <StudentFormModal isOpen={this.state.addStudentIsShowing}
-                                  toggle={this.toggleAddStudent}
-                                  onAddStudent={this.onAddStudent}
-                                  refresh={refresh}/>
             </div>
         );
     }
