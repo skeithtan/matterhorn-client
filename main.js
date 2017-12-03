@@ -1,15 +1,8 @@
-const electron = require("electron");
-// Module to control application life.
-const app = electron.app;
-// Module to create native browser window.
-const BrowserWindow = electron.BrowserWindow;
-// Menu
-const Menu = electron.Menu;
-
+const { app, BrowserWindow, ipcMain, Menu } = require("electron");
 const path = require("path");
 const url = require("url");
 
-const menus = require("./dist/js/reports/menu").default;
+const { default : menu, toggleMenus } = require("./dist/js/reports/menu");
 
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -42,8 +35,12 @@ function createWindow() {
         mainWindow = null;
     });
 
-    const menu = Menu.buildFromTemplate(menus);
     Menu.setApplicationMenu(menu);
+    toggleMenus(false);
+
+    ipcMain.on("signed-in", (event, isSignedIn) => {
+        toggleMenus(isSignedIn);
+    });
 
     // React Developer Tools
     const { default : installExtension, REACT_DEVELOPER_TOOLS } = require("electron-devtools-installer");

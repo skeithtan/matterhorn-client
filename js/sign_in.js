@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import App from "./app";
 import validateForm from "./form_validator";
 import { Transport } from "lokka-transport-http";
+import { ipcRenderer } from "electron";
 import settings from "./settings";
 import graphql from "./graphql";
 
@@ -34,6 +35,8 @@ class SignIn extends Component {
         // Fake initial loading
         setTimeout(() => {
             const signedIn = localStorage.token !== undefined;
+            ipcRenderer.send("signed-in", signedIn);
+
             this.setState({
                 loading : false,
                 isSignedIn : signedIn,
@@ -43,6 +46,7 @@ class SignIn extends Component {
     }
 
     signOut() {
+        ipcRenderer.send("signed-in", false);
         localStorage.clear();
 
         this.setState({
@@ -85,6 +89,8 @@ class SignIn extends Component {
             const headers = { "Authorization" : `Token ${localStorage.token}` };
             // Add headers to transport
             graphql._transport = new Transport(`${settings.serverURL}/graphql/`, { headers });
+
+            ipcRenderer.send("signed-in", true);
 
             setTimeout(() => {
                 this.setState({

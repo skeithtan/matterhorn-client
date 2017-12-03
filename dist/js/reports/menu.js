@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.toggleMenus = exports.default = undefined;
 
 var _electron = require("electron");
 
@@ -57,5 +58,27 @@ if (process.platform === "darwin") {
     menus[4].submenu = [{ role: "close" }, { role: "minimize" }, { role: "zoom" }, { type: "separator" }, { role: "front" }];
 }
 
-exports.default = menus;
+var menu = _electron.Menu.buildFromTemplate(menus);
+
+function toggleMenus(enabled) {
+    var reportsMenu = process.platform === "darwin" ? menu.items[1] : menu.items[0];
+
+    reportsMenu.enabled = false;
+
+    function applyToSubmenus(submenu) {
+        submenu.items.forEach(function (item) {
+            if (item.submenu) {
+                applyToSubmenus(item.submenu);
+                return;
+            }
+
+            item.enabled = enabled;
+        });
+    }
+
+    applyToSubmenus(reportsMenu.submenu);
+}
+
+exports.default = menu;
+exports.toggleMenus = toggleMenus;
 //# sourceMappingURL=menu.js.map

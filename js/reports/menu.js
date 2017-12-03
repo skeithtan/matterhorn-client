@@ -1,4 +1,7 @@
-import { app } from "electron";
+import {
+    app,
+    Menu,
+} from "electron";
 import {
     makeReportWindow,
     reportFiles,
@@ -108,4 +111,28 @@ if (process.platform === "darwin") {
     ];
 }
 
-export default menus;
+const menu = Menu.buildFromTemplate(menus);
+
+function toggleMenus(enabled) {
+    const reportsMenu = process.platform === "darwin" ? menu.items[1] : menu.items[0];
+
+    reportsMenu.enabled = false;
+
+    function applyToSubmenus(submenu) {
+        submenu.items.forEach(item => {
+            if (item.submenu) {
+                applyToSubmenus(item.submenu);
+                return;
+            }
+
+            item.enabled = enabled;
+        });
+    }
+
+    applyToSubmenus(reportsMenu.submenu);
+}
+
+export {
+    menu as default,
+    toggleMenus,
+};

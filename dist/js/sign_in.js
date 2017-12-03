@@ -20,6 +20,8 @@ var _form_validator2 = _interopRequireDefault(_form_validator);
 
 var _lokkaTransportHttp = require("lokka-transport-http");
 
+var _electron = require("electron");
+
 var _settings = require("./settings");
 
 var _settings2 = _interopRequireDefault(_settings);
@@ -65,6 +67,8 @@ var SignIn = function (_Component) {
         // Fake initial loading
         setTimeout(function () {
             var signedIn = localStorage.token !== undefined;
+            _electron.ipcRenderer.send("signed-in", signedIn);
+
             _this.setState({
                 loading: false,
                 isSignedIn: signedIn,
@@ -79,6 +83,7 @@ var SignIn = function (_Component) {
         value: function signOut() {
             var _this2 = this;
 
+            _electron.ipcRenderer.send("signed-in", false);
             localStorage.clear();
 
             this.setState({
@@ -127,6 +132,8 @@ var SignIn = function (_Component) {
                 var headers = { "Authorization": "Token " + localStorage.token };
                 // Add headers to transport
                 _graphql2.default._transport = new _lokkaTransportHttp.Transport(_settings2.default.serverURL + "/graphql/", { headers: headers });
+
+                _electron.ipcRenderer.send("signed-in", true);
 
                 setTimeout(function () {
                     _this4.setState({
