@@ -491,13 +491,6 @@ var ProgramDetails = function (_Component5) {
                                     size: "sm",
                                     className: "mr-auto" },
                                 "Edit"
-                            ),
-                            _react2.default.createElement(
-                                _reactstrap.Button,
-                                { outline: true,
-                                    color: "warning",
-                                    size: "sm" },
-                                "Archive"
                             )
                         )
                     )

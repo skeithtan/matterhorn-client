@@ -300,9 +300,6 @@ class ProgramDetails extends Component {
                                     color="success"
                                     size="sm"
                                     className="mr-auto">Edit</Button>
-                            <Button outline
-                                    color="warning"
-                                    size="sm">Archive</Button>
                         </SectionRowContent>
                     </SectionRow>
                 </SectionTable>
