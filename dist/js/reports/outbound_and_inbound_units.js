@@ -153,6 +153,10 @@ var OutboundAndInboundUnits = function (_Component) {
                 return _react2.default.createElement(_loading2.default, null);
             }
 
+            if (this.state.academicYears.length === 0) {
+                return OutboundAndInboundUnits.noAcademicYears();
+            }
+
             return _react2.default.createElement(
                 "div",
                 null,
@@ -165,6 +169,24 @@ var OutboundAndInboundUnits = function (_Component) {
                 _react2.default.createElement(UnitsReport, {
                     year: this.state.activeYear,
                     term: this.state.activeTerm })
+            );
+        }
+    }], [{
+        key: "noAcademicYears",
+        value: function noAcademicYears() {
+            return _react2.default.createElement(
+                "div",
+                { className: "loading-container" },
+                _react2.default.createElement(
+                    "h3",
+                    null,
+                    "There are no academic years found."
+                ),
+                _react2.default.createElement(
+                    "p",
+                    null,
+                    "Reports are grouped by academic year terms. Add academic years to generate reports."
+                )
             );
         }
     }]);

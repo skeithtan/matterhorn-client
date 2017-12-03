@@ -105,6 +105,15 @@ class OutboundAndInboundUnits extends Component {
         });
     }
 
+    static noAcademicYears() {
+        return (
+            <div className="loading-container">
+                <h3>There are no academic years found.</h3>
+                <p>Reports are grouped by academic year terms. Add academic years to generate reports.</p>
+            </div>
+        );
+    }
+
     render() {
         if (this.state.error) {
             return (
@@ -116,6 +125,10 @@ class OutboundAndInboundUnits extends Component {
 
         if (this.state.academicYears === null) {
             return <LoadingSpinner/>;
+        }
+
+        if (this.state.academicYears.length === 0) {
+            return OutboundAndInboundUnits.noAcademicYears();
         }
 
         return (
