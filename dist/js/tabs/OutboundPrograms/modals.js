@@ -297,7 +297,7 @@ var AcademicYearFormModal = function (_Component) {
                             _react2.default.createElement(_reactstrap.Input, { placeholder: "Academic Year Start",
                                 onChange: this.getYearChangeHandler(),
                                 valid: isValid("Academic year start"),
-                                defaultValue: this.state.form.academic_year_start }),
+                                value: this.state.form.academic_year_start }),
                             _react2.default.createElement(
                                 _reactstrap.FormFeedback,
                                 null,
@@ -338,7 +338,7 @@ var AcademicYearFormModal = function (_Component) {
                             _react2.default.createElement(_reactstrap.Input, { type: "date",
                                 onChange: this.getTermChangeHandler(term1, "start_date"),
                                 valid: isValid("Term 1 start date"),
-                                defaultValue: term1.start_date }),
+                                value: term1.start_date }),
                             _react2.default.createElement(
                                 _reactstrap.FormFeedback,
                                 null,
@@ -356,7 +356,7 @@ var AcademicYearFormModal = function (_Component) {
                             _react2.default.createElement(_reactstrap.Input, { type: "date",
                                 onChange: this.getTermChangeHandler(term1, "end_date"),
                                 valid: isValid("Term 1 end date"),
-                                defaultValue: term1.end_date }),
+                                value: term1.end_date }),
                             _react2.default.createElement(
                                 _reactstrap.FormFeedback,
                                 null,
@@ -375,7 +375,7 @@ var AcademicYearFormModal = function (_Component) {
                             _react2.default.createElement(_reactstrap.Input, { type: "date",
                                 onChange: this.getTermChangeHandler(term2, "start_date"),
                                 valid: isValid("Term 2 start date"),
-                                defaultValue: term2.start_date }),
+                                value: term2.start_date }),
                             _react2.default.createElement(
                                 _reactstrap.FormFeedback,
                                 null,
@@ -393,7 +393,7 @@ var AcademicYearFormModal = function (_Component) {
                             _react2.default.createElement(_reactstrap.Input, { type: "date",
                                 onChange: this.getTermChangeHandler(term2, "end_date"),
                                 valid: isValid("Term 2 end date"),
-                                defaultValue: term2.end_date }),
+                                value: term2.end_date }),
                             _react2.default.createElement(
                                 _reactstrap.FormFeedback,
                                 null,
@@ -412,7 +412,7 @@ var AcademicYearFormModal = function (_Component) {
                             _react2.default.createElement(_reactstrap.Input, { type: "date",
                                 onChange: this.getTermChangeHandler(term3, "start_date"),
                                 valid: isValid("Term 3 start date"),
-                                defaultValue: term3.start_date }),
+                                value: term3.start_date }),
                             _react2.default.createElement(
                                 _reactstrap.FormFeedback,
                                 null,
@@ -430,7 +430,7 @@ var AcademicYearFormModal = function (_Component) {
                             _react2.default.createElement(_reactstrap.Input, { type: "date",
                                 onChange: this.getTermChangeHandler(term3, "end_date"),
                                 valid: isValid("Term 3 end date"),
-                                defaultValue: term3.end_date }),
+                                value: term3.end_date }),
                             _react2.default.createElement(
                                 _reactstrap.FormFeedback,
                                 null,

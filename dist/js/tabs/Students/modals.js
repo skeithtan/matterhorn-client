@@ -383,7 +383,7 @@ var StudentFormModal = function (_Component) {
                             _react2.default.createElement(_reactstrap.Input, { placeholder: "ID Number",
                                 onChange: this.getChangeHandler("id_number"),
                                 valid: isValid("ID Number"),
-                                defaultValue: this.state.form.id_number }),
+                                value: this.state.form.id_number }),
                             _react2.default.createElement(
                                 _reactstrap.FormFeedback,
                                 null,
@@ -401,7 +401,7 @@ var StudentFormModal = function (_Component) {
                             _react2.default.createElement(_reactstrap.Input, { placeholder: "First Name",
                                 onChange: this.getChangeHandler("first_name"),
                                 valid: isValid("First name"),
-                                defaultValue: this.state.form.first_name }),
+                                value: this.state.form.first_name }),
                             _react2.default.createElement(
                                 _reactstrap.FormFeedback,
                                 null,
@@ -419,7 +419,7 @@ var StudentFormModal = function (_Component) {
                             _react2.default.createElement(_reactstrap.Input, { placeholder: "Middle Name",
                                 onChange: this.getChangeHandler("middle_name"),
                                 valid: isValid("Middle name"),
-                                defaultValue: this.state.form.middle_name }),
+                                value: this.state.form.middle_name }),
                             _react2.default.createElement(
                                 _reactstrap.FormFeedback,
                                 null,
@@ -437,7 +437,7 @@ var StudentFormModal = function (_Component) {
                             _react2.default.createElement(_reactstrap.Input, { placeholder: "Last Name",
                                 onChange: this.getChangeHandler("family_name"),
                                 valid: isValid("Family name"),
-                                defaultValue: this.state.form.family_name }),
+                                value: this.state.form.family_name }),
                             _react2.default.createElement(
                                 _reactstrap.FormFeedback,
                                 null,
@@ -455,7 +455,7 @@ var StudentFormModal = function (_Component) {
                             _react2.default.createElement(_reactstrap.Input, { placeholder: "Nickname",
                                 onChange: this.getChangeHandler("nickname"),
                                 valid: isValid("Nickname"),
-                                defaultValue: this.state.form.nickname }),
+                                value: this.state.form.nickname }),
                             _react2.default.createElement(
                                 _reactstrap.FormFeedback,
                                 null,
@@ -474,7 +474,7 @@ var StudentFormModal = function (_Component) {
                                 placeholder: "Birth Date",
                                 onChange: this.getChangeHandler("birth_date"),
                                 valid: isValid("Birth date"),
-                                defaultValue: this.state.form.birth_date }),
+                                value: this.state.form.birth_date }),
                             _react2.default.createElement(
                                 _reactstrap.FormFeedback,
                                 null,
@@ -493,7 +493,7 @@ var StudentFormModal = function (_Component) {
                                 _reactstrap.Input,
                                 { type: "select",
                                     onChange: this.getChangeHandler("sex"),
-                                    defaultValue: this.state.form.sex },
+                                    value: this.state.form.sex },
                                 _react2.default.createElement(
                                     "option",
                                     { value: "F" },
@@ -518,7 +518,7 @@ var StudentFormModal = function (_Component) {
                                 placeholder: "Home Address",
                                 onChange: this.getChangeHandler("home_address"),
                                 valid: isValid("Home address"),
-                                defaultValue: this.state.form.home_address }),
+                                value: this.state.form.home_address }),
                             _react2.default.createElement(
                                 _reactstrap.FormFeedback,
                                 null,
@@ -536,7 +536,7 @@ var StudentFormModal = function (_Component) {
                             _react2.default.createElement(_reactstrap.Input, { placeholder: "Nationality",
                                 onChange: this.getChangeHandler("nationality"),
                                 valid: isValid("Nationality"),
-                                defaultValue: this.state.form.nationality }),
+                                value: this.state.form.nationality }),
                             _react2.default.createElement(
                                 _reactstrap.FormFeedback,
                                 null,
@@ -555,7 +555,7 @@ var StudentFormModal = function (_Component) {
                                 _reactstrap.Input,
                                 { type: "select",
                                     onChange: this.getChangeHandler("civil_status"),
-                                    defaultValue: this.state.form.civil_status },
+                                    value: this.state.form.civil_status },
                                 _react2.default.createElement(
                                     "option",
                                     { value: "S" },
@@ -595,7 +595,7 @@ var StudentFormModal = function (_Component) {
                             _react2.default.createElement(_reactstrap.Input, { placeholder: "Phone Number",
                                 onChange: this.getChangeHandler("phone_number"),
                                 valid: isValid("Phone number"),
-                                defaultValue: this.state.form.phone_number }),
+                                value: this.state.form.phone_number }),
                             _react2.default.createElement(
                                 _reactstrap.FormFeedback,
                                 null,
@@ -613,7 +613,7 @@ var StudentFormModal = function (_Component) {
                             _react2.default.createElement(_reactstrap.Input, { placeholder: "Email",
                                 onChange: this.getChangeHandler("email"),
                                 valid: isValid("Email"),
-                                defaultValue: this.state.form.email }),
+                                value: this.state.form.email }),
                             _react2.default.createElement(
                                 _reactstrap.FormFeedback,
                                 null,
@@ -631,7 +631,7 @@ var StudentFormModal = function (_Component) {
                             _react2.default.createElement(_reactstrap.Input, { placeholder: "Emergency Contact Name",
                                 onChange: this.getChangeHandler("emergency_contact_name"),
                                 valid: isValid("Emergency contact name"),
-                                defaultValue: this.state.form.emergency_contact_name }),
+                                value: this.state.form.emergency_contact_name }),
                             _react2.default.createElement(
                                 _reactstrap.FormFeedback,
                                 null,
@@ -649,7 +649,7 @@ var StudentFormModal = function (_Component) {
                             _react2.default.createElement(_reactstrap.Input, { placeholder: "Emergency Contact Relationship",
                                 onChange: this.getChangeHandler("emergency_contact_relationship"),
                                 valid: isValid("Emergency contact relationship"),
-                                defaultValue: this.state.form.emergency_contact_relationship }),
+                                value: this.state.form.emergency_contact_relationship }),
                             _react2.default.createElement(
                                 _reactstrap.FormFeedback,
                                 null,
@@ -667,7 +667,7 @@ var StudentFormModal = function (_Component) {
                             _react2.default.createElement(_reactstrap.Input, { placeholder: "Emergency Contact Number",
                                 onChange: this.getChangeHandler("emergency_contact_number"),
                                 valid: isValid("Emergency contact number"),
-                                defaultValue: this.state.form.emergency_contact_number }),
+                                value: this.state.form.emergency_contact_number }),
                             _react2.default.createElement(
                                 _reactstrap.FormFeedback,
                                 null,
@@ -692,7 +692,7 @@ var StudentFormModal = function (_Component) {
                                 _reactstrap.Input,
                                 { type: "select",
                                     onChange: this.getChangeHandler("institution"),
-                                    defaultValue: this.state.form.institution },
+                                    value: this.state.form.institution },
                                 institutions
                             )
                         ),
@@ -708,7 +708,7 @@ var StudentFormModal = function (_Component) {
                                 _reactstrap.Input,
                                 { type: "select",
                                     onChange: this.getChangeHandler("college"),
-                                    defaultValue: this.state.form.college },
+                                    value: this.state.form.college },
                                 _react2.default.createElement(
                                     "option",
                                     { value: "CCS" },
@@ -1032,7 +1032,7 @@ var ResidenceAddressFormModal = function (_Component3) {
                                 placeholder: "Address",
                                 onChange: this.getChangeHandler("address"),
                                 valid: isValid("Address"),
-                                defaultValue: this.state.form.address }),
+                                value: this.state.form.address }),
                             _react2.default.createElement(
                                 _reactstrap.FormFeedback,
                                 null,
@@ -1050,7 +1050,7 @@ var ResidenceAddressFormModal = function (_Component3) {
                             _react2.default.createElement(_reactstrap.Input, { placeholder: "Name",
                                 onChange: this.getChangeHandler("contact_person_name"),
                                 valid: isValid("Contact person name"),
-                                defaultValue: this.state.form.contact_person_name }),
+                                value: this.state.form.contact_person_name }),
                             _react2.default.createElement(
                                 _reactstrap.FormFeedback,
                                 null,
@@ -1068,7 +1068,7 @@ var ResidenceAddressFormModal = function (_Component3) {
                             _react2.default.createElement(_reactstrap.Input, { placeholder: "Name",
                                 onChange: this.getChangeHandler("contact_person_number"),
                                 valid: isValid("Contact person number"),
-                                defaultValue: this.state.form.contact_person_number }),
+                                value: this.state.form.contact_person_number }),
                             _react2.default.createElement(
                                 _reactstrap.FormFeedback,
                                 null,
@@ -1086,7 +1086,7 @@ var ResidenceAddressFormModal = function (_Component3) {
                             _react2.default.createElement(_reactstrap.Input, { placeholder: "Name",
                                 onChange: this.getChangeHandler("residence"),
                                 valid: isValid("Residence type"),
-                                defaultValue: this.state.form.residence }),
+                                value: this.state.form.residence }),
                             _react2.default.createElement(
                                 _reactstrap.FormFeedback,
                                 null,
@@ -1102,7 +1102,7 @@ var ResidenceAddressFormModal = function (_Component3) {
                                 "Date Effective"
                             ),
                             _react2.default.createElement(_reactstrap.Input, { type: "date",
-                                defaultValue: this.state.form.date_effective,
+                                value: this.state.form.date_effective,
                                 onChange: this.getChangeHandler("date_effective"),
                                 valid: isValid("Date effective") }),
                             _react2.default.createElement(

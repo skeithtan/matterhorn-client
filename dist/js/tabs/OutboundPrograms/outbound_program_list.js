@@ -128,7 +128,7 @@ var ProgramListHead = function (_Component2) {
                     { className: "page-head-controls mr-auto" },
                     _react2.default.createElement(
                         _reactstrap.Input,
-                        { type: "select", defaultValue: this.props.activeTerm,
+                        { type: "select", value: this.props.activeTerm,
                             className: "ml-auto btn-sm btn-outline-success select-sm",
                             onChange: this.onTermChange },
                         _react2.default.createElement(

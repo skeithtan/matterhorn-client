@@ -200,14 +200,14 @@ class SignIn extends Component {
                                    placeholder="Username"
                                    onChange={this.getChangeHandler("username")}
                                    onKeyPress={handleEnterKeypress}
-                                   defaultValue={this.state.form.username}/>
+                                   value={this.state.form.username}/>
 
                             <Input type="password"
                                    className="bg-dlsu-lighter text-white border-0 mb-3"
                                    placeholder="Password"
                                    onChange={this.getChangeHandler("password")}
                                    onKeyPress={handleEnterKeypress}
-                                   defaultValue={this.state.form.password}/>
+                                   value={this.state.form.password}/>
 
                             <Button outline
                                     color="light"

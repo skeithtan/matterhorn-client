@@ -322,7 +322,7 @@ class StudentFormModal extends Component {
                             <Input placeholder="ID Number"
                                    onChange={this.getChangeHandler("id_number")}
                                    valid={isValid("ID Number")}
-                                   defaultValue={this.state.form.id_number}/>
+                                   value={this.state.form.id_number}/>
                             <FormFeedback>{fieldError("ID Number")}</FormFeedback>
                         </FormGroup>
 
@@ -331,7 +331,7 @@ class StudentFormModal extends Component {
                             <Input placeholder="First Name"
                                    onChange={this.getChangeHandler("first_name")}
                                    valid={isValid("First name")}
-                                   defaultValue={this.state.form.first_name}/>
+                                   value={this.state.form.first_name}/>
                             <FormFeedback>{fieldError("First name")}</FormFeedback>
                         </FormGroup>
 
@@ -340,7 +340,7 @@ class StudentFormModal extends Component {
                             <Input placeholder="Middle Name"
                                    onChange={this.getChangeHandler("middle_name")}
                                    valid={isValid("Middle name")}
-                                   defaultValue={this.state.form.middle_name}/>
+                                   value={this.state.form.middle_name}/>
                             <FormFeedback>{fieldError("Middle name")}</FormFeedback>
                         </FormGroup>
 
@@ -349,7 +349,7 @@ class StudentFormModal extends Component {
                             <Input placeholder="Last Name"
                                    onChange={this.getChangeHandler("family_name")}
                                    valid={isValid("Family name")}
-                                   defaultValue={this.state.form.family_name}/>
+                                   value={this.state.form.family_name}/>
                             <FormFeedback>{fieldError("Family name")}</FormFeedback>
                         </FormGroup>
 
@@ -358,7 +358,7 @@ class StudentFormModal extends Component {
                             <Input placeholder="Nickname"
                                    onChange={this.getChangeHandler("nickname")}
                                    valid={isValid("Nickname")}
-                                   defaultValue={this.state.form.nickname}/>
+                                   value={this.state.form.nickname}/>
                             <FormFeedback>{fieldError("Nickname")}</FormFeedback>
                         </FormGroup>
 
@@ -368,7 +368,7 @@ class StudentFormModal extends Component {
                                    placeholder="Birth Date"
                                    onChange={this.getChangeHandler("birth_date")}
                                    valid={isValid("Birth date")}
-                                   defaultValue={this.state.form.birth_date}/>
+                                   value={this.state.form.birth_date}/>
                             <FormFeedback>{fieldError("Birth date")}</FormFeedback>
                         </FormGroup>
 
@@ -376,7 +376,7 @@ class StudentFormModal extends Component {
                             <Label>Sex</Label>
                             <Input type="select"
                                    onChange={this.getChangeHandler("sex")}
-                                   defaultValue={this.state.form.sex}>
+                                   value={this.state.form.sex}>
                                 <option value="F">Female</option>
                                 <option value="M">Male</option>
                             </Input>
@@ -388,7 +388,7 @@ class StudentFormModal extends Component {
                                    placeholder="Home Address"
                                    onChange={this.getChangeHandler("home_address")}
                                    valid={isValid("Home address")}
-                                   defaultValue={this.state.form.home_address}/>
+                                   value={this.state.form.home_address}/>
                             <FormFeedback>{fieldError("Home address")}</FormFeedback>
                         </FormGroup>
 
@@ -397,7 +397,7 @@ class StudentFormModal extends Component {
                             <Input placeholder="Nationality"
                                    onChange={this.getChangeHandler("nationality")}
                                    valid={isValid("Nationality")}
-                                   defaultValue={this.state.form.nationality}/>
+                                   value={this.state.form.nationality}/>
                             <FormFeedback>{fieldError("Nationality")}</FormFeedback>
                         </FormGroup>
 
@@ -405,7 +405,7 @@ class StudentFormModal extends Component {
                             <Label>Civil Status</Label>
                             <Input type="select"
                                    onChange={this.getChangeHandler("civil_status")}
-                                   defaultValue={this.state.form.civil_status}>
+                                   value={this.state.form.civil_status}>
                                 <option value="S">Single</option>
                                 <option value="M">Married</option>
                                 <option value="D">Divorced</option>
@@ -420,7 +420,7 @@ class StudentFormModal extends Component {
                             <Input placeholder="Phone Number"
                                    onChange={this.getChangeHandler("phone_number")}
                                    valid={isValid("Phone number")}
-                                   defaultValue={this.state.form.phone_number}/>
+                                   value={this.state.form.phone_number}/>
                             <FormFeedback>{fieldError("Phone number")}</FormFeedback>
                         </FormGroup>
 
@@ -429,7 +429,7 @@ class StudentFormModal extends Component {
                             <Input placeholder="Email"
                                    onChange={this.getChangeHandler("email")}
                                    valid={isValid("Email")}
-                                   defaultValue={this.state.form.email}/>
+                                   value={this.state.form.email}/>
                             <FormFeedback>{fieldError("Email")}</FormFeedback>
                         </FormGroup>
 
@@ -438,7 +438,7 @@ class StudentFormModal extends Component {
                             <Input placeholder="Emergency Contact Name"
                                    onChange={this.getChangeHandler("emergency_contact_name")}
                                    valid={isValid("Emergency contact name")}
-                                   defaultValue={this.state.form.emergency_contact_name}/>
+                                   value={this.state.form.emergency_contact_name}/>
                             <FormFeedback>{fieldError("Emergency contact name")}</FormFeedback>
                         </FormGroup>
 
@@ -447,7 +447,7 @@ class StudentFormModal extends Component {
                             <Input placeholder="Emergency Contact Relationship"
                                    onChange={this.getChangeHandler("emergency_contact_relationship")}
                                    valid={isValid("Emergency contact relationship")}
-                                   defaultValue={this.state.form.emergency_contact_relationship}/>
+                                   value={this.state.form.emergency_contact_relationship}/>
                             <FormFeedback>{fieldError("Emergency contact relationship")}</FormFeedback>
                         </FormGroup>
 
@@ -456,7 +456,7 @@ class StudentFormModal extends Component {
                             <Input placeholder="Emergency Contact Number"
                                    onChange={this.getChangeHandler("emergency_contact_number")}
                                    valid={isValid("Emergency contact number")}
-                                   defaultValue={this.state.form.emergency_contact_number}/>
+                                   value={this.state.form.emergency_contact_number}/>
                             <FormFeedback>{fieldError("Emergency contact number")}</FormFeedback>
                         </FormGroup>
 
@@ -466,7 +466,7 @@ class StudentFormModal extends Component {
                             <Label>Institution</Label>
                             <Input type="select"
                                    onChange={this.getChangeHandler("institution")}
-                                   defaultValue={this.state.form.institution}>
+                                   value={this.state.form.institution}>
                                 {institutions}
                             </Input>
                         </FormGroup>
@@ -475,7 +475,7 @@ class StudentFormModal extends Component {
                             <Label>College</Label>
                             <Input type="select"
                                    onChange={this.getChangeHandler("college")}
-                                   defaultValue={this.state.form.college}>
+                                   value={this.state.form.college}>
                                 <option value="CCS">College of Computer Studies</option>
                                 <option value="RVRCOB">Ramon V. del Rosario College of Business</option>
                                 <option value="CLA">College of Liberal Arts</option>
@@ -717,7 +717,7 @@ class ResidenceAddressFormModal extends Component {
                                    placeholder="Address"
                                    onChange={this.getChangeHandler("address")}
                                    valid={isValid("Address")}
-                                   defaultValue={this.state.form.address}/>
+                                   value={this.state.form.address}/>
                             <FormFeedback>{fieldError("Address")}</FormFeedback>
                         </FormGroup>
 
@@ -726,7 +726,7 @@ class ResidenceAddressFormModal extends Component {
                             <Input placeholder="Name"
                                    onChange={this.getChangeHandler("contact_person_name")}
                                    valid={isValid("Contact person name")}
-                                   defaultValue={this.state.form.contact_person_name}/>
+                                   value={this.state.form.contact_person_name}/>
                             <FormFeedback>{fieldError("Contact person name")}</FormFeedback>
                         </FormGroup>
 
@@ -735,7 +735,7 @@ class ResidenceAddressFormModal extends Component {
                             <Input placeholder="Name"
                                    onChange={this.getChangeHandler("contact_person_number")}
                                    valid={isValid("Contact person number")}
-                                   defaultValue={this.state.form.contact_person_number}/>
+                                   value={this.state.form.contact_person_number}/>
                             <FormFeedback>{fieldError("Contact person number")}</FormFeedback>
                         </FormGroup>
 
@@ -744,14 +744,14 @@ class ResidenceAddressFormModal extends Component {
                             <Input placeholder="Name"
                                    onChange={this.getChangeHandler("residence")}
                                    valid={isValid("Residence type")}
-                                   defaultValue={this.state.form.residence}/>
+                                   value={this.state.form.residence}/>
                             <FormFeedback>{fieldError("Residence type")}</FormFeedback>
                         </FormGroup>
 
                         <FormGroup>
                             <Label>Date Effective</Label>
                             <Input type="date"
-                                   defaultValue={this.state.form.date_effective}
+                                   value={this.state.form.date_effective}
                                    onChange={this.getChangeHandler("date_effective")}
                                    valid={isValid("Date effective")}/>
                             <FormFeedback>{fieldError("Date effective")}</FormFeedback>

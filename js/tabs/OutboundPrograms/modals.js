@@ -273,7 +273,7 @@ class AcademicYearFormModal extends Component {
                             <Input placeholder="Academic Year Start"
                                    onChange={ this.getYearChangeHandler() }
                                    valid={ isValid("Academic year start") }
-                                   defaultValue={ this.state.form.academic_year_start }/>
+                                   value={ this.state.form.academic_year_start }/>
                             <FormFeedback>{ fieldError("Academic year start") }</FormFeedback>
                         </FormGroup>
 
@@ -293,7 +293,7 @@ class AcademicYearFormModal extends Component {
                             <Input type="date"
                                    onChange={ this.getTermChangeHandler(term1, "start_date") }
                                    valid={ isValid("Term 1 start date") }
-                                   defaultValue={ term1.start_date }/>
+                                   value={ term1.start_date }/>
                             <FormFeedback>{ fieldError("Term 1 start date") }</FormFeedback>
                         </FormGroup>
 
@@ -302,7 +302,7 @@ class AcademicYearFormModal extends Component {
                             <Input type="date"
                                    onChange={ this.getTermChangeHandler(term1, "end_date") }
                                    valid={ isValid("Term 1 end date") }
-                                   defaultValue={ term1.end_date }/>
+                                   value={ term1.end_date }/>
                             <FormFeedback>{ fieldError("Term 1 end date") }</FormFeedback>
                         </FormGroup>
 
@@ -313,7 +313,7 @@ class AcademicYearFormModal extends Component {
                             <Input type="date"
                                    onChange={ this.getTermChangeHandler(term2, "start_date") }
                                    valid={ isValid("Term 2 start date") }
-                                   defaultValue={ term2.start_date }/>
+                                   value={ term2.start_date }/>
                             <FormFeedback>{ fieldError("Term 2 start date") }</FormFeedback>
                         </FormGroup>
 
@@ -322,7 +322,7 @@ class AcademicYearFormModal extends Component {
                             <Input type="date"
                                    onChange={ this.getTermChangeHandler(term2, "end_date") }
                                    valid={ isValid("Term 2 end date") }
-                                   defaultValue={ term2.end_date }/>
+                                   value={ term2.end_date }/>
                             <FormFeedback>{ fieldError("Term 2 end date") }</FormFeedback>
                         </FormGroup>
 
@@ -333,7 +333,7 @@ class AcademicYearFormModal extends Component {
                             <Input type="date"
                                    onChange={ this.getTermChangeHandler(term3, "start_date") }
                                    valid={ isValid("Term 3 start date") }
-                                   defaultValue={ term3.start_date }/>
+                                   value={ term3.start_date }/>
                             <FormFeedback>{ fieldError("Term 3 start date") }</FormFeedback>
                         </FormGroup>
 
@@ -342,7 +342,7 @@ class AcademicYearFormModal extends Component {
                             <Input type="date"
                                    onChange={ this.getTermChangeHandler(term3, "end_date") }
                                    valid={ isValid("Term 3 end date") }
-                                   defaultValue={ term3.end_date }/>
+                                   value={ term3.end_date }/>
                             <FormFeedback>{ fieldError("Term 3 end date") }</FormFeedback>
                         </FormGroup>
 

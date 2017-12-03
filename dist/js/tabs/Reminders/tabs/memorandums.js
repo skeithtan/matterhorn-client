@@ -253,7 +253,7 @@ var MemorandumsHead = function (_Component2) {
                         _reactstrap.Input,
                         { type: "select",
                             className: "btn-outline-success",
-                            defaultValue: "MOA",
+                            value: "MOA",
                             onChange: this.onCategoryChange },
                         _react2.default.createElement(
                             "option",

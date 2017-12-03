@@ -240,7 +240,7 @@ var UnitsReportBar = function (_Component2) {
                             _reactstrap.Input,
                             { type: "select",
                                 className: "btn-outline-light",
-                                defaultValue: this.props.activeYear,
+                                value: this.props.activeYear,
                                 onChange: this.onActiveYearChange },
                             academicYears
                         )

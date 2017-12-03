@@ -270,7 +270,7 @@ var InstitutionFormModal = function (_Component) {
                             _react2.default.createElement(_reactstrap.Input, { placeholder: "Institution Name",
                                 onChange: this.getChangeHandler("name"),
                                 valid: isValid("Name"),
-                                defaultValue: this.state.form.name }),
+                                value: this.state.form.name }),
                             _react2.default.createElement(
                                 _reactstrap.FormFeedback,
                                 null,
@@ -290,7 +290,7 @@ var InstitutionFormModal = function (_Component) {
                                 { type: "select",
                                     onChange: this.getChangeHandler("country"),
                                     valid: isValid("Country"),
-                                    defaultValue: this.state.form.country },
+                                    value: this.state.form.country },
                                 countries
                             ),
                             _react2.default.createElement(
@@ -311,7 +311,7 @@ var InstitutionFormModal = function (_Component) {
                                 placeholder: "Address",
                                 onChange: this.getChangeHandler("address"),
                                 valid: isValid("Address"),
-                                defaultValue: this.state.form.address }),
+                                value: this.state.form.address }),
                             _react2.default.createElement(
                                 _reactstrap.FormFeedback,
                                 null,
@@ -337,7 +337,7 @@ var InstitutionFormModal = function (_Component) {
                                 _react2.default.createElement(_reactstrap.Input, { placeholder: "Website",
                                     onChange: this.getChangeHandler("website"),
                                     valid: isValid("Website"),
-                                    defaultValue: this.state.form.website })
+                                    value: this.state.form.website })
                             ),
                             _react2.default.createElement(_reactstrap.Input, { type: "hidden",
                                 value: this.state.form.website,
@@ -364,7 +364,7 @@ var InstitutionFormModal = function (_Component) {
                                 _reactstrap.Input,
                                 { type: "select",
                                     onChange: this.getChangeHandler("agreement"),
-                                    defaultValue: this.state.form.agreement },
+                                    value: this.state.form.agreement },
                                 _react2.default.createElement(
                                     "option",
                                     { value: "B" },
@@ -394,7 +394,7 @@ var InstitutionFormModal = function (_Component) {
                             _react2.default.createElement(_reactstrap.Input, { placeholder: "Name",
                                 onChange: this.getChangeHandler("contact_person_name"),
                                 valid: isValid("Contact person name"),
-                                defaultValue: this.state.form.contact_person_name }),
+                                value: this.state.form.contact_person_name }),
                             _react2.default.createElement(
                                 _reactstrap.FormFeedback,
                                 null,
@@ -413,7 +413,7 @@ var InstitutionFormModal = function (_Component) {
                                 placeholder: "Email",
                                 onChange: this.getChangeHandler("contact_person_email"),
                                 valid: isValid("Contact person email"),
-                                defaultValue: this.state.form.contact_person_email }),
+                                value: this.state.form.contact_person_email }),
                             _react2.default.createElement(
                                 _reactstrap.FormFeedback,
                                 null,
@@ -431,7 +431,7 @@ var InstitutionFormModal = function (_Component) {
                             _react2.default.createElement(_reactstrap.Input, { placeholder: "Number",
                                 onChange: this.getChangeHandler("contact_person_number"),
                                 valid: isValid("Contact person number"),
-                                defaultValue: this.state.form.contact_person_number }),
+                                value: this.state.form.contact_person_number }),
                             _react2.default.createElement(
                                 _reactstrap.FormFeedback,
                                 null,
@@ -829,7 +829,7 @@ var MemorandumFormModal = function (_Component3) {
                             _react2.default.createElement(
                                 _reactstrap.Input,
                                 { type: "select",
-                                    defaultValue: this.state.form.category,
+                                    value: this.state.form.category,
                                     onChange: this.getChangeHandler("category") },
                                 _react2.default.createElement(
                                     "option",
@@ -876,7 +876,7 @@ var MemorandumFormModal = function (_Component3) {
                                 "Date Effective"
                             ),
                             _react2.default.createElement(_reactstrap.Input, { type: "date",
-                                defaultValue: this.state.form.date_effective,
+                                value: this.state.form.date_effective,
                                 onChange: this.getChangeHandler("date_effective"),
                                 valid: isValid("Date effective") }),
                             _react2.default.createElement(
@@ -894,7 +894,7 @@ var MemorandumFormModal = function (_Component3) {
                                 "Expiration Date"
                             ),
                             _react2.default.createElement(_reactstrap.Input, { type: "date",
-                                defaultValue: this.state.form.date_expiration,
+                                value: this.state.form.date_expiration,
                                 onChange: this.getChangeHandler("date_expiration") }),
                             _react2.default.createElement(
                                 "small",
@@ -913,7 +913,7 @@ var MemorandumFormModal = function (_Component3) {
                             _react2.default.createElement(
                                 _reactstrap.Input,
                                 { type: "select",
-                                    defaultValue: this.state.form.college_initiator,
+                                    value: this.state.form.college_initiator,
                                     onChange: this.getChangeHandler("college_initiator") },
                                 collegeInitiators
                             )
@@ -1245,7 +1245,7 @@ var ProgramFormModal = function (_Component5) {
                         _react2.default.createElement(_reactstrap.Input, { placeholder: "Program Name",
                             onChange: this.getChangeHandler("name"),
                             valid: isValid("Program name"),
-                            defaultValue: this.state.form.name }),
+                            value: this.state.form.name }),
                         _react2.default.createElement(
                             _reactstrap.FormFeedback,
                             null,
@@ -1297,7 +1297,7 @@ var ProgramFormModal = function (_Component5) {
                             { type: "select",
                                 onChange: this.getChangeHandler("academic_year"),
                                 valid: isValid("Academic year"),
-                                defaultValue: this.state.form.academic_year },
+                                value: this.state.form.academic_year },
                             academicYears
                         ),
                         _react2.default.createElement(
@@ -1358,7 +1358,7 @@ var ProgramFormModal = function (_Component5) {
                             "Requirements Deadline"
                         ),
                         _react2.default.createElement(_reactstrap.Input, { type: "date",
-                            defaultValue: this.state.form.requirement_deadline,
+                            value: this.state.form.requirement_deadline,
                             onChange: this.getChangeHandler("requirement_deadline"),
                             valid: isValid("Requirements deadline") }),
                         _react2.default.createElement(

@@ -209,7 +209,7 @@ class InstitutionFormModal extends Component {
                             <Input placeholder="Institution Name"
                                    onChange={this.getChangeHandler("name")}
                                    valid={isValid("Name")}
-                                   defaultValue={this.state.form.name}/>
+                                   value={this.state.form.name}/>
                             <FormFeedback>{fieldError("Name")}</FormFeedback>
                         </FormGroup>
 
@@ -218,7 +218,7 @@ class InstitutionFormModal extends Component {
                             <Input type="select"
                                    onChange={this.getChangeHandler("country")}
                                    valid={isValid("Country")}
-                                   defaultValue={this.state.form.country}>
+                                   value={this.state.form.country}>
                                 {countries}
                             </Input>
                             <FormFeedback>{fieldError("Country")}</FormFeedback>
@@ -230,7 +230,7 @@ class InstitutionFormModal extends Component {
                                    placeholder="Address"
                                    onChange={this.getChangeHandler("address")}
                                    valid={isValid("Address")}
-                                   defaultValue={this.state.form.address}/>
+                                   value={this.state.form.address}/>
                             <FormFeedback>{fieldError("Address")}</FormFeedback>
                         </FormGroup>
 
@@ -241,7 +241,7 @@ class InstitutionFormModal extends Component {
                                 <Input placeholder="Website"
                                        onChange={this.getChangeHandler("website")}
                                        valid={isValid("Website")}
-                                       defaultValue={this.state.form.website}/>
+                                       value={this.state.form.website}/>
                             </InputGroup>
                             <Input type="hidden"
                                    value={this.state.form.website}
@@ -253,7 +253,7 @@ class InstitutionFormModal extends Component {
                             <Label>Agreement Type</Label>
                             <Input type="select"
                                    onChange={this.getChangeHandler("agreement")}
-                                   defaultValue={this.state.form.agreement}>
+                                   value={this.state.form.agreement}>
                                 <option value="B">Bilateral</option>
                                 <option value="M">Multilateral</option>
                             </Input>
@@ -268,7 +268,7 @@ class InstitutionFormModal extends Component {
                             <Input placeholder="Name"
                                    onChange={this.getChangeHandler("contact_person_name")}
                                    valid={isValid("Contact person name")}
-                                   defaultValue={this.state.form.contact_person_name}/>
+                                   value={this.state.form.contact_person_name}/>
                             <FormFeedback>{fieldError("Contact person name")}</FormFeedback>
                         </FormGroup>
 
@@ -278,7 +278,7 @@ class InstitutionFormModal extends Component {
                                    placeholder="Email"
                                    onChange={this.getChangeHandler("contact_person_email")}
                                    valid={isValid("Contact person email")}
-                                   defaultValue={this.state.form.contact_person_email}/>
+                                   value={this.state.form.contact_person_email}/>
                             <FormFeedback>{fieldError("Contact person email")}</FormFeedback>
                         </FormGroup>
 
@@ -287,7 +287,7 @@ class InstitutionFormModal extends Component {
                             <Input placeholder="Number"
                                    onChange={this.getChangeHandler("contact_person_number")}
                                    valid={isValid("Contact person number")}
-                                   defaultValue={this.state.form.contact_person_number}/>
+                                   value={this.state.form.contact_person_number}/>
                             <FormFeedback>{fieldError("Contact person number")}</FormFeedback>
                         </FormGroup>
 
@@ -596,7 +596,7 @@ class MemorandumFormModal extends Component {
                         <FormGroup>
                             <Label>Category</Label>
                             <Input type="select"
-                                   defaultValue={this.state.form.category}
+                                   value={this.state.form.category}
                                    onChange={this.getChangeHandler("category")}>
                                 <option value="MOA">Memorandum of Agreement</option>
                                 <option value="MOU">Memorandum of Understanding</option>
@@ -618,7 +618,7 @@ class MemorandumFormModal extends Component {
                         <FormGroup>
                             <Label>Date Effective</Label>
                             <Input type="date"
-                                   defaultValue={this.state.form.date_effective}
+                                   value={this.state.form.date_effective}
                                    onChange={this.getChangeHandler("date_effective")}
                                    valid={isValid("Date effective")}/>
                             <FormFeedback>{fieldError("Date effective")}</FormFeedback>
@@ -626,7 +626,7 @@ class MemorandumFormModal extends Component {
                         <FormGroup>
                             <Label>Expiration Date</Label>
                             <Input type="date"
-                                   defaultValue={this.state.form.date_expiration}
+                                   value={this.state.form.date_expiration}
                                    onChange={this.getChangeHandler("date_expiration")}/>
                             <small className="text-secondary">If the memorandum has no expiration date, leave this
                                 blank.
@@ -635,7 +635,7 @@ class MemorandumFormModal extends Component {
                         <FormGroup>
                             <Label>College Initiator</Label>
                             <Input type="select"
-                                   defaultValue={this.state.form.college_initiator}
+                                   value={this.state.form.college_initiator}
                                    onChange={this.getChangeHandler("college_initiator")}>
                                 {collegeInitiators}
                             </Input>
@@ -903,7 +903,7 @@ class ProgramFormModal extends Component {
                         <Input placeholder="Program Name"
                                onChange={this.getChangeHandler("name")}
                                valid={isValid("Program name")}
-                               defaultValue={this.state.form.name}/>
+                               value={this.state.form.name}/>
                         <FormFeedback>{fieldError("Program name")}</FormFeedback>
                     </FormGroup>
 
@@ -931,7 +931,7 @@ class ProgramFormModal extends Component {
                         <Input type="select"
                                onChange={this.getChangeHandler("academic_year")}
                                valid={isValid("Academic year")}
-                               defaultValue={this.state.form.academic_year}>
+                               value={this.state.form.academic_year}>
                             {academicYears}
                         </Input>
                         <FormFeedback>{fieldError("Academic year")}</FormFeedback>
@@ -967,7 +967,7 @@ class ProgramFormModal extends Component {
                     <FormGroup>
                         <Label>Requirements Deadline</Label>
                         <Input type="date"
-                               defaultValue={this.state.form.requirement_deadline}
+                               value={this.state.form.requirement_deadline}
                                onChange={this.getChangeHandler("requirement_deadline")}
                                valid={isValid("Requirements deadline")}/>
                         <FormFeedback>{fieldError("Requirements deadline")}</FormFeedback>

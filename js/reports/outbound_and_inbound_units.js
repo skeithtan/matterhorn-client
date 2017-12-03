@@ -173,7 +173,7 @@ class UnitsReportBar extends Component {
                                className="text-white mr-3">Academic Year</Label>
                         <Input type="select"
                                className="btn-outline-light"
-                               defaultValue={this.props.activeYear}
+                               value={this.props.activeYear}
                                onChange={this.onActiveYearChange}>
                             {academicYears}
                         </Input>

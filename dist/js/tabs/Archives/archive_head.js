@@ -85,7 +85,7 @@ var ArchivesHead = function (_Component) {
                             _reactstrap.Input,
                             { type: "select",
                                 className: "btn-outline-success",
-                                defaultValue: this.props.activeYear,
+                                value: this.props.activeYear,
                                 onChange: this.onActiveYearChange },
                             years
                         )

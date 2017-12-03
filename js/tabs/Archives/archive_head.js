@@ -38,7 +38,7 @@ class ArchivesHead extends Component {
                         <label className="mr-3 text-dark mb-1">Archives from year</label>
                         <Input type="select"
                                className="btn-outline-success"
-                               defaultValue={this.props.activeYear}
+                               value={this.props.activeYear}
                                onChange={this.onActiveYearChange}>
                             {years}
                         </Input>

@@ -213,7 +213,7 @@ class MemorandumsHead extends Component {
                 <div className="page-head-actions">
                     <Input type="select"
                            className="btn-outline-success"
-                           defaultValue="MOA"
+                           value="MOA"
                            onChange={this.onCategoryChange}>
                         <option value="Agreement">Agreement</option>
                         <option value="Understanding">Understanding</option>

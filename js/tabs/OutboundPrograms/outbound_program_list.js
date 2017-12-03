@@ -87,7 +87,7 @@ class ProgramListHead extends Component {
         return (
             <div className="page-head d-flex flex-column align-items-center">
                 <div className="page-head-controls mr-auto">
-                    <Input type="select" defaultValue={ this.props.activeTerm }
+                    <Input type="select" value={ this.props.activeTerm }
                            className="ml-auto btn-sm btn-outline-success select-sm"
                            onChange={ this.onTermChange }>
                         <option value="1">Term 1</option>
