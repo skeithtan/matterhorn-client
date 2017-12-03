@@ -26,6 +26,8 @@ var _student_list = require("./student_list");
 
 var _student_list2 = _interopRequireDefault(_student_list);
 
+var _sidebar_panes = require("../OutboundPrograms/sidebar_panes");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -60,10 +62,11 @@ var InboundPrograms = function (_Component) {
             activeYear: null,
             activeTerm: 1,
             activeProgram: null,
-            studentList: null
-            // sidebarContent : null,
+            studentList: null,
+            sidebarContent: null
         };
 
+        _this.setSidebarContent = _this.setSidebarContent.bind(_this);
         _this.refreshYears = _this.refreshYears.bind(_this);
         _this.setActiveYear = _this.setActiveYear.bind(_this);
         _this.setActiveTerm = _this.setActiveTerm.bind(_this);
@@ -75,6 +78,13 @@ var InboundPrograms = function (_Component) {
     }
 
     _createClass(InboundPrograms, [{
+        key: "setSidebarContent",
+        value: function setSidebarContent(sidebarContent) {
+            this.setState({
+                sidebarContent: sidebarContent
+            });
+        }
+    }, {
         key: "setActiveYear",
         value: function setActiveYear(year) {
             var _this2 = this;
@@ -91,7 +101,7 @@ var InboundPrograms = function (_Component) {
                 });
             });
 
-            // TODO: Set sidebar content to academic year sidebar pane
+            this.setSidebarContent(_react2.default.createElement(_sidebar_panes.AcademicYearSidebarPane, { academicYear: year }));
         }
     }, {
         key: "setActiveTerm",
@@ -124,7 +134,7 @@ var InboundPrograms = function (_Component) {
                 });
             });
 
-            // TODO: Set sidebar content to programs sidebar pane
+            this.setSidebarContent(_react2.default.createElement(_sidebar_panes.ProgramsSidebarPane, { program: program }));
         }
     }, {
         key: "refreshYears",

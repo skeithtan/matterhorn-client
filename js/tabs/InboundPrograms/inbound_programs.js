@@ -3,6 +3,10 @@ import graphql from "../../graphql";
 import YearList from "../OutboundPrograms/year_list";
 import ProgramList from "./inbound_program_list";
 import StudentList from "./student_list";
+import {
+    AcademicYearSidebarPane,
+    ProgramsSidebarPane,
+} from "../OutboundPrograms/sidebar_panes";
 
 function fetchYears(onResult) {
     graphql.query(`
@@ -56,9 +60,10 @@ class InboundPrograms extends Component {
             activeTerm : 1,
             activeProgram : null,
             studentList : null,
-            // sidebarContent : null,
+            sidebarContent : null,
         };
 
+        this.setSidebarContent = this.setSidebarContent.bind(this);
         this.refreshYears = this.refreshYears.bind(this);
         this.setActiveYear = this.setActiveYear.bind(this);
         this.setActiveTerm = this.setActiveTerm.bind(this);
@@ -66,6 +71,12 @@ class InboundPrograms extends Component {
         this.setActiveProgram = this.setActiveProgram.bind(this);
         this.studentList = this.studentList.bind(this);
         this.refreshYears();
+    }
+
+    setSidebarContent(sidebarContent) {
+        this.setState({
+            sidebarContent : sidebarContent,
+        });
     }
 
     setActiveYear(year) {
@@ -81,7 +92,7 @@ class InboundPrograms extends Component {
             });
         });
 
-        // TODO: Set sidebar content to academic year sidebar pane
+        this.setSidebarContent(<AcademicYearSidebarPane academicYear={ year }/>);
     }
 
     setActiveTerm(term) {
@@ -108,7 +119,7 @@ class InboundPrograms extends Component {
             });
         });
 
-        // TODO: Set sidebar content to programs sidebar pane
+        this.setSidebarContent(<ProgramsSidebarPane program={ program }/>);
     }
 
     refreshYears() {
