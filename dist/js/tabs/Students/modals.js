@@ -82,6 +82,7 @@ var StudentFormModal = function (_Component) {
             institutions: null
         };
 
+        _this.resetForm = _this.resetForm.bind(_this);
         _this.getFormErrors = _this.getFormErrors.bind(_this);
         _this.getChangeHandler = _this.getChangeHandler.bind(_this);
         _this.submitAddStudentForm = _this.submitAddStudentForm.bind(_this);
@@ -116,6 +117,31 @@ var StudentFormModal = function (_Component) {
     }
 
     _createClass(StudentFormModal, [{
+        key: "resetForm",
+        value: function resetForm() {
+            this.setState({
+                form: {
+                    id_number: "",
+                    first_name: "",
+                    middle_name: "",
+                    family_name: "",
+                    nickname: "",
+                    birth_date: "",
+                    sex: "F",
+                    home_address: "",
+                    nationality: "",
+                    civil_status: "S",
+                    phone_number: "",
+                    email: "",
+                    emergency_contact_name: "",
+                    emergency_contact_relationship: "",
+                    emergency_contact_number: "",
+                    college: "CCS",
+                    category: "IN"
+                }
+            });
+        }
+    }, {
         key: "getFormErrors",
         value: function getFormErrors() {
             return (0, _form_validator2.default)([{
@@ -222,6 +248,7 @@ var StudentFormModal = function (_Component) {
                 beforeSend: _authorization2.default
             }).done(function (student) {
                 dismissToast();
+                _this3.resetForm();
                 _this3.props.refresh();
                 _this3.props.onAddStudent(student);
                 _izitoast2.default.success({
@@ -261,6 +288,7 @@ var StudentFormModal = function (_Component) {
                 beforeSend: _authorization2.default,
                 success: function success() {
                     dismissToast();
+                    _this4.resetForm();
                     _this4.props.refresh();
                     _izitoast2.default.success({
                         title: "Success",
@@ -871,6 +899,7 @@ var ResidenceAddressFormModal = function (_Component3) {
             }
         };
 
+        _this7.resetForm = _this7.resetForm.bind(_this7);
         _this7.getFormErrors = _this7.getFormErrors.bind(_this7);
         _this7.getChangeHandler = _this7.getChangeHandler.bind(_this7);
         _this7.submitAddResidenceAddressForm = _this7.submitAddResidenceAddressForm.bind(_this7);
@@ -883,6 +912,19 @@ var ResidenceAddressFormModal = function (_Component3) {
     }
 
     _createClass(ResidenceAddressFormModal, [{
+        key: "resetForm",
+        value: function resetForm() {
+            this.setState({
+                form: {
+                    date_effective: "",
+                    contact_person_name: "",
+                    contact_person_number: "",
+                    address: "",
+                    residence: ""
+                }
+            });
+        }
+    }, {
         key: "getFormErrors",
         value: function getFormErrors() {
             return (0, _form_validator2.default)([{
@@ -923,6 +965,7 @@ var ResidenceAddressFormModal = function (_Component3) {
                 data: this.state.form
             }).done(function () {
                 dismissToast();
+                _this8.resetForm();
                 _izitoast2.default.success({
                     title: "Edited",
                     message: "Successfully edited residence address"
@@ -958,6 +1001,7 @@ var ResidenceAddressFormModal = function (_Component3) {
                 data: this.state.form
             }).done(function () {
                 dismissToast();
+                _this9.resetForm();
                 _izitoast2.default.success({
                     title: "Added",
                     message: "Successfully added residence address"

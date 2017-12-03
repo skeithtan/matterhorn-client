@@ -44,6 +44,7 @@ class InstitutionFormModal extends Component {
             },
         };
 
+        this.resetForm = this.resetForm.bind(this);
         this.getFormErrors = this.getFormErrors.bind(this);
         this.getChangeHandler = this.getChangeHandler.bind(this);
 
@@ -54,6 +55,21 @@ class InstitutionFormModal extends Component {
             // Copy the object, do not equate, otherwise the object changes along with the form.
             Object.assign(this.state.form, props.institution);
         }
+    }
+
+    resetForm() {
+        this.setState({
+            form : {
+                name : "",
+                country : "",
+                address : "",
+                website : "",
+                contact_person_email : "",
+                contact_person_name : "",
+                contact_person_number : "",
+                agreement : "B",
+            }
+        })
     }
 
     getFormErrors() {
@@ -112,6 +128,7 @@ class InstitutionFormModal extends Component {
             beforeSend : authorizeXHR,
             success : institution => {
                 dismissToast();
+                this.resetForm();
                 this.props.refresh();
                 this.props.onAddInstitution(institution);
                 iziToast.success({
@@ -144,6 +161,7 @@ class InstitutionFormModal extends Component {
             data : this.state.form,
             beforeSend : authorizeXHR,
         }).done(() => {
+            this.resetForm();
             dismissToast();
             this.props.refresh();
             iziToast.success({
@@ -367,6 +385,7 @@ class ArchiveInstitutionModal extends Component {
 class MemorandumFormModal extends Component {
     constructor(props) {
         super(props);
+        this.resetForm = this.resetForm.bind(this);
         this.getFormErrors = this.getFormErrors.bind(this);
         this.setupUploadCare = this.setupUploadCare.bind(this);
         this.getChangeHandler = this.getChangeHandler.bind(this);
@@ -396,6 +415,19 @@ class MemorandumFormModal extends Component {
 
             Object.assign(this.state.form.linkages, newProps.memorandum.linkages);
         }
+    }
+
+    resetForm() {
+        this.setState({
+            form : {
+                category : "MOA",
+                memorandum_file : "",
+                date_effective : "",
+                date_expiration : "",
+                college_initiator : "",
+                linkages : [],
+            },
+        })
     }
 
     getFormErrors() {
@@ -459,6 +491,7 @@ class MemorandumFormModal extends Component {
             beforeSend : authorizeXHR,
             success : () => {
                 dismissToast();
+                this.resetForm();
                 this.props.refresh();
                 if (this.props.memorandumToBeAdded) {
                     this.props.toggleMemorandumToBeAdded();
@@ -500,6 +533,7 @@ class MemorandumFormModal extends Component {
             beforeSend : authorizeXHR,
             success : (response) => {
                 dismissToast();
+                this.resetForm();
                 const memorandum = response;
                 this.props.onEditSuccess(memorandum);
                 this.props.refresh();

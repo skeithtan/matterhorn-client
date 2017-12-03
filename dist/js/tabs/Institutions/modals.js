@@ -70,6 +70,7 @@ var InstitutionFormModal = function (_Component) {
             }
         };
 
+        _this.resetForm = _this.resetForm.bind(_this);
         _this.getFormErrors = _this.getFormErrors.bind(_this);
         _this.getChangeHandler = _this.getChangeHandler.bind(_this);
 
@@ -84,6 +85,22 @@ var InstitutionFormModal = function (_Component) {
     }
 
     _createClass(InstitutionFormModal, [{
+        key: "resetForm",
+        value: function resetForm() {
+            this.setState({
+                form: {
+                    name: "",
+                    country: "",
+                    address: "",
+                    website: "",
+                    contact_person_email: "",
+                    contact_person_name: "",
+                    contact_person_number: "",
+                    agreement: "B"
+                }
+            });
+        }
+    }, {
         key: "getFormErrors",
         value: function getFormErrors() {
             return (0, _form_validator2.default)([{
@@ -140,6 +157,7 @@ var InstitutionFormModal = function (_Component) {
                 beforeSend: _authorization2.default,
                 success: function success(institution) {
                     dismissToast();
+                    _this2.resetForm();
                     _this2.props.refresh();
                     _this2.props.onAddInstitution(institution);
                     _izitoast2.default.success({
@@ -175,6 +193,7 @@ var InstitutionFormModal = function (_Component) {
                 data: this.state.form,
                 beforeSend: _authorization2.default
             }).done(function () {
+                _this3.resetForm();
                 dismissToast();
                 _this3.props.refresh();
                 _izitoast2.default.success({
@@ -549,6 +568,7 @@ var MemorandumFormModal = function (_Component3) {
 
         var _this7 = _possibleConstructorReturn(this, (MemorandumFormModal.__proto__ || Object.getPrototypeOf(MemorandumFormModal)).call(this, props));
 
+        _this7.resetForm = _this7.resetForm.bind(_this7);
         _this7.getFormErrors = _this7.getFormErrors.bind(_this7);
         _this7.setupUploadCare = _this7.setupUploadCare.bind(_this7);
         _this7.getChangeHandler = _this7.getChangeHandler.bind(_this7);
@@ -581,6 +601,20 @@ var MemorandumFormModal = function (_Component3) {
 
                 Object.assign(this.state.form.linkages, newProps.memorandum.linkages);
             }
+        }
+    }, {
+        key: "resetForm",
+        value: function resetForm() {
+            this.setState({
+                form: {
+                    category: "MOA",
+                    memorandum_file: "",
+                    date_effective: "",
+                    date_expiration: "",
+                    college_initiator: "",
+                    linkages: []
+                }
+            });
         }
     }, {
         key: "getFormErrors",
@@ -649,6 +683,7 @@ var MemorandumFormModal = function (_Component3) {
                 beforeSend: _authorization2.default,
                 success: function success() {
                     dismissToast();
+                    _this10.resetForm();
                     _this10.props.refresh();
                     if (_this10.props.memorandumToBeAdded) {
                         _this10.props.toggleMemorandumToBeAdded();
@@ -693,6 +728,7 @@ var MemorandumFormModal = function (_Component3) {
                 beforeSend: _authorization2.default,
                 success: function success(response) {
                     dismissToast();
+                    _this11.resetForm();
                     var memorandum = response;
                     _this11.props.onEditSuccess(memorandum);
                     _this11.props.refresh();

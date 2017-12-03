@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import authorizeXHR from "../../authorization";
-import {makeInfoToast} from "../../dismissable_toast_maker";
+import { makeInfoToast } from "../../dismissable_toast_maker";
 import validateForm from "../../form_validator";
 import graphql from "../../graphql";
 import settings from "../../settings";
@@ -59,6 +59,7 @@ class StudentFormModal extends Component {
             institutions : null,
         };
 
+        this.resetForm = this.resetForm.bind(this);
         this.getFormErrors = this.getFormErrors.bind(this);
         this.getChangeHandler = this.getChangeHandler.bind(this);
         this.submitAddStudentForm = this.submitAddStudentForm.bind(this);
@@ -89,6 +90,30 @@ class StudentFormModal extends Component {
                 this.state.form.institution = props.student.institution.id;
             }
         }
+    }
+
+    resetForm() {
+        this.setState({
+            form : {
+                id_number : "",
+                first_name : "",
+                middle_name : "",
+                family_name : "",
+                nickname : "",
+                birth_date : "",
+                sex : "F",
+                home_address : "",
+                nationality : "",
+                civil_status : "S",
+                phone_number : "",
+                email : "",
+                emergency_contact_name : "",
+                emergency_contact_relationship : "",
+                emergency_contact_number : "",
+                college : "CCS",
+                category : "IN",
+            },
+        });
     }
 
     getFormErrors() {
@@ -195,6 +220,7 @@ class StudentFormModal extends Component {
             beforeSend : authorizeXHR,
         }).done(student => {
             dismissToast();
+            this.resetForm();
             this.props.refresh();
             this.props.onAddStudent(student);
             iziToast.success({
@@ -231,6 +257,7 @@ class StudentFormModal extends Component {
             beforeSend : authorizeXHR,
             success : () => {
                 dismissToast();
+                this.resetForm();
                 this.props.refresh();
                 iziToast.success({
                     title : "Success",
@@ -578,6 +605,7 @@ class ResidenceAddressFormModal extends Component {
             },
         };
 
+        this.resetForm = this.resetForm.bind(this);
         this.getFormErrors = this.getFormErrors.bind(this);
         this.getChangeHandler = this.getChangeHandler.bind(this);
         this.submitAddResidenceAddressForm = this.submitAddResidenceAddressForm.bind(this);
@@ -586,6 +614,18 @@ class ResidenceAddressFormModal extends Component {
         if (this.props.edit) {
             Object.assign(this.state.form, props.residence);
         }
+    }
+
+    resetForm() {
+        this.setState({
+            form : {
+                date_effective : "",
+                contact_person_name : "",
+                contact_person_number : "",
+                address : "",
+                residence : "",
+            },
+        });
     }
 
     getFormErrors() {
@@ -630,6 +670,7 @@ class ResidenceAddressFormModal extends Component {
             data : this.state.form,
         }).done(() => {
             dismissToast();
+            this.resetForm();
             iziToast.success({
                 title : "Edited",
                 message : "Successfully edited residence address",
@@ -662,6 +703,7 @@ class ResidenceAddressFormModal extends Component {
             data : this.state.form,
         }).done(() => {
             dismissToast();
+            this.resetForm();
             iziToast.success({
                 title : "Added",
                 message : "Successfully added residence address",
