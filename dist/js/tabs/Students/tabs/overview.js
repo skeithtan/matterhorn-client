@@ -437,7 +437,7 @@ var StudentDetails = function (_Component4) {
                                     color: "primary",
                                     size: "sm",
                                     className: "ml-auto",
-                                    onClick: this.props.toggleRestoreStudent },
+                                    onClick: this.props.confirmRestore },
                                 "Restore"
                             )
                         )

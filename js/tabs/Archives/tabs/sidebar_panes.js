@@ -45,16 +45,48 @@ class StudentSidebarPane extends Component {
         super(props);
 
         this.state = {
-            restoreStudentIsShowing : false,
             student : props.student,
         };
 
         this.fetchStudent = this.fetchStudent.bind(this);
-        this.toggleRestoreStudent = this.toggleRestoreStudent.bind(this);
+        this.confirmRestore = this.confirmRestore.bind(this);
 
         if (!studentIsFetched(props.student)) {
             this.fetchStudent(props.student.id);
         }
+    }
+
+    confirmRestore() {
+        const student = this.props.student;
+        const fullName = `${student.first_name} ${student.middle_name} ${student.family_name}`;
+        if (!confirm(`Would you like to restore ${fullName}?`)) {
+            return;
+        }
+
+        const dismissToast = makeInfoToast({
+            title : "Restoring",
+            message : "Restoring student...",
+        });
+
+        $.ajax({
+            url : `${settings.serverURL}/archives/students/${this.props.student.id}/restore/`,
+            method : "PUT",
+            beforeSend : authorizeXHR,
+        }).done(() => {
+            dismissToast();
+            iziToast.success({
+                title : "Success",
+                message : "Successfully restored student",
+            });
+            this.props.onRestoreSuccess();
+        }).fail(response => {
+            dismissToast();
+            console.log(response);
+            iziToast.error({
+                title : "Error",
+                message : "Unable to restore student",
+            });
+        });
     }
 
     fetchStudent(studentId) {
@@ -112,16 +144,12 @@ class StudentSidebarPane extends Component {
                 <div className="page-body">
                     <StudentDetails sidebar
                                     archived
-                                    toggleRestoreStudent={this.toggleRestoreStudent}
+                                    confirmRestore={this.confirmRestore}
                                     student={student}/>
                     <StudentContactDetails sidebar
                                            student={student}/>
                     <UniversityDetails sidebar
                                        student={student}/>
-                    <RestoreStudentModal student={student}
-                                         toggle={this.toggleRestoreStudent}
-                                         onRestoreSuccess={this.props.onRestoreSuccess}
-                                         isOpen={this.state.restoreStudentIsShowing}/>
                 </div>
             );
         } else {

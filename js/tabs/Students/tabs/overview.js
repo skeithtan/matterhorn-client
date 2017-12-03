@@ -289,7 +289,7 @@ class StudentDetails extends Component {
                                     color="primary"
                                     size="sm"
                                     className="ml-auto"
-                                    onClick={this.props.toggleRestoreStudent}>Restore</Button>
+                                    onClick={this.props.confirmRestore}>Restore</Button>
                         </SectionRowContent>
                     </SectionRow>
                     }
