@@ -16,9 +16,10 @@ class ProgramList extends Component {
     render() {
         return (
             <div className="programs-page-pane d-flex flex-column">
-                <ProgramListHead year={ this.props.activeYear }/>
+                <ProgramListHead year={ this.props.activeYear }
+                                 activeTerm={ this.props.activeTerm }
+                                 setActiveTerm={ this.props.setActiveTerm }/>
                 <ProgramListTable programs={ this.props.programList }
-                    // activeTerm={ this.props.activeTerm }
                                   activeProgram={ this.props.activeProgram }
                                   setActiveProgram={ this.props.setActiveProgram }/>
             </div>
@@ -29,11 +30,26 @@ class ProgramList extends Component {
 class ProgramListHead extends Component {
     constructor(props) {
         super(props);
+
+        this.onTermChange = this.onTermChange.bind(this);
+    }
+
+    onTermChange(event) {
+        this.props.setActiveTerm(event.target.value);
     }
 
     render() {
         return (
             <div className="page-head d-flex flex-column align-items-center">
+                <div className="page-head-controls mr-auto">
+                    <Input type="select" value={ this.props.activeTerm }
+                           className="ml-auto btn-sm btn-outline-success select-sm"
+                           onChange={ this.onTermChange }>
+                        <option value="1">Term 1</option>
+                        <option value="2">Term 2</option>
+                        <option value="3">Term 3</option>
+                    </Input>
+                </div>
                 <div className="d-flex flex-row w-100 mb-2 align-items-center">
                     <div className="mr-auto">
                         <h5 className="mb-0 text-secondary">Programs</h5>
