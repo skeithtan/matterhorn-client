@@ -16,6 +16,10 @@ import {
     SectionTitle,
 } from "../../../components/section";
 import { RestoreMemorandumModal } from "../../Archives/tabs/modals";
+import { makeInfoToast } from "../../../dismissable_toast_maker";
+import * as $ from "jquery";
+import iziToast from "izitoast";
+import authorizeXHR from "../../../authorization";
 
 
 class MemorandumSidebarPane extends Component {
@@ -23,27 +27,54 @@ class MemorandumSidebarPane extends Component {
         super(props);
 
         this.state = {
-            deleteMemorandumIsShowing : false,
             editMemorandumIsShowing : false,
-            restoreMemorandumIsShowing : false,
             memorandum : props.memorandum,
         };
 
+        this.confirmArchive = this.confirmArchive.bind(this);
         this.onEditMemorandum = this.onEditMemorandum.bind(this);
         this.toggleEditMemorandum = this.toggleEditMemorandum.bind(this);
-        this.toggleDeleteMemorandum = this.toggleDeleteMemorandum.bind(this);
         this.toggleRestoreMemorandum = this.toggleRestoreMemorandum.bind(this);
+    }
+
+    confirmArchive() {
+        if (!confirm("Are you sure you want to archive this memorandum?")) {
+            return;
+        }
+
+        const dismissToast = makeInfoToast({
+            title : "Archiving",
+            message : "Archiving memorandum...",
+        });
+        $.ajax({
+            url : `${settings.serverURL}/memorandums/${this.props.memorandum.id}`,
+            method : "DELETE",
+            beforeSend : authorizeXHR,
+            success : () => {
+                dismissToast();
+                this.props.removeActiveMemorandum();
+                iziToast.success({
+                    title : "Success",
+                    message : "Memorandum archived",
+                    progressBar : false,
+                });
+            },
+            error : response => {
+                dismissToast();
+                console.log(response);
+                iziToast.error({
+                    title : "Error",
+                    message : "Unable to archive memorandum",
+                    progressBar : false,
+                });
+            },
+        });
+
     }
 
     toggleRestoreMemorandum() {
         this.setState({
             restoreMemorandumIsShowing : !this.state.restoreMemorandumIsShowing,
-        });
-    }
-
-    toggleDeleteMemorandum() {
-        this.setState({
-            deleteMemorandumIsShowing : !this.state.deleteMemorandumIsShowing,
         });
     }
 
@@ -79,16 +110,9 @@ class MemorandumSidebarPane extends Component {
                     <MemorandumDetails archived={this.props.archived}
                                        memorandum={memorandum}
                                        toggleRestoreMemorandum={this.toggleRestoreMemorandum}
-                                       toggleDeleteMemorandum={this.toggleDeleteMemorandum}
+                                       confirmArchive={this.confirmArchive}
                                        toggleEditMemorandum={this.toggleEditMemorandum}/>
                     <MemorandumLinkages linkages={memorandum.linkages}/>
-
-                    {this.state.activeMemorandum !== null &&
-                    <ArchiveMemorandumModal isOpen={this.state.deleteMemorandumIsShowing}
-                                            memorandum={memorandum}
-                                            toggle={this.toggleDeleteMemorandum}
-                                            onDeleteSuccess={this.props.removeActiveMemorandum}
-                                            refresh={this.props.refreshMemorandums}/>}
 
                     {this.state.activeMemorandum !== null &&
                     <MemorandumFormModal edit
@@ -168,7 +192,7 @@ class MemorandumDetails extends Component {
                             < Button outline
                                      color="warning"
                                      size="sm"
-                                     onClick={this.props.toggleDeleteMemorandum}>Archive</Button>
+                                     onClick={this.props.confirmArchive}>Archive</Button>
                             }
 
                             {this.props.archived &&

@@ -101,18 +101,18 @@ class Memorandums extends Component {
         }
 
 
-        const onDeleteMemorandum = () => {
+        const onArchiveMemorandum = () => {
+            this.props.setSidebarContent(null);
             this.setState({
                 activeMemorandumId : null,
             });
             this.refreshMemorandums();
-            this.props.setSidebarContent(null);
         };
 
 
         this.props.setSidebarContent(
             <MemorandumSidebarPane memorandum={memorandum}
-                                   removeActiveMemorandum={onDeleteMemorandum}
+                                   removeActiveMemorandum={onArchiveMemorandum}
                                    refreshMemorandums={this.refreshMemorandums}/>,
         );
 
@@ -122,8 +122,11 @@ class Memorandums extends Component {
     }
 
     refreshMemorandums() {
+        delete this.state.institution.moas;
+        delete this.state.institution.mous;
+
         this.setState({
-            institution : null,
+            institution : this.state.institution,
         });
 
         this.fetchMemorandums();
