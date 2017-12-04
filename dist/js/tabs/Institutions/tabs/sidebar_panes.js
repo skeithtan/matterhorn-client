@@ -195,11 +195,7 @@ var MemorandumSidebarPane = function (_Component) {
                         memorandum: memorandum,
                         toggle: this.toggleEditMemorandum,
                         onEditSuccess: this.onEditMemorandum,
-                        refresh: this.props.refreshMemorandums }),
-                    this.state.activeMemorandum !== null && _react2.default.createElement(RestoreMemorandumModal, { memorandum: memorandum,
-                        onRestoreSuccess: this.props.onRestoreSuccess,
-                        isOpen: this.state.restoreMemorandumIsShowing,
-                        toggle: this.toggleRestoreMemorandum })
+                        refresh: this.props.refreshMemorandums })
                 )
             );
         }
