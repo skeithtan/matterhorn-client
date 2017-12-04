@@ -26,8 +26,8 @@ var tabs = [{
 }, {
     name: "Requirements",
     tab: null,
-    image: "./images/burgergrey.png",
-    activeImage: "./images/burgergreen.png"
+    image: "./images/checklistgrey.png",
+    activeImage: "./images/checklistgreen.png"
 }];
 
 exports.default = tabs;
