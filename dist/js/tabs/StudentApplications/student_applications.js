@@ -53,7 +53,7 @@ function makeOutboundApplicationsQuery() {
 }
 
 function makeInboundApplicationsQuery() {
-    return _graphql2.default.query("\n    {\n        inbound_student_programs {\n            id\n            student {\n                id\n                id_number\n                first_name\n                middle_name\n                family_name\n            }\n        }\n    }\n    ");
+    return _graphql2.default.query("\n    {\n        inbound_student_programs {\n            id\n            student {\n                id\n                id_number\n                first_name\n                middle_name\n                family_name\n            }\n            is_requirements_complete\n        }\n    }\n    ");
 }
 
 var StudentApplications = function (_Component) {
