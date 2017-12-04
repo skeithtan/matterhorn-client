@@ -14,6 +14,10 @@ var _graphql = require("../../graphql");
 
 var _graphql2 = _interopRequireDefault(_graphql);
 
+var _application_detail = require("./application_detail");
+
+var _application_detail2 = _interopRequireDefault(_application_detail);
+
 var _reactstrap = require("reactstrap");
 
 var _loading = require("../../components/loading");
@@ -53,7 +57,7 @@ function makeOutboundApplicationsQuery() {
 }
 
 function makeInboundApplicationsQuery() {
-    return _graphql2.default.query("\n    {\n        inbound_student_programs {\n            id\n            student {\n                id\n                id_number\n                first_name\n                middle_name\n                family_name\n            }\n            is_requirements_complete\n        }\n    }\n    ");
+    return _graphql2.default.query("\n    {\n        inbound_student_programs {\n            id\n            student {\n                id\n                id_number\n                first_name\n                middle_name\n                family_name\n            }\n        }\n    }\n    ");
 }
 
 var StudentApplications = function (_Component) {
@@ -96,7 +100,6 @@ var StudentApplications = function (_Component) {
             }
 
             makeInboundApplicationsQuery().then(function (result) {
-                console.log(result.inbound_student_programs);
                 _this2.setState({
                     applicants: result.inbound_student_programs
                 });
@@ -130,6 +133,10 @@ var StudentApplications = function (_Component) {
     }, {
         key: "setApplicants",
         value: function setApplicants(tabName) {
+            this.setState({
+                applicants: null
+            });
+
             if (tabName === "Inbound") {
                 this.fetchInboundApplications();
             } else {
@@ -188,9 +195,6 @@ var StudentApplications = function (_Component) {
                 activeApplicant: applicant
             });
         }
-
-        // TODO: refreshing the applicants and at the same time conforming to the activeCategory
-
     }, {
         key: "render",
         value: function render() {
@@ -208,6 +212,10 @@ var StudentApplications = function (_Component) {
 
             var applicants = this.getApplicantsByCategory(this.state.applicants);
 
+            var refresh = function refresh() {
+                return _this5.setApplicants(_this5.state.activeTab.name);
+            };
+
             return _react2.default.createElement(
                 "div",
                 { className: "container-fluid d-flex flex-row p-0 h-100" },
@@ -218,7 +226,9 @@ var StudentApplications = function (_Component) {
                     setActiveApplicant: this.setActiveApplicant,
                     tabs: tabs,
                     activeTab: this.state.activeTab,
-                    setActiveTab: this.setActiveTab })
+                    setActiveTab: this.setActiveTab }),
+                _react2.default.createElement(_application_detail2.default, { student: this.state.activeApplicant,
+                    refreshStudents: refresh })
             );
         }
     }]);
