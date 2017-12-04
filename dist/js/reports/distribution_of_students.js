@@ -12,7 +12,13 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reports = require("../components/reports");
 
-var _reactstrap = require("reactstrap");
+var _authorization = require("../authorization");
+
+var _authorization2 = _interopRequireDefault(_authorization);
+
+var _jquery = require("jquery");
+
+var _jquery2 = _interopRequireDefault(_jquery);
 
 var _error_state = require("../components/error_state");
 
@@ -22,17 +28,11 @@ var _loading = require("../components/loading");
 
 var _loading2 = _interopRequireDefault(_loading);
 
-var _jquery = require("jquery");
-
-var _jquery2 = _interopRequireDefault(_jquery);
+var _reactstrap = require("reactstrap");
 
 var _settings = require("../settings");
 
 var _settings2 = _interopRequireDefault(_settings);
-
-var _authorization = require("../authorization");
-
-var _authorization2 = _interopRequireDefault(_authorization);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -44,7 +44,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function makeReportQuery(year, term) {
     return _jquery2.default.get({
-        url: _settings2.default.serverURL + "/reports/unit-reports/",
+        url: _settings2.default.serverURL + "/reports/student-distribution-reports/",
         beforeSend: _authorization2.default,
         data: {
             "academic-year": year,
@@ -53,32 +53,33 @@ function makeReportQuery(year, term) {
     });
 }
 
-var OutboundAndInboundUnits = function (_GenericYearTermRepor) {
-    _inherits(OutboundAndInboundUnits, _GenericYearTermRepor);
+var DistributionOfStudents = function (_GenericYearTermRepor) {
+    _inherits(DistributionOfStudents, _GenericYearTermRepor);
 
-    function OutboundAndInboundUnits() {
-        _classCallCheck(this, OutboundAndInboundUnits);
+    function DistributionOfStudents() {
+        _classCallCheck(this, DistributionOfStudents);
 
-        return _possibleConstructorReturn(this, (OutboundAndInboundUnits.__proto__ || Object.getPrototypeOf(OutboundAndInboundUnits)).apply(this, arguments));
+        return _possibleConstructorReturn(this, (DistributionOfStudents.__proto__ || Object.getPrototypeOf(DistributionOfStudents)).apply(this, arguments));
     }
 
-    _createClass(OutboundAndInboundUnits, [{
+    _createClass(DistributionOfStudents, [{
         key: "report",
         value: function report(year, term) {
-            return _react2.default.createElement(UnitsReport, { year: year, term: term });
+            return _react2.default.createElement(StudentDistributionReport, { year: year,
+                term: term });
         }
     }]);
 
-    return OutboundAndInboundUnits;
+    return DistributionOfStudents;
 }(_reports.GenericYearTermReport);
 
-var UnitsReport = function (_Component) {
-    _inherits(UnitsReport, _Component);
+var StudentDistributionReport = function (_Component) {
+    _inherits(StudentDistributionReport, _Component);
 
-    function UnitsReport(props) {
-        _classCallCheck(this, UnitsReport);
+    function StudentDistributionReport(props) {
+        _classCallCheck(this, StudentDistributionReport);
 
-        var _this2 = _possibleConstructorReturn(this, (UnitsReport.__proto__ || Object.getPrototypeOf(UnitsReport)).call(this, props));
+        var _this2 = _possibleConstructorReturn(this, (StudentDistributionReport.__proto__ || Object.getPrototypeOf(StudentDistributionReport)).call(this, props));
 
         _this2.state = {
             institutions: null,
@@ -91,7 +92,7 @@ var UnitsReport = function (_Component) {
         return _this2;
     }
 
-    _createClass(UnitsReport, [{
+    _createClass(StudentDistributionReport, [{
         key: "fetchReport",
         value: function fetchReport(year, term) {
             var _this3 = this;
@@ -152,7 +153,7 @@ var UnitsReport = function (_Component) {
                     _react2.default.createElement(
                         "h4",
                         null,
-                        "Term End Outbound and Inbound Units Report"
+                        "Term End Outbound and Inbound Students Distribution Report"
                     ),
                     _react2.default.createElement(
                         "h5",
@@ -160,44 +161,44 @@ var UnitsReport = function (_Component) {
                         "Academic Year " + year + " - " + (year + 1) + " Term " + this.props.term
                     )
                 ),
-                _react2.default.createElement(UnitsReportTable, { institutions: this.state.institutions }),
+                _react2.default.createElement(StudentDistributionTable, { institutions: this.state.institutions }),
                 _react2.default.createElement(_reports.EndOfReportIndicator, null)
             );
         }
     }]);
 
-    return UnitsReport;
+    return StudentDistributionReport;
 }(_react.Component);
 
-var UnitsReportTable = function (_Component2) {
-    _inherits(UnitsReportTable, _Component2);
+var StudentDistributionTable = function (_Component2) {
+    _inherits(StudentDistributionTable, _Component2);
 
-    function UnitsReportTable() {
-        _classCallCheck(this, UnitsReportTable);
+    function StudentDistributionTable() {
+        _classCallCheck(this, StudentDistributionTable);
 
-        return _possibleConstructorReturn(this, (UnitsReportTable.__proto__ || Object.getPrototypeOf(UnitsReportTable)).apply(this, arguments));
+        return _possibleConstructorReturn(this, (StudentDistributionTable.__proto__ || Object.getPrototypeOf(StudentDistributionTable)).apply(this, arguments));
     }
 
-    _createClass(UnitsReportTable, [{
+    _createClass(StudentDistributionTable, [{
         key: "render",
         value: function render() {
             var rows = this.props.institutions.map(function (institution, index) {
-                return _react2.default.createElement(UnitsReportTableRow, { institution: institution,
+                return _react2.default.createElement(StudentDistributionRow, { institution: institution,
                     key: index });
             });
 
-            var totalOutboundUnits = 0;
-            var totalInboundUnits = 0;
+            var totalOutboundStudents = 0;
+            var totalInboundStudents = 0;
             var totalDeficit = 0;
 
             this.props.institutions.forEach(function (institution) {
-                var outboundUnits = institution.outbound_units_enrolled;
-                var inboundUnits = institution.inbound_units_enrolled;
-                var difference = outboundUnits - inboundUnits;
+                var outboundCount = institution.outbound_students_count;
+                var inboundCount = institution.inbound_students_count;
+                var deficit = outboundCount - inboundCount;
 
-                totalOutboundUnits += outboundUnits;
-                totalInboundUnits += inboundUnits;
-                totalDeficit += difference;
+                totalOutboundStudents += outboundCount;
+                totalInboundStudents += inboundCount;
+                totalDeficit += deficit;
             });
 
             return _react2.default.createElement(
@@ -217,12 +218,12 @@ var UnitsReportTable = function (_Component2) {
                         _react2.default.createElement(
                             "th",
                             null,
-                            "Outbound Units"
+                            "Outbound"
                         ),
                         _react2.default.createElement(
                             "th",
                             null,
-                            "Inbound Units"
+                            "Inbound"
                         ),
                         _react2.default.createElement(
                             "th",
@@ -250,12 +251,12 @@ var UnitsReportTable = function (_Component2) {
                         _react2.default.createElement(
                             "th",
                             { className: "numeric" },
-                            totalOutboundUnits
+                            totalOutboundStudents
                         ),
                         _react2.default.createElement(
                             "th",
                             { className: "numeric" },
-                            totalInboundUnits
+                            totalInboundStudents
                         ),
                         _react2.default.createElement(
                             "th",
@@ -268,24 +269,24 @@ var UnitsReportTable = function (_Component2) {
         }
     }]);
 
-    return UnitsReportTable;
+    return StudentDistributionTable;
 }(_react.Component);
 
-var UnitsReportTableRow = function (_Component3) {
-    _inherits(UnitsReportTableRow, _Component3);
+var StudentDistributionRow = function (_Component3) {
+    _inherits(StudentDistributionRow, _Component3);
 
-    function UnitsReportTableRow() {
-        _classCallCheck(this, UnitsReportTableRow);
+    function StudentDistributionRow() {
+        _classCallCheck(this, StudentDistributionRow);
 
-        return _possibleConstructorReturn(this, (UnitsReportTableRow.__proto__ || Object.getPrototypeOf(UnitsReportTableRow)).apply(this, arguments));
+        return _possibleConstructorReturn(this, (StudentDistributionRow.__proto__ || Object.getPrototypeOf(StudentDistributionRow)).apply(this, arguments));
     }
 
-    _createClass(UnitsReportTableRow, [{
+    _createClass(StudentDistributionRow, [{
         key: "render",
         value: function render() {
-            var outboundUnitsEnrolled = this.props.institution.outbound_units_enrolled;
-            var inboundUnitsEnrolled = this.props.institution.inbound_units_enrolled;
-            var deficit = outboundUnitsEnrolled - inboundUnitsEnrolled;
+            var outboundStudentsCount = this.props.institution.outbound_students_count;
+            var inboundStudentsCount = this.props.institution.inbound_students_count;
+            var deficit = outboundStudentsCount - inboundStudentsCount;
 
             return _react2.default.createElement(
                 "tr",
@@ -298,12 +299,12 @@ var UnitsReportTableRow = function (_Component3) {
                 _react2.default.createElement(
                     "td",
                     { className: "numeric text-right" },
-                    outboundUnitsEnrolled
+                    outboundStudentsCount
                 ),
                 _react2.default.createElement(
                     "td",
                     { className: "numeric text-right" },
-                    inboundUnitsEnrolled
+                    inboundStudentsCount
                 ),
                 _react2.default.createElement(
                     "td",
@@ -314,8 +315,8 @@ var UnitsReportTableRow = function (_Component3) {
         }
     }]);
 
-    return UnitsReportTableRow;
+    return StudentDistributionRow;
 }(_react.Component);
 
-exports.default = OutboundAndInboundUnits;
-//# sourceMappingURL=outbound_and_inbound_units.js.map
+exports.default = DistributionOfStudents;
+//# sourceMappingURL=distribution_of_students.js.map

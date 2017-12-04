@@ -37,9 +37,7 @@ const menus = [
                 },
                 {
                     label : "Distribution of Students",
-                    click : () => {
-                        console.log("Hello, World");
-                    },
+                    click : () => makeReportWindow(reportFiles.distributionOfStudents),
                 },
             ],
         },

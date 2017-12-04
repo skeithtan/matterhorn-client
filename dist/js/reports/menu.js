@@ -31,7 +31,7 @@ var menus = [{
     }, {
         label: "Distribution of Students",
         click: function click() {
-            console.log("Hello, World");
+            return (0, _windows.makeReportWindow)(_windows.reportFiles.distributionOfStudents);
         }
     }]
 }, {

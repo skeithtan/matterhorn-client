@@ -5,19 +5,17 @@ import {
     ReportHead,
     ReportTitleContainer,
 } from "../components/reports";
-import {
-    Table,
-} from "reactstrap";
+import authorizeXHR from "../authorization";
+import $ from "jquery";
 import ErrorState from "../components/error_state";
 import LoadingSpinner from "../components/loading";
-import $ from "jquery";
+import { Table } from "reactstrap";
 import settings from "../settings";
-import authorizeXHR from "../authorization";
 
 
 function makeReportQuery(year, term) {
     return $.get({
-        url : `${settings.serverURL}/reports/unit-reports/`,
+        url : `${settings.serverURL}/reports/student-distribution-reports/`,
         beforeSend : authorizeXHR,
         data : {
             "academic-year" : year,
@@ -26,13 +24,14 @@ function makeReportQuery(year, term) {
     });
 }
 
-class OutboundAndInboundUnits extends GenericYearTermReport {
+class DistributionOfStudents extends GenericYearTermReport {
     report(year, term) {
-        return <UnitsReport year={year} term={term}/>;
+        return <StudentDistributionReport year={year}
+                                          term={term}/>;
     }
 }
 
-class UnitsReport extends Component {
+class StudentDistributionReport extends Component {
     constructor(props) {
         super(props);
 
@@ -89,35 +88,35 @@ class UnitsReport extends Component {
             <div className="report-page">
                 <ReportHead/>
                 <ReportTitleContainer>
-                    <h4>Term End Outbound and Inbound Units Report</h4>
+                    <h4>Term End Outbound and Inbound Students Distribution Report</h4>
                     <h5>{`Academic Year ${year} - ${year + 1} Term ${this.props.term}`}</h5>
                 </ReportTitleContainer>
-                <UnitsReportTable institutions={this.state.institutions}/>
+                <StudentDistributionTable institutions={this.state.institutions}/>
                 <EndOfReportIndicator/>
             </div>
         );
     }
 }
 
-class UnitsReportTable extends Component {
+class StudentDistributionTable extends Component {
     render() {
         const rows = this.props.institutions.map((institution, index) =>
-            <UnitsReportTableRow institution={institution}
-                                 key={index}/>,
+            <StudentDistributionRow institution={institution}
+                                    key={index}/>,
         );
 
-        let totalOutboundUnits = 0;
-        let totalInboundUnits = 0;
+        let totalOutboundStudents = 0;
+        let totalInboundStudents = 0;
         let totalDeficit = 0;
 
         this.props.institutions.forEach(institution => {
-            const outboundUnits = institution.outbound_units_enrolled;
-            const inboundUnits = institution.inbound_units_enrolled;
-            const difference = outboundUnits - inboundUnits;
+            const outboundCount = institution.outbound_students_count;
+            const inboundCount = institution.inbound_students_count;
+            const deficit = outboundCount - inboundCount;
 
-            totalOutboundUnits += outboundUnits;
-            totalInboundUnits += inboundUnits;
-            totalDeficit += difference;
+            totalOutboundStudents += outboundCount;
+            totalInboundStudents += inboundCount;
+            totalDeficit += deficit;
         });
 
         return (
@@ -125,8 +124,8 @@ class UnitsReportTable extends Component {
                 <thead>
                 <tr className="text-center">
                     <th>Institution</th>
-                    <th>Outbound Units</th>
-                    <th>Inbound Units</th>
+                    <th>Outbound</th>
+                    <th>Inbound</th>
                     <th>Deficit (-) / Surplus (+)</th>
                 </tr>
                 </thead>
@@ -136,8 +135,8 @@ class UnitsReportTable extends Component {
                 <tfoot className="text-right">
                 <tr>
                     <th>Total</th>
-                    <th className="numeric">{totalOutboundUnits}</th>
-                    <th className="numeric">{totalInboundUnits}</th>
+                    <th className="numeric">{totalOutboundStudents}</th>
+                    <th className="numeric">{totalInboundStudents}</th>
                     <th className="numeric">{totalDeficit}</th>
                 </tr>
                 </tfoot>
@@ -146,21 +145,21 @@ class UnitsReportTable extends Component {
     }
 }
 
-class UnitsReportTableRow extends Component {
+class StudentDistributionRow extends Component {
     render() {
-        const outboundUnitsEnrolled = this.props.institution.outbound_units_enrolled;
-        const inboundUnitsEnrolled = this.props.institution.inbound_units_enrolled;
-        const deficit = outboundUnitsEnrolled - inboundUnitsEnrolled;
+        const outboundStudentsCount = this.props.institution.outbound_students_count;
+        const inboundStudentsCount = this.props.institution.inbound_students_count;
+        const deficit = outboundStudentsCount - inboundStudentsCount;
 
         return (
             <tr>
                 <td>{this.props.institution.institution}</td>
-                <td className="numeric text-right">{outboundUnitsEnrolled}</td>
-                <td className="numeric text-right">{inboundUnitsEnrolled}</td>
+                <td className="numeric text-right">{outboundStudentsCount}</td>
+                <td className="numeric text-right">{inboundStudentsCount}</td>
                 <td className="numeric text-right">{deficit}</td>
             </tr>
         );
     }
 }
 
-export default OutboundAndInboundUnits;
+export default DistributionOfStudents;
