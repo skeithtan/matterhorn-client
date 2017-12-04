@@ -60,10 +60,8 @@ class InboundPrograms extends Component {
             activeTerm : 1,
             activeProgram : null,
             studentList : null,
-            sidebarContent : null,
         };
 
-        this.setSidebarContent = this.setSidebarContent.bind(this);
         this.refreshYears = this.refreshYears.bind(this);
         this.setActiveYear = this.setActiveYear.bind(this);
         this.setActiveTerm = this.setActiveTerm.bind(this);
@@ -71,12 +69,6 @@ class InboundPrograms extends Component {
         this.setActiveProgram = this.setActiveProgram.bind(this);
         this.studentList = this.studentList.bind(this);
         this.refreshYears();
-    }
-
-    setSidebarContent(sidebarContent) {
-        this.setState({
-            sidebarContent : sidebarContent,
-        });
     }
 
     setActiveYear(year) {
@@ -91,8 +83,6 @@ class InboundPrograms extends Component {
                 programList : result.inbound_programs,
             });
         });
-
-        this.setSidebarContent(<AcademicYearSidebarPane academicYear={ year }/>);
     }
 
     setActiveTerm(term) {
@@ -118,8 +108,6 @@ class InboundPrograms extends Component {
                 studentList : result.inbound_program.inboundstudentprogram_set,
             });
         });
-
-        this.setSidebarContent(<ProgramsSidebarPane program={ program }/>);
     }
 
     refreshYears() {
@@ -178,10 +166,6 @@ class InboundPrograms extends Component {
 
                 { this.programList() }
                 { this.studentList() }
-
-                <div className="programs-page-pane">
-                    { this.state.sidebarContent }
-                </div>
             </div>
         );
     }
