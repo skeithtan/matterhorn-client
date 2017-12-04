@@ -164,12 +164,12 @@ class ResidentAddressHistory extends Component {
                                            isOpen={this.state.editResidenceIsShowing}
                                            student={this.state.student}
                                            residence={this.state.activeResidence}
-                                           refreshResidences={this.refreshResidences}
+                                           refreshResidences={() => this.fetchHistory(this.state.student.id)}
                                            toggle={this.toggleEditResidence}/>
 
                 <ResidenceAddressFormModal isOpen={this.state.addResidenceIsShowing}
                                            student={this.state.student}
-                                           refreshResidences={this.refreshResidences}
+                                           refreshResidences={() => this.fetchHistory(this.state.student.id)}
                                            toggle={this.toggleAddResidence}/>
             </div>
         );

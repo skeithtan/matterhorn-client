@@ -185,11 +185,15 @@ var ResidentAddressHistory = function (_Component) {
                     isOpen: this.state.editResidenceIsShowing,
                     student: this.state.student,
                     residence: this.state.activeResidence,
-                    refreshResidences: this.refreshResidences,
+                    refreshResidences: function refreshResidences() {
+                        return _this3.fetchHistory(_this3.state.student.id);
+                    },
                     toggle: this.toggleEditResidence }),
                 _react2.default.createElement(_modals.ResidenceAddressFormModal, { isOpen: this.state.addResidenceIsShowing,
                     student: this.state.student,
-                    refreshResidences: this.refreshResidences,
+                    refreshResidences: function refreshResidences() {
+                        return _this3.fetchHistory(_this3.state.student.id);
+                    },
                     toggle: this.toggleAddResidence })
             );
         }
