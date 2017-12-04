@@ -69,6 +69,7 @@ var InboundPrograms = function (_Component) {
         _this.programList = _this.programList.bind(_this);
         _this.setActiveProgram = _this.setActiveProgram.bind(_this);
         _this.studentList = _this.studentList.bind(_this);
+        _this.refreshPrograms = _this.refreshPrograms.bind(_this);
         _this.refreshYears();
         return _this;
     }
@@ -133,6 +134,19 @@ var InboundPrograms = function (_Component) {
             });
         }
     }, {
+        key: "refreshPrograms",
+        value: function refreshPrograms() {
+            var _this6 = this;
+
+            fetchPrograms(this.state.activeYear, this.state.activeTerm, function (result) {
+                _this6.setState({
+                    activeProgram: null,
+                    studentList: null,
+                    programList: result.inbound_programs
+                });
+            });
+        }
+    }, {
         key: "programList",
         value: function programList() {
             if (this.state.activeYear === null) {
@@ -156,7 +170,8 @@ var InboundPrograms = function (_Component) {
                 activeTerm: this.state.activeTerm,
                 setActiveTerm: this.setActiveTerm,
                 activeProgram: this.state.activeProgram,
-                setActiveProgram: this.setActiveProgram });
+                setActiveProgram: this.setActiveProgram,
+                refreshPrograms: this.refreshPrograms });
         }
     }, {
         key: "studentList",

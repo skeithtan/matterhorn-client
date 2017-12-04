@@ -9,10 +9,25 @@ import {
     SectionRowContent,
 } from "../../components/section";
 import LoadingSpinner from "../../components/loading";
+import {
+    ProgramFormModal,
+} from "../Institutions/modals";
 
 class ProgramList extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            programFormModalIsShowing : false,
+        };
+
+        this.toggleProgramFormModal = this.toggleProgramFormModal.bind(this);
+    }
+
+    toggleProgramFormModal() {
+        this.setState({
+            programFormModalIsShowing : !this.state.programFormModalIsShowing,
+        });
     }
 
     render() {
@@ -20,11 +35,17 @@ class ProgramList extends Component {
             <div className="programs-page-pane d-flex flex-column">
                 <ProgramListHead year={ this.props.activeYear }
                                  activeTerm={ this.props.activeTerm }
-                                 setActiveTerm={ this.props.setActiveTerm }/>
+                                 setActiveTerm={ this.props.setActiveTerm }
+                                 toggleProgramFormModal={ this.toggleProgramFormModal }/>
                 <ProgramListTable programs={ this.props.programList }
-                                  activetTerm={ this.props.activeTerm }
+                                  activeTerm={ this.props.activeTerm }
                                   activeProgram={ this.props.activeProgram }
                                   setActiveProgram={ this.props.setActiveProgram }/>
+
+                <ProgramFormModal toggle={ this.toggleProgramFormModal }
+                                  refresh={ this.props.refreshPrograms }
+                                  isOpen={ this.state.programFormModalIsShowing }
+                                  institution={ null }/>
             </div>
         );
     }
@@ -56,7 +77,8 @@ class ProgramListHead extends Component {
                         <Button outline
                                 color="success"
                                 size="sm"
-                                className="ml-auto">Add Inbound Program</Button>
+                                className="ml-auto"
+                                onClick={ this.props.toggleProgramFormModal }>Add Inbound Program</Button>
                     </Form>
                 </div>
                 <div className="d-flex flex-row w-100 mb-2 align-items-center">
