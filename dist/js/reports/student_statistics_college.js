@@ -34,6 +34,8 @@ var _loading2 = _interopRequireDefault(_loading);
 
 var _reactstrap = require("reactstrap");
 
+var _recharts = require("recharts");
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -164,6 +166,7 @@ var CollegeStudentStatisticsReport = function (_Component) {
                     )
                 ),
                 _react2.default.createElement(CollegeStudentStatisticsTable, { colleges: this.state.colleges }),
+                _react2.default.createElement(CollegeStudentStatisticsChart, { colleges: this.state.colleges }),
                 _react2.default.createElement(_reports.EndOfReportIndicator, null)
             );
         }
@@ -341,6 +344,45 @@ var CollegeStudentStatisticsRow = function (_Component3) {
     }]);
 
     return CollegeStudentStatisticsRow;
+}(_react.Component);
+
+var CollegeStudentStatisticsChart = function (_Component4) {
+    _inherits(CollegeStudentStatisticsChart, _Component4);
+
+    function CollegeStudentStatisticsChart() {
+        _classCallCheck(this, CollegeStudentStatisticsChart);
+
+        return _possibleConstructorReturn(this, (CollegeStudentStatisticsChart.__proto__ || Object.getPrototypeOf(CollegeStudentStatisticsChart)).apply(this, arguments));
+    }
+
+    _createClass(CollegeStudentStatisticsChart, [{
+        key: "render",
+        value: function render() {
+            var data = this.props.colleges.map(function (college) {
+                return {
+                    name: college.abbreviation,
+                    Graduate: college.graduate_students,
+                    Undergraduate: college.undergrad_students
+                };
+            });
+
+            return _react2.default.createElement(
+                "div",
+                { className: "mt-5 d-flex justify-content-center" },
+                _react2.default.createElement(
+                    _recharts.BarChart,
+                    { width: 560, height: 240, data: data },
+                    _react2.default.createElement(_recharts.XAxis, { dataKey: "name" }),
+                    _react2.default.createElement(_recharts.YAxis, null),
+                    _react2.default.createElement(_recharts.Legend, null),
+                    _react2.default.createElement(_recharts.Bar, { dataKey: "Graduate", stackId: "a", fill: "#343a40" }),
+                    _react2.default.createElement(_recharts.Bar, { dataKey: "Undergraduate", stackId: "a", fill: "#00a357" })
+                )
+            );
+        }
+    }]);
+
+    return CollegeStudentStatisticsChart;
 }(_react.Component);
 
 exports.default = InternationalStudentStatisticsByCollege;
