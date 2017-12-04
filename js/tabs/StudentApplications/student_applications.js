@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import graphql from "../../graphql";
+import ApplicationDetail from "./application_detail";
 import {
     Button,
     Input,
@@ -58,7 +59,6 @@ function makeInboundApplicationsQuery() {
                 middle_name
                 family_name
             }
-            is_requirements_complete
         }
     }
     `);
@@ -96,7 +96,6 @@ class StudentApplications extends Component {
 
         makeInboundApplicationsQuery()
             .then(result => {
-                console.log(result.inbound_student_programs);
                 this.setState({
                     applicants : result.inbound_student_programs,
                 });
@@ -123,6 +122,10 @@ class StudentApplications extends Component {
     }
 
     setApplicants(tabName) {
+        this.setState({
+            applicants : null,
+        });
+
         if (tabName === "Inbound") {
             this.fetchInboundApplications();
         } else {
@@ -176,29 +179,31 @@ class StudentApplications extends Component {
         });
     }
 
-    // TODO: refreshing the applicants and at the same time conforming to the activeCategory
-
     render() {
         if (this.state.error) {
             return (
-                <ErrorState onRefreshButtonClick={() => this.setApplicants(this.state.activeTab.name)}>
-                    {this.state.error.toString()}
+                <ErrorState onRefreshButtonClick={ () => this.setApplicants(this.state.activeTab.name) }>
+                    { this.state.error.toString() }
                 </ErrorState>
             );
         }
 
         const applicants = this.getApplicantsByCategory(this.state.applicants);
 
+        const refresh = () => this.setApplicants(this.state.activeTab.name);
+
         return (
             <div className="container-fluid d-flex flex-row p-0 h-100">
-                <StudentApplicationsList activeCategory={this.state.activeCategory}
-                                         setActiveCategory={this.setActiveCategory}
-                                         applicants={applicants}
-                                         activeApplicant={this.state.activeApplicant}
-                                         setActiveApplicant={this.setActiveApplicant}
-                                         tabs={tabs}
-                                         activeTab={this.state.activeTab}
-                                         setActiveTab={this.setActiveTab}/>
+                <StudentApplicationsList activeCategory={ this.state.activeCategory }
+                                         setActiveCategory={ this.setActiveCategory }
+                                         applicants={ applicants }
+                                         activeApplicant={ this.state.activeApplicant }
+                                         setActiveApplicant={ this.setActiveApplicant }
+                                         tabs={ tabs }
+                                         activeTab={ this.state.activeTab }
+                                         setActiveTab={ this.setActiveTab }/>
+                <ApplicationDetail student={ this.state.activeApplicant }
+                                   refreshStudents={ refresh }/>
             </div>
         );
     }
@@ -212,15 +217,15 @@ class StudentApplicationsList extends Component {
     render() {
         return (
             <div className="sidebar h-100">
-                <StudentApplicationsListHead activeCategory={this.props.activeCategory}
-                                             setActiveCategory={this.props.setActiveCategory}/>
-                <StudentApplicationsListTable activeCategory={this.props.activeCategory}
-                                              applicants={this.props.applicants}
-                                              activeApplicant={this.props.activeApplicant}
-                                              setActiveApplicant={this.props.setActiveApplicant}/>
-                <TabBar tabs={this.props.tabs}
-                        activeTab={this.props.activeTab}
-                        setActiveTab={this.props.setActiveTab}/>
+                <StudentApplicationsListHead activeCategory={ this.props.activeCategory }
+                                             setActiveCategory={ this.props.setActiveCategory }/>
+                <StudentApplicationsListTable activeCategory={ this.props.activeCategory }
+                                              applicants={ this.props.applicants }
+                                              activeApplicant={ this.props.activeApplicant }
+                                              setActiveApplicant={ this.props.setActiveApplicant }/>
+                <TabBar tabs={ this.props.tabs }
+                        activeTab={ this.props.activeTab }
+                        setActiveTab={ this.props.setActiveTab }/>
             </div>
         );
     }
@@ -240,20 +245,20 @@ class StudentApplicationsListHead extends Component {
                         <Button outline
                                 color="success"
                                 size="sm"
-                                onClick={() => this.props.setActiveCategory("Incomplete")}
-                                active={this.props.activeCategory === "Incomplete"}>Incomplete</Button>
+                                onClick={ () => this.props.setActiveCategory("Incomplete") }
+                                active={ this.props.activeCategory === "Incomplete" }>Incomplete</Button>
                         <Button outline
                                 color="success"
                                 size="sm"
-                                onClick={() => this.props.setActiveCategory("Complete")}
-                                active={this.props.activeCategory === "Complete"}>Complete</Button>
+                                onClick={ () => this.props.setActiveCategory("Complete") }
+                                active={ this.props.activeCategory === "Complete" }>Complete</Button>
                     </div>
                     <Button outline
                             color="success"
                             className="ml-auto"
                             size="sm">Add Applicant</Button>
                 </div>
-                <h4 className="page-head-title">{this.props.activeCategory} Applications</h4>
+                <h4 className="page-head-title">{ this.props.activeCategory } Applications</h4>
                 <Input type="search"
                        placeholder="search"
                        className="search-input"/>
@@ -325,7 +330,7 @@ class StudentApplicationsListTable extends Component {
     emptyState() {
         return (
             <div className="loading-container">
-                <h4>There are no {this.props.activeCategory} applicants.</h4>
+                <h4>There are no { this.props.activeCategory } applicants.</h4>
             </div>
         );
     }
@@ -342,16 +347,16 @@ class StudentApplicationsListTable extends Component {
         const familyNameInitials = this.getStudentsByFamilyNameInitials();
 
         const sections = familyNameInitials.map((familyNameInitial, index) => {
-            return <StudentApplicationsListSection key={index}
-                                                   title={familyNameInitial.initial}
-                                                   activeApplicant={this.props.activeApplicant}
-                                                   applicants={familyNameInitial.applicants}
-                                                   setActiveApplicant={this.props.setActiveApplicant}/>;
+            return <StudentApplicationsListSection key={ index }
+                                                   title={ familyNameInitial.initial }
+                                                   activeApplicant={ this.props.activeApplicant }
+                                                   applicants={ familyNameInitial.applicants }
+                                                   setActiveApplicant={ this.props.setActiveApplicant }/>;
         });
 
         return (
             <div className="page-body">
-                {sections}
+                { sections }
             </div>
         );
     }
@@ -374,20 +379,20 @@ class StudentApplicationsListSection extends Component {
 
             return (
                 <SectionRow selectable
-                            onClick={setActiveApplicant}
-                            active={isActive}
-                            key={index}>
-                    <small className="d-block">{applicant.id_number}</small>
-                    <b>{applicant.family_name}</b>, {applicant.first_name} {applicant.middle_name}
+                            onClick={ setActiveApplicant }
+                            active={ isActive }
+                            key={ index }>
+                    <small className="d-block">{ applicant.id_number }</small>
+                    <b>{ applicant.family_name }</b>, { applicant.first_name } { applicant.middle_name }
                 </SectionRow>
             );
         });
 
         return (
             <Section>
-                <SectionTitle>{this.props.title}</SectionTitle>
+                <SectionTitle>{ this.props.title }</SectionTitle>
                 <SectionTable>
-                    {rows}
+                    { rows }
                 </SectionTable>
             </Section>
         );
