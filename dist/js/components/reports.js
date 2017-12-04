@@ -341,7 +341,7 @@ var GenericYearTermReport = function (_Component4) {
 
             return _react2.default.createElement(
                 "div",
-                null,
+                { className: "d-flex flex-column" },
                 _react2.default.createElement(YearAndTermReportBar, {
                     academicYears: this.state.academicYears,
                     activeYear: this.state.activeYear,

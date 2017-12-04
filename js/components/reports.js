@@ -207,7 +207,7 @@ class GenericYearTermReport extends Component {
         }
 
         return (
-            <div>
+            <div className="d-flex flex-column">
                 <YearAndTermReportBar
                     academicYears={this.state.academicYears}
                     activeYear={this.state.activeYear}

@@ -19,27 +19,36 @@ label {
 }
 
 .report-page {
-    padding : 120px 40px;
+    padding  : 120px 40px;
+    overflow : scroll;
 }
 
 .report-dlsu-logo {
-    width  : 80px;
-    height : 80px;
+    width  : 64px;
+    height : 64px;
 }
 
 @media print {
 
     /*This makes the printout have the same size as the html rendering*/
     body {
-        font-size : 0.8rem;
+        font-size : 0.7rem;
     }
 
     h4 {
-        font-size : 1.25rem;
+        font-size : 1.1rem;
     }
 
     h5 {
-        font-size : 1rem;
+        font-size : 0.9rem;
+    }
+
+    .p-5 {
+        padding : 2rem !important;
+    }
+
+    .table th, .table td {
+        padding : 0.6rem;
     }
 
     .report-page {
