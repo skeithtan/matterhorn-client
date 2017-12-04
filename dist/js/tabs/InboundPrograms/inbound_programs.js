@@ -26,8 +26,6 @@ var _student_list = require("./student_list");
 
 var _student_list2 = _interopRequireDefault(_student_list);
 
-var _sidebar_panes = require("../OutboundPrograms/sidebar_panes");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }

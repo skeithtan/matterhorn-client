@@ -3,10 +3,6 @@ import graphql from "../../graphql";
 import YearList from "../OutboundPrograms/year_list";
 import ProgramList from "./inbound_program_list";
 import StudentList from "./student_list";
-import {
-    AcademicYearSidebarPane,
-    ProgramsSidebarPane,
-} from "../OutboundPrograms/sidebar_panes";
 
 function fetchYears(onResult) {
     graphql.query(`

@@ -3,11 +3,6 @@ import YearList from "./year_list";
 import ProgramList from "./outbound_program_list";
 import StudentList from "./student_list";
 import graphql from "../../graphql";
-import {
-    AcademicYearSidebarPane,
-    ProgramsSidebarPane,
-} from "./sidebar_panes";
-
 
 function fetchYears(onResult) {
     graphql.query(`
@@ -62,7 +57,6 @@ class OutboundPrograms extends Component {
             activeTerm : 1,
             activeProgram : null,
             activeStudyField : null,
-            sidebarContent : null,
         };
 
         this.refreshYears = this.refreshYears.bind(this);
@@ -72,14 +66,7 @@ class OutboundPrograms extends Component {
         this.studentList = this.studentList.bind(this);
         this.refreshStudents = this.refreshStudents.bind(this);
         this.setActiveProgram = this.setActiveProgram.bind(this);
-        this.setSidebarContent = this.setSidebarContent.bind(this);
         this.refreshYears();
-    }
-
-    setSidebarContent(sidebarContent) {
-        this.setState({
-            sidebarContent : sidebarContent,
-        });
     }
 
     refreshYears() {
@@ -102,8 +89,6 @@ class OutboundPrograms extends Component {
                 programList : result.outbound_programs,
             });
         });
-
-        this.setSidebarContent(<AcademicYearSidebarPane academicYear={ year }/>);
     }
 
     setActiveTerm(term) {
@@ -130,8 +115,6 @@ class OutboundPrograms extends Component {
                 studentList : result.outbound_program.outboundstudentprogram_set,
             });
         });
-
-        this.setSidebarContent(<ProgramsSidebarPane program={ program }/>);
     }
 
     refreshStudents() {
@@ -192,10 +175,6 @@ class OutboundPrograms extends Component {
 
                 { this.programsList() }
                 { this.studentList() }
-
-                <div className="programs-page-pane">
-                    { this.state.sidebarContent }
-                </div>
 
             </div>
 
