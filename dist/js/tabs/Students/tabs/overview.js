@@ -98,6 +98,11 @@ var StudentOverview = function (_Component) {
             }
 
             makeStudentOverviewQuery(id).then(function (result) {
+                //ID from when query was made must be the same ID now
+                if (id !== _this2.props.student.id) {
+                    return;
+                }
+
                 Object.assign(_this2.state.student, result.student);
 
                 _this2.setState({

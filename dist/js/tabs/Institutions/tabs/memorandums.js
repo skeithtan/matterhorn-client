@@ -87,6 +87,11 @@ var Memorandums = function (_Component) {
             }
 
             makeMemorandumsQuery(id).then(function (result) {
+                //ID from when query was made must be the same ID now
+                if (id !== _this2.props.institution.id) {
+                    return;
+                }
+
                 _this2.state.institution.moas = result.institution.moas;
                 _this2.state.institution.mous = result.institution.mous;
 

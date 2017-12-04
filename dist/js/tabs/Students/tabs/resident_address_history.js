@@ -90,6 +90,11 @@ var ResidentAddressHistory = function (_Component) {
             }
 
             makeResidencyQuery(studentId).then(function (result) {
+                //ID from when query was made must be the same ID now
+                if (studentId !== _this2.props.student.id) {
+                    return;
+                }
+
                 _this2.state.student.residencies = result.student.residencies;
                 _this2.setState({
                     student: _this2.state.student

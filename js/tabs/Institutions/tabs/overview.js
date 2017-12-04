@@ -68,6 +68,11 @@ class InstitutionOverview extends Component {
         //Fetch active institution details
         makeInstitutionOverviewQuery(id)
             .then(result => {
+                //ID from when query was made must be the same ID now
+                if (id !== this.state.institution.id) {
+                    return;
+                }
+
                 const institution = result.institution;
 
                 // Carbon copy

@@ -72,6 +72,11 @@ class StudentOverview extends Component {
 
         makeStudentOverviewQuery(id)
             .then(result => {
+                //ID from when query was made must be the same ID now
+                if (id !== this.props.student.id) {
+                    return;
+                }
+
                 Object.assign(this.state.student, result.student);
 
                 this.setState({

@@ -70,6 +70,11 @@ class ResidentAddressHistory extends Component {
 
         makeResidencyQuery(studentId)
             .then(result => {
+                //ID from when query was made must be the same ID now
+                if (studentId !== this.props.student.id) {
+                    return;
+                }
+
                 this.state.student.residencies = result.student.residencies;
                 this.setState({
                     student : this.state.student,

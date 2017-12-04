@@ -83,6 +83,11 @@ class Memorandums extends Component {
 
         makeMemorandumsQuery(id)
             .then(result => {
+                //ID from when query was made must be the same ID now
+                if (id !== this.props.institution.id) {
+                    return;
+                }
+
                 this.state.institution.moas = result.institution.moas;
                 this.state.institution.mous = result.institution.mous;
 

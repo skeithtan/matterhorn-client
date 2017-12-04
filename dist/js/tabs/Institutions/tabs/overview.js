@@ -100,6 +100,11 @@ var InstitutionOverview = function (_Component) {
 
             //Fetch active institution details
             makeInstitutionOverviewQuery(id).then(function (result) {
+                //ID from when query was made must be the same ID now
+                if (id !== _this2.state.institution.id) {
+                    return;
+                }
+
                 var institution = result.institution;
 
                 // Carbon copy
