@@ -80,26 +80,38 @@ var ProgramListHead = function (_Component2) {
                 { className: "page-head d-flex flex-column align-items-center" },
                 _react2.default.createElement(
                     "div",
-                    { className: "page-head-controls mr-auto" },
+                    { className: "page-head-controls w-100" },
                     _react2.default.createElement(
-                        _reactstrap.Input,
-                        { type: "select", value: this.props.activeTerm,
-                            className: "ml-auto btn-sm btn-outline-success select-sm",
-                            onChange: this.onTermChange },
+                        _reactstrap.Form,
+                        { inline: true, className: "w-100" },
                         _react2.default.createElement(
-                            "option",
-                            { value: "1" },
-                            "Term 1"
+                            _reactstrap.Input,
+                            { type: "select", value: this.props.activeTerm,
+                                className: "mr-auto btn-sm btn-outline-success select-sm",
+                                onChange: this.onTermChange },
+                            _react2.default.createElement(
+                                "option",
+                                { value: "1" },
+                                "Term 1"
+                            ),
+                            _react2.default.createElement(
+                                "option",
+                                { value: "2" },
+                                "Term 2"
+                            ),
+                            _react2.default.createElement(
+                                "option",
+                                { value: "3" },
+                                "Term 3"
+                            )
                         ),
                         _react2.default.createElement(
-                            "option",
-                            { value: "2" },
-                            "Term 2"
-                        ),
-                        _react2.default.createElement(
-                            "option",
-                            { value: "3" },
-                            "Term 3"
+                            _reactstrap.Button,
+                            { outline: true,
+                                color: "success",
+                                size: "sm",
+                                className: "ml-auto" },
+                            "Add Inbound Program"
                         )
                     )
                 ),

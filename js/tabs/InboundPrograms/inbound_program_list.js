@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import {
+    Button,
+    Form,
     Input,
 } from "reactstrap";
 import {
@@ -42,14 +44,20 @@ class ProgramListHead extends Component {
     render() {
         return (
             <div className="page-head d-flex flex-column align-items-center">
-                <div className="page-head-controls mr-auto">
-                    <Input type="select" value={ this.props.activeTerm }
-                           className="ml-auto btn-sm btn-outline-success select-sm"
-                           onChange={ this.onTermChange }>
-                        <option value="1">Term 1</option>
-                        <option value="2">Term 2</option>
-                        <option value="3">Term 3</option>
-                    </Input>
+                <div className="page-head-controls w-100">
+                    <Form inline className="w-100">
+                        <Input type="select" value={ this.props.activeTerm }
+                               className="mr-auto btn-sm btn-outline-success select-sm"
+                               onChange={ this.onTermChange }>
+                            <option value="1">Term 1</option>
+                            <option value="2">Term 2</option>
+                            <option value="3">Term 3</option>
+                        </Input>
+                        <Button outline
+                                color="success"
+                                size="sm"
+                                className="ml-auto">Add Inbound Program</Button>
+                    </Form>
                 </div>
                 <div className="d-flex flex-row w-100 mb-2 align-items-center">
                     <div className="mr-auto">
