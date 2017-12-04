@@ -106,8 +106,8 @@ class StudentOverview extends Component {
     render() {
         if (this.state.error) {
             return (
-                <ErrorState onRetryButtonClick={() => this.fetchStudent(this.state.student.id)}>
-                    {this.state.error.toString()}
+                <ErrorState onRetryButtonClick={ () => this.fetchStudent(this.state.student.id) }>
+                    { this.state.error.toString() }
                 </ErrorState>
             );
         }
@@ -118,10 +118,11 @@ class StudentOverview extends Component {
 
         return (
             <div className="d-flex flex-column p-0 h-100">
-                <OverviewHead student={this.state.student}
-                              onArchiveStudent={this.props.onArchiveActiveStudent}
-                              onEditStudent={() => this.fetchStudent(this.state.student.id)}/>
-                <OverviewBody student={this.state.student}/>
+                <OverviewHead student={ this.state.student }
+                              onArchiveStudent={ this.props.onArchiveActiveStudent }
+                              onEditStudent={ () => this.fetchStudent(this.state.student.id) }
+                              applicant={ this.props.applicant }/>
+                <OverviewBody student={ this.state.student }/>
             </div>
         );
     }
@@ -191,8 +192,8 @@ class OverviewHead extends Component {
                 <div className="mr-auto">
                     <h5 className="mb-0 text-secondary">Overview</h5>
                     <h4 className="page-head-title justify-content-left d-inline-block mb-0 mr-2">
-                        {this.props.student.first_name} {this.props.student.middle_name} {this.props.student.family_name}
-                        <small className="text-muted ml-2">{this.props.student.id_number}</small>
+                        { this.props.student.first_name } { this.props.student.middle_name } { this.props.student.family_name }
+                        <small className="text-muted ml-2">{ this.props.student.id_number }</small>
                     </h4>
                 </div>
 
@@ -201,21 +202,21 @@ class OverviewHead extends Component {
                             size="sm"
                             color="success"
                             className="mr-2"
-                            onClick={this.toggleEditStudent}>
+                            onClick={ this.toggleEditStudent }>
                         Edit Student
                     </Button>
 
-                    <Button outline
-                            size="sm"
-                            color="warning"
-                            onClick={this.confirmArchive}>Archive</Button>
+                    { !this.props.applicant && <Button outline
+                                                        size="sm"
+                                                        color="warning"
+                                                        onClick={ this.confirmArchive }>Archive</Button> }
                 </div>
 
                 <StudentFormModal edit
-                                  isOpen={this.state.editStudentIsShowing}
-                                  student={this.props.student}
-                                  refresh={this.props.onEditStudent}
-                                  toggle={this.toggleEditStudent}/>
+                                  isOpen={ this.state.editStudentIsShowing }
+                                  student={ this.props.student }
+                                  refresh={ this.props.onEditStudent }
+                                  toggle={ this.toggleEditStudent }/>
             </div>
         );
     }
@@ -229,9 +230,9 @@ class OverviewBody extends Component {
     render() {
         return (
             <div className="page-body">
-                <StudentDetails student={this.props.student}/>
-                <ContactDetails student={this.props.student}/>
-                <UniversityDetails student={this.props.student}/>
+                <StudentDetails student={ this.props.student }/>
+                <ContactDetails student={ this.props.student }/>
+                <UniversityDetails student={ this.props.student }/>
             </div>
         );
     }
@@ -253,48 +254,48 @@ class StudentDetails extends Component {
                 <SectionTitle>Student Details</SectionTitle>
                 <SectionTable>
 
-                    {student.nickname.length > 0 && //Only show if student nickname exists
+                    { student.nickname.length > 0 && //Only show if student nickname exists
                     <SectionRow>
                         <SectionRowTitle>Nickname</SectionRowTitle>
-                        <SectionRowContent large={!this.props.sidebar}>{student.nickname}</SectionRowContent>
+                        <SectionRowContent large={ !this.props.sidebar }>{ student.nickname }</SectionRowContent>
                     </SectionRow>
                     }
 
                     <SectionRow>
                         <SectionRowTitle>Sex</SectionRowTitle>
-                        <SectionRowContent large={!this.props.sidebar}>{sex}</SectionRowContent>
+                        <SectionRowContent large={ !this.props.sidebar }>{ sex }</SectionRowContent>
                     </SectionRow>
 
                     <SectionRow>
                         <SectionRowTitle>Home Address</SectionRowTitle>
-                        <SectionRowContent large={!this.props.sidebar}>{student.home_address}</SectionRowContent>
+                        <SectionRowContent large={ !this.props.sidebar }>{ student.home_address }</SectionRowContent>
                     </SectionRow>
 
                     <SectionRow>
                         <SectionRowTitle>Date of Birth</SectionRowTitle>
-                        <SectionRowContent large={!this.props.sidebar}>{birthDate}</SectionRowContent>
+                        <SectionRowContent large={ !this.props.sidebar }>{ birthDate }</SectionRowContent>
                     </SectionRow>
 
-                    {student.nationality.length > 0 &&
+                    { student.nationality.length > 0 &&
                     <SectionRow>
                         <SectionRowTitle>Nationality</SectionRowTitle>
-                        <SectionRowContent large={!this.props.sidebar}>{student.nationality}</SectionRowContent>
+                        <SectionRowContent large={ !this.props.sidebar }>{ student.nationality }</SectionRowContent>
                     </SectionRow>
                     }
 
                     <SectionRow>
                         <SectionRowTitle>Civil Status</SectionRowTitle>
-                        <SectionRowContent large={!this.props.sidebar}>{civilStatus}</SectionRowContent>
+                        <SectionRowContent large={ !this.props.sidebar }>{ civilStatus }</SectionRowContent>
                     </SectionRow>
 
-                    {this.props.archived &&
+                    { this.props.archived &&
                     <SectionRow>
                         <SectionRowContent className="d-flex">
                             <Button outline
                                     color="primary"
                                     size="sm"
                                     className="ml-auto"
-                                    onClick={this.props.confirmRestore}>Restore</Button>
+                                    onClick={ this.props.confirmRestore }>Restore</Button>
                         </SectionRowContent>
                     </SectionRow>
                     }
@@ -320,24 +321,24 @@ class ContactDetails extends Component {
 
                     <SectionRow>
                         <SectionRowTitle>Phone Number</SectionRowTitle>
-                        <SectionRowContent large={!this.props.sidebar}>{student.phone_number}</SectionRowContent>
+                        <SectionRowContent large={ !this.props.sidebar }>{ student.phone_number }</SectionRowContent>
                     </SectionRow>
 
                     <SectionRow>
                         <SectionRowTitle>Email</SectionRowTitle>
-                        <SectionRowContent large={!this.props.sidebar}>{student.email}</SectionRowContent>
+                        <SectionRowContent large={ !this.props.sidebar }>{ student.email }</SectionRowContent>
                     </SectionRow>
 
                     <SectionRow>
                         <SectionRowTitle>Emergency Contact</SectionRowTitle>
                         <SectionRowContent
-                            large={!this.props.sidebar}>{`${student.emergency_contact_name} (${student.emergency_contact_relationship})`}</SectionRowContent>
+                            large={ !this.props.sidebar }>{ `${student.emergency_contact_name} (${student.emergency_contact_relationship})` }</SectionRowContent>
                     </SectionRow>
 
                     <SectionRow>
                         <SectionRowTitle>Emergency Contact Number</SectionRowTitle>
                         <SectionRowContent
-                            large={!this.props.sidebar}>{student.emergency_contact_number}</SectionRowContent>
+                            large={ !this.props.sidebar }>{ student.emergency_contact_number }</SectionRowContent>
                     </SectionRow>
 
                 </SectionTable>
@@ -363,20 +364,20 @@ class UniversityDetails extends Component {
 
                     <SectionRow>
                         <SectionRowTitle>Student Type</SectionRowTitle>
-                        <SectionRowContent large={!this.props.sidebar}>{type}</SectionRowContent>
+                        <SectionRowContent large={ !this.props.sidebar }>{ type }</SectionRowContent>
                     </SectionRow>
 
-                    {student.category === "IN" &&
+                    { student.category === "IN" &&
                     <SectionRow>
                         <SectionRowTitle>Institution</SectionRowTitle>
                         <SectionRowContent
-                            large={!this.props.sidebar}>{student.institution.name}</SectionRowContent>
+                            large={ !this.props.sidebar }>{ student.institution.name }</SectionRowContent>
                     </SectionRow>
                     }
 
                     <SectionRow>
                         <SectionRowTitle>College</SectionRowTitle>
-                        <SectionRowContent large={!this.props.sidebar}>{college}</SectionRowContent>
+                        <SectionRowContent large={ !this.props.sidebar }>{ college }</SectionRowContent>
                     </SectionRow>
 
                 </SectionTable>
