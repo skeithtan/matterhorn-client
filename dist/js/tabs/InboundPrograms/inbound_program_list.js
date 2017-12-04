@@ -18,6 +18,8 @@ var _loading = require("../../components/loading");
 
 var _loading2 = _interopRequireDefault(_loading);
 
+var _modals = require("../Institutions/modals");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -32,10 +34,24 @@ var ProgramList = function (_Component) {
     function ProgramList(props) {
         _classCallCheck(this, ProgramList);
 
-        return _possibleConstructorReturn(this, (ProgramList.__proto__ || Object.getPrototypeOf(ProgramList)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (ProgramList.__proto__ || Object.getPrototypeOf(ProgramList)).call(this, props));
+
+        _this.state = {
+            programFormModalIsShowing: false
+        };
+
+        _this.toggleProgramFormModal = _this.toggleProgramFormModal.bind(_this);
+        return _this;
     }
 
     _createClass(ProgramList, [{
+        key: "toggleProgramFormModal",
+        value: function toggleProgramFormModal() {
+            this.setState({
+                programFormModalIsShowing: !this.state.programFormModalIsShowing
+            });
+        }
+    }, {
         key: "render",
         value: function render() {
             return _react2.default.createElement(
@@ -43,11 +59,16 @@ var ProgramList = function (_Component) {
                 { className: "programs-page-pane d-flex flex-column" },
                 _react2.default.createElement(ProgramListHead, { year: this.props.activeYear,
                     activeTerm: this.props.activeTerm,
-                    setActiveTerm: this.props.setActiveTerm }),
+                    setActiveTerm: this.props.setActiveTerm,
+                    toggleProgramFormModal: this.toggleProgramFormModal }),
                 _react2.default.createElement(ProgramListTable, { programs: this.props.programList,
-                    activetTerm: this.props.activeTerm,
+                    activeTerm: this.props.activeTerm,
                     activeProgram: this.props.activeProgram,
-                    setActiveProgram: this.props.setActiveProgram })
+                    setActiveProgram: this.props.setActiveProgram }),
+                _react2.default.createElement(_modals.ProgramFormModal, { toggle: this.toggleProgramFormModal,
+                    refresh: this.props.refreshPrograms,
+                    isOpen: this.state.programFormModalIsShowing,
+                    institution: null })
             );
         }
     }]);
@@ -110,7 +131,8 @@ var ProgramListHead = function (_Component2) {
                             { outline: true,
                                 color: "success",
                                 size: "sm",
-                                className: "ml-auto" },
+                                className: "ml-auto",
+                                onClick: this.props.toggleProgramFormModal },
                             "Add Inbound Program"
                         )
                     )

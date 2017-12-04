@@ -64,6 +64,7 @@ class InboundPrograms extends Component {
         this.programList = this.programList.bind(this);
         this.setActiveProgram = this.setActiveProgram.bind(this);
         this.studentList = this.studentList.bind(this);
+        this.refreshPrograms = this.refreshPrograms.bind(this);
         this.refreshYears();
     }
 
@@ -114,6 +115,16 @@ class InboundPrograms extends Component {
         });
     }
 
+    refreshPrograms() {
+        fetchPrograms(this.state.activeYear, this.state.activeTerm, result => {
+            this.setState({
+                activeProgram : null,
+                studentList : null,
+                programList : result.inbound_programs,
+            });
+        });
+    }
+
     programList() {
         if (this.state.activeYear === null) {
             return (
@@ -131,7 +142,8 @@ class InboundPrograms extends Component {
                          activeTerm={ this.state.activeTerm }
                          setActiveTerm={ this.setActiveTerm }
                          activeProgram={ this.state.activeProgram }
-                         setActiveProgram={ this.setActiveProgram }/>
+                         setActiveProgram={ this.setActiveProgram }
+                         refreshPrograms={ this.refreshPrograms }/>
         );
     }
 
