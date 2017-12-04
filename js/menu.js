@@ -5,7 +5,7 @@ import {
 import {
     makeReportWindow,
     reportFiles,
-} from "./windows";
+} from "./reports/windows";
 
 
 const menus = [
@@ -21,6 +21,7 @@ const menus = [
                         },
                         {
                             label : "Outbound Default Vs Total",
+                            click : () => makeReportWindow(reportFiles.outboundDefaultVsTotalUnits),
                         },
                     ],
                 },
@@ -44,11 +45,19 @@ const menus = [
             ],
         },
         {
+            label : "Settings",
+            submenu : [
+                {
+                    label : "Academic Years",
+                },
+                {
+                    label : "Requirements",
+                },
+            ],
+        },
+        {
             label : "Edit",
             submenu : [
-                { role : "undo" },
-                { role : "redo" },
-                { type : "separator" },
                 { role : "cut" },
                 { role : "copy" },
                 { role : "paste" },
@@ -61,12 +70,6 @@ const menus = [
             label : "View",
             submenu : [
                 { role : "reload" },
-                { role : "forcereload" },
-                { role : "toggledevtools" },
-                { type : "separator" },
-                { role : "resetzoom" },
-                { role : "zoomin" },
-                { role : "zoomout" },
                 { type : "separator" },
                 { role : "togglefullscreen" },
             ],
@@ -115,6 +118,7 @@ const menu = Menu.buildFromTemplate(menus);
 
 function toggleMenus(enabled) {
     const reportsMenu = process.platform === "darwin" ? menu.items[1] : menu.items[0];
+    const settingsMenu = process.platform === "darwin" ? menu.items[2] : menu.items[1];
 
     reportsMenu.enabled = false;
 
@@ -130,6 +134,7 @@ function toggleMenus(enabled) {
     }
 
     applyToSubmenus(reportsMenu.submenu);
+    applyToSubmenus(settingsMenu.submenu);
 }
 
 export {

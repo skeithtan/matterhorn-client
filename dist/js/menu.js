@@ -7,7 +7,7 @@ exports.toggleMenus = exports.default = undefined;
 
 var _electron = require("electron");
 
-var _windows = require("./windows");
+var _windows = require("./reports/windows");
 
 var menus = [{
     label: "Generate Reports",
@@ -19,7 +19,10 @@ var menus = [{
                 return (0, _windows.makeReportWindow)(_windows.reportFiles.outboundAndInboundUnits);
             }
         }, {
-            label: "Outbound Default Vs Total"
+            label: "Outbound Default Vs Total",
+            click: function click() {
+                return (0, _windows.makeReportWindow)(_windows.reportFiles.outboundDefaultVsTotalUnits);
+            }
         }]
     }, {
         label: "International Students Statistics",
@@ -41,13 +44,18 @@ var menus = [{
         }
     }]
 }, {
-    label: ""
+    label: "Settings",
+    submenu: [{
+        label: "Academic Years"
+    }, {
+        label: "Requirements"
+    }]
 }, {
     label: "Edit",
-    submenu: [{ role: "undo" }, { role: "redo" }, { type: "separator" }, { role: "cut" }, { role: "copy" }, { role: "paste" }, { role: "pasteandmatchstyle" }, { role: "delete" }, { role: "selectall" }]
+    submenu: [{ role: "cut" }, { role: "copy" }, { role: "paste" }, { role: "pasteandmatchstyle" }, { role: "delete" }, { role: "selectall" }]
 }, {
     label: "View",
-    submenu: [{ role: "reload" }, { role: "forcereload" }, { role: "toggledevtools" }, { type: "separator" }, { role: "resetzoom" }, { role: "zoomin" }, { role: "zoomout" }, { type: "separator" }, { role: "togglefullscreen" }]
+    submenu: [{ role: "reload" }, { type: "separator" }, { role: "togglefullscreen" }]
 }, {
     role: "window",
     submenu: [{ role: "minimize" }, { role: "close" }]
@@ -70,6 +78,7 @@ var menu = _electron.Menu.buildFromTemplate(menus);
 
 function toggleMenus(enabled) {
     var reportsMenu = process.platform === "darwin" ? menu.items[1] : menu.items[0];
+    var settingsMenu = process.platform === "darwin" ? menu.items[2] : menu.items[1];
 
     reportsMenu.enabled = false;
 
@@ -85,6 +94,7 @@ function toggleMenus(enabled) {
     }
 
     applyToSubmenus(reportsMenu.submenu);
+    applyToSubmenus(settingsMenu.submenu);
 }
 
 exports.default = menu;

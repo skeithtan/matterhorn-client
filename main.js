@@ -2,7 +2,7 @@ const { app, BrowserWindow, ipcMain, Menu } = require("electron");
 const path = require("path");
 const url = require("url");
 
-const { default : menu, toggleMenus } = require("./dist/js/reports/menu");
+const { default : menu, toggleMenus } = require("./dist/js/menu");
 
 
 // Keep a global reference of the window object, if you don't, the window will

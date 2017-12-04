@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Term End Outbound and Inbound Units Report</title>
+    <title>Term End Outbound Default vs Total Units Report</title>
 
     <!--Stylesheet-->
     <!--Bootstrap-->
@@ -29,9 +29,9 @@
 
     const React = require("react");
     const ReactDOM = require("react-dom");
-    const OutboundDefaultVsTotalUnits = require("../dist/js/reports/default_vs_total_units").default;
+    const OutboundAndInboundUnits = require("../dist/js/reports/outbound_and_inbound_units").default;
 
-    ReactDOM.render(React.createElement(OutboundDefaultVsTotalUnits, null), document.getElementById("root"));
+    ReactDOM.render(React.createElement(OutboundAndInboundUnits, null), document.getElementById("root"));
 </script>
 
 </body>
