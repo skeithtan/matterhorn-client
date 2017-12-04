@@ -33,6 +33,7 @@ const menus = [
                         },
                         {
                             label : "By College",
+                            click : () => makeReportWindow(reportFiles.studentStatisticsCollege),
                         },
                     ],
                 },

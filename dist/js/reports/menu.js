@@ -29,7 +29,10 @@ var menus = [{
                 return (0, _windows.makeReportWindow)(_windows.reportFiles.studentStatisticsCountry);
             }
         }, {
-            label: "By College"
+            label: "By College",
+            click: function click() {
+                return (0, _windows.makeReportWindow)(_windows.reportFiles.studentStatisticsCollege);
+            }
         }]
     }, {
         label: "Distribution of Students",

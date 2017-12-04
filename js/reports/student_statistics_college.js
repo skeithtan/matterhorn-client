@@ -1,13 +1,13 @@
 import React, { Component } from "react";
+import * as $ from "jquery";
+import settings from "../settings";
+import authorizeXHR from "../authorization";
 import {
     EndOfReportIndicator,
     GenericYearTermReport,
     ReportHead,
     ReportTitleContainer,
 } from "../components/reports";
-import * as $ from "jquery";
-import settings from "../settings";
-import authorizeXHR from "../authorization";
 import ErrorState from "../components/error_state";
 import LoadingSpinner from "../components/loading";
 import { Table } from "reactstrap";
@@ -18,26 +18,26 @@ function makeReportQuery(year, term) {
         url : `${settings.serverURL}/reports/inbound-statistics-reports/`,
         beforeSend : authorizeXHR,
         data : {
-            "filter" : "country",
+            "filter" : "college",
             "academic-year" : year,
             "term" : term,
         },
     });
 }
 
-class InternationalStudentStatisticsByCountry extends GenericYearTermReport {
+class InternationalStudentStatisticsByCollege extends GenericYearTermReport {
     report(year, term) {
-        return <CountryStudentStatisticsReport year={year}
+        return <CollegeStudentStatisticsReport year={year}
                                                term={term}/>;
     }
 }
 
-class CountryStudentStatisticsReport extends Component {
+class CollegeStudentStatisticsReport extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            countries : null,
+            colleges : null,
             error : null,
         };
 
@@ -53,8 +53,8 @@ class CountryStudentStatisticsReport extends Component {
         }
 
         makeReportQuery(year, term)
-            .done(countries => this.setState({
-                countries : countries,
+            .done(colleges => this.setState({
+                colleges : colleges,
             }))
             .fail(() => this.setState({
                 error : "AJAX Error at fetchReport()",
@@ -63,7 +63,7 @@ class CountryStudentStatisticsReport extends Component {
 
     componentWillReceiveProps(props) {
         this.setState({
-            countries : null,
+            colleges : null,
         });
 
         this.fetchReport(props.year, props.term);
@@ -78,7 +78,7 @@ class CountryStudentStatisticsReport extends Component {
             );
         }
 
-        if (this.state.countries === null) {
+        if (this.state.colleges === null) {
             return <LoadingSpinner/>;
         }
 
@@ -88,35 +88,35 @@ class CountryStudentStatisticsReport extends Component {
             <div className="report-page">
                 <ReportHead/>
                 <ReportTitleContainer>
-                    <h4>Distribution of International Students (IS) by Country</h4>
+                    <h4>Distribution of International Students (IS) by College</h4>
                     <h5>{`Academic Year ${year} - ${year + 1} Term ${this.props.term}`}</h5>
                 </ReportTitleContainer>
-                <CountryStudentStatisticsTable countries={this.state.countries}/>
+                <CollegeStudentStatisticsTable colleges={this.state.colleges}/>
                 <EndOfReportIndicator/>
             </div>
         );
     }
 }
 
-class CountryStudentStatisticsTable extends Component {
+class CollegeStudentStatisticsTable extends Component {
     render() {
         let totalGradSchool = 0;
         let totalUnderGradSchool = 0;
         let grandTotal = 0;
 
-        this.props.countries.forEach(country => {
-            const gradSchool = country.graduate_students;
-            const underGradSchool = country.undergrad_students;
-            const countryTotal = gradSchool + underGradSchool;
+        this.props.colleges.forEach(college => {
+            const gradSchool = college.graduate_students;
+            const underGradSchool = college.undergrad_students;
+            const collegeTotal = gradSchool + underGradSchool;
 
             totalGradSchool += gradSchool;
             totalUnderGradSchool += underGradSchool;
-            grandTotal += countryTotal;
+            grandTotal += collegeTotal;
         });
 
-        const rows = this.props.countries.map((country, index) =>
-            <CountryStudentStatisticsRow key={index}
-                                         country={country}
+        const rows = this.props.colleges.map((college, index) =>
+            <CollegeStudentStatisticsRow key={index}
+                                         college={college}
                                          grandTotal={grandTotal}/>,
         );
 
@@ -124,7 +124,7 @@ class CountryStudentStatisticsTable extends Component {
             <Table>
                 <thead>
                 <tr className="text-center">
-                    <th>Country</th>
+                    <th>College</th>
                     <th>Graduate Students</th>
                     <th>Undergraduate Students</th>
                     <th>Total Students</th>
@@ -148,28 +148,28 @@ class CountryStudentStatisticsTable extends Component {
     }
 }
 
-class CountryStudentStatisticsRow extends Component {
+class CollegeStudentStatisticsRow extends Component {
     render() {
-        const gradSchool = this.props.country.graduate_students;
-        const underGradSchool = this.props.country.undergrad_students;
-        const countryTotal = gradSchool + underGradSchool;
+        const gradSchool = this.props.college.graduate_students;
+        const underGradSchool = this.props.college.undergrad_students;
+        const collegeTotal = gradSchool + underGradSchool;
 
         let percentage = 0;
 
         if (this.props.grandTotal !== 0) {
-            percentage = (countryTotal * 100 / this.props.grandTotal).toFixed(1);
+            percentage = (collegeTotal * 100 / this.props.grandTotal).toFixed(1);
         }
 
         return (
             <tr>
-                <td>{this.props.country.country}</td>
+                <td>{this.props.college.college}</td>
                 <td className="numeric text-right">{gradSchool}</td>
                 <td className="numeric text-right">{underGradSchool}</td>
-                <td className="numeric text-right">{countryTotal}</td>
+                <td className="numeric text-right">{collegeTotal}</td>
                 <td className="numeric text-right">{percentage}%</td>
             </tr>
         );
     }
 }
 
-export default InternationalStudentStatisticsByCountry;
+export default InternationalStudentStatisticsByCollege;

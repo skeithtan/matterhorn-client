@@ -10,8 +10,6 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reports = require("../components/reports");
-
 var _jquery = require("jquery");
 
 var $ = _interopRequireWildcard(_jquery);
@@ -23,6 +21,8 @@ var _settings2 = _interopRequireDefault(_settings);
 var _authorization = require("../authorization");
 
 var _authorization2 = _interopRequireDefault(_authorization);
+
+var _reports = require("../components/reports");
 
 var _error_state = require("../components/error_state");
 
@@ -49,43 +49,43 @@ function makeReportQuery(year, term) {
         url: _settings2.default.serverURL + "/reports/inbound-statistics-reports/",
         beforeSend: _authorization2.default,
         data: {
-            "filter": "country",
+            "filter": "college",
             "academic-year": year,
             "term": term
         }
     });
 }
 
-var InternationalStudentStatisticsByCountry = function (_GenericYearTermRepor) {
-    _inherits(InternationalStudentStatisticsByCountry, _GenericYearTermRepor);
+var InternationalStudentStatisticsByCollege = function (_GenericYearTermRepor) {
+    _inherits(InternationalStudentStatisticsByCollege, _GenericYearTermRepor);
 
-    function InternationalStudentStatisticsByCountry() {
-        _classCallCheck(this, InternationalStudentStatisticsByCountry);
+    function InternationalStudentStatisticsByCollege() {
+        _classCallCheck(this, InternationalStudentStatisticsByCollege);
 
-        return _possibleConstructorReturn(this, (InternationalStudentStatisticsByCountry.__proto__ || Object.getPrototypeOf(InternationalStudentStatisticsByCountry)).apply(this, arguments));
+        return _possibleConstructorReturn(this, (InternationalStudentStatisticsByCollege.__proto__ || Object.getPrototypeOf(InternationalStudentStatisticsByCollege)).apply(this, arguments));
     }
 
-    _createClass(InternationalStudentStatisticsByCountry, [{
+    _createClass(InternationalStudentStatisticsByCollege, [{
         key: "report",
         value: function report(year, term) {
-            return _react2.default.createElement(CountryStudentStatisticsReport, { year: year,
+            return _react2.default.createElement(CollegeStudentStatisticsReport, { year: year,
                 term: term });
         }
     }]);
 
-    return InternationalStudentStatisticsByCountry;
+    return InternationalStudentStatisticsByCollege;
 }(_reports.GenericYearTermReport);
 
-var CountryStudentStatisticsReport = function (_Component) {
-    _inherits(CountryStudentStatisticsReport, _Component);
+var CollegeStudentStatisticsReport = function (_Component) {
+    _inherits(CollegeStudentStatisticsReport, _Component);
 
-    function CountryStudentStatisticsReport(props) {
-        _classCallCheck(this, CountryStudentStatisticsReport);
+    function CollegeStudentStatisticsReport(props) {
+        _classCallCheck(this, CollegeStudentStatisticsReport);
 
-        var _this2 = _possibleConstructorReturn(this, (CountryStudentStatisticsReport.__proto__ || Object.getPrototypeOf(CountryStudentStatisticsReport)).call(this, props));
+        var _this2 = _possibleConstructorReturn(this, (CollegeStudentStatisticsReport.__proto__ || Object.getPrototypeOf(CollegeStudentStatisticsReport)).call(this, props));
 
         _this2.state = {
-            countries: null,
+            colleges: null,
             error: null
         };
 
@@ -94,7 +94,7 @@ var CountryStudentStatisticsReport = function (_Component) {
         return _this2;
     }
 
-    _createClass(CountryStudentStatisticsReport, [{
+    _createClass(CollegeStudentStatisticsReport, [{
         key: "fetchReport",
         value: function fetchReport(year, term) {
             var _this3 = this;
@@ -105,9 +105,9 @@ var CountryStudentStatisticsReport = function (_Component) {
                 });
             }
 
-            makeReportQuery(year, term).done(function (countries) {
+            makeReportQuery(year, term).done(function (colleges) {
                 return _this3.setState({
-                    countries: countries
+                    colleges: colleges
                 });
             }).fail(function () {
                 return _this3.setState({
@@ -119,7 +119,7 @@ var CountryStudentStatisticsReport = function (_Component) {
         key: "componentWillReceiveProps",
         value: function componentWillReceiveProps(props) {
             this.setState({
-                countries: null
+                colleges: null
             });
 
             this.fetchReport(props.year, props.term);
@@ -139,7 +139,7 @@ var CountryStudentStatisticsReport = function (_Component) {
                 );
             }
 
-            if (this.state.countries === null) {
+            if (this.state.colleges === null) {
                 return _react2.default.createElement(_loading2.default, null);
             }
 
@@ -155,7 +155,7 @@ var CountryStudentStatisticsReport = function (_Component) {
                     _react2.default.createElement(
                         "h4",
                         null,
-                        "Distribution of International Students (IS) by Country"
+                        "Distribution of International Students (IS) by College"
                     ),
                     _react2.default.createElement(
                         "h5",
@@ -163,44 +163,44 @@ var CountryStudentStatisticsReport = function (_Component) {
                         "Academic Year " + year + " - " + (year + 1) + " Term " + this.props.term
                     )
                 ),
-                _react2.default.createElement(CountryStudentStatisticsTable, { countries: this.state.countries }),
+                _react2.default.createElement(CollegeStudentStatisticsTable, { colleges: this.state.colleges }),
                 _react2.default.createElement(_reports.EndOfReportIndicator, null)
             );
         }
     }]);
 
-    return CountryStudentStatisticsReport;
+    return CollegeStudentStatisticsReport;
 }(_react.Component);
 
-var CountryStudentStatisticsTable = function (_Component2) {
-    _inherits(CountryStudentStatisticsTable, _Component2);
+var CollegeStudentStatisticsTable = function (_Component2) {
+    _inherits(CollegeStudentStatisticsTable, _Component2);
 
-    function CountryStudentStatisticsTable() {
-        _classCallCheck(this, CountryStudentStatisticsTable);
+    function CollegeStudentStatisticsTable() {
+        _classCallCheck(this, CollegeStudentStatisticsTable);
 
-        return _possibleConstructorReturn(this, (CountryStudentStatisticsTable.__proto__ || Object.getPrototypeOf(CountryStudentStatisticsTable)).apply(this, arguments));
+        return _possibleConstructorReturn(this, (CollegeStudentStatisticsTable.__proto__ || Object.getPrototypeOf(CollegeStudentStatisticsTable)).apply(this, arguments));
     }
 
-    _createClass(CountryStudentStatisticsTable, [{
+    _createClass(CollegeStudentStatisticsTable, [{
         key: "render",
         value: function render() {
             var totalGradSchool = 0;
             var totalUnderGradSchool = 0;
             var grandTotal = 0;
 
-            this.props.countries.forEach(function (country) {
-                var gradSchool = country.graduate_students;
-                var underGradSchool = country.undergrad_students;
-                var countryTotal = gradSchool + underGradSchool;
+            this.props.colleges.forEach(function (college) {
+                var gradSchool = college.graduate_students;
+                var underGradSchool = college.undergrad_students;
+                var collegeTotal = gradSchool + underGradSchool;
 
                 totalGradSchool += gradSchool;
                 totalUnderGradSchool += underGradSchool;
-                grandTotal += countryTotal;
+                grandTotal += collegeTotal;
             });
 
-            var rows = this.props.countries.map(function (country, index) {
-                return _react2.default.createElement(CountryStudentStatisticsRow, { key: index,
-                    country: country,
+            var rows = this.props.colleges.map(function (college, index) {
+                return _react2.default.createElement(CollegeStudentStatisticsRow, { key: index,
+                    college: college,
                     grandTotal: grandTotal });
             });
 
@@ -216,7 +216,7 @@ var CountryStudentStatisticsTable = function (_Component2) {
                         _react2.default.createElement(
                             "th",
                             null,
-                            "Country"
+                            "College"
                         ),
                         _react2.default.createElement(
                             "th",
@@ -282,29 +282,29 @@ var CountryStudentStatisticsTable = function (_Component2) {
         }
     }]);
 
-    return CountryStudentStatisticsTable;
+    return CollegeStudentStatisticsTable;
 }(_react.Component);
 
-var CountryStudentStatisticsRow = function (_Component3) {
-    _inherits(CountryStudentStatisticsRow, _Component3);
+var CollegeStudentStatisticsRow = function (_Component3) {
+    _inherits(CollegeStudentStatisticsRow, _Component3);
 
-    function CountryStudentStatisticsRow() {
-        _classCallCheck(this, CountryStudentStatisticsRow);
+    function CollegeStudentStatisticsRow() {
+        _classCallCheck(this, CollegeStudentStatisticsRow);
 
-        return _possibleConstructorReturn(this, (CountryStudentStatisticsRow.__proto__ || Object.getPrototypeOf(CountryStudentStatisticsRow)).apply(this, arguments));
+        return _possibleConstructorReturn(this, (CollegeStudentStatisticsRow.__proto__ || Object.getPrototypeOf(CollegeStudentStatisticsRow)).apply(this, arguments));
     }
 
-    _createClass(CountryStudentStatisticsRow, [{
+    _createClass(CollegeStudentStatisticsRow, [{
         key: "render",
         value: function render() {
-            var gradSchool = this.props.country.graduate_students;
-            var underGradSchool = this.props.country.undergrad_students;
-            var countryTotal = gradSchool + underGradSchool;
+            var gradSchool = this.props.college.graduate_students;
+            var underGradSchool = this.props.college.undergrad_students;
+            var collegeTotal = gradSchool + underGradSchool;
 
             var percentage = 0;
 
             if (this.props.grandTotal !== 0) {
-                percentage = (countryTotal * 100 / this.props.grandTotal).toFixed(1);
+                percentage = (collegeTotal * 100 / this.props.grandTotal).toFixed(1);
             }
 
             return _react2.default.createElement(
@@ -313,7 +313,7 @@ var CountryStudentStatisticsRow = function (_Component3) {
                 _react2.default.createElement(
                     "td",
                     null,
-                    this.props.country.country
+                    this.props.college.college
                 ),
                 _react2.default.createElement(
                     "td",
@@ -328,7 +328,7 @@ var CountryStudentStatisticsRow = function (_Component3) {
                 _react2.default.createElement(
                     "td",
                     { className: "numeric text-right" },
-                    countryTotal
+                    collegeTotal
                 ),
                 _react2.default.createElement(
                     "td",
@@ -340,8 +340,8 @@ var CountryStudentStatisticsRow = function (_Component3) {
         }
     }]);
 
-    return CountryStudentStatisticsRow;
+    return CollegeStudentStatisticsRow;
 }(_react.Component);
 
-exports.default = InternationalStudentStatisticsByCountry;
-//# sourceMappingURL=student_statistics_country.js.map
+exports.default = InternationalStudentStatisticsByCollege;
+//# sourceMappingURL=student_statistics_college.js.map
