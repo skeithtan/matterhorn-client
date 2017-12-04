@@ -58,6 +58,7 @@ function makeInboundApplicationsQuery() {
                 middle_name
                 family_name
             }
+            is_requirements_complete
         }
     }
     `);
