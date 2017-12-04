@@ -29,6 +29,7 @@ const menus = [
                     submenu : [
                         {
                             label : "By Country",
+                            click : () => makeReportWindow(reportFiles.studentStatisticsCountry),
                         },
                         {
                             label : "By College",

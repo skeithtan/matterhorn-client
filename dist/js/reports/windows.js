@@ -39,7 +39,8 @@ function makeReportWindow(file) {
 
 var reportFiles = {
     outboundAndInboundUnits: "../../../reports/outbound_and_inbound_units.html",
-    distributionOfStudents: "../../../reports/distribution_of_students.html"
+    distributionOfStudents: "../../../reports/distribution_of_students.html",
+    studentStatisticsCountry: "../../../reports/student_statistics_country.html"
 };
 
 exports.makeReportWindow = makeReportWindow;

@@ -24,7 +24,10 @@ var menus = [{
     }, {
         label: "International Students Statistics",
         submenu: [{
-            label: "By Country"
+            label: "By Country",
+            click: function click() {
+                return (0, _windows.makeReportWindow)(_windows.reportFiles.studentStatisticsCountry);
+            }
         }, {
             label: "By College"
         }]
