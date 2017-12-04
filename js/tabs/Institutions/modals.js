@@ -68,8 +68,8 @@ class InstitutionFormModal extends Component {
                 contact_person_name : "",
                 contact_person_number : "",
                 agreement : "B",
-            }
-        })
+            },
+        });
     }
 
     getFormErrors() {
@@ -369,7 +369,7 @@ class MemorandumFormModal extends Component {
                 college_initiator : "",
                 linkages : [],
             },
-        })
+        });
     }
 
     getFormErrors() {
@@ -658,18 +658,42 @@ class ProgramFormModal extends Component {
             step : "Overview",
         };
 
+        this.resetForm = this.resetForm.bind(this);
+        this.onTermClick = this.onTermClick.bind(this);
         this.overviewForm = this.overviewForm.bind(this);
         this.requirementForm = this.requirementForm.bind(this);
-        this.onTermClick = this.onTermClick.bind(this);
+        this.getChangeHandler = this.getChangeHandler.bind(this);
+        this.submitAddProgramForm = this.submitAddProgramForm.bind(this);
         this.getOverviewFormErrors = this.getOverviewFormErrors.bind(this);
         this.getRequirementFormErrors = this.getRequirementFormErrors.bind(this);
-        this.submitAddProgramForm = this.submitAddProgramForm.bind(this);
-        this.getChangeHandler = this.getChangeHandler.bind(this);
 
         fetchYears(result => {
             this.setState({
                 academic_years : result.academic_years.map(academicYear => academicYear.academic_year_start),
             });
+        });
+    }
+
+    resetForm() {
+        this.setState({
+            form : {
+                institution : this.props.institution,
+                name : "",
+                linkage : "SE",
+                academic_year : "",
+                terms_available : [],
+                is_graduate : false,
+                requirement_deadline : "",
+            },
+            step : "Overview",
+        });
+    }
+
+    componentWillReceiveProps(props) {
+        this.state.form.institution = props.institution;
+
+        this.setState({
+            form : this.state.form,
         });
     }
 
@@ -721,10 +745,11 @@ class ProgramFormModal extends Component {
             beforeSend : authorizeXHR,
         }).done(() => {
             dismissToast();
+            this.resetForm();
             this.props.refresh();
             iziToast.success({
                 title : "Success",
-                message : "Successfully added memorandum",
+                message : "Successfully added program",
             });
         }).fail(response => {
             dismissToast();

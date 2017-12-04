@@ -931,13 +931,14 @@ var ProgramFormModal = function (_Component3) {
             step: "Overview"
         };
 
+        _this11.resetForm = _this11.resetForm.bind(_this11);
+        _this11.onTermClick = _this11.onTermClick.bind(_this11);
         _this11.overviewForm = _this11.overviewForm.bind(_this11);
         _this11.requirementForm = _this11.requirementForm.bind(_this11);
-        _this11.onTermClick = _this11.onTermClick.bind(_this11);
+        _this11.getChangeHandler = _this11.getChangeHandler.bind(_this11);
+        _this11.submitAddProgramForm = _this11.submitAddProgramForm.bind(_this11);
         _this11.getOverviewFormErrors = _this11.getOverviewFormErrors.bind(_this11);
         _this11.getRequirementFormErrors = _this11.getRequirementFormErrors.bind(_this11);
-        _this11.submitAddProgramForm = _this11.submitAddProgramForm.bind(_this11);
-        _this11.getChangeHandler = _this11.getChangeHandler.bind(_this11);
 
         (0, _outbound_programs.fetchYears)(function (result) {
             _this11.setState({
@@ -950,6 +951,31 @@ var ProgramFormModal = function (_Component3) {
     }
 
     _createClass(ProgramFormModal, [{
+        key: "resetForm",
+        value: function resetForm() {
+            this.setState({
+                form: {
+                    institution: this.props.institution,
+                    name: "",
+                    linkage: "SE",
+                    academic_year: "",
+                    terms_available: [],
+                    is_graduate: false,
+                    requirement_deadline: ""
+                },
+                step: "Overview"
+            });
+        }
+    }, {
+        key: "componentWillReceiveProps",
+        value: function componentWillReceiveProps(props) {
+            this.state.form.institution = props.institution;
+
+            this.setState({
+                form: this.state.form
+            });
+        }
+    }, {
         key: "getOverviewFormErrors",
         value: function getOverviewFormErrors() {
 
@@ -1001,10 +1027,11 @@ var ProgramFormModal = function (_Component3) {
                 beforeSend: _authorization2.default
             }).done(function () {
                 dismissToast();
+                _this12.resetForm();
                 _this12.props.refresh();
                 _izitoast2.default.success({
                     title: "Success",
-                    message: "Successfully added memorandum"
+                    message: "Successfully added program"
                 });
             }).fail(function (response) {
                 dismissToast();
