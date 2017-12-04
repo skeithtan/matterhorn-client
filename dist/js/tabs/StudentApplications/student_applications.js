@@ -84,7 +84,7 @@ var StudentApplications = function (_Component) {
         _this.fetchInboundApplications = _this.fetchInboundApplications.bind(_this);
         _this.fetchOutboundApplications = _this.fetchOutboundApplications.bind(_this);
 
-        _this.setApplicants(_this.state.activeTab.name);
+        _this.fetchInboundApplications();
         return _this;
     }
 

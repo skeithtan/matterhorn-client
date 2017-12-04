@@ -17,9 +17,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var tabs = [{
     name: "Overview",
     tab: function tab(applicant, refreshStudents) {
-        return _react2.default.createElement(_overview2.default, { student: applicant,
-            refreshStudents: refreshStudents,
-            isApplicant: true });
+        return _react2.default.createElement(_overview2.default, { applicant: true,
+            student: applicant,
+            refreshStudents: refreshStudents });
     },
     image: "./images/burgergrey.png",
     activeImage: "./images/burgergreen.png"

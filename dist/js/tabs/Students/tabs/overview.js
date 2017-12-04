@@ -155,7 +155,8 @@ var StudentOverview = function (_Component) {
                     onArchiveStudent: this.props.onArchiveActiveStudent,
                     onEditStudent: function onEditStudent() {
                         return _this3.fetchStudent(_this3.state.student.id);
-                    } }),
+                    },
+                    applicant: this.props.applicant }),
                 _react2.default.createElement(OverviewBody, { student: this.state.student })
             );
         }
@@ -271,7 +272,7 @@ var OverviewHead = function (_Component2) {
                             onClick: this.toggleEditStudent },
                         "Edit Student"
                     ),
-                    _react2.default.createElement(
+                    !this.props.applicant && _react2.default.createElement(
                         _reactstrap.Button,
                         { outline: true,
                             size: "sm",

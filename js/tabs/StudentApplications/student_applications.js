@@ -84,7 +84,7 @@ class StudentApplications extends Component {
         this.fetchInboundApplications = this.fetchInboundApplications.bind(this);
         this.fetchOutboundApplications = this.fetchOutboundApplications.bind(this);
 
-        this.setApplicants(this.state.activeTab.name);
+        this.fetchInboundApplications();
     }
 
     fetchInboundApplications() {
