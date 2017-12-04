@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import graphql from "../../graphql";
 import ApplicationDetail from "./application_detail";
+import { StudentFormModal } from "../Students/modals";
 import {
     Button,
     Input,
@@ -74,6 +75,7 @@ class StudentApplications extends Component {
             applicants : null,
             activeApplicant : null,
             errors : null,
+            addStudentIsShowing : false,
         };
 
         this.setApplicants = this.setApplicants.bind(this);
@@ -83,6 +85,7 @@ class StudentApplications extends Component {
         this.setActiveApplicant = this.setActiveApplicant.bind(this);
         this.fetchInboundApplications = this.fetchInboundApplications.bind(this);
         this.fetchOutboundApplications = this.fetchOutboundApplications.bind(this);
+        this.toggleStudentModal = this.toggleStudentModal.bind(this);
 
         this.fetchInboundApplications();
     }
@@ -146,6 +149,7 @@ class StudentApplications extends Component {
     setActiveCategory(category) {
         this.setState({
             activeCategory : category,
+            activeApplicant : null,
         });
 
         this.getApplicantsByCategory(this.state.applicants);
@@ -179,6 +183,12 @@ class StudentApplications extends Component {
         });
     }
 
+    toggleStudentModal() {
+        this.setState({
+            addStudentIsShowing : !this.state.addStudentIsShowing,
+        });
+    }
+
     render() {
         if (this.state.error) {
             return (
@@ -201,9 +211,14 @@ class StudentApplications extends Component {
                                          setActiveApplicant={ this.setActiveApplicant }
                                          tabs={ tabs }
                                          activeTab={ this.state.activeTab }
-                                         setActiveTab={ this.setActiveTab }/>
+                                         setActiveTab={ this.setActiveTab }
+                                         toggleStudentModal={ this.toggleStudentModal }/>
                 <ApplicationDetail student={ this.state.activeApplicant }
                                    refreshStudents={ refresh }/>
+
+                <StudentFormModal isOpen={ this.state.addStudentIsShowing }
+                                  refresh={ refresh }
+                                  toggle={ this.toggleStudentModal }/>
             </div>
         );
     }
@@ -218,7 +233,8 @@ class StudentApplicationsList extends Component {
         return (
             <div className="sidebar h-100">
                 <StudentApplicationsListHead activeCategory={ this.props.activeCategory }
-                                             setActiveCategory={ this.props.setActiveCategory }/>
+                                             setActiveCategory={ this.props.setActiveCategory }
+                                             toggleStudentModal={ this.props.toggleStudentModal }/>
                 <StudentApplicationsListTable activeCategory={ this.props.activeCategory }
                                               applicants={ this.props.applicants }
                                               activeApplicant={ this.props.activeApplicant }
@@ -256,7 +272,8 @@ class StudentApplicationsListHead extends Component {
                     <Button outline
                             color="success"
                             className="ml-auto"
-                            size="sm">Add</Button>
+                            size="sm"
+                            onClick={ this.props.toggleStudentModal }>Add</Button>
                 </div>
                 <h4 className="page-head-title">{ this.props.activeCategory } Applications</h4>
                 <Input type="search"

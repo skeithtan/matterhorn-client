@@ -18,6 +18,8 @@ var _application_detail = require("./application_detail");
 
 var _application_detail2 = _interopRequireDefault(_application_detail);
 
+var _modals = require("../Students/modals");
+
 var _reactstrap = require("reactstrap");
 
 var _loading = require("../../components/loading");
@@ -73,7 +75,8 @@ var StudentApplications = function (_Component) {
             activeTab: tabs[0],
             applicants: null,
             activeApplicant: null,
-            errors: null
+            errors: null,
+            addStudentIsShowing: false
         };
 
         _this.setApplicants = _this.setApplicants.bind(_this);
@@ -83,6 +86,7 @@ var StudentApplications = function (_Component) {
         _this.setActiveApplicant = _this.setActiveApplicant.bind(_this);
         _this.fetchInboundApplications = _this.fetchInboundApplications.bind(_this);
         _this.fetchOutboundApplications = _this.fetchOutboundApplications.bind(_this);
+        _this.toggleStudentModal = _this.toggleStudentModal.bind(_this);
 
         _this.fetchInboundApplications();
         return _this;
@@ -158,7 +162,8 @@ var StudentApplications = function (_Component) {
         key: "setActiveCategory",
         value: function setActiveCategory(category) {
             this.setState({
-                activeCategory: category
+                activeCategory: category,
+                activeApplicant: null
             });
 
             this.getApplicantsByCategory(this.state.applicants);
@@ -196,6 +201,13 @@ var StudentApplications = function (_Component) {
             });
         }
     }, {
+        key: "toggleStudentModal",
+        value: function toggleStudentModal() {
+            this.setState({
+                addStudentIsShowing: !this.state.addStudentIsShowing
+            });
+        }
+    }, {
         key: "render",
         value: function render() {
             var _this5 = this;
@@ -226,9 +238,13 @@ var StudentApplications = function (_Component) {
                     setActiveApplicant: this.setActiveApplicant,
                     tabs: tabs,
                     activeTab: this.state.activeTab,
-                    setActiveTab: this.setActiveTab }),
+                    setActiveTab: this.setActiveTab,
+                    toggleStudentModal: this.toggleStudentModal }),
                 _react2.default.createElement(_application_detail2.default, { student: this.state.activeApplicant,
-                    refreshStudents: refresh })
+                    refreshStudents: refresh }),
+                _react2.default.createElement(_modals.StudentFormModal, { isOpen: this.state.addStudentIsShowing,
+                    refresh: refresh,
+                    toggle: this.toggleStudentModal })
             );
         }
     }]);
@@ -252,7 +268,8 @@ var StudentApplicationsList = function (_Component2) {
                 "div",
                 { className: "sidebar h-100" },
                 _react2.default.createElement(StudentApplicationsListHead, { activeCategory: this.props.activeCategory,
-                    setActiveCategory: this.props.setActiveCategory }),
+                    setActiveCategory: this.props.setActiveCategory,
+                    toggleStudentModal: this.props.toggleStudentModal }),
                 _react2.default.createElement(StudentApplicationsListTable, { activeCategory: this.props.activeCategory,
                     applicants: this.props.applicants,
                     activeApplicant: this.props.activeApplicant,
@@ -319,7 +336,8 @@ var StudentApplicationsListHead = function (_Component3) {
                         { outline: true,
                             color: "success",
                             className: "ml-auto",
-                            size: "sm" },
+                            size: "sm",
+                            onClick: this.props.toggleStudentModal },
                         "Add"
                     )
                 ),
