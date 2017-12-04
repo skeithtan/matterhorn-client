@@ -27,8 +27,6 @@ var _graphql = require("../../graphql");
 
 var _graphql2 = _interopRequireDefault(_graphql);
 
-var _sidebar_panes = require("./sidebar_panes");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -64,8 +62,7 @@ var OutboundPrograms = function (_Component) {
             activeYear: null,
             activeTerm: 1,
             activeProgram: null,
-            activeStudyField: null,
-            sidebarContent: null
+            activeStudyField: null
         };
 
         _this.refreshYears = _this.refreshYears.bind(_this);
@@ -75,19 +72,11 @@ var OutboundPrograms = function (_Component) {
         _this.studentList = _this.studentList.bind(_this);
         _this.refreshStudents = _this.refreshStudents.bind(_this);
         _this.setActiveProgram = _this.setActiveProgram.bind(_this);
-        _this.setSidebarContent = _this.setSidebarContent.bind(_this);
         _this.refreshYears();
         return _this;
     }
 
     _createClass(OutboundPrograms, [{
-        key: "setSidebarContent",
-        value: function setSidebarContent(sidebarContent) {
-            this.setState({
-                sidebarContent: sidebarContent
-            });
-        }
-    }, {
         key: "refreshYears",
         value: function refreshYears() {
             var _this2 = this;
@@ -114,8 +103,6 @@ var OutboundPrograms = function (_Component) {
                     programList: result.outbound_programs
                 });
             });
-
-            this.setSidebarContent(_react2.default.createElement(_sidebar_panes.AcademicYearSidebarPane, { academicYear: year }));
         }
     }, {
         key: "setActiveTerm",
@@ -148,8 +135,6 @@ var OutboundPrograms = function (_Component) {
                     studentList: result.outbound_program.outboundstudentprogram_set
                 });
             });
-
-            this.setSidebarContent(_react2.default.createElement(_sidebar_panes.ProgramsSidebarPane, { program: program }));
         }
     }, {
         key: "refreshStudents",
@@ -222,12 +207,7 @@ var OutboundPrograms = function (_Component) {
                     setActiveYear: this.setActiveYear,
                     activeYear: this.state.activeYear }),
                 this.programsList(),
-                this.studentList(),
-                _react2.default.createElement(
-                    "div",
-                    { className: "programs-page-pane" },
-                    this.state.sidebarContent
-                )
+                this.studentList()
             );
         }
     }]);
