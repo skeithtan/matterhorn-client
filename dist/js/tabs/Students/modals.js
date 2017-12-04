@@ -1023,7 +1023,7 @@ var ResidenceAddressFormModal = function (_Component2) {
                                 null,
                                 "Contact Number"
                             ),
-                            _react2.default.createElement(_reactstrap.Input, { placeholder: "Name",
+                            _react2.default.createElement(_reactstrap.Input, { placeholder: "Number",
                                 onChange: this.getChangeHandler("contact_person_number"),
                                 valid: isValid("Contact person number"),
                                 value: this.state.form.contact_person_number }),
@@ -1041,7 +1041,7 @@ var ResidenceAddressFormModal = function (_Component2) {
                                 null,
                                 "Residence Type"
                             ),
-                            _react2.default.createElement(_reactstrap.Input, { placeholder: "Name",
+                            _react2.default.createElement(_reactstrap.Input, { placeholder: "Residence Type",
                                 onChange: this.getChangeHandler("residence"),
                                 valid: isValid("Residence type"),
                                 value: this.state.form.residence }),

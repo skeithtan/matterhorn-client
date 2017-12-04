@@ -711,7 +711,7 @@ class ResidenceAddressFormModal extends Component {
 
                         <FormGroup>
                             <Label>Contact Number</Label>
-                            <Input placeholder="Name"
+                            <Input placeholder="Number"
                                    onChange={this.getChangeHandler("contact_person_number")}
                                    valid={isValid("Contact person number")}
                                    value={this.state.form.contact_person_number}/>
@@ -720,7 +720,7 @@ class ResidenceAddressFormModal extends Component {
 
                         <FormGroup>
                             <Label>Residence Type</Label>
-                            <Input placeholder="Name"
+                            <Input placeholder="Residence Type"
                                    onChange={this.getChangeHandler("residence")}
                                    valid={isValid("Residence type")}
                                    value={this.state.form.residence}/>
