@@ -256,7 +256,7 @@ class StudentApplicationsListHead extends Component {
                     <Button outline
                             color="success"
                             className="ml-auto"
-                            size="sm">Add Applicant</Button>
+                            size="sm">Add</Button>
                 </div>
                 <h4 className="page-head-title">{ this.props.activeCategory } Applications</h4>
                 <Input type="search"

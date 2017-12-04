@@ -320,7 +320,7 @@ var StudentApplicationsListHead = function (_Component3) {
                             color: "success",
                             className: "ml-auto",
                             size: "sm" },
-                        "Add Applicant"
+                        "Add"
                     )
                 ),
                 _react2.default.createElement(

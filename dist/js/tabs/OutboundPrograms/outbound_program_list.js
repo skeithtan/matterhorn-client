@@ -81,6 +81,8 @@ var ProgramList = function (_Component) {
     }, {
         key: "render",
         value: function render() {
+            var _this3 = this;
+
             var filteredPrograms = this.getFilteredPrograms();
 
             return _react2.default.createElement(
@@ -92,7 +94,52 @@ var ProgramList = function (_Component) {
                 _react2.default.createElement(ProgramListTable, { programs: filteredPrograms,
                     activeTerm: this.props.activeTerm,
                     activeProgram: this.props.activeProgram,
-                    setActiveProgram: this.props.setActiveProgram })
+                    setActiveProgram: this.props.setActiveProgram }),
+                _react2.default.createElement(
+                    "div",
+                    { className: "tab-bar" },
+                    _react2.default.createElement(
+                        "div",
+                        { className: "p-3 justify-content-center mb-0 d-flex flex-row" },
+                        _react2.default.createElement(
+                            _reactstrap.ButtonGroup,
+                            null,
+                            _react2.default.createElement(
+                                _reactstrap.Button,
+                                { outline: true,
+                                    size: "sm",
+                                    color: "success",
+                                    active: this.props.activeTerm === 1,
+                                    onClick: function onClick() {
+                                        return _this3.props.setActiveTerm(1);
+                                    } },
+                                "Term 1"
+                            ),
+                            _react2.default.createElement(
+                                _reactstrap.Button,
+                                { outline: true,
+                                    size: "sm",
+                                    color: "success",
+                                    active: this.props.activeTerm === 2,
+                                    onClick: function onClick() {
+                                        return _this3.props.setActiveTerm(2);
+                                    } },
+                                "Term 2"
+                            ),
+                            _react2.default.createElement(
+                                _reactstrap.Button,
+                                { outline: true,
+                                    size: "sm",
+                                    color: "success",
+                                    active: this.props.activeTerm === 3,
+                                    onClick: function onClick() {
+                                        return _this3.props.setActiveTerm(3);
+                                    } },
+                                "Term 3"
+                            )
+                        )
+                    )
+                )
             );
         }
     }]);
@@ -106,10 +153,10 @@ var ProgramListHead = function (_Component2) {
     function ProgramListHead(props) {
         _classCallCheck(this, ProgramListHead);
 
-        var _this3 = _possibleConstructorReturn(this, (ProgramListHead.__proto__ || Object.getPrototypeOf(ProgramListHead)).call(this, props));
+        var _this4 = _possibleConstructorReturn(this, (ProgramListHead.__proto__ || Object.getPrototypeOf(ProgramListHead)).call(this, props));
 
-        _this3.onTermChange = _this3.onTermChange.bind(_this3);
-        return _this3;
+        _this4.onTermChange = _this4.onTermChange.bind(_this4);
+        return _this4;
     }
 
     _createClass(ProgramListHead, [{
@@ -125,32 +172,7 @@ var ProgramListHead = function (_Component2) {
                 { className: "page-head d-flex flex-column align-items-center" },
                 _react2.default.createElement(
                     "div",
-                    { className: "page-head-controls mr-auto" },
-                    _react2.default.createElement(
-                        _reactstrap.Input,
-                        { type: "select", value: this.props.activeTerm,
-                            className: "ml-auto btn-sm btn-outline-success select-sm",
-                            onChange: this.onTermChange },
-                        _react2.default.createElement(
-                            "option",
-                            { value: "1" },
-                            "Term 1"
-                        ),
-                        _react2.default.createElement(
-                            "option",
-                            { value: "2" },
-                            "Term 2"
-                        ),
-                        _react2.default.createElement(
-                            "option",
-                            { value: "3" },
-                            "Term 3"
-                        )
-                    )
-                ),
-                _react2.default.createElement(
-                    "div",
-                    { className: "d-flex flex-row w-100 mb-2 align-items-center" },
+                    { className: "d-flex flex-row w-100 mb-2 pt-3 align-items-center" },
                     _react2.default.createElement(
                         "div",
                         { className: "mr-auto" },
@@ -186,10 +208,10 @@ var ProgramListTable = function (_Component3) {
     function ProgramListTable(props) {
         _classCallCheck(this, ProgramListTable);
 
-        var _this4 = _possibleConstructorReturn(this, (ProgramListTable.__proto__ || Object.getPrototypeOf(ProgramListTable)).call(this, props));
+        var _this5 = _possibleConstructorReturn(this, (ProgramListTable.__proto__ || Object.getPrototypeOf(ProgramListTable)).call(this, props));
 
-        _this4.emptyState = _this4.emptyState.bind(_this4);
-        return _this4;
+        _this5.emptyState = _this5.emptyState.bind(_this5);
+        return _this5;
     }
 
     _createClass(ProgramListTable, [{
@@ -209,7 +231,7 @@ var ProgramListTable = function (_Component3) {
     }, {
         key: "render",
         value: function render() {
-            var _this5 = this;
+            var _this6 = this;
 
             if (this.props.programs === null) {
                 return _react2.default.createElement(_loading2.default, null);
@@ -222,9 +244,9 @@ var ProgramListTable = function (_Component3) {
             var sections = this.props.programs.map(function (institutionProgram, index) {
                 return _react2.default.createElement(ProgramSection, { key: index,
                     title: institutionProgram.institution,
-                    activeProgram: _this5.props.activeProgram,
+                    activeProgram: _this6.props.activeProgram,
                     programs: institutionProgram.programs,
-                    setActiveProgram: _this5.props.setActiveProgram });
+                    setActiveProgram: _this6.props.setActiveProgram });
             });
 
             return _react2.default.createElement(
@@ -250,17 +272,17 @@ var ProgramSection = function (_Component4) {
     _createClass(ProgramSection, [{
         key: "render",
         value: function render() {
-            var _this7 = this;
+            var _this8 = this;
 
             var rows = this.props.programs.map(function (program, index) {
                 var isActive = false;
 
-                if (_this7.props.activeProgram !== null) {
-                    isActive = _this7.props.activeProgram.id === program.id;
+                if (_this8.props.activeProgram !== null) {
+                    isActive = _this8.props.activeProgram.id === program.id;
                 }
 
                 var setActiveProgram = function setActiveProgram() {
-                    return _this7.props.setActiveProgram(program);
+                    return _this8.props.setActiveProgram(program);
                 };
 
                 return _react2.default.createElement(

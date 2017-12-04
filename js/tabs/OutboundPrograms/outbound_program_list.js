@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import {
+    Button,
+    ButtonGroup,
     Input,
 } from "reactstrap";
 import {
@@ -68,6 +70,27 @@ class ProgramList extends Component {
                                   activeTerm={ this.props.activeTerm }
                                   activeProgram={ this.props.activeProgram }
                                   setActiveProgram={ this.props.setActiveProgram }/>
+                <div className="tab-bar">
+                    <div className="p-3 justify-content-center mb-0 d-flex flex-row">
+                        <ButtonGroup>
+                            <Button outline
+                                    size="sm"
+                                    color="success"
+                                    active={this.props.activeTerm === 1}
+                                    onClick={() => this.props.setActiveTerm(1)}>Term 1</Button>
+                            <Button outline
+                                    size="sm"
+                                    color="success"
+                                    active={this.props.activeTerm === 2}
+                                    onClick={() => this.props.setActiveTerm(2)}>Term 2</Button>
+                            <Button outline
+                                    size="sm"
+                                    color="success"
+                                    active={this.props.activeTerm === 3}
+                                    onClick={() => this.props.setActiveTerm(3)}>Term 3</Button>
+                        </ButtonGroup>
+                    </div>
+                </div>
             </div>
         );
     }
@@ -86,16 +109,7 @@ class ProgramListHead extends Component {
     render() {
         return (
             <div className="page-head d-flex flex-column align-items-center">
-                <div className="page-head-controls mr-auto">
-                    <Input type="select" value={ this.props.activeTerm }
-                           className="ml-auto btn-sm btn-outline-success select-sm"
-                           onChange={ this.onTermChange }>
-                        <option value="1">Term 1</option>
-                        <option value="2">Term 2</option>
-                        <option value="3">Term 3</option>
-                    </Input>
-                </div>
-                <div className="d-flex flex-row w-100 mb-2 align-items-center">
+                <div className="d-flex flex-row w-100 mb-2 pt-3 align-items-center">
                     <div className="mr-auto">
                         <h5 className="mb-0 text-secondary">Programs</h5>
                         <div className="d-flex flex-row">
