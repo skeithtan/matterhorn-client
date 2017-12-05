@@ -87,7 +87,7 @@ class DefaultUnitsReport extends Component {
             <div className="report-page">
                 <ReportHead/>
                 <ReportTitleContainer>
-                    <h4>Term End Outbound and Inbound Students Distribution Report</h4>
+                    <h4>Term End Outbound Vs Default Units Report</h4>
                     <h5>{ `Academic Year ${year} - ${year + 1} Term ${this.props.term}` }</h5>
                 </ReportTitleContainer>
                 <DefaultUnitsTable institutions={ this.state.institutions }/>

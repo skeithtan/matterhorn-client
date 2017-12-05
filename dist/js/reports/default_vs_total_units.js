@@ -152,7 +152,7 @@ var DefaultUnitsReport = function (_Component) {
                     _react2.default.createElement(
                         "h4",
                         null,
-                        "Term End Outbound and Inbound Students Distribution Report"
+                        "Term End Outbound Vs Default Units Report"
                     ),
                     _react2.default.createElement(
                         "h5",
