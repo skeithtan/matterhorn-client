@@ -9,12 +9,6 @@ const tabs = [
         image : "./images/memorandumgrey.png",
         activeImage : "./images/memorandumgreen.png",
     },
-    {
-        name : "Outbound Programs",
-        tab : undefined,
-        image : "./images/airplanegrey.png",
-        activeImage : "./images/airplanegreen.png",
-    },
 ];
 
 export default tabs;
