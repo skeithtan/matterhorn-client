@@ -38,10 +38,19 @@ class DeployApplicantModal extends Component {
             url : `${settings.serverURL}/programs/outbound/students/${this.props.student.id}/deploy/`,
             beforeSend : authorizeXHR,
             data : this.state.form,
-        }).then(response => {
-            console.log(response);
+        }).then(() => {
+            this.props.refreshStudents();
+            iziToast.success({
+                title : "Deployed",
+                message : "Student has been deployed",
+            });
         }).fail(error => {
             console.log(error);
+
+            iziToast.error({
+                title : "Error",
+                message : "Unable to deploy student",
+            });
         });
 
         this.props.toggle();

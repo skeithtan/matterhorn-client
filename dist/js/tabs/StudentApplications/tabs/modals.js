@@ -60,14 +60,25 @@ var DeployApplicantModal = function (_Component) {
     _createClass(DeployApplicantModal, [{
         key: "deployStudent",
         value: function deployStudent() {
+            var _this2 = this;
+
             $.post({
                 url: _settings2.default.serverURL + "/programs/outbound/students/" + this.props.student.id + "/deploy/",
                 beforeSend: _authorization2.default,
                 data: this.state.form
-            }).then(function (response) {
-                console.log(response);
+            }).then(function () {
+                _this2.props.refreshStudents();
+                _izitoast2.default.success({
+                    title: "Deployed",
+                    message: "Student has been deployed"
+                });
             }).fail(function (error) {
                 console.log(error);
+
+                _izitoast2.default.error({
+                    title: "Error",
+                    message: "Unable to deploy student"
+                });
             });
 
             this.props.toggle();
@@ -75,7 +86,7 @@ var DeployApplicantModal = function (_Component) {
     }, {
         key: "getChangeHandler",
         value: function getChangeHandler(fieldName) {
-            var _this2 = this;
+            var _this3 = this;
 
             var form = this.state.form;
 
@@ -83,7 +94,7 @@ var DeployApplicantModal = function (_Component) {
                 var value = event.target.value;
 
                 form[fieldName] = value;
-                _this2.setState({
+                _this3.setState({
                     form: form
                 });
             };
@@ -216,24 +227,24 @@ var AcceptApplicantModal = function (_Component2) {
     function AcceptApplicantModal(props) {
         _classCallCheck(this, AcceptApplicantModal);
 
-        var _this3 = _possibleConstructorReturn(this, (AcceptApplicantModal.__proto__ || Object.getPrototypeOf(AcceptApplicantModal)).call(this, props));
+        var _this4 = _possibleConstructorReturn(this, (AcceptApplicantModal.__proto__ || Object.getPrototypeOf(AcceptApplicantModal)).call(this, props));
 
-        _this3.state = {
+        _this4.state = {
             form: {
                 total_units_enrolled: "",
                 inbound_courses: []
             }
         };
 
-        _this3.getFormErrors = _this3.getFormErrors.bind(_this3);
-        _this3.acceptStudent = _this3.acceptStudent.bind(_this3);
-        return _this3;
+        _this4.getFormErrors = _this4.getFormErrors.bind(_this4);
+        _this4.acceptStudent = _this4.acceptStudent.bind(_this4);
+        return _this4;
     }
 
     _createClass(AcceptApplicantModal, [{
         key: "acceptStudent",
         value: function acceptStudent() {
-            var _this4 = this;
+            var _this5 = this;
 
             $.post({
                 url: _settings2.default.serverURL + "/programs/inbound/students/" + this.props.student.id + "/accept/",
@@ -241,7 +252,7 @@ var AcceptApplicantModal = function (_Component2) {
                 data: JSON.stringify(this.state.form),
                 contentType: "application/json"
             }).then(function () {
-                _this4.props.refreshStudents();
+                _this5.props.refreshStudents();
                 _izitoast2.default.success({
                     title: "Accepted",
                     message: "Student has been accepted"
@@ -260,7 +271,7 @@ var AcceptApplicantModal = function (_Component2) {
     }, {
         key: "getChangeHandler",
         value: function getChangeHandler(fieldName) {
-            var _this5 = this;
+            var _this6 = this;
 
             var form = this.state.form;
 
@@ -268,7 +279,7 @@ var AcceptApplicantModal = function (_Component2) {
                 var value = event.target.value;
 
                 form[fieldName] = value;
-                _this5.setState({
+                _this6.setState({
                     form: form
                 });
             };
