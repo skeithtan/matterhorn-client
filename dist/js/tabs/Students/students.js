@@ -46,8 +46,12 @@ var tabs = [{
     activeImage: "./images/airplanegreen.png"
 }];
 
-function makeStudentsQuery(category) {
-    return _graphql2.default.query("\n    {\n        students(category:\"" + category + "\") {\n            id\n            id_number\n            family_name\n            first_name\n            middle_name\n        }\n    }\n    ");
+function makeInboundQuery() {
+    return _graphql2.default.query("\n        {\n            inbound_student_programs(accepted:true) {\n                student {\n                    id\n                    id_number\n                    family_name\n                    first_name\n                    middle_name\n                }\n            }\n        }\n        ");
+}
+
+function makeOutboundQuery() {
+    return _graphql2.default.query("\n    {\n        outbound_student_programs(deployed:true) {\n            student {\n                id\n                id_number\n                family_name\n                first_name\n                middle_name\n            }\n        }\n    }\n    ");
 }
 
 var Students = function (_Component) {
@@ -70,6 +74,7 @@ var Students = function (_Component) {
         _this.fetchStudents = _this.fetchStudents.bind(_this);
         _this.setActiveStudent = _this.setActiveStudent.bind(_this);
         _this.onArchiveActiveStudent = _this.onArchiveActiveStudent.bind(_this);
+        _this.extractStudentsFromProgram = _this.extractStudentsFromProgram.bind(_this);
 
         _this.fetchStudents(_this.state.activeTab.name);
         return _this;
@@ -88,15 +93,27 @@ var Students = function (_Component) {
                 });
             }
 
-            makeStudentsQuery(category).then(function (result) {
-                return _this2.setState({
-                    allStudents: result.students
+            if (category === "IN") {
+                makeInboundQuery().then(function (result) {
+                    return _this2.setState({
+                        allStudents: result.inbound_student_programs
+                    });
+                }).catch(function (error) {
+                    return _this2.setState({
+                        error: error
+                    });
                 });
-            }).catch(function (error) {
-                return _this2.setState({
-                    error: error
+            } else {
+                makeOutboundQuery().then(function (result) {
+                    return _this2.setState({
+                        allStudents: result.outbound_student_programs
+                    });
+                }).catch(function (error) {
+                    return _this2.setState({
+                        error: error
+                    });
                 });
-            });
+            }
         }
     }, {
         key: "setActiveTab",
@@ -138,6 +155,21 @@ var Students = function (_Component) {
             });
         }
     }, {
+        key: "extractStudentsFromProgram",
+        value: function extractStudentsFromProgram() {
+            if (this.state.allStudents === null) {
+                return null;
+            }
+
+            var students = [];
+
+            this.state.allStudents.forEach(function (student) {
+                students.push(student.student);
+            });
+
+            return students;
+        }
+    }, {
         key: "render",
         value: function render() {
             var _this3 = this;
@@ -152,6 +184,8 @@ var Students = function (_Component) {
                 );
             }
 
+            var students = this.extractStudentsFromProgram();
+
             var refresh = function refresh() {
                 return _this3.fetchStudents(_this3.state.activeTab.name);
             };
@@ -159,7 +193,7 @@ var Students = function (_Component) {
             return _react2.default.createElement(
                 "div",
                 { className: "container-fluid d-flex flex-row p-0 h-100" },
-                _react2.default.createElement(_student_list2.default, { students: this.state.allStudents,
+                _react2.default.createElement(_student_list2.default, { students: students,
                     activeStudent: this.state.activeStudent,
                     setActiveStudent: this.setActiveStudent,
                     setActiveTab: this.setActiveTab,
