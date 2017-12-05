@@ -241,6 +241,7 @@ var StudentApplications = function (_Component) {
                     setActiveTab: this.setActiveTab,
                     toggleStudentModal: this.toggleStudentModal }),
                 _react2.default.createElement(_application_detail2.default, { student: this.state.activeApplicant,
+                    inbound: this.state.activeTab.name === "Inbound",
                     refreshStudents: refresh }),
                 _react2.default.createElement(_modals.StudentFormModal, { isOpen: this.state.addStudentIsShowing,
                     refresh: refresh,

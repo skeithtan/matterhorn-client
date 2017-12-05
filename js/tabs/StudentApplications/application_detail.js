@@ -32,7 +32,7 @@ class ApplicationDetail extends Component {
             return ApplicationDetail.unselectedState();
         }
 
-        const currentTab = this.state.activeTab.tab(this.props.student, this.props.refreshStudents);
+        const currentTab = this.state.activeTab.tab(this.props.inbound, this.props.student, this.props.refreshStudents);
 
         return (
             <div id="application-detail"

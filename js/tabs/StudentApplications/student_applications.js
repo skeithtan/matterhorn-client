@@ -214,7 +214,9 @@ class StudentApplications extends Component {
                                          activeTab={ this.state.activeTab }
                                          setActiveTab={ this.setActiveTab }
                                          toggleStudentModal={ this.toggleStudentModal }/>
+
                 <ApplicationDetail student={ this.state.activeApplicant }
+                                   inbound={this.state.activeTab.name === "Inbound"}
                                    refreshStudents={ refresh }/>
 
                 <StudentFormModal isOpen={ this.state.addStudentIsShowing }

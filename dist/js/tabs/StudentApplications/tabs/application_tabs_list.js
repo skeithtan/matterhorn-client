@@ -12,11 +12,15 @@ var _overview = require("../../Students/tabs/overview");
 
 var _overview2 = _interopRequireDefault(_overview);
 
+var _application_requirements = require("./application_requirements");
+
+var _application_requirements2 = _interopRequireDefault(_application_requirements);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var tabs = [{
     name: "Overview",
-    tab: function tab(applicant, refreshStudents) {
+    tab: function tab(inbound, applicant, refreshStudents) {
         return _react2.default.createElement(_overview2.default, { applicant: true,
             student: applicant,
             refreshStudents: refreshStudents });
@@ -25,7 +29,9 @@ var tabs = [{
     activeImage: "./images/burgergreen.png"
 }, {
     name: "Requirements",
-    tab: null,
+    tab: function tab(inbound, applicant) {
+        return _react2.default.createElement(_application_requirements2.default, { student: applicant, inbound: inbound });
+    },
     image: "./images/checklistgrey.png",
     activeImage: "./images/checklistgreen.png"
 }];

@@ -56,7 +56,7 @@ var ApplicationDetail = function (_Component) {
                 return ApplicationDetail.unselectedState();
             }
 
-            var currentTab = this.state.activeTab.tab(this.props.student, this.props.refreshStudents);
+            var currentTab = this.state.activeTab.tab(this.props.inbound, this.props.student, this.props.refreshStudents);
 
             return _react2.default.createElement(
                 "div",
