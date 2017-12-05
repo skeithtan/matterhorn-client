@@ -32,7 +32,8 @@ function fetchStudents(id, onResult) {
     graphql.query(`
     {
         outbound_program(id:${id}) {
-            outboundstudentprogram_set {
+            id
+            outbound_student_programs {
                 student {
                     id_number
                     first_name
@@ -112,7 +113,7 @@ class OutboundPrograms extends Component {
 
         fetchStudents(program.id, result => {
             this.setState({
-                studentList : result.outbound_program.outboundstudentprogram_set,
+                studentList : result.outbound_program.outbound_student_programs,
             });
         });
     }
@@ -120,7 +121,7 @@ class OutboundPrograms extends Component {
     refreshStudents() {
         fetchStudents(this.state.activeProgram.id, result => {
             this.setState({
-                studentList : result.outbound_program.outboundstudentprogram_set,
+                studentList : result.outbound_program.outbound_student_programs,
             });
         });
     }

@@ -30,7 +30,7 @@ function fetchStudents(id, onResult) {
     {
         inbound_program(id:${id}) {
             id
-            inboundstudentprogram_set {
+            inbound_student_programs {
                 id
                 student {
                     id
@@ -102,7 +102,7 @@ class InboundPrograms extends Component {
 
         fetchStudents(program.id, result => {
             this.setState({
-                studentList : result.inbound_program.inboundstudentprogram_set,
+                studentList : result.inbound_program.inbound_student_programs,
             });
         });
     }

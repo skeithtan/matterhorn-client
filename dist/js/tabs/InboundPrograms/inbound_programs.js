@@ -43,7 +43,7 @@ function fetchPrograms(year, term, onResult) {
 }
 
 function fetchStudents(id, onResult) {
-    _graphql2.default.query("\n    {\n        inbound_program(id:" + id + ") {\n            id\n            inboundstudentprogram_set {\n                id\n                student {\n                    id\n                    id_number\n                    first_name\n                    middle_name\n                    family_name\n                }\n            }\n        }\n    }\n    ").then(onResult);
+    _graphql2.default.query("\n    {\n        inbound_program(id:" + id + ") {\n            id\n            inbound_student_programs {\n                id\n                student {\n                    id\n                    id_number\n                    first_name\n                    middle_name\n                    family_name\n                }\n            }\n        }\n    }\n    ").then(onResult);
 }
 
 var InboundPrograms = function (_Component) {
@@ -118,7 +118,7 @@ var InboundPrograms = function (_Component) {
 
             fetchStudents(program.id, function (result) {
                 _this4.setState({
-                    studentList: result.inbound_program.inboundstudentprogram_set
+                    studentList: result.inbound_program.inbound_student_programs
                 });
             });
         }
