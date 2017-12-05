@@ -65,7 +65,8 @@ class ProgramList extends Component {
                     </div>
                 </div>
 
-                <ProgramFormModal toggle={this.toggleProgramFormModal}
+                <ProgramFormModal inbound
+                                  toggle={this.toggleProgramFormModal}
                                   refresh={this.props.refreshPrograms}
                                   isOpen={this.state.programFormModalIsShowing}
                                   institution={null}/>
