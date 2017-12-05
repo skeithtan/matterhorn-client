@@ -5,9 +5,9 @@ import path from "path";
 
 function makeReportWindow(file) {
     let reportWindow = new BrowserWindow({
-        width : 400,
+        width : 1000,
         height : 800,
-        minWidth : 400,
+        minWidth : 1000,
         maxWidth : 1000,
         minHeight : 800,
     });
