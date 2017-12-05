@@ -39,11 +39,11 @@ function makeRequirementsQuery(isInbound) {
 }
 
 function makeInboundApplicationQuery(id) {
-    return _graphql2.default.query("\n    {\n      student(id:" + id + ") {\n                inboundstudentprogram {\n                    application_requirements {\n                        id\n                    }\n                }\n        }\n    }\n    ");
+    return _graphql2.default.query("\n    {\n      student(id:" + id + ") {\n                inboundstudentprogram {\n                    is_requirements_complete\n                    application_requirements {\n                        id\n                    }\n                }\n        }\n    }\n    ");
 }
 
 function makeOutboundApplicationQuery(id) {
-    return _graphql2.default.query("\n    {\n      student(id:" + id + ") {\n                outboundstudentprogram {\n                    application_requirements {\n                        id\n                    }\n                }\n        }\n    }\n    ");
+    return _graphql2.default.query("\n    {\n      student(id:" + id + ") {\n                outboundstudentprogram {\n                    is_requirements_complete\n                    application_requirements {\n                        id\n                    }\n                }\n        }\n    }\n    ");
 }
 
 var ApplicationRequirements = function (_Component) {
@@ -57,6 +57,7 @@ var ApplicationRequirements = function (_Component) {
         _this.state = {
             applicantRequirements: null,
             requirements: null,
+            isRequirementsComplete: false,
             errors: null
         };
 
@@ -91,7 +92,8 @@ var ApplicationRequirements = function (_Component) {
                     return _this2.setState({
                         applicantRequirements: result.student.inboundstudentprogram.application_requirements.map(function (requirement) {
                             return requirement.id;
-                        })
+                        }),
+                        isRequirementsComplete: result.student.inboundstudentprogram.is_requirements_complete
                     });
                 }).catch(function (error) {
                     return _this2.setState({
@@ -103,7 +105,8 @@ var ApplicationRequirements = function (_Component) {
                     return _this2.setState({
                         applicantRequirements: result.student.outboundstudentprogram.application_requirements.map(function (requirement) {
                             return requirement.id;
-                        })
+                        }),
+                        isRequirementsComplete: result.student.outboundstudentprogram.is_requirements_complete
                     });
                 }).catch(function (error) {
                     return _this2.setState({
@@ -126,8 +129,6 @@ var ApplicationRequirements = function (_Component) {
         value: function render() {
             var _this3 = this;
 
-            console.log(this.state);
-
             if (this.state.error) {
                 return _react2.default.createElement(
                     _error_state2.default,
@@ -145,7 +146,9 @@ var ApplicationRequirements = function (_Component) {
             return _react2.default.createElement(
                 "div",
                 { className: "d-flex flex-column p-0 h-100" },
-                _react2.default.createElement(ApplicationHead, { student: this.props.student }),
+                _react2.default.createElement(ApplicationHead, { student: this.props.student,
+                    inbound: this.props.inbound,
+                    isRequirementsComplete: this.props.isRequirementsComplete }),
                 _react2.default.createElement(RequirementsBody, { requirements: this.state.requirements,
                     applicantRequirements: this.state.applicantRequirements })
             );
@@ -191,6 +194,14 @@ var ApplicationHead = function (_Component2) {
                             { className: "text-muted ml-2" },
                             this.props.student.id_number
                         )
+                    ),
+                    this.props.isRequirementsComplete && _react2.default.createElement(
+                        _reactstrap.Button,
+                        { outline: true,
+                            size: "sm",
+                            color: "success" },
+                        this.props.inbound ? "Accept " : "Deploy ",
+                        " Student"
                     )
                 )
             );

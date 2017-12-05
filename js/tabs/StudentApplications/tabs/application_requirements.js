@@ -25,6 +25,7 @@ function makeInboundApplicationQuery(id) {
     {
       student(id:${id}) {
                 inboundstudentprogram {
+                    is_requirements_complete
                     application_requirements {
                         id
                     }
@@ -39,6 +40,7 @@ function makeOutboundApplicationQuery(id) {
     {
       student(id:${id}) {
                 outboundstudentprogram {
+                    is_requirements_complete
                     application_requirements {
                         id
                     }
@@ -48,6 +50,7 @@ function makeOutboundApplicationQuery(id) {
     `);
 }
 
+
 class ApplicationRequirements extends Component {
     constructor(props) {
         super(props);
@@ -55,6 +58,7 @@ class ApplicationRequirements extends Component {
         this.state = {
             applicantRequirements : null,
             requirements : null,
+            isRequirementsComplete : false,
             errors : null,
         };
 
@@ -81,6 +85,7 @@ class ApplicationRequirements extends Component {
             makeInboundApplicationQuery(studentId)
                 .then(result => this.setState({
                     applicantRequirements : result.student.inboundstudentprogram.application_requirements.map(requirement => requirement.id),
+                    isRequirementsComplete : result.student.inboundstudentprogram.is_requirements_complete,
                 }))
                 .catch(error => this.setState({
                     error : error,
@@ -89,6 +94,7 @@ class ApplicationRequirements extends Component {
             makeOutboundApplicationQuery(studentId)
                 .then(result => this.setState({
                     applicantRequirements : result.student.outboundstudentprogram.application_requirements.map(requirement => requirement.id),
+                    isRequirementsComplete : result.student.outboundstudentprogram.is_requirements_complete,
                 }))
                 .catch(error => this.setState({
                     error : error,
@@ -105,8 +111,6 @@ class ApplicationRequirements extends Component {
     }
 
     render() {
-        console.log(this.state);
-
         if (this.state.error) {
             return (
                 <ErrorState onRetryButtonClick={() => this.fetchRequirements(this.props.inbound, this.props.student.id)}>
@@ -121,7 +125,9 @@ class ApplicationRequirements extends Component {
 
         return (
             <div className="d-flex flex-column p-0 h-100">
-                <ApplicationHead student={this.props.student}/>
+                <ApplicationHead student={this.props.student}
+                                 inbound={this.props.inbound}
+                                 isRequirementsComplete={this.props.isRequirementsComplete}/>
                 <RequirementsBody requirements={this.state.requirements}
                                   applicantRequirements={this.state.applicantRequirements}/>
             </div>
@@ -139,6 +145,14 @@ class ApplicationHead extends Component {
                         {this.props.student.first_name} {this.props.student.middle_name} {this.props.student.family_name}
                         <small className="text-muted ml-2">{this.props.student.id_number}</small>
                     </h4>
+
+                    {this.props.isRequirementsComplete &&
+                    <Button outline
+                            size="sm"
+                            color="success">
+                        {this.props.inbound ? "Accept " : "Deploy "} Student
+                    </Button>
+                    }
                 </div>
             </div>
         );
