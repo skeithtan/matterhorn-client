@@ -108,6 +108,7 @@ var StudentFormModal = function (_Component) {
         _this.setPrograms = _this.setPrograms.bind(_this);
         _this.onCategoryChange = _this.onCategoryChange.bind(_this);
         _this.onTermClick = _this.onTermClick.bind(_this);
+        _this.applicantForm = _this.applicantForm.bind(_this);
 
         fetchInstitutions(function (result) {
             var institutions = result.institutions;
@@ -507,10 +508,86 @@ var StudentFormModal = function (_Component) {
             );
         }
     }, {
-        key: "render",
-        value: function render() {
+        key: "applicantForm",
+        value: function applicantForm() {
             var _this8 = this;
 
+            if (!this.props.applicant) {
+                return null;
+            }
+
+            if (this.state.programs !== null) {
+                var programs = this.state.programs.map(function (program) {
+                    return _react2.default.createElement(
+                        "option",
+                        { value: program.id, key: program.id },
+                        program.name
+                    );
+                });
+
+                var termButtons = [1, 2, 3].map(function (term) {
+                    return _react2.default.createElement(
+                        _reactstrap.Button,
+                        { outline: true,
+                            color: "success",
+                            key: term,
+                            onClick: function onClick() {
+                                return _this8.onTermClick(term);
+                            },
+                            active: _this8.state.studentProgramForm.terms_duration.includes(term) },
+                        term
+                    );
+                });
+
+                return _react2.default.createElement(
+                    "div",
+                    null,
+                    _react2.default.createElement("br", null),
+                    _react2.default.createElement(
+                        "h5",
+                        { className: "mb-3" },
+                        "Program Details"
+                    ),
+                    _react2.default.createElement(
+                        _reactstrap.FormGroup,
+                        null,
+                        _react2.default.createElement(
+                            _reactstrap.Label,
+                            null,
+                            "Program"
+                        ),
+                        _react2.default.createElement(
+                            _reactstrap.Input,
+                            { type: "select",
+                                onChange: this.getSecondChangeHandler("program"),
+                                value: this.state.studentProgramForm.program },
+                            programs
+                        )
+                    ),
+                    _react2.default.createElement(
+                        _reactstrap.FormGroup,
+                        null,
+                        _react2.default.createElement(
+                            _reactstrap.Label,
+                            null,
+                            "Terms Available"
+                        ),
+                        _react2.default.createElement(
+                            "div",
+                            { className: "d-block w-100" },
+                            _react2.default.createElement(
+                                _reactstrap.ButtonGroup,
+                                null,
+                                termButtons
+                            )
+                        )
+                    )
+                );
+            }
+        }
+    }, {
+        key: "render",
+        value: function render() {
             var formErrors = this.getFormErrors();
             var formHasErrors = formErrors.formHasErrors;
             var fieldErrors = formErrors.fieldErrors;
@@ -523,8 +600,10 @@ var StudentFormModal = function (_Component) {
                 return this.noInstitutions();
             }
 
-            if (this.state.programs === null) {
-                return this.fetchingPrograms();
+            if (this.props.applicant) {
+                if (this.state.programs === null) {
+                    return this.fetchingPrograms();
+                }
             }
 
             var institutions = this.state.institutions.map(function (institution) {
@@ -541,28 +620,6 @@ var StudentFormModal = function (_Component) {
                 { value: "", key: 0 },
                 "Select an institution"
             ));
-
-            var programs = this.state.programs.map(function (program) {
-                return _react2.default.createElement(
-                    "option",
-                    { value: program.id, key: program.id },
-                    program.name
-                );
-            });
-
-            var termButtons = [1, 2, 3].map(function (term) {
-                return _react2.default.createElement(
-                    _reactstrap.Button,
-                    { outline: true,
-                        color: "success",
-                        key: term,
-                        onClick: function onClick() {
-                            return _this8.onTermClick(term);
-                        },
-                        active: _this8.state.studentProgramForm.terms_duration.includes(term) },
-                    term
-                );
-            });
 
             function isValid(fieldName) {
                 return fieldErrors[fieldName].length === 0;
@@ -992,46 +1049,7 @@ var StudentFormModal = function (_Component) {
                                 )
                             )
                         ),
-                        _react2.default.createElement("br", null),
-                        _react2.default.createElement(
-                            "h5",
-                            { className: "mb-3" },
-                            "Program Details"
-                        ),
-                        _react2.default.createElement(
-                            _reactstrap.FormGroup,
-                            null,
-                            _react2.default.createElement(
-                                _reactstrap.Label,
-                                null,
-                                "Program"
-                            ),
-                            _react2.default.createElement(
-                                _reactstrap.Input,
-                                { type: "select",
-                                    onChange: this.getSecondChangeHandler("program"),
-                                    value: this.state.studentProgramForm.program },
-                                programs
-                            )
-                        ),
-                        _react2.default.createElement(
-                            _reactstrap.FormGroup,
-                            null,
-                            _react2.default.createElement(
-                                _reactstrap.Label,
-                                null,
-                                "Terms Available"
-                            ),
-                            _react2.default.createElement(
-                                "div",
-                                { className: "d-block w-100" },
-                                _react2.default.createElement(
-                                    _reactstrap.ButtonGroup,
-                                    null,
-                                    termButtons
-                                )
-                            )
-                        )
+                        this.applicantForm()
                     )
                 ),
                 _react2.default.createElement(

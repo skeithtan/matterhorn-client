@@ -99,6 +99,7 @@ class StudentFormModal extends Component {
         this.setPrograms = this.setPrograms.bind(this);
         this.onCategoryChange = this.onCategoryChange.bind(this);
         this.onTermClick = this.onTermClick.bind(this);
+        this.applicantForm = this.applicantForm.bind(this);
 
         fetchInstitutions(result => {
             const institutions = result.institutions;
@@ -464,6 +465,51 @@ class StudentFormModal extends Component {
         );
     }
 
+    applicantForm() {
+        if (!this.props.applicant) {
+            return null;
+        }
+
+        if (this.state.programs !== null) {
+            const programs = this.state.programs.map(program => {
+                return <option value={ program.id } key={ program.id }>{ program.name }</option>;
+            });
+
+            const termButtons = [1, 2, 3].map(term =>
+                <Button outline
+                        color="success"
+                        key={ term }
+                        onClick={ () => this.onTermClick(term) }
+                        active={ this.state.studentProgramForm.terms_duration.includes(term) }>
+                    { term }
+                </Button>,
+            );
+
+            return (
+                <div>
+                    <br/>
+                    <h5 className="mb-3">Program Details</h5>
+                    <FormGroup>
+                        <Label>Program</Label>
+                        <Input type="select"
+                               onChange={ this.getSecondChangeHandler("program") }
+                               value={ this.state.studentProgramForm.program }>
+                            { programs }
+                        </Input>
+                    </FormGroup>
+                    <FormGroup>
+                        <Label>Terms Available</Label>
+                        <div className="d-block w-100">
+                            <ButtonGroup>
+                                { termButtons }
+                            </ButtonGroup>
+                        </div>
+                    </FormGroup>
+                </div>
+            );
+        }
+    }
+
     render() {
         const formErrors = this.getFormErrors();
         const formHasErrors = formErrors.formHasErrors;
@@ -477,8 +523,10 @@ class StudentFormModal extends Component {
             return this.noInstitutions();
         }
 
-        if (this.state.programs === null) {
-            return this.fetchingPrograms();
+        if (this.props.applicant) {
+            if (this.state.programs === null) {
+                return this.fetchingPrograms();
+            }
         }
 
         const institutions = this.state.institutions.map(institution => {
@@ -488,20 +536,6 @@ class StudentFormModal extends Component {
 
         institutions.unshift(
             <option value={ "" } key={ 0 }>Select an institution</option>,
-        );
-
-        const programs = this.state.programs.map(program => {
-            return <option value={ program.id } key={ program.id }>{ program.name }</option>;
-        });
-
-        const termButtons = [1, 2, 3].map(term =>
-            <Button outline
-                    color="success"
-                    key={ term }
-                    onClick={ () => this.onTermClick(term) }
-                    active={ this.state.studentProgramForm.terms_duration.includes(term) }>
-                { term }
-            </Button>,
         );
 
         function isValid(fieldName) {
@@ -704,25 +738,8 @@ class StudentFormModal extends Component {
                             </Input>
                         </FormGroup>
 
-                        <br/>
-                        <h5 className="mb-3">Program Details</h5>
-                        <FormGroup>
-                            <Label>Program</Label>
-                            <Input type="select"
-                                   onChange={ this.getSecondChangeHandler("program") }
-                                   value={ this.state.studentProgramForm.program }>
-                                { programs }
-                            </Input>
-                        </FormGroup>
-                        <FormGroup>
-                            <Label>Terms Available</Label>
-                            <div className="d-block w-100">
-                                <ButtonGroup>
-                                    { termButtons }
-                                </ButtonGroup>
-                            </div>
-                            { /*<div className="invalid-feedback d-block">{ fieldError("Terms available") }</div>*/ }
-                        </FormGroup>
+                        { this.applicantForm() }
+
                     </Form>
                 </ModalBody>
                 <ModalFooter>
