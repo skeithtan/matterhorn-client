@@ -44,7 +44,7 @@ function fetchPrograms(year, term, onResult) {
 }
 
 function fetchStudents(id, onResult) {
-    _graphql2.default.query("\n    {\n        outbound_program(id:" + id + ") {\n            outboundstudentprogram_set {\n                student {\n                    id_number\n                    first_name\n                    middle_name\n                    family_name\n                }\n            }\n        }\n    }\n    ").then(onResult);
+    _graphql2.default.query("\n    {\n        outbound_program(id:" + id + ") {\n            id\n            outbound_student_programs {\n                student {\n                    id_number\n                    first_name\n                    middle_name\n                    family_name\n                }\n            }\n        }\n    }\n    ").then(onResult);
 }
 
 var OutboundPrograms = function (_Component) {
@@ -132,7 +132,7 @@ var OutboundPrograms = function (_Component) {
 
             fetchStudents(program.id, function (result) {
                 _this5.setState({
-                    studentList: result.outbound_program.outboundstudentprogram_set
+                    studentList: result.outbound_program.outbound_student_programs
                 });
             });
         }
@@ -143,7 +143,7 @@ var OutboundPrograms = function (_Component) {
 
             fetchStudents(this.state.activeProgram.id, function (result) {
                 _this6.setState({
-                    studentList: result.outbound_program.outboundstudentprogram_set
+                    studentList: result.outbound_program.outbound_student_programs
                 });
             });
         }
