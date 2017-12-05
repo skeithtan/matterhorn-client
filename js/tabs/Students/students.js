@@ -20,15 +20,33 @@ const tabs = [
 ];
 
 
-function makeStudentsQuery(category) {
+function makeInboundQuery() {
+    return graphql.query(`
+        {
+            inbound_student_programs(accepted:true) {
+                student {
+                    id
+                    id_number
+                    family_name
+                    first_name
+                    middle_name
+                }
+            }
+        }
+        `);
+}
+
+function makeOutboundQuery() {
     return graphql.query(`
     {
-        students(category:"${category}") {
-            id
-            id_number
-            family_name
-            first_name
-            middle_name
+        outbound_student_programs(deployed:true) {
+            student {
+                id
+                id_number
+                family_name
+                first_name
+                middle_name
+            }
         }
     }
     `);
@@ -50,6 +68,7 @@ class Students extends Component {
         this.fetchStudents = this.fetchStudents.bind(this);
         this.setActiveStudent = this.setActiveStudent.bind(this);
         this.onArchiveActiveStudent = this.onArchiveActiveStudent.bind(this);
+        this.extractStudentsFromProgram = this.extractStudentsFromProgram.bind(this);
 
         this.fetchStudents(this.state.activeTab.name);
     }
@@ -63,13 +82,23 @@ class Students extends Component {
             });
         }
 
-        makeStudentsQuery(category)
-            .then(result => this.setState({
-                allStudents : result.students,
-            }))
-            .catch(error => this.setState({
-                error : error,
-            }));
+        if (category === "IN") {
+            makeInboundQuery()
+                .then(result => this.setState({
+                    allStudents : result.inbound_student_programs,
+                }))
+                .catch(error => this.setState({
+                    error : error,
+                }));
+        } else {
+            makeOutboundQuery()
+                .then(result => this.setState({
+                    allStudents : result.outbound_student_programs,
+                }))
+                .catch(error => this.setState({
+                    error : error,
+                }));
+        }
     }
 
     setActiveTab(tab) {
@@ -107,28 +136,44 @@ class Students extends Component {
         });
     }
 
+    extractStudentsFromProgram() {
+        if (this.state.allStudents === null) {
+            return null;
+        }
+
+        const students = [];
+
+        this.state.allStudents.forEach(student => {
+            students.push(student.student);
+        });
+
+        return students;
+    }
+
     render() {
         if (this.state.error) {
             return (
-                <ErrorState onRetryButtonClick={() => this.fetchStudents(this.state.activeTab.name)}>
-                    {this.state.error.toString()}
+                <ErrorState onRetryButtonClick={ () => this.fetchStudents(this.state.activeTab.name) }>
+                    { this.state.error.toString() }
                 </ErrorState>
             );
         }
+
+        const students = this.extractStudentsFromProgram();
 
         const refresh = () => this.fetchStudents(this.state.activeTab.name);
 
         return (
             <div className="container-fluid d-flex flex-row p-0 h-100">
-                <StudentList students={this.state.allStudents}
-                             activeStudent={this.state.activeStudent}
-                             setActiveStudent={this.setActiveStudent}
-                             setActiveTab={this.setActiveTab}
-                             activeTab={this.state.activeTab}
-                             tabs={tabs}/>
-                <StudentDetail student={this.state.activeStudent}
-                               onArchiveActiveStudent={this.onArchiveActiveStudent}
-                               refreshStudents={refresh}/>
+                <StudentList students={ students }
+                             activeStudent={ this.state.activeStudent }
+                             setActiveStudent={ this.setActiveStudent }
+                             setActiveTab={ this.setActiveTab }
+                             activeTab={ this.state.activeTab }
+                             tabs={ tabs }/>
+                <StudentDetail student={ this.state.activeStudent }
+                               onArchiveActiveStudent={ this.onArchiveActiveStudent }
+                               refreshStudents={ refresh }/>
             </div>
         );
     }
