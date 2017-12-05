@@ -222,7 +222,7 @@ class StudentFormModal extends Component {
             dismissToast();
             this.resetForm();
             this.props.refresh();
-            this.props.onAddStudent(student);
+            // this.props.onAddStudent(student);
             iziToast.success({
                 title : "Added",
                 message : "Successfully added student",
@@ -279,10 +279,10 @@ class StudentFormModal extends Component {
 
     fetchingInstitutions() {
         return (
-            <Modal isOpen={this.props.isOpen}
-                   toggle={this.props.toggle}
-                   backdrop={true}>
-                <ModalHeader toggle={this.props.toggle}>
+            <Modal isOpen={ this.props.isOpen }
+                   toggle={ this.props.toggle }
+                   backdrop={ true }>
+                <ModalHeader toggle={ this.props.toggle }>
                     Please wait...
                 </ModalHeader>
                 <ModalBody className="form">
@@ -294,10 +294,10 @@ class StudentFormModal extends Component {
 
     noInstitutions() {
         return (
-            <Modal isOpen={this.props.isOpen}
-                   toggle={this.props.toggle}
-                   backdrop={true}>
-                <ModalHeader toggle={this.props.toggle}>
+            <Modal isOpen={ this.props.isOpen }
+                   toggle={ this.props.toggle }
+                   backdrop={ true }>
+                <ModalHeader toggle={ this.props.toggle }>
                     Institutions need to be configured first.
                 </ModalHeader>
                 <ModalBody className="form">
@@ -321,9 +321,13 @@ class StudentFormModal extends Component {
         }
 
         const institutions = this.state.institutions.map(institution => {
-            return <option value={institution.id}
-                           key={institution.id}>{institution.name}</option>;
+            return <option value={ institution.id }
+                           key={ institution.id }>{ institution.name }</option>;
         });
+
+        institutions.unshift(
+            <option value={ "" } key={ 0 }>Select an institution</option>,
+        );
 
         function isValid(fieldName) {
             return fieldErrors[fieldName].length === 0;
@@ -334,11 +338,11 @@ class StudentFormModal extends Component {
         }
 
         return (
-            <Modal isOpen={this.props.isOpen}
-                   toggle={this.props.toggle}
-                   backdrop={true}>
-                <ModalHeader toggle={this.props.toggle}>
-                    {this.props.edit ? `Edit ${this.state.form.first_name} ${this.state.form.family_name}` : "Add a Student"}
+            <Modal isOpen={ this.props.isOpen }
+                   toggle={ this.props.toggle }
+                   backdrop={ true }>
+                <ModalHeader toggle={ this.props.toggle }>
+                    { this.props.edit ? `Edit ${this.state.form.first_name} ${this.state.form.family_name}` : "Add a Student" }
                 </ModalHeader>
                 <ModalBody className="form">
                     <Form>
@@ -347,63 +351,63 @@ class StudentFormModal extends Component {
                         <FormGroup>
                             <Label>ID Number</Label>
                             <Input placeholder="ID Number"
-                                   onChange={this.getChangeHandler("id_number")}
-                                   valid={isValid("ID Number")}
-                                   value={this.state.form.id_number}/>
-                            <FormFeedback>{fieldError("ID Number")}</FormFeedback>
+                                   onChange={ this.getChangeHandler("id_number") }
+                                   valid={ isValid("ID Number") }
+                                   value={ this.state.form.id_number }/>
+                            <FormFeedback>{ fieldError("ID Number") }</FormFeedback>
                         </FormGroup>
 
                         <FormGroup>
                             <Label>First Name</Label>
                             <Input placeholder="First Name"
-                                   onChange={this.getChangeHandler("first_name")}
-                                   valid={isValid("First name")}
-                                   value={this.state.form.first_name}/>
-                            <FormFeedback>{fieldError("First name")}</FormFeedback>
+                                   onChange={ this.getChangeHandler("first_name") }
+                                   valid={ isValid("First name") }
+                                   value={ this.state.form.first_name }/>
+                            <FormFeedback>{ fieldError("First name") }</FormFeedback>
                         </FormGroup>
 
                         <FormGroup>
                             <Label>Middle Name</Label>
                             <Input placeholder="Middle Name"
-                                   onChange={this.getChangeHandler("middle_name")}
-                                   valid={isValid("Middle name")}
-                                   value={this.state.form.middle_name}/>
-                            <FormFeedback>{fieldError("Middle name")}</FormFeedback>
+                                   onChange={ this.getChangeHandler("middle_name") }
+                                   valid={ isValid("Middle name") }
+                                   value={ this.state.form.middle_name }/>
+                            <FormFeedback>{ fieldError("Middle name") }</FormFeedback>
                         </FormGroup>
 
                         <FormGroup>
                             <Label>Family Name</Label>
                             <Input placeholder="Last Name"
-                                   onChange={this.getChangeHandler("family_name")}
-                                   valid={isValid("Family name")}
-                                   value={this.state.form.family_name}/>
-                            <FormFeedback>{fieldError("Family name")}</FormFeedback>
+                                   onChange={ this.getChangeHandler("family_name") }
+                                   valid={ isValid("Family name") }
+                                   value={ this.state.form.family_name }/>
+                            <FormFeedback>{ fieldError("Family name") }</FormFeedback>
                         </FormGroup>
 
                         <FormGroup>
                             <Label>Nickname</Label>
                             <Input placeholder="Nickname"
-                                   onChange={this.getChangeHandler("nickname")}
-                                   valid={isValid("Nickname")}
-                                   value={this.state.form.nickname}/>
-                            <FormFeedback>{fieldError("Nickname")}</FormFeedback>
+                                   onChange={ this.getChangeHandler("nickname") }
+                                   valid={ isValid("Nickname") }
+                                   value={ this.state.form.nickname }/>
+                            <FormFeedback>{ fieldError("Nickname") }</FormFeedback>
                         </FormGroup>
 
                         <FormGroup>
                             <Label>Birth Date</Label>
                             <Input type="date"
                                    placeholder="Birth Date"
-                                   onChange={this.getChangeHandler("birth_date")}
-                                   valid={isValid("Birth date")}
-                                   value={this.state.form.birth_date}/>
-                            <FormFeedback>{fieldError("Birth date")}</FormFeedback>
+                                   onChange={ this.getChangeHandler("birth_date") }
+                                   valid={ isValid("Birth date") }
+                                   value={ this.state.form.birth_date }/>
+                            <FormFeedback>{ fieldError("Birth date") }</FormFeedback>
                         </FormGroup>
 
                         <FormGroup>
                             <Label>Sex</Label>
                             <Input type="select"
-                                   onChange={this.getChangeHandler("sex")}
-                                   value={this.state.form.sex}>
+                                   onChange={ this.getChangeHandler("sex") }
+                                   value={ this.state.form.sex }>
                                 <option value="F">Female</option>
                                 <option value="M">Male</option>
                             </Input>
@@ -413,26 +417,26 @@ class StudentFormModal extends Component {
                             <Label>Home Address</Label>
                             <Input type="textarea"
                                    placeholder="Home Address"
-                                   onChange={this.getChangeHandler("home_address")}
-                                   valid={isValid("Home address")}
-                                   value={this.state.form.home_address}/>
-                            <FormFeedback>{fieldError("Home address")}</FormFeedback>
+                                   onChange={ this.getChangeHandler("home_address") }
+                                   valid={ isValid("Home address") }
+                                   value={ this.state.form.home_address }/>
+                            <FormFeedback>{ fieldError("Home address") }</FormFeedback>
                         </FormGroup>
 
                         <FormGroup>
                             <Label>Nationality</Label>
                             <Input placeholder="Nationality"
-                                   onChange={this.getChangeHandler("nationality")}
-                                   valid={isValid("Nationality")}
-                                   value={this.state.form.nationality}/>
-                            <FormFeedback>{fieldError("Nationality")}</FormFeedback>
+                                   onChange={ this.getChangeHandler("nationality") }
+                                   valid={ isValid("Nationality") }
+                                   value={ this.state.form.nationality }/>
+                            <FormFeedback>{ fieldError("Nationality") }</FormFeedback>
                         </FormGroup>
 
                         <FormGroup>
                             <Label>Civil Status</Label>
                             <Input type="select"
-                                   onChange={this.getChangeHandler("civil_status")}
-                                   value={this.state.form.civil_status}>
+                                   onChange={ this.getChangeHandler("civil_status") }
+                                   value={ this.state.form.civil_status }>
                                 <option value="S">Single</option>
                                 <option value="M">Married</option>
                                 <option value="D">Divorced</option>
@@ -445,64 +449,76 @@ class StudentFormModal extends Component {
                         <FormGroup>
                             <Label>Phone Number</Label>
                             <Input placeholder="Phone Number"
-                                   onChange={this.getChangeHandler("phone_number")}
-                                   valid={isValid("Phone number")}
-                                   value={this.state.form.phone_number}/>
-                            <FormFeedback>{fieldError("Phone number")}</FormFeedback>
+                                   onChange={ this.getChangeHandler("phone_number") }
+                                   valid={ isValid("Phone number") }
+                                   value={ this.state.form.phone_number }/>
+                            <FormFeedback>{ fieldError("Phone number") }</FormFeedback>
                         </FormGroup>
 
                         <FormGroup>
                             <Label>Email</Label>
                             <Input placeholder="Email"
-                                   onChange={this.getChangeHandler("email")}
-                                   valid={isValid("Email")}
-                                   value={this.state.form.email}/>
-                            <FormFeedback>{fieldError("Email")}</FormFeedback>
+                                   onChange={ this.getChangeHandler("email") }
+                                   valid={ isValid("Email") }
+                                   value={ this.state.form.email }/>
+                            <FormFeedback>{ fieldError("Email") }</FormFeedback>
                         </FormGroup>
 
                         <FormGroup>
                             <Label>Emergency Contact Name</Label>
                             <Input placeholder="Emergency Contact Name"
-                                   onChange={this.getChangeHandler("emergency_contact_name")}
-                                   valid={isValid("Emergency contact name")}
-                                   value={this.state.form.emergency_contact_name}/>
-                            <FormFeedback>{fieldError("Emergency contact name")}</FormFeedback>
+                                   onChange={ this.getChangeHandler("emergency_contact_name") }
+                                   valid={ isValid("Emergency contact name") }
+                                   value={ this.state.form.emergency_contact_name }/>
+                            <FormFeedback>{ fieldError("Emergency contact name") }</FormFeedback>
                         </FormGroup>
 
                         <FormGroup>
                             <Label>Emergency Contact Relationship</Label>
                             <Input placeholder="Emergency Contact Relationship"
-                                   onChange={this.getChangeHandler("emergency_contact_relationship")}
-                                   valid={isValid("Emergency contact relationship")}
-                                   value={this.state.form.emergency_contact_relationship}/>
-                            <FormFeedback>{fieldError("Emergency contact relationship")}</FormFeedback>
+                                   onChange={ this.getChangeHandler("emergency_contact_relationship") }
+                                   valid={ isValid("Emergency contact relationship") }
+                                   value={ this.state.form.emergency_contact_relationship }/>
+                            <FormFeedback>{ fieldError("Emergency contact relationship") }</FormFeedback>
                         </FormGroup>
 
                         <FormGroup>
                             <Label>Emergency Contact Number</Label>
                             <Input placeholder="Emergency Contact Number"
-                                   onChange={this.getChangeHandler("emergency_contact_number")}
-                                   valid={isValid("Emergency contact number")}
-                                   value={this.state.form.emergency_contact_number}/>
-                            <FormFeedback>{fieldError("Emergency contact number")}</FormFeedback>
+                                   onChange={ this.getChangeHandler("emergency_contact_number") }
+                                   valid={ isValid("Emergency contact number") }
+                                   value={ this.state.form.emergency_contact_number }/>
+                            <FormFeedback>{ fieldError("Emergency contact number") }</FormFeedback>
                         </FormGroup>
 
                         <br/>
                         <h5 className="mb-3">University Details</h5>
                         <FormGroup>
-                            <Label>Institution</Label>
+                            <Label>Student Category</Label>
                             <Input type="select"
-                                   onChange={this.getChangeHandler("institution")}
-                                   value={this.state.form.institution}>
-                                {institutions}
+                                   onChange={ this.getChangeHandler("category") }
+                                   value={ this.state.form.category }>
+                                <option value="IN">Inbound</option>
+                                <option value="OUT">Outbound</option>
                             </Input>
                         </FormGroup>
+
+                        { this.state.form.category === "IN" &&
+                        <FormGroup>
+                            <Label>Institution</Label>
+                            <Input type="select"
+                                   onChange={ this.getChangeHandler("institution") }
+                                   value={ this.state.form.institution }>
+                                { institutions }
+                            </Input>
+                        </FormGroup>
+                        }
 
                         <FormGroup>
                             <Label>College</Label>
                             <Input type="select"
-                                   onChange={this.getChangeHandler("college")}
-                                   value={this.state.form.college}>
+                                   onChange={ this.getChangeHandler("college") }
+                                   value={ this.state.form.college }>
                                 <option value="CCS">College of Computer Studies</option>
                                 <option value="RVRCOB">Ramon V. del Rosario College of Business</option>
                                 <option value="CLA">College of Liberal Arts</option>
@@ -517,9 +533,9 @@ class StudentFormModal extends Component {
                 <ModalFooter>
                     <Button outline
                             color="success"
-                            onClick={this.props.edit ? this.submitEditStudentForm : this.submitAddStudentForm}
-                            disabled={formHasErrors}>
-                        {this.props.edit ? "Save changes" : "Add"}
+                            onClick={ this.props.edit ? this.submitEditStudentForm : this.submitAddStudentForm }
+                            disabled={ formHasErrors }>
+                        { this.props.edit ? "Save changes" : "Add" }
                     </Button>
                 </ModalFooter>
             </Modal>
@@ -671,7 +687,7 @@ class ResidenceAddressFormModal extends Component {
     }
 
     render() {
-        const { formHasErrors, fieldErrors } = this.getFormErrors();
+        const {formHasErrors, fieldErrors} = this.getFormErrors();
 
         function isValid(fieldName) {
             return fieldErrors[fieldName].length === 0;
@@ -682,11 +698,11 @@ class ResidenceAddressFormModal extends Component {
         }
 
         return (
-            <Modal isOpen={this.props.isOpen}
-                   toggle={this.props.toggle}
-                   backdrop={true}>
+            <Modal isOpen={ this.props.isOpen }
+                   toggle={ this.props.toggle }
+                   backdrop={ true }>
                 <ModalHeader>
-                    {this.props.edit ? "Edit Residence Address" : "Add a Residence Address"}
+                    { this.props.edit ? "Edit Residence Address" : "Add a Residence Address" }
                 </ModalHeader>
                 <ModalBody className="form">
                     <Form>
@@ -694,55 +710,55 @@ class ResidenceAddressFormModal extends Component {
                             <Label>Address</Label>
                             <Input type="textarea"
                                    placeholder="Address"
-                                   onChange={this.getChangeHandler("address")}
-                                   valid={isValid("Address")}
-                                   value={this.state.form.address}/>
-                            <FormFeedback>{fieldError("Address")}</FormFeedback>
+                                   onChange={ this.getChangeHandler("address") }
+                                   valid={ isValid("Address") }
+                                   value={ this.state.form.address }/>
+                            <FormFeedback>{ fieldError("Address") }</FormFeedback>
                         </FormGroup>
 
                         <FormGroup>
                             <Label>Contact Person</Label>
                             <Input placeholder="Name"
-                                   onChange={this.getChangeHandler("contact_person_name")}
-                                   valid={isValid("Contact person name")}
-                                   value={this.state.form.contact_person_name}/>
-                            <FormFeedback>{fieldError("Contact person name")}</FormFeedback>
+                                   onChange={ this.getChangeHandler("contact_person_name") }
+                                   valid={ isValid("Contact person name") }
+                                   value={ this.state.form.contact_person_name }/>
+                            <FormFeedback>{ fieldError("Contact person name") }</FormFeedback>
                         </FormGroup>
 
                         <FormGroup>
                             <Label>Contact Number</Label>
                             <Input placeholder="Number"
-                                   onChange={this.getChangeHandler("contact_person_number")}
-                                   valid={isValid("Contact person number")}
-                                   value={this.state.form.contact_person_number}/>
-                            <FormFeedback>{fieldError("Contact person number")}</FormFeedback>
+                                   onChange={ this.getChangeHandler("contact_person_number") }
+                                   valid={ isValid("Contact person number") }
+                                   value={ this.state.form.contact_person_number }/>
+                            <FormFeedback>{ fieldError("Contact person number") }</FormFeedback>
                         </FormGroup>
 
                         <FormGroup>
                             <Label>Residence Type</Label>
                             <Input placeholder="Residence Type"
-                                   onChange={this.getChangeHandler("residence")}
-                                   valid={isValid("Residence type")}
-                                   value={this.state.form.residence}/>
-                            <FormFeedback>{fieldError("Residence type")}</FormFeedback>
+                                   onChange={ this.getChangeHandler("residence") }
+                                   valid={ isValid("Residence type") }
+                                   value={ this.state.form.residence }/>
+                            <FormFeedback>{ fieldError("Residence type") }</FormFeedback>
                         </FormGroup>
 
                         <FormGroup>
                             <Label>Date Effective</Label>
                             <Input type="date"
-                                   value={this.state.form.date_effective}
-                                   onChange={this.getChangeHandler("date_effective")}
-                                   valid={isValid("Date effective")}/>
-                            <FormFeedback>{fieldError("Date effective")}</FormFeedback>
+                                   value={ this.state.form.date_effective }
+                                   onChange={ this.getChangeHandler("date_effective") }
+                                   valid={ isValid("Date effective") }/>
+                            <FormFeedback>{ fieldError("Date effective") }</FormFeedback>
                         </FormGroup>
                     </Form>
                 </ModalBody>
                 <ModalFooter>
                     <Button outline
                             color="success"
-                            disabled={formHasErrors}
-                            onClick={this.props.edit ? this.submitEditResidenceAddressForm : this.submitAddResidenceAddressForm}>
-                        {this.props.edit ? "Save changes" : "Add"}
+                            disabled={ formHasErrors }
+                            onClick={ this.props.edit ? this.submitEditResidenceAddressForm : this.submitAddResidenceAddressForm }>
+                        { this.props.edit ? "Save changes" : "Add" }
                     </Button>
                 </ModalFooter>
             </Modal>
