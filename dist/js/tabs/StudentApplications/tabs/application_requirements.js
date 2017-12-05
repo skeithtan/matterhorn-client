@@ -26,6 +26,16 @@ var _section = require("../../../components/section");
 
 var _reactstrap = require("reactstrap");
 
+var _settings = require("../../../settings");
+
+var _settings2 = _interopRequireDefault(_settings);
+
+var _authorization = require("../../../authorization");
+
+var _authorization2 = _interopRequireDefault(_authorization);
+
+var _modals = require("./modals");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -39,11 +49,11 @@ function makeRequirementsQuery(isInbound) {
 }
 
 function makeInboundApplicationQuery(id) {
-    return _graphql2.default.query("\n    {\n      student(id:" + id + ") {\n                inboundstudentprogram {\n                    is_requirements_complete\n                    application_requirements {\n                        id\n                    }\n                }\n        }\n    }\n    ");
+    return _graphql2.default.query("\n    {\n      student(id:" + id + ") {\n                inboundstudentprogram {\n                    id\n                    is_requirements_complete\n                    application_requirements {\n                        id\n                    }\n                }\n        }\n    }\n    ");
 }
 
 function makeOutboundApplicationQuery(id) {
-    return _graphql2.default.query("\n    {\n      student(id:" + id + ") {\n                outboundstudentprogram {\n                    is_requirements_complete\n                    application_requirements {\n                        id\n                    }\n                }\n        }\n    }\n    ");
+    return _graphql2.default.query("\n    {\n      student(id:" + id + ") {\n                outboundstudentprogram {\n                    id\n                    is_requirements_complete\n                    application_requirements {\n                        id\n                    }\n                }\n        }\n    }\n    ");
 }
 
 var ApplicationRequirements = function (_Component) {
@@ -58,10 +68,17 @@ var ApplicationRequirements = function (_Component) {
             applicantRequirements: null,
             requirements: null,
             isRequirementsComplete: false,
-            errors: null
+            studentProgramId: null,
+            errors: null,
+            deployApplicantIsShowing: false,
+            acceptApplicantIsShowing: false
         };
 
         _this.fetchRequirements = _this.fetchRequirements.bind(_this);
+        _this.refreshRequirements = _this.refreshRequirements.bind(_this);
+        _this.toggleDeployApplicant = _this.toggleDeployApplicant.bind(_this);
+        _this.toggleAcceptApplicant = _this.toggleAcceptApplicant.bind(_this);
+
         _this.fetchRequirements(props.inbound, props.student.id);
         return _this;
     }
@@ -93,7 +110,8 @@ var ApplicationRequirements = function (_Component) {
                         applicantRequirements: result.student.inboundstudentprogram.application_requirements.map(function (requirement) {
                             return requirement.id;
                         }),
-                        isRequirementsComplete: result.student.inboundstudentprogram.is_requirements_complete
+                        isRequirementsComplete: result.student.inboundstudentprogram.is_requirements_complete,
+                        studentProgramId: result.student.inboundstudentprogram.id
                     });
                 }).catch(function (error) {
                     return _this2.setState({
@@ -106,7 +124,8 @@ var ApplicationRequirements = function (_Component) {
                         applicantRequirements: result.student.outboundstudentprogram.application_requirements.map(function (requirement) {
                             return requirement.id;
                         }),
-                        isRequirementsComplete: result.student.outboundstudentprogram.is_requirements_complete
+                        isRequirementsComplete: result.student.outboundstudentprogram.is_requirements_complete,
+                        studentProgramId: result.student.outboundstudentprogram.id
                     });
                 }).catch(function (error) {
                     return _this2.setState({
@@ -114,6 +133,31 @@ var ApplicationRequirements = function (_Component) {
                     });
                 });
             }
+        }
+    }, {
+        key: "refreshRequirements",
+        value: function refreshRequirements() {
+            // console.log(this.props);
+            // this.fetchRequirements(this.props.inbound, this.props.student.id);
+            //
+            this.setState({
+                requirements: null,
+                applicantRequirements: null
+            });
+        }
+    }, {
+        key: "toggleDeployApplicant",
+        value: function toggleDeployApplicant() {
+            this.setState({
+                deployApplicantIsShowing: !this.state.deployApplicantIsShowing
+            });
+        }
+    }, {
+        key: "toggleAcceptApplicant",
+        value: function toggleAcceptApplicant() {
+            this.setState({
+                acceptApplicantIsShowing: !this.state.acceptApplicantIsShowing
+            });
         }
     }, {
         key: "componentWillReceiveProps",
@@ -148,9 +192,20 @@ var ApplicationRequirements = function (_Component) {
                 { className: "d-flex flex-column p-0 h-100" },
                 _react2.default.createElement(ApplicationHead, { student: this.props.student,
                     inbound: this.props.inbound,
-                    isRequirementsComplete: this.props.isRequirementsComplete }),
+                    toggleModal: this.props.inbound ? this.toggleAcceptApplicant : this.toggleDeployApplicant,
+                    isRequirementsComplete: this.state.isRequirementsComplete }),
                 _react2.default.createElement(RequirementsBody, { requirements: this.state.requirements,
-                    applicantRequirements: this.state.applicantRequirements })
+                    student: this.props.student,
+                    inbound: this.props.inbound,
+                    refreshRequirements: function refreshRequirements() {
+                        return _this3.fetchRequirements(_this3.props.inbound, _this3.props.student.id);
+                    },
+                    studentProgramId: this.state.studentProgramId,
+                    applicantRequirements: this.state.applicantRequirements }),
+                !this.props.inbound && this.state.isRequirementsComplete && _react2.default.createElement(_modals.DeployApplicantModal, { isOpen: this.state.deployApplicantIsShowing,
+                    toggle: this.toggleDeployApplicant }),
+                this.props.inbound && this.state.isRequirementsComplete && _react2.default.createElement(_modals.AcceptApplicantModal, { isOpen: this.state.acceptApplicantIsShowing,
+                    toggle: this.toggleAcceptApplicant })
             );
         }
     }]);
@@ -194,15 +249,24 @@ var ApplicationHead = function (_Component2) {
                             { className: "text-muted ml-2" },
                             this.props.student.id_number
                         )
-                    ),
-                    this.props.isRequirementsComplete && _react2.default.createElement(
-                        _reactstrap.Button,
-                        { outline: true,
-                            size: "sm",
-                            color: "success" },
-                        this.props.inbound ? "Accept " : "Deploy ",
-                        " Student"
                     )
+                ),
+                this.props.isRequirementsComplete && _react2.default.createElement(
+                    _reactstrap.Button,
+                    { outline: true,
+                        size: "sm",
+                        className: "mr-2",
+                        onClick: this.props.toggleModal,
+                        color: "success" },
+                    this.props.inbound ? "Accept " : "Deploy ",
+                    " Student"
+                ),
+                _react2.default.createElement(
+                    _reactstrap.Button,
+                    { outline: true,
+                        size: "sm",
+                        color: "danger" },
+                    "Cancel Application"
                 )
             );
         }
@@ -227,6 +291,11 @@ var RequirementsBody = function (_Component3) {
 
             var rows = this.props.requirements.map(function (requirement) {
                 return _react2.default.createElement(RequirementRow, { key: requirement.id,
+                    applicantRequirements: _this6.props.applicantRequirements,
+                    student: _this6.props.student,
+                    inbound: _this6.props.inbound,
+                    refreshRequirements: _this6.props.refreshRequirements,
+                    studentProgramId: _this6.props.studentProgramId,
                     done: _this6.props.applicantRequirements.includes(requirement.id),
                     requirement: requirement });
             });
@@ -245,13 +314,55 @@ var RequirementsBody = function (_Component3) {
 var RequirementRow = function (_Component4) {
     _inherits(RequirementRow, _Component4);
 
-    function RequirementRow() {
+    function RequirementRow(props) {
         _classCallCheck(this, RequirementRow);
 
-        return _possibleConstructorReturn(this, (RequirementRow.__proto__ || Object.getPrototypeOf(RequirementRow)).apply(this, arguments));
+        var _this7 = _possibleConstructorReturn(this, (RequirementRow.__proto__ || Object.getPrototypeOf(RequirementRow)).call(this, props));
+
+        _this7.markAsDone = _this7.markAsDone.bind(_this7);
+        _this7.markAsUndone = _this7.markAsUndone.bind(_this7);
+        return _this7;
     }
 
     _createClass(RequirementRow, [{
+        key: "markAsDone",
+        value: function markAsDone() {
+            var _this8 = this;
+
+            var requirements = this.props.applicantRequirements.concat([this.props.requirement.id]);
+
+            $.ajax({
+                method: "PUT",
+                url: _settings2.default.serverURL + "/programs/" + (this.props.inbound ? "inbound" : "outbound") + "/students/" + this.props.studentProgramId + "/",
+                beforeSend: _authorization2.default,
+                data: JSON.stringify({
+                    application_requirements: requirements
+                }),
+                contentType: "application/json"
+            }).done(function () {
+                _this8.props.refreshRequirements();
+            });
+        }
+    }, {
+        key: "markAsUndone",
+        value: function markAsUndone() {
+            var _this9 = this;
+
+            $.ajax({
+                method: "PUT",
+                url: _settings2.default.serverURL + "/programs/" + (this.props.inbound ? "inbound" : "outbound") + "/students/" + this.props.studentProgramId + "/",
+                beforeSend: _authorization2.default,
+                data: JSON.stringify({
+                    application_requirements: this.props.applicantRequirements.filter(function (requirement) {
+                        return requirement !== _this9.props.requirement.id;
+                    })
+                }),
+                contentType: "application/json"
+            }).done(function () {
+                _this9.props.refreshRequirements();
+            });
+        }
+    }, {
         key: "render",
         value: function render() {
             return _react2.default.createElement(
@@ -260,7 +371,7 @@ var RequirementRow = function (_Component4) {
                     className: "d-flex flex-row align-items-center" },
                 this.props.done && _react2.default.createElement(
                     "b",
-                    { className: "text-success" },
+                    { className: "text-success mr-3" },
                     "\u2713"
                 ),
                 _react2.default.createElement(
@@ -271,12 +382,16 @@ var RequirementRow = function (_Component4) {
                 this.props.done && _react2.default.createElement(
                     _reactstrap.Button,
                     { outline: true,
+                        size: "sm",
+                        onClick: this.markAsUndone,
                         color: "warning" },
                     "Mark as undone"
                 ),
                 !this.props.done && _react2.default.createElement(
                     _reactstrap.Button,
                     { outline: true,
+                        size: "sm",
+                        onClick: this.markAsDone,
                         color: "success" },
                     "Mark as done"
                 )

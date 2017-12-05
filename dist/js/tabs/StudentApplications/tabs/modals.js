@@ -1,5 +1,10 @@
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.AcceptApplicantModal = exports.DeployApplicantModal = undefined;
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = require("react");
@@ -60,7 +65,7 @@ var DeployApplicantModal = function (_Component) {
         value: function getFormErrors() {
             var isValidIntegerValidator = {
                 isValid: function isValid(fieldValue) {
-                    return !isNaN(parseInt(text));
+                    return !isNaN(parseInt(fieldValue));
                 },
                 errorMessage: function errorMessage(fieldValue) {
                     return fieldValue + " must be a valid integer";
@@ -69,7 +74,7 @@ var DeployApplicantModal = function (_Component) {
 
             var isPositiveIntegerValidator = {
                 isValid: function isValid(fieldValue) {
-                    return parseInt(text) > 0;
+                    return parseInt(fieldValue) > 0;
                 },
                 errorMessage: function errorMessage(fieldValue) {
                     return fieldValue + " must be greater than 0.";
@@ -160,9 +165,13 @@ var DeployApplicantModal = function (_Component) {
                 _react2.default.createElement(
                     _reactstrap.ModalFooter,
                     null,
-                    _react2.default.createElement(_reactstrap.Button, { outline: true,
-                        color: "success",
-                        disabled: formHasErrors })
+                    _react2.default.createElement(
+                        _reactstrap.Button,
+                        { outline: true,
+                            color: "success",
+                            disabled: formHasErrors },
+                        "Deploy Student"
+                    )
                 )
             );
         }
@@ -170,4 +179,138 @@ var DeployApplicantModal = function (_Component) {
 
     return DeployApplicantModal;
 }(_react.Component);
+
+var AcceptApplicantModal = function (_Component2) {
+    _inherits(AcceptApplicantModal, _Component2);
+
+    function AcceptApplicantModal(props) {
+        _classCallCheck(this, AcceptApplicantModal);
+
+        var _this3 = _possibleConstructorReturn(this, (AcceptApplicantModal.__proto__ || Object.getPrototypeOf(AcceptApplicantModal)).call(this, props));
+
+        _this3.state = {
+            form: {
+                total_units_enrolled: ""
+            }
+        };
+
+        _this3.getFormErrors = _this3.getFormErrors.bind(_this3);
+        return _this3;
+    }
+
+    _createClass(AcceptApplicantModal, [{
+        key: "getChangeHandler",
+        value: function getChangeHandler(fieldName) {
+            var _this4 = this;
+
+            var form = this.state.form;
+
+            return function (event) {
+                var value = event.target.value;
+
+                form[fieldName] = value;
+                _this4.setState({
+                    form: form
+                });
+            };
+        }
+    }, {
+        key: "getFormErrors",
+        value: function getFormErrors() {
+            var isValidIntegerValidator = {
+                isValid: function isValid(fieldValue) {
+                    return !isNaN(parseInt(fieldValue));
+                },
+                errorMessage: function errorMessage(fieldValue) {
+                    return fieldValue + " must be a valid integer";
+                }
+            };
+
+            var isPositiveIntegerValidator = {
+                isValid: function isValid(fieldValue) {
+                    return parseInt(fieldValue) > 0;
+                },
+                errorMessage: function errorMessage(fieldValue) {
+                    return fieldValue + " must be greater than 0.";
+                }
+            };
+
+            return (0, _form_validator2.default)([{
+                name: "Total units enrolled",
+                characterLimit: null,
+                value: this.state.form.total_units_enrolled,
+                customValidators: [isValidIntegerValidator, isPositiveIntegerValidator]
+            }]);
+        }
+    }, {
+        key: "render",
+        value: function render() {
+            var _getFormErrors2 = this.getFormErrors(),
+                formHasErrors = _getFormErrors2.formHasErrors,
+                fieldErrors = _getFormErrors2.fieldErrors;
+
+            function isValid(fieldName) {
+                return fieldErrors[fieldName].length === 0;
+            }
+
+            function fieldError(fieldName) {
+                return fieldErrors[fieldName][0];
+            }
+
+            return _react2.default.createElement(
+                _reactstrap.Modal,
+                { isOpen: this.props.isOpen,
+                    toggle: this.props.toggle,
+                    backdrop: true },
+                _react2.default.createElement(
+                    _reactstrap.ModalHeader,
+                    { toggle: this.props.toggle },
+                    "Deploy Student"
+                ),
+                _react2.default.createElement(
+                    _reactstrap.ModalBody,
+                    { className: "form" },
+                    _react2.default.createElement(
+                        _reactstrap.Form,
+                        null,
+                        _react2.default.createElement(
+                            _reactstrap.FormGroup,
+                            null,
+                            _react2.default.createElement(
+                                _reactstrap.Label,
+                                null,
+                                "Total Units Enrolled"
+                            ),
+                            _react2.default.createElement(_reactstrap.Input, { placeholder: "Total Units Enrolled",
+                                onChange: this.getChangeHandler("total_units_enrolled"),
+                                valid: isValid("Total units enrolled"),
+                                value: this.state.form.total_units_enrolled }),
+                            _react2.default.createElement(
+                                _reactstrap.FormFeedback,
+                                null,
+                                fieldError("Total units enrolled")
+                            )
+                        )
+                    )
+                ),
+                _react2.default.createElement(
+                    _reactstrap.ModalFooter,
+                    null,
+                    _react2.default.createElement(
+                        _reactstrap.Button,
+                        { outline: true,
+                            color: "success",
+                            disabled: formHasErrors },
+                        "Accept Student"
+                    )
+                )
+            );
+        }
+    }]);
+
+    return AcceptApplicantModal;
+}(_react.Component);
+
+exports.DeployApplicantModal = DeployApplicantModal;
+exports.AcceptApplicantModal = AcceptApplicantModal;
 //# sourceMappingURL=modals.js.map
