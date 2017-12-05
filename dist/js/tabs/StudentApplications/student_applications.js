@@ -138,7 +138,8 @@ var StudentApplications = function (_Component) {
         key: "setApplicants",
         value: function setApplicants(tabName) {
             this.setState({
-                applicants: null
+                applicants: null,
+                activeApplicant: null
             });
 
             if (tabName === "Inbound") {

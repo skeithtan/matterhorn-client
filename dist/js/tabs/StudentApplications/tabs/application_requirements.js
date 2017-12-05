@@ -203,8 +203,12 @@ var ApplicationRequirements = function (_Component) {
                     studentProgramId: this.state.studentProgramId,
                     applicantRequirements: this.state.applicantRequirements }),
                 !this.props.inbound && this.state.isRequirementsComplete && _react2.default.createElement(_modals.DeployApplicantModal, { isOpen: this.state.deployApplicantIsShowing,
+                    student: this.props.student,
+                    refreshStudents: this.props.refreshStudents,
                     toggle: this.toggleDeployApplicant }),
                 this.props.inbound && this.state.isRequirementsComplete && _react2.default.createElement(_modals.AcceptApplicantModal, { isOpen: this.state.acceptApplicantIsShowing,
+                    student: this.props.student,
+                    refreshStudents: this.props.refreshStudents,
                     toggle: this.toggleAcceptApplicant })
             );
         }

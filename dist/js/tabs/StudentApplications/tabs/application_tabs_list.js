@@ -29,8 +29,10 @@ var tabs = [{
     activeImage: "./images/burgergreen.png"
 }, {
     name: "Requirements",
-    tab: function tab(inbound, applicant) {
-        return _react2.default.createElement(_application_requirements2.default, { student: applicant, inbound: inbound });
+    tab: function tab(inbound, applicant, refreshStudents) {
+        return _react2.default.createElement(_application_requirements2.default, { student: applicant,
+            inbound: inbound,
+            refreshStudents: refreshStudents });
     },
     image: "./images/checklistgrey.png",
     activeImage: "./images/checklistgreen.png"
