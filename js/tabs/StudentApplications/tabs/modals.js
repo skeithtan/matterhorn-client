@@ -12,6 +12,9 @@ import {
     ModalFooter,
     ModalHeader,
 } from "reactstrap";
+import authorizeXHR from "../../../authorization";
+import settings from "../../../settings";
+import iziToast from "izitoast";
 
 
 class DeployApplicantModal extends Component {
@@ -27,6 +30,30 @@ class DeployApplicantModal extends Component {
         };
 
         this.getFormErrors = this.getFormErrors.bind(this);
+        this.deployStudent = this.deployStudent.bind(this);
+    }
+
+    deployStudent() {
+        $.post({
+            url : `${settings.serverURL}/programs/outbound/students/${this.props.student.id}/deploy/`,
+            beforeSend : authorizeXHR,
+            data : this.state.form,
+        }).then(() => {
+            this.props.refreshStudents();
+            iziToast.success({
+                title : "Deployed",
+                message : "Student has been deployed",
+            });
+        }).fail(error => {
+            console.log(error);
+
+            iziToast.error({
+                title : "Error",
+                message : "Unable to deploy student",
+            });
+        });
+
+        this.props.toggle();
     }
 
     getChangeHandler(fieldName) {
@@ -44,7 +71,7 @@ class DeployApplicantModal extends Component {
 
     getFormErrors() {
         const isValidIntegerValidator = {
-            isValid : fieldValue => !isNaN(parseInt(fieldValue)),
+            isValid : fieldValue => /^-{0,1}\d+$/.test(fieldValue),
             errorMessage : fieldValue => `${fieldValue} must be a valid integer`,
         };
 
@@ -112,6 +139,7 @@ class DeployApplicantModal extends Component {
                 <ModalFooter>
                     <Button outline
                             color="success"
+                            onClick={this.deployStudent}
                             disabled={formHasErrors}>
                         Deploy Student
                     </Button>
@@ -130,10 +158,36 @@ class AcceptApplicantModal extends Component {
         this.state = {
             form : {
                 total_units_enrolled : "",
+                inbound_courses : [],
             },
         };
 
         this.getFormErrors = this.getFormErrors.bind(this);
+        this.acceptStudent = this.acceptStudent.bind(this);
+    }
+
+    acceptStudent() {
+        $.post({
+            url : `${settings.serverURL}/programs/inbound/students/${this.props.student.id}/accept/`,
+            beforeSend : authorizeXHR,
+            data : JSON.stringify(this.state.form),
+            contentType : "application/json",
+        }).then(() => {
+            this.props.refreshStudents();
+            iziToast.success({
+                title : "Accepted",
+                message : "Student has been accepted",
+            });
+        }).fail(error => {
+            console.log(error);
+
+            iziToast.error({
+                title : "Error",
+                message : "Unable to accept student",
+            });
+        });
+
+        this.props.toggle();
     }
 
     getChangeHandler(fieldName) {
@@ -151,7 +205,7 @@ class AcceptApplicantModal extends Component {
 
     getFormErrors() {
         const isValidIntegerValidator = {
-            isValid : fieldValue => !isNaN(parseInt(fieldValue)),
+            isValid : fieldValue => /^-{0,1}\d+$/.test(fieldValue),
             errorMessage : fieldValue => `${fieldValue} must be a valid integer`,
         };
 
@@ -182,12 +236,15 @@ class AcceptApplicantModal extends Component {
             return fieldErrors[fieldName][0];
         }
 
+        console.log(formHasErrors, fieldErrors, isValid("Total units enrolled"));
+
+
         return (
             <Modal isOpen={this.props.isOpen}
                    toggle={this.props.toggle}
                    backdrop={true}>
                 <ModalHeader toggle={this.props.toggle}>
-                    Deploy Student
+                    Accept Student
                 </ModalHeader>
                 <ModalBody className="form">
                     <Form>
@@ -204,6 +261,7 @@ class AcceptApplicantModal extends Component {
                 <ModalFooter>
                     <Button outline
                             color="success"
+                            onClick={this.acceptStudent}
                             disabled={formHasErrors}>
                         Accept Student
                     </Button>

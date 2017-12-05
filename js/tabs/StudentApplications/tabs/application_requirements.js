@@ -176,11 +176,15 @@ class ApplicationRequirements extends Component {
 
                 {!this.props.inbound && this.state.isRequirementsComplete &&
                 <DeployApplicantModal isOpen={this.state.deployApplicantIsShowing}
+                                      student={this.props.student}
+                                      refreshStudents={this.props.refreshStudents}
                                       toggle={this.toggleDeployApplicant}/>
                 }
 
                 {this.props.inbound && this.state.isRequirementsComplete &&
                 <AcceptApplicantModal isOpen={this.state.acceptApplicantIsShowing}
+                                      student={this.props.student}
+                                      refreshStudents={this.props.refreshStudents}
                                       toggle={this.toggleAcceptApplicant}/>
                 }
 

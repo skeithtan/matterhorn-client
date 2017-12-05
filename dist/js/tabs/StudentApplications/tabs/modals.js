@@ -17,6 +17,18 @@ var _form_validator2 = _interopRequireDefault(_form_validator);
 
 var _reactstrap = require("reactstrap");
 
+var _authorization = require("../../../authorization");
+
+var _authorization2 = _interopRequireDefault(_authorization);
+
+var _settings = require("../../../settings");
+
+var _settings2 = _interopRequireDefault(_settings);
+
+var _izitoast = require("izitoast");
+
+var _izitoast2 = _interopRequireDefault(_izitoast);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -41,13 +53,40 @@ var DeployApplicantModal = function (_Component) {
         };
 
         _this.getFormErrors = _this.getFormErrors.bind(_this);
+        _this.deployStudent = _this.deployStudent.bind(_this);
         return _this;
     }
 
     _createClass(DeployApplicantModal, [{
+        key: "deployStudent",
+        value: function deployStudent() {
+            var _this2 = this;
+
+            $.post({
+                url: _settings2.default.serverURL + "/programs/outbound/students/" + this.props.student.id + "/deploy/",
+                beforeSend: _authorization2.default,
+                data: this.state.form
+            }).then(function () {
+                _this2.props.refreshStudents();
+                _izitoast2.default.success({
+                    title: "Deployed",
+                    message: "Student has been deployed"
+                });
+            }).fail(function (error) {
+                console.log(error);
+
+                _izitoast2.default.error({
+                    title: "Error",
+                    message: "Unable to deploy student"
+                });
+            });
+
+            this.props.toggle();
+        }
+    }, {
         key: "getChangeHandler",
         value: function getChangeHandler(fieldName) {
-            var _this2 = this;
+            var _this3 = this;
 
             var form = this.state.form;
 
@@ -55,7 +94,7 @@ var DeployApplicantModal = function (_Component) {
                 var value = event.target.value;
 
                 form[fieldName] = value;
-                _this2.setState({
+                _this3.setState({
                     form: form
                 });
             };
@@ -65,7 +104,8 @@ var DeployApplicantModal = function (_Component) {
         value: function getFormErrors() {
             var isValidIntegerValidator = {
                 isValid: function isValid(fieldValue) {
-                    return !isNaN(parseInt(fieldValue));
+                    return (/^-{0,1}\d+$/.test(fieldValue)
+                    );
                 },
                 errorMessage: function errorMessage(fieldValue) {
                     return fieldValue + " must be a valid integer";
@@ -169,6 +209,7 @@ var DeployApplicantModal = function (_Component) {
                         _reactstrap.Button,
                         { outline: true,
                             color: "success",
+                            onClick: this.deployStudent,
                             disabled: formHasErrors },
                         "Deploy Student"
                     )
@@ -186,22 +227,51 @@ var AcceptApplicantModal = function (_Component2) {
     function AcceptApplicantModal(props) {
         _classCallCheck(this, AcceptApplicantModal);
 
-        var _this3 = _possibleConstructorReturn(this, (AcceptApplicantModal.__proto__ || Object.getPrototypeOf(AcceptApplicantModal)).call(this, props));
+        var _this4 = _possibleConstructorReturn(this, (AcceptApplicantModal.__proto__ || Object.getPrototypeOf(AcceptApplicantModal)).call(this, props));
 
-        _this3.state = {
+        _this4.state = {
             form: {
-                total_units_enrolled: ""
+                total_units_enrolled: "",
+                inbound_courses: []
             }
         };
 
-        _this3.getFormErrors = _this3.getFormErrors.bind(_this3);
-        return _this3;
+        _this4.getFormErrors = _this4.getFormErrors.bind(_this4);
+        _this4.acceptStudent = _this4.acceptStudent.bind(_this4);
+        return _this4;
     }
 
     _createClass(AcceptApplicantModal, [{
+        key: "acceptStudent",
+        value: function acceptStudent() {
+            var _this5 = this;
+
+            $.post({
+                url: _settings2.default.serverURL + "/programs/inbound/students/" + this.props.student.id + "/accept/",
+                beforeSend: _authorization2.default,
+                data: JSON.stringify(this.state.form),
+                contentType: "application/json"
+            }).then(function () {
+                _this5.props.refreshStudents();
+                _izitoast2.default.success({
+                    title: "Accepted",
+                    message: "Student has been accepted"
+                });
+            }).fail(function (error) {
+                console.log(error);
+
+                _izitoast2.default.error({
+                    title: "Error",
+                    message: "Unable to accept student"
+                });
+            });
+
+            this.props.toggle();
+        }
+    }, {
         key: "getChangeHandler",
         value: function getChangeHandler(fieldName) {
-            var _this4 = this;
+            var _this6 = this;
 
             var form = this.state.form;
 
@@ -209,7 +279,7 @@ var AcceptApplicantModal = function (_Component2) {
                 var value = event.target.value;
 
                 form[fieldName] = value;
-                _this4.setState({
+                _this6.setState({
                     form: form
                 });
             };
@@ -219,7 +289,8 @@ var AcceptApplicantModal = function (_Component2) {
         value: function getFormErrors() {
             var isValidIntegerValidator = {
                 isValid: function isValid(fieldValue) {
-                    return !isNaN(parseInt(fieldValue));
+                    return (/^-{0,1}\d+$/.test(fieldValue)
+                    );
                 },
                 errorMessage: function errorMessage(fieldValue) {
                     return fieldValue + " must be a valid integer";
@@ -257,6 +328,8 @@ var AcceptApplicantModal = function (_Component2) {
                 return fieldErrors[fieldName][0];
             }
 
+            console.log(formHasErrors, fieldErrors, isValid("Total units enrolled"));
+
             return _react2.default.createElement(
                 _reactstrap.Modal,
                 { isOpen: this.props.isOpen,
@@ -265,7 +338,7 @@ var AcceptApplicantModal = function (_Component2) {
                 _react2.default.createElement(
                     _reactstrap.ModalHeader,
                     { toggle: this.props.toggle },
-                    "Deploy Student"
+                    "Accept Student"
                 ),
                 _react2.default.createElement(
                     _reactstrap.ModalBody,
@@ -300,6 +373,7 @@ var AcceptApplicantModal = function (_Component2) {
                         _reactstrap.Button,
                         { outline: true,
                             color: "success",
+                            onClick: this.acceptStudent,
                             disabled: formHasErrors },
                         "Accept Student"
                     )
