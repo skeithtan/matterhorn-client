@@ -221,9 +221,9 @@ class StudentApplications extends Component {
                                    refreshStudents={refresh}/>
 
                 <StudentFormModal applicant
-                                  isOpen={ this.state.addStudentIsShowing }
-                                  refresh={ refresh }
-                                  toggle={ this.toggleStudentModal }/>
+                                  isOpen={this.state.addStudentIsShowing}
+                                  refresh={refresh}
+                                  toggle={this.toggleStudentModal}/>
             </div>
         );
     }
@@ -232,16 +232,33 @@ class StudentApplications extends Component {
 class StudentApplicationsList extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            searchKeyword : null,
+        };
+
+        this.setSearchKeyword = this.setSearchKeyword.bind(this);
+
+    }
+
+    setSearchKeyword(searchString) {
+        //If the string is empty, that means the user isn't searching at all
+        const searchKeyword = searchString === "" ? null : searchString;
+        this.setState({
+            searchKeyword : searchKeyword,
+        });
     }
 
     render() {
         return (
             <div className="sidebar h-100">
                 <StudentApplicationsListHead activeCategory={this.props.activeCategory}
+                                             setSearchKeyword={this.setSearchKeyword}
                                              setActiveCategory={this.props.setActiveCategory}
                                              toggleStudentModal={this.props.toggleStudentModal}/>
                 <StudentApplicationsListTable activeCategory={this.props.activeCategory}
                                               applicants={this.props.applicants}
+                                              searchKeyword={this.state.searchKeyword}
                                               activeApplicant={this.props.activeApplicant}
                                               setActiveApplicant={this.props.setActiveApplicant}/>
                 <TabBar tabs={this.props.tabs}
@@ -283,6 +300,7 @@ class StudentApplicationsListHead extends Component {
                 <h4 className="page-head-title">{this.props.activeCategory} Applications</h4>
                 <Input type="search"
                        placeholder="search"
+                       onChange={event => this.props.setSearchKeyword(event.target.value)}
                        className="search-input"/>
             </div>
         );
@@ -293,6 +311,7 @@ class StudentApplicationsListTable extends Component {
     constructor(props) {
         super(props);
 
+        this.getFilteredStudents = this.getFilteredStudents.bind(this);
         this.getStudentsByFamilyNameInitials = this.getStudentsByFamilyNameInitials.bind(this);
         this.emptyState = this.emptyState.bind(this);
     }
@@ -302,14 +321,15 @@ class StudentApplicationsListTable extends Component {
             return null;
         }
 
-        const applicants = [];
-
-        this.props.applicants.forEach(applicant => {
-            applicants.push(applicant.student);
+        const students = this.props.applicants.map(applicant => {
+            return applicant.student;
         });
 
+
         //Get first letter
-        let familyNameInitials = applicants.map(student => student.family_name[0]);
+        let familyNameInitials = students.map(student => {
+            return student.family_name[0];
+        });
 
         //Get uniques only
         familyNameInitials = familyNameInitials.filter((value, index, self) => {
@@ -337,7 +357,7 @@ class StudentApplicationsListTable extends Component {
                 applicants : categorizedApplicants,
             });
 
-            applicants.forEach(applicant => {
+            students.forEach(applicant => {
                 const studentInitial = applicant.family_name[0];
 
                 if (studentInitial === initial) {
@@ -357,6 +377,26 @@ class StudentApplicationsListTable extends Component {
         );
     }
 
+    getFilteredStudents() {
+        if (this.props.applicants === null) {
+            return null;
+        }
+
+        if (this.props.searchKeyword === null) {
+            return this.props.applicants;
+        }
+
+        const searchKeyword = this.props.searchKeyword.toLowerCase();
+
+        const filteredStudents = this.props.applicants.filter(applicant => {
+            const student = applicant.student;
+            const fullName = `${student.first_name} ${student.middle_name} ${student.family_name}`.toLowerCase();
+            return fullName.includes(searchKeyword) || student.id_number.includes(searchKeyword);
+        });
+
+        return filteredStudents.map(applicant => applicant.student.id);
+    }
+
     render() {
         if (this.props.applicants === null) {
             return <LoadingSpinner/>;
@@ -369,8 +409,26 @@ class StudentApplicationsListTable extends Component {
         const familyNameInitials = this.getStudentsByFamilyNameInitials();
 
         const sections = familyNameInitials.map((familyNameInitial, index) => {
+            const students = familyNameInitial.applicants;
+
+            let collapsed = false;
+
+            if (this.props.searchKeyword !== null) {
+                collapsed = true;
+                const filtered = this.getFilteredStudents();
+
+                students.forEach(student => {
+                    if (filtered.includes(student.id)) {
+                        collapsed = false;
+                    }
+                });
+            }
+
             return <StudentApplicationsListSection key={index}
+                                                   collapsed={collapsed}
+                                                   filtered={this.getFilteredStudents()}
                                                    title={familyNameInitial.initial}
+                                                   isSearching={this.props.searchKeyword !== null}
                                                    activeApplicant={this.props.activeApplicant}
                                                    applicants={familyNameInitial.applicants}
                                                    setActiveApplicant={this.props.setActiveApplicant}/>;
@@ -385,10 +443,6 @@ class StudentApplicationsListTable extends Component {
 }
 
 class StudentApplicationsListSection extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         const rows = this.props.applicants.map((applicant, index) => {
             let isActive = false;
@@ -399,8 +453,14 @@ class StudentApplicationsListSection extends Component {
 
             const setActiveApplicant = () => this.props.setActiveApplicant(applicant);
 
+            let collapsed = false;
+            if (this.props.isSearching) {
+                collapsed = !this.props.filtered.includes(applicant.id);
+            }
+
             return (
                 <SectionRow selectable
+                            collapsed={collapsed}
                             onClick={setActiveApplicant}
                             active={isActive}
                             key={index}>
@@ -411,7 +471,7 @@ class StudentApplicationsListSection extends Component {
         });
 
         return (
-            <Section>
+            <Section collapsed={this.props.collapsed}>
                 <SectionTitle>{this.props.title}</SectionTitle>
                 <SectionTable>
                     {rows}

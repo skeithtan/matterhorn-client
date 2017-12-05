@@ -261,20 +261,39 @@ var StudentApplicationsList = function (_Component2) {
     function StudentApplicationsList(props) {
         _classCallCheck(this, StudentApplicationsList);
 
-        return _possibleConstructorReturn(this, (StudentApplicationsList.__proto__ || Object.getPrototypeOf(StudentApplicationsList)).call(this, props));
+        var _this6 = _possibleConstructorReturn(this, (StudentApplicationsList.__proto__ || Object.getPrototypeOf(StudentApplicationsList)).call(this, props));
+
+        _this6.state = {
+            searchKeyword: null
+        };
+
+        _this6.setSearchKeyword = _this6.setSearchKeyword.bind(_this6);
+
+        return _this6;
     }
 
     _createClass(StudentApplicationsList, [{
+        key: "setSearchKeyword",
+        value: function setSearchKeyword(searchString) {
+            //If the string is empty, that means the user isn't searching at all
+            var searchKeyword = searchString === "" ? null : searchString;
+            this.setState({
+                searchKeyword: searchKeyword
+            });
+        }
+    }, {
         key: "render",
         value: function render() {
             return _react2.default.createElement(
                 "div",
                 { className: "sidebar h-100" },
                 _react2.default.createElement(StudentApplicationsListHead, { activeCategory: this.props.activeCategory,
+                    setSearchKeyword: this.setSearchKeyword,
                     setActiveCategory: this.props.setActiveCategory,
                     toggleStudentModal: this.props.toggleStudentModal }),
                 _react2.default.createElement(StudentApplicationsListTable, { activeCategory: this.props.activeCategory,
                     applicants: this.props.applicants,
+                    searchKeyword: this.state.searchKeyword,
                     activeApplicant: this.props.activeApplicant,
                     setActiveApplicant: this.props.setActiveApplicant }),
                 _react2.default.createElement(_tab_bar2.default, { tabs: this.props.tabs,
@@ -352,6 +371,9 @@ var StudentApplicationsListHead = function (_Component3) {
                 ),
                 _react2.default.createElement(_reactstrap.Input, { type: "search",
                     placeholder: "search",
+                    onChange: function onChange(event) {
+                        return _this8.props.setSearchKeyword(event.target.value);
+                    },
                     className: "search-input" })
             );
         }
@@ -368,6 +390,7 @@ var StudentApplicationsListTable = function (_Component4) {
 
         var _this9 = _possibleConstructorReturn(this, (StudentApplicationsListTable.__proto__ || Object.getPrototypeOf(StudentApplicationsListTable)).call(this, props));
 
+        _this9.getFilteredStudents = _this9.getFilteredStudents.bind(_this9);
         _this9.getStudentsByFamilyNameInitials = _this9.getStudentsByFamilyNameInitials.bind(_this9);
         _this9.emptyState = _this9.emptyState.bind(_this9);
         return _this9;
@@ -380,14 +403,12 @@ var StudentApplicationsListTable = function (_Component4) {
                 return null;
             }
 
-            var applicants = [];
-
-            this.props.applicants.forEach(function (applicant) {
-                applicants.push(applicant.student);
+            var students = this.props.applicants.map(function (applicant) {
+                return applicant.student;
             });
 
             //Get first letter
-            var familyNameInitials = applicants.map(function (student) {
+            var familyNameInitials = students.map(function (student) {
                 return student.family_name[0];
             });
 
@@ -417,7 +438,7 @@ var StudentApplicationsListTable = function (_Component4) {
                     applicants: categorizedApplicants
                 });
 
-                applicants.forEach(function (applicant) {
+                students.forEach(function (applicant) {
                     var studentInitial = applicant.family_name[0];
 
                     if (studentInitial === initial) {
@@ -443,6 +464,29 @@ var StudentApplicationsListTable = function (_Component4) {
             );
         }
     }, {
+        key: "getFilteredStudents",
+        value: function getFilteredStudents() {
+            if (this.props.applicants === null) {
+                return null;
+            }
+
+            if (this.props.searchKeyword === null) {
+                return this.props.applicants;
+            }
+
+            var searchKeyword = this.props.searchKeyword.toLowerCase();
+
+            var filteredStudents = this.props.applicants.filter(function (applicant) {
+                var student = applicant.student;
+                var fullName = (student.first_name + " " + student.middle_name + " " + student.family_name).toLowerCase();
+                return fullName.includes(searchKeyword) || student.id_number.includes(searchKeyword);
+            });
+
+            return filteredStudents.map(function (applicant) {
+                return applicant.student.id;
+            });
+        }
+    }, {
         key: "render",
         value: function render() {
             var _this10 = this;
@@ -458,8 +502,26 @@ var StudentApplicationsListTable = function (_Component4) {
             var familyNameInitials = this.getStudentsByFamilyNameInitials();
 
             var sections = familyNameInitials.map(function (familyNameInitial, index) {
+                var students = familyNameInitial.applicants;
+
+                var collapsed = false;
+
+                if (_this10.props.searchKeyword !== null) {
+                    collapsed = true;
+                    var filtered = _this10.getFilteredStudents();
+
+                    students.forEach(function (student) {
+                        if (filtered.includes(student.id)) {
+                            collapsed = false;
+                        }
+                    });
+                }
+
                 return _react2.default.createElement(StudentApplicationsListSection, { key: index,
+                    collapsed: collapsed,
+                    filtered: _this10.getFilteredStudents(),
                     title: familyNameInitial.initial,
+                    isSearching: _this10.props.searchKeyword !== null,
                     activeApplicant: _this10.props.activeApplicant,
                     applicants: familyNameInitial.applicants,
                     setActiveApplicant: _this10.props.setActiveApplicant });
@@ -479,10 +541,10 @@ var StudentApplicationsListTable = function (_Component4) {
 var StudentApplicationsListSection = function (_Component5) {
     _inherits(StudentApplicationsListSection, _Component5);
 
-    function StudentApplicationsListSection(props) {
+    function StudentApplicationsListSection() {
         _classCallCheck(this, StudentApplicationsListSection);
 
-        return _possibleConstructorReturn(this, (StudentApplicationsListSection.__proto__ || Object.getPrototypeOf(StudentApplicationsListSection)).call(this, props));
+        return _possibleConstructorReturn(this, (StudentApplicationsListSection.__proto__ || Object.getPrototypeOf(StudentApplicationsListSection)).apply(this, arguments));
     }
 
     _createClass(StudentApplicationsListSection, [{
@@ -501,9 +563,15 @@ var StudentApplicationsListSection = function (_Component5) {
                     return _this12.props.setActiveApplicant(applicant);
                 };
 
+                var collapsed = false;
+                if (_this12.props.isSearching) {
+                    collapsed = !_this12.props.filtered.includes(applicant.id);
+                }
+
                 return _react2.default.createElement(
                     _section.SectionRow,
                     { selectable: true,
+                        collapsed: collapsed,
                         onClick: setActiveApplicant,
                         active: isActive,
                         key: index },
@@ -526,7 +594,7 @@ var StudentApplicationsListSection = function (_Component5) {
 
             return _react2.default.createElement(
                 _section.Section,
-                null,
+                { collapsed: this.props.collapsed },
                 _react2.default.createElement(
                     _section.SectionTitle,
                     null,
