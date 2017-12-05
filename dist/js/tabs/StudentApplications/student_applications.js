@@ -55,11 +55,11 @@ var tabs = [{
 }];
 
 function makeOutboundApplicationsQuery() {
-    return _graphql2.default.query("\n    {\n        outbound_student_programs {\n            id\n            student {\n                id\n                id_number\n                first_name\n                middle_name\n                family_name\n            }\n            is_requirements_complete\n        }\n    }\n    ");
+    return _graphql2.default.query("\n    {\n        outbound_student_programs(deployed:false) {\n            id\n            student {\n                id\n                id_number\n                first_name\n                middle_name\n                family_name\n            }\n            is_requirements_complete\n        }\n    }\n    ");
 }
 
 function makeInboundApplicationsQuery() {
-    return _graphql2.default.query("\n    {\n        inbound_student_programs {\n            id\n            student {\n                id\n                id_number\n                first_name\n                middle_name\n                family_name\n            }\n        }\n    }\n    ");
+    return _graphql2.default.query("\n    {\n        inbound_student_programs(accepted:false) {\n            id\n            student {\n                id\n                id_number\n                first_name\n                middle_name\n                family_name\n            }\n            is_requirements_complete\n        }\n    }\n    ");
 }
 
 var StudentApplications = function (_Component) {

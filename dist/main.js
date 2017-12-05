@@ -9,7 +9,7 @@ var _require = require("electron"),
 var path = require("path");
 var url = require("url");
 
-var _require2 = require("./dist/js/reports/menu"),
+var _require2 = require("./dist/js/menu"),
     menu = _require2.default,
     toggleMenus = _require2.toggleMenus;
 

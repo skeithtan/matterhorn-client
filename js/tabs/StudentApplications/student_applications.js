@@ -33,7 +33,7 @@ const tabs = [
 function makeOutboundApplicationsQuery() {
     return graphql.query(`
     {
-        outbound_student_programs {
+        outbound_student_programs(deployed:false) {
             id
             student {
                 id
@@ -51,7 +51,7 @@ function makeOutboundApplicationsQuery() {
 function makeInboundApplicationsQuery() {
     return graphql.query(`
     {
-        inbound_student_programs {
+        inbound_student_programs(accepted:false) {
             id
             student {
                 id
@@ -60,6 +60,7 @@ function makeInboundApplicationsQuery() {
                 middle_name
                 family_name
             }
+            is_requirements_complete
         }
     }
     `);

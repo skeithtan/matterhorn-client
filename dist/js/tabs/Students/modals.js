@@ -250,7 +250,7 @@ var StudentFormModal = function (_Component) {
                 dismissToast();
                 _this3.resetForm();
                 _this3.props.refresh();
-                _this3.props.onAddStudent(student);
+                // this.props.onAddStudent(student);
                 _izitoast2.default.success({
                     title: "Added",
                     message: "Successfully added student"
@@ -370,6 +370,12 @@ var StudentFormModal = function (_Component) {
                     institution.name
                 );
             });
+
+            institutions.unshift(_react2.default.createElement(
+                "option",
+                { value: "", key: 0 },
+                "Select an institution"
+            ));
 
             function isValid(fieldName) {
                 return fieldErrors[fieldName].length === 0;
@@ -709,6 +715,31 @@ var StudentFormModal = function (_Component) {
                             "University Details"
                         ),
                         _react2.default.createElement(
+                            _reactstrap.FormGroup,
+                            null,
+                            _react2.default.createElement(
+                                _reactstrap.Label,
+                                null,
+                                "Student Category"
+                            ),
+                            _react2.default.createElement(
+                                _reactstrap.Input,
+                                { type: "select",
+                                    onChange: this.getChangeHandler("category"),
+                                    value: this.state.form.category },
+                                _react2.default.createElement(
+                                    "option",
+                                    { value: "IN" },
+                                    "Inbound"
+                                ),
+                                _react2.default.createElement(
+                                    "option",
+                                    { value: "OUT" },
+                                    "Outbound"
+                                )
+                            )
+                        ),
+                        this.state.form.category === "IN" && _react2.default.createElement(
                             _reactstrap.FormGroup,
                             null,
                             _react2.default.createElement(
