@@ -51,6 +51,14 @@ function fetchInstitutions(onResult) {
     _graphql2.default.query("\n    {\n        institutions {\n            id\n            name\n        }\n    }\n    ").then(onResult);
 }
 
+function fetchInboundPrograms(onResult) {
+    _graphql2.default.query("\n    {\n        inbound_programs {\n            id\n            name\n        }\n    }\n    ").then(onResult);
+}
+
+function fetchOutboundPrograms(onResult) {
+    _graphql2.default.query("\n    {\n        outbound_programs {\n            id\n            name\n        }\n    }\n    ").then(onResult);
+}
+
 var StudentFormModal = function (_Component) {
     _inherits(StudentFormModal, _Component);
 
@@ -79,16 +87,27 @@ var StudentFormModal = function (_Component) {
                 college: "CCS",
                 category: "IN"
             },
+            studentProgramForm: {
+                terms_duration: [],
+                application_requirements: []
+            },
+            programs: null,
             institutions: null
         };
 
         _this.resetForm = _this.resetForm.bind(_this);
         _this.getFormErrors = _this.getFormErrors.bind(_this);
         _this.getChangeHandler = _this.getChangeHandler.bind(_this);
+        _this.getSecondChangeHandler = _this.getSecondChangeHandler.bind(_this);
         _this.submitAddStudentForm = _this.submitAddStudentForm.bind(_this);
         _this.submitEditStudentForm = _this.submitEditStudentForm.bind(_this);
         _this.fetchingInstitutions = _this.fetchingInstitutions.bind(_this);
+        _this.fetchingPrograms = _this.fetchingPrograms.bind(_this);
         _this.noInstitutions = _this.noInstitutions.bind(_this);
+        _this.onSubmitAddStudentForm = _this.onSubmitAddStudentForm.bind(_this);
+        _this.setPrograms = _this.setPrograms.bind(_this);
+        _this.onCategoryChange = _this.onCategoryChange.bind(_this);
+        _this.onTermClick = _this.onTermClick.bind(_this);
 
         fetchInstitutions(function (result) {
             var institutions = result.institutions;
@@ -105,6 +124,10 @@ var StudentFormModal = function (_Component) {
             });
         });
 
+        if (_this.props.applicant) {
+            _this.setPrograms("IN");
+        }
+
         if (props.edit) {
             // Copy the object, do not equate, otherwise the object changes along with the form.
             Object.assign(_this.state.form, props.student);
@@ -117,6 +140,41 @@ var StudentFormModal = function (_Component) {
     }
 
     _createClass(StudentFormModal, [{
+        key: "setPrograms",
+        value: function setPrograms(category) {
+            var _this2 = this;
+
+            if (category === "IN") {
+                fetchInboundPrograms(function (result) {
+                    var programs = result.inbound_programs;
+                    var form = _this2.state.studentProgramForm;
+
+                    if (programs.length > 0) {
+                        form.program = programs[0].id;
+                    }
+
+                    _this2.setState({
+                        programs: programs,
+                        studentProgramForm: form
+                    });
+                });
+            } else {
+                fetchOutboundPrograms(function (result) {
+                    var programs = result.outbound_programs;
+                    var form = _this2.state.studentProgramForm;
+
+                    if (programs.length > 0) {
+                        form.program = programs[0].id;
+                    }
+
+                    _this2.setState({
+                        programs: programs,
+                        studentProgramForm: form
+                    });
+                });
+            }
+        }
+    }, {
         key: "resetForm",
         value: function resetForm() {
             this.setState({
@@ -222,20 +280,57 @@ var StudentFormModal = function (_Component) {
     }, {
         key: "getChangeHandler",
         value: function getChangeHandler(fieldName) {
-            var _this2 = this;
+            var _this3 = this;
 
             var form = this.state.form;
             return function (event) {
+                if (fieldName === "category") {
+                    _this3.setPrograms(event.target.value);
+                }
+
                 form[fieldName] = event.target.value;
-                _this2.setState({
+                _this3.setState({
                     form: form
                 });
             };
         }
     }, {
+        key: "getSecondChangeHandler",
+        value: function getSecondChangeHandler(fieldName) {
+            var _this4 = this;
+
+            var form = this.state.studentProgramForm;
+            return function (event) {
+                form[fieldName] = event.target.value;
+                _this4.setState({
+                    studentProgramForm: form
+                });
+            };
+        }
+    }, {
+        key: "onCategoryChange",
+        value: function onCategoryChange(category) {
+            this.setPrograms(category);
+        }
+    }, {
+        key: "onTermClick",
+        value: function onTermClick(term) {
+            var index = this.state.studentProgramForm.terms_duration.indexOf(term);
+            if (index < 0) {
+                this.state.studentProgramForm.terms_duration.push(term);
+            } else {
+                this.state.studentProgramForm.terms_duration.splice(index, 1);
+            }
+
+            this.setState({
+                studentProgramForm: this.state.studentProgramForm
+            });
+            console.log(this.state.studentProgramForm.terms_duration);
+        }
+    }, {
         key: "submitAddStudentForm",
         value: function submitAddStudentForm() {
-            var _this3 = this;
+            var _this5 = this;
 
             var dismissToast = (0, _dismissable_toast_maker.makeInfoToast)({
                 title: "Adding",
@@ -248,9 +343,12 @@ var StudentFormModal = function (_Component) {
                 beforeSend: _authorization2.default
             }).done(function (student) {
                 dismissToast();
-                _this3.resetForm();
-                _this3.props.refresh();
-                // this.props.onAddStudent(student);
+                var form = _this5.state.studentProgramForm;
+                form.student = student.id;
+                _this5.setState({
+                    studentProgramForm: form
+                });
+                _this5.onSubmitAddStudentForm(student);
                 _izitoast2.default.success({
                     title: "Added",
                     message: "Successfully added student"
@@ -263,13 +361,54 @@ var StudentFormModal = function (_Component) {
                     message: "Unable to add student"
                 });
             });
+        }
+    }, {
+        key: "onSubmitAddStudentForm",
+        value: function onSubmitAddStudentForm(student) {
+            var _this6 = this;
+
+            var url = "/programs/";
+            if (student.category === "IN") {
+                url += "inbound/";
+            } else {
+                url += "outbound/";
+            }
+
+            var dismissToast = (0, _dismissable_toast_maker.makeInfoToast)({
+                title: "Adding",
+                message: "Adding new applicant..."
+            });
+
+            _jquery2.default.post({
+                url: "" + _settings2.default.serverURL + url + this.state.studentProgramForm.program + "/students/",
+                data: JSON.stringify(this.state.studentProgramForm),
+                contentType: "application/json",
+                beforeSend: _authorization2.default
+            }).done(function (student) {
+                dismissToast();
+                _izitoast2.default.success({
+                    title: "Added",
+                    message: "Successfully added applicant"
+                });
+                _this6.resetForm();
+                _this6.props.refresh();
+            }).fail(function (response) {
+                dismissToast();
+                console.log(response);
+                _izitoast2.default.error({
+                    title: "Error",
+                    message: "Unable to add student"
+                });
+            });
+
+            console.log(_settings2.default.serverURL + "" + url + "" + this.state.studentProgramForm.program + "/students");
 
             this.props.toggle();
         }
     }, {
         key: "submitEditStudentForm",
         value: function submitEditStudentForm() {
-            var _this4 = this;
+            var _this7 = this;
 
             var dismissToast = (0, _dismissable_toast_maker.makeInfoToast)({
                 title: "Editing",
@@ -288,8 +427,8 @@ var StudentFormModal = function (_Component) {
                 beforeSend: _authorization2.default,
                 success: function success() {
                     dismissToast();
-                    _this4.resetForm();
-                    _this4.props.refresh();
+                    _this7.resetForm();
+                    _this7.props.refresh();
                     _izitoast2.default.success({
                         title: "Success",
                         message: "Successfully modified student"
@@ -348,8 +487,30 @@ var StudentFormModal = function (_Component) {
             );
         }
     }, {
+        key: "fetchingPrograms",
+        value: function fetchingPrograms() {
+            return _react2.default.createElement(
+                _reactstrap.Modal,
+                { isOpen: this.props.isOpen,
+                    toggle: this.props.toggle,
+                    backdrop: true },
+                _react2.default.createElement(
+                    _reactstrap.ModalHeader,
+                    { toggle: this.props.toggle },
+                    "Please wait..."
+                ),
+                _react2.default.createElement(
+                    _reactstrap.ModalBody,
+                    { className: "form" },
+                    "Programs are loading..."
+                )
+            );
+        }
+    }, {
         key: "render",
         value: function render() {
+            var _this8 = this;
+
             var formErrors = this.getFormErrors();
             var formHasErrors = formErrors.formHasErrors;
             var fieldErrors = formErrors.fieldErrors;
@@ -360,6 +521,10 @@ var StudentFormModal = function (_Component) {
 
             if (this.state.institutions.length === 0) {
                 return this.noInstitutions();
+            }
+
+            if (this.state.programs === null) {
+                return this.fetchingPrograms();
             }
 
             var institutions = this.state.institutions.map(function (institution) {
@@ -376,6 +541,28 @@ var StudentFormModal = function (_Component) {
                 { value: "", key: 0 },
                 "Select an institution"
             ));
+
+            var programs = this.state.programs.map(function (program) {
+                return _react2.default.createElement(
+                    "option",
+                    { value: program.id, key: program.id },
+                    program.name
+                );
+            });
+
+            var termButtons = [1, 2, 3].map(function (term) {
+                return _react2.default.createElement(
+                    _reactstrap.Button,
+                    { outline: true,
+                        color: "success",
+                        key: term,
+                        onClick: function onClick() {
+                            return _this8.onTermClick(term);
+                        },
+                        active: _this8.state.studentProgramForm.terms_duration.includes(term) },
+                    term
+                );
+            });
 
             function isValid(fieldName) {
                 return fieldErrors[fieldName].length === 0;
@@ -804,6 +991,46 @@ var StudentFormModal = function (_Component) {
                                     "Brother Andrew Gonzales College of Education"
                                 )
                             )
+                        ),
+                        _react2.default.createElement("br", null),
+                        _react2.default.createElement(
+                            "h5",
+                            { className: "mb-3" },
+                            "Program Details"
+                        ),
+                        _react2.default.createElement(
+                            _reactstrap.FormGroup,
+                            null,
+                            _react2.default.createElement(
+                                _reactstrap.Label,
+                                null,
+                                "Program"
+                            ),
+                            _react2.default.createElement(
+                                _reactstrap.Input,
+                                { type: "select",
+                                    onChange: this.getSecondChangeHandler("program"),
+                                    value: this.state.studentProgramForm.program },
+                                programs
+                            )
+                        ),
+                        _react2.default.createElement(
+                            _reactstrap.FormGroup,
+                            null,
+                            _react2.default.createElement(
+                                _reactstrap.Label,
+                                null,
+                                "Terms Available"
+                            ),
+                            _react2.default.createElement(
+                                "div",
+                                { className: "d-block w-100" },
+                                _react2.default.createElement(
+                                    _reactstrap.ButtonGroup,
+                                    null,
+                                    termButtons
+                                )
+                            )
                         )
                     )
                 ),
@@ -832,9 +1059,9 @@ var ResidenceAddressFormModal = function (_Component2) {
     function ResidenceAddressFormModal(props) {
         _classCallCheck(this, ResidenceAddressFormModal);
 
-        var _this5 = _possibleConstructorReturn(this, (ResidenceAddressFormModal.__proto__ || Object.getPrototypeOf(ResidenceAddressFormModal)).call(this, props));
+        var _this9 = _possibleConstructorReturn(this, (ResidenceAddressFormModal.__proto__ || Object.getPrototypeOf(ResidenceAddressFormModal)).call(this, props));
 
-        _this5.state = {
+        _this9.state = {
             form: {
                 date_effective: "",
                 contact_person_name: "",
@@ -844,16 +1071,16 @@ var ResidenceAddressFormModal = function (_Component2) {
             }
         };
 
-        _this5.resetForm = _this5.resetForm.bind(_this5);
-        _this5.getFormErrors = _this5.getFormErrors.bind(_this5);
-        _this5.getChangeHandler = _this5.getChangeHandler.bind(_this5);
-        _this5.submitAddResidenceAddressForm = _this5.submitAddResidenceAddressForm.bind(_this5);
-        _this5.submitEditResidenceAddressForm = _this5.submitEditResidenceAddressForm.bind(_this5);
+        _this9.resetForm = _this9.resetForm.bind(_this9);
+        _this9.getFormErrors = _this9.getFormErrors.bind(_this9);
+        _this9.getChangeHandler = _this9.getChangeHandler.bind(_this9);
+        _this9.submitAddResidenceAddressForm = _this9.submitAddResidenceAddressForm.bind(_this9);
+        _this9.submitEditResidenceAddressForm = _this9.submitEditResidenceAddressForm.bind(_this9);
 
-        if (_this5.props.edit) {
-            Object.assign(_this5.state.form, props.residence);
+        if (_this9.props.edit) {
+            Object.assign(_this9.state.form, props.residence);
         }
-        return _this5;
+        return _this9;
     }
 
     _createClass(ResidenceAddressFormModal, [{
@@ -896,7 +1123,7 @@ var ResidenceAddressFormModal = function (_Component2) {
     }, {
         key: "submitEditResidenceAddressForm",
         value: function submitEditResidenceAddressForm() {
-            var _this6 = this;
+            var _this10 = this;
 
             var dismissToast = (0, _dismissable_toast_maker.makeInfoToast)({
                 title: "Editing",
@@ -910,13 +1137,13 @@ var ResidenceAddressFormModal = function (_Component2) {
                 data: this.state.form
             }).done(function () {
                 dismissToast();
-                _this6.resetForm();
+                _this10.resetForm();
                 _izitoast2.default.success({
                     title: "Edited",
                     message: "Successfully edited residence address"
                 });
 
-                _this6.props.refreshResidences();
+                _this10.props.refreshResidences();
             }).fail(function (response) {
                 dismissToast();
                 console.log(response);
@@ -931,7 +1158,7 @@ var ResidenceAddressFormModal = function (_Component2) {
     }, {
         key: "submitAddResidenceAddressForm",
         value: function submitAddResidenceAddressForm() {
-            var _this7 = this;
+            var _this11 = this;
 
             this.props.toggle();
 
@@ -946,13 +1173,13 @@ var ResidenceAddressFormModal = function (_Component2) {
                 data: this.state.form
             }).done(function () {
                 dismissToast();
-                _this7.resetForm();
+                _this11.resetForm();
                 _izitoast2.default.success({
                     title: "Added",
                     message: "Successfully added residence address"
                 });
 
-                _this7.props.refreshResidences();
+                _this11.props.refreshResidences();
             }).fail(function (response) {
                 dismissToast();
                 console.log(response);
@@ -965,7 +1192,7 @@ var ResidenceAddressFormModal = function (_Component2) {
     }, {
         key: "getChangeHandler",
         value: function getChangeHandler(fieldName) {
-            var _this8 = this;
+            var _this12 = this;
 
             var form = this.state.form;
 
@@ -973,7 +1200,7 @@ var ResidenceAddressFormModal = function (_Component2) {
                 var value = event.target.value;
 
                 form[fieldName] = value;
-                _this8.setState({
+                _this12.setState({
                     form: form
                 });
             };

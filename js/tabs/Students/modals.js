@@ -17,7 +17,7 @@ import {
     Label,
     Input,
     Button,
-    FormFeedback,
+    FormFeedback, ButtonGroup,
 } from "reactstrap";
 
 
@@ -25,6 +25,28 @@ function fetchInstitutions(onResult) {
     graphql.query(`
     {
         institutions {
+            id
+            name
+        }
+    }
+    `).then(onResult);
+}
+
+function fetchInboundPrograms(onResult) {
+    graphql.query(`
+    {
+        inbound_programs {
+            id
+            name
+        }
+    }
+    `).then(onResult);
+}
+
+function fetchOutboundPrograms(onResult) {
+    graphql.query(`
+    {
+        outbound_programs {
             id
             name
         }
@@ -56,16 +78,27 @@ class StudentFormModal extends Component {
                 college : "CCS",
                 category : "IN",
             },
+            studentProgramForm : {
+                terms_duration : [],
+                application_requirements : [],
+            },
+            programs : null,
             institutions : null,
         };
 
         this.resetForm = this.resetForm.bind(this);
         this.getFormErrors = this.getFormErrors.bind(this);
         this.getChangeHandler = this.getChangeHandler.bind(this);
+        this.getSecondChangeHandler = this.getSecondChangeHandler.bind(this);
         this.submitAddStudentForm = this.submitAddStudentForm.bind(this);
         this.submitEditStudentForm = this.submitEditStudentForm.bind(this);
         this.fetchingInstitutions = this.fetchingInstitutions.bind(this);
+        this.fetchingPrograms = this.fetchingPrograms.bind(this);
         this.noInstitutions = this.noInstitutions.bind(this);
+        this.onSubmitAddStudentForm = this.onSubmitAddStudentForm.bind(this);
+        this.setPrograms = this.setPrograms.bind(this);
+        this.onCategoryChange = this.onCategoryChange.bind(this);
+        this.onTermClick = this.onTermClick.bind(this);
 
         fetchInstitutions(result => {
             const institutions = result.institutions;
@@ -82,6 +115,10 @@ class StudentFormModal extends Component {
             });
         });
 
+        if (this.props.applicant) {
+            this.setPrograms("IN");
+        }
+
         if (props.edit) {
             // Copy the object, do not equate, otherwise the object changes along with the form.
             Object.assign(this.state.form, props.student);
@@ -89,6 +126,38 @@ class StudentFormModal extends Component {
             if (props.student.category === "IN") {
                 this.state.form.institution = props.student.institution.id;
             }
+        }
+    }
+
+    setPrograms(category) {
+        if (category === "IN") {
+            fetchInboundPrograms(result => {
+                const programs = result.inbound_programs;
+                const form = this.state.studentProgramForm;
+
+                if (programs.length > 0) {
+                    form.program = programs[0].id;
+                }
+
+                this.setState({
+                    programs : programs,
+                    studentProgramForm : form,
+                });
+            });
+        } else {
+            fetchOutboundPrograms(result => {
+                const programs = result.outbound_programs;
+                const form = this.state.studentProgramForm;
+
+                if (programs.length > 0) {
+                    form.program = programs[0].id;
+                }
+
+                this.setState({
+                    programs : programs,
+                    studentProgramForm : form,
+                });
+            });
         }
     }
 
@@ -201,11 +270,43 @@ class StudentFormModal extends Component {
     getChangeHandler(fieldName) {
         const form = this.state.form;
         return event => {
+            if (fieldName === "category") {
+                this.setPrograms(event.target.value);
+            }
+
             form[fieldName] = event.target.value;
             this.setState({
                 form : form,
             });
         };
+    }
+
+    getSecondChangeHandler(fieldName) {
+        const form = this.state.studentProgramForm;
+        return event => {
+            form[fieldName] = event.target.value;
+            this.setState({
+                studentProgramForm : form,
+            });
+        };
+    }
+
+    onCategoryChange(category) {
+        this.setPrograms(category);
+    }
+
+    onTermClick(term) {
+        const index = this.state.studentProgramForm.terms_duration.indexOf(term);
+        if (index < 0) {
+            this.state.studentProgramForm.terms_duration.push(term);
+        } else {
+            this.state.studentProgramForm.terms_duration.splice(index, 1);
+        }
+
+        this.setState({
+            studentProgramForm : this.state.studentProgramForm,
+        });
+        console.log(this.state.studentProgramForm.terms_duration);
     }
 
     submitAddStudentForm() {
@@ -220,9 +321,12 @@ class StudentFormModal extends Component {
             beforeSend : authorizeXHR,
         }).done(student => {
             dismissToast();
-            this.resetForm();
-            this.props.refresh();
-            // this.props.onAddStudent(student);
+            const form = this.state.studentProgramForm;
+            form.student = student.id;
+            this.setState({
+                studentProgramForm : form,
+            });
+            this.onSubmitAddStudentForm(student);
             iziToast.success({
                 title : "Added",
                 message : "Successfully added student",
@@ -235,6 +339,44 @@ class StudentFormModal extends Component {
                 message : "Unable to add student",
             });
         });
+    }
+
+    onSubmitAddStudentForm(student) {
+        let url = "/programs/";
+        if (student.category === "IN") {
+            url += "inbound/";
+        } else {
+            url += "outbound/";
+        }
+
+        const dismissToast = makeInfoToast({
+            title : "Adding",
+            message : "Adding new applicant...",
+        });
+
+        $.post({
+            url : `${settings.serverURL}${url}${this.state.studentProgramForm.program}/students/`,
+            data : JSON.stringify(this.state.studentProgramForm),
+            contentType : "application/json",
+            beforeSend : authorizeXHR,
+        }).done(student => {
+            dismissToast();
+            iziToast.success({
+                title : "Added",
+                message : "Successfully added applicant",
+            });
+            this.resetForm();
+            this.props.refresh();
+        }).fail(response => {
+            dismissToast();
+            console.log(response);
+            iziToast.error({
+                title : "Error",
+                message : "Unable to add student",
+            });
+        });
+
+        console.log(settings.serverURL + "" + url + "" + this.state.studentProgramForm.program + "/students");
 
         this.props.toggle();
     }
@@ -307,6 +449,21 @@ class StudentFormModal extends Component {
         );
     }
 
+    fetchingPrograms() {
+        return (
+            <Modal isOpen={ this.props.isOpen }
+                   toggle={ this.props.toggle }
+                   backdrop={ true }>
+                <ModalHeader toggle={ this.props.toggle }>
+                    Please wait...
+                </ModalHeader>
+                <ModalBody className="form">
+                    Programs are loading...
+                </ModalBody>
+            </Modal>
+        );
+    }
+
     render() {
         const formErrors = this.getFormErrors();
         const formHasErrors = formErrors.formHasErrors;
@@ -320,6 +477,10 @@ class StudentFormModal extends Component {
             return this.noInstitutions();
         }
 
+        if (this.state.programs === null) {
+            return this.fetchingPrograms();
+        }
+
         const institutions = this.state.institutions.map(institution => {
             return <option value={ institution.id }
                            key={ institution.id }>{ institution.name }</option>;
@@ -327,6 +488,20 @@ class StudentFormModal extends Component {
 
         institutions.unshift(
             <option value={ "" } key={ 0 }>Select an institution</option>,
+        );
+
+        const programs = this.state.programs.map(program => {
+            return <option value={ program.id } key={ program.id }>{ program.name }</option>;
+        });
+
+        const termButtons = [1, 2, 3].map(term =>
+            <Button outline
+                    color="success"
+                    key={ term }
+                    onClick={ () => this.onTermClick(term) }
+                    active={ this.state.studentProgramForm.terms_duration.includes(term) }>
+                { term }
+            </Button>,
         );
 
         function isValid(fieldName) {
@@ -527,6 +702,26 @@ class StudentFormModal extends Component {
                                 <option value="COL">College of Law</option>
                                 <option value="BAGCED">Brother Andrew Gonzales College of Education</option>
                             </Input>
+                        </FormGroup>
+
+                        <br/>
+                        <h5 className="mb-3">Program Details</h5>
+                        <FormGroup>
+                            <Label>Program</Label>
+                            <Input type="select"
+                                   onChange={ this.getSecondChangeHandler("program") }
+                                   value={ this.state.studentProgramForm.program }>
+                                { programs }
+                            </Input>
+                        </FormGroup>
+                        <FormGroup>
+                            <Label>Terms Available</Label>
+                            <div className="d-block w-100">
+                                <ButtonGroup>
+                                    { termButtons }
+                                </ButtonGroup>
+                            </div>
+                            { /*<div className="invalid-feedback d-block">{ fieldError("Terms available") }</div>*/ }
                         </FormGroup>
                     </Form>
                 </ModalBody>

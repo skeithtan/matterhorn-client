@@ -986,7 +986,7 @@ var ProgramFormModal = function (_Component3) {
             }, {
                 name: "Terms available",
                 characterLimit: null,
-                value: this.state.form.terms_available.toString(),
+                value: this.state.form.terms_duration.toString(),
                 customValidators: [{
                     isValid: function isValid(fieldValue) {
                         return [1, 3].toString() !== fieldValue;
@@ -1057,11 +1057,11 @@ var ProgramFormModal = function (_Component3) {
     }, {
         key: "onTermClick",
         value: function onTermClick(term) {
-            var index = this.state.form.terms_available.indexOf(term);
+            var index = this.state.form.terms_duration.indexOf(term);
             if (index < 0) {
-                this.state.form.terms_available.push(term);
+                this.state.form.terms_duration.push(term);
             } else {
-                this.state.form.terms_available.splice(index, 1);
+                this.state.form.terms_duration.splice(index, 1);
             }
 
             this.setState({
@@ -1098,7 +1098,7 @@ var ProgramFormModal = function (_Component3) {
                         onClick: function onClick() {
                             return _this14.onTermClick(term);
                         },
-                        active: _this14.state.form.terms_available.includes(term) },
+                        active: _this14.state.form.terms_duration.includes(term) },
                     term
                 );
             });

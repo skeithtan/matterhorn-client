@@ -43,7 +43,7 @@
     //    Offline.js
     require("offline-js");
     Offline.options = {
-        checks : { xhr : { url : settings.serverURL } },
+        checks : { xhr : { addtionalUrl : settings.serverURL } },
         requests : false,
         reconnect : false,
     };
