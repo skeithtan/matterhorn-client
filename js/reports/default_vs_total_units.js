@@ -10,6 +10,7 @@ import {
 import ErrorState from "../components/error_state";
 import LoadingSpinner from "../components/loading";
 import { Table } from "reactstrap";
+import $ from "jquery";
 
 
 function makeReportQuery(year, term) {
@@ -25,8 +26,8 @@ function makeReportQuery(year, term) {
 
 class OutboundDefaultVsTotalUnits extends GenericYearTermReport {
     report(year, term) {
-        return <DefaultUnitsReport year={year}
-                                   term={term}/>;
+        return <DefaultUnitsReport year={ year }
+                                   term={ term }/>;
     }
 }
 
@@ -70,8 +71,8 @@ class DefaultUnitsReport extends Component {
     render() {
         if (this.state.error) {
             return (
-                <ErrorState onRetryButtonClick={() => this.fetchReport(this.props.year, this.props.term)}>
-                    {this.state.error.toString()}
+                <ErrorState onRetryButtonClick={ () => this.fetchReport(this.props.year, this.props.term) }>
+                    { this.state.error.toString() }
                 </ErrorState>
             );
         }
@@ -87,9 +88,9 @@ class DefaultUnitsReport extends Component {
                 <ReportHead/>
                 <ReportTitleContainer>
                     <h4>Term End Outbound and Inbound Students Distribution Report</h4>
-                    <h5>{`Academic Year ${year} - ${year + 1} Term ${this.props.term}`}</h5>
+                    <h5>{ `Academic Year ${year} - ${year + 1} Term ${this.props.term}` }</h5>
                 </ReportTitleContainer>
-                <DefaultUnitsTable institutions={this.state.institutions}/>
+                <DefaultUnitsTable institutions={ this.state.institutions }/>
                 <EndOfReportIndicator/>
             </div>
         );
@@ -99,8 +100,8 @@ class DefaultUnitsReport extends Component {
 class DefaultUnitsTable extends Component {
     render() {
         const rows = this.props.institutions.map((institution, index) =>
-            <DefaultUnitsRow institution={institution}
-                             key={index}/>,
+            <DefaultUnitsRow institution={ institution }
+                             key={ index }/>,
         );
 
         let totalStudents = 0;
@@ -132,15 +133,15 @@ class DefaultUnitsTable extends Component {
                 </tr>
                 </thead>
                 <tbody>
-                {rows}
+                { rows }
                 </tbody>
                 <tfoot className="text-right">
                 <tr>
                     <th>Total</th>
-                    <th className="numeric">{totalStudents}</th>
-                    <th className="numeric">{totalDefault}</th>
-                    <th className="numeric">{grandTotalUnits}</th>
-                    <th className="numeric">{totalDeficit}</th>
+                    <th className="numeric">{ totalStudents }</th>
+                    <th className="numeric">{ totalDefault }</th>
+                    <th className="numeric">{ grandTotalUnits }</th>
+                    <th className="numeric">{ totalDeficit }</th>
                 </tr>
                 </tfoot>
             </Table>
@@ -157,11 +158,11 @@ class DefaultUnitsRow extends Component {
 
         return (
             <tr>
-                <td>{this.props.institution.institution}</td>
-                <td className="numeric text-right">{students}</td>
-                <td className="numeric text-right">{defaultUnits}</td>
-                <td className="numeric text-right">{totalUnits}</td>
-                <td className="numeric text-right">{deficit}</td>
+                <td>{ this.props.institution.institution }</td>
+                <td className="numeric text-right">{ students }</td>
+                <td className="numeric text-right">{ defaultUnits }</td>
+                <td className="numeric text-right">{ totalUnits }</td>
+                <td className="numeric text-right">{ deficit }</td>
             </tr>
         );
     }
