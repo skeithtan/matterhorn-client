@@ -203,7 +203,7 @@ var ReportHead = function (_Component3) {
                 _react2.default.createElement(
                     "div",
                     { className: "d-flex flex-row mr-auto align-items-center" },
-                    _react2.default.createElement("img", { src: "../images/dlsu_green.png",
+                    _react2.default.createElement("img", { src: "../../images/dlsu_green.png",
                         className: "report-dlsu-logo mr-2" }),
                     _react2.default.createElement(
                         "div",

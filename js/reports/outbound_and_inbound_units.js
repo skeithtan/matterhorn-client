@@ -28,7 +28,8 @@ function makeReportQuery(year, term) {
 
 class OutboundAndInboundUnits extends GenericYearTermReport {
     report(year, term) {
-        return <UnitsReport year={year} term={term}/>;
+        return <UnitsReport year={year}
+                            term={term}/>;
     }
 }
 

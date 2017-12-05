@@ -65,7 +65,8 @@ var OutboundAndInboundUnits = function (_GenericYearTermRepor) {
     _createClass(OutboundAndInboundUnits, [{
         key: "report",
         value: function report(year, term) {
-            return _react2.default.createElement(UnitsReport, { year: year, term: term });
+            return _react2.default.createElement(UnitsReport, { year: year,
+                term: term });
         }
     }]);
 

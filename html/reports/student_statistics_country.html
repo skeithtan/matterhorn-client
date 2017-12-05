@@ -7,29 +7,29 @@
     <!--Stylesheet-->
     <!--Bootstrap-->
     <link rel="stylesheet"
-          href="../node_modules/bootstrap/dist/css/bootstrap.css">
+          href="../../node_modules/bootstrap/dist/css/bootstrap.css">
 
     <!--Eriosys Stylesheet-->
     <link rel="stylesheet"
-          href="../css/stylesheet.css">
+          href="../../css/stylesheet.css">
 
     <!--Reports Stylesheet-->
     <link rel="stylesheet"
-          href="../css/reports.css">
+          href="../../css/reports.css">
 
     <!--Loading Spinner-->
     <link rel="stylesheet"
-          href="../css/white_spinner.css">
+          href="../../css/white_spinner.css">
 </head>
 <body>
 
 <div id="root"></div>
 <script>
-    require("../dist/js/reports/keyboard_shortcuts");
+    require("../../dist/js/reports/keyboard_shortcuts");
 
     const React = require("react");
     const ReactDOM = require("react-dom");
-    const InternationalStudentStatisticsByCountry = require("../dist/js/reports/student_statistics_country").default;
+    const InternationalStudentStatisticsByCountry = require("../../dist/js/reports/student_statistics_country").default;
 
     ReactDOM.render(React.createElement(InternationalStudentStatisticsByCountry, null), document.getElementById("root"));
 </script>

@@ -70,6 +70,12 @@ const menus = [
             label : "View",
             submenu : [
                 { role : "reload" },
+                { role : "forcereload" },
+                { role : "toggledevtools" },
+                { type : "separator" },
+                { role : "resetzoom" },
+                { role : "zoomin" },
+                { role : "zoomout" },
                 { type : "separator" },
                 { role : "togglefullscreen" },
             ],
@@ -105,7 +111,7 @@ if (process.platform === "darwin") {
     });
 
     // Window menu
-    menus[4].submenu = [
+    menus[5].submenu = [
         { role : "close" },
         { role : "minimize" },
         { role : "zoom" },

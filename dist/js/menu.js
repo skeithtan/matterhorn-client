@@ -55,7 +55,7 @@ var menus = [{
     submenu: [{ role: "cut" }, { role: "copy" }, { role: "paste" }, { role: "pasteandmatchstyle" }, { role: "delete" }, { role: "selectall" }]
 }, {
     label: "View",
-    submenu: [{ role: "reload" }, { type: "separator" }, { role: "togglefullscreen" }]
+    submenu: [{ role: "reload" }, { role: "forcereload" }, { role: "toggledevtools" }, { type: "separator" }, { role: "resetzoom" }, { role: "zoomin" }, { role: "zoomout" }, { type: "separator" }, { role: "togglefullscreen" }]
 }, {
     role: "window",
     submenu: [{ role: "minimize" }, { role: "close" }]
@@ -71,7 +71,7 @@ if (process.platform === "darwin") {
     });
 
     // Window menu
-    menus[4].submenu = [{ role: "close" }, { role: "minimize" }, { role: "zoom" }, { type: "separator" }, { role: "front" }];
+    menus[5].submenu = [{ role: "close" }, { role: "minimize" }, { role: "zoom" }, { type: "separator" }, { role: "front" }];
 }
 
 var menu = _electron.Menu.buildFromTemplate(menus);

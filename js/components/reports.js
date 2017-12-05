@@ -96,7 +96,7 @@ class ReportHead extends Component {
         return (
             <div className="d-flex flex-row align-items-center">
                 <div className="d-flex flex-row mr-auto align-items-center">
-                    <img src="../images/dlsu_green.png"
+                    <img src="../../images/dlsu_green.png"
                          className="report-dlsu-logo mr-2"/>
                     <div className="d-flex flex-column">
                         <div>External Relations and Internationalization Office</div>
