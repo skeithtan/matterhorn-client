@@ -6,6 +6,7 @@ import {
     makeReportWindow,
     reportFiles,
 } from "./reports/windows";
+import { makeRequirementsWindow } from "./settings/windows";
 
 
 const menus = [
@@ -48,10 +49,11 @@ const menus = [
             label : "Settings",
             submenu : [
                 {
-                    label : "Academic Years",
+                    label : "Define Academic Years",
                 },
                 {
-                    label : "Requirements",
+                    label : "Define Application Requirements",
+                    click : makeRequirementsWindow
                 },
             ],
         },

@@ -19,9 +19,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function makeReportWindow(file) {
     var reportWindow = new _electron.BrowserWindow({
-        width: 1000,
+        width: 400,
         height: 800,
-        minWidth: 1000,
+        minWidth: 400,
         maxWidth: 1000,
         minHeight: 800
     });

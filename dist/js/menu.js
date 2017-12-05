@@ -9,6 +9,8 @@ var _electron = require("electron");
 
 var _windows = require("./reports/windows");
 
+var _windows2 = require("./settings/windows");
+
 var menus = [{
     label: "Generate Reports",
     submenu: [{
@@ -46,9 +48,10 @@ var menus = [{
 }, {
     label: "Settings",
     submenu: [{
-        label: "Academic Years"
+        label: "Define Academic Years"
     }, {
-        label: "Requirements"
+        label: "Define Application Requirements",
+        click: _windows2.makeRequirementsWindow
     }]
 }, {
     label: "Edit",

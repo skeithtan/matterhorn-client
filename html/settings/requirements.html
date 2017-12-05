@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Application Requirements</title>
+
+    <!--Stylesheet-->
+    <!--Bootstrap-->
+    <link rel="stylesheet"
+          href="../../node_modules/bootstrap/dist/css/bootstrap.css">
+
+    <!--Eriosys Stylesheet-->
+    <link rel="stylesheet"
+          href="../../css/stylesheet.css">
+
+    <!--Reports Stylesheet-->
+    <link rel="stylesheet"
+          href="../../css/reports.css">
+
+    <!--Loading Spinner-->
+    <link rel="stylesheet"
+          href="../../css/white_spinner.css">
+</head>
+<body>
+
+<div id="root"></div>
+<script>
+    const React = require("react");
+    const ReactDOM = require("react-dom");
+    const Requirements = require("../../dist/js/settings/requirements").default;
+
+    ReactDOM.render(React.createElement(Requirements, null), document.getElementById("root"));
+</script>
+</body>
+</html>
