@@ -655,17 +655,14 @@ class ProgramFormModal extends Component {
                 requirement_deadline : "",
             },
             academic_years : null,
-            step : "Overview",
         };
 
         this.resetForm = this.resetForm.bind(this);
         this.onTermClick = this.onTermClick.bind(this);
         this.overviewForm = this.overviewForm.bind(this);
-        this.requirementForm = this.requirementForm.bind(this);
         this.getChangeHandler = this.getChangeHandler.bind(this);
         this.submitAddProgramForm = this.submitAddProgramForm.bind(this);
         this.getOverviewFormErrors = this.getOverviewFormErrors.bind(this);
-        this.getRequirementFormErrors = this.getRequirementFormErrors.bind(this);
 
         fetchYears(result => {
             this.setState({
@@ -685,7 +682,6 @@ class ProgramFormModal extends Component {
                 is_graduate : false,
                 requirement_deadline : "",
             },
-            step : "Overview",
         });
     }
 
@@ -722,24 +718,21 @@ class ProgramFormModal extends Component {
         ]);
     }
 
-    getRequirementFormErrors() {
-        return validateForm([
-            {
-                name : "Requirements deadline",
-                characterLimit : null,
-                value : this.state.form.requirement_deadline,
-            },
-        ]);
-    }
-
     submitAddProgramForm() {
+        let url = "/programs/";
+        if (this.props.inbound) {
+            url += "inbound/";
+        } else {
+            url += "outbound/";
+        }
+
         const dismissToast = makeInfoToast({
             title : "Adding",
             message : "Adding program...",
         });
 
         $.post({
-            url : `${settings.serverURL}/programs/outbound/`,
+            url : `${settings.serverURL}${url}`,
             data : JSON.stringify(this.state.form),
             contentType : "application/json",
             beforeSend : authorizeXHR,
@@ -894,36 +887,8 @@ class ProgramFormModal extends Component {
         );
     }
 
-    requirementForm(fieldErrors) {
-        function isValid(fieldName) {
-            return fieldErrors[fieldName].length === 0;
-        }
-
-        function fieldError(fieldName) {
-            return fieldErrors[fieldName][0];
-        }
-
-        return (
-            <ModalBody className="form">
-                <Form>
-                    <FormGroup>
-                        <Label>Requirements Deadline</Label>
-                        <Input type="date"
-                               value={this.state.form.requirement_deadline}
-                               onChange={this.getChangeHandler("requirement_deadline")}
-                               valid={isValid("Requirements deadline")}/>
-                        <FormFeedback>{fieldError("Requirements deadline")}</FormFeedback>
-                    </FormGroup>
-
-                    <ProgramFormRequirements/>
-                </Form>
-            </ModalBody>
-        );
-    }
-
     render() {
-        const { formHasErrors, fieldErrors } = this.state.step === "Overview" ?
-            this.getOverviewFormErrors() : this.getRequirementFormErrors();
+        const { formHasErrors, fieldErrors } = this.getOverviewFormErrors();
 
         let formBody;
         let shouldShowFormFooter = false;
@@ -932,11 +897,8 @@ class ProgramFormModal extends Component {
             formBody = <LoadingSpinner/>;
         } else if (this.state.academic_years.length === 0) {
             formBody = ProgramFormModal.noAcademicYearsState();
-        } else if (this.state.step === "Overview") {
-            formBody = this.overviewForm(fieldErrors);
-            shouldShowFormFooter = true;
         } else {
-            formBody = this.requirementForm(fieldErrors);
+            formBody = this.overviewForm(fieldErrors);
             shouldShowFormFooter = true;
         }
 
@@ -950,170 +912,16 @@ class ProgramFormModal extends Component {
                 {formBody}
                 {shouldShowFormFooter &&
                 <ModalFooter>
-                    {this.state.step === "Requirement" &&
-                    <div className="d-flex flex-row w-100">
-                        <Button outline
-                                color="success"
-                                className="mr-auto"
-                                onClick={() => this.setState({ step : "Overview" })}>
-                            Back
-                        </Button>
-
-
-                        <Button outline
+                   <Button outline
                                 color="success"
                                 onClick={this.props.edit ? this.submitEditInstitutionForm : this.submitAddProgramForm}
                                 disabled={formHasErrors}>
                             {this.props.edit ? "Save changes" : "Add"}
                         </Button>
-
-
-                    </div>
-                    }
-
-                    {this.state.step === "Overview" &&
-                    <Button outline
-                            color="success"
-                            onClick={() => this.setState({ step : "Requirement" })}
-                            disabled={formHasErrors}>
-                        Next
-                    </Button>
-                    }
                 </ModalFooter>
                 }
             </Modal>
 
-        );
-    }
-}
-
-class ProgramFormRequirements extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            requirements : [""],
-        };
-
-        this.handleAddRequirement = this.handleAddRequirement.bind(this);
-        this.handleRemoveRequirement = this.handleRemoveRequirement.bind(this);
-        this.handleRequirementChange = this.handleRequirementChange.bind(this);
-
-    }
-
-    handleRequirementChange(index) {
-        return (newValue) => {
-            const requirements = this.state.requirements.map((requirement, candidateIndex) => {
-                if (index !== candidateIndex) {
-                    return requirement;
-                }
-
-                return newValue;
-            });
-
-            this.setState({
-                requirements : requirements,
-            });
-        };
-    }
-
-    handleAddRequirement() {
-        this.setState({
-            requirements : this.state.requirements.concat([""]),
-        });
-    }
-
-    handleRemoveRequirement(index) {
-        return () => {
-            this.setState({
-                requirements : this.state.requirements.filter((requirement, candidateIndex) => {
-                    return candidateIndex !== index;
-                }),
-            });
-        };
-    }
-
-    render() {
-        const requirements = this.state.requirements.map((requirement, index) => {
-            return <ProgramFormRequirementRow key={index}
-                                              isLastItem={index + 1 === this.state.requirements.length}
-                                              hasRemoveButton={index > 0}
-                                              onRemoveButtonClick={this.handleRemoveRequirement(index)}
-                                              onAddButtonClick={this.handleAddRequirement}
-                                              onValueChange={this.handleRequirementChange(index)}
-                                              value={requirement}/>;
-        });
-
-        return (
-            <div>
-                <p>Applicant Requirements</p>
-                {requirements}
-            </div>
-        );
-    }
-}
-
-class ProgramFormRequirementRow extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            value : this.props.value,
-        };
-
-        this.onValueChange = this.onValueChange.bind(this);
-        this.validateInput = this.validateInput.bind(this);
-    }
-
-    onValueChange(event) {
-        const value = event.target.value;
-        this.props.onValueChange(value);
-        this.setState({
-            value : value,
-        });
-
-    }
-
-    validateInput() {
-        return validateForm([{
-            name : "Requirement",
-            characterLimit : 64,
-            value : this.state.value,
-        }]);
-    }
-
-    componentWillReceiveProps(props) {
-        this.setState({
-            value : props.value,
-        });
-    }
-
-    render() {
-        const { formHasErrors, fieldErrors } = this.validateInput();
-
-        return (
-            <FormGroup>
-
-                <div className="d-flex flex-row">
-                    <Input placeholder="Requirement"
-                           value={this.state.value}
-                           onChange={this.onValueChange}
-                           className="w-75 mr-2"
-                           valid={!formHasErrors}/>
-                    {this.props.hasRemoveButton && <Button outline
-                                                           color="danger"
-                                                           className="mr-2"
-                                                           onClick={this.props.onRemoveButtonClick}>-</Button>}
-                    {this.props.isLastItem && <Button outline
-                                                      color="success"
-                                                      onClick={this.props.onAddButtonClick}>+</Button>}
-                </div>
-
-
-                <Input type="hidden"
-                       valid={!formHasErrors}/>
-                <FormFeedback>{fieldErrors["Requirement"][0]}</FormFeedback>
-            </FormGroup>
         );
     }
 }

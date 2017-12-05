@@ -112,7 +112,8 @@ var ProgramList = function (_Component) {
                         )
                     )
                 ),
-                _react2.default.createElement(_modals.ProgramFormModal, { toggle: this.toggleProgramFormModal,
+                _react2.default.createElement(_modals.ProgramFormModal, { inbound: true,
+                    toggle: this.toggleProgramFormModal,
                     refresh: this.props.refreshPrograms,
                     isOpen: this.state.programFormModalIsShowing,
                     institution: null })
