@@ -41,7 +41,16 @@ const menus = [
                 },
                 {
                     label : "Distribution of Students",
-                    click : () => makeReportWindow(reportFiles.distributionOfStudents),
+                    submenu : [
+                        {
+                            label : "By Institution",
+                            click : () => makeReportWindow(reportFiles.distributionOfStudents),
+                        },
+                        {
+                            label : "By Country",
+                            click : () => makeReportWindow(reportFiles.distributionPerCountry),
+                        },
+                    ],
                 },
             ],
         },
@@ -50,7 +59,7 @@ const menus = [
             submenu : [
                 {
                     label : "Define Application Requirements",
-                    click : makeRequirementsWindow
+                    click : makeRequirementsWindow,
                 },
             ],
         },

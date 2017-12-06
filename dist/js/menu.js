@@ -41,9 +41,17 @@ var menus = [{
         }]
     }, {
         label: "Distribution of Students",
-        click: function click() {
-            return (0, _windows.makeReportWindow)(_windows.reportFiles.distributionOfStudents);
-        }
+        submenu: [{
+            label: "By Institution",
+            click: function click() {
+                return (0, _windows.makeReportWindow)(_windows.reportFiles.distributionOfStudents);
+            }
+        }, {
+            label: "By Country",
+            click: function click() {
+                return (0, _windows.makeReportWindow)(_windows.reportFiles.distributionPerCountry);
+            }
+        }]
     }]
 }, {
     label: "Settings",

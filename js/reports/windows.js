@@ -27,6 +27,7 @@ const reportFiles = {
     studentStatisticsCountry : "../../../html/reports/student_statistics_country.html",
     studentStatisticsCollege : "../../../html/reports/student_statistics_college.html",
     outboundDefaultVsTotalUnits : "../../../html/reports/default_vs_total_units.html",
+    distributionPerCountry : "../../../html/reports/distribution_per_country.html",
 };
 
 export {
