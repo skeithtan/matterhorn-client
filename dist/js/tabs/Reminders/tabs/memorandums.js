@@ -190,7 +190,8 @@ var Memorandums = function (_Component) {
             if (this.state.error) {
                 return _react2.default.createElement(
                     _error_state2.default,
-                    { onRetryButtonClick: this.fetchMemorandums },
+                    {
+                        onRetryButtonClick: this.fetchMemorandums },
                     this.state.error.toString()
                 );
             }
@@ -201,6 +202,7 @@ var Memorandums = function (_Component) {
                 "div",
                 { className: "d-flex flex-column h-100" },
                 _react2.default.createElement(MemorandumsHead, { setMemorandums: this.getMemorandumsFromCategory,
+                    activeCategory: this.state.activeCategory,
                     setActiveCategory: this.setActiveCategory }),
                 _react2.default.createElement(MemorandumsTable, { activeCategory: this.state.activeCategory,
                     memorandums: memorandums,
@@ -216,24 +218,17 @@ var Memorandums = function (_Component) {
 var MemorandumsHead = function (_Component2) {
     _inherits(MemorandumsHead, _Component2);
 
-    function MemorandumsHead(props) {
+    function MemorandumsHead() {
         _classCallCheck(this, MemorandumsHead);
 
-        var _this4 = _possibleConstructorReturn(this, (MemorandumsHead.__proto__ || Object.getPrototypeOf(MemorandumsHead)).call(this, props));
-
-        _this4.onCategoryChange = _this4.onCategoryChange.bind(_this4);
-        return _this4;
+        return _possibleConstructorReturn(this, (MemorandumsHead.__proto__ || Object.getPrototypeOf(MemorandumsHead)).apply(this, arguments));
     }
 
     _createClass(MemorandumsHead, [{
-        key: "onCategoryChange",
-        value: function onCategoryChange(event) {
-            this.props.setActiveCategory(event.target.value);
-            this.props.getMemorandumsFromCategory(event.target.value);
-        }
-    }, {
         key: "render",
         value: function render() {
+            var _this5 = this;
+
             return _react2.default.createElement(
                 "div",
                 { className: "page-head pt-5 d-flex flex-row align-items-end" },
@@ -250,19 +245,24 @@ var MemorandumsHead = function (_Component2) {
                     "div",
                     { className: "page-head-actions" },
                     _react2.default.createElement(
-                        _reactstrap.Input,
-                        { type: "select",
-                            className: "btn-outline-success",
-                            value: "MOA",
-                            onChange: this.onCategoryChange },
+                        _reactstrap.ButtonGroup,
+                        null,
                         _react2.default.createElement(
-                            "option",
-                            { value: "Agreement" },
+                            _reactstrap.Button,
+                            { outline: true, color: "success",
+                                active: this.props.activeCategory === "Agreement",
+                                onClick: function onClick(event) {
+                                    return _this5.props.setActiveCategory("Agreement");
+                                } },
                             "Agreement"
                         ),
                         _react2.default.createElement(
-                            "option",
-                            { value: "Understanding" },
+                            _reactstrap.Button,
+                            { outline: true, color: "success",
+                                active: this.props.activeCategory === "Understanding",
+                                onClick: function onClick(event) {
+                                    return _this5.props.setActiveCategory("Understanding");
+                                } },
                             "Understanding"
                         )
                     )
@@ -280,10 +280,10 @@ var MemorandumsTable = function (_Component3) {
     function MemorandumsTable(props) {
         _classCallCheck(this, MemorandumsTable);
 
-        var _this5 = _possibleConstructorReturn(this, (MemorandumsTable.__proto__ || Object.getPrototypeOf(MemorandumsTable)).call(this, props));
+        var _this6 = _possibleConstructorReturn(this, (MemorandumsTable.__proto__ || Object.getPrototypeOf(MemorandumsTable)).call(this, props));
 
-        _this5.emptyState = _this5.emptyState.bind(_this5);
-        return _this5;
+        _this6.emptyState = _this6.emptyState.bind(_this6);
+        return _this6;
     }
 
     _createClass(MemorandumsTable, [{
@@ -303,7 +303,7 @@ var MemorandumsTable = function (_Component3) {
     }, {
         key: "render",
         value: function render() {
-            var _this6 = this;
+            var _this7 = this;
 
             var memorandums = this.props.memorandums;
 
@@ -318,12 +318,12 @@ var MemorandumsTable = function (_Component3) {
             var rows = memorandums.map(function (memorandum, index) {
                 var isActive = false;
 
-                if (_this6.props.activeMemorandum !== null) {
-                    isActive = _this6.props.activeMemorandum.memorandum.id === memorandum.memorandum.id;
+                if (_this7.props.activeMemorandum !== null) {
+                    isActive = _this7.props.activeMemorandum.memorandum.id === memorandum.memorandum.id;
                 }
 
                 var onMemorandumRowClick = function onMemorandumRowClick() {
-                    return _this6.props.setActiveMemorandum(memorandum);
+                    return _this7.props.setActiveMemorandum(memorandum);
                 };
 
                 return _react2.default.createElement(MemorandumRow, { key: index,

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import graphql from "../../../graphql";
 import moment from "moment";
 import LoadingSpinner from "../../../components/loading";
-import { Table } from "reactstrap";
+import { Button, ButtonGroup, Table } from "reactstrap";
 import {
     Input,
 } from "reactstrap";
@@ -152,9 +152,9 @@ class Memorandums extends Component {
             activeMemorandum : memorandum,
         });
 
-        this.props.setSidebarContent(<MemorandumsSidebarPane institution={memorandum.institution}
-                                                             memorandum={memorandum.memorandum}
-                                                             refresh={this.refreshMemorandums}/>);
+        this.props.setSidebarContent(<MemorandumsSidebarPane institution={ memorandum.institution }
+                                                             memorandum={ memorandum.memorandum }
+                                                             refresh={ this.refreshMemorandums }/>);
     }
 
     refreshMemorandums() {
@@ -172,36 +172,27 @@ class Memorandums extends Component {
 
     render() {
         if (this.state.error) {
-            return <ErrorState onRetryButtonClick={this.fetchMemorandums}>{this.state.error.toString()}</ErrorState>;
+            return <ErrorState
+                onRetryButtonClick={ this.fetchMemorandums }>{ this.state.error.toString() }</ErrorState>;
         }
 
         const memorandums = this.getMemorandumsFromCategory(this.state.activeCategory);
 
         return (
             <div className="d-flex flex-column h-100">
-                <MemorandumsHead setMemorandums={this.getMemorandumsFromCategory}
-                                 setActiveCategory={this.setActiveCategory}/>
-                <MemorandumsTable activeCategory={this.state.activeCategory}
-                                  memorandums={memorandums}
-                                  activeMemorandum={this.state.activeMemorandum}
-                                  setActiveMemorandum={this.setActiveMemorandum}/>
+                <MemorandumsHead setMemorandums={ this.getMemorandumsFromCategory }
+                                 activeCategory={ this.state.activeCategory }
+                                 setActiveCategory={ this.setActiveCategory }/>
+                <MemorandumsTable activeCategory={ this.state.activeCategory }
+                                  memorandums={ memorandums }
+                                  activeMemorandum={ this.state.activeMemorandum }
+                                  setActiveMemorandum={ this.setActiveMemorandum }/>
             </div>
         );
     }
 }
 
 class MemorandumsHead extends Component {
-    constructor(props) {
-        super(props);
-
-        this.onCategoryChange = this.onCategoryChange.bind(this);
-    }
-
-    onCategoryChange(event) {
-        this.props.setActiveCategory(event.target.value);
-        this.props.getMemorandumsFromCategory(event.target.value);
-    }
-
     render() {
         return (
             <div className="page-head pt-5 d-flex flex-row align-items-end">
@@ -211,13 +202,14 @@ class MemorandumsHead extends Component {
                     </h4>
                 </div>
                 <div className="page-head-actions">
-                    <Input type="select"
-                           className="btn-outline-success"
-                           value="MOA"
-                           onChange={this.onCategoryChange}>
-                        <option value="Agreement">Agreement</option>
-                        <option value="Understanding">Understanding</option>
-                    </Input>
+                    <ButtonGroup>
+                        <Button outline color="success"
+                                active={ this.props.activeCategory === "Agreement" }
+                                onClick={ event => this.props.setActiveCategory("Agreement") }>Agreement</Button>
+                        <Button outline color="success"
+                                active={ this.props.activeCategory === "Understanding" }
+                                onClick={ event => this.props.setActiveCategory("Understanding") }>Understanding</Button>
+                    </ButtonGroup>
                 </div>
             </div>
         );
@@ -234,7 +226,7 @@ class MemorandumsTable extends Component {
     emptyState() {
         return (
             <div className="loading-container">
-                <h3>There are no expiring Memorandums of {this.props.activeCategory}</h3>
+                <h3>There are no expiring Memorandums of { this.props.activeCategory }</h3>
             </div>
         );
     }
@@ -259,10 +251,10 @@ class MemorandumsTable extends Component {
 
             const onMemorandumRowClick = () => this.props.setActiveMemorandum(memorandum);
 
-            return <MemorandumRow key={index}
-                                  memorandum={memorandum}
-                                  isActive={isActive}
-                                  onClick={onMemorandumRowClick}/>;
+            return <MemorandumRow key={ index }
+                                  memorandum={ memorandum }
+                                  isActive={ isActive }
+                                  onClick={ onMemorandumRowClick }/>;
         });
 
         return (
@@ -275,7 +267,7 @@ class MemorandumsTable extends Component {
                 </tr>
                 </thead>
                 <tbody>
-                {rows}
+                { rows }
                 </tbody>
             </Table>
         );
@@ -313,11 +305,11 @@ class MemorandumRow extends Component {
         }
 
         return (
-            <tr className={expirationClass}
-                onClick={this.props.onClick}>
-                <td>{memorandum.institution.name}</td>
-                <td>{memorandum.memorandum.date_effective.format("LL")}</td>
-                <td>{hasExpired ? "Expired" : "Expires"} {expirationToNow}</td>
+            <tr className={ expirationClass }
+                onClick={ this.props.onClick }>
+                <td>{ memorandum.institution.name }</td>
+                <td>{ memorandum.memorandum.date_effective.format("LL") }</td>
+                <td>{ hasExpired ? "Expired" : "Expires" } { expirationToNow }</td>
             </tr>
         );
     }
