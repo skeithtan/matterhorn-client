@@ -175,6 +175,7 @@ var Requirements = function (_Component) {
                     toggleAddRequirement: this.toggleAddRequirement }),
                 _react2.default.createElement(RequirementsBody, { requirements: this.state.requirements,
                     refresh: this.refreshRequirements,
+                    toggleAddRequirement: this.toggleAddRequirement,
                     inbound: this.state.activeTab.name === "Inbound" }),
                 _react2.default.createElement(RequirementFormModal, { onSuccess: this.refreshRequirements,
                     inbound: this.state.activeTab.name === "Inbound",
@@ -373,11 +374,32 @@ var RequirementsBody = function (_Component4) {
             error: null
         };
 
+        _this8.emptyState = _this8.emptyState.bind(_this8);
         _this8.deleteRequirement = _this8.deleteRequirement.bind(_this8);
         return _this8;
     }
 
     _createClass(RequirementsBody, [{
+        key: "emptyState",
+        value: function emptyState() {
+            return _react2.default.createElement(
+                "div",
+                { className: "loading-container" },
+                _react2.default.createElement(
+                    "h3",
+                    null,
+                    "There are no requirements."
+                ),
+                _react2.default.createElement(
+                    _reactstrap.Button,
+                    { outline: true,
+                        onClick: this.props.toggleAddRequirement,
+                        color: "success" },
+                    "Add a requirement"
+                )
+            );
+        }
+    }, {
         key: "deleteRequirement",
         value: function deleteRequirement(requirementId) {
             var _this9 = this;
@@ -396,6 +418,10 @@ var RequirementsBody = function (_Component4) {
         key: "render",
         value: function render() {
             var _this10 = this;
+
+            if (this.props.requirements.length === 0) {
+                return this.emptyState();
+            }
 
             var rows = this.props.requirements.map(function (requirement) {
 

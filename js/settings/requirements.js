@@ -132,6 +132,7 @@ class Requirements extends Component {
                                   toggleAddRequirement={this.toggleAddRequirement}/>
                 <RequirementsBody requirements={this.state.requirements}
                                   refresh={this.refreshRequirements}
+                                  toggleAddRequirement={this.toggleAddRequirement}
                                   inbound={this.state.activeTab.name === "Inbound"}/>
                 <RequirementFormModal onSuccess={this.refreshRequirements}
                                       inbound={this.state.activeTab.name === "Inbound"}
@@ -266,7 +267,19 @@ class RequirementsBody extends Component {
             error : null,
         };
 
+        this.emptyState = this.emptyState.bind(this);
         this.deleteRequirement = this.deleteRequirement.bind(this);
+    }
+
+    emptyState() {
+        return (
+            <div className="loading-container">
+                <h3>There are no requirements.</h3>
+                <Button outline
+                        onClick={this.props.toggleAddRequirement}
+                        color="success">Add a requirement</Button>
+            </div>
+        );
     }
 
     deleteRequirement(requirementId) {
@@ -284,6 +297,11 @@ class RequirementsBody extends Component {
     }
 
     render() {
+
+        if (this.props.requirements.length === 0) {
+            return this.emptyState();
+        }
+
         const rows = this.props.requirements.map(requirement => {
 
             const onDeleteButtonClick = () => {
