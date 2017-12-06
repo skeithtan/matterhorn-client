@@ -48,8 +48,6 @@ var menus = [{
 }, {
     label: "Settings",
     submenu: [{
-        label: "Define Academic Years"
-    }, {
         label: "Define Application Requirements",
         click: _windows2.makeRequirementsWindow
     }]
