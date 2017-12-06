@@ -42,14 +42,16 @@ class Reminders extends Component {
             <div id="reminders"
                  className="d-flex flex-row h-100 w-100">
                 <div className="d-flex flex-column p-0 h-100 w-100">
-                    <div className="tab-content">{ tab }</div>
-                    <TabBar setActiveTab={ this.setActiveTab }
-                            activeTab={ this.state.activeTab }
-                            tabs={ tabs }/>
+                    <div className="tab-content">{tab}</div>
+                    <div className="hidden">
+                        <TabBar setActiveTab={this.setActiveTab}
+                                activeTab={this.state.activeTab}
+                                tabs={tabs}/>
+                    </div>
                 </div>
 
-                <div className={ sidebarClass }>
-                    { this.state.sidebarContent }
+                <div className={sidebarClass}>
+                    {this.state.sidebarContent}
                 </div>
             </div>
         );

@@ -82,9 +82,13 @@ var Reminders = function (_Component) {
                         { className: "tab-content" },
                         tab
                     ),
-                    _react2.default.createElement(_tab_bar2.default, { setActiveTab: this.setActiveTab,
-                        activeTab: this.state.activeTab,
-                        tabs: _reminders_tabs_list2.default })
+                    _react2.default.createElement(
+                        "div",
+                        { className: "hidden" },
+                        _react2.default.createElement(_tab_bar2.default, { setActiveTab: this.setActiveTab,
+                            activeTab: this.state.activeTab,
+                            tabs: _reminders_tabs_list2.default })
+                    )
                 ),
                 _react2.default.createElement(
                     "div",
