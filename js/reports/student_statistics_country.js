@@ -15,7 +15,7 @@ import { Table } from "reactstrap";
 
 function makeReportQuery(year, term) {
     return $.get({
-        url : `${settings.serverURL}/reports/inbound-statistics-reports/`,
+        url : `${settings.serverURL}/reports/general-statistics-reports`,
         beforeSend : authorizeXHR,
         data : {
             "filter" : "country",
@@ -105,8 +105,8 @@ class CountryStudentStatisticsTable extends Component {
         let grandTotal = 0;
 
         this.props.countries.forEach(country => {
-            const gradSchool = country.graduate_students;
-            const underGradSchool = country.undergrad_students;
+            const gradSchool = country.inbound_graduate_students;
+            const underGradSchool = country.inbound_undergrad_students;
             const countryTotal = gradSchool + underGradSchool;
 
             totalGradSchool += gradSchool;
@@ -150,8 +150,8 @@ class CountryStudentStatisticsTable extends Component {
 
 class CountryStudentStatisticsRow extends Component {
     render() {
-        const gradSchool = this.props.country.graduate_students;
-        const underGradSchool = this.props.country.undergrad_students;
+        const gradSchool = this.props.country.inbound_graduate_students;
+        const underGradSchool = this.props.country.inbound_undergrad_students;
         const countryTotal = gradSchool + underGradSchool;
 
         let percentage = 0;

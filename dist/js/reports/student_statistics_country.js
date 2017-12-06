@@ -46,7 +46,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function makeReportQuery(year, term) {
     return $.get({
-        url: _settings2.default.serverURL + "/reports/inbound-statistics-reports/",
+        url: _settings2.default.serverURL + "/reports/general-statistics-reports",
         beforeSend: _authorization2.default,
         data: {
             "filter": "country",
@@ -189,8 +189,8 @@ var CountryStudentStatisticsTable = function (_Component2) {
             var grandTotal = 0;
 
             this.props.countries.forEach(function (country) {
-                var gradSchool = country.graduate_students;
-                var underGradSchool = country.undergrad_students;
+                var gradSchool = country.inbound_graduate_students;
+                var underGradSchool = country.inbound_undergrad_students;
                 var countryTotal = gradSchool + underGradSchool;
 
                 totalGradSchool += gradSchool;
@@ -297,8 +297,8 @@ var CountryStudentStatisticsRow = function (_Component3) {
     _createClass(CountryStudentStatisticsRow, [{
         key: "render",
         value: function render() {
-            var gradSchool = this.props.country.graduate_students;
-            var underGradSchool = this.props.country.undergrad_students;
+            var gradSchool = this.props.country.inbound_graduate_students;
+            var underGradSchool = this.props.country.inbound_undergrad_students;
             var countryTotal = gradSchool + underGradSchool;
 
             var percentage = 0;
