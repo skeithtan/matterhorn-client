@@ -174,6 +174,7 @@ var Requirements = function (_Component) {
                 _react2.default.createElement(RequirementsHead, { inbound: this.state.activeTab.name === "Inbound",
                     toggleAddRequirement: this.toggleAddRequirement }),
                 _react2.default.createElement(RequirementsBody, { requirements: this.state.requirements,
+                    refresh: this.refreshRequirements,
                     inbound: this.state.activeTab.name === "Inbound" }),
                 _react2.default.createElement(RequirementFormModal, { onSuccess: this.refreshRequirements,
                     inbound: this.state.activeTab.name === "Inbound",
@@ -379,23 +380,22 @@ var RequirementsBody = function (_Component4) {
     _createClass(RequirementsBody, [{
         key: "deleteRequirement",
         value: function deleteRequirement(requirementId) {
-            //TODO: This
+            var _this9 = this;
 
-            // $.delete({
-            //      url : `${settings.serverURL}/programs/inbound/requirements/`,
-            //  })
-            //  .done()
-            //  .fail(error => {
-            //
-            //  });
-            //
-
-            this.props.refreshRequirements();
+            _jquery2.default.ajax({
+                method: "DELETE",
+                url: _settings2.default.serverURL + "/programs/" + (this.props.inbound ? "inbound" : "outbound") + "/requirements/" + requirementId + "/",
+                beforeSend: _authorization2.default
+            }).done(function () {
+                _this9.props.refresh();
+            }).fail(function (error) {
+                console.log(error);
+            });
         }
     }, {
         key: "render",
         value: function render() {
-            var _this9 = this;
+            var _this10 = this;
 
             var rows = this.props.requirements.map(function (requirement) {
 
@@ -404,7 +404,7 @@ var RequirementsBody = function (_Component4) {
                         return;
                     }
 
-                    _this9.deleteRequirement(requirement.id);
+                    _this10.deleteRequirement(requirement.id);
                 };
 
                 return _react2.default.createElement(RequirementRow, { key: requirement.id,

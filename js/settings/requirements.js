@@ -131,6 +131,7 @@ class Requirements extends Component {
                 <RequirementsHead inbound={this.state.activeTab.name === "Inbound"}
                                   toggleAddRequirement={this.toggleAddRequirement}/>
                 <RequirementsBody requirements={this.state.requirements}
+                                  refresh={this.refreshRequirements}
                                   inbound={this.state.activeTab.name === "Inbound"}/>
                 <RequirementFormModal onSuccess={this.refreshRequirements}
                                       inbound={this.state.activeTab.name === "Inbound"}
@@ -269,18 +270,17 @@ class RequirementsBody extends Component {
     }
 
     deleteRequirement(requirementId) {
-        //TODO: This
-
-        // $.delete({
-        //      url : `${settings.serverURL}/programs/inbound/requirements/`,
-        //  })
-        //  .done()
-        //  .fail(error => {
-        //
-        //  });
-        //
-
-        this.props.refreshRequirements();
+        $.ajax({
+             method : "DELETE",
+             url : `${settings.serverURL}/programs/${this.props.inbound ? "inbound" : "outbound"}/requirements/${requirementId}/`,
+             beforeSend : authorizeXHR,
+         })
+         .done(() => {
+             this.props.refresh();
+         })
+         .fail(error => {
+             console.log(error);
+         });
     }
 
     render() {

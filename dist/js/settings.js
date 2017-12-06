@@ -42,7 +42,7 @@ var linkages = {
 };
 
 var settings = {
-    serverURL: "http://139.59.107.27",
+    serverURL: "http://localhost:8000",
     uploadcarePublicKey: "80541ebc3ae0d844afec",
     countries: countries,
     colleges: colleges,
