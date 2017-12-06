@@ -15,7 +15,7 @@ import $ from "jquery";
 
 function makeReportQuery(year, term) {
     return $.get({
-        url : `${settings.serverURL}/reports/outbound-units-reports/`,
+        url : `${settings.serverURL}/reports/outbound-units-reports`,
         beforeSend : authorizeXHR,
         data : {
             "academic-year" : year,
