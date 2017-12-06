@@ -44,7 +44,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function makeReportQuery(year, term) {
     return _jquery2.default.get({
-        url: _settings2.default.serverURL + "/reports/student-distribution-reports/",
+        url: _settings2.default.serverURL + "/reports/student-distribution-reports",
         beforeSend: _authorization2.default,
         data: {
             "academic-year": year,

@@ -15,7 +15,7 @@ import settings from "../settings";
 
 function makeReportQuery(year, term) {
     return $.get({
-        url : `${settings.serverURL}/reports/student-distribution-reports/`,
+        url : `${settings.serverURL}/reports/student-distribution-reports`,
         beforeSend : authorizeXHR,
         data : {
             "academic-year" : year,
