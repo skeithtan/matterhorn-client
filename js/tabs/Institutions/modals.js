@@ -709,7 +709,7 @@ class ProgramFormModal extends Component {
             {
                 name : "Terms available",
                 characterLimit : null,
-                value : this.state.form.terms_duration.toString(),
+                value : this.state.form.terms_available.toString(),
                 customValidators : [{
                     isValid : fieldValue => [1, 3].toString() !== fieldValue,
                     errorMessage : fieldName => `${fieldName} must be consecutive`,
@@ -770,11 +770,11 @@ class ProgramFormModal extends Component {
     }
 
     onTermClick(term) {
-        const index = this.state.form.terms_duration.indexOf(term);
+        const index = this.state.form.terms_available.indexOf(term);
         if (index < 0) {
-            this.state.form.terms_duration.push(term);
+            this.state.form.terms_available.push(term);
         } else {
-            this.state.form.terms_duration.splice(index, 1);
+            this.state.form.terms_available.splice(index, 1);
         }
 
         this.setState({
@@ -813,7 +813,7 @@ class ProgramFormModal extends Component {
                     color="success"
                     key={term}
                     onClick={() => this.onTermClick(term)}
-                    active={this.state.form.terms_duration.includes(term)}>
+                    active={this.state.form.terms_available.includes(term)}>
                 {term}
             </Button>,
         );
