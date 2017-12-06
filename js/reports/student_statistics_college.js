@@ -22,7 +22,7 @@ import {
 
 function makeReportQuery(year, term) {
     return $.get({
-        url : `${settings.serverURL}/reports/inbound-statistics-reports/`,
+        url : `${settings.serverURL}/reports/general-statistics-reports`,
         beforeSend : authorizeXHR,
         data : {
             "filter" : "college",
@@ -113,8 +113,8 @@ class CollegeStudentStatisticsTable extends Component {
         let grandTotal = 0;
 
         this.props.colleges.forEach(college => {
-            const gradSchool = college.graduate_students;
-            const underGradSchool = college.undergrad_students;
+            const gradSchool = college.inbound_graduate_students;
+            const underGradSchool = college.inbound_undergrad_students;
             const collegeTotal = gradSchool + underGradSchool;
 
             totalGradSchool += gradSchool;
@@ -158,8 +158,8 @@ class CollegeStudentStatisticsTable extends Component {
 
 class CollegeStudentStatisticsRow extends Component {
     render() {
-        const gradSchool = this.props.college.graduate_students;
-        const underGradSchool = this.props.college.undergrad_students;
+        const gradSchool = this.props.college.inbound_graduate_students;
+        const underGradSchool = this.props.college.inbound_undergrad_students;
         const collegeTotal = gradSchool + underGradSchool;
 
         let percentage = 0;
@@ -185,8 +185,8 @@ class CollegeStudentStatisticsChart extends Component {
         const data = this.props.colleges.map(college => {
             return {
                 name : college.abbreviation,
-                Graduate : college.graduate_students,
-                Undergraduate: college.undergrad_students
+                Graduate : college.inbound_graduate_students,
+                Undergraduate: college.inbound_undergrad_students
             };
         });
 

@@ -48,7 +48,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function makeReportQuery(year, term) {
     return $.get({
-        url: _settings2.default.serverURL + "/reports/inbound-statistics-reports/",
+        url: _settings2.default.serverURL + "/reports/general-statistics-reports",
         beforeSend: _authorization2.default,
         data: {
             "filter": "college",
@@ -192,8 +192,8 @@ var CollegeStudentStatisticsTable = function (_Component2) {
             var grandTotal = 0;
 
             this.props.colleges.forEach(function (college) {
-                var gradSchool = college.graduate_students;
-                var underGradSchool = college.undergrad_students;
+                var gradSchool = college.inbound_graduate_students;
+                var underGradSchool = college.inbound_undergrad_students;
                 var collegeTotal = gradSchool + underGradSchool;
 
                 totalGradSchool += gradSchool;
@@ -300,8 +300,8 @@ var CollegeStudentStatisticsRow = function (_Component3) {
     _createClass(CollegeStudentStatisticsRow, [{
         key: "render",
         value: function render() {
-            var gradSchool = this.props.college.graduate_students;
-            var underGradSchool = this.props.college.undergrad_students;
+            var gradSchool = this.props.college.inbound_graduate_students;
+            var underGradSchool = this.props.college.inbound_undergrad_students;
             var collegeTotal = gradSchool + underGradSchool;
 
             var percentage = 0;
@@ -361,8 +361,8 @@ var CollegeStudentStatisticsChart = function (_Component4) {
             var data = this.props.colleges.map(function (college) {
                 return {
                     name: college.abbreviation,
-                    Graduate: college.graduate_students,
-                    Undergraduate: college.undergrad_students
+                    Graduate: college.inbound_graduate_students,
+                    Undergraduate: college.inbound_undergrad_students
                 };
             });
 
