@@ -12,10 +12,6 @@ var _memorandums = require("./memorandums");
 
 var _memorandums2 = _interopRequireDefault(_memorandums);
 
-var _programs = require("./programs");
-
-var _programs2 = _interopRequireDefault(_programs);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var tabs = [{

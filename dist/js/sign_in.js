@@ -128,6 +128,7 @@ var SignIn = function (_Component) {
                 $("#sign-in").find("input").val("");
                 localStorage.token = response.token;
                 localStorage.username = response.username;
+                localStorage.userType = response.user_type;
 
                 var headers = { "Authorization": "Token " + localStorage.token };
                 // Add headers to transport

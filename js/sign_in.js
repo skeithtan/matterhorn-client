@@ -85,6 +85,7 @@ class SignIn extends Component {
             $("#sign-in").find("input").val("");
             localStorage.token = response.token;
             localStorage.username = response.username;
+            localStorage.userType = response.user_type;
 
             const headers = { "Authorization" : `Token ${localStorage.token}` };
             // Add headers to transport

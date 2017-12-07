@@ -1,6 +1,5 @@
 import React from "react";
 import Memorandums from "./memorandums";
-import Programs from "./programs";
 
 const tabs = [
     {
