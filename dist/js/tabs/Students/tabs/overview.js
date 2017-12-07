@@ -263,7 +263,7 @@ var OverviewHead = function (_Component2) {
                 _react2.default.createElement(
                     "div",
                     { className: "page-head-actions" },
-                    _react2.default.createElement(
+                    localStorage.userType !== "administrative_assistant" && _react2.default.createElement(
                         _reactstrap.Button,
                         { outline: true,
                             size: "sm",
@@ -272,7 +272,7 @@ var OverviewHead = function (_Component2) {
                             onClick: this.toggleEditStudent },
                         "Edit Student"
                     ),
-                    !this.props.applicant && _react2.default.createElement(
+                    !this.props.applicant && localStorage.userType !== "administrative_assistant" && _react2.default.createElement(
                         _reactstrap.Button,
                         { outline: true,
                             size: "sm",
@@ -431,7 +431,7 @@ var StudentDetails = function (_Component4) {
                             civilStatus
                         )
                     ),
-                    this.props.archived && _react2.default.createElement(
+                    this.props.archived && localStorage.userType === "VP" && _react2.default.createElement(
                         _section.SectionRow,
                         null,
                         _react2.default.createElement(

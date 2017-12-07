@@ -14,7 +14,6 @@ import {
     SectionRowTitle,
 } from "../../../components/section";
 
-// TODO: import modals for editing and adding
 import { ResidenceSidebarPane } from "./sidebar_panes";
 import { ResidenceAddressFormModal } from "../modals";
 import ErrorState from "../../../components/error_state";
@@ -103,8 +102,8 @@ class ResidentAddressHistory extends Component {
         }
 
         this.props.setSidebarContent(
-            <ResidenceSidebarPane toggleEditResidence={this.toggleEditResidence}
-                                  residence={residence}
+            <ResidenceSidebarPane toggleEditResidence={ this.toggleEditResidence }
+                                  residence={ residence }
             />,
         );
 
@@ -136,8 +135,8 @@ class ResidentAddressHistory extends Component {
     render() {
         if (this.state.error) {
             return (
-                <ErrorState onRetryButtonClick={() => this.fetchHistory(this.state.student.id)}>
-                    {this.state.error.toString()}
+                <ErrorState onRetryButtonClick={ () => this.fetchHistory(this.state.student.id) }>
+                    { this.state.error.toString() }
                 </ErrorState>
             );
         }
@@ -148,29 +147,29 @@ class ResidentAddressHistory extends Component {
 
         return (
             <div className="d-flex flex-column p-0 h-100">
-                <HistoryHead student={this.state.student}
-                             toggleAddResidence={this.toggleAddResidence}/>
+                <HistoryHead student={ this.state.student }
+                             toggleAddResidence={ this.toggleAddResidence }/>
 
-                <HistoryBody residences={this.state.student.residencies}
-                             activeResidence={this.state.activeResidence}
-                             setActiveResidence={this.setActiveResidence}/>
+                <HistoryBody residences={ this.state.student.residencies }
+                             activeResidence={ this.state.activeResidence }
+                             setActiveResidence={ this.setActiveResidence }/>
 
                 {
                     //Keep the key because otherwise the ResidenceAddressFormModal
                     // won't change when there's a new activeResidence
                 }
                 <ResidenceAddressFormModal edit
-                                           key={this.state.activeResidence === null ? 0 : this.state.activeResidence.id}
-                                           isOpen={this.state.editResidenceIsShowing}
-                                           student={this.state.student}
-                                           residence={this.state.activeResidence}
-                                           refreshResidences={() => this.fetchHistory(this.state.student.id)}
-                                           toggle={this.toggleEditResidence}/>
+                                           key={ this.state.activeResidence === null ? 0 : this.state.activeResidence.id }
+                                           isOpen={ this.state.editResidenceIsShowing }
+                                           student={ this.state.student }
+                                           residence={ this.state.activeResidence }
+                                           refreshResidences={ () => this.fetchHistory(this.state.student.id) }
+                                           toggle={ this.toggleEditResidence }/>
 
-                <ResidenceAddressFormModal isOpen={this.state.addResidenceIsShowing}
-                                           student={this.state.student}
-                                           refreshResidences={() => this.fetchHistory(this.state.student.id)}
-                                           toggle={this.toggleAddResidence}/>
+                <ResidenceAddressFormModal isOpen={ this.state.addResidenceIsShowing }
+                                           student={ this.state.student }
+                                           refreshResidences={ () => this.fetchHistory(this.state.student.id) }
+                                           toggle={ this.toggleAddResidence }/>
             </div>
         );
     }
@@ -190,18 +189,18 @@ class HistoryHead extends Component {
                 <div className="mr-auto">
                     <h5 className="mb-0 text-secondary">Resident Address History</h5>
                     <h4 className="page-head-title mb-0">
-                        {student.first_name} {student.middle_name} {student.family_name}
-                        <small className="text-muted ml-2">{this.props.student.id_number}</small>
+                        { student.first_name } { student.middle_name } { student.family_name }
+                        <small className="text-muted ml-2">{ this.props.student.id_number }</small>
                     </h4>
                 </div>
 
                 <div className="page-head-actions">
-                    <Button outline
-                            size="sm"
-                            color="success"
-                            onClick={this.props.toggleAddResidence}>
+                    { localStorage.userType !== "administrative_assistant" && <Button outline
+                                                                                      size="sm"
+                                                                                      color="success"
+                                                                                      onClick={ this.props.toggleAddResidence }>
                         Add a Residence
-                    </Button>
+                    </Button> }
                 </div>
             </div>
         );
@@ -241,11 +240,11 @@ class HistoryBody extends Component {
                 isActive = this.props.activeResidence.id === residence.id;
             }
 
-            return <ResidenceRow key={index}
-                                 residence={residence}
-                                 isActive={isActive}
-                                 onClick={onResidenceRowClick}
-                                 latest={index === 0}/>;
+            return <ResidenceRow key={ index }
+                                 residence={ residence }
+                                 isActive={ isActive }
+                                 onClick={ onResidenceRowClick }
+                                 latest={ index === 0 }/>;
         });
 
         return (
@@ -253,7 +252,7 @@ class HistoryBody extends Component {
                 <div className="d-flex h-100 p-0 flex-row">
                     <div className="w-100">
                         <SectionTable>
-                            {sections}
+                            { sections }
                         </SectionTable>
                     </div>
                 </div>
@@ -278,14 +277,14 @@ class ResidenceRow extends Component {
 
         return (
             <Section>
-                <SectionTitle>{dateEffective}</SectionTitle>
+                <SectionTitle>{ dateEffective }</SectionTitle>
                 <SectionRow selectable
-                            onClick={this.props.onClick}
-                            active={this.props.isActive}>
-                    {this.props.latest &&
+                            onClick={ this.props.onClick }
+                            active={ this.props.isActive }>
+                    { this.props.latest &&
                     <SectionRowTitle>Latest Residence</SectionRowTitle>
                     }
-                    <SectionRowContent large>{residence.address}</SectionRowContent>
+                    <SectionRowContent large>{ residence.address }</SectionRowContent>
                 </SectionRow>
             </Section>
         );

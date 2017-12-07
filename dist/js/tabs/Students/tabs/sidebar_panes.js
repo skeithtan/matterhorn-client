@@ -171,7 +171,7 @@ var ResidenceDetails = function (_Component2) {
                             residence.address
                         )
                     ),
-                    _react2.default.createElement(
+                    localStorage.userType !== "administrative_assistant" && _react2.default.createElement(
                         _section.SectionRow,
                         null,
                         _react2.default.createElement(

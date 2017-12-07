@@ -131,20 +131,20 @@ class MemorandumSidebarPane extends Component {
                 </div>
 
                 <div className="page-body">
-                    <MemorandumDetails archived={this.props.archived}
-                                       memorandum={memorandum}
-                                       confirmRestore={this.confirmRestore}
-                                       confirmArchive={this.confirmArchive}
-                                       toggleEditMemorandum={this.toggleEditMemorandum}/>
-                    <MemorandumLinkages linkages={memorandum.linkages}/>
+                    <MemorandumDetails archived={ this.props.archived }
+                                       memorandum={ memorandum }
+                                       confirmRestore={ this.confirmRestore }
+                                       confirmArchive={ this.confirmArchive }
+                                       toggleEditMemorandum={ this.toggleEditMemorandum }/>
+                    <MemorandumLinkages linkages={ memorandum.linkages }/>
 
-                    {this.state.activeMemorandum !== null &&
+                    { this.state.activeMemorandum !== null &&
                     <MemorandumFormModal edit
-                                         isOpen={this.state.editMemorandumIsShowing}
-                                         memorandum={memorandum}
-                                         toggle={this.toggleEditMemorandum}
-                                         onEditSuccess={this.onEditMemorandum}
-                                         refresh={this.props.refreshMemorandums}/>}
+                                         isOpen={ this.state.editMemorandumIsShowing }
+                                         memorandum={ memorandum }
+                                         toggle={ this.toggleEditMemorandum }
+                                         onEditSuccess={ this.onEditMemorandum }
+                                         refresh={ this.props.refreshMemorandums }/> }
                 </div>
             </div>
         );
@@ -176,19 +176,19 @@ class MemorandumDetails extends Component {
                 <SectionTable>
                     <SectionRow>
                         <SectionRowTitle>Memorandum Type</SectionRowTitle>
-                        <SectionRowContent>{type}</SectionRowContent>
+                        <SectionRowContent>{ type }</SectionRowContent>
                     </SectionRow>
                     <SectionRow>
                         <SectionRowTitle>Date Effective</SectionRowTitle>
-                        <SectionRowContent>{dateEffective}</SectionRowContent>
+                        <SectionRowContent>{ dateEffective }</SectionRowContent>
                     </SectionRow>
                     <SectionRow>
                         <SectionRowTitle>Expiration Date</SectionRowTitle>
-                        <SectionRowContent>{expiryDate}</SectionRowContent>
+                        <SectionRowContent>{ expiryDate }</SectionRowContent>
                     </SectionRow>
                     <SectionRow>
                         <SectionRowTitle>College Initiator</SectionRowTitle>
-                        <SectionRowContent>{college}</SectionRowContent>
+                        <SectionRowContent>{ college }</SectionRowContent>
                     </SectionRow>
                     <SectionRow>
                         <SectionRowContent className="d-flex">
@@ -196,28 +196,28 @@ class MemorandumDetails extends Component {
                                     color="success"
                                     size="sm"
                                     className="mr-2"
-                                    onClick={viewMemorandum}>View</Button>
+                                    onClick={ viewMemorandum }>View</Button>
 
-                            {!this.props.archived &&
+                            { !this.props.archived && localStorage.userType !== "program_assistant" &&
                             <Button outline
                                     color="success"
                                     size="sm"
                                     className="mr-auto"
-                                    onClick={this.props.toggleEditMemorandum}>Edit</Button>
+                                    onClick={ this.props.toggleEditMemorandum }>Edit</Button>
                             }
-                            {!this.props.archived &&
+                            { !this.props.archived && localStorage.userType === "VP" &&
                             < Button outline
                                      color="warning"
                                      size="sm"
-                                     onClick={this.props.confirmArchive}>Archive</Button>
+                                     onClick={ this.props.confirmArchive }>Archive</Button>
                             }
 
-                            {this.props.archived &&
-                            <Button outline
-                                    color="primary"
-                                    size="sm"
-                                    className="ml-auto"
-                                    onClick={this.props.confirmRestore}>Restore</Button>
+                            { this.props.archived && localStorage.userType === "VP" &&
+                            < Button outline
+                                     color="primary"
+                                     size="sm"
+                                     className="ml-auto"
+                                     onClick={ this.props.confirmRestore }>Restore</Button>
                             }
                         </SectionRowContent>
                     </SectionRow>
@@ -242,14 +242,14 @@ class MemorandumLinkages extends Component {
 
         const rows = this.props.linkages.map((linkage, index) => {
             return (
-                <SectionRow key={index}>{settings.linkages[linkage]}</SectionRow>
+                <SectionRow key={ index }>{ settings.linkages[linkage] }</SectionRow>
             );
         });
 
         if (this.props.linkages.length > 0) {
             body = (
                 <SectionTable>
-                    {rows}
+                    { rows }
                 </SectionTable>
             );
         }
@@ -257,7 +257,7 @@ class MemorandumLinkages extends Component {
         return (
             <Section>
                 <SectionTitle>Linkages</SectionTitle>
-                {body}
+                { body }
             </Section>
         );
     }
@@ -295,15 +295,15 @@ class ProgramSidebarPane extends Component {
             <div className="p-0 h-100 d-flex flex-column">
                 <div className="page-head pt-5 d-flex flex-row align-items-end">
                     <div className="mr-auto">
-                        <h5 className="mb-0">{program.name}</h5>
+                        <h5 className="mb-0">{ program.name }</h5>
                     </div>
                 </div>
 
 
                 <div className="page-body">
-                    <ProgramDetails program={program}
-                                    toggleDeleteProgram={this.toggleDeleteProgram}
-                                    toggleEditProgram={this.toggleEditProgram}/>
+                    <ProgramDetails program={ program }
+                                    toggleDeleteProgram={ this.toggleDeleteProgram }
+                                    toggleEditProgram={ this.toggleEditProgram }/>
                 </div>
             </div>
         );
@@ -325,24 +325,24 @@ class ProgramDetails extends Component {
                 <SectionTable>
                     <SectionRow>
                         <SectionRowTitle>Program Name</SectionRowTitle>
-                        <SectionRowContent>{program.name}</SectionRowContent>
+                        <SectionRowContent>{ program.name }</SectionRowContent>
                     </SectionRow>
                     <SectionRow>
                         <SectionRowTitle>Linkage</SectionRowTitle>
-                        <SectionRowContent>{program.linkage.name}</SectionRowContent>
+                        <SectionRowContent>{ program.linkage.name }</SectionRowContent>
                     </SectionRow>
                     <SectionRow>
                         <SectionRowTitle>Academic Year</SectionRowTitle>
-                        <SectionRowContent>{academicYear}</SectionRowContent>
+                        <SectionRowContent>{ academicYear }</SectionRowContent>
                     </SectionRow>
-                    <SectionRow>
+                    { localStorage.userType !== "administrative_assistant" && <SectionRow>
                         <SectionRowContent className="d-flex">
                             <Button outline
                                     color="success"
                                     size="sm"
                                     className="mr-auto">Edit</Button>
                         </SectionRowContent>
-                    </SectionRow>
+                    </SectionRow> }
                 </SectionTable>
             </Section>
         );

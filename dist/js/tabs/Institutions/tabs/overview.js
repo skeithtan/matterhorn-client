@@ -255,7 +255,7 @@ var OverviewHead = function (_Component2) {
                 _react2.default.createElement(
                     "div",
                     { className: "page-head-actions" },
-                    _react2.default.createElement(
+                    localStorage.userType !== "program_assistant" && _react2.default.createElement(
                         _reactstrap.Button,
                         { outline: true,
                             size: "sm",
@@ -264,7 +264,7 @@ var OverviewHead = function (_Component2) {
                             onClick: this.toggleEditInstitution },
                         "Edit Institution"
                     ),
-                    _react2.default.createElement(
+                    localStorage.userType === "VP" && _react2.default.createElement(
                         _reactstrap.Button,
                         { outline: true,
                             size: "sm",
@@ -401,7 +401,7 @@ var InstitutionDetails = function (_Component4) {
                             agreementType
                         )
                     ),
-                    this.props.archived && _react2.default.createElement(
+                    this.props.archived && localStorage.userType === "VP" && _react2.default.createElement(
                         _section.SectionRow,
                         null,
                         _react2.default.createElement(
@@ -461,7 +461,8 @@ var ContactDetails = function (_Component5) {
                         ),
                         _react2.default.createElement(
                             _section.SectionRowContent,
-                            { large: !this.props.sidebar },
+                            {
+                                large: !this.props.sidebar },
                             institution.contact_person_name
                         )
                     ),
@@ -475,7 +476,8 @@ var ContactDetails = function (_Component5) {
                         ),
                         _react2.default.createElement(
                             _section.SectionRowContent,
-                            { large: !this.props.sidebar },
+                            {
+                                large: !this.props.sidebar },
                             institution.contact_person_email
                         )
                     ),
@@ -489,7 +491,8 @@ var ContactDetails = function (_Component5) {
                         ),
                         _react2.default.createElement(
                             _section.SectionRowContent,
-                            { large: !this.props.sidebar },
+                            {
+                                large: !this.props.sidebar },
                             institution.contact_person_number
                         )
                     )

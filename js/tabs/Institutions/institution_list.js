@@ -81,22 +81,22 @@ class InstitutionList extends Component {
         }
 
         return (
-            <div className={className}
+            <div className={ className }
                  id="institution-list">
                 <ExpandContent className="d-flex flex-column h-100">
-                    <InstitutionListHead setSearchKeyword={this.setSearchKeyword}
-                                         toggleAddInstitution={this.props.toggleAddInstitution}
-                                         toggleCollapse={this.toggleCollapse}/>
-                    <InstitutionListTable countries={this.props.institutions}
-                                          filtered={this.getFilteredInstitutions()}
-                                          isSearching={isSearching}
-                                          toggleAddInstitution={this.props.toggleAddInstitution}
-                                          activeInstitution={this.props.activeInstitution}
-                                          setActiveInstitution={this.props.setActiveInstitution}/>
+                    <InstitutionListHead setSearchKeyword={ this.setSearchKeyword }
+                                         toggleAddInstitution={ this.props.toggleAddInstitution }
+                                         toggleCollapse={ this.toggleCollapse }/>
+                    <InstitutionListTable countries={ this.props.institutions }
+                                          filtered={ this.getFilteredInstitutions() }
+                                          isSearching={ isSearching }
+                                          toggleAddInstitution={ this.props.toggleAddInstitution }
+                                          activeInstitution={ this.props.activeInstitution }
+                                          setActiveInstitution={ this.props.setActiveInstitution }/>
                 </ExpandContent>
 
                 <CollapseContent title="Institutions"
-                                 toggle={this.toggleCollapse}/>
+                                 toggle={ this.toggleCollapse }/>
             </div>
         );
     }
@@ -117,19 +117,19 @@ class InstitutionListHead extends Component {
         return (
             <div className="page-head">
                 <div className="page-head-controls">
-                    <CollapseButton toggleCollapse={this.props.toggleCollapse}/>
+                    <CollapseButton toggleCollapse={ this.props.toggleCollapse }/>
 
-                    <Button outline
-                            color="success"
-                            size="sm"
-                            className="ml-auto"
-                            onClick={this.props.toggleAddInstitution}>Add</Button>
+                    { localStorage.userType !== "program_assistant" && <Button outline
+                                                                               color="success"
+                                                                               size="sm"
+                                                                               className="ml-auto"
+                                                                               onClick={ this.props.toggleAddInstitution }>Add</Button> }
                 </div>
                 <h4 className="page-head-title">Institutions</h4>
                 <Input type="search"
                        placeholder="Search"
                        className="search-input"
-                       onChange={this.onSearchInputChange}/>
+                       onChange={ this.onSearchInputChange }/>
             </div>
         );
     }
@@ -148,7 +148,7 @@ class InstitutionListTable extends Component {
                 <p>When added, Institutions will show up here.</p>
                 <Button outline
                         color="success"
-                        onClick={this.props.toggleAddInstitution}>Add an Institution</Button>
+                        onClick={ this.props.toggleAddInstitution }>Add an Institution</Button>
             </div>
         );
     }
@@ -193,18 +193,18 @@ class InstitutionListTable extends Component {
                 });
             }
 
-            return <InstitutionSection title={country.name}
-                                       institutions={country.institutions}
-                                       key={index}
-                                       collapsed={collapsed}
-                                       filtered={this.props.filtered}
-                                       activeInstitution={this.props.activeInstitution}
-                                       setActiveInstitution={this.props.setActiveInstitution}/>;
+            return <InstitutionSection title={ country.name }
+                                       institutions={ country.institutions }
+                                       key={ index }
+                                       collapsed={ collapsed }
+                                       filtered={ this.props.filtered }
+                                       activeInstitution={ this.props.activeInstitution }
+                                       setActiveInstitution={ this.props.setActiveInstitution }/>;
         });
 
         return (
             <div className="page-body">
-                {sections}
+                { sections }
             </div>
         );
     }
@@ -234,20 +234,20 @@ class InstitutionSection extends Component {
 
             return (
                 <SectionRow selectable
-                            onClick={setActiveInstitution}
-                            active={isActive}
-                            collapsed={collapsed}
-                            key={institution.id}>
-                    <SectionRowContent>{institution.name}</SectionRowContent>
+                            onClick={ setActiveInstitution }
+                            active={ isActive }
+                            collapsed={ collapsed }
+                            key={ institution.id }>
+                    <SectionRowContent>{ institution.name }</SectionRowContent>
                 </SectionRow>
             );
         });
 
         return (
-            <Section collapsed={this.props.collapsed}>
-                <SectionTitle>{this.props.title}</SectionTitle>
+            <Section collapsed={ this.props.collapsed }>
+                <SectionTitle>{ this.props.title }</SectionTitle>
                 <SectionTable>
-                    {rows}
+                    { rows }
                 </SectionTable>
             </Section>
         );

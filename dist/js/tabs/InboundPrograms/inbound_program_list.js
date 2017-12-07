@@ -150,7 +150,7 @@ var ProgramListHead = function (_Component2) {
                 _react2.default.createElement(
                     "div",
                     { className: "page-head-controls w-100" },
-                    _react2.default.createElement(
+                    localStorage.userType !== "administrative_assistant" && _react2.default.createElement(
                         _reactstrap.Button,
                         { outline: true,
                             color: "success",

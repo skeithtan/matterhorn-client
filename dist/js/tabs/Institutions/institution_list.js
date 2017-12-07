@@ -151,7 +151,7 @@ var InstitutionListHead = function (_Component2) {
                     "div",
                     { className: "page-head-controls" },
                     _react2.default.createElement(_collapse_content.CollapseButton, { toggleCollapse: this.props.toggleCollapse }),
-                    _react2.default.createElement(
+                    localStorage.userType !== "program_assistant" && _react2.default.createElement(
                         _reactstrap.Button,
                         { outline: true,
                             color: "success",

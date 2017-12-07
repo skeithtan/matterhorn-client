@@ -353,7 +353,7 @@ var StudentApplicationsListHead = function (_Component3) {
                             "Complete"
                         )
                     ),
-                    _react2.default.createElement(
+                    localStorage.userType !== "administrative_assistant" && _react2.default.createElement(
                         _reactstrap.Button,
                         { outline: true,
                             color: "success",

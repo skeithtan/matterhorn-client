@@ -313,7 +313,7 @@ var MemorandumDetails = function (_Component2) {
                                     onClick: viewMemorandum },
                                 "View"
                             ),
-                            !this.props.archived && _react2.default.createElement(
+                            !this.props.archived && localStorage.userType !== "program_assistant" && _react2.default.createElement(
                                 _reactstrap.Button,
                                 { outline: true,
                                     color: "success",
@@ -322,7 +322,7 @@ var MemorandumDetails = function (_Component2) {
                                     onClick: this.props.toggleEditMemorandum },
                                 "Edit"
                             ),
-                            !this.props.archived && _react2.default.createElement(
+                            !this.props.archived && localStorage.userType === "VP" && _react2.default.createElement(
                                 _reactstrap.Button,
                                 { outline: true,
                                     color: "warning",
@@ -330,7 +330,7 @@ var MemorandumDetails = function (_Component2) {
                                     onClick: this.props.confirmArchive },
                                 "Archive"
                             ),
-                            this.props.archived && _react2.default.createElement(
+                            this.props.archived && localStorage.userType === "VP" && _react2.default.createElement(
                                 _reactstrap.Button,
                                 { outline: true,
                                     color: "primary",
@@ -538,7 +538,7 @@ var ProgramDetails = function (_Component5) {
                             academicYear
                         )
                     ),
-                    _react2.default.createElement(
+                    localStorage.userType !== "administrative_assistant" && _react2.default.createElement(
                         _section.SectionRow,
                         null,
                         _react2.default.createElement(

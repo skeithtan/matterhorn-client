@@ -32,9 +32,6 @@ class StudentListHead extends Component {
     render() {
         return (
             <div className="page-head d-flex flex-column align-items-center">
-                <div className="page-head-controls ml-auto">
-                    <Button outline color="success" size="sm" className="ml-auto">Add</Button>
-                </div>
                 <div className="w-100 mb-2">
                     <h5 className="mb-0 text-secondary">Students</h5>
                     <h4 className="page-head-title mb-0">{ this.props.activeProgram.name }</h4>

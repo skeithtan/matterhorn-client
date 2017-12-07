@@ -198,18 +198,18 @@ class OverviewHead extends Component {
                 </div>
 
                 <div className="page-head-actions">
-                    <Button outline
-                            size="sm"
-                            color="success"
-                            className="mr-2"
-                            onClick={ this.toggleEditStudent }>
+                    { localStorage.userType !== "administrative_assistant" && <Button outline
+                                                                                      size="sm"
+                                                                                      color="success"
+                                                                                      className="mr-2"
+                                                                                      onClick={ this.toggleEditStudent }>
                         Edit Student
-                    </Button>
+                    </Button> }
 
-                    { !this.props.applicant && <Button outline
-                                                        size="sm"
-                                                        color="warning"
-                                                        onClick={ this.confirmArchive }>Archive</Button> }
+                    { !this.props.applicant && localStorage.userType !== "administrative_assistant" && <Button outline
+                                                                                                               size="sm"
+                                                                                                               color="warning"
+                                                                                                               onClick={ this.confirmArchive }>Archive</Button> }
                 </div>
 
                 <StudentFormModal edit
@@ -288,7 +288,7 @@ class StudentDetails extends Component {
                         <SectionRowContent large={ !this.props.sidebar }>{ civilStatus }</SectionRowContent>
                     </SectionRow>
 
-                    { this.props.archived &&
+                    { this.props.archived && localStorage.userType === "VP" &&
                     <SectionRow>
                         <SectionRowContent className="d-flex">
                             <Button outline

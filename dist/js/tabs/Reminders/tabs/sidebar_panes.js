@@ -218,7 +218,7 @@ var MemorandumDetails = function (_Component2) {
                                     onClick: viewMemorandum },
                                 "View"
                             ),
-                            _react2.default.createElement(
+                            localStorage.userType !== "program_assistant" && _react2.default.createElement(
                                 _reactstrap.Button,
                                 { outline: true,
                                     color: "success",

@@ -116,9 +116,9 @@ class Memorandums extends Component {
 
 
         this.props.setSidebarContent(
-            <MemorandumSidebarPane memorandum={memorandum}
-                                   removeActiveMemorandum={onArchiveMemorandum}
-                                   refreshMemorandums={this.refreshMemorandums}/>,
+            <MemorandumSidebarPane memorandum={ memorandum }
+                                   removeActiveMemorandum={ onArchiveMemorandum }
+                                   refreshMemorandums={ this.refreshMemorandums }/>,
         );
 
         this.setState({
@@ -158,8 +158,8 @@ class Memorandums extends Component {
     render() {
         if (this.state.error) {
             return (
-                <ErrorState onRetryButtonClick={() => this.fetchMemorandums(this.state.institution.id)}>
-                    {this.state.error.toString()}
+                <ErrorState onRetryButtonClick={ () => this.fetchMemorandums(this.state.institution.id) }>
+                    { this.state.error.toString() }
                 </ErrorState>
             );
         }
@@ -177,16 +177,16 @@ class Memorandums extends Component {
 
         return (
             <div className="d-flex flex-column p-0 h-100">
-                <MemorandumHead institution={this.state.institution}
-                                refreshMemorandums={this.refreshMemorandums}
-                                memorandumToBeAdded={this.props.memorandumToBeAdded}
-                                toggleMemorandumToBeAdded={this.props.toggleMemorandumToBeAdded}/>
-                <MemorandumBody institution={this.state.institution}
-                                memorandums={memorandums}
-                                activeMemorandumId={this.state.activeMemorandumId}
-                                setActiveMemorandum={this.setActiveMemorandum}
-                                refreshMemorandums={this.refreshMemorandums}
-                                setSidebarContent={this.props.setSidebarContent}/>
+                <MemorandumHead institution={ this.state.institution }
+                                refreshMemorandums={ this.refreshMemorandums }
+                                memorandumToBeAdded={ this.props.memorandumToBeAdded }
+                                toggleMemorandumToBeAdded={ this.props.toggleMemorandumToBeAdded }/>
+                <MemorandumBody institution={ this.state.institution }
+                                memorandums={ memorandums }
+                                activeMemorandumId={ this.state.activeMemorandumId }
+                                setActiveMemorandum={ this.setActiveMemorandum }
+                                refreshMemorandums={ this.refreshMemorandums }
+                                setSidebarContent={ this.props.setSidebarContent }/>
             </div>
         );
     }
@@ -214,23 +214,23 @@ class MemorandumHead extends Component {
             <div className="page-head pt-5 d-flex flex-row align-items-end">
                 <div className="mr-auto">
                     <h5 className="mb-0 text-secondary">Memorandums</h5>
-                    <h4 className="page-head-title mb-0">{this.props.institution.name}</h4>
+                    <h4 className="page-head-title mb-0">{ this.props.institution.name }</h4>
                 </div>
 
                 <div className="page-head-actions">
-                    <Button outline
-                            size="sm"
-                            color="success"
-                            onClick={this.toggleAddMemorandum}>Add a
-                        Memorandum</Button>
+                    { localStorage.userType !== "program_assistant" && <Button outline
+                                                                               size="sm"
+                                                                               color="success"
+                                                                               onClick={ this.toggleAddMemorandum }>Add
+                        a Memorandum</Button> }
                 </div>
 
-                <MemorandumFormModal isOpen={this.state.addMemorandumIsShowing}
-                                     institution={this.props.institution}
-                                     toggle={this.toggleAddMemorandum}
-                                     refresh={this.props.refreshMemorandums}
-                                     memorandumToBeAdded={this.props.memorandumToBeAdded}
-                                     toggleMemorandumToBeAdded={this.props.toggleMemorandumToBeAdded}/>
+                <MemorandumFormModal isOpen={ this.state.addMemorandumIsShowing }
+                                     institution={ this.props.institution }
+                                     toggle={ this.toggleAddMemorandum }
+                                     refresh={ this.props.refreshMemorandums }
+                                     memorandumToBeAdded={ this.props.memorandumToBeAdded }
+                                     toggleMemorandumToBeAdded={ this.props.toggleMemorandumToBeAdded }/>
             </div>
         );
     }
@@ -247,21 +247,21 @@ class MemorandumBody extends Component {
             <div className="page-body w-100">
                 <div className="d-flex h-100 p-0 flex-row">
                     <div className="w-100">
-                        <MemorandumListSection institution={this.props.institution}
-                                               activeMemorandumId={this.props.activeMemorandumId}
-                                               memorandums={this.props.memorandums.agreements}
-                                               latest={this.props.memorandums.latestMOA}
-                                               setActiveMemorandum={this.props.setActiveMemorandum}
-                                               refreshMemorandums={this.props.refreshMemorandums}>
+                        <MemorandumListSection institution={ this.props.institution }
+                                               activeMemorandumId={ this.props.activeMemorandumId }
+                                               memorandums={ this.props.memorandums.agreements }
+                                               latest={ this.props.memorandums.latestMOA }
+                                               setActiveMemorandum={ this.props.setActiveMemorandum }
+                                               refreshMemorandums={ this.props.refreshMemorandums }>
                             MOA (Memorandums of Agreement)
                         </MemorandumListSection>
 
-                        <MemorandumListSection institution={this.props.institution}
-                                               memorandums={this.props.memorandums.understandings}
-                                               latest={this.props.memorandums.latestMOU}
-                                               activeMemorandumId={this.props.activeMemorandumId}
-                                               setActiveMemorandum={this.props.setActiveMemorandum}
-                                               refreshMemorandums={this.props.refreshMemorandums}>
+                        <MemorandumListSection institution={ this.props.institution }
+                                               memorandums={ this.props.memorandums.understandings }
+                                               latest={ this.props.memorandums.latestMOU }
+                                               activeMemorandumId={ this.props.activeMemorandumId }
+                                               setActiveMemorandum={ this.props.setActiveMemorandum }
+                                               refreshMemorandums={ this.props.refreshMemorandums }>
                             MOU (Memorandums of Understanding)
                         </MemorandumListSection>
                     </div>
@@ -300,7 +300,7 @@ class MemorandumListSection extends Component {
     emptyState() {
         return (
             <div className="p-5 text-center bg-light">
-                <h5 className="text-secondary">There are no {this.props.children} for this institution</h5>
+                <h5 className="text-secondary">There are no { this.props.children } for this institution</h5>
             </div>
         );
     }
@@ -309,8 +309,8 @@ class MemorandumListSection extends Component {
         if (this.props.memorandums.length === 0) {
             return (
                 <Section>
-                    <SectionTitle>{this.props.children}</SectionTitle>
-                    {this.emptyState()}
+                    <SectionTitle>{ this.props.children }</SectionTitle>
+                    { this.emptyState() }
                 </Section>
             );
         }
@@ -324,19 +324,19 @@ class MemorandumListSection extends Component {
                 isActive = this.props.activeMemorandumId === memorandum.id;
             }
 
-            return <MemorandumRow memorandum={memorandum}
-                                  isActive={isActive}
-                                  onClick={onMemorandumRowClick}
-                                  latest={index === 0}
-                                  key={memorandum.id}/>;
+            return <MemorandumRow memorandum={ memorandum }
+                                  isActive={ isActive }
+                                  onClick={ onMemorandumRowClick }
+                                  latest={ index === 0 }
+                                  key={ memorandum.id }/>;
         });
 
         return (
             <div>
                 <Section>
-                    <SectionTitle>{this.props.children}</SectionTitle>
+                    <SectionTitle>{ this.props.children }</SectionTitle>
                     <SectionTable className="memorandums-accordion">
-                        {rows}
+                        { rows }
                     </SectionTable>
                 </Section>
             </div>
@@ -359,12 +359,12 @@ class MemorandumRow extends Component {
         const dateEffective = formatDate(memorandum.date_effective);
         return (
             <SectionRow selectable
-                        onClick={this.props.onClick}
-                        active={this.props.isActive}>
-                {this.props.latest &&
+                        onClick={ this.props.onClick }
+                        active={ this.props.isActive }>
+                { this.props.latest &&
                 <SectionRowTitle>Latest Memorandum</SectionRowTitle>
                 }
-                <SectionRowContent large>Effective {dateEffective}</SectionRowContent>
+                <SectionRowContent large>Effective { dateEffective }</SectionRowContent>
             </SectionRow>
         );
     }

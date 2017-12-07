@@ -45,12 +45,12 @@ class YearList extends Component {
         return (
             <div className="programs-page-pane"
                  id="term-list">
-                <YearListHead toggleAddAcademicYear={this.toggleAddAcademicYear}/>
-                <YearListTable yearList={years}
-                               activeYear={this.props.activeYear}
-                               setActiveYear={this.props.setActiveYear}/>
-                <AcademicYearFormModal toggle={this.toggleAddAcademicYear}
-                                       isOpen={this.state.addAcademicYearIsShowing}/>
+                <YearListHead toggleAddAcademicYear={ this.toggleAddAcademicYear }/>
+                <YearListTable yearList={ years }
+                               activeYear={ this.props.activeYear }
+                               setActiveYear={ this.props.setActiveYear }/>
+                <AcademicYearFormModal toggle={ this.toggleAddAcademicYear }
+                                       isOpen={ this.state.addAcademicYearIsShowing }/>
             </div>
         );
     }
@@ -65,11 +65,11 @@ class YearListHead extends Component {
         return (
             <div className="page-head">
                 <div className="page-head-controls">
-                    <Button outline
-                            color="success"
-                            size="sm"
-                            className="ml-auto"
-                            onClick={this.props.toggleAddAcademicYear}>Add</Button>
+                    { localStorage.userType !== "administrative_assistant" && <Button outline
+                                                                                      color="success"
+                                                                                      size="sm"
+                                                                                      className="ml-auto"
+                                                                                      onClick={ this.props.toggleAddAcademicYear }>Add</Button> }
                 </div>
                 <h4 className="page-head-title mb-0">Academic Years</h4>
             </div>
@@ -108,11 +108,11 @@ class YearListTable extends Component {
 
             return (
                 <SectionRow selectable
-                            key={index}
-                            onClick={setActiveYear}
-                            active={isActive}>
+                            key={ index }
+                            onClick={ setActiveYear }
+                            active={ isActive }>
 
-                    <SectionRowContent>{yearStart} - {yearStart + 1}</SectionRowContent>
+                    <SectionRowContent>{ yearStart } - { yearStart + 1 }</SectionRowContent>
 
                 </SectionRow>
             );
@@ -121,7 +121,7 @@ class YearListTable extends Component {
         return (
             <div className="page-body">
                 <SectionTable>
-                    {rows}
+                    { rows }
                 </SectionTable>
             </div>
         );

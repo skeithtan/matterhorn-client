@@ -251,7 +251,7 @@ var MemorandumHead = function (_Component2) {
                 _react2.default.createElement(
                     "div",
                     { className: "page-head-actions" },
-                    _react2.default.createElement(
+                    localStorage.userType !== "program_assistant" && _react2.default.createElement(
                         _reactstrap.Button,
                         { outline: true,
                             size: "sm",

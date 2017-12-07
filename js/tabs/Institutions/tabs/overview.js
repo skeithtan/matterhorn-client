@@ -107,8 +107,8 @@ class InstitutionOverview extends Component {
     render() {
         if (this.state.error) {
             return (
-                <ErrorState onRetryButtonClick={() => this.fetchInstitution(this.state.institution.id)}>
-                    {this.state.error.toString()}
+                <ErrorState onRetryButtonClick={ () => this.fetchInstitution(this.state.institution.id) }>
+                    { this.state.error.toString() }
                 </ErrorState>
             );
         }
@@ -120,10 +120,10 @@ class InstitutionOverview extends Component {
 
         return (
             <div className="d-flex flex-column p-0 h-100">
-                <OverviewHead institution={this.state.institution}
-                              onArchiveInstitution={this.props.onArchiveActiveInstitution}
-                              onEditInstitution={this.fetchInstitution}/>
-                <OverviewBody institution={this.state.institution}/>
+                <OverviewHead institution={ this.state.institution }
+                              onArchiveInstitution={ this.props.onArchiveActiveInstitution }
+                              onEditInstitution={ this.fetchInstitution }/>
+                <OverviewBody institution={ this.state.institution }/>
             </div>
         );
     }
@@ -189,26 +189,27 @@ class OverviewHead extends Component {
             <div className="page-head pt-5 d-flex flex-row align-items-end">
                 <div className="mr-auto">
                     <h5 className="mb-0 text-secondary">Overview</h5>
-                    <h4 className="page-head-title mb-0">{this.props.institution.name}</h4>
+                    <h4 className="page-head-title mb-0">{ this.props.institution.name }</h4>
                 </div>
 
                 <div className="page-head-actions">
-                    <Button outline
-                            size="sm"
-                            color="success"
-                            className="mr-2"
-                            onClick={this.toggleEditInstitution}>Edit Institution</Button>
-                    <Button outline
-                            size="sm"
-                            color="warning"
-                            onClick={this.confirmArchive}>Archive</Button>
+                    { localStorage.userType !== "program_assistant" && <Button outline
+                                                                               size="sm"
+                                                                               color="success"
+                                                                               className="mr-2"
+                                                                               onClick={ this.toggleEditInstitution }>Edit
+                        Institution</Button> }
+                    { localStorage.userType === "VP" && <Button outline
+                                                                size="sm"
+                                                                color="warning"
+                                                                onClick={ this.confirmArchive }>Archive</Button> }
                 </div>
 
                 <InstitutionFormModal edit
-                                      isOpen={this.state.editInstitutionIsShowing}
-                                      institution={this.props.institution}
-                                      refresh={this.props.onEditInstitution}
-                                      toggle={this.toggleEditInstitution}/>
+                                      isOpen={ this.state.editInstitutionIsShowing }
+                                      institution={ this.props.institution }
+                                      refresh={ this.props.onEditInstitution }
+                                      toggle={ this.toggleEditInstitution }/>
             </div>
         );
     }
@@ -222,8 +223,8 @@ class OverviewBody extends Component {
     render() {
         return (
             <div className="page-body">
-                <InstitutionDetails institution={this.props.institution}/>
-                <ContactDetails institution={this.props.institution}/>
+                <InstitutionDetails institution={ this.props.institution }/>
+                <ContactDetails institution={ this.props.institution }/>
             </div>
         );
     }
@@ -240,7 +241,7 @@ class InstitutionDetails extends Component {
         const website = `http://${institution.website}`;
 
         function openWebsite() {
-            const { shell } = require("electron");
+            const {shell} = require("electron");
             shell.openExternal(website);
         }
 
@@ -250,34 +251,34 @@ class InstitutionDetails extends Component {
                 <SectionTable>
                     <SectionRow>
                         <SectionRowTitle>Address</SectionRowTitle>
-                        <SectionRowContent large={!this.props.sidebar}>{institution.address}</SectionRowContent>
+                        <SectionRowContent large={ !this.props.sidebar }>{ institution.address }</SectionRowContent>
                     </SectionRow>
 
                     <SectionRow>
                         <SectionRowTitle>Country</SectionRowTitle>
-                        <SectionRowContent large={!this.props.sidebar}>{institution.country}</SectionRowContent>
+                        <SectionRowContent large={ !this.props.sidebar }>{ institution.country }</SectionRowContent>
                     </SectionRow>
 
                     <SectionRow>
                         <SectionRowTitle>Website</SectionRowTitle>
-                        <SectionRowContent large={!this.props.sidebar}
+                        <SectionRowContent large={ !this.props.sidebar }
                                            className="text-primary"
-                                           onClick={openWebsite}>{website}</SectionRowContent>
+                                           onClick={ openWebsite }>{ website }</SectionRowContent>
                     </SectionRow>
 
                     <SectionRow>
                         <SectionRowTitle>Agreement Type</SectionRowTitle>
-                        <SectionRowContent large={!this.props.sidebar}>{agreementType}</SectionRowContent>
+                        <SectionRowContent large={ !this.props.sidebar }>{ agreementType }</SectionRowContent>
                     </SectionRow>
 
-                    {this.props.archived &&
+                    { this.props.archived && localStorage.userType === "VP" &&
                     <SectionRow>
                         <SectionRowContent className="d-flex">
                             <Button outline
                                     color="primary"
                                     size="sm"
                                     className="ml-auto"
-                                    onClick={this.props.confirmRestore}>Restore</Button>
+                                    onClick={ this.props.confirmRestore }>Restore</Button>
                         </SectionRowContent>
                     </SectionRow>
                     }
@@ -301,17 +302,20 @@ class ContactDetails extends Component {
                 <SectionTable>
                     <SectionRow>
                         <SectionRowTitle>Contact Person</SectionRowTitle>
-                        <SectionRowContent large={!this.props.sidebar}>{institution.contact_person_name}</SectionRowContent>
+                        <SectionRowContent
+                            large={ !this.props.sidebar }>{ institution.contact_person_name }</SectionRowContent>
                     </SectionRow>
 
                     <SectionRow>
                         <SectionRowTitle>Contact Person Email</SectionRowTitle>
-                        <SectionRowContent large={!this.props.sidebar}>{institution.contact_person_email}</SectionRowContent>
+                        <SectionRowContent
+                            large={ !this.props.sidebar }>{ institution.contact_person_email }</SectionRowContent>
                     </SectionRow>
 
                     <SectionRow>
                         <SectionRowTitle>Contact Person Number</SectionRowTitle>
-                        <SectionRowContent large={!this.props.sidebar}>{institution.contact_person_number}</SectionRowContent>
+                        <SectionRowContent
+                            large={ !this.props.sidebar }>{ institution.contact_person_number }</SectionRowContent>
                     </SectionRow>
                 </SectionTable>
             </Section>

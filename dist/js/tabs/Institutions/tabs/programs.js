@@ -286,7 +286,7 @@ var ProgramsHead = function (_Component2) {
                         "div",
                         { className: "d-flex flex-column mr-2" },
                         _react2.default.createElement(
-                            "labl",
+                            "label",
                             { className: "mr-3 text-dark mb-1" },
                             "Academic Year"
                         ),
@@ -298,7 +298,7 @@ var ProgramsHead = function (_Component2) {
                             years
                         )
                     ),
-                    _react2.default.createElement(
+                    localStorage.userType !== "administrative_assistant" && _react2.default.createElement(
                         _reactstrap.Button,
                         { outline: true,
                             size: "sm",
@@ -342,7 +342,7 @@ var ProgramsTable = function (_Component3) {
                     null,
                     "When added, Programs will show up here."
                 ),
-                _react2.default.createElement(
+                localStorage.userType !== "administrative_assistant" && _react2.default.createElement(
                     _reactstrap.Button,
                     { outline: true,
                         onClick: this.props.toggleAddProgram,

@@ -117,10 +117,10 @@ class MemorandumDetails extends Component {
                                     className="mr-2"
                                     onClick={ viewMemorandum }>View</Button>
 
-                            <Button outline
-                                    color="success"
-                                    size="sm"
-                                    onClick={ this.props.toggleRenewModal }>Renew</Button>
+                            { localStorage.userType !== "program_assistant" && <Button outline
+                                                                                       color="success"
+                                                                                       size="sm"
+                                                                                       onClick={ this.props.toggleRenewModal }>Renew</Button> }
                         </SectionRowContent>
                     </SectionRow>
                 </SectionTable>

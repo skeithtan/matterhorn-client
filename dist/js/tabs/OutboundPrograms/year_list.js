@@ -104,7 +104,7 @@ var YearListHead = function (_Component2) {
                 _react2.default.createElement(
                     "div",
                     { className: "page-head-controls" },
-                    _react2.default.createElement(
+                    localStorage.userType !== "administrative_assistant" && _react2.default.createElement(
                         _reactstrap.Button,
                         { outline: true,
                             color: "success",

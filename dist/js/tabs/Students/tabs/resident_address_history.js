@@ -42,9 +42,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-// TODO: import modals for editing and adding
-
-
 function makeResidencyQuery(studentId) {
     return _graphql2.default.query("\n    {\n        student(id:" + studentId + ") {\n            residencies {\n                id\n                date_effective\n                contact_person_name\n                contact_person_number\n                address\n                residence\n            }\n        }\n\t}\n\t");
 }
@@ -245,7 +242,7 @@ var HistoryHead = function (_Component2) {
                 _react2.default.createElement(
                     "div",
                     { className: "page-head-actions" },
-                    _react2.default.createElement(
+                    localStorage.userType !== "administrative_assistant" && _react2.default.createElement(
                         _reactstrap.Button,
                         { outline: true,
                             size: "sm",

@@ -176,7 +176,8 @@ var ApplicationRequirements = function (_Component) {
             if (this.state.error) {
                 return _react2.default.createElement(
                     _error_state2.default,
-                    { onRetryButtonClick: function onRetryButtonClick() {
+                    {
+                        onRetryButtonClick: function onRetryButtonClick() {
                             return _this3.fetchRequirements(_this3.props.inbound, _this3.props.student.id);
                         } },
                     this.state.error.toString()
@@ -255,7 +256,7 @@ var ApplicationHead = function (_Component2) {
                         )
                     )
                 ),
-                this.props.isRequirementsComplete && _react2.default.createElement(
+                this.props.isRequirementsComplete && localStorage.userType !== "administrative_assistant" && _react2.default.createElement(
                     _reactstrap.Button,
                     { outline: true,
                         size: "sm",
@@ -265,7 +266,7 @@ var ApplicationHead = function (_Component2) {
                     this.props.inbound ? "Accept " : "Deploy ",
                     " Student"
                 ),
-                _react2.default.createElement(
+                localStorage.userType !== "administrative_assistant" && _react2.default.createElement(
                     _reactstrap.Button,
                     { outline: true,
                         size: "sm",
@@ -383,7 +384,7 @@ var RequirementRow = function (_Component4) {
                     { className: "lead mr-auto mb-0" },
                     this.props.requirement.name
                 ),
-                this.props.done && _react2.default.createElement(
+                this.props.done && localStorage.userType !== "administrative_assistant" && _react2.default.createElement(
                     _reactstrap.Button,
                     { outline: true,
                         size: "sm",
@@ -391,7 +392,7 @@ var RequirementRow = function (_Component4) {
                         color: "warning" },
                     "Mark as undone"
                 ),
-                !this.props.done && _react2.default.createElement(
+                !this.props.done && localStorage.userType !== "administrative_assistant" && _react2.default.createElement(
                     _reactstrap.Button,
                     { outline: true,
                         size: "sm",
