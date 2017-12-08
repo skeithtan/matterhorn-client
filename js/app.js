@@ -1,11 +1,14 @@
 import React, { Component } from "react";
 import MainNavigation from "./main_navigation";
-import tabs from "./tabs/tabs_list";
+import getTabs from "./tabs/tabs_list";
 
 
 class App extends Component {
     constructor(props) {
         super(props);
+        const tabs = getTabs();
+
+
         this.state = {
             activeTab : tabs[0], // Default tab is reminders
             navigationIsExpanded : false,

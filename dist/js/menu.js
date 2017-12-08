@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.toggleMenus = exports.default = undefined;
+exports.restrictMenusByUserType = exports.toggleMenus = exports.default = undefined;
 
 var _electron = require("electron");
 
@@ -85,27 +85,33 @@ if (process.platform === "darwin") {
 
 var menu = _electron.Menu.buildFromTemplate(menus);
 
+function restrictMenu(submenu, enabled) {
+    submenu.items.forEach(function (item) {
+        if (item.submenu) {
+            restrictMenu(item.submenu);
+            return;
+        }
+
+        item.enabled = enabled;
+    });
+}
+
 function toggleMenus(enabled) {
     var reportsMenu = process.platform === "darwin" ? menu.items[1] : menu.items[0];
     var settingsMenu = process.platform === "darwin" ? menu.items[2] : menu.items[1];
 
-    reportsMenu.enabled = false;
+    restrictMenu(reportsMenu.submenu, enabled);
+    restrictMenu(settingsMenu.submenu, enabled);
+}
 
-    function applyToSubmenus(submenu) {
-        submenu.items.forEach(function (item) {
-            if (item.submenu) {
-                applyToSubmenus(item.submenu);
-                return;
-            }
-
-            item.enabled = enabled;
-        });
+function restrictMenusByUserType(userType) {
+    if (userType === "administrative_assistant") {
+        var settingsMenu = process.platform === "darwin" ? menu.items[2] : menu.items[1];
+        restrictMenu(settingsMenu.submenu, false);
     }
-
-    applyToSubmenus(reportsMenu.submenu);
-    applyToSubmenus(settingsMenu.submenu);
 }
 
 exports.default = menu;
 exports.toggleMenus = toggleMenus;
+exports.restrictMenusByUserType = restrictMenusByUserType;
 //# sourceMappingURL=menu.js.map

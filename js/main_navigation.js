@@ -1,28 +1,27 @@
 import React, { Component } from "react";
-import tabs from "./tabs/tabs_list";
 import {
     Nav,
     Navbar,
     NavItem,
     Button,
 } from "reactstrap";
+import getTabs from "./tabs/tabs_list";
 
 
 class MainNavigation extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
+        const tabs = getTabs();
+
         const navItems = tabs.map((tab, index) => {
-            const isActive = this.props.activeTab === tab;
-            return <TabItem key={index}
-                            name={tab.name}
-                            image={tab.image}
-                            isActive={isActive}
-                            navigationIsExpanded={this.props.isExpanded}
-                            toggleNavigation={this.props.toggleNavigation}
-                            setActiveTab={() => this.props.setActiveTab(tab)}/>;
+            const isActive = this.props.activeTab.name === tab.name;
+
+            return <TabItem key={ index }
+                            name={ tab.name }
+                            image={ tab.image }
+                            isActive={ isActive }
+                            navigationIsExpanded={ this.props.isExpanded }
+                            toggleNavigation={ this.props.toggleNavigation }
+                            setActiveTab={ () => this.props.setActiveTab(tab) }/>;
         });
 
         let navbarClassName = "bg-dlsu d-flex flex-column ";
@@ -32,27 +31,23 @@ class MainNavigation extends Component {
         }
 
         return (
-            <Navbar className={navbarClassName}
+            <Navbar className={ navbarClassName }
                     id="main-navigation">
                 <img src="./images/dlsu_white.png"
                      className="dlsu-logo"/>
 
                 <Nav className="d-flex flex-column w-100"
                      id="main-navigation-tabs">
-                    {navItems}
+                    { navItems }
                 </Nav>
-                <SwitchUserButton toggleNavigation={this.props.toggleNavigation}
-                                  signOut={this.props.signOut}/>
+                <SwitchUserButton toggleNavigation={ this.props.toggleNavigation }
+                                  signOut={ this.props.signOut }/>
             </Navbar>
         );
     }
 }
 
 class TabItem extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         let className = "align-items-center ";
         if (this.props.isActive) {
@@ -60,7 +55,6 @@ class TabItem extends Component {
         }
 
         const onNavItemClick = () => {
-
             if (this.props.navigationIsExpanded) {
                 this.props.toggleNavigation();
             }
@@ -69,10 +63,10 @@ class TabItem extends Component {
         };
 
         return (
-            <NavItem className={className}
-                     onClick={onNavItemClick}>
-                <h6 className="mb-0 text-white sidebar-tab-description">{this.props.name}</h6>
-                <img src={this.props.image}
+            <NavItem className={ className }
+                     onClick={ onNavItemClick }>
+                <h6 className="mb-0 text-white sidebar-tab-description">{ this.props.name }</h6>
+                <img src={ this.props.image }
                      className="sidebar-image"/>
             </NavItem>
         );
@@ -100,21 +94,21 @@ class SwitchUserButton extends Component {
         return (
             <div className="w-100 p-3 d-flex justify-content-center align-content-center">
                 <div id="switch-user-button"
-                     onClick={this.togglePopover}
+                     onClick={ this.togglePopover }
                      className="p-3 d-flex align-items-center">
                     <div className="mr-auto text-left">
                         <h6 className="mb-0">Hello,</h6>
-                        <h5 className="mb-0">{localStorage.username}</h5>
+                        <h5 className="mb-0">{ localStorage.username }</h5>
                     </div>
                     <Button outline
                             color="light"
-                            onClick={this.props.signOut}
+                            onClick={ this.props.signOut }
                             size="sm">Sign out</Button>
                 </div>
 
 
                 <button className="expand-button"
-                        onClick={this.props.toggleNavigation}>
+                        onClick={ this.props.toggleNavigation }>
                     <img src="./images/hamburger.png"/>
                 </button>
             </div>

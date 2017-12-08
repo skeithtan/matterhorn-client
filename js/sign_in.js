@@ -92,6 +92,7 @@ class SignIn extends Component {
             graphql._transport = new Transport(`${settings.serverURL}/graphql/`, { headers });
 
             ipcRenderer.send("signed-in", true);
+            ipcRenderer.send("user-type", response.user_type);
 
             setTimeout(() => {
                 this.setState({

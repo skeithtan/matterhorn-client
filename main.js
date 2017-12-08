@@ -2,7 +2,7 @@ const { app, BrowserWindow, ipcMain, Menu } = require("electron");
 const path = require("path");
 const url = require("url");
 
-const { default : menu, toggleMenus } = require("./dist/js/menu");
+const { default : menu, toggleMenus, restrictMenusByUserType } = require("./dist/js/menu");
 
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -40,6 +40,10 @@ function createWindow() {
 
     ipcMain.on("signed-in", (event, isSignedIn) => {
         toggleMenus(isSignedIn);
+    });
+
+    ipcMain.on("user-type", (event, userType) => {
+        restrictMenusByUserType(userType);
     });
 
     // React Developer Tools

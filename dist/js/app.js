@@ -34,8 +34,10 @@ var App = function (_Component) {
 
         var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
+        var tabs = (0, _tabs_list2.default)();
+
         _this.state = {
-            activeTab: _tabs_list2.default[0], // Default tab is reminders
+            activeTab: tabs[0], // Default tab is reminders
             navigationIsExpanded: false
         };
 

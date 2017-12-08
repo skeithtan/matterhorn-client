@@ -10,11 +10,11 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactstrap = require("reactstrap");
+
 var _tabs_list = require("./tabs/tabs_list");
 
 var _tabs_list2 = _interopRequireDefault(_tabs_list);
-
-var _reactstrap = require("reactstrap");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -27,10 +27,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var MainNavigation = function (_Component) {
     _inherits(MainNavigation, _Component);
 
-    function MainNavigation(props) {
+    function MainNavigation() {
         _classCallCheck(this, MainNavigation);
 
-        return _possibleConstructorReturn(this, (MainNavigation.__proto__ || Object.getPrototypeOf(MainNavigation)).call(this, props));
+        return _possibleConstructorReturn(this, (MainNavigation.__proto__ || Object.getPrototypeOf(MainNavigation)).apply(this, arguments));
     }
 
     _createClass(MainNavigation, [{
@@ -38,8 +38,11 @@ var MainNavigation = function (_Component) {
         value: function render() {
             var _this2 = this;
 
-            var navItems = _tabs_list2.default.map(function (tab, index) {
-                var isActive = _this2.props.activeTab === tab;
+            var tabs = (0, _tabs_list2.default)();
+
+            var navItems = tabs.map(function (tab, index) {
+                var isActive = _this2.props.activeTab.name === tab.name;
+
                 return _react2.default.createElement(TabItem, { key: index,
                     name: tab.name,
                     image: tab.image,
@@ -81,10 +84,10 @@ var MainNavigation = function (_Component) {
 var TabItem = function (_Component2) {
     _inherits(TabItem, _Component2);
 
-    function TabItem(props) {
+    function TabItem() {
         _classCallCheck(this, TabItem);
 
-        return _possibleConstructorReturn(this, (TabItem.__proto__ || Object.getPrototypeOf(TabItem)).call(this, props));
+        return _possibleConstructorReturn(this, (TabItem.__proto__ || Object.getPrototypeOf(TabItem)).apply(this, arguments));
     }
 
     _createClass(TabItem, [{
@@ -98,7 +101,6 @@ var TabItem = function (_Component2) {
             }
 
             var onNavItemClick = function onNavItemClick() {
-
                 if (_this4.props.navigationIsExpanded) {
                     _this4.props.toggleNavigation();
                 }

@@ -11,7 +11,8 @@ var url = require("url");
 
 var _require2 = require("./dist/js/menu"),
     menu = _require2.default,
-    toggleMenus = _require2.toggleMenus;
+    toggleMenus = _require2.toggleMenus,
+    restrictMenusByUserType = _require2.restrictMenusByUserType;
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -50,6 +51,10 @@ function createWindow() {
 
     ipcMain.on("signed-in", function (event, isSignedIn) {
         toggleMenus(isSignedIn);
+    });
+
+    ipcMain.on("user-type", function (event, userType) {
+        restrictMenusByUserType(userType);
     });
 
     // React Developer Tools

@@ -135,6 +135,7 @@ var SignIn = function (_Component) {
                 _graphql2.default._transport = new _lokkaTransportHttp.Transport(_settings2.default.serverURL + "/graphql/", { headers: headers });
 
                 _electron.ipcRenderer.send("signed-in", true);
+                _electron.ipcRenderer.send("user-type", response.user_type);
 
                 setTimeout(function () {
                     _this4.setState({

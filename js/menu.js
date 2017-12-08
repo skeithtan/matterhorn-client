@@ -66,33 +66,33 @@ const menus = [
         {
             label : "Edit",
             submenu : [
-                { role : "cut" },
-                { role : "copy" },
-                { role : "paste" },
-                { role : "pasteandmatchstyle" },
-                { role : "delete" },
-                { role : "selectall" },
+                {role : "cut"},
+                {role : "copy"},
+                {role : "paste"},
+                {role : "pasteandmatchstyle"},
+                {role : "delete"},
+                {role : "selectall"},
             ],
         },
         {
             label : "View",
             submenu : [
-                { role : "reload" },
-                { role : "forcereload" },
-                { role : "toggledevtools" },
-                { type : "separator" },
-                { role : "resetzoom" },
-                { role : "zoomin" },
-                { role : "zoomout" },
-                { type : "separator" },
-                { role : "togglefullscreen" },
+                {role : "reload"},
+                {role : "forcereload"},
+                {role : "toggledevtools"},
+                {type : "separator"},
+                {role : "resetzoom"},
+                {role : "zoomin"},
+                {role : "zoomout"},
+                {type : "separator"},
+                {role : "togglefullscreen"},
             ],
         },
         {
             role : "window",
             submenu : [
-                { role : "minimize" },
-                { role : "close" },
+                {role : "minimize"},
+                {role : "close"},
             ],
         },
         {
@@ -106,52 +106,58 @@ if (process.platform === "darwin") {
     menus.unshift({
         label : app.getName(),
         submenu : [
-            { role : "about" },
-            { type : "separator" },
-            { role : "services", submenu : [] },
-            { type : "separator" },
-            { role : "hide" },
-            { role : "hideothers" },
-            { role : "unhide" },
-            { type : "separator" },
-            { role : "quit" },
+            {role : "about"},
+            {type : "separator"},
+            {role : "services", submenu : []},
+            {type : "separator"},
+            {role : "hide"},
+            {role : "hideothers"},
+            {role : "unhide"},
+            {type : "separator"},
+            {role : "quit"},
         ],
     });
 
     // Window menu
     menus[5].submenu = [
-        { role : "close" },
-        { role : "minimize" },
-        { role : "zoom" },
-        { type : "separator" },
-        { role : "front" },
+        {role : "close"},
+        {role : "minimize"},
+        {role : "zoom"},
+        {type : "separator"},
+        {role : "front"},
     ];
 }
 
 const menu = Menu.buildFromTemplate(menus);
 
+function restrictMenu(submenu, enabled) {
+    submenu.items.forEach(item => {
+        if (item.submenu) {
+            restrictMenu(item.submenu);
+            return;
+        }
+
+        item.enabled = enabled;
+    });
+}
+
 function toggleMenus(enabled) {
     const reportsMenu = process.platform === "darwin" ? menu.items[1] : menu.items[0];
     const settingsMenu = process.platform === "darwin" ? menu.items[2] : menu.items[1];
 
-    reportsMenu.enabled = false;
+    restrictMenu(reportsMenu.submenu, enabled);
+    restrictMenu(settingsMenu.submenu, enabled);
+}
 
-    function applyToSubmenus(submenu) {
-        submenu.items.forEach(item => {
-            if (item.submenu) {
-                applyToSubmenus(item.submenu);
-                return;
-            }
-
-            item.enabled = enabled;
-        });
+function restrictMenusByUserType(userType) {
+    if (userType === "administrative_assistant") {
+        const settingsMenu = process.platform === "darwin" ? menu.items[2] : menu.items[1];
+        restrictMenu(settingsMenu.submenu, false);
     }
-
-    applyToSubmenus(reportsMenu.submenu);
-    applyToSubmenus(settingsMenu.submenu);
 }
 
 export {
     menu as default,
     toggleMenus,
+    restrictMenusByUserType
 };
