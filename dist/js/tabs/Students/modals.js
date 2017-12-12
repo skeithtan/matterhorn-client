@@ -109,6 +109,7 @@ var StudentFormModal = function (_Component) {
         _this.onCategoryChange = _this.onCategoryChange.bind(_this);
         _this.onTermClick = _this.onTermClick.bind(_this);
         _this.applicantForm = _this.applicantForm.bind(_this);
+        _this.getApplicantFormErrors = _this.getApplicantFormErrors.bind(_this);
 
         fetchInstitutions(function (result) {
             var institutions = result.institutions;
@@ -276,6 +277,96 @@ var StudentFormModal = function (_Component) {
                 name: "Emergency contact number",
                 characterLimit: 64,
                 value: this.state.form.emergency_contact_number
+            }]);
+        }
+    }, {
+        key: "getApplicantFormErrors",
+        value: function getApplicantFormErrors() {
+            return (0, _form_validator2.default)([{
+                name: "ID Number",
+                characterLimit: 8,
+                value: this.state.form.id_number,
+                customValidators: [{
+                    isValid: function isValid(fieldValue) {
+                        return fieldValue.length === 8;
+                    },
+                    errorMessage: function errorMessage(fieldName) {
+                        return fieldName + " must be exactly 8 characters.";
+                    }
+                }]
+            }, {
+                name: "First name",
+                characterLimit: 64,
+                value: this.state.form.first_name
+            }, {
+                name: "Middle name",
+                characterLimit: 64,
+                optional: true,
+                value: this.state.form.middle_name
+            }, {
+                name: "Family name",
+                characterLimit: 64,
+                value: this.state.form.family_name
+            }, {
+                name: "Nickname",
+                characterLimit: 64,
+                value: this.state.form.nickname,
+                optional: true
+            }, {
+                name: "Birth date",
+                characterLimit: null,
+                value: this.state.form.birth_date
+            }, {
+                name: "Home address",
+                characterLimit: 256,
+                value: this.state.form.home_address
+            }, {
+                name: "Nationality",
+                characterLimit: 64,
+                optional: true,
+                value: this.state.form.nationality
+            }, {
+                name: "Phone number",
+                characterLimit: 64,
+                value: this.state.form.phone_number
+            }, {
+                name: "Email",
+                characterLimit: 256,
+                value: this.state.form.email,
+                customValidators: [{
+                    // isValid checks if the form value is a valid email through this messy regex.
+                    isValid: function isValid(fieldValue) {
+                        return (/^([\w\!\#$\%\&\'\*\+\-\/\=\?\^\`{\|\}\~]+\.)*[\w\!\#$\%\&\'\*\+\-\/\=\?\^\`{\|\}\~]+@((((([a-z0-9]{1}[a-z0-9\-]{0,62}[a-z0-9]{1})|[a-z])\.)+[a-z]{2,6})|(\d{1,3}\.){3}\d{1,3}(\:\d{1,5})?)$/i.test(fieldValue)
+                        );
+                    },
+                    errorMessage: function errorMessage(fieldName) {
+                        return fieldName + " must be a valid email.";
+                    }
+                }]
+            }, {
+                name: "Emergency contact name",
+                characterLimit: 64,
+                value: this.state.form.emergency_contact_name
+            }, {
+                name: "Emergency contact relationship",
+                characterLimit: 32,
+                value: this.state.form.emergency_contact_relationship
+            }, {
+                name: "Emergency contact number",
+                characterLimit: 64,
+                value: this.state.form.emergency_contact_number
+            }, {
+                name: "Terms duration",
+                characterLimit: null,
+                value: this.state.studentProgramForm.terms_duration.toString(),
+                customValidators: [{
+                    isValid: function isValid(fieldValue) {
+                        return [1, 3].toString() !== fieldValue;
+                    },
+                    errorMessage: function errorMessage(fieldName) {
+                        return fieldName + " must be consecutive";
+                    }
+                }]
             }]);
         }
     }, {
@@ -588,7 +679,7 @@ var StudentFormModal = function (_Component) {
     }, {
         key: "render",
         value: function render() {
-            var formErrors = this.getFormErrors();
+            var formErrors = this.props.applicant ? this.getApplicantFormErrors() : this.getFormErrors();
             var formHasErrors = formErrors.formHasErrors;
             var fieldErrors = formErrors.fieldErrors;
 
