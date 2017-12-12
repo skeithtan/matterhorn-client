@@ -403,34 +403,19 @@ class StudentFormModal extends Component {
     }
 
     submitAddStudentForm() {
-        const dismissToast = makeInfoToast({
-            title : "Adding",
-            message : "Adding new student...",
-        });
-
         $.post({
             url : `${settings.serverURL}/students/`,
             data : this.state.form,
             beforeSend : authorizeXHR,
         }).done(student => {
-            dismissToast();
             const form = this.state.studentProgramForm;
             form.student = student.id;
             this.setState({
                 studentProgramForm : form,
             });
             this.onSubmitAddStudentForm(student);
-            iziToast.success({
-                title : "Added",
-                message : "Successfully added student",
-            });
         }).fail(response => {
-            dismissToast();
             console.log(response);
-            iziToast.error({
-                title : "Error",
-                message : "Unable to add student",
-            });
         });
     }
 
@@ -465,11 +450,9 @@ class StudentFormModal extends Component {
             console.log(response);
             iziToast.error({
                 title : "Error",
-                message : "Unable to add student",
+                message : "Unable to add applicant",
             });
         });
-
-        console.log(settings.serverURL + "" + url + "" + this.state.studentProgramForm.program + "/students");
 
         this.props.toggle();
     }

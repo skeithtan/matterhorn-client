@@ -424,34 +424,19 @@ var StudentFormModal = function (_Component) {
         value: function submitAddStudentForm() {
             var _this5 = this;
 
-            var dismissToast = (0, _dismissable_toast_maker.makeInfoToast)({
-                title: "Adding",
-                message: "Adding new student..."
-            });
-
             _jquery2.default.post({
                 url: _settings2.default.serverURL + "/students/",
                 data: this.state.form,
                 beforeSend: _authorization2.default
             }).done(function (student) {
-                dismissToast();
                 var form = _this5.state.studentProgramForm;
                 form.student = student.id;
                 _this5.setState({
                     studentProgramForm: form
                 });
                 _this5.onSubmitAddStudentForm(student);
-                _izitoast2.default.success({
-                    title: "Added",
-                    message: "Successfully added student"
-                });
             }).fail(function (response) {
-                dismissToast();
                 console.log(response);
-                _izitoast2.default.error({
-                    title: "Error",
-                    message: "Unable to add student"
-                });
             });
         }
     }, {
@@ -489,11 +474,9 @@ var StudentFormModal = function (_Component) {
                 console.log(response);
                 _izitoast2.default.error({
                     title: "Error",
-                    message: "Unable to add student"
+                    message: "Unable to add applicant"
                 });
             });
-
-            console.log(_settings2.default.serverURL + "" + url + "" + this.state.studentProgramForm.program + "/students");
 
             this.props.toggle();
         }
