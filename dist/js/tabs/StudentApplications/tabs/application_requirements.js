@@ -36,6 +36,10 @@ var _authorization2 = _interopRequireDefault(_authorization);
 
 var _modals = require("./modals");
 
+var _izitoast = require("izitoast");
+
+var _izitoast2 = _interopRequireDefault(_izitoast);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -193,6 +197,7 @@ var ApplicationRequirements = function (_Component) {
                 { className: "d-flex flex-column p-0 h-100" },
                 _react2.default.createElement(ApplicationHead, { student: this.props.student,
                     inbound: this.props.inbound,
+                    refreshStudents: this.props.refreshStudents,
                     toggleModal: this.props.inbound ? this.toggleAcceptApplicant : this.toggleDeployApplicant,
                     isRequirementsComplete: this.state.isRequirementsComplete }),
                 _react2.default.createElement(RequirementsBody, { requirements: this.state.requirements,
@@ -230,6 +235,8 @@ var ApplicationHead = function (_Component2) {
     _createClass(ApplicationHead, [{
         key: "render",
         value: function render() {
+            var _this5 = this;
+
             return _react2.default.createElement(
                 "div",
                 { className: "page-head pt-5 d-flex flex-row align-items-center" },
@@ -270,10 +277,34 @@ var ApplicationHead = function (_Component2) {
                     _reactstrap.Button,
                     { outline: true,
                         size: "sm",
+                        onClick: function onClick() {
+                            return ApplicationHead.cancelApplication(_this5.props.student, _this5.props.refreshStudents);
+                        },
                         color: "danger" },
                     "Cancel Application"
                 )
             );
+        }
+    }], [{
+        key: "cancelApplication",
+        value: function cancelApplication(student, refreshStudents) {
+            if (!confirm("Are you sure you want to cancel this student's application? ")) {
+                return;
+            }
+
+            $.delete({
+                url: _settings2.default.serverURL + "/students/" + (student.category === "OUT" ? "outbound" : "inbound") + "/students/" + student.id + "/",
+                beforeSend: _authorization2.default
+            }).then(function () {
+                _izitoast2.default.success({
+                    title: "Cancelled",
+                    message: "Successfully cancelled application"
+                });
+                refreshStudents();
+            }).fail(function (error) {
+                alert("An error occurred cancelling application");
+                console.log(error);
+            });
         }
     }]);
 
@@ -292,16 +323,16 @@ var RequirementsBody = function (_Component3) {
     _createClass(RequirementsBody, [{
         key: "render",
         value: function render() {
-            var _this6 = this;
+            var _this7 = this;
 
             var rows = this.props.requirements.map(function (requirement) {
                 return _react2.default.createElement(RequirementRow, { key: requirement.id,
-                    applicantRequirements: _this6.props.applicantRequirements,
-                    student: _this6.props.student,
-                    inbound: _this6.props.inbound,
-                    refreshRequirements: _this6.props.refreshRequirements,
-                    studentProgramId: _this6.props.studentProgramId,
-                    done: _this6.props.applicantRequirements.includes(requirement.id),
+                    applicantRequirements: _this7.props.applicantRequirements,
+                    student: _this7.props.student,
+                    inbound: _this7.props.inbound,
+                    refreshRequirements: _this7.props.refreshRequirements,
+                    studentProgramId: _this7.props.studentProgramId,
+                    done: _this7.props.applicantRequirements.includes(requirement.id),
                     requirement: requirement });
             });
 
@@ -322,17 +353,17 @@ var RequirementRow = function (_Component4) {
     function RequirementRow(props) {
         _classCallCheck(this, RequirementRow);
 
-        var _this7 = _possibleConstructorReturn(this, (RequirementRow.__proto__ || Object.getPrototypeOf(RequirementRow)).call(this, props));
+        var _this8 = _possibleConstructorReturn(this, (RequirementRow.__proto__ || Object.getPrototypeOf(RequirementRow)).call(this, props));
 
-        _this7.markAsDone = _this7.markAsDone.bind(_this7);
-        _this7.markAsUndone = _this7.markAsUndone.bind(_this7);
-        return _this7;
+        _this8.markAsDone = _this8.markAsDone.bind(_this8);
+        _this8.markAsUndone = _this8.markAsUndone.bind(_this8);
+        return _this8;
     }
 
     _createClass(RequirementRow, [{
         key: "markAsDone",
         value: function markAsDone() {
-            var _this8 = this;
+            var _this9 = this;
 
             var requirements = this.props.applicantRequirements.concat([this.props.requirement.id]);
 
@@ -345,13 +376,13 @@ var RequirementRow = function (_Component4) {
                 }),
                 contentType: "application/json"
             }).done(function () {
-                _this8.props.refreshRequirements();
+                _this9.props.refreshRequirements();
             });
         }
     }, {
         key: "markAsUndone",
         value: function markAsUndone() {
-            var _this9 = this;
+            var _this10 = this;
 
             $.ajax({
                 method: "PUT",
@@ -359,12 +390,12 @@ var RequirementRow = function (_Component4) {
                 beforeSend: _authorization2.default,
                 data: JSON.stringify({
                     application_requirements: this.props.applicantRequirements.filter(function (requirement) {
-                        return requirement !== _this9.props.requirement.id;
+                        return requirement !== _this10.props.requirement.id;
                     })
                 }),
                 contentType: "application/json"
             }).done(function () {
-                _this9.props.refreshRequirements();
+                _this10.props.refreshRequirements();
             });
         }
     }, {

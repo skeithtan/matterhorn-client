@@ -13,6 +13,7 @@ import {
     AcceptApplicantModal,
     DeployApplicantModal,
 } from "./modals";
+import iziToast from "izitoast";
 
 
 function makeRequirementsQuery(isInbound) {
@@ -152,8 +153,8 @@ class ApplicationRequirements extends Component {
         if (this.state.error) {
             return (
                 <ErrorState
-                    onRetryButtonClick={ () => this.fetchRequirements(this.props.inbound, this.props.student.id) }>
-                    { this.state.error.toString() }
+                    onRetryButtonClick={() => this.fetchRequirements(this.props.inbound, this.props.student.id)}>
+                    {this.state.error.toString()}
                 </ErrorState>
             );
         }
@@ -164,29 +165,30 @@ class ApplicationRequirements extends Component {
 
         return (
             <div className="d-flex flex-column p-0 h-100">
-                <ApplicationHead student={ this.props.student }
-                                 inbound={ this.props.inbound }
-                                 toggleModal={ this.props.inbound ? this.toggleAcceptApplicant : this.toggleDeployApplicant }
-                                 isRequirementsComplete={ this.state.isRequirementsComplete }/>
-                <RequirementsBody requirements={ this.state.requirements }
-                                  student={ this.props.student }
-                                  inbound={ this.props.inbound }
-                                  refreshRequirements={ () => this.fetchRequirements(this.props.inbound, this.props.student.id) }
-                                  studentProgramId={ this.state.studentProgramId }
-                                  applicantRequirements={ this.state.applicantRequirements }/>
+                <ApplicationHead student={this.props.student}
+                                 inbound={this.props.inbound}
+                                 refreshStudents={this.props.refreshStudents}
+                                 toggleModal={this.props.inbound ? this.toggleAcceptApplicant : this.toggleDeployApplicant}
+                                 isRequirementsComplete={this.state.isRequirementsComplete}/>
+                <RequirementsBody requirements={this.state.requirements}
+                                  student={this.props.student}
+                                  inbound={this.props.inbound}
+                                  refreshRequirements={() => this.fetchRequirements(this.props.inbound, this.props.student.id)}
+                                  studentProgramId={this.state.studentProgramId}
+                                  applicantRequirements={this.state.applicantRequirements}/>
 
-                { !this.props.inbound && this.state.isRequirementsComplete &&
-                <DeployApplicantModal isOpen={ this.state.deployApplicantIsShowing }
-                                      student={ this.props.student }
-                                      refreshStudents={ this.props.refreshStudents }
-                                      toggle={ this.toggleDeployApplicant }/>
+                {!this.props.inbound && this.state.isRequirementsComplete &&
+                <DeployApplicantModal isOpen={this.state.deployApplicantIsShowing}
+                                      student={this.props.student}
+                                      refreshStudents={this.props.refreshStudents}
+                                      toggle={this.toggleDeployApplicant}/>
                 }
 
-                { this.props.inbound && this.state.isRequirementsComplete &&
-                <AcceptApplicantModal isOpen={ this.state.acceptApplicantIsShowing }
-                                      student={ this.props.student }
-                                      refreshStudents={ this.props.refreshStudents }
-                                      toggle={ this.toggleAcceptApplicant }/>
+                {this.props.inbound && this.state.isRequirementsComplete &&
+                <AcceptApplicantModal isOpen={this.state.acceptApplicantIsShowing}
+                                      student={this.props.student}
+                                      refreshStudents={this.props.refreshStudents}
+                                      toggle={this.toggleAcceptApplicant}/>
                 }
 
             </div>
@@ -195,31 +197,53 @@ class ApplicationRequirements extends Component {
 }
 
 class ApplicationHead extends Component {
+    static cancelApplication(student, refreshStudents) {
+        if (!confirm("Are you sure you want to cancel this student's application? ")) {
+            return;
+        }
+
+        $.delete({
+            url : `${settings.serverURL}/students/${student.category === "OUT" ? "outbound" : "inbound"}/students/${student.id}/`,
+            beforeSend : authorizeXHR,
+        }).then(() => {
+             iziToast.success({
+                 title : "Cancelled",
+                 message : "Successfully cancelled application",
+             });
+             refreshStudents();
+         })
+         .fail(error => {
+             alert("An error occurred cancelling application");
+             console.log(error);
+         });
+    }
+
     render() {
         return (
             <div className="page-head pt-5 d-flex flex-row align-items-center">
                 <div className="mr-auto">
                     <h5 className="mb-0 text-secondary">Application Requirements</h5>
                     <h4 className="page-head-title justify-content-left d-inline-block mb-0 mr-2">
-                        { this.props.student.first_name } { this.props.student.middle_name } { this.props.student.family_name }
-                        <small className="text-muted ml-2">{ this.props.student.id_number }</small>
+                        {this.props.student.first_name} {this.props.student.middle_name} {this.props.student.family_name}
+                        <small className="text-muted ml-2">{this.props.student.id_number}</small>
                     </h4>
                 </div>
 
-                { this.props.isRequirementsComplete && localStorage.userType !== "administrative_assistant" &&
+                {this.props.isRequirementsComplete && localStorage.userType !== "administrative_assistant" &&
                 <Button outline
                         size="sm"
                         className="mr-2"
-                        onClick={ this.props.toggleModal }
+                        onClick={this.props.toggleModal}
                         color="success">
-                    { this.props.inbound ? "Accept " : "Deploy " } Student
+                    {this.props.inbound ? "Accept " : "Deploy "} Student
                 </Button>
                 }
 
-                { localStorage.userType !== "administrative_assistant" && <Button outline
-                                                                                  size="sm"
-                                                                                  color="danger">Cancel
-                    Application</Button> }
+                {localStorage.userType !== "administrative_assistant" && <Button outline
+                                                                                 size="sm"
+                                                                                 onClick={() => ApplicationHead.cancelApplication(this.props.student, this.props.refreshStudents)}
+                                                                                 color="danger">Cancel
+                    Application</Button>}
 
             </div>
         );
@@ -233,19 +257,19 @@ class RequirementsBody extends Component {
 
     render() {
         const rows = this.props.requirements.map(requirement =>
-            <RequirementRow key={ requirement.id }
-                            applicantRequirements={ this.props.applicantRequirements }
-                            student={ this.props.student }
-                            inbound={ this.props.inbound }
-                            refreshRequirements={ this.props.refreshRequirements }
-                            studentProgramId={ this.props.studentProgramId }
-                            done={ this.props.applicantRequirements.includes(requirement.id) }
-                            requirement={ requirement }/>,
+            <RequirementRow key={requirement.id}
+                            applicantRequirements={this.props.applicantRequirements}
+                            student={this.props.student}
+                            inbound={this.props.inbound}
+                            refreshRequirements={this.props.refreshRequirements}
+                            studentProgramId={this.props.studentProgramId}
+                            done={this.props.applicantRequirements.includes(requirement.id)}
+                            requirement={requirement}/>,
         );
 
         return (
             <SectionTable>
-                { rows }
+                {rows}
             </SectionTable>
         );
     }
@@ -264,32 +288,32 @@ class RequirementRow extends Component {
         const requirements = this.props.applicantRequirements.concat([this.props.requirement.id]);
 
         $.ajax({
-            method : "PUT",
-            url : `${settings.serverURL}/programs/${this.props.inbound ? "inbound" : "outbound"}/students/${this.props.studentProgramId}/`,
-            beforeSend : authorizeXHR,
-            data : JSON.stringify({
-                application_requirements : requirements,
-            }),
-            contentType : "application/json",
-        })
-            .done(() => {
-                this.props.refreshRequirements();
-            });
+             method : "PUT",
+             url : `${settings.serverURL}/programs/${this.props.inbound ? "inbound" : "outbound"}/students/${this.props.studentProgramId}/`,
+             beforeSend : authorizeXHR,
+             data : JSON.stringify({
+                 application_requirements : requirements,
+             }),
+             contentType : "application/json",
+         })
+         .done(() => {
+             this.props.refreshRequirements();
+         });
     }
 
     markAsUndone() {
         $.ajax({
-            method : "PUT",
-            url : `${settings.serverURL}/programs/${this.props.inbound ? "inbound" : "outbound"}/students/${this.props.studentProgramId}/`,
-            beforeSend : authorizeXHR,
-            data : JSON.stringify({
-                application_requirements : this.props.applicantRequirements.filter(requirement => requirement !== this.props.requirement.id),
-            }),
-            contentType : "application/json",
-        })
-            .done(() => {
-                this.props.refreshRequirements();
-            });
+             method : "PUT",
+             url : `${settings.serverURL}/programs/${this.props.inbound ? "inbound" : "outbound"}/students/${this.props.studentProgramId}/`,
+             beforeSend : authorizeXHR,
+             data : JSON.stringify({
+                 application_requirements : this.props.applicantRequirements.filter(requirement => requirement !== this.props.requirement.id),
+             }),
+             contentType : "application/json",
+         })
+         .done(() => {
+             this.props.refreshRequirements();
+         });
     }
 
 
@@ -298,23 +322,23 @@ class RequirementRow extends Component {
             <SectionRow large
                         className="d-flex flex-row align-items-center">
 
-                { this.props.done &&
+                {this.props.done &&
                 <b className="text-success mr-3">✓</b>
                 }
 
-                <p className="lead mr-auto mb-0">{ this.props.requirement.name }</p>
+                <p className="lead mr-auto mb-0">{this.props.requirement.name}</p>
 
-                { this.props.done && localStorage.userType !== "administrative_assistant" &&
+                {this.props.done && localStorage.userType !== "administrative_assistant" &&
                 <Button outline
                         size="sm"
-                        onClick={ this.markAsUndone }
+                        onClick={this.markAsUndone}
                         color="warning">Mark as undone</Button>
                 }
 
-                { !this.props.done && localStorage.userType !== "administrative_assistant" &&
+                {!this.props.done && localStorage.userType !== "administrative_assistant" &&
                 <Button outline
                         size="sm"
-                        onClick={ this.markAsDone }
+                        onClick={this.markAsDone}
                         color="success">Mark as done</Button>
                 }
             </SectionRow>
