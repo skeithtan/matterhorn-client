@@ -88,7 +88,7 @@ var menu = _electron.Menu.buildFromTemplate(menus);
 function restrictMenu(submenu, enabled) {
     submenu.items.forEach(function (item) {
         if (item.submenu) {
-            restrictMenu(item.submenu);
+            restrictMenu(item.submenu, enabled);
             return;
         }
 

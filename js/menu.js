@@ -133,7 +133,7 @@ const menu = Menu.buildFromTemplate(menus);
 function restrictMenu(submenu, enabled) {
     submenu.items.forEach(item => {
         if (item.submenu) {
-            restrictMenu(item.submenu);
+            restrictMenu(item.submenu, enabled);
             return;
         }
 
