@@ -335,14 +335,6 @@ class ProgramDetails extends Component {
                         <SectionRowTitle>Academic Year</SectionRowTitle>
                         <SectionRowContent>{ academicYear }</SectionRowContent>
                     </SectionRow>
-                    { localStorage.userType !== "administrative_assistant" && <SectionRow>
-                        <SectionRowContent className="d-flex">
-                            <Button outline
-                                    color="success"
-                                    size="sm"
-                                    className="mr-auto">Edit</Button>
-                        </SectionRowContent>
-                    </SectionRow> }
                 </SectionTable>
             </Section>
         );

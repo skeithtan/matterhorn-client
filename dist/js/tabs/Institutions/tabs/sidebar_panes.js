@@ -537,22 +537,6 @@ var ProgramDetails = function (_Component5) {
                             null,
                             academicYear
                         )
-                    ),
-                    localStorage.userType !== "administrative_assistant" && _react2.default.createElement(
-                        _section.SectionRow,
-                        null,
-                        _react2.default.createElement(
-                            _section.SectionRowContent,
-                            { className: "d-flex" },
-                            _react2.default.createElement(
-                                _reactstrap.Button,
-                                { outline: true,
-                                    color: "success",
-                                    size: "sm",
-                                    className: "mr-auto" },
-                                "Edit"
-                            )
-                        )
                     )
                 )
             );
