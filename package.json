@@ -5,7 +5,8 @@
   "description": "An information system for ERIO at DLSU",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "dist": "build"
   },
   "repository": "https://github.com/electron/electron-quick-start",
   "keywords": [
@@ -17,15 +18,23 @@
   ],
   "author": "GitHub",
   "license": "CC0-1.0",
+  "build" : {
+    "appId": "Matterhorn",
+    "win": {
+      "target": "NSIS"
+    }
+  },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
     "electron": "~1.7.8",
-    "electron-devtools-installer": "^2.2.1"
+    "electron-builder": "^19.49.0",
+    "electron-devtools-installer": "^2.2.3"
   },
   "dependencies": {
     "bootstrap": "^4.0.0-beta.2",
+    "electron-packager": "^10.1.0",
     "izitoast": "^1.2.0",
     "jquery": "^3.2.1",
     "lokka": "^1.7.0",
@@ -38,6 +47,7 @@
     "react-dom": "^15.6.2",
     "reactstrap": "^5.0.0-alpha.4",
     "recharts": "^1.0.0-beta.6",
+    "save-dev": "^2.0.0",
     "uploadcare-widget": "^3.2.1"
   }
 }
